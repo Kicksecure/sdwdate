@@ -558,10 +558,13 @@ str(prerequisite_check_sleep_seconds) + " iteration: " + str(loop_counter) + " /
 
                 if prerequisite_status.returncode == 1:
                     icon = sdwdate.error_icon
-                    logger.info("PREREQUISITE CHECK RESULT: ERROR.")
-                else:
+                    logger.info("PREREQUISITE CHECK RESULT: ERROR (expected).")
+                elif prerequisite_status.returncode == 2:
                     icon = sdwdate.busy_icon
                     logger.info("PREREQUISITE CHECK RESULT: WAIT.")
+                else:
+                    icon = sdwdate.busy_icon
+                    logger.info("PREREQUISITE CHECK RESULT: ERROR (unexpected).")
 
                 logger.info("\n")
                 ## TODO: remove this once security implications are sorted.
