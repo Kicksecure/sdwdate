@@ -1,0 +1,19 @@
+#!/bin/bash
+
+## Copyright (C) 2020 - 2020 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+set -x
+set -e
+
+systemctl stop tor@default
+
+date --set "Sat 09 Jan 2050 02:33:24 AM UTC"
+
+rm -rf /var/lib/tor/*
+
+systemctl restart tor@default
+
+/usr/lib/sdwdate/restart_fresh
+
+true "$0: OK"
