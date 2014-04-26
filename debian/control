@@ -1,0 +1,31 @@
+## This file is part of Whonix.
+## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+Source: sdwdate
+Section: misc
+Priority: optional
+Maintainer: Patrick Schleizer <adrelanos@riseup.net>
+Build-Depends: debhelper (>= 8), dh-apparmor, faketime, rsync, git,
+ ruby-ronn (>= 0.7.3)
+Homepage: https://www.whonix.org/wiki/AppArmor
+Vcs-Browser: https://github.com/Whonix/sdwdate
+Vcs-Git: https://github.com/Whonix/sdwdate.git
+Standards-Version: 3.9.4
+
+Package: sdwdate
+Architecture: all
+Depends: curl, ${misc:Depends}
+Description: Secure Distributed Network Time Synchronization
+ .
+ Time is crucial for security, privacy and anonymity. Sdwdate
+ distributes trust among 3 servers. There is a pal, a neutral and a foe pool.
+ When thresholds aren't met, i.e. when too many servers are offline, time
+ remains untouched. The median of 3 servers is build. It runs at randomized
+ interval to avoid fingerprinting (not always running at the same time, thus
+ not revealing one is an sdwdate user presupposes being a Tor user). It is
+ useful for Tor users, since it does not require UDP. Supports plugins, due to
+ hooks provided: can run a pre script before trying to fetch, can run a
+ prerequisite script before trying to connect, this could be, for example a
+ connection checker, hook after successfully setting the time, hook after
+ failing setting the time, hook for progress bar.

@@ -1,0 +1,24 @@
+#!/bin/bash
+set -x
+for i in $(find "$PWD/man"); do
+   if [ -d "$i" ]; then
+      continue
+   fi
+
+   temp="${i#"$PWD/man/"}"
+
+   source_folder="$(dirname "$temp")"
+
+   filename_without_ron_file_extension="$(basename "$i" ".ronn")"
+
+   mkdir --parents "$PWD/debian/tmp-man/$source_folder"
+
+   echo "${bold}${cyan}INFO: Creating man page $PWD/debian/tmp-man/$source_folder/$filename_without_ron_file_extension ${reset}"
+
+   ronn \
+      --manual="Whonix Documentation" \
+      --organization="Whonix" \
+      <$i \
+      > "$PWD/debian/tmp-man/$source_folder/$filename_without_ron_file_extension"
+
+done

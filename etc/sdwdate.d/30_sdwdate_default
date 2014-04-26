@@ -1,0 +1,189 @@
+## This file is part of Whonix.
+## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+## Whonix Sdwdate Config File.
+
+## Please use "/etc/sdwdate.d/50_sdwdate_user" for your custom
+## configuration, which will override the defaults found here.
+## When Whonix is updated, this file may be overwritten.
+
+## Bash Fragment.
+
+## Add this to curl as option.
+CURL_VERBOSE="--silent"
+
+## Enable/disable debugging.
+## 1 enabled.
+## 2 disabled.
+DEBUG=0
+
+## Run as the following user name.
+## Not implemented. Has no effect.
+USER=""
+
+## Do or do not actually change the date/time after successfully fetching it.
+## 0 set date.
+## 1 do not set date.
+DONT_SET_DATE=0
+
+## Http user agent.
+## When set to "", uses curl's default.
+#HTTP_USER_AGENT="$(/usr/bin/getTorbuttonUserAgent)"
+#HTTP_USER_AGENT="Mozilla/5.0 (Windows NT 6.1; rv:10.0) Gecko/20100101 Firefox/10.0"
+HTTP_USER_AGENT=""
+
+## Log file.
+LOG_FILE=/var/log/sdwdate.log
+
+## Done file. Will be created after run no matter if failure or success.
+DONE_FILE=/var/run/sdwdate/done
+
+## Success file. Will only be created after a success.
+SUCCESS_FILE=/var/run/sdwdate/success
+
+## How many members per pool are allowed to fail.
+## If too many members are not reachable, time will not be adjusted.
+ALLOWED_PER_POOL_FAILURE_RATIO=0.34
+
+## Temporary directory for file downloads.
+## When not set, default to: TEMP_DIR="$(mktemp --directory)"
+TEMP_DIR=""
+
+## Which proxy curl should use.
+## If empty, no proxy will be used.
+PROXY=""
+
+## How often sdwdate should run in minutes.
+## 0 disables it and sdwdate exits after run.
+INTERVAL="60"
+
+## How many minutes should be waited before running sdwdate again.
+## Only has an effect when RANDOMIZE is set to 1 as well.
+MIN_INTERVAL="10"
+
+## Randomize the interval above.
+## Minimum 10 minutes.
+## Maximum $INTERVAL minutes.
+## 0 disabled.
+## 1 enabled.
+RANDOMIZE="1"
+
+## This command will be `eval`uated before DISPATCH_PREREQUISITE and before running curl.
+## sdwdate provides the $SDW_MODE variable, which is either set to
+## - startup (when the sdwdate process is started)
+## - daemon (when the sdwdate process finished one loop and will continue)
+## When set to "", it will be skipped.
+DISPATCH_PRE=""
+
+## Prerequisite before trying to connect to servers.
+## This is supposed to be a command to be `eval`uated and to exit with code
+## - 0, if sdwdate should continue.
+## - 1, if sdwdate should terminate itself due to an expected error.
+## - 2, if sdwdate should wait 10 seconds and then run the command again.
+## - Anything else, if sdwdate should terminate itself due to an unexpected error.
+## It may be useful to check if the network is already reachable.
+## When set to "", it will be skipped.
+DISPATCH_PREREQUISITE=""
+
+## This command will be `eval`uated when an unexpected error (bug) in sdwdate has been caught.
+## sdwdate will provide the $error_message and $DONE_FILE variable.
+## Remember to escape variables either using \$ or '$variable'.
+## When set to "", it will be skipped.
+DISPATCH_POST_ERROR=""
+
+## Create $DONE_FILE on error.
+## 1 enabled.
+## 0 disabled.
+SDW_TOUCH_DONE_FILE_ON_ERROR="1"
+
+## Exit 1 on error. This will stop the daemon from running.
+## 1 enabled.
+## 0 disabled.
+SDW_EXIT_ON_ERROR="1"
+
+## This command will be `eval`uated when sdwdate succeeded.
+## When set to "", it will be skipped.
+DISPATCH_POST_SUCCESS=""
+
+## This command will be `eval`uated when sdwdate failed.
+## When set to "", it will be skipped.
+DISPATCH_POST_FAILURE=""
+
+## This command will be `eval`uated before trying to connect to the pal pool.
+## When set to "", it will be skipped.
+SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_PAL]=""
+
+## This command will be `eval`uated before after connecting to the pal pool.
+## When set to "", it will be skipped.
+SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_PAL]=""
+
+## This command will be `eval`uated before trying to connect to the neutral pool.
+## When set to "", it will be skipped.
+SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_NEUTRAL]=""
+
+## This command will be `eval`uated before after connecting to the neutral pool.
+## When set to "", it will be skipped.
+SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_NEUTRAL]=""
+
+## This command will be `eval`uated before trying to connect to the foe pool.
+## When set to "", it will be skipped.
+SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_FOE]=""
+
+## This command will be `eval`uated before trying after connecting to the pal pool.
+## When set to "", it will be skipped.
+SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_FOE]=""
+
+## Pal pool.
+SDWDATE_POOL_PAL=(
+   boum.org
+   chavez.indymedia.org
+   db.debian.org
+   epic.org
+   mail.riseup.net
+   sarava.org
+   squat.net
+   tachanka.org
+   www.1984.is
+   www.eff.org
+   www.immerda.ch
+   www.privacyinternational.org
+   www.torproject.org
+)
+
+## Neutral pool.
+SDWDATE_POOL_NEUTRAL=(
+   cve.mitre.org
+   en.wikipedia.org
+   lkml.org
+   thepiratebay.org
+   www.apache.org
+   www.centos.org
+   www.democracynow.org
+   www.duckduckgo.com
+   www.gnu.org
+   www.kernel.org
+   www.mozilla.org
+   www.stackexchange.com
+   www.startpage.com
+   www.xkcd.com
+)
+
+## Foe pool.
+SDWDATE_POOL_FOE=(
+   encrypted.google.com
+   github.com
+   login.live.com
+   login.yahoo.com
+   secure.flickr.com
+   tumblr.com
+   twitter.com
+   www.adobe.com
+   www.gandi.net
+   www.myspace.com
+   www.paypal.com
+   www.rsa.com
+   www.sony.com
+)
+
+## End of Whonix Sdwdate Config File.
