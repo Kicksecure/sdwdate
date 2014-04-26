@@ -2,11 +2,9 @@
 ## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-## Whonix Sdwdate Config File.
-
 ## Please use "/etc/sdwdate.d/50_sdwdate_user" for your custom
 ## configuration, which will override the defaults found here.
-## When Whonix is updated, this file may be overwritten.
+## When sdwdate is updated, this file may be overwritten.
 
 ## Bash Fragment.
 
@@ -185,5 +183,3 @@ SDWDATE_POOL_FOE=(
    www.rsa.com
    www.sony.com
 )
-
-## End of Whonix Sdwdate Config File.
