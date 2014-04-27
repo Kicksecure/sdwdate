@@ -4,7 +4,7 @@ all:
 	@echo "make all is not required."
 
 install:
-	$(CURDIR)/install-helper.bsh
+	$(CURDIR)/build-scripts/install-helper.bsh
 clean:
 	git clean -df
 

@@ -14,8 +14,7 @@ find \
    -not -type d \
    -not -path './.git/*' \
    -not -path './Makefile' \
-   -not -path './man-helper.bsh' \
-   -not -path './install-helper.bsh' \
+   -not -path './build-scripts/*' \
    -not -path './man/*' \
    -not -path './debian/*' \
    -not -path './.gitignore' \
