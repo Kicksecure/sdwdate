@@ -1,5 +1,12 @@
 #!/bin/bash
+
+## This file is part of Whonix.
+## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
 set -x
+set -e
+
 for i in $(find "$PWD/man"); do
    if [ -d "$i" ]; then
       continue
@@ -9,16 +16,16 @@ for i in $(find "$PWD/man"); do
 
    source_folder="$(dirname "$temp")"
 
-   filename_without_ron_file_extension="$(basename "$i" ".ronn")"
+   filename_without_ronn_file_extension="$(basename "$i" ".ronn")"
 
    mkdir --parents "$PWD/debian/tmp-man/$source_folder"
 
-   echo "${bold}${cyan}INFO: Creating man page $PWD/debian/tmp-man/$source_folder/$filename_without_ron_file_extension ${reset}"
+   echo "${bold}${cyan}INFO: Creating man page $PWD/debian/tmp-man/$source_folder/$filename_without_ronn_file_extension ${reset}"
 
    ronn \
       --manual="Whonix Documentation" \
       --organization="Whonix" \
       <$i \
-      > "$PWD/debian/tmp-man/$source_folder/$filename_without_ron_file_extension"
+      > "$PWD/debian/tmp-man/$source_folder/$filename_without_ronn_file_extension"
 
 done

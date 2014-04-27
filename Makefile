@@ -4,28 +4,7 @@ all:
 	@echo "make all is not required."
 
 install:
-	rsync \
-		-C \
-		--verbose \
-		--recursive \
-		--links \
-		--perms \
-		--times \
-		--exclude Makefile \
-		--exclude man-helper.bsh \
-		--exclude man \
-		--exclude debian \
-		--exclude t \
-		--exclude .gitignore \
-		--exclude .gitattributes \
-		--exclude COPYING \
-		--exclude GPLv3 \
-		--exclude build \
-		--exclude clean \
-		--exclude CONTRIBUTING.md \
-		$(CURDIR)/ \
-		$(DESTDIR)/
-
+	$(CURDIR)/install-helper.bsh
 clean:
 	git clean -df
 
