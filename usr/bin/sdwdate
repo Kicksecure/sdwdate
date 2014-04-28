@@ -888,6 +888,7 @@ sdwdate_pick() {
 sdwdate_build_median() {
    trap "sdwdate_error_handler" ERR
 
+   local temp
    temp="$(( ${SDWDATE_TIME_DIFF[SDWDATE_POOL_PAL]} + ${SDWDATE_TIME_DIFF[SDWDATE_POOL_NEUTRAL]} ))"
    temp="$(( $temp + ${SDWDATE_TIME_DIFF[SDWDATE_POOL_FOE]} ))"
 
