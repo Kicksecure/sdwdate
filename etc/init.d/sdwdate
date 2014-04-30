@@ -1,8 +1,9 @@
 #! /bin/bash
 ### BEGIN INIT INFO
 # Provides:          sdwdate
-# Required-Start:    mountkernfs $local_fs $remote_fs $syslog $network bootclockrandomization
-# Required-Stop:     $remote_fs $local_fs $syslog
+# Required-Start:    $remote_fs $syslog mountkernfs
+# Required-Stop:     $remote_fs $syslog
+# Should-Start:      bootclockrandomization
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # X-Start-Before:    tor
@@ -18,6 +19,7 @@
 
 DESC="Setting time using sdwdate"
 NAME=sdwdate
+USER_NAME=$NAME
 SCRIPTNAME=/etc/init.d/$NAME
 SDW_DIR=/var/run/$NAME
 PIDFILE=$SDW_DIR/pid
@@ -34,13 +36,13 @@ LOG=/var/log/$NAME.log
 . /lib/lsb/init-functions
 
 # Create status directory and log file
-install -o user -g user -m 0755 -d ${SDW_DIR}
-chown --recursive user:user ${SDW_DIR}
+install -o $USER_NAME -g $USER_NAME -m 0755 -d ${SDW_DIR}
+chown --recursive $USER_NAME:$USER_NAME ${SDW_DIR}
 
 if [ ! -f "${LOG}" ]; then
-   install -o user -g user -m 0644 /dev/null "${LOG}"
+   install -o $USER_NAME -g $USER_NAME -m 0644 /dev/null "${LOG}"
 fi
-chown --recursive user:user "${LOG}"
+chown --recursive $USER_NAME:$USER_NAME "${LOG}"
 
 if [ -f "/etc/default/$NAME" ]; then
    source "/etc/default/$NAME"
@@ -76,7 +78,7 @@ do_start() {
 	   --pidfile "$PIDFILE" \
 	   --make-pidfile \
 	   --background \
-	   --chuid user:user \
+	   --chuid $USER_NAME:$USER_NAME \
 	   --exec /usr/bin/sdwdate -- $ND_PRE $ND_POST_SUCCESS $ND_POST_FAILURE
 
 	#bash -x /usr/bin/sdwdate $ND_PRE $ND_POST_SUCCESS $ND_POST_FAILURE & disown

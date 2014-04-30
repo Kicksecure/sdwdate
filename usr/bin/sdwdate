@@ -598,9 +598,11 @@ sdwdate_sanity_tests() {
    command -v dirname >/dev/null
    command -v awk >/dev/null
    command -v date >/dev/null
-   command -v printf >/dev/null
+   ## Using GNU's printf instead of bash's printf.
+   command -v /usr/bin/printf >/dev/null
    command -v od >/dev/null
    command -v grep >/dev/null
+   command -v sudo >/dev/null
 }
 
 sdwdate_signal_sigint() {
@@ -796,7 +798,7 @@ sdwdate_loop() {
       temp="$(python -c "print $array_length*$ALLOWED_PER_POOL_FAILURE_RATIO")"
       ## adjust upward / downward
       local allowed_member_failures
-      allowed_member_failures="$(printf "%.f" "$temp")"
+      allowed_member_failures="$(/usr/bin/printf "%.f" "$temp")"
 
       if [ "$array_length_remember" -ge "$allowed_member_failures" ]; then
          sdwdate_log "ERROR: $allowed_member_failures members of the $SDWDATE_CURRENT_POOL could not be reached. (debugging information: array_length_remember: $array_length_remember | allowed_member_failures: $allowed_member_failures)"

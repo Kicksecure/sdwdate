@@ -14,7 +14,7 @@ Standards-Version: 3.9.4
 
 Package: sdwdate
 Architecture: all
-Depends: curl, ${misc:Depends}
+Depends: curl, uuid-runtime, ${misc:Depends}
 Description: Secure Distributed Network Time Synchronization
  .
  Time is crucial for security, privacy and anonymity. Sdwdate
