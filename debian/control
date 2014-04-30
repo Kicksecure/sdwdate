@@ -6,8 +6,7 @@ Source: sdwdate
 Section: misc
 Priority: optional
 Maintainer: Patrick Schleizer <adrelanos@riseup.net>
-Build-Depends: debhelper (>= 8), dh-apparmor, faketime, git,
- ruby-ronn (>= 0.7.3)
+Build-Depends: debhelper (>= 8), faketime, git, ruby-ronn (>= 0.7.3)
 Homepage: https://www.whonix.org/wiki/AppArmor
 Vcs-Browser: https://github.com/Whonix/sdwdate
 Vcs-Git: https://github.com/Whonix/sdwdate.git
