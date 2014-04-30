@@ -960,8 +960,10 @@ sdwdate_dispatcher_prerequisite() {
          elif [ "$prerequisite_exit_code" = "2" ]; then
             ## Wait.
             sdwdate_safe_log "DISPATCH_PREREQUISITE returned $prerequisite_exit_code | $prerequisite_stdout | waiting..."
+            local sleeppid
             sleep 10 &
-            wait "$!" || true
+            sleeppid="$?"
+            wait "$sleeppid" || true
          else
             ## Unexpected error.
             error_text="DISPATCH_PREREQUISITE returned $prerequisite_exit_code | $prerequisite_stdout | unexpected error, exiting..."
@@ -1047,7 +1049,10 @@ sdwdate_main() {
 
       if [ -f "/var/lib/sdw_error" ]; then
          error "This is a test."
-         sleep 10
+         local sleeppid
+         sleep 10 &
+         sleeppid="$?"
+         wait "$sleeppid" || true
       fi
 
       sdwdate_dispatcher_pre
