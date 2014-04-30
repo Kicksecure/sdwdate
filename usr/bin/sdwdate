@@ -608,8 +608,18 @@ sdwdate_sanity_tests() {
 sdwdate_signal_sigint() {
    trap "sdwdate_error_handler" ERR
 
-   sdwdate_log "$SCRIPTNAME (not timesync!): SIGINT received. Exiting."
+   sdwdate_log "$SCRIPTNAME (not timesync!): SIGINT received. Cleaning up..."
+
+   if [ ! "$lastpid" = "" ]; then
+      kill -9 "$lastpid" || true
+   fi
+
+   if [ ! "${SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]}" = "" ]; then
+      kill -9 "${SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]}" || true
+   fi
+
    touch "$DONE_FILE"
+   sdwdate_log "$SCRIPTNAME (not timesync!): SIGINT received. Exiting."
    exit 0
 }
 
@@ -681,6 +691,7 @@ sdwdate_download() {
 
    sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]="0"
    wait "${SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]}" || { sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]="$?" ; true; };
+   unset SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]
 
    true "INFO: sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}"
 
@@ -960,10 +971,10 @@ sdwdate_dispatcher_prerequisite() {
          elif [ "$prerequisite_exit_code" = "2" ]; then
             ## Wait.
             sdwdate_safe_log "DISPATCH_PREREQUISITE returned $prerequisite_exit_code | $prerequisite_stdout | waiting..."
-            local sleeppid
             sleep 10 &
-            sleeppid="$?"
-            wait "$sleeppid" || true
+            lastpid="$?"
+            wait "$lastpid" || true
+            unset lastpid
          else
             ## Unexpected error.
             error_text="DISPATCH_PREREQUISITE returned $prerequisite_exit_code | $prerequisite_stdout | unexpected error, exiting..."
@@ -1049,10 +1060,10 @@ sdwdate_main() {
 
       if [ -f "/var/lib/sdw_error" ]; then
          error "This is a test."
-         local sleeppid
          sleep 10 &
-         sleeppid="$?"
-         wait "$sleeppid" || true
+         lastpid="$?"
+         wait "$lastpid" || true
+         unset lastpid
       fi
 
       sdwdate_dispatcher_pre
@@ -1099,12 +1110,10 @@ sdwdate_main() {
 
          sdwdate_log "Sleeping for $minutes minutes."
 
-         local sleeppid
          sleep "$seconds" &
-         sleeppid="$!"
-
-         ## Waiting for sleep to finish, while listening for SIGTERM at the same time.
-         wait "$sleeppid" || true
+         lastpid="$!"
+         wait "$lastpid" || true
+         unset lastpid
 
          continue
       fi
