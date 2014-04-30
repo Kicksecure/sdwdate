@@ -938,10 +938,6 @@ sdwdate_set_new_time() {
       ## There is an exception in /etc/sudoers.d/sdwdate.
       sudo /bin/date --set "@"$SDWDATE_NEW_TIME"" > /dev/null
    fi
-
-   #new_unixtime="$(date +%s)"
-   #check="$(( $OLD_UNIXTIME - $new_unixtime ))"
-   #sdwdate_log "check: $check"
 }
 
 sdwdate_dispatcher_prerequisite() {
