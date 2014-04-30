@@ -1,0 +1,6 @@
+/var/log/sdwdate.log {
+    rotate 1
+    weekly
+    compress
+    missingok
+}
