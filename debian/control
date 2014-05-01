@@ -16,15 +16,15 @@ Package: sdwdate
 Architecture: all
 Depends: curl, uuid-runtime, sudo, logrotate, ${misc:Depends}
 Description: Secure Distributed Network Time Synchronization
+ Time keeping is crucial for security, privacy, and anonymity. Sdwdate
+ distributes trust among three types of servers (Friendly, Neutral, and
+ Hostile), using the median time of those servers.
  .
- Time is crucial for security, privacy and anonymity. Sdwdate
- distributes trust among 3 servers. There is a pal, a neutral and a foe pool.
- When thresholds aren't met, i.e. when too many servers are offline, time
- remains untouched. The median of 3 servers is build. It runs at randomized
- interval to avoid fingerprinting (not always running at the same time, thus
- not revealing one is an sdwdate user presupposes being a Tor user). It is
- useful for Tor users, since it does not require UDP. Supports plugins, due to
- hooks provided: can run a pre script before trying to fetch, can run a
- prerequisite script before trying to connect, this could be, for example a
- connection checker, hook after successfully setting the time, hook after
- failing setting the time, hook for progress bar.
+ If too many of the servers are offline, the clock is untouched. It runs at
+ randomized intervals to avoid fingerprinting (which would reveal that one is
+ not only a sdwdate user but also a Tor user). Since it does not require UDP, it
+ can work over the Tor network.
+ .
+ Plugins are supported via hooks. These hooks include pre-connect, pre-fetch,
+ post-success, post-failure, and progress. Sdwdate comes without a GUI, but one
+ could be added as a plugin.
