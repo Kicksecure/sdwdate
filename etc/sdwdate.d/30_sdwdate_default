@@ -132,6 +132,14 @@ SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_FOE]=""
 ## When set to "", it will be skipped.
 SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_FOE]=""
 
+## Use sclockadj instead of /bin/date (which would produce clock jumps) when
+## starting up.
+SDWDATE_USE_SCLOCKADJ_WHEN_STARTUP="1"
+
+## Use sclockadj instead of /bin/date (which would produce clock jumps) when
+## in daemon mode.
+SDWDATE_USE_SCLOCKADJ_WHEN_DAEMON="1"
+
 ## Pal pool.
 SDWDATE_POOL_PAL=(
    boum.org

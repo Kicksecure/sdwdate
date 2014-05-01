@@ -610,8 +610,19 @@ sdwdate_signal_sigint() {
 
    sdwdate_log "$SCRIPTNAME (not timesync!): SIGINT received. Cleaning up..."
 
-   if [ ! "$lastpid" = "" ]; then
-      kill -9 "$lastpid" || true
+   if [ ! "$sleep_pid" = "" ]; then
+      kill -9 "$sleep_pid" || true
+   fi
+
+   if [ ! "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" = "" ]; then
+      local pid_still_running
+      pid_still_running="0"
+      kill -0 "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" || { pid_still_running="$?" ; true; };
+      if [ "$pid_still_running" = "0" ]; then
+         sdwdate_log "$FUNCNAME: Termnating sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID."
+         kill -sigterm "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" || true
+      fi
+      SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
    fi
 
    if [ ! "${SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]}" = "" ]; then
@@ -905,7 +916,9 @@ sdwdate_build_median() {
    temp="$(( ${SDWDATE_TIME_DIFF[SDWDATE_POOL_PAL]} + ${SDWDATE_TIME_DIFF[SDWDATE_POOL_NEUTRAL]} ))"
    temp="$(( $temp + ${SDWDATE_TIME_DIFF[SDWDATE_POOL_FOE]} ))"
 
-   SDWDATE_MEDIAN_TIME="$(( $temp / 3 ))"
+   SDWDATE_MEDIAN_TIME_SECONDS="$(( $temp / 3 ))"
+
+   SDWDATE_MEDIAN_TIME_NANOSECONDS="$(( $SDWDATE_MEDIAN_TIME_SECONDS * 1000000000 ))"
 
    local OLD_UNIXTIME
    OLD_UNIXTIME="$(date +%s)"
@@ -914,7 +927,99 @@ sdwdate_build_median() {
 
    true "INFO: $0 OLD: $OLD_UNIXTIME | $OLD_TIME"
 
-   sdwdate_log "Median diff: $SDWDATE_MEDIAN_TIME second(s)"
+   sdwdate_log "Median diff: $SDWDATE_MEDIAN_TIME_SECONDS second(s) [$SDWDATE_MEDIAN_TIME_NANOSECONDS nanosecond(s)]"
+}
+
+sdwdate_set_time_using_date() {
+   trap "sdwdate_error_handler" ERR
+
+   local OLD_UNIXTIME
+   OLD_UNIXTIME="$(date +%s)"
+
+   local SDWDATE_NEW_TIME
+   SDWDATE_NEW_TIME="$(( $OLD_UNIXTIME + $SDWDATE_MEDIAN_TIME_SECONDS ))"
+
+   sdwdate_log "Setting time to $SDWDATE_NEW_TIME..."
+
+   ## Set new time. Syntax: date --set @1098181096
+   ## There is an exception in /etc/sudoers.d/sdwdate.
+   sudo /bin/date --set "@"$SDWDATE_NEW_TIME"" > /dev/null
+}
+
+sdwdate_set_time_using_slockadj() {
+   trap "sdwdate_error_handler" ERR
+
+   if [ ! "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" = "" ]; then
+      sdwdate_log "$FUNCNAME: Termnating subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID."
+      kill -sigterm "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" || true
+      SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
+   fi
+
+   local ZERO_OR_ONE
+   ## Get a random 0 or 1.
+   ## Will use this to decide to use plus or minus.
+   ##
+   ## Thanks to
+   ## http://linux.byexamples.com/archives/128/generating-random-numbers/
+   ZERO_OR_ONE="$(( 0+($(od -An -N2 -i /dev/random) )%(0+2) ))"
+
+   local PLUS_OR_MINUS
+   if [ "$ZERO_OR_ONE" = "0" ]; then
+      PLUS_OR_MINUS="-"
+   elif [ "$ZERO_OR_ONE" = "1" ]; then
+      PLUS_OR_MINUS="+"
+   else
+      error "ZERO_OR_ONE is neither 0 nor 1, it's: $ZERO_OR_ONE"
+   fi
+
+   local NANOSECONDS
+   ## Create a random number between 0 and 999999999.
+   ##
+   ## Thanks to
+   ## https://stackoverflow.com/questions/22887891/how-can-i-get-a-random-dev-random-number-between-0-and-999999999-in-bash
+   NANOSECONDS="$(shuf -i0-999999999 -n1 --random-source=/dev/random)"
+
+   sdwdate_log "Made up random extra ${PLUS_OR_MINUS}${NANOSECONDS} nanosecond(s)."
+
+   local SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL
+   SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL="$(( $SDWDATE_MEDIAN_TIME_NANOSECONDS $PLUS_OR_MINUS $NANOSECONDS ))"
+
+   local SDWDATE_SCLOCKADJ_COMMAND
+   SDWDATE_SCLOCKADJ_COMMAND="/usr/lib/sclockadj $SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL"
+
+   sdwdate_log "Launching into background: $SDWDATE_SCLOCKADJ_COMMAND"
+
+   fifo="$TEMP_DIR/sclockadj.fifo"
+   rm --force "$fifo"
+   mkfifo "$fifo"
+
+   {
+      sdwdate_subshell_trap_sigterm() {
+         if [ "$SDWDATE_SCLOCKADJ_COMMAND_PID" = "" ]; then
+            return 0
+         fi
+         kill -sigterm "$SDWDATE_SCLOCKADJ_COMMAND_PID" || true
+         exit 0
+      }
+
+      trap "sdwdate_subshell_trap_sigterm" SIGTERM
+
+      $SDWDATE_SCLOCKADJ_COMMAND 2>&1 &
+      SDWDATE_SCLOCKADJ_COMMAND_PID="$!"
+
+      SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE="0"
+      wait "$SDWDATE_SCLOCKADJ_COMMAND_PID" || { SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE="$?" ; true; };
+
+      echo "exit code: $SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
+      exit 0
+   } > "$fifo" &
+
+   SDWDATE_SUBSHELL_SCLOCKADJ_PID="$!"
+   sdwdate_log "Started subshell for sclockadj with pid: $SDWDATE_SUBSHELL_SCLOCKADJ_PID"
+
+   while read line; do
+      sdwdate_log "sclockadj reports: $line"
+   done < "$fifo" &
 }
 
 sdwdate_set_new_time() {
@@ -924,19 +1029,25 @@ sdwdate_set_new_time() {
       return
    fi
 
-   local OLD_UNIXTIME
-   OLD_UNIXTIME="$(date +%s)"
-
    ## Do not needlessly try to change time, when there is no difference.
-   if [ ! "$SDWDATE_MEDIAN_TIME" = "0" ]; then
-      local SDWDATE_NEW_TIME
-      SDWDATE_NEW_TIME="$(( $OLD_UNIXTIME + $SDWDATE_MEDIAN_TIME ))"
+   if [ "$SDWDATE_MEDIAN_TIME_SECONDS" = "0" ]; then
+      return 0
+   fi
 
-      sdwdate_log "Setting time to $SDWDATE_NEW_TIME..."
-
-      ## Set new time. Syntax: date --set @1098181096
-      ## There is an exception in /etc/sudoers.d/sdwdate.
-      sudo /bin/date --set "@"$SDWDATE_NEW_TIME"" > /dev/null
+   if [ "$SDW_MODE" = "startup" ]; then
+      if [ "$SDWDATE_USE_SCLOCKADJ_WHEN_STARTUP" = "1" ]; then
+         sdwdate_set_time_using_slockadj
+      else
+         sdwdate_set_time_using_date
+      fi
+   elif [ "$SDW_MODE" = "daemon" ]; then
+      if [ "$SDWDATE_USE_SCLOCKADJ_WHEN_DAEMON" = "1" ]; then
+         sdwdate_set_time_using_slockadj
+      else
+         sdwdate_set_time_using_date
+      fi
+   else
+      error 'SDW_MODE is neither "startup" nor "daemon".'
    fi
 }
 
@@ -968,9 +1079,9 @@ sdwdate_dispatcher_prerequisite() {
             ## Wait.
             sdwdate_safe_log "DISPATCH_PREREQUISITE returned $prerequisite_exit_code | $prerequisite_stdout | waiting..."
             sleep 10 &
-            lastpid="$?"
-            wait "$lastpid" || true
-            unset lastpid
+            sleep_pid="$?"
+            wait "$sleep_pid" || true
+            unset sleep_pid
          else
             ## Unexpected error.
             error_text="DISPATCH_PREREQUISITE returned $prerequisite_exit_code | $prerequisite_stdout | unexpected error, exiting..."
@@ -1057,9 +1168,9 @@ sdwdate_main() {
       if [ -f "/var/lib/sdw_error" ]; then
          error "This is a test."
          sleep 10 &
-         lastpid="$?"
-         wait "$lastpid" || true
-         unset lastpid
+         sleep_pid="$?"
+         wait "$sleep_pid" || true
+         unset sleep_pid
       fi
 
       sdwdate_dispatcher_pre
@@ -1107,9 +1218,9 @@ sdwdate_main() {
          sdwdate_log "Sleeping for $minutes minutes."
 
          sleep "$seconds" &
-         lastpid="$!"
-         wait "$lastpid" || true
-         unset lastpid
+         sleep_pid="$!"
+         wait "$sleep_pid" || true
+         unset sleep_pid
 
          continue
       fi
