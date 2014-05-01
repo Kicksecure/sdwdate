@@ -989,9 +989,9 @@ sdwdate_set_time_using_slockadj() {
 
    sdwdate_log "Launching into background: $SDWDATE_SCLOCKADJ_COMMAND"
 
-   fifo="$TEMP_DIR/sclockadj.fifo"
-   rm --force "$fifo"
-   mkfifo "$fifo"
+   sclockadj_subshell_fifo="$TEMP_DIR/sclockadj.sclockadj_subshell_fifo"
+   rm --force "$sclockadj_subshell_fifo"
+   mksclockadj_subshell_fifo "$sclockadj_subshell_fifo"
 
    {
       sdwdate_subshell_trap_sigterm() {
@@ -1012,14 +1012,14 @@ sdwdate_set_time_using_slockadj() {
 
       echo "exit code: $SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
       exit 0
-   } > "$fifo" &
+   } > "$sclockadj_subshell_fifo" &
 
    SDWDATE_SUBSHELL_SCLOCKADJ_PID="$!"
    sdwdate_log "Started subshell for sclockadj with pid: $SDWDATE_SUBSHELL_SCLOCKADJ_PID"
 
    while read line; do
       sdwdate_log "sclockadj reports: $line"
-   done < "$fifo" &
+   done < "$sclockadj_subshell_fifo" &
 }
 
 sdwdate_set_new_time() {
