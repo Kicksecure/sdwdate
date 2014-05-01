@@ -991,7 +991,7 @@ sdwdate_set_time_using_slockadj() {
 
    sclockadj_subshell_fifo="$TEMP_DIR/sclockadj.sclockadj_subshell_fifo"
    rm --force "$sclockadj_subshell_fifo"
-   mksclockadj_subshell_fifo "$sclockadj_subshell_fifo"
+   mkfifo "$sclockadj_subshell_fifo"
 
    {
       sdwdate_subshell_trap_sigterm() {
