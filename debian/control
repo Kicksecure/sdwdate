@@ -26,5 +26,5 @@ Description: Secure Distributed Network Time Synchronization
  can work over the Tor network.
  .
  Plugins are supported via hooks. These hooks include pre-connect, pre-fetch,
- post-success, post-failure, and progress. Sdwdate comes without a GUI, but one
- could be added as a plugin.
+ post-fetch, post-success, post-failure, and progress. Sdwdate comes without a
+ GUI, but one could be added as a plugin.
