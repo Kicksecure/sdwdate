@@ -14,7 +14,7 @@ Standards-Version: 3.9.4
 
 Package: sdwdate
 Architecture: all
-Depends: curl, uuid-runtime, sudo, logrotate, ${misc:Depends}
+Depends: curl, uuid-runtime, sudo, logrotate, bc, ${misc:Depends}
 Description: Secure Distributed Network Time Synchronization
  Time keeping is crucial for security, privacy, and anonymity. Sdwdate
  distributes trust among three types of servers (Friendly, Neutral, and

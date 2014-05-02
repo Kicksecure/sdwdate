@@ -590,7 +590,7 @@ sdwdate_sanity_tests() {
    trap "sdwdate_error_handler" ERR
 
    command -v bash >/dev/null
-   command -v python >/dev/null
+   command -v bc >/dev/null
    command -v uuidgen >/dev/null
    command -v basename >/dev/null
    command -v mktemp >/dev/null
@@ -817,7 +817,7 @@ sdwdate_loop() {
       fi
 
       local temp
-      temp="$(python -c "print $array_length*$ALLOWED_PER_POOL_FAILURE_RATIO")"
+      temp="$(bc -l <<< "$array_length*$ALLOWED_PER_POOL_FAILURE_RATIO")"
       ## adjust upward / downward
       local allowed_member_failures
       allowed_member_failures="$(/usr/bin/printf "%.f" "$temp")"
