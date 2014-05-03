@@ -994,7 +994,11 @@ sdwdate_set_time_using_slockadj() {
    ## https://stackoverflow.com/questions/22887891/how-can-i-get-a-random-dev-random-number-between-0-and-999999999-in-bash
    NANOSECONDS="$(shuf -i0-999999999 -n1 --random-source=/dev/random)"
 
-   sdwdate_log "Made up random extra ${PLUS_OR_MINUS}${NANOSECONDS} nanosecond(s)."
+   local extra_seconds_without_leading_zero extra_seconds
+   extra_seconds_without_leading_zero="$(bc -l <<< "scale=9 ; $NANOSECONDS / 1000000000")"
+   extra_seconds="$(printf '%3.9f\n' "$extra_seconds_without_leading_zero")"
+
+   sdwdate_log "Made up random extra ${PLUS_OR_MINUS}${extra_seconds} second[s] [${PLUS_OR_MINUS}${NANOSECONDS} nanosecond(s)]."
 
    local SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL
    SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL="$(( $SDWDATE_MEDIAN_TIME_NANOSECONDS $PLUS_OR_MINUS $NANOSECONDS ))"
