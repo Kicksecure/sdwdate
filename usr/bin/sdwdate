@@ -912,11 +912,26 @@ sdwdate_pick() {
 sdwdate_build_median() {
    trap "sdwdate_error_handler" ERR
 
-   local temp
-   temp="$(( ${SDWDATE_TIME_DIFF[SDWDATE_POOL_PAL]} + ${SDWDATE_TIME_DIFF[SDWDATE_POOL_NEUTRAL]} ))"
-   temp="$(( $temp + ${SDWDATE_TIME_DIFF[SDWDATE_POOL_FOE]} ))"
+   local results results_list min max
+   results="${SDWDATE_TIME_DIFF[SDWDATE_POOL_PAL]} ${SDWDATE_TIME_DIFF[SDWDATE_POOL_NEUTRAL]} ${SDWDATE_TIME_DIFF[SDWDATE_POOL_FOE]}"
+   sdwdate_log "Results summary: \
+pal: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_PAL]} | \
+neutral: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_NEUTRAL]} | \
+foe: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_FOE]} | \
+second(s)"
 
-   SDWDATE_MEDIAN_TIME_SECONDS="$(( $temp / 3 ))"
+   ## Thanks to NotANumber
+   ## http://unix.stackexchange.com/a/93949
+   results_list=(
+      $(
+         for item in $results; do
+            /usr/bin/printf "%d\n" "$item"
+         done | sort -n
+      )
+   )
+   min="${results_list[0]}"
+   max="${results_list[${#results_list[*]}-1]}"
+   SDWDATE_MEDIAN_TIME_SECONDS="${results_list[${#results_list[*]}/2]}"
 
    SDWDATE_MEDIAN_TIME_NANOSECONDS="$(( $SDWDATE_MEDIAN_TIME_SECONDS * 1000000000 ))"
 
@@ -927,7 +942,7 @@ sdwdate_build_median() {
 
    true "INFO: $0 OLD: $OLD_UNIXTIME | $OLD_TIME"
 
-   sdwdate_log "Median diff: $SDWDATE_MEDIAN_TIME_SECONDS second(s) [$SDWDATE_MEDIAN_TIME_NANOSECONDS nanosecond(s)]"
+   sdwdate_log "Min: $min | Max: $max | Median diff: $SDWDATE_MEDIAN_TIME_SECONDS second(s) [$SDWDATE_MEDIAN_TIME_NANOSECONDS nanosecond(s)]"
 }
 
 sdwdate_set_time_using_date() {
