@@ -9,6 +9,7 @@
 ## - defaults taken from tails_htp
 ## - options inspired by tails_htp
 ## - log file layout inspired by tails_htp
+## - sclockadj has been written by Jason Ayala (Jason@JasonAyala.com)
 
 ## TODO:
 ## - implement --user
@@ -155,6 +156,42 @@ sdwdate_defaults() {
       HTTP_USER_AGENT=""
       #HTTP_USER_AGENT="$(/usr/bin/getTorbuttonUserAgent)"
       #HTTP_USER_AGENT="Mozilla/5.0 (Windows NT 6.1; rv:10.0) Gecko/20100101 Firefox/10.0"
+   fi
+
+   if [ "$SDWDATE_USE_SCLOCKADJ_WHEN_STARTUP" = "" ]; then
+      SDWDATE_USE_SCLOCKADJ_WHEN_STARTUP="1"
+   fi
+
+   if [ "$SDWDATE_USE_SCLOCKADJ_WHEN_DAEMON" = "" ]; then
+      SDWDATE_USE_SCLOCKADJ_WHEN_DAEMON="1"
+   fi
+
+   if [ "$SDWDATE_SCLOCKADJ_VERBOSE" = "" ]; then
+      SDWDATE_SCLOCKADJ_VERBOSE="--no-verbose"
+   fi
+
+   if [ "$SDWDATE_SCLOCKADJ_CHANGE_DATE" = "" ]; then
+      SDWDATE_SCLOCKADJ_CHANGE_DATE="--no-debug"
+   fi
+
+   if [ "$SDWDATE_SCLOCKADJ_FIRST_WAIT" = "" ]; then
+      SDWDATE_SCLOCKADJ_FIRST_WAIT="--no-first-wait"
+   fi
+
+   if [ "$SDWDATE_SCLOCKADJ_MOVE_MIN" = "" ]; then
+      SDWDATE_SCLOCKADJ_MOVE_MIN="500000"
+   fi
+
+   if [ "$SDWDATE_SCLOCKADJ_MOVE_MAX" = "" ]; then
+      SDWDATE_SCLOCKADJ_MOVE_MAX="500000"
+   fi
+
+   if [ "$SDWDATE_SCLOCKADJ_WAIT_MIN" = "" ]; then
+      SDWDATE_SCLOCKADJ_WAIT_MIN="1000000000"
+   fi
+
+   if [ "$SDWDATE_SCLOCKADJ_WAIT_MAX" = "" ]; then
+      SDWDATE_SCLOCKADJ_WAIT_MAX="1000000000"
    fi
 
    if [ "${SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_PAL]}" = "" ]; then
@@ -353,6 +390,42 @@ sdwdate_parse_cmd_options() {
            -r | --randomize)
                RANDOMIZE="1"
                shift 1
+               ;;
+           --timewarp-on-startup)
+               SDWDATE_USE_SCLOCKADJ_WHEN_STARTUP="0"
+               shift 1
+               ;;
+           --timewarp-on-daemon)
+               SDWDATE_USE_SCLOCKADJ_WHEN_DAEMON="0"
+               shift 1
+               ;;
+           --sclockadj-verbose)
+               SDWDATE_SCLOCKADJ_VERBOSE="--verbose"
+               shift 1
+               ;;
+           --sclockadj-no-change-date)
+               SDWDATE_SCLOCKADJ_CHANGE_DATE="--debug"
+               shift 1
+               ;;
+           --sclockadj-first-wait)
+               SDWDATE_SCLOCKADJ_FIRST_WAIT="--first-wait"
+               shift 1
+               ;;
+           --sclockadj-move-min)
+               SDWDATE_SCLOCKADJ_MOVE_MIN=$2
+               shift 2
+               ;;
+           --sclockadj-move-max)
+               SDWDATE_SCLOCKADJ_MOVE_MAX=$2
+               shift 2
+               ;;
+           --sclockadj-wait-min)
+               SDWDATE_SCLOCKADJ_WAIT_MIN=$2
+               shift 2
+               ;;
+           --sclockadj-wait-max)
+               SDWDATE_SCLOCKADJ_WAIT_MAX=$2
+               shift 2
                ;;
            -y | --dispatchprerequisite)
                DISPATCH_PREREQUISITE=$2
@@ -603,6 +676,7 @@ sdwdate_sanity_tests() {
    command -v od >/dev/null
    command -v grep >/dev/null
    command -v sudo >/dev/null
+   command -v /usr/lib/sclockadj >/dev/null
 }
 
 sdwdate_signal_sigint() {
@@ -1003,8 +1077,29 @@ sdwdate_set_time_using_slockadj() {
    local SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL
    SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL="$(( $SDWDATE_MEDIAN_TIME_NANOSECONDS $PLUS_OR_MINUS $NANOSECONDS ))"
 
+   local first_char
+   first_char=${SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL::1}
+
+   local sclockadj_add_or_subtract
+   if [ "$first_char" = "-" ]; then
+      local SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL_WITHOUT_SIGN="${SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL_WITHOUT_SIGN#?}"
+      sclockadj_add_or_subtract="--subtract $SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL_WITHOUT_SIGN"
+   else
+      sclockadj_add_or_subtract="--add $SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL"
+   fi
+
    local SDWDATE_SCLOCKADJ_COMMAND
-   SDWDATE_SCLOCKADJ_COMMAND="/usr/lib/sclockadj $SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL"
+   SDWDATE_SCLOCKADJ_COMMAND="\
+      /usr/lib/sclockadj \
+         $SDWDATE_SCLOCKADJ_VERBOSE \
+         $SDWDATE_SCLOCKADJ_CHANGE_DATE \
+         $SDWDATE_SCLOCKADJ_FIRST_WAIT \
+         --move-min $SDWDATE_SCLOCKADJ_MOVE_MIN \
+         --move-max $SDWDATE_SCLOCKADJ_MOVE_MAX \
+         --wait-min $SDWDATE_SCLOCKADJ_WAIT_MIN \
+         --wait-max $SDWDATE_SCLOCKADJ_WAIT_MAX \
+         $sclockadj_add_or_subtract \
+   "
 
    sdwdate_log "Launching into background: $SDWDATE_SCLOCKADJ_COMMAND"
 

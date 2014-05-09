@@ -86,6 +86,44 @@ Sets mediate time after asking 3 https servers out of 3 different pools.
 
     randomize interval
 
+  * --timewarp-on-startup
+
+    Do not use sclockadj when starting up. Directly use /bin/date instead. Will
+    result in clock jumps.
+
+  * --timewarp-on-daemon
+
+    Do not use sclockadj when in daemon mode. Directly use /bin/date instead.
+    Will result in clock jumps.
+
+  * --sclockadj-verbose
+
+    Start sclockadj verbosely.
+
+  * --sclockadj-no-change-date
+
+    Start sclockadj with --debug, which will result in no clock changes.
+
+  * --sclockadj-first-wait
+
+    Sclockadj will wait before its first iteration.
+
+  * --sclockadj-move-min nanoseconds
+
+    Move clock minimum nanoseconds (except rest).
+
+  * --sclockadj-move-max nanoseconds
+
+    Move clock maximum nanoseconds (except rest).
+
+  * --sclockadj-wait-min nanoseconds
+
+    Wait nanoseconds minimum before next iteration.
+
+  * --sclockadj-wait-max nanoseconds
+
+    Wait nanoseconds maximum before next iteration.
+
   * -n --noconfig
 
     ignore /etc/sdwdate.d/ config folder
