@@ -1,0 +1,176 @@
+#!/usr/bin/env ruby
+
+module SneakyClockAdjusterCLI
+  require 'optparse'
+  require 'ostruct'
+
+  def self.parse args
+    options = OpenStruct.new
+    options.add_or_substract = :add
+    options.amount           = nil
+    options.move_min         = nil
+    options.move_max         = nil
+    options.wait_min         = nil
+    options.wait_max         = nil
+    options.first_wait       = false
+    options.verbose          = true
+    options.debug            = false
+
+    opt_parser = OptionParser.new do |opts|
+      opts.banner = ""
+      opts.separator "Specific options:"
+
+      opts.on("--add num", Integer, "(Required) Nanoseconds to add") do |v|
+        options.add_or_substract = :add
+        options.amount = v
+      end
+      opts.on("--subtract num", Integer, "(Required) Nanoseconds to subtract") do |v|
+        options.add_or_substract = :subtract
+        options.amount = v
+      end
+      opts.on("--wait-min num", Integer, "(Required) Minimum random seconds to wait") do |v|
+        options.wait_min = v
+      end
+      opts.on("--wait-max num", Integer, "(Required) Maximum random seconds to wait") do |v|
+        options.wait_max = v
+      end
+      opts.on("--move-min num", Integer, "(Required) Minimum random nanoseconds to change") do |v|
+        options.move_min = v
+      end
+      opts.on("--move-max num", Integer, "(Required) Maximum random nanoseconds to change") do |v|
+        options.move_max = v
+      end
+      opts.on("--[no-]first-wait", "Wait before first change?") do |v|
+        options.first_wait = v
+      end
+      opts.on("--[no-]verbose", "Run Verbosely?") do |v|
+        options.verbose = v
+      end
+      opts.on("--[no-]debug", "Debug messages. Don't change date.") do |v|
+        options.debug = v
+      end
+      opts.on_tail("-h", "--help", "Show this message") do
+        puts opts
+        exit
+      end
+
+    end
+
+    opt_parser.parse!
+    if options.amount   == nil then puts opt_parser; exit 1 end
+    if options.move_min == nil then puts opt_parser; exit 1 end
+    if options.move_max == nil then puts opt_parser; exit 1 end
+    if options.wait_min == nil then puts opt_parser; exit 1 end
+    if options.wait_max == nil then puts opt_parser; exit 1 end
+    if options.amount   == nil then puts opt_parser; exit 1 end
+    if options.amount   <= 0 then raise OptionParser::InvalidArgument, "Input must be positive!" end
+    if options.wait_min <  0 then raise OptionParser::InvalidArgument, "Input must be positive!" end
+    if options.wait_max <  options.wait_min then raise OptionParser::InvalidArgument, "Max must > min!" end
+    if options.move_min <  0 then raise OptionParser::InvalidArgument, "Input must be positive!" end
+    if options.move_max <  options.move_min then raise OptionParser::InvalidArgument, "Max must > min!" end
+
+    return options
+  end # self.parse
+end # module SneakyClockAdjusterCLI
+
+module SneakyClockAdjuster
+  require 'openssl'
+  require 'securerandom'
+  require 'bigdecimal'
+  require 'bigdecimal/util'
+
+  def self.execute add_or_substract, amount, move_min, move_max, wait_min, wait_max, first_wait = false, verbose = true, debug = false
+
+    puts "Running with PID: #{Process.pid}" if verbose
+    Kernel.trap("TERM") do
+      puts "Exiting..."
+      exit 0
+    end
+    Kernel.trap("INT") do
+      puts "Exiting..."
+      exit 0
+    end
+
+    jumps     = make_jumps      amount, move_min, move_max
+    jumps_c   = jumps.count
+    intervals = make_intervals jumps_c, wait_min, wait_max
+
+    if not first_wait then intervals[0] = 0 end
+
+    if debug
+      puts "DEBUG: Using these sleep intervals: #{intervals}"
+      puts "DEBUG: with these time jumps: #{jumps}"
+    end
+
+    jumps.each_index do |index|
+
+      if verbose
+        puts "---"
+        puts "Iteration: #{index+1} of #{jumps_c}"
+      end
+
+      wait_ns = intervals[index]
+      jump_ns = jumps[index]
+
+      if wait_ns > 0 then
+        puts "Waiting #{wait_ns} nanoseconds [#{wait_ns.to_f / 1000000000} seconds]" if verbose
+        sleep(wait_ns.to_f / 1000000000)
+      end
+
+      now = Time.now
+      now_ns = (now.to_i * 1000000000) + now.nsec  # TODO: Time is supposedly already in ns
+      if verbose
+        puts  "Time now in nanoseconds: #{now_ns}. In seconds: #{now_ns.to_f / 1000000000}"
+        print "System date with nanoseconds: "
+        puts  %x[echo "$(date) | $(date +%N)"]
+      end
+
+      jump_s = jump_ns.to_f / 1000000000
+
+      if add_or_substract == :add then
+        puts "Adding #{jump_ns} nanoseconds [#{jump_s} seconds]" if verbose
+        thn = now_ns + jump_ns
+      else
+        puts "Subtracting #{jump_ns} nanoseconds [#{jump_s} seconds]" if verbose
+        thn = now_ns - jump_ns
+      end
+
+      thn_s = thn.to_s.insert -10, '.' # More reliable than to_f / 1000000000
+      cmd = "sudo date --set \"@#{thn_s}\" > /dev/null"
+      "Setting date with: #{cmd}" if verbose
+      system cmd unless debug
+      puts  "Time now in nanoseconds: #{now_ns}" if verbose
+      print "System date nanoseconds: " if verbose
+      puts  %x[echo "$(date) | $(date +%N)"] if verbose
+    end # jumps.each_index
+
+    if verbose
+      puts "---"
+      puts "Done! Exiting..."
+    end
+  end
+
+  def self.make_intervals count, min, max, intervals = []
+    count.times do
+      intervals << (SecureRandom.random_number max-min+1) + min
+    end
+    return intervals
+  end
+
+  def self.make_jumps amount, min, max, jumps = []
+    if max < min then raise RangeError, "max < min" end
+
+    loop do
+      if amount < 1   then return jumps           end
+      if amount < min then return jumps << amount end
+
+      if amount - max < 1 then max = amount end
+      random_jump = (SecureRandom.random_number max-min+1) + min
+      jumps << random_jump
+      amount -= random_jump
+    end
+  end
+end # module SneakyClockAdjuster
+
+options = SneakyClockAdjusterCLI.parse(ARGV)
+SneakyClockAdjuster.execute options.add_or_substract, options.amount, options.move_min, options.move_max, options.wait_min, options.wait_max, options.first_wait, options.verbose, options.debug
