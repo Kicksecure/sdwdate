@@ -117,12 +117,16 @@ module SneakyClockAdjuster
         sleep(wait_ns.to_f / 1000000000)
       end
 
+      if verbose
+        print "System date with nanoseconds: "
+        puts  %x[echo "$(date) | $(date +%N)"]
+      end
+
       now = Time.now
       now_ns = (now.to_i * 1000000000) + now.nsec  # TODO: Time is supposedly already in ns
       if verbose
-        puts  "Time now in nanoseconds: #{now_ns}. In seconds: #{now_ns.to_f / 1000000000}"
-        print "System date with nanoseconds: "
-        puts  %x[echo "$(date) | $(date +%N)"]
+        puts  "Time now in nanoseconds: #{now_ns}"
+	    # In seconds: #{now_ns.to_f / 1000000000}
       end
 
       jump_s = jump_ns.to_f / 1000000000
@@ -139,9 +143,15 @@ module SneakyClockAdjuster
       cmd = "sudo date --set \"@#{thn_s}\" > /dev/null"
       "Setting date with: #{cmd}" if verbose
       system cmd unless debug
-      puts  "Time now in nanoseconds: #{now_ns}" if verbose
-      print "System date nanoseconds: " if verbose
-      puts  %x[echo "$(date) | $(date +%N)"] if verbose
+
+      if verbose
+        now = Time.now
+        now_ns_after = (now.to_i * 1000000000) + now.nsec  # TODO: Time is supposedly already in ns
+        puts "Time now in nanoseconds: #{now_ns_after}"
+        puts "Diff nanoseconds       : #{now_ns_after - now_ns}"
+        print "System date with nanoseconds: "
+        puts  %x[echo "$(date) | $(date +%N)"]
+      end
     end # jumps.each_index
 
     if verbose
