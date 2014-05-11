@@ -110,11 +110,13 @@ module SneakyClockAdjuster
       end
 
       wait_ns = intervals[index]
+      wait_s  = wait_ns.to_f / 1000000000
       jump_ns = jumps[index]
+      jump_s  = jump_ns.to_f / 1000000000
 
       if wait_ns > 0 then
-        puts "Waiting #{wait_ns} nanoseconds [#{wait_ns.to_f / 1000000000} seconds]" if verbose
-        sleep(wait_ns.to_f / 1000000000)
+        puts "Waiting #{wait_ns} nanoseconds [#{wait_s} seconds]" if verbose
+        sleep(wait_s)
       end
 
       if verbose
@@ -122,33 +124,23 @@ module SneakyClockAdjuster
         puts  %x[echo "$(date) | $(date +%N)"]
       end
 
-      now = Time.now
-      now_ns = (now.to_i * 1000000000) + now.nsec  # TODO: Time is supposedly already in ns
-      if verbose
-        puts  "Time now in nanoseconds: #{now_ns}"
-	    # In seconds: #{now_ns.to_f / 1000000000}
-      end
-
-      jump_s = jump_ns.to_f / 1000000000
-
       if add_or_substract == :add then
         puts "Adding #{jump_ns} nanoseconds [#{jump_s} seconds]" if verbose
-        thn = now_ns + jump_ns
+        thn = Time.now.to_f + jump_ns
       else
         puts "Subtracting #{jump_ns} nanoseconds [#{jump_s} seconds]" if verbose
-        thn = now_ns - jump_ns
+        thn = Time.now.to_f - jump_ns
       end
 
-      thn_s = thn.to_s.insert -10, '.' # More reliable than to_f / 1000000000
-      cmd = "sudo date --set \"@#{thn_s}\" > /dev/null"
-      "Setting date with: #{cmd}" if verbose
-      system cmd unless debug
+      cmd = "sudo date --set \"@#{thn.to_s.insert -10, '.'}\" > /dev/null"
+      system cmd #unless debug
+      "Set date with: #{cmd}" if verbose
 
       if verbose
-        now = Time.now
-        now_ns_after = (now.to_i * 1000000000) + now.nsec  # TODO: Time is supposedly already in ns
-        puts "Time now in nanoseconds: #{now_ns_after}"
-        puts "Diff nanoseconds       : #{now_ns_after - now_ns}"
+        #now = Time.now
+        #now_ns_after = (now.to_i * 1000000000) + now.nsec  # TODO: Time is supposedly already in ns
+        #puts "Time now in nanoseconds: #{now_ns_after}"
+        #puts "Diff nanoseconds       : #{now_ns_after - now_ns}"
         print "System date with nanoseconds: "
         puts  %x[echo "$(date) | $(date +%N)"]
       end
