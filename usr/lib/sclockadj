@@ -126,15 +126,15 @@ module SneakyClockAdjuster
 
       if add_or_substract == :add then
         puts "Adding #{jump_ns} nanoseconds [#{jump_s} seconds]" if verbose
-        thn = Time.now.to_f + jump_ns
+        thn = Time.now.to_f + jump_s
       else
         puts "Subtracting #{jump_ns} nanoseconds [#{jump_s} seconds]" if verbose
-        thn = Time.now.to_f - jump_ns
+        thn = Time.now.to_f - jump_s
       end
 
-      cmd = "sudo date --set \"@#{thn.to_s.insert -10, '.'}\" > /dev/null"
+      cmd = "sudo date --set \"@#{thn}\" > /dev/null"
       system cmd #unless debug
-      "Set date with: #{cmd}" if verbose
+      puts "Set date with: #{cmd}" if verbose
 
       if verbose
         #now = Time.now
