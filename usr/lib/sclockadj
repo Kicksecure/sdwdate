@@ -132,7 +132,7 @@ module SneakyClockAdjuster
         thn = Time.now.to_f - jump_s
       end
 
-      cmd = "sudo date --set \"@#{thn}\" > /dev/null"
+      cmd = "date --set \"@#{thn}\" > /dev/null"
       system cmd #unless debug
       puts "Set date with: #{cmd}" if verbose
 

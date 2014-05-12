@@ -3,3 +3,4 @@
 ## See the file COPYING for copying conditions.
 
 ALL ALL=NOPASSWD: /bin/date *
+ALL ALL=NOPASSWD: /usr/lib/sclockadj *

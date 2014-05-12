@@ -1089,8 +1089,9 @@ sdwdate_set_time_using_slockadj() {
    fi
 
    local SDWDATE_SCLOCKADJ_COMMAND
+   ## There is an exception in /etc/sudoers.d/.
    SDWDATE_SCLOCKADJ_COMMAND="\
-      /usr/lib/sclockadj \
+      sudo /usr/lib/sclockadj \
          $SDWDATE_SCLOCKADJ_VERBOSE \
          $SDWDATE_SCLOCKADJ_CHANGE_DATE \
          $SDWDATE_SCLOCKADJ_FIRST_WAIT \
