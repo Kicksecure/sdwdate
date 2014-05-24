@@ -523,13 +523,13 @@ sdwdate_preparation() {
 
    local ret
    ret="0"
-   command -v curl.whonix-orig >/dev/null || { ret="$?" ; true; };
+   command -v curl.anondist-orig >/dev/null || { ret="$?" ; true; };
 
    if [ "$ret" = "0" ]; then
       ## using the non-uwt-wrapped version, if the uwt wrapper is installed,
       ## which is the case on a default Whonix installation
-      sdwdate_log "$FUNCNAME: Setting CURL to curl.whonix-orig."
-      export CURL=curl.whonix-orig
+      sdwdate_log "$FUNCNAME: Setting CURL to curl.anondist-orig."
+      export CURL=curl.anondist-orig
    else
       local ret
       ret="0"

@@ -7,7 +7,7 @@ Section: misc
 Priority: optional
 Maintainer: Patrick Schleizer <adrelanos@riseup.net>
 Build-Depends: debhelper (>= 8), faketime, git, ruby-ronn (>= 0.7.3)
-Homepage: https://www.whonix.org/wiki/AppArmor
+Homepage: https://github.com/Whonix/sdwdate
 Vcs-Browser: https://github.com/Whonix/sdwdate
 Vcs-Git: https://github.com/Whonix/sdwdate.git
 Standards-Version: 3.9.4
@@ -15,6 +15,8 @@ Standards-Version: 3.9.4
 Package: sdwdate
 Architecture: all
 Depends: curl, uuid-runtime, sudo, logrotate, bc, ${misc:Depends}
+Recommends: vbox-disable-timesync, timesanitycheck, bootclockrandomization,
+ timesync
 Description: Secure Distributed Network Time Synchronization
  Time keeping is crucial for security, privacy, and anonymity. Sdwdate
  distributes trust among three types of servers (Friendly, Neutral, and
