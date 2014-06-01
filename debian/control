@@ -14,7 +14,8 @@ Standards-Version: 3.9.4
 
 Package: sdwdate
 Architecture: all
-Depends: curl, uuid-runtime, sudo, logrotate, bc, ${misc:Depends}
+Depends: curl, ca-certificates, uuid-runtime, sudo, logrotate, bc,
+ ${misc:Depends}
 Recommends: vbox-disable-timesync, timesanitycheck, bootclockrandomization,
  timesync
 Description: Secure Distributed Network Time Synchronization

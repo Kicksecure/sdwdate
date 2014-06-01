@@ -10,8 +10,41 @@ fi
 
 set -e
 
-if [ "$1" = "configure" ]; then
-   adduser --system --quiet --group --no-create-home sdwdate || true
+true "
+####################################################################
+## INFO: Begin $DPKG_MAINTSCRIPT_NAME script $DPKG_MAINTSCRIPT_PACKAGE...
+####################################################################
+"
+
+if [ -x /usr/lib/anon-shared-helper-scripts/torsocks-remove-ld-preload ]; then
+   source /usr/lib/anon-shared-helper-scripts/torsocks-remove-ld-preload
 fi
 
+case "$1" in
+    configure)
+       adduser --system --quiet --group --no-create-home sdwdate || true
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "$DPKG_MAINTSCRIPT_NAME called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+true "INFO: debhelper beginning here."
+
 #DEBHELPER#
+
+true "INFO: Done with debhelper."
+
+true "
+####################################################################
+## INFO: $DPKG_MAINTSCRIPT_NAME script $DPKG_MAINTSCRIPT_PACKAGE no error detected.
+####################################################################
+"
+
+## Explicitly "exit 0", so eventually trapped errors can be ignored.
+exit 0
