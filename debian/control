@@ -18,6 +18,8 @@ Depends: curl, ca-certificates, uuid-runtime, sudo, logrotate, bc,
  ${misc:Depends}
 Recommends: vbox-disable-timesync, timesanitycheck, bootclockrandomization,
  timesync
+Suggests: sdwdate-plugin-anon-shared-con-check,
+ sdwdate-plugin-anon-shared-streamiso
 Description: Secure Distributed Network Time Synchronization
  Time keeping is crucial for security, privacy, and anonymity. Sdwdate
  distributes trust among three types of servers (Friendly, Neutral, and
