@@ -33,6 +33,7 @@ $SCRIPTNAME [-aDdlpqTux] [long options...]
         -x --dont_set_date                    do not set the time (only show)
         --no-move-forward                     do not move the time forward
         --no-move-backwards                   do not move the time backwards
+        --systohc                             update hardware clock
         -a --user_agent                       http user agent to use
         -l --log_file                         log to this file rather than to STDOUT
         -D --done_file                        create this file after one cycle of sdwdate
@@ -88,6 +89,11 @@ sdwdate_defaults() {
 
    if [ "$NO_MOVE_BACKWARDS" = "" ]; then
       NO_MOVE_BACKWARDS=1
+   fi
+
+   if [ "$SYSTOHC" = "" ]; then
+      SYSTOHC=0
+      SDWDATE_SCLOCKADJ_SYSTOHC="--nosystohc"
    fi
 
    if [ "$LOG_FILE" = "" ]; then
@@ -355,6 +361,11 @@ sdwdate_parse_cmd_options() {
                ;;
            --no-move-backwards)
                NO_MOVE_BACKWARDS=1
+               shift
+               ;;
+           --systohc)
+               SYSTOHC=1
+               SDWDATE_SCLOCKADJ_SYSTOHC="--systohc"
                shift
                ;;
            -a | --user_agent)
@@ -695,6 +706,7 @@ sdwdate_sanity_tests() {
    command -v grep >/dev/null
    command -v sudo >/dev/null
    command -v /usr/lib/sclockadj >/dev/null
+   command -v /sbin/hwclock >/dev/null
 }
 
 sdwdate_signal_sigint() {
@@ -1051,6 +1063,10 @@ sdwdate_set_time_using_date() {
    ## Set new time. Syntax: date --set @1098181096
    ## There is an exception in /etc/sudoers.d/sdwdate.
    sudo /bin/date --set "@"$SDWDATE_NEW_TIME"" > /dev/null
+
+   if [ "$SYSTOHC" = "1" ]; then
+      sudo /sbin/hwclock --systohc
+   fi
 }
 
 sdwdate_set_time_using_slockadj() {
@@ -1113,6 +1129,7 @@ sdwdate_set_time_using_slockadj() {
          $SDWDATE_SCLOCKADJ_VERBOSE \
          $SDWDATE_SCLOCKADJ_CHANGE_DATE \
          $SDWDATE_SCLOCKADJ_FIRST_WAIT \
+         $SDWDATE_SCLOCKADJ_SYSTOHC \
          --move-min $SDWDATE_SCLOCKADJ_MOVE_MIN \
          --move-max $SDWDATE_SCLOCKADJ_MOVE_MAX \
          --wait-min $SDWDATE_SCLOCKADJ_WAIT_MIN \

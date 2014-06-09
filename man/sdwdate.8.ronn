@@ -45,6 +45,10 @@ Sets mediate time after asking 3 https servers out of 3 different pools.
 
     do not move the time backwards
 
+  * --systohc
+
+    update hardware clock
+
   * -a --user_agent user_agent
 
     http user agent to use

@@ -4,3 +4,4 @@
 
 ALL ALL=NOPASSWD: /bin/date *
 ALL ALL=NOPASSWD: /usr/lib/sclockadj *
+ALL ALL=NOPASSWD: /sbin/hwclock *

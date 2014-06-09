@@ -15,6 +15,7 @@ module SneakyClockAdjusterCLI
     options.first_wait       = false
     options.verbose          = true
     options.debug            = false
+    option.systohc           = false
 
     opt_parser = OptionParser.new do |opts|
       opts.banner = ""
@@ -49,6 +50,9 @@ module SneakyClockAdjusterCLI
       opts.on("--[no-]debug", "Debug messages. Don't change date.") do |v|
         options.debug = v
       end
+      opts.on("--[no-]systohc", "Update hardware clock.") do |v|
+        options.systohc = v
+      end
       opts.on_tail("-h", "--help", "Show this message") do
         puts opts
         exit
@@ -79,7 +83,7 @@ module SneakyClockAdjuster
   require 'bigdecimal'
   require 'bigdecimal/util'
 
-  def self.execute add_or_substract, amount, move_min, move_max, wait_min, wait_max, first_wait = false, verbose = true, debug = false
+  def self.execute add_or_substract, amount, move_min, move_max, wait_min, wait_max, first_wait = false, verbose = true, debug = false, systohc = false
 
     puts "Running with PID: #{Process.pid}" if verbose
     Kernel.trap("TERM") do
@@ -135,6 +139,10 @@ module SneakyClockAdjuster
       cmd = "date --set \"@#{thn}\" > /dev/null"
       system cmd #unless debug
       puts "Set date with: #{cmd}" if verbose
+
+      cmd = "hwclock --systohc" if systohc
+      system cmd #unless debug
+      puts "Set hwclock with: #{cmd}" if verbose
 
       if verbose
         #now = Time.now

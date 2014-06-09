@@ -35,6 +35,11 @@ NO_MOVE_FORWARD=0
 ## 1 enabled
 NO_MOVE_BACKWARDS=0
 
+## update hardware clock
+## 0 disabled
+## 1 enabled
+SYSTOHC=0
+
 ## Http user agent.
 ## When set to "", uses curl's default.
 #HTTP_USER_AGENT="$(/usr/bin/getTorbuttonUserAgent)"
