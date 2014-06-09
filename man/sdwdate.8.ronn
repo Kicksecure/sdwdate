@@ -37,6 +37,14 @@ Sets mediate time after asking 3 https servers out of 3 different pools.
 
     do not set the time (only show)
 
+  * --no-move-forward
+
+    do not move the time forward
+
+  * --no-move-backwards
+
+    do not move the time backwards
+
   * -a --user_agent user_agent
 
     http user agent to use

@@ -31,6 +31,8 @@ $SCRIPTNAME [-aDdlpqTux] [long options...]
         --help                                print usage message and exit
         -q --quiet                            quiet
         -x --dont_set_date                    do not set the time (only show)
+        --no-move-forward                     do not move the time forward
+        --no-move-backwards                   do not move the time backwards
         -a --user_agent                       http user agent to use
         -l --log_file                         log to this file rather than to STDOUT
         -D --done_file                        create this file after one cycle of sdwdate
@@ -78,6 +80,14 @@ sdwdate_defaults() {
 
    if [ "$DONT_SET_DATE" = "" ]; then
       DONT_SET_DATE="0"
+   fi
+
+   if [ "$NO_MOVE_FORWARD" = "" ]; then
+      NO_MOVE_FORWARD=1
+   fi
+
+   if [ "$NO_MOVE_BACKWARDS" = "" ]; then
+      NO_MOVE_BACKWARDS=1
    fi
 
    if [ "$LOG_FILE" = "" ]; then
@@ -337,6 +347,14 @@ sdwdate_parse_cmd_options() {
                ;;
            -x | --dont_set_date)
                DONT_SET_DATE=1
+               shift
+               ;;
+           --no-move-forward)
+               NO_MOVE_FORWARD=1
+               shift
+               ;;
+           --no-move-backwards)
+               NO_MOVE_BACKWARDS=1
                shift
                ;;
            -a | --user_agent)
@@ -1147,6 +1165,20 @@ sdwdate_set_new_time() {
    ## Do not needlessly try to change time, when there is no difference.
    if [ "$SDWDATE_MEDIAN_TIME_SECONDS" = "0" ]; then
       return 0
+   fi
+
+   if [ "$NO_MOVE_FORWARD" = "1" ]; then
+      if [ "$SDWDATE_MEDIAN_TIME_SECONDS" -gt "0" ]; then
+         sdwdate_log "Not setting clock forward."
+         return 0
+      fi
+   fi
+
+   if [ "$NO_MOVE_BACKWARDS" = "1" ]; then
+      if [ "$SDWDATE_MEDIAN_TIME_SECONDS" -lt "0" ]; then
+         sdwdate_log "Not setting clock backwards."
+         return 0
+      fi
    fi
 
    if [ "$SDW_MODE" = "startup" ]; then

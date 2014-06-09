@@ -25,6 +25,16 @@ USER=""
 ## 1 do not set date.
 DONT_SET_DATE=0
 
+## do not move the time forward
+## 0 disabled
+## 1 enabled
+NO_MOVE_FORWARD=0
+
+## do not move the time backwards
+## 0 disabled
+## 1 enabled
+NO_MOVE_BACKWARDS=0
+
 ## Http user agent.
 ## When set to "", uses curl's default.
 #HTTP_USER_AGENT="$(/usr/bin/getTorbuttonUserAgent)"
