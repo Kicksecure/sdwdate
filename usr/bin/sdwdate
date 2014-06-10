@@ -572,6 +572,9 @@ sdwdate_preparation() {
          exit 1
       fi
    fi
+
+   ## Required for eventual plugins.
+   who_ami="$(who_ami)"
 }
 
 sdwdate_echo() {
