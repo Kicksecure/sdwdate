@@ -21,15 +21,19 @@ Recommends: vbox-disable-timesync, timesanitycheck, bootclockrandomization,
 Suggests: sdwdate-plugin-anon-shared-con-check,
  sdwdate-plugin-anon-shared-streamiso
 Description: Secure Distributed Network Time Synchronization
- Time keeping is crucial for security, privacy, and anonymity. Sdwdate
- distributes trust among three types of servers (Friendly, Neutral, and
- Hostile), using the median time of those servers.
+ Time keeping is crucial for security, privacy, and anonymity. Sdwdate is a Tor
+ friendly replacement for rdate and ntpdate that sets the system's clock by
+ communicating via TCP with one or more HTTPS webservers.
  .
- If too many of the servers are offline, the clock is untouched. It runs at
- randomized intervals to avoid fingerprinting (which would reveal that one is
- not only a sdwdate user but also a Tor user). Since it does not require UDP, it
- can work over the Tor network.
+ At randomized intervals, sdwdate connects to a variety of webservers and
+ extracts the time stamps from headers (RFC 2616). Using sclockadj option, time
+ is gradually adjusted preventing bigger clock jumps that could confuse logs,
+ servers, Tor, i2p, etc.
  .
  Plugins are supported via hooks. These hooks include pre-connect, pre-fetch,
  post-fetch, post-success, post-failure, and progress. Sdwdate comes without a
- GUI, but one could be added as a plugin.
+ GUI, but is available as a plugin called timesync.
+ .
+ This package contains the sdwdate time fetcher and daemon. There is no remote
+ installation. To avoid conflicts, this daemon should be no be enabled together
+ with ntp or tlsdated.
