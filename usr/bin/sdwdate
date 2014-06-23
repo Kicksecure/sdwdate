@@ -574,7 +574,7 @@ sdwdate_preparation() {
    fi
 
    ## Required for eventual plugins.
-   who_ami="$(who_ami)"
+   who_ami="$(whoami)"
 }
 
 sdwdate_echo() {
