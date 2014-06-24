@@ -38,8 +38,11 @@ for line in $(dpkg-parsechangelog); do
    if [ "$first" = "version:" ]; then
       version="$second"
       ## Example version:
-      ## 0.1-1
+      ## 3:0.1-1
       version="${version%-*}"
+      ## Example version:
+      ## 3:0.1
+      version="${version#*:}"
       ## Example version:
       ## 0.1
       break
@@ -57,10 +60,10 @@ fi
 ./clean
 
 ## Explicitly set access time, so we end up with a deterministic debian.tar.gz file.
-shopt -s globstar
+shopt -s globstar dotglob
 touch -t "201308151102.35" ./debian
 touch -t "201308151102.35" ./debian/**
-shopt -u globstar
+shopt -u globstar dotglob
 
 rm --force "../${package_name}_${version}.orig.tar.gz"
 
