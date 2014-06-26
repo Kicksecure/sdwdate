@@ -1246,7 +1246,7 @@ sdwdate_dispatcher_prerequisite() {
             ## Wait.
             sdwdate_safe_log "DISPATCH_PREREQUISITE returned $prerequisite_exit_code | $prerequisite_stdout | waiting..."
             sleep 10 &
-            sleep_pid="$?"
+            sleep_pid="$!"
             wait "$sleep_pid" || true
             unset sleep_pid
          else
@@ -1335,7 +1335,7 @@ sdwdate_main() {
       if [ -f "/var/lib/sdw_error" ]; then
          error "This is a test."
          sleep 10 &
-         sleep_pid="$?"
+         sleep_pid="$!"
          wait "$sleep_pid" || true
          unset sleep_pid
       fi
