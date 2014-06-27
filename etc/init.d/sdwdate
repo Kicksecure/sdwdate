@@ -17,7 +17,7 @@
 
 #set -x
 
-DESC="Setting time using sdwdate"
+DESC="Starting sdwdate"
 NAME=sdwdate
 USER_NAME=$NAME
 SCRIPTNAME=/etc/init.d/$NAME
@@ -84,7 +84,9 @@ do_start() {
 	#bash -x /usr/bin/sdwdate $ND_PRE $ND_POST_SUCCESS $ND_POST_FAILURE & disown
 	#echo "$!" > "$PIDFILE"
 
-	return $?
+	ret="$?"
+
+	return "$ret"
 }
 
 do_stop() {
@@ -95,6 +97,8 @@ do_stop() {
 	   --signal TERM \
 	   --retry 5 \
 	   2> /dev/null
+
+	ret="$?"
 
 	if [ -e "$PIDFILE" ]; then
 		rm -f "$PIDFILE"
@@ -107,13 +111,16 @@ do_stop() {
 	if [ -e "$SDW_SUCCESS_FILE" ]; then
 		rm -f "$SDW_SUCCESS_FILE"
 	fi
+
+	return "$ret"
 }
 
 do_status() {
    if [ -e "$PIDFILE" ]; then
 
-      local ps_p_exit_code="0"
-      ps -p "$(cat "$PIDFILE")" >/dev/null || { local ps_p_exit_code="$?"; true; };
+      local ps_p_exit_code
+      ps_p_exit_code="0"
+      ps -p "$(cat "$PIDFILE")" >/dev/null || { ps_p_exit_code="$?"; true; };
 
       return "$ps_p_exit_code"
    else
@@ -123,16 +130,21 @@ do_status() {
 
 case "$1" in
   start)
-	[ "$VERBOSE" != no ] && log_daemon_msg "$DESC" "$NAME"
+	log_daemon_msg "Starting $NAME"
 	do_start
 	case "$?" in
-		0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
-		2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+		0|1) log_end_msg 0 ;;
+		2) log_end_msg 1 ;;
 	esac
 	;;
   stop)
-	do_stop
-	;;
+        log_daemon_msg "Stopping $NAME"
+        do_stop
+        case "$?" in
+                0|1) log_end_msg 0 ;;
+                2) log_end_msg 1 ;;
+        esac
+        ;;
   restart)
 	do_stop
 	do_start
