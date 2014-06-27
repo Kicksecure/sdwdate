@@ -92,7 +92,7 @@ do_stop() {
 	   --stop \
 	   --quiet \
 	   --pidfile "$PIDFILE" \
-	   --signal 2 \
+	   --signal TERM \
 	   --retry 5 \
 	   2> /dev/null
 
