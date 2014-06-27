@@ -1331,6 +1331,9 @@ sdwdate_main() {
       sdwdate_parse_cmd_options ${1+"$@"}
       sdwdate_defaults
       sdwdate_preparation
+      if [ "$DEBUG" = "1" ]; then
+         sdwdate_signal_sigusr1
+      fi
 
       if [ -f "/var/lib/sdw_error" ]; then
          error "This is a test."
