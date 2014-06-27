@@ -16,6 +16,9 @@ CURL_VERBOSE="--silent"
 ## 2 disabled.
 DEBUG=0
 
+## Remove "--silent" from invocations of curl.
+#CURL_VERBOSE=""
+
 ## Run as the following user name.
 ## Not implemented. Has no effect.
 USER=""
