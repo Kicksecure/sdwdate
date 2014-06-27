@@ -712,10 +712,10 @@ sdwdate_sanity_tests() {
    command -v /sbin/hwclock >/dev/null
 }
 
-sdwdate_signal_sigint() {
+sdwdate_ex_funct() {
    trap "sdwdate_error_handler" ERR
 
-   sdwdate_log "$SCRIPTNAME (not timesync!): SIGINT received. Cleaning up..."
+   sdwdate_log "$SCRIPTNAME (not timesync!): $SIGNAL_TYPE received. Cleaning up..."
 
    if [ ! "$sleep_pid" = "" ]; then
       kill -9 "$sleep_pid" || true
@@ -737,11 +737,27 @@ sdwdate_signal_sigint() {
    fi
 
    touch "$DONE_FILE"
-   sdwdate_log "$SCRIPTNAME (not timesync!): SIGINT received. Exiting."
+   sdwdate_log "$SCRIPTNAME (not timesync!): $SIGNAL_TYPE received. Exiting."
    exit 0
 }
 
+sdwdate_signal_sigint() {
+   trap "sdwdate_error_handler" ERR
+
+   SIGNAL_TYPE="sigint"
+   sdwdate_ex_funct
+}
+
 trap "sdwdate_signal_sigint" SIGINT
+
+sdwdate_signal_sigterm() {
+   trap "sdwdate_error_handler" ERR
+
+   SIGNAL_TYPE="sigterm"
+   sdwdate_ex_funct
+}
+
+trap "sdwdate_signal_sigterm" SIGTERM
 
 sdwdate_signal_sigusr1() {
    ## usage: kill -sigusr1 pid
