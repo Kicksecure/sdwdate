@@ -710,6 +710,7 @@ sdwdate_sanity_tests() {
    command -v sudo >/dev/null
    command -v /usr/lib/sclockadj >/dev/null
    command -v /sbin/hwclock >/dev/null
+   test -e /dev/random
 }
 
 sdwdate_ex_funct() {
@@ -958,6 +959,7 @@ sdwdate_loop() {
          fi
       fi
 
+      test -e /dev/random
       local random_integer
       random_integer="$(( ($(od -An -N2 -i /dev/random) )%($array_length) ))"
 
@@ -1103,6 +1105,7 @@ sdwdate_set_time_using_slockadj() {
    ##
    ## Thanks to
    ## http://linux.byexamples.com/archives/128/generating-random-numbers/
+   test -e /dev/random
    ZERO_OR_ONE="$(( 0+($(od -An -N2 -i /dev/random) )%(0+2) ))"
 
    local PLUS_OR_MINUS
@@ -1119,6 +1122,7 @@ sdwdate_set_time_using_slockadj() {
    ##
    ## Thanks to
    ## https://stackoverflow.com/questions/22887891/how-can-i-get-a-random-dev-random-number-between-0-and-999999999-in-bash
+   test -e /dev/random
    NANOSECONDS="$(shuf -i0-999999999 -n1 --random-source=/dev/random)"
 
    local extra_seconds_without_leading_zero extra_seconds
@@ -1390,6 +1394,7 @@ sdwdate_main() {
 
          local minutes
          if [ "$RANDOMIZE" = "1" ]; then
+            test -e /dev/random
             minutes="$(( ($(od -An -N2 -i /dev/random) )%($INTERVAL) ))"
             if [ "$MIN_INTERVAL" -ge "$minutes" ]; then
                minutes="$(( $minutes + $MIN_INTERVAL ))"
