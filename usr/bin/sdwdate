@@ -1140,7 +1140,7 @@ sdwdate_set_time_using_slockadj() {
    local sclockadj_add_or_subtract
    if [ "$first_char" = "-" ]; then
       local SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL_WITHOUT_SIGN
-      SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL_WITHOUT_SIGN="${SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL_WITHOUT_SIGN#?}"
+      SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL_WITHOUT_SIGN="${SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL#?}"
       sclockadj_add_or_subtract="--subtract $SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL_WITHOUT_SIGN"
    else
       sclockadj_add_or_subtract="--add $SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL"
