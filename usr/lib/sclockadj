@@ -15,7 +15,7 @@ module SneakyClockAdjusterCLI
     options.first_wait       = false
     options.verbose          = true
     options.debug            = false
-    option.systohc           = false
+    options.systohc          = false
 
     opt_parser = OptionParser.new do |opts|
       opts.banner = ""
