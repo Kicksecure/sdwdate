@@ -140,9 +140,11 @@ module SneakyClockAdjuster
       system cmd #unless debug
       puts "Set date with: #{cmd}" if verbose
 
-      cmd = "hwclock --systohc" if systohc
-      system cmd #unless debug
-      puts "Set hwclock with: #{cmd}" if verbose
+      if systohc then
+        cmd = "hwclock --systohc"
+        system cmd #unless debug
+        puts "Set hwclock with: #{cmd}" if verbose
+      end
 
       if verbose
         #now = Time.now
