@@ -22,7 +22,9 @@ fi
 
 case "$1" in
     configure)
-       adduser --system --quiet --group --no-create-home sdwdate || true
+       ## Not using --no-create-home, so sdwdate can write into /home/sdwdate.
+       ## Not using --system.
+       adduser --quiet --group --no-create-home sdwdate || true
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
