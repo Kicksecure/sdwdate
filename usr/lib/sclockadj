@@ -82,6 +82,7 @@ module SneakyClockAdjuster
   require 'securerandom'
   require 'bigdecimal'
   require 'bigdecimal/util'
+  require 'inline'
 
   def self.execute add_or_substract, amount, move_min, move_max, wait_min, wait_max, first_wait = false, verbose = true, debug = false, systohc = false
 
@@ -98,13 +99,13 @@ module SneakyClockAdjuster
     jumps     = make_jumps      amount, move_min, move_max
     jumps_c   = jumps.count
     intervals = make_intervals jumps_c, wait_min, wait_max
-
     if not first_wait then intervals[0] = 0 end
-
     if debug
       puts "DEBUG: Using these sleep intervals: #{intervals}"
       puts "DEBUG: with these time jumps: #{jumps}"
     end
+
+    c = Cinline.new
 
     jumps.each_index do |index|
 
@@ -124,34 +125,30 @@ module SneakyClockAdjuster
       end
 
       if verbose
-        print "System date with nanoseconds: "
+        print "Aproximate system date with nanoseconds: "
         puts  %x[echo "$(date) | $(date +%N)"]
       end
 
       if add_or_substract == :add then
         puts "Adding #{jump_ns} nanoseconds [#{jump_s} seconds]" if verbose
-        thn = Time.now.to_f + jump_s
       else
         puts "Subtracting #{jump_ns} nanoseconds [#{jump_s} seconds]" if verbose
-        thn = Time.now.to_f - jump_s
+        jump_ns = -jump_ns
       end
 
-      cmd = "date --set \"@#{thn}\" > /dev/null"
-      system cmd #unless debug
-      puts "Set date with: #{cmd}" if verbose
+      c.getAndSet(jump_ns)
 
-      cmd = "hwclock --systohc" if systohc
-      system cmd #unless debug
-      puts "Set hwclock with: #{cmd}" if verbose
+      if systohc then
+        cmd = "hwclock --systohc"
+        system cmd #unless debug
+        puts "Set hwclock with: #{cmd}" if verbose
+      end
 
       if verbose
-        #now = Time.now
-        #now_ns_after = (now.to_i * 1000000000) + now.nsec  # TODO: Time is supposedly already in ns
-        #puts "Time now in nanoseconds: #{now_ns_after}"
-        #puts "Diff nanoseconds       : #{now_ns_after - now_ns}"
-        print "System date with nanoseconds: "
+        print "Aproximate system date with nanoseconds: "
         puts  %x[echo "$(date) | $(date +%N)"]
       end
+
     end # jumps.each_index
 
     if verbose
@@ -181,6 +178,45 @@ module SneakyClockAdjuster
     end
   end
 end # module SneakyClockAdjuster
+
+class Cinline
+
+  inline :C do |builder|
+    builder.c '
+    void getAndSet(long long addNsec){
+    /* receive time adjustment, negative or positive, in nanoseconds */
+
+    /* get current time in seconds since epoch + nanoseconds offset */
+    struct timespec tps; /* tv_sec; tv_nsec */
+    clock_gettime(0, &tps);
+    printf("Got  sec: %ld\n", tps.tv_sec);
+    printf("Got nsec: %ld\n", tps.tv_nsec);
+
+    /* combine seconds and nanoseconds offset to manipulate */
+    long long nanosecondsSinceEpoch =
+        (long long)(tps.tv_sec) * 1000000000 + /* convert seconds to nanoseconds */
+        (long long)(tps.tv_nsec);              /* add offset */
+    printf("NSE: %lld\n", nanosecondsSinceEpoch);
+
+    printf("Adjusting by: %lld\n", addNsec);
+    long long newNanosecondsSinceEpoch = nanosecondsSinceEpoch += addNsec;
+
+    /* separate adjusted nanoseconds since epoch into seconds + nanoseconds offset */
+    long newNS = newNanosecondsSinceEpoch % 1000000000; /* pulls out nanoseconds */
+    long newS  = newNanosecondsSinceEpoch / 1000000000; /* truncates into seconds */
+
+    printf("New  sec: %ld\n", newS);
+    printf("New nsec: %ld\n", newNS);
+    printf("New  NSE: %lld\n", newNanosecondsSinceEpoch);
+
+    /* set struct with new values; set time */
+    tps.tv_sec  = newS; /* reusing old struct */
+    tps.tv_nsec = newNS;
+    clock_settime(0, &tps);
+    }'
+  end
+
+end
 
 options = SneakyClockAdjusterCLI.parse(ARGV)
 SneakyClockAdjuster.execute options.add_or_substract, options.amount, options.move_min, options.move_max, options.wait_min, options.wait_max, options.first_wait, options.verbose, options.debug
