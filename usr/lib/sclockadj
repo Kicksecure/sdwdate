@@ -183,31 +183,23 @@ class Cinline
 
   inline :C do |builder|
     builder.c '
-    void getAndSet(long long addNsec){
+    void getAndSet(long long addNsec) {
     /* receive time adjustment, negative or positive, in nanoseconds */
 
     /* get current time in seconds since epoch + nanoseconds offset */
     struct timespec tps; /* tv_sec; tv_nsec */
     clock_gettime(0, &tps);
-    printf("Got  sec: %ld\n", tps.tv_sec);
-    printf("Got nsec: %ld\n", tps.tv_nsec);
 
     /* combine seconds and nanoseconds offset to manipulate */
     long long nanosecondsSinceEpoch =
         (long long)(tps.tv_sec) * 1000000000 + /* convert seconds to nanoseconds */
         (long long)(tps.tv_nsec);              /* add offset */
-    printf("NSE: %lld\n", nanosecondsSinceEpoch);
 
-    printf("Adjusting by: %lld\n", addNsec);
     long long newNanosecondsSinceEpoch = nanosecondsSinceEpoch += addNsec;
 
     /* separate adjusted nanoseconds since epoch into seconds + nanoseconds offset */
     long newNS = newNanosecondsSinceEpoch % 1000000000; /* pulls out nanoseconds */
     long newS  = newNanosecondsSinceEpoch / 1000000000; /* truncates into seconds */
-
-    printf("New  sec: %ld\n", newS);
-    printf("New nsec: %ld\n", newNS);
-    printf("New  NSE: %lld\n", newNanosecondsSinceEpoch);
 
     /* set struct with new values; set time */
     tps.tv_sec  = newS; /* reusing old struct */
