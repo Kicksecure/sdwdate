@@ -533,9 +533,9 @@ sdwdate_parse_cmd_options() {
 sdwdate_preparation() {
    trap "sdwdate_error_handler" ERR
 
-   mkdir --parents $(dirname $LOG_FILE)
-   mkdir --parents $(dirname $DONE_FILE)
-   mkdir --parents $(dirname $SUCCESS_FILE)
+   mkdir --parents "$(dirname "$LOG_FILE")"
+   mkdir --parents "$(dirname "$DONE_FILE")"
+   mkdir --parents "$(dirname "$SUCCESS_FILE")"
 
    rm --force "$DONE_FILE"
    rm --force "$SUCCESS_FILE"
