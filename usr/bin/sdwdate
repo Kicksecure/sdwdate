@@ -830,6 +830,8 @@ sdwdate_download() {
 
    true "INFO: sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}"
 
+   test -f "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
+
    local TIME_END
    TIME_END="$(date +%s)"
 
@@ -865,6 +867,8 @@ sdwdate_parse_date() {
    trap "sdwdate_error_handler" ERR
 
    SDWDATE_PARSE_SUCCESS="1"
+
+   test -f "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
 
    local i
    i="0"
