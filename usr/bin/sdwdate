@@ -839,7 +839,7 @@ sdwdate_download() {
       local command_v_exit_code="0"
       command -v /usr/lib/curl-scripts/curl_exit_codes > /dev/null || { command_v_exit_code="$?" ; true; };
       if [ "$command_v_exit_code" = "0" ]; then
-         ## Whonix specific. /usr/lib/curl-scripts/curl_exit_codes available.
+         ## If /usr/lib/curl-scripts/curl_exit_codes available, use it.
          local curl_status_message
          curl_status_message="$(/usr/lib/curl-scripts/curl_exit_codes "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}")" || true
          sdwdate_log "No file could be downloaded from $LINK. (curl_exit_code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]} | curl_status_message: $curl_status_message)"
