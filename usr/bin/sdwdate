@@ -593,7 +593,7 @@ sdwdate_write_log() {
    ## Default, if the error happens before defaults are set and before config
    ## files are read.
    if [ "$LOG_FILE" = "" ]; then
-      LOG_FILE=/var/log/sdwdate.log
+      LOG_FILE="/var/log/sdwdate.log"
    fi
 
    if [ "$LOG_FILE" = "" ]; then
