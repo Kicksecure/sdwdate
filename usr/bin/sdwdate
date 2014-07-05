@@ -1254,10 +1254,10 @@ sdwdate_dispatcher_prerequisite() {
 
          local prerequisite_exit_code
          prerequisite_exit_code="0"
-         prerequisite_stdout="$(eval $DISPATCH_PREREQUISITE)" || { prerequisite_exit_code="${PIPESTATUS[0]}" ; true; };
+         prerequisite_output="$(eval $DISPATCH_PREREQUISITE)" || { prerequisite_exit_code="${PIPESTATUS[0]}" ; true; };
 
          true "prerequisite_exit_code: $prerequisite_exit_code"
-         true "prerequisite_stdout: $prerequisite_stdout"
+         true "prerequisite_output: $prerequisite_output"
 
          if [ "$prerequisite_exit_code" = "0" ]; then
             ## Ok.
@@ -1265,18 +1265,18 @@ sdwdate_dispatcher_prerequisite() {
             break
          elif [ "$prerequisite_exit_code" = "1" ]; then
             ## Error.
-            error_text="DISPATCH_PREREQUISITE returned $prerequisite_exit_code | $prerequisite_stdout | requested explicit exiting..."
+            error_text="DISPATCH_PREREQUISITE returned $prerequisite_exit_code | $prerequisite_output | requested explicit exiting..."
             error "DISPATCH_PREREQUISITE returned 1"
          elif [ "$prerequisite_exit_code" = "2" ]; then
             ## Wait.
-            sdwdate_safe_log "DISPATCH_PREREQUISITE returned $prerequisite_exit_code | $prerequisite_stdout | waiting..."
+            sdwdate_safe_log "DISPATCH_PREREQUISITE returned $prerequisite_exit_code | $prerequisite_output | waiting..."
             sleep 10 &
             sleep_pid="$!"
             wait "$sleep_pid" || true
             unset sleep_pid
          else
             ## Unexpected error.
-            error_text="DISPATCH_PREREQUISITE returned $prerequisite_exit_code | $prerequisite_stdout | unexpected error, exiting..."
+            error_text="DISPATCH_PREREQUISITE returned $prerequisite_exit_code | $prerequisite_output | unexpected error, exiting..."
             error "DISPATCH_PREREQUISITE returned neither 0, 1, or 2."
          fi
 
