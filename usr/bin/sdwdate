@@ -1254,7 +1254,7 @@ sdwdate_dispatcher_prerequisite() {
 
          local prerequisite_exit_code
          prerequisite_exit_code="0"
-         prerequisite_output="$(eval $DISPATCH_PREREQUISITE)" || { prerequisite_exit_code="${PIPESTATUS[0]}" ; true; };
+         prerequisite_output="$(eval $DISPATCH_PREREQUISITE 2>&1)" || { prerequisite_exit_code="${PIPESTATUS[0]}" ; true; };
 
          true "prerequisite_exit_code: $prerequisite_exit_code"
          true "prerequisite_output: $prerequisite_output"
