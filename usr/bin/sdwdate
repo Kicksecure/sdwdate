@@ -722,16 +722,7 @@ sdwdate_ex_funct() {
       kill -9 "$sleep_pid" || true
    fi
 
-   if [ ! "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" = "" ]; then
-      local pid_still_running
-      pid_still_running="0"
-      kill -0 "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" || { pid_still_running="$?" ; true; };
-      if [ "$pid_still_running" = "0" ]; then
-         sdwdate_log "$FUNCNAME: Terminating sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID."
-         kill -sigterm "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" || true
-      fi
-      SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
-   fi
+   sdwdate_terminate_sclockadj
 
    if [ ! "${SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]}" = "" ]; then
       kill -9 "${SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]}" || true
@@ -1095,14 +1086,34 @@ sdwdate_set_time_using_date() {
    fi
 }
 
-sdwdate_set_time_using_slockadj() {
+sdwdate_terminate_sclockadj() {
    trap "sdwdate_error_handler" ERR
 
    if [ ! "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" = "" ]; then
-      sdwdate_log "$FUNCNAME: Terminating subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID."
-      kill -sigterm "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" || true
-      SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
+      local pid_still_running
+      pid_still_running="0"
+      kill -0 "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" || { pid_still_running="$?" ; true; };
+      if [ "$pid_still_running" = "0" ]; then
+         sdwdate_log "$FUNCNAME: sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID still running. Terminating."
+         kill -sigterm "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" || true
+         SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
+      else
+         local SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE
+         SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE="0"
+         wait "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" || { SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE="$?" ; true; };
+         sdwdate_log "$FUNCNAME: sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID no longer running. Exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
+         SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
+         if [ ! "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "0" ]; then
+            error "sclockadj exited with non-zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
+         fi
+      fi
    fi
+}
+
+sdwdate_set_time_using_slockadj() {
+   trap "sdwdate_error_handler" ERR
+
+   sdwdate_terminate_sclockadj
 
    local ZERO_OR_ONE
    ## Get a random 0 or 1.
