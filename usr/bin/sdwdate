@@ -1110,7 +1110,7 @@ sdwdate_terminate_sclockadj() {
    fi
 }
 
-sdwdate_set_time_using_slockadj() {
+sdwdate_set_time_using_sclockadj() {
    trap "sdwdate_error_handler" ERR
 
    sdwdate_terminate_sclockadj
@@ -1240,13 +1240,13 @@ sdwdate_set_new_time() {
 
    if [ "$SDW_MODE" = "startup" ]; then
       if [ "$SDWDATE_USE_SCLOCKADJ_WHEN_STARTUP" = "1" ]; then
-         sdwdate_set_time_using_slockadj
+         sdwdate_set_time_using_sclockadj
       else
          sdwdate_set_time_using_date
       fi
    elif [ "$SDW_MODE" = "daemon" ]; then
       if [ "$SDWDATE_USE_SCLOCKADJ_WHEN_DAEMON" = "1" ]; then
-         sdwdate_set_time_using_slockadj
+         sdwdate_set_time_using_sclockadj
       else
          sdwdate_set_time_using_date
       fi
