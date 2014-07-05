@@ -727,7 +727,7 @@ sdwdate_ex_funct() {
       pid_still_running="0"
       kill -0 "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" || { pid_still_running="$?" ; true; };
       if [ "$pid_still_running" = "0" ]; then
-         sdwdate_log "$FUNCNAME: Termnating sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID."
+         sdwdate_log "$FUNCNAME: Terminating sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID."
          kill -sigterm "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" || true
       fi
       SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
@@ -1099,7 +1099,7 @@ sdwdate_set_time_using_slockadj() {
    trap "sdwdate_error_handler" ERR
 
    if [ ! "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" = "" ]; then
-      sdwdate_log "$FUNCNAME: Termnating subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID."
+      sdwdate_log "$FUNCNAME: Terminating subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID."
       kill -sigterm "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" || true
       SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
    fi
