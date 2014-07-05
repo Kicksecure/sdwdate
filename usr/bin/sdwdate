@@ -1204,7 +1204,7 @@ sdwdate_set_time_using_sclockadj() {
       wait "$SDWDATE_SCLOCKADJ_COMMAND_PID" || { SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE="$?" ; true; };
 
       echo "exit code: $SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
-      exit 0
+      exit "$SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
    } > "$sclockadj_subshell_fifo" &
 
    SDWDATE_SUBSHELL_SCLOCKADJ_PID="$!"
