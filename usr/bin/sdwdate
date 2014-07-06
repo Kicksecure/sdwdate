@@ -17,7 +17,7 @@
 #set -x
 set -o pipefail
 
-SCRIPTNAME="$(basename $BASH_SOURCE)"
+SCRIPTNAME="$(basename "$BASH_SOURCE")"
 ownpid="$$"
 ID="$(uuidgen -r)"
 SDW_MODE="startup"
