@@ -14,8 +14,8 @@ Standards-Version: 3.9.4
 
 Package: sdwdate
 Architecture: all
-Depends: curl, ca-certificates, uuid-runtime, sudo, logrotate, bc, ruby1.9.3,
- ruby-inline, ruby-dev, ${misc:Depends}
+Depends: curl, ca-certificates, uuid-runtime, sudo, logrotate, bc,
+ ruby | ruby-interpreter, ruby1.9.3, ruby-inline, ruby-dev, ${misc:Depends}
 Recommends: vbox-disable-timesync, timesanitycheck, bootclockrandomization,
  timesync
 Suggests: sdwdate-plugin-anon-shared-con-check,
