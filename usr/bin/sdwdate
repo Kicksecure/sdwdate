@@ -691,6 +691,9 @@ sdwdate_error_handler() {
    fi
 
    if [ "$SDW_EXIT_ON_ERROR" = "1" ]; then
+      sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Cleaning up..."
+      SIGNAL_TYPE="err"
+      sdwdate_ex_funct || true
       sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Exiting."
       exit 1
    else
@@ -731,13 +734,21 @@ sdwdate_ex_funct() {
       kill -9 "$sleep_pid" || true
    fi
 
-   sdwdate_terminate_sclockadj
+   ## Check if function sdwdate_terminate_sclockadj is already available and
+   ## use it if available.
+   command_v_exit_code="0"
+   command -v sdwdate_terminate_sclockadj >/dev/null 2>&1 || { command_v_exit_code="$?" ; true; };
+   if [ "$command_v_exit_code" = "0" ]; then
+      sdwdate_terminate_sclockadj
+   fi
 
    if [ ! "${SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]}" = "" ]; then
       kill -9 "${SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]}" || true
    fi
 
-   touch "$DONE_FILE"
+   if [ ! "$DONE_FILE" = "" ]; then
+      touch "$DONE_FILE"
+   fi
    sdwdate_log "$SCRIPTNAME (not timesync!): $SIGNAL_TYPE received. Exiting."
 }
 
