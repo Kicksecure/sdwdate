@@ -17,7 +17,7 @@
 #set -x
 set -o pipefail
 
-SCRIPTNAME="$(basename $0)"
+SCRIPTNAME="$(basename $BASH_SOURCE)"
 ownpid="$$"
 ID="$(uuidgen -r)"
 SDW_MODE="startup"
@@ -660,7 +660,7 @@ sdwdate_error_handler() {
 ############################################
 ## Error detected! Please report this bug! #
 ##
-## 0: $0
+## BASH_SOURCE: $BASH_SOURCE
 ## SDW_EXIT_ON_ERROR: $SDW_EXIT_ON_ERROR
 ## SDW_MODE: $SDW_MODE
 ##
@@ -679,7 +679,7 @@ sdwdate_error_handler() {
       touch "$DONE_FILE"
       ret="$?"
       if [ ! "$ret" = "0" ]; then
-         sdwdate_log "ERROR $0: Could not touch DONE_FILE: $DONE_FILE."
+         sdwdate_log "ERROR $BASH_SOURCE: Could not touch DONE_FILE: $DONE_FILE."
       fi
    fi
 
@@ -723,7 +723,7 @@ sdwdate_sanity_tests() {
    command -v /usr/lib/sclockadj >/dev/null
    command -v /sbin/hwclock >/dev/null
    test -e /dev/random
-   bash -n "$0"
+   bash -n "$BASH_SOURCE"
 }
 
 sdwdate_ex_funct() {
@@ -1082,7 +1082,7 @@ second(s)"
    local OLD_TIME
    OLD_TIME="$(date)"
 
-   true "INFO: $0 OLD: $OLD_UNIXTIME | $OLD_TIME"
+   true "INFO: $BASH_SOURCE OLD: $OLD_UNIXTIME | $OLD_TIME"
 
    sdwdate_log "Min: $min | Max: $max | Median diff: $SDWDATE_MEDIAN_TIME_SECONDS second(s) [$SDWDATE_MEDIAN_TIME_NANOSECONDS nanosecond(s)]"
 }
