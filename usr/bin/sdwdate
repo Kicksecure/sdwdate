@@ -723,6 +723,7 @@ sdwdate_sanity_tests() {
    command -v /usr/lib/sclockadj >/dev/null
    command -v /sbin/hwclock >/dev/null
    test -e /dev/random
+   bash -n "$0"
 }
 
 sdwdate_ex_funct() {
