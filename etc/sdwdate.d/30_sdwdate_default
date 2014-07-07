@@ -94,14 +94,20 @@ SDWDATE_USE_SCLOCKADJ_WHEN_STARTUP="0"
 SDWDATE_USE_SCLOCKADJ_WHEN_DAEMON="1"
 
 ## sclockadj verbose logging or not
+## --no-verbose
+## --verbose
 ## defaults to: --no-verbose
 SDWDATE_SCLOCKADJ_VERBOSE="--no-verbose"
 
 ## sclockadj change date or not
+## --no-debug
+## --debug
 ## defaults to: --no-debug (change date)
 SDWDATE_SCLOCKADJ_CHANGE_DATE="--no-debug"
 
 ## If sclockadj should wait before its first iteration.
+## --no-first-wait
+## --first-wait
 ## default to: --no-first-wait
 SDWDATE_SCLOCKADJ_FIRST_WAIT="--no-first-wait"
 
