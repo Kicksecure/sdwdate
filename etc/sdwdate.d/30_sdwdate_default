@@ -87,7 +87,7 @@ RANDOMIZE="1"
 
 ## Use sclockadj instead of /bin/date (which would produce clock jumps) when
 ## starting up.
-SDWDATE_USE_SCLOCKADJ_WHEN_STARTUP="1"
+SDWDATE_USE_SCLOCKADJ_WHEN_STARTUP="0"
 
 ## Use sclockadj instead of /bin/date (which would produce clock jumps) when
 ## in daemon mode.
