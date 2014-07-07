@@ -1216,15 +1216,31 @@ sdwdate_set_time_using_sclockadj() {
    mkfifo "$sclockadj_subshell_fifo"
 
    {
+      sdwdate_subshell_time_start() {
+         SDWDATE_SUBSHELL_SCLOCKADJ_TIME_START="$(date +%s)"
+      }
+
+      sdwdate_subshell_time_end() {
+         SDWDATE_SUBSHELL_SCLOCKADJ_TIME_END="$(date +%s)"
+         SDWDATE_SUBSHELL_SCLOCKADJ_TOOK_TIME="$(( $SDWDATE_SUBSHELL_SCLOCKADJ_TIME_END - $SDWDATE_SUBSHELL_SCLOCKADJ_TIME_START ))"
+         echo "was running for $SDWDATE_SUBSHELL_SCLOCKADJ_TOOK_TIME s."
+         unset SDWDATE_SUBSHELL_SCLOCKADJ_TIME_START
+         unset SDWDATE_SUBSHELL_SCLOCKADJ_TIME_END
+         unset SDWDATE_SUBSHELL_SCLOCKADJ_TOOK_TIME
+      }
+
       sdwdate_subshell_trap_sigterm() {
          if [ "$SDWDATE_SCLOCKADJ_COMMAND_PID" = "" ]; then
             return 0
          fi
          kill -sigterm "$SDWDATE_SCLOCKADJ_COMMAND_PID" || true
+         sdwdate_subshell_time_end
          exit 0
       }
 
       trap "sdwdate_subshell_trap_sigterm" SIGTERM
+
+      sdwdate_subshell_time_start
 
       $SDWDATE_SCLOCKADJ_COMMAND 2>&1 &
       SDWDATE_SCLOCKADJ_COMMAND_PID="$!"
@@ -1233,6 +1249,9 @@ sdwdate_set_time_using_sclockadj() {
       wait "$SDWDATE_SCLOCKADJ_COMMAND_PID" || { SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE="$?" ; true; };
 
       echo "exit code: $SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
+
+      sdwdate_subshell_time_end
+
       exit "$SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
    } > "$sclockadj_subshell_fifo" &
 
