@@ -108,6 +108,16 @@ Sets mediate time after asking 3 https servers out of 3 different pools.
     Do not use sclockadj when in daemon mode. Directly use /bin/date instead.
     Will result in clock jumps.
 
+  * --sclockadj-on-startup
+
+    Use sclockadj when starting up. Do not directly use /bin/date. Will
+    result in slow clock adjustments.
+
+  * --sclockadj-on-daemon
+
+    Use sclockadj when in daemon mode. Do not directly use /bin/date. Will
+    result in slow clock adjustments.
+
   * --sclockadj-verbose
 
     Start sclockadj verbosely.

@@ -437,6 +437,14 @@ sdwdate_parse_cmd_options() {
                SDWDATE_USE_SCLOCKADJ_WHEN_DAEMON="0"
                shift 1
                ;;
+           --sclockadj-on-startup)
+               SDWDATE_USE_SCLOCKADJ_WHEN_STARTUP="1"
+               shift 1
+               ;;
+           --sclockadj-on-daemon)
+               SDWDATE_USE_SCLOCKADJ_WHEN_DAEMON="1"
+               shift 1
+               ;;
            --sclockadj-verbose)
                SDWDATE_SCLOCKADJ_VERBOSE="--verbose"
                shift 1
