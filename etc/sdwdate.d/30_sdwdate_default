@@ -118,19 +118,23 @@ SDWDATE_SCLOCKADJ_CHANGE_DATE="--no-debug"
 SDWDATE_SCLOCKADJ_FIRST_WAIT="--no-first-wait"
 
 ## Move clock minimum nanoseconds (except rest).
-## defaults to: 0.5ms
+## defaults to: 500000
+## (500000 ns = 0.5 ms = 0.0005 s)
 SDWDATE_SCLOCKADJ_MOVE_MIN="500000"
 
 ## Move clock maximum nanoseconds (except rest).
-## defaults to: 0.5ms
+## defaults to: 500000
+## (500000 ns = 0.5 ms = 0.0005 s)
 SDWDATE_SCLOCKADJ_MOVE_MAX="500000"
 
 ## Wait nanoseconds minimum before next iteration.
-## defaults to: per second
+## defaults to: 1000000000
+## (1000000000 ns = 1000 ms = 1 s)
 SDWDATE_SCLOCKADJ_WAIT_MIN="1000000000"
 
 ## Wait nanoseconds maximum before next iteration.
-## defaults to: per second
+## defaults to: 1000000000
+## (1000000000 ns = 1000 ms = 1 s)
 SDWDATE_SCLOCKADJ_WAIT_MAX="1000000000"
 
 ## This command will be `eval`uated before DISPATCH_PREREQUISITE and before running curl.
