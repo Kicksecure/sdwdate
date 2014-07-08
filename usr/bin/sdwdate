@@ -590,8 +590,10 @@ sdwdate_preparation() {
       fi
    fi
 
-   ## Required for eventual plugins.
-   who_ami="$(whoami)"
+   if [ "$who_ami" = "" ]; then
+      ## Required for eventual plugins.
+      who_ami="$(whoami)"
+   fi
 }
 
 sdwdate_echo() {
