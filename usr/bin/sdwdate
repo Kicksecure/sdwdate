@@ -594,6 +594,7 @@ sdwdate_preparation() {
       ## Required for eventual plugins.
       who_ami="$(whoami)"
    fi
+   sdwdate_log "$FUNCNAME: who_ami is set to $who_ami."
 }
 
 sdwdate_echo() {
