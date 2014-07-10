@@ -740,7 +740,7 @@ sdwdate_sanity_tests() {
 sdwdate_ex_funct() {
    trap "sdwdate_error_handler" ERR
 
-   sdwdate_log "$SCRIPTNAME (not timesync!): $SIGNAL_TYPE received. Cleaning up..."
+   sdwdate_log "$SCRIPTNAME (not timesync!): signal $SIGNAL_TYPE received. Cleaning up..."
 
    if [ ! "$sleep_pid" = "" ]; then
       kill -9 "$sleep_pid" || true
@@ -761,7 +761,7 @@ sdwdate_ex_funct() {
    if [ ! "$DONE_FILE" = "" ]; then
       touch "$DONE_FILE"
    fi
-   sdwdate_log "$SCRIPTNAME (not timesync!): $SIGNAL_TYPE received. Exiting."
+   sdwdate_log "$SCRIPTNAME (not timesync!): signal $SIGNAL_TYPE received. Exiting."
 }
 
 sdwdate_signal_sigint() {
