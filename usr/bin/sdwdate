@@ -327,7 +327,7 @@ sdwdate_read_config_folder() {
          bash_n_exit_code="0"
          bash_n_output="$(bash -n "$i" 2>&1)" || { bash_n_exit_code="$?" ; true; };
          if [ ! "$bash_n_exit_code" = "0" ]; then
-            error "Invalid config file: $i
+            sdwdate_error_handler "Invalid config file: $i
 bash_n_exit_code: $bash_n_exit_code
 bash_n_output:
 $bash_n_output"
@@ -659,6 +659,15 @@ sdwdate_safe_log() {
 
 sdwdate_error_handler() {
    local exit_code="$?"
+   local error_cause error_text
+   error_text="$1"
+   if [ "$error_text" = "" ]; then
+      error_cause="$FUNCNAME signal ERR detected with BASH_COMMAND:
+$BASH_COMMAND"
+   else
+      error_cause="$FUNCNAME called with error_text:
+$error_text"
+   fi
 
    ## Default, if the error happens before defaults are set and before config
    ## files are read.
@@ -677,8 +686,7 @@ sdwdate_error_handler() {
 ## SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE
 ##
 ## exit_code: $exit_code
-## BASH_COMMAND: $BASH_COMMAND
-## error_text: $error_text
+## error_cause: $error_cause
 ############################################\
 "
 
@@ -704,8 +712,10 @@ sdwdate_error_handler() {
 
    if [ "$SDW_EXIT_ON_ERROR" = "1" ]; then
       sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Cleaning up..."
-      SIGNAL_TYPE="err"
-      sdwdate_ex_funct || true
+      SIGNAL_TYPE="ERR"
+      if [ "$(command -v "sdwdate_ex_funct")" ]; then
+         sdwdate_ex_funct || true
+      fi
       sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Exiting."
       exit 1
    else
@@ -768,7 +778,7 @@ sdwdate_ex_funct() {
 sdwdate_signal_sigint() {
    trap "sdwdate_error_handler" ERR
 
-   SIGNAL_TYPE="sigint"
+   SIGNAL_TYPE="SIGINT"
    sdwdate_ex_funct
    exit 130
 }
@@ -778,7 +788,7 @@ trap "sdwdate_signal_sigint" SIGINT ## ctrl + c
 sdwdate_signal_sigterm() {
    trap "sdwdate_error_handler" ERR
 
-   SIGNAL_TYPE="sigterm"
+   SIGNAL_TYPE="SIGTERM"
    sdwdate_ex_funct
    exit 143
 }
@@ -1141,7 +1151,7 @@ sdwdate_terminate_sclockadj() {
       sdwdate_log "$FUNCNAME: sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID no longer running. Exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
       SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
       if [ ! "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "0" ]; then
-         error "sclockadj exited with non-zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
+         sdwdate_error_handler "sclockadj exited with non-zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
       fi
    fi
 }
@@ -1166,7 +1176,7 @@ sdwdate_set_time_using_sclockadj() {
    elif [ "$ZERO_OR_ONE" = "1" ]; then
       PLUS_OR_MINUS="+"
    else
-      error "ZERO_OR_ONE is neither 0 nor 1, it's: $ZERO_OR_ONE"
+      sdwdate_error_handler "ZERO_OR_ONE is neither 0 nor 1, it's: $ZERO_OR_ONE"
    fi
 
    local NANOSECONDS
@@ -1306,7 +1316,7 @@ sdwdate_set_new_time() {
          sdwdate_set_time_using_date
       fi
    else
-      error 'SDW_MODE is neither "startup" nor "daemon".'
+      sdwdate_error_handler 'SDW_MODE is neither "startup" nor "daemon".'
    fi
 }
 
@@ -1328,23 +1338,21 @@ sdwdate_dispatcher_prerequisite() {
 
          if [ "$prerequisite_exit_code" = "0" ]; then
             ## Ok.
-            sdwdate_log "DISPATCH_PREREQUISITE returned $prerequisite_exit_code, continuing..."
+            sdwdate_log "DISPATCH_PREREQUISITE exited $prerequisite_exit_code, continuing..."
             break
          elif [ "$prerequisite_exit_code" = "1" ]; then
             ## Error.
-            error_text="DISPATCH_PREREQUISITE returned $prerequisite_exit_code | $prerequisite_output | requested explicit exiting..."
-            error "DISPATCH_PREREQUISITE returned 1"
+            sdwdate_error_handler "DISPATCH_PREREQUISITE exited $prerequisite_exit_code | $prerequisite_output | requested explicit exiting..."
          elif [ "$prerequisite_exit_code" = "2" ]; then
             ## Wait.
-            sdwdate_safe_log "DISPATCH_PREREQUISITE returned $prerequisite_exit_code | $prerequisite_output | waiting..."
+            sdwdate_safe_log "DISPATCH_PREREQUISITE exited $prerequisite_exit_code | $prerequisite_output | waiting..."
             sleep 10 &
             sleep_pid="$!"
             wait "$sleep_pid" || true
             unset sleep_pid
          else
             ## Unexpected error.
-            error_text="DISPATCH_PREREQUISITE returned $prerequisite_exit_code | $prerequisite_output | unexpected error, exiting..."
-            error "DISPATCH_PREREQUISITE returned neither 0, 1, or 2."
+            sdwdate_error_handler "DISPATCH_PREREQUISITE exited $DISPATCH_PREREQUISITE, neither 0, 1, or 2. | $prerequisite_output | unexpected error, exiting..."
          fi
 
       done
@@ -1428,7 +1436,7 @@ sdwdate_main() {
       fi
 
       if [ -f "/var/lib/sdw_error" ]; then
-         error "This is a test."
+         sdwdate_error_handler "Test file /var/lib/sdw_error to force test an error exists."
          sleep 10 &
          sleep_pid="$!"
          wait "$sleep_pid" || true
