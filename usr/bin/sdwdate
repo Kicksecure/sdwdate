@@ -742,9 +742,10 @@ sdwdate_sanity_tests() {
    command -v od >/dev/null
    command -v grep >/dev/null
    command -v sudo >/dev/null
+   command -v shuf >/dev/null
    command -v /usr/lib/sclockadj >/dev/null
    command -v /sbin/hwclock >/dev/null
-   test -e /dev/random
+   test -e "/dev/random"
    bash -n "$BASH_SOURCE"
 }
 
@@ -868,6 +869,7 @@ sdwdate_download() {
    local TIME_END
    TIME_END="$(date +%s)"
 
+   true "SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]="\$\(\( $TIME_END - $TIME_START \)\)""
    SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]="$(( $TIME_END - $TIME_START ))"
 
    if [ ! "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}" = "0" ]; then
@@ -909,6 +911,7 @@ sdwdate_parse_date() {
    i="0"
    local LINE
    while read -r LINE; do
+      true "i="\$\(\( $i + 1 \)\)""
       i="$(( $i + 1 ))"
       true "INFO: LINE: $LINE"
 
@@ -998,9 +1001,9 @@ sdwdate_loop() {
          fi
       fi
 
-      test -e /dev/random
+      test -e "/dev/random"
       local random_integer
-      random_integer="$(( ($(od -An -N2 -i /dev/random) )%($array_length) ))"
+      random_integer="$(( ($(od -An -N2 -i "/dev/random") )%($array_length) ))"
 
       if [ "${remember[$random_integer]}" = "1" ]; then
          continue
@@ -1032,6 +1035,7 @@ sdwdate_loop() {
       local OLD_UNIXTIME
       OLD_UNIXTIME="$(date +%s)"
 
+      true "SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]="\$\(\( $WEB_DATE_UNIXTIME - $OLD_UNIXTIME \)\)""
       SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]="$(( $WEB_DATE_UNIXTIME - $OLD_UNIXTIME ))"
 
       ## TODO
@@ -1097,6 +1101,7 @@ second(s)"
    max="${results_list[${#results_list[*]}-1]}"
    SDWDATE_MEDIAN_TIME_SECONDS="${results_list[${#results_list[*]}/2]}"
 
+   true "SDWDATE_MEDIAN_TIME_NANOSECONDS="\$\(\( $SDWDATE_MEDIAN_TIME_SECONDS \* 1000000000 \)\)""
    SDWDATE_MEDIAN_TIME_NANOSECONDS="$(( $SDWDATE_MEDIAN_TIME_SECONDS * 1000000000 ))"
 
    local OLD_UNIXTIME
@@ -1109,20 +1114,108 @@ second(s)"
    sdwdate_log "Min: $min | Max: $max | Median diff: $SDWDATE_MEDIAN_TIME_SECONDS second(s) [$SDWDATE_MEDIAN_TIME_NANOSECONDS nanosecond(s)]"
 }
 
+sdwdate_generate_nanoseconds() {
+   trap "sdwdate_error_handler" ERR
+
+   local ZERO_OR_ONE
+   ## Get a random 0 or 1.
+   ## Will use this to decide to use plus or minus.
+   ##
+   ## Thanks to
+   ## http://linux.byexamples.com/archives/128/generating-random-numbers/
+   test -e "/dev/random"
+   ZERO_OR_ONE="$(( 0+($(od -An -N2 -i "/dev/random") )%(0+2) ))"
+
+   if [ "$ZERO_OR_ONE" = "0" ]; then
+      PLUS_OR_MINUS="-"
+   elif [ "$ZERO_OR_ONE" = "1" ]; then
+      PLUS_OR_MINUS="+"
+   else
+      sdwdate_error_handler "ZERO_OR_ONE is neither 0 nor 1, it's: $ZERO_OR_ONE"
+   fi
+
+   ## Create a random number between 0 and 999999999.
+   ##
+   ## Thanks to
+   ## https://stackoverflow.com/questions/22887891/how-can-i-get-a-random-dev-random-number-between-0-and-999999999-in-bash
+   test -e "/dev/random"
+   NANOSECONDS="$(shuf -i0-999999999 -n1 --random-source="/dev/random")"
+
+   local extra_seconds_without_leading_zero extra_seconds
+   extra_seconds_without_leading_zero="$(bc -l <<< "scale=9 ; $NANOSECONDS / 1000000000")"
+   extra_seconds="$(printf '%3.9f\n' "$extra_seconds_without_leading_zero")"
+
+   sdwdate_log "Made up random extra ${PLUS_OR_MINUS}${extra_seconds} second[s] [${PLUS_OR_MINUS}${NANOSECONDS} nanosecond(s)]."
+}
+
 sdwdate_set_time_using_date() {
    trap "sdwdate_error_handler" ERR
+
+   local SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING_USING_DATE
+   SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING_USING_DATE="$(date +%s.%N)"
+   local SDWDATE_NEW_DATE_BEFORE_SETTING_USING_DATE
+   SDWDATE_NEW_DATE_BEFORE_SETTING_USING_DATE="$(date)"
+   sdwdate_log "Time before setting using \`date\`: $SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING_USING_DATE [$SDWDATE_NEW_DATE_BEFORE_SETTING_USING_DATE]"
+
+   ## sets: NANOSECONDS
+   ## sets: PLUS_OR_MINUS
+   sdwdate_generate_nanoseconds
 
    local OLD_UNIXTIME
    OLD_UNIXTIME="$(date +%s)"
 
-   local SDWDATE_NEW_TIME
-   SDWDATE_NEW_TIME="$(( $OLD_UNIXTIME + $SDWDATE_MEDIAN_TIME_SECONDS ))"
+   local NEW_UNIXTIME
+   true "NEW_UNIXTIME="\$\(\( $OLD_UNIXTIME + $SDWDATE_MEDIAN_TIME_SECONDS \)\)""
+   NEW_UNIXTIME="$(( $OLD_UNIXTIME + $SDWDATE_MEDIAN_TIME_SECONDS ))"
 
-   sdwdate_log "Setting time to $SDWDATE_NEW_TIME..."
+   local NEW_UNIXTIME_WITH_NANOSECONDS
+   NEW_UNIXTIME_WITH_NANOSECONDS="${NEW_UNIXTIME}000000000"
 
-   ## Set new time. Syntax: date --set @1098181096
+   local SDWDATE_MOVE_TIME_UNIXTIME_WITH_NANOSECONDS
+   true "SDWDATE_MOVE_TIME_UNIXTIME_WITH_NANOSECONDS="\$\(\( $NEW_UNIXTIME_WITH_NANOSECONDS $PLUS_OR_MINUS $NANOSECONDS \)\)""
+   SDWDATE_MOVE_TIME_UNIXTIME_WITH_NANOSECONDS="$(( $NEW_UNIXTIME_WITH_NANOSECONDS $PLUS_OR_MINUS $NANOSECONDS ))"
+
+   ## {{ SDWDATE_NEW_TIME_FORMATTED_FOR_DATE
+
+   local first_ten last_nine first_ten_string_length last_nine_string_length
+
+   ## unixtime
+   first_ten="${SDWDATE_MOVE_TIME_UNIXTIME_WITH_NANOSECONDS:0:10}"
+
+   ## nanoseconds
+   last_nine="${SDWDATE_MOVE_TIME_UNIXTIME_WITH_NANOSECONDS:10:19}"
+
+   first_ten_string_length="${#first_ten}"
+   last_nine_string_length="${#last_nine}"
+
+   if [ ! "$first_ten_string_length" = "10" ]; then
+      sdwdate_error_handler "$FUNCNAME: first_ten: $first_ten | first_ten_string_length: $first_ten_string_length"
+   fi
+
+   if [ ! "$last_nine_string_length" = "9" ]; then
+      sdwdate_error_handler "$FUNCNAME: last_nine: $last_nine | last_nine_string_length: $last_nine_string_length"
+   fi
+
+   local SDWDATE_NEW_TIME_FORMATTED_FOR_DATE
+   ## unixtime.nanoseconds
+   SDWDATE_NEW_TIME_FORMATTED_FOR_DATE="$first_ten.$last_nine"
+
+   ## Example SDWDATE_NEW_TIME_FORMATTED_FOR_DATE:
+   ## 1405043428.773182656
+
+   ## }} SDWDATE_NEW_TIME_FORMATTED_FOR_DATE
+
+   sdwdate_log "Setting time to $SDWDATE_NEW_TIME_FORMATTED_FOR_DATE..."
+
+   ## Set new time. Syntax: date --set @1396733199.112834496
    ## There is an exception in /etc/sudoers.d/sdwdate.
-   sudo /bin/date --set "@"$SDWDATE_NEW_TIME"" > /dev/null
+   sudo /bin/date --set "@"$SDWDATE_NEW_TIME_FORMATTED_FOR_DATE"" > /dev/null
+
+   local SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING_USING_DATE
+   SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING_USING_DATE="$(date +%s.%N)"
+   local SDWDATE_NEW_DATE_AFTER_SETTING_USING_DATE
+   SDWDATE_NEW_DATE_AFTER_SETTING_USING_DATE="$(date)"
+   sdwdate_log "Time after setting using \`date\`: $SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING_USING_DATE [$SDWDATE_NEW_DATE_AFTER_SETTING_USING_DATE]"
 
    if [ "$SYSTOHC" = "1" ]; then
       sudo /sbin/hwclock --systohc
@@ -1161,39 +1254,12 @@ sdwdate_set_time_using_sclockadj() {
 
    sdwdate_terminate_sclockadj
 
-   local ZERO_OR_ONE
-   ## Get a random 0 or 1.
-   ## Will use this to decide to use plus or minus.
-   ##
-   ## Thanks to
-   ## http://linux.byexamples.com/archives/128/generating-random-numbers/
-   test -e /dev/random
-   ZERO_OR_ONE="$(( 0+($(od -An -N2 -i /dev/random) )%(0+2) ))"
-
-   local PLUS_OR_MINUS
-   if [ "$ZERO_OR_ONE" = "0" ]; then
-      PLUS_OR_MINUS="-"
-   elif [ "$ZERO_OR_ONE" = "1" ]; then
-      PLUS_OR_MINUS="+"
-   else
-      sdwdate_error_handler "ZERO_OR_ONE is neither 0 nor 1, it's: $ZERO_OR_ONE"
-   fi
-
-   local NANOSECONDS
-   ## Create a random number between 0 and 999999999.
-   ##
-   ## Thanks to
-   ## https://stackoverflow.com/questions/22887891/how-can-i-get-a-random-dev-random-number-between-0-and-999999999-in-bash
-   test -e /dev/random
-   NANOSECONDS="$(shuf -i0-999999999 -n1 --random-source=/dev/random)"
-
-   local extra_seconds_without_leading_zero extra_seconds
-   extra_seconds_without_leading_zero="$(bc -l <<< "scale=9 ; $NANOSECONDS / 1000000000")"
-   extra_seconds="$(printf '%3.9f\n' "$extra_seconds_without_leading_zero")"
-
-   sdwdate_log "Made up random extra ${PLUS_OR_MINUS}${extra_seconds} second[s] [${PLUS_OR_MINUS}${NANOSECONDS} nanosecond(s)]."
+   ## sets: NANOSECONDS
+   ## sets: PLUS_OR_MINUS
+   sdwdate_generate_nanoseconds
 
    local SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL
+   true "SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL="\$\(\( $SDWDATE_MEDIAN_TIME_NANOSECONDS $PLUS_OR_MINUS $NANOSECONDS \)\)""
    SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL="$(( $SDWDATE_MEDIAN_TIME_NANOSECONDS $PLUS_OR_MINUS $NANOSECONDS ))"
 
    local first_char
@@ -1236,6 +1302,7 @@ sdwdate_set_time_using_sclockadj() {
 
       sdwdate_subshell_time_end() {
          SDWDATE_SUBSHELL_SCLOCKADJ_TIME_END="$(date +%s)"
+         true "SDWDATE_SUBSHELL_SCLOCKADJ_TOOK_TIME="\$\(\( $SDWDATE_SUBSHELL_SCLOCKADJ_TIME_END - $SDWDATE_SUBSHELL_SCLOCKADJ_TIME_START \)\)""
          SDWDATE_SUBSHELL_SCLOCKADJ_TOOK_TIME="$(( $SDWDATE_SUBSHELL_SCLOCKADJ_TIME_END - $SDWDATE_SUBSHELL_SCLOCKADJ_TIME_START ))"
          echo "was running for $SDWDATE_SUBSHELL_SCLOCKADJ_TOOK_TIME s."
          unset SDWDATE_SUBSHELL_SCLOCKADJ_TIME_START
@@ -1474,9 +1541,10 @@ sdwdate_main() {
 
          local minutes
          if [ "$RANDOMIZE" = "1" ]; then
-            test -e /dev/random
-            minutes="$(( ($(od -An -N2 -i /dev/random) )%($INTERVAL) ))"
+            test -e "/dev/random"
+            minutes="$(( ($(od -An -N2 -i "/dev/random") )%($INTERVAL) ))"
             if [ "$MIN_INTERVAL" -ge "$minutes" ]; then
+               true "minutes="\$\(\( $minutes + $MIN_INTERVAL \)\)""
                minutes="$(( $minutes + $MIN_INTERVAL ))"
             fi
          else
@@ -1484,6 +1552,7 @@ sdwdate_main() {
          fi
 
          local seconds
+         true "seconds="\$\(\( $minutes \* 60 \)\)""
          seconds="$(( $minutes * 60 ))"
 
          sdwdate_log "Sleeping for $minutes minutes."
