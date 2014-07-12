@@ -1,14 +1,38 @@
 #!/usr/bin/make -f
 
+## generic deb build script version 0.3
+
 DESTDIR ?= /
 
 all:
 	@echo "make all is not required."
 
+dist:
+	./make-helper.bsh dist
+
+manpages:
+	./make-helper.bsh manpages
+
 install:
-	for d in bin boot dev etc home lib opt sbin srv sys usr var; do if [ -d $${d} ]; then cp -R $${d} ${DESTDIR}; fi; done
+	./make-helper.bsh install
+
+deb-pkg:
+	./make-helper.bsh deb-pkg
+
+deb-pkg-install:
+	./make-helper.bsh deb-pkg-install
+
+deb-install:
+	./make-helper.bsh deb-install
 
 clean:
-	git clean -df
+	./make-helper.bsh clean
 
-.PHONY: clean install
+distclean:
+	./make-helper.bsh distclean
+
+checkout:
+	./make-helper.bsh checkout
+
+help:
+	./make-helper.bsh help

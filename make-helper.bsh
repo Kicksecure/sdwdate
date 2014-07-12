@@ -1,0 +1,277 @@
+#!/bin/bash
+
+## This file is part of Whonix.
+## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+## generic deb build script version 0.3
+
+set -x
+
+if [ -f /usr/lib/pre.bsh ]; then
+   source /usr/lib/pre.bsh
+fi
+
+set -e
+set -o pipefail
+
+parse_cmd() {
+   ## Thanks to:
+   ## http://mywiki.wooledge.org/BashFAQ/035
+
+   local matched="false"
+
+   while :
+   do
+       case $1 in
+           help)
+               matched="true"
+               make_help
+               shift
+               ;;
+           dist)
+               matched="true"
+               make_dist
+               shift
+               ;;
+           manpages)
+               matched="true"
+               make_manpages
+               shift
+               ;;
+           install)
+               matched="true"
+               make_install
+               shift
+               ;;
+           deb-pkg)
+               matched="true"
+               deb="true"
+               shift
+               ;;
+           deb-pkg-install)
+               matched="true"
+               make_deb-pkg-install
+               shift
+               ;;
+           deb-install)
+               matched="true"
+               make_deb-install
+               shift
+               ;;
+           deb-pkg)
+               matched="true"
+               deb="true"
+               shift
+               ;;
+           clean)
+               matched="true"
+               make_clean
+               shift
+               ;;
+           distclean)
+               matched="true"
+               make_clean
+               shift
+               ;;
+           checkout)
+               matched="true"
+               make_checkout
+               shift
+               ;;
+           --)
+               shift
+               break
+               ;;
+           -*)
+               echo "unknown option: $1" >&2
+               exit 1
+               ;;
+           *)
+               break
+               ;;
+       esac
+   done
+
+   ## If there are input files (for example) that follow the options, they
+   ## will remain in the "$@" positional parameters.
+
+   if [ ! "$matched" = "true" ]; then
+      true "ERROR: no valid option chosen!"
+      exit 1
+   fi
+
+   if [ "$deb" = "true" ]; then
+      make_deb-pkg $@
+   fi
+}
+
+get_variables() {
+   command -v dpkg-parsechangelog >/dev/null
+   OIFS="${IFS}"
+   NIFS=$'\n'
+   IFS="${NIFS}"
+   for line in $(dpkg-parsechangelog); do
+      ## Example line:
+      ## Version: 0.1-1
+      IFS="${OIFS}"
+      read -r first second _ <<< "$line"
+      ## Example first:
+      ## Version:
+      ## Example second:
+      ## 0.1-1
+      first="${first,,}"
+      ## Example first:
+      ## version
+      if [ "$first" = "version:" ]; then
+         version="$second"
+         ## Example version:
+         ## 3:0.1-1
+         revision="${version#*-}"
+         ## Example revision:
+         ## 1
+         version="${version%-*}"
+         ## Example version:
+         ## 3:0.1
+         version="${version#*:}"
+         ## Example version:
+         ## 0.1
+         break
+      fi
+   done
+   IFS="${OIFS}"
+   if [ "$version" = "" ]; then
+      true "ERROR: variable version is empty."
+      exit 1
+   fi
+   package_name="$(basename $( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd ))"
+   if [ "$package_name" = "" ]; then
+      true "ERROR: variable package_name is empty."
+      exit 1
+   fi
+   deb_file="../${package_name}_${version}-${revision}_all.deb"
+}
+
+make_help() {
+   set +x
+   echo "\
+make help
+   Show this help.
+make dist
+   Create package-version.tar.gz from source files in parent folder.
+make manpages
+   Create man page from man source folder, which will be stored in debian/tmp-man folder.
+make install
+   Copying the files from the source tree to system-wide directories.
+make deb-pkg
+   Create a deb, which will be stored in parent folder.
+make deb-pkg-install
+   Create a deb, which will be stored in parent folder, and install it.
+make deb-install
+   Install deb from parent folder.
+make clean
+   Erase any files not committed to git.
+make distclean
+   Currently same as clean.
+make checkout
+   Fetch from git."
+   exit 0
+}
+
+make_dist() {
+   get_variables
+
+   ## Explicitly set access time, so we end up with a deterministic debian.tar.gz file.
+   shopt -s globstar dotglob
+   touch -t "201308151102.35" ./debian
+   touch -t "201308151102.35" ./debian/**
+   shopt -u globstar dotglob
+
+   rm --force "../${package_name}_${version}.orig.tar.gz"
+
+   git archive \
+      --format=tar HEAD \
+      | gzip -n > "../${package_name}_${version}.orig.tar.gz"
+
+   ls -la "../${package_name}_${version}.orig.tar.gz"
+}
+
+make_manpages() {
+   local i temp source_folder filename_without_ronn_file_extension
+   for i in $(find "$PWD/man"); do
+      if [ -d "$i" ]; then
+         continue
+      fi
+
+      temp="${i#"$PWD/man/"}"
+
+      filename_without_ronn_file_extension="$(basename "$i" ".ronn")"
+
+      mkdir --parents "$PWD/debian/tmp-man/$source_folder"
+
+      true "${bold}${cyan}INFO: Creating man page $PWD/debian/tmp-man/$filename_without_ronn_file_extension ${reset}"
+
+      ronn \
+         --manual="Whonix Documentation" \
+         --organization="Whonix" \
+         <$i \
+         > "$PWD/debian/tmp-man/$filename_without_ronn_file_extension"
+
+   done
+}
+
+make_clean() {
+   git clean -df
+}
+
+make_install() {
+   if [ "$DESTDIR" = "" ]; then
+      DESTDIR="/"
+   fi
+   local d
+   for d in bin boot dev etc home lib opt sbin srv sys usr var; do
+      if [ -d "$d" ]; then
+         cp -R "$d" "$DESTDIR"
+      fi
+   done
+}
+
+make_deb-pkg() {
+   make_dist
+
+   if [ "$DEBUILD_LINTIAN_OPTS" = "" ]; then
+      export DEBUILD_LINTIAN_OPTS="--info --display-info --show-overrides --fail-on-warnings"
+   fi
+
+   debuild \
+      --no-lintian \
+      --rootcmd="debian/gain-root-command" \
+      -sa \
+      -us \
+      -uc \
+      ${1+"$@"}
+
+   lintian $DEBUILD_LINTIAN_OPTS
+
+   true "INFO: You can find your deb file here: $deb_file"
+}
+
+make_deb-install() {
+   get_variables
+   if [ ! -f "$deb_file" ]; then
+      true "ERROR: File $deb_file does not exist. Have you run \"make deb-pkg\" already?"
+      exit 1
+   fi
+   sudo dpkg -i "$deb_file"
+}
+
+make_deb-pkg-install() {
+   make_deb-pkg
+   make_deb-install
+}
+
+make_checkout() {
+   git fetch
+}
+
+parse_cmd ${1+"$@"}
