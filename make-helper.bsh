@@ -243,6 +243,8 @@ make_deb-pkg() {
       export DEBUILD_LINTIAN_OPTS="--info --display-info --show-overrides --fail-on-warnings"
    fi
 
+   ## Using --no-lintian, because debuild does not exist with a non-zero exit
+   ## code, should lintian find an error. Therefore running lintian afterwards.
    debuild \
       --no-lintian \
       --rootcmd="debian/gain-root-command" \
