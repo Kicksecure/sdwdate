@@ -1151,11 +1151,11 @@ sdwdate_generate_nanoseconds() {
 sdwdate_set_time_using_date() {
    trap "sdwdate_error_handler" ERR
 
-   local SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING_USING_DATE
-   SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING_USING_DATE="$(date +%s.%N)"
-   local SDWDATE_NEW_DATE_BEFORE_SETTING_USING_DATE
-   SDWDATE_NEW_DATE_BEFORE_SETTING_USING_DATE="$(date)"
-   sdwdate_log "Time before setting using \`date\`: $SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING_USING_DATE [$SDWDATE_NEW_DATE_BEFORE_SETTING_USING_DATE]"
+   local SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING
+   SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING="$(date +%s.%N)"
+   local SDWDATE_NEW_DATE_BEFORE_SETTING
+   SDWDATE_NEW_DATE_BEFORE_SETTING="$(date)"
+   sdwdate_log "Time before setting using \`date\`: $SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING [$SDWDATE_NEW_DATE_BEFORE_SETTING]"
 
    ## sets: NANOSECONDS
    ## sets: PLUS_OR_MINUS
@@ -1211,11 +1211,11 @@ sdwdate_set_time_using_date() {
    ## There is an exception in /etc/sudoers.d/sdwdate.
    sudo /bin/date --set "@"$SDWDATE_NEW_TIME_FORMATTED_FOR_DATE"" > /dev/null
 
-   local SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING_USING_DATE
-   SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING_USING_DATE="$(date +%s.%N)"
-   local SDWDATE_NEW_DATE_AFTER_SETTING_USING_DATE
-   SDWDATE_NEW_DATE_AFTER_SETTING_USING_DATE="$(date)"
-   sdwdate_log "Time after setting using \`date\`: $SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING_USING_DATE [$SDWDATE_NEW_DATE_AFTER_SETTING_USING_DATE]"
+   local SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING
+   SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING="$(date +%s.%N)"
+   local SDWDATE_NEW_DATE_AFTER_SETTING
+   SDWDATE_NEW_DATE_AFTER_SETTING="$(date)"
+   sdwdate_log "Time after setting using \`date\`: $SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING [$SDWDATE_NEW_DATE_AFTER_SETTING]"
 
    if [ "$SYSTOHC" = "1" ]; then
       sudo /sbin/hwclock --systohc
@@ -1298,6 +1298,11 @@ sdwdate_set_time_using_sclockadj() {
    {
       sdwdate_subshell_time_start() {
          SDWDATE_SUBSHELL_SCLOCKADJ_TIME_START="$(date +%s)"
+         local SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING
+         SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING="$(date +%s.%N)"
+         local SDWDATE_NEW_DATE_BEFORE_SETTING
+         SDWDATE_NEW_DATE_BEFORE_SETTING="$(date)"
+         echo "Time before running sclockadj: $SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING [$SDWDATE_NEW_DATE_BEFORE_SETTING]"
       }
 
       sdwdate_subshell_time_end() {
@@ -1316,6 +1321,11 @@ sdwdate_set_time_using_sclockadj() {
          unset SDWDATE_SUBSHELL_SCLOCKADJ_TOOK_TIME_SECONDS
          unset SDWDATE_SUBSHELL_SCLOCKADJ_TOOK_TIME_MINUTES
          unset SDWDATE_SUBSHELL_SCLOCKADJ_TOOK_TIME_HOURS
+         local SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING
+         SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING="$(date +%s.%N)"
+         local SDWDATE_NEW_DATE_AFTER_SETTING
+         SDWDATE_NEW_DATE_AFTER_SETTING="$(date)"
+         echo "Time after running sclockadj: $SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING [$SDWDATE_NEW_DATE_AFTER_SETTING]"
       }
 
       sdwdate_subshell_trap_sigterm() {
@@ -1337,9 +1347,9 @@ sdwdate_set_time_using_sclockadj() {
       SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE="0"
       wait "$SDWDATE_SCLOCKADJ_COMMAND_PID" || { SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE="$?" ; true; };
 
-      echo "exit code: $SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
-
       sdwdate_subshell_time_end
+
+      echo "exit code: $SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
 
       exit "$SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
    } > "$sclockadj_subshell_fifo" &
