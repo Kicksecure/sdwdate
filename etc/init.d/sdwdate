@@ -3,7 +3,7 @@
 # Provides:          sdwdate
 # Required-Start:    $remote_fs $syslog mountkernfs
 # Required-Stop:     $remote_fs $syslog
-# Should-Start:      bootclockrandomization
+# Should-Start:      bootclockrandomization rinetd
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # X-Start-Before:    tor
