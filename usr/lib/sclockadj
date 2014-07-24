@@ -182,6 +182,9 @@ end # module SneakyClockAdjuster
 class Cinline
 
   inline :C do |builder|
+    builder.include '<stdio.h>'
+    builder.include '<time.h>'
+    builder.include '<sys/time.h>'
     builder.c '
     void getAndSet(long long addNsec) {
     /* receive time adjustment, negative or positive, in nanoseconds */
