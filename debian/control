@@ -6,7 +6,7 @@ Source: sdwdate
 Section: misc
 Priority: optional
 Maintainer: Patrick Schleizer <adrelanos@riseup.net>
-Build-Depends: debhelper (>= 8), faketime, git, ruby-ronn (>= 0.7.3)
+Build-Depends: debhelper (>= 8), faketime, ruby-ronn (>= 0.7.3)
 Homepage: https://github.com/Whonix/sdwdate
 Vcs-Browser: https://github.com/Whonix/sdwdate
 Vcs-Git: https://github.com/Whonix/sdwdate.git
