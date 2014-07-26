@@ -1,0 +1,27 @@
+#!/bin/bash
+
+pid="$1"
+
+ps_output="$(ps h --format command "$pid")"
+
+## Example ps_output:
+## sudo /usr/lib/sclockadj --no-verbose --no-debug --no-first-wait --move-min 500000 --move-max 500000 --wait-min 1000000000 --wait-max 1000000000 --add 172807620812
+
+read first second _ <<< "$ps_output"
+
+## Example first:
+## sudo
+
+## Example second:
+## /usr/lib/sclockadj
+
+if [ "$first" = "sudo" ]; then
+   if [ $second = "/usr/lib/sclockadj" ]; then
+      echo "kill -sigterm $pid"
+      kill -sigterm "$pid"
+      exit 0
+   fi
+fi
+
+echo "Nothing killed. ps_output: $ps_output"
+exit 0

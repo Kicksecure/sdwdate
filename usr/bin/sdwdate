@@ -1234,17 +1234,19 @@ sdwdate_terminate_sclockadj() {
    kill -0 "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" || { pid_still_running="$?" ; true; };
 
    if [ "$pid_still_running" = "0" ]; then
-      sdwdate_log "$FUNCNAME: sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID still running. Terminating."
+      sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID still running. Terminating..."
       kill -sigterm "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" || true
+      wait "$SDWDATE_SUBSHELL_SCLOCKADJ_PID"
+      sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID Terminated."
       SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
    else
       local SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE
       SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE="0"
       wait "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" || { SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE="$?" ; true; };
-      sdwdate_log "$FUNCNAME: sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID no longer running. Exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
+      sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID no longer running. Exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
       SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
       if [ ! "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "0" ]; then
-         sdwdate_error_handler "sclockadj exited with non-zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
+         sdwdate_error_handler "subshell for sclockadj exited with non-zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
       fi
    fi
 }
@@ -1330,9 +1332,14 @@ sdwdate_set_time_using_sclockadj() {
 
       sdwdate_subshell_trap_sigterm() {
          if [ "$SDWDATE_SCLOCKADJ_COMMAND_PID" = "" ]; then
+            sdwdate_subshell_time_end
             return 0
          fi
-         kill -sigterm "$SDWDATE_SCLOCKADJ_COMMAND_PID" || true
+         ## There is a /etc/sudoers.d exception.
+         echo "executing: sudo /usr/lib/sclockadj_kill_helper $SDWDATE_SCLOCKADJ_COMMAND_PID"
+         sclockadj_kill_helper_output="$(sudo /usr/lib/sclockadj_kill_helper "$SDWDATE_SCLOCKADJ_COMMAND_PID" 2>&1)"
+         echo "sclockadj_kill_helper_output: $sclockadj_kill_helper_output"
+         unset sclockadj_kill_helper_output
          sdwdate_subshell_time_end
          exit 0
       }
