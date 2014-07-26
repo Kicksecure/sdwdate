@@ -4,7 +4,7 @@
 ## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-## generic deb build script version 0.3
+## generic deb build script version 0.4
 
 set -x
 
@@ -14,6 +14,9 @@ fi
 
 set -e
 set -o pipefail
+
+cd "${BASH_SOURCE[0]%/*}"
+mydir="${PWD##*/}"
 
 parse_cmd() {
    ## Thanks to:
@@ -27,36 +30,58 @@ parse_cmd() {
            help)
                matched="true"
                make_help
+               exit 0
                shift
                ;;
            dist)
                matched="true"
                make_dist
+               exit 0
                shift
                ;;
            manpages)
                matched="true"
                make_manpages
+               exit 0
+               shift
+               ;;
+           uch)
+               matched="true"
+               make_uch
+               exit 0
                shift
                ;;
            install)
                matched="true"
                make_install
+               exit 0
                shift
                ;;
            deb-pkg)
                matched="true"
                deb="true"
+               shift
+               ;;
+           deb-pkg-signed)
+               matched="true"
+               deb_signed="true"
+               shift
+               ;;
+           deb-pkg-source)
+               matched="true"
+               deb_source="true"
                shift
                ;;
            deb-pkg-install)
                matched="true"
                make_deb-pkg-install
+               exit 0
                shift
                ;;
            deb-install)
                matched="true"
                make_deb-install
+               exit 0
                shift
                ;;
            deb-pkg)
@@ -64,19 +89,67 @@ parse_cmd() {
                deb="true"
                shift
                ;;
+           deb-clean)
+               matched="true"
+               make_deb-clean
+               shift
+               ;;
+           deb-cleanup)
+               matched="true"
+               make_deb-cleanup
+               shift
+               ;;
+           dput-ubuntu-ppa)
+               matched="true"
+               make_dput-ubuntu-ppa
+               shift
+               ;;
            clean)
                matched="true"
                make_clean
+               exit 0
                shift
                ;;
            distclean)
                matched="true"
                make_clean
+               exit 0
                shift
                ;;
            checkout)
                matched="true"
                make_checkout
+               exit 0
+               shift
+               ;;
+           installcheck)
+               matched="true"
+               make_installcheck
+               exit 0
+               shift
+               ;;
+           installsim)
+               matched="true"
+               make_installsim
+               exit 0
+               shift
+               ;;
+           uninstallcheck)
+               matched="true"
+               make_uninstallcheck
+               exit 0
+               shift
+               ;;
+           uninstall)
+               matched="true"
+               make_uninstall
+               exit 0
+               shift
+               ;;
+           uninstallsim)
+               matched="true"
+               make_uninstallsim
+               exit 0
                shift
                ;;
            --)
@@ -103,6 +176,15 @@ parse_cmd() {
 
    if [ "$deb" = "true" ]; then
       make_deb-pkg $@
+      exit 0
+   fi
+   if [ "$deb_signed" = "true" ]; then
+      make_deb-pkg-signed $@
+      exit 0
+   fi
+   if [ "$deb_source" = "true" ]; then
+      make_deb-pkg-source $@
+      exit 0
    fi
 }
 
@@ -144,12 +226,18 @@ get_variables() {
       true "ERROR: variable version is empty."
       exit 1
    fi
-   package_name="$(basename $( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd ))"
+   package_name="$mydir"
    if [ "$package_name" = "" ]; then
       true "ERROR: variable package_name is empty."
       exit 1
    fi
    deb_file="../${package_name}_${version}-${revision}_all.deb"
+}
+
+get_destdir() {
+   if [ "$DESTDIR" = "" ]; then
+      DESTDIR="/"
+   fi
 }
 
 make_help() {
@@ -161,21 +249,38 @@ make dist
    Create package-version.tar.gz from source files in parent folder.
 make manpages
    Create man page from man source folder, which will be stored in debian/tmp-man folder.
+make uch
+   Store upstream changelog from git log in debian/changelog.upstream.
 make install
    Copying the files from the source tree to system-wide directories.
+make installsim
+   Simulate copying the files from the source tree to system-wide directories.
 make deb-pkg
    Create a deb, which will be stored in parent folder.
 make deb-pkg-install
    Create a deb, which will be stored in parent folder, and install it.
 make deb-install
    Install deb from parent folder.
+make deb-clean
+   Delete temporary debhelper files.
+make deb-cleanup
+   Same as make deb-clean and deletes debuild artifacts from parent folder.
+make dput-ubuntu-ppa
+   Upload to Ubuntu ppa. Requires functional .dput.cf.
 make clean
-   Erase any files not committed to git.
+   Currently same as make deb-clean.
 make distclean
-   Currently same as clean.
+   Currently same as make clean.
 make checkout
-   Fetch from git."
-   exit 0
+   Fetch from git.
+make installcheck
+   Check if source files match installed files.
+make uninstallcheck
+   Check if make uninstall removed all files.
+make uninstall
+   Delete all installed files.
+make uninstallsim
+   Simulate what make uninstall would do."
 }
 
 make_dist() {
@@ -190,22 +295,22 @@ make_dist() {
    rm --force "../${package_name}_${version}.orig.tar.gz"
 
    git archive \
-      --format=tar HEAD \
+      --format=tar HEAD --prefix="${package_name}-${version}/" \
       | gzip -n > "../${package_name}_${version}.orig.tar.gz"
 
    ls -la "../${package_name}_${version}.orig.tar.gz"
 }
 
 make_manpages() {
-   local i temp source_folder filename_without_ronn_file_extension
-   for i in $(find "$PWD/man"); do
+   shopt -s globstar dotglob nullglob
+   local i source_folder filename_without_ronn_file_extension
+   for i in "$PWD/man"/**; do
       if [ -d "$i" ]; then
          continue
       fi
 
-      temp="${i#"$PWD/man/"}"
-
-      filename_without_ronn_file_extension="$(basename "$i" ".ronn")"
+      base_name="${i##*/}"
+      filename_without_ronn_file_extension="${base_name%.*}"
 
       mkdir --parents "$PWD/debian/tmp-man/$source_folder"
 
@@ -214,48 +319,56 @@ make_manpages() {
       ronn \
          --manual="Whonix Documentation" \
          --organization="Whonix" \
-         <$i \
+         < "$i" \
          > "$PWD/debian/tmp-man/$filename_without_ronn_file_extension"
 
    done
+   shopt -u globstar dotglob nullglob
+}
+
+make_uch() {
+   git log > "$PWD/debian/changelog.upstream"
+   test -f "$PWD/debian/changelog.upstream"
 }
 
 make_clean() {
-   git clean -df
+   make_deb-clean
 }
 
-make_install() {
-   if [ "$DESTDIR" = "" ]; then
-      DESTDIR="/"
-   fi
-   local d
-   for d in bin boot dev etc home lib opt sbin srv sys usr var; do
-      if [ -d "$d" ]; then
-         cp -R "$d" "$DESTDIR"
-      fi
-   done
-}
-
-make_deb-pkg() {
+make_deb-pkg_helper() {
    make_dist
 
    if [ "$DEBUILD_LINTIAN_OPTS" = "" ]; then
-      export DEBUILD_LINTIAN_OPTS="--info --display-info --show-overrides --fail-on-warnings"
+      export DEBUILD_LINTIAN_OPTS="--info --display-info --fail-on-warnings"
    fi
 
    ## Using --no-lintian, because debuild does not exist with a non-zero exit
    ## code, should lintian find an error. Therefore running lintian afterwards.
    debuild \
       --no-lintian \
-      --rootcmd="debian/gain-root-command" \
+      --rootcmd="$PWD/debian/gain-root-command" \
       -sa \
-      -us \
-      -uc \
+      $debuild_maybe_unsigned_opts \
+      $debuild_maybe_source_only_opt \
       ${1+"$@"}
 
    lintian $DEBUILD_LINTIAN_OPTS
 
    true "INFO: You can find your deb file here: $deb_file"
+}
+
+make_deb-pkg() {
+   debuild_maybe_unsigned_opts="-us -uc"
+   make_deb-pkg_helper $@
+}
+
+make_deb-pkg-signed() {
+   make_deb-pkg_helper $@
+}
+
+make_deb-pkg-source() {
+   debuild_maybe_source_only_opt="-S"
+   make_deb-pkg_helper $@
 }
 
 make_deb-install() {
@@ -272,8 +385,132 @@ make_deb-pkg-install() {
    make_deb-install
 }
 
+make_deb-clean() {
+   get_variables
+   local to_delete
+   for to_delete in \
+      "debian/$package_name.debhelper.log" \
+      "debian/$package_name.substvars" \
+      "debian/changelog.upstream" \
+      "debian/files"
+   do
+      if [ -e "$to_delete" ]; then
+         rm "$to_delete"
+      fi
+   done
+   if [ -d "debian/$package_name" ]; then
+      rm --recursive "debian/$package_name"
+   fi
+}
+
+make_deb-cleanup() {
+   make_deb-clean
+   local to_delete
+   for to_delete in \
+      "debian/$package_name.debhelper.log" \
+      "debian/$package_name.substvars" \
+      "debian/changelog.upstream" \
+      "debian/files" \
+      "../${package_name}_"*-*"_all.deb" \
+      "../${package_name}_"*-*".debian.tar.gz" \
+      "../${package_name}_"*-*".dsc" \
+      "../${package_name}_"*-*_*".build" \
+      "../${package_name}_"*-*_*".changes" \
+      "../${package_name}_"*-*"_source.build" \
+      "../${package_name}_"*-*"_source.changes" \
+      "../${package_name}_"*".orig.tar.gz" \
+      "../${package_name}_"*-*"_source.${package_name}.upload"
+   do
+      if [ -e "$to_delete" ]; then
+         rm "$to_delete"
+      fi
+   done
+}
+
+make_dput-ubuntu-ppa() {
+   get_variables
+   dput "$package_name" "../${package_name}_${version}-${revision}_source.changes"
+}
+
 make_checkout() {
    git fetch
+}
+
+helper() {
+   get_destdir
+   shopt -s globstar dotglob nullglob
+   local d source_file file_without_pwd file_with_destdir
+   for d in bin boot dev etc home lib opt sbin srv sys usr var; do
+      if [ -d "$d" ]; then
+         for source_file in "$PWD/$d"/**; do
+            if [ "$install_" = "true" ]; then
+               cp -R "$d" "$DESTDIR"
+               continue
+            elif [ "$installsim" = "true" ]; then
+               true "INFO: would do: cp -R $d $DESTDIR"
+               continue
+            fi
+            if [ ! -f "$source_file" ]; then
+               continue
+            fi
+            file_without_pwd="${source_file#$PWD}"
+            file_with_destdir="${DESTDIR}${file_without_pwd}"
+            if [ "$uninstallcheck" = "true" ]; then
+               if [ -f "$file_with_destdir" ]; then
+                  true "ERROR: file $file_with_destdir still installed."
+                  still_installed="true"
+               fi
+            elif [ "$installcheck" = "true" ]; then
+               diff "$source_file" "$file_with_destdir"
+            elif [ "$uninstallsim" = "true" ]; then
+               if [ -f "$file_with_destdir" ]; then
+                  true "INFO: would do: rm \"$file_with_destdir\""
+               fi
+            elif [ "$uninstall" = "true" ]; then
+               if [ -f "$file_with_destdir" ]; then
+                  rm "$file_with_destdir"
+               fi
+            else
+               true "ERROR 2: in $FUNCNAME!"
+               exit 1
+            fi
+         done
+      fi
+   done
+   shopt -u globstar dotglob nullglob
+   if [ "$still_installed" = "true" ]; then
+      exit 1
+   fi
+}
+
+make_install() {
+   install_="true"
+   helper
+}
+
+make_installcheck() {
+   installcheck="true"
+   helper
+}
+
+make_installsim() {
+   installsim="true"
+   helper
+}
+
+make_uninstallcheck() {
+   uninstallcheck="true"
+   helper
+}
+
+make_uninstall() {
+   uninstall="true"
+   helper
+}
+
+make_uninstallsim() {
+   uninstallsim="true"
+   helper
 }
 
 parse_cmd ${1+"$@"}
