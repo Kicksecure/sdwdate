@@ -392,7 +392,10 @@ make_deb-clean() {
       "debian/$package_name.debhelper.log" \
       "debian/$package_name.substvars" \
       "debian/changelog.upstream" \
-      "debian/files"
+      "debian/files" \
+      "debian/$package_name.prerm.debhelper" \
+      "debian/$package_name.postinst.debhelper" \
+      "debian/$package_name.postrm.debhelper"
    do
       if [ -e "$to_delete" ]; then
          rm "$to_delete"
@@ -400,6 +403,9 @@ make_deb-clean() {
    done
    if [ -d "debian/$package_name" ]; then
       rm --recursive "debian/$package_name"
+   fi
+   if [ -d "debian/tmp-man" ]; then
+      rm --recursive "debian/tmp-man"
    fi
 }
 
