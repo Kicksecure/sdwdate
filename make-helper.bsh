@@ -4,7 +4,7 @@
 ## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-## generic deb build script version 0.4
+## generic deb build script version 0.5
 
 set -x
 
@@ -81,6 +81,18 @@ parse_cmd() {
            deb-install)
                matched="true"
                make_deb-install
+               exit 0
+               shift
+               ;;
+           deb-remove)
+               matched="true"
+               make_deb-remove
+               exit 0
+               shift
+               ;;
+           deb-purge)
+               matched="true"
+               make_deb-purge
                exit 0
                shift
                ;;
@@ -226,12 +238,33 @@ get_variables() {
       true "ERROR: variable version is empty."
       exit 1
    fi
-   package_name="$mydir"
-   if [ "$package_name" = "" ]; then
-      true "ERROR: variable package_name is empty."
+   main_package_name="$mydir"
+   if [ "$main_package_name" = "" ]; then
+      true "ERROR: variable main_package_name is empty."
       exit 1
    fi
-   deb_file="../${package_name}_${version}-${revision}_all.deb"
+   main_deb_file="../${main_package_name}_${version}-${revision}_all.deb"
+
+   local grep_output line a package
+   grep_output="$(grep "Package:" "debian/control")"
+   ## Example: grep_output
+   ## Package: anon-shared-packages-dependencies
+   ## Package: anon-shared-packages-recommended
+
+   package_list="$main_package_name"
+
+   OIFS="$IFS"
+   NIFS=$'\n'
+   IFS="$NIFS"
+   for line in $grep_output; do
+      IFS="$OIFS"
+      read a package _ <<< "$line"
+      if [ "$package" = "$main_package_name" ]; then
+         continue
+      fi
+      package_list="$package_list $package"
+   done
+   IFS="$OIFS"
 }
 
 get_destdir() {
@@ -261,6 +294,10 @@ make deb-pkg-install
    Create a deb, which will be stored in parent folder, and install it.
 make deb-install
    Install deb from parent folder.
+make deb-remove
+   apt-get remove main_package_name
+make deb-purge
+   apt-get purge main_package_name
 make deb-clean
    Delete temporary debhelper files.
 make deb-cleanup
@@ -292,13 +329,13 @@ make_dist() {
    touch -t "201308151102.35" ./debian/**
    shopt -u globstar dotglob
 
-   rm --force "../${package_name}_${version}.orig.tar.gz"
+   rm --force "../${main_package_name}_${version}.orig.tar.gz"
 
    git archive \
-      --format=tar HEAD --prefix="${package_name}-${version}/" \
-      | gzip -n > "../${package_name}_${version}.orig.tar.gz"
+      --format=tar HEAD --prefix="${main_package_name}-${version}/" \
+      | gzip -n > "../${main_package_name}_${version}.orig.tar.gz"
 
-   ls -la "../${package_name}_${version}.orig.tar.gz"
+   ls -la "../${main_package_name}_${version}.orig.tar.gz"
 }
 
 make_manpages() {
@@ -354,7 +391,7 @@ make_deb-pkg_helper() {
 
    lintian $DEBUILD_LINTIAN_OPTS
 
-   true "INFO: You can find your deb file here: $deb_file"
+   true "INFO: You can find your deb file here: $main_deb_file"
 }
 
 make_deb-pkg() {
@@ -373,11 +410,21 @@ make_deb-pkg-source() {
 
 make_deb-install() {
    get_variables
-   if [ ! -f "$deb_file" ]; then
-      true "ERROR: File $deb_file does not exist. Have you run \"make deb-pkg\" already?"
+   if [ ! -f "$main_deb_file" ]; then
+      true "ERROR: File $main_deb_file does not exist. Have you run \"make deb-pkg\" already?"
       exit 1
    fi
-   sudo dpkg -i "$deb_file"
+   sudo dpkg -i "$main_deb_file"
+}
+
+make_deb-remove() {
+   get_variables
+   sudo apt-get remove "$main_package_name"
+}
+
+make_deb-purge() {
+   get_variables
+   sudo apt-get purge "$main_package_name"
 }
 
 make_deb-pkg-install() {
@@ -387,55 +434,55 @@ make_deb-pkg-install() {
 
 make_deb-clean() {
    get_variables
-   local to_delete
-   for to_delete in \
-      "debian/$package_name.debhelper.log" \
-      "debian/$package_name.substvars" \
-      "debian/changelog.upstream" \
-      "debian/files" \
-      "debian/$package_name.prerm.debhelper" \
-      "debian/$package_name.postinst.debhelper" \
-      "debian/$package_name.postrm.debhelper"
-   do
-      if [ -e "$to_delete" ]; then
-         rm "$to_delete"
-      fi
-   done
-   if [ -d "debian/$package_name" ]; then
-      rm --recursive "debian/$package_name"
-   fi
    if [ -d "debian/tmp-man" ]; then
       rm --recursive "debian/tmp-man"
    fi
+   local to_delete package
+   for package in $package_list; do
+      for to_delete in \
+         "debian/$package.debhelper.log" \
+         "debian/$package.substvars" \
+         "debian/changelog.upstream" \
+         "debian/files" \
+         "debian/$package.prerm.debhelper" \
+         "debian/$package.postinst.debhelper" \
+         "debian/$package.postrm.debhelper"
+      do
+         if [ -e "$to_delete" ]; then
+            rm "$to_delete"
+         fi
+         if [ -d "debian/$package" ]; then
+            rm --recursive "debian/$package"
+         fi
+      done
+   done
 }
 
 make_deb-cleanup() {
    make_deb-clean
-   local to_delete
-   for to_delete in \
-      "debian/$package_name.debhelper.log" \
-      "debian/$package_name.substvars" \
-      "debian/changelog.upstream" \
-      "debian/files" \
-      "../${package_name}_"*-*"_all.deb" \
-      "../${package_name}_"*-*".debian.tar.gz" \
-      "../${package_name}_"*-*".dsc" \
-      "../${package_name}_"*-*_*".build" \
-      "../${package_name}_"*-*_*".changes" \
-      "../${package_name}_"*-*"_source.build" \
-      "../${package_name}_"*-*"_source.changes" \
-      "../${package_name}_"*".orig.tar.gz" \
-      "../${package_name}_"*-*"_source.${package_name}.upload"
-   do
-      if [ -e "$to_delete" ]; then
-         rm "$to_delete"
-      fi
+   local to_delete package
+   for package in $package_list; do
+      for to_delete in \
+         "../${package}_"*-*"_all.deb" \
+         "../${package}_"*-*".debian.tar.gz" \
+         "../${package}_"*-*".dsc" \
+         "../${package}_"*-*_*".build" \
+         "../${package}_"*-*_*".changes" \
+         "../${package}_"*-*"_source.build" \
+         "../${package}_"*-*"_source.changes" \
+         "../${package}_"*".orig.tar.gz" \
+         "../${package}_"*-*"_source.${package}.upload"
+      do
+         if [ -e "$to_delete" ]; then
+            rm "$to_delete"
+         fi
+      done
    done
 }
 
 make_dput-ubuntu-ppa() {
    get_variables
-   dput "$package_name" "../${package_name}_${version}-${revision}_source.changes"
+   dput "$main_package_name" "../${main_package_name}_${version}-${revision}_source.changes"
 }
 
 make_checkout() {
