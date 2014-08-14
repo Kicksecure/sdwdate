@@ -4,7 +4,7 @@
 ## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-## generic deb build script version 0.5
+## generic deb build script version 0.6
 
 set -x
 
@@ -81,6 +81,12 @@ parse_cmd() {
            deb-install)
                matched="true"
                make_deb-install
+               exit 0
+               shift
+               ;;
+           deb-icup)
+               matched="true"
+               make_deb-icup
                exit 0
                shift
                ;;
@@ -294,6 +300,8 @@ make deb-pkg-install
    Create a deb, which will be stored in parent folder, and install it.
 make deb-install
    Install deb from parent folder.
+make deb-icup
+   Combination of make deb-pkg, make deb-pkg-install and make deb-pkg-cleanup.
 make deb-remove
    apt-get remove main_package_name
 make deb-purge
@@ -430,6 +438,11 @@ make_deb-purge() {
 make_deb-pkg-install() {
    make_deb-pkg
    make_deb-install
+}
+
+make_deb-icup() {
+   make_deb-pkg-install
+   make_deb-cleanup
 }
 
 make_deb-clean() {

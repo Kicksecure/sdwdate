@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-## generic deb build script version 0.5
+## generic deb build script version 0.6
 
 DESTDIR ?= /
 
@@ -33,6 +33,9 @@ deb-pkg-source:
 
 deb-install:
 	./make-helper.bsh deb-install
+
+deb-icup:
+	./make-helper.bsh deb-icup
 
 deb-remove:
 	./make-helper.bsh deb-remove
