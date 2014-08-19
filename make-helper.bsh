@@ -170,6 +170,12 @@ parse_cmd() {
                exit 0
                shift
                ;;
+           deb-chl-bumpup)
+               matched="true"
+               make_deb-chl-bumpup
+               exit 0
+               shift
+               ;;
            --)
                shift
                break
@@ -207,6 +213,7 @@ parse_cmd() {
 }
 
 get_variables() {
+   local temp
    command -v dpkg-parsechangelog >/dev/null
    OIFS="${IFS}"
    NIFS=$'\n'
@@ -219,23 +226,26 @@ get_variables() {
       ## Example first:
       ## Version:
       ## Example second:
-      ## 0.1-1
+      ## 3:0.1-1
       first="${first,,}"
       ## Example first:
       ## version
       if [ "$first" = "version:" ]; then
-         version="$second"
-         ## Example version:
+         changelog_version="$second"
+         ## Example changelog_version:
          ## 3:0.1-1
-         revision="${version#*-}"
+         revision="${second#*-}"
          ## Example revision:
          ## 1
-         version="${version%-*}"
+         temp="${second%-*}"
          ## Example version:
          ## 3:0.1
-         version="${version#*:}"
+         version="${temp#*:}"
          ## Example version:
          ## 0.1
+         epoch="${second%:*}"
+         ## Example epoch:
+         ## 3
          break
       fi
    done
@@ -325,7 +335,9 @@ make uninstallcheck
 make uninstall
    Delete all installed files.
 make uninstallsim
-   Simulate what make uninstall would do."
+   Simulate what make uninstall would do.
+make deb-chl-bumpup
+   Bump upstream version number in debian/changelog."
 }
 
 make_dist() {
@@ -577,6 +589,38 @@ make_uninstall() {
 make_uninstallsim() {
    uninstallsim="true"
    helper
+}
+
+make_deb-chl-bumpup() {
+   command -v debchange >/dev/null
+
+   get_variables
+
+   local new_upstream_version_without_leading_zero new_upstream_version new_changelog_version new_revision
+
+   new_upstream_version_without_leading_zero="$(bc -l <<< "scale=9 ; $version + 0.1")"
+   new_upstream_version="$(printf '%3.1f\n' "$new_upstream_version_without_leading_zero")"
+
+   new_revision="1"
+
+   new_changelog_version="$epoch:$new_upstream_version-$new_revision"
+
+   true "\
+Bumping version from / to...
+$changelog_version
+$new_changelog_version"
+
+   if [ "$DEBEMAIL" = "" ]; then
+      export DEBEMAIL="adrelanos@riseup.net"
+   fi
+
+   debchange \
+      --newversion "$new_changelog_version" \
+      "New upstream version."
+
+   debchange \
+      --release \
+      ""
 }
 
 parse_cmd ${1+"$@"}

@@ -76,5 +76,8 @@ uninstall:
 uninstallsim:
 	./make-helper.bsh uninstallsim
 
+deb-chl-bumpup:
+	./make-helper.bsh deb-chl-bumpup
+
 help:
 	./make-helper.bsh help
