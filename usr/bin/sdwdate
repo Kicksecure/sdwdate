@@ -770,6 +770,10 @@ sdwdate_ex_funct() {
       kill -9 "${SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]}" || true
    fi
 
+   if [ -d "$TEMP_DIR" ]; then
+      rm -r "$TEMP_DIR"
+   fi
+
    if [ ! "$DONE_FILE" = "" ]; then
       touch "$DONE_FILE"
    fi
