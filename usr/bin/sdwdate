@@ -115,6 +115,8 @@ sdwdate_defaults() {
    if [ "$TEMP_DIR" = "" ]; then
       TEMP_DIR="$(mktemp --directory)"
    fi
+   ## Export so plugins run by sdwdate can use it.
+   export TEMP_DIR
 
    if [ "$PROXY" = "" ]; then
       PROXY=""
