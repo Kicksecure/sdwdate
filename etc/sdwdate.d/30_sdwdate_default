@@ -64,7 +64,7 @@ ALLOWED_PER_POOL_FAILURE_RATIO=0.34
 
 ## Temporary directory for file downloads.
 ## When not set, default to: TEMP_DIR="$(mktemp --directory)"
-TEMP_DIR=""
+#TEMP_DIR=""
 
 ## Which proxy curl should use.
 ## If empty, no proxy will be used.
