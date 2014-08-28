@@ -136,12 +136,12 @@ module SneakyClockAdjuster
         jump_ns = -jump_ns
       end
 
-      c.getAndSet(jump_ns)
+      c.getAndSet(jump_ns) unless debug
 
       if systohc then
         cmd = "hwclock --systohc"
-        system cmd #unless debug
         puts "Set hwclock with: #{cmd}" if verbose
+        system cmd unless debug
       end
 
       if verbose
