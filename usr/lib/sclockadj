@@ -165,8 +165,6 @@ module SneakyClockAdjuster
   end
 
   def self.make_jumps amount, min, max, jumps = []
-    if max < min then raise RangeError, "max < min" end
-
     loop do
       if amount < 1   then return jumps           end
       if amount < min then return jumps << amount end
