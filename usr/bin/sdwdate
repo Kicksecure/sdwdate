@@ -1505,6 +1505,48 @@ sdwdate_dispatcher_post_failure() {
    fi
 }
 
+sdwdate_error_test() {
+   trap "sdwdate_error_handler" ERR
+   if [ -f "/var/lib/sdw_error" ]; then
+      sdwdate_error_handler "Test file /var/lib/sdw_error to force test an error exists."
+      sleep 10 &
+      sleep_pid="$!"
+      wait "$sleep_pid" || true
+      unset sleep_pid
+   fi
+}
+
+sdwdate_sleep() {
+   trap "sdwdate_error_handler" ERR
+   ## INTERVAL: in minutes
+   ## sleep: in seconds
+
+   echo "RANDOMIZE: $RANDOMIZE"
+
+   local minutes
+   if [ "$RANDOMIZE" = "1" ]; then
+      test -e "/dev/random"
+      minutes="$(( ($(od -An -N2 -i "/dev/random") )%($INTERVAL) ))"
+      if [ "$MIN_INTERVAL" -ge "$minutes" ]; then
+         true "minutes="\$\(\( $minutes + $MIN_INTERVAL \)\)""
+         minutes="$(( $minutes + $MIN_INTERVAL ))"
+      fi
+   else
+      minutes="$INTERVAL"
+   fi
+
+   local seconds
+   true "seconds="\$\(\( $minutes \* 60 \)\)""
+   seconds="$(( $minutes * 60 ))"
+
+   sdwdate_log "Sleeping for $minutes minutes."
+
+   sleep "$seconds" &
+   sleep_pid="$!"
+   wait "$sleep_pid" || true
+   unset sleep_pid
+}
+
 sdwdate_main() {
    trap "sdwdate_error_handler" ERR
 
@@ -1534,13 +1576,7 @@ sdwdate_main() {
          sdwdate_signal_sigusr1
       fi
 
-      if [ -f "/var/lib/sdw_error" ]; then
-         sdwdate_error_handler "Test file /var/lib/sdw_error to force test an error exists."
-         sleep 10 &
-         sleep_pid="$!"
-         wait "$sleep_pid" || true
-         unset sleep_pid
-      fi
+      sdwdate_error_test
 
       sdwdate_dispatcher_pre
       sdwdate_dispatcher_prerequisite
@@ -1565,35 +1601,7 @@ sdwdate_main() {
       else
          ## Daemon mode.
          SDW_MODE="daemon"
-
-         ## INTERVAL: in minutes
-         ## sleep: in seconds
-
-         echo "RANDOMIZE: $RANDOMIZE"
-
-         local minutes
-         if [ "$RANDOMIZE" = "1" ]; then
-            test -e "/dev/random"
-            minutes="$(( ($(od -An -N2 -i "/dev/random") )%($INTERVAL) ))"
-            if [ "$MIN_INTERVAL" -ge "$minutes" ]; then
-               true "minutes="\$\(\( $minutes + $MIN_INTERVAL \)\)""
-               minutes="$(( $minutes + $MIN_INTERVAL ))"
-            fi
-         else
-            minutes="$INTERVAL"
-         fi
-
-         local seconds
-         true "seconds="\$\(\( $minutes \* 60 \)\)""
-         seconds="$(( $minutes * 60 ))"
-
-         sdwdate_log "Sleeping for $minutes minutes."
-
-         sleep "$seconds" &
-         sleep_pid="$!"
-         wait "$sleep_pid" || true
-         unset sleep_pid
-
+         sdwdate_sleep
          continue
       fi
    done
