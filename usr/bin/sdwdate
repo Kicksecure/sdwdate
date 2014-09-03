@@ -802,7 +802,7 @@ sdwdate_signal_sigterm() {
 
 trap "sdwdate_signal_sigterm" SIGTERM
 
-sdwdate_signal_sigusr1() {
+sdwdate_enable_debugging() {
    ## usage: kill -sigusr1 pid
 
    if [ "$SDWDATE_DEBUG_TRACE_SET" ]; then
@@ -821,6 +821,10 @@ sdwdate_signal_sigusr1() {
    trap 'true "${FUNCNAME[1]}: $BASH_COMMAND"' DEBUG
 
    SDWDATE_DEBUG_TRACE_SET="1"
+}
+
+sdwdate_signal_sigusr1() {
+   sdwdate_enable_debugging
 }
 
 trap "sdwdate_signal_sigusr1" SIGUSR1
@@ -1547,6 +1551,19 @@ sdwdate_sleep() {
    unset sleep_pid
 }
 
+sdwdate_maybe_read_config_folder() {
+   trap "sdwdate_error_handler" ERR
+   local grep_exit_code
+   grep_exit_code="$?"
+   echo "${1+"$@"}" | grep --quiet "\-\-noconfig" || { grep_exit_code="$?" ; true; };
+   if [ "$grep_exit_code" = "0" ]; then
+      true "Found --noconfig, skip reading config folder."
+   else
+      ## Not found, let's read config folder.
+      sdwdate_read_config_folder
+   fi
+}
+
 sdwdate_main() {
    trap "sdwdate_error_handler" ERR
 
@@ -1557,23 +1574,12 @@ sdwdate_main() {
    while true; do
       sdwdate_log "Running sdwdate..."
 
-      local grep_exit_code
-      grep_exit_code="$?"
-      echo "${1+"$@"}" | grep --quiet "\-\-noconfig" || { grep_exit_code="$?" ; true; };
-
-      if [ "$grep_exit_code" = "0" ]; then
-         ## Found, skip reading config folder.
-         true
-      else
-         ## Not found, let's read config folder.
-         sdwdate_read_config_folder
-      fi
-
+      sdwdate_maybe_read_config_folder ${1+"$@"}
       sdwdate_parse_cmd_options ${1+"$@"}
       sdwdate_defaults
       sdwdate_preparation
       if [ "$DEBUG" = "1" ]; then
-         sdwdate_signal_sigusr1
+         sdwdate_enable_debugging
       fi
 
       sdwdate_error_test
