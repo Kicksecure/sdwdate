@@ -856,7 +856,7 @@ sdwdate_download() {
       --tlsv1 \
       --proto =https \
       --max-time 180 \
-      --include \
+      --head \
       $CURL_PROXY \
       $CURL_VERBOSE \
       $CURL_USER_AGENT \
