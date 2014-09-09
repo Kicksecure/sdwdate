@@ -212,40 +212,40 @@ sdwdate_defaults() {
       SDWDATE_SCLOCKADJ_WAIT_MAX="1000000000"
    fi
 
-   if [ "${SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_PAL]}" = "" ]; then
+   if [ "${SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_ONE]}" = "" ]; then
       declare -A -g SDWDATE_CURL_DISPATCH_PRE
-      SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_PAL]="true"
+      SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_ONE]="true"
    fi
 
-   if [ "${SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_PAL]}" = "" ]; then
+   if [ "${SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_ONE]}" = "" ]; then
       declare -A -g SDWDATE_CURL_DISPATCH_POST
-      SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_PAL]="true"
+      SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_ONE]="true"
    fi
 
-   if [ "${SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_NEUTRAL]}" = "" ]; then
+   if [ "${SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_TWO]}" = "" ]; then
       declare -A -g SDWDATE_CURL_DISPATCH_PRE
-      SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_NEUTRAL]="true"
+      SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_TWO]="true"
    fi
 
-   if [ "${SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_NEUTRAL]}" = "" ]; then
+   if [ "${SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_TWO]}" = "" ]; then
       declare -A -g SDWDATE_CURL_DISPATCH_POST
-      SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_NEUTRAL]="true"
+      SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_TWO]="true"
    fi
 
-   if [ "${SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_FOE]}" = "" ]; then
+   if [ "${SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_THREE]}" = "" ]; then
       declare -A -g SDWDATE_CURL_DISPATCH_PRE
-      SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_FOE]="true"
+      SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_THREE]="true"
    fi
 
-   if [ "${SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_FOE]}" = "" ]; then
+   if [ "${SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_THREE]}" = "" ]; then
       declare -A -g SDWDATE_CURL_DISPATCH_POST
-      SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_FOE]="true"
+      SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_THREE]="true"
    fi
 
-   if [ "$SDWDATE_POOL_PAL" = "" ]; then
-      declare -g SDWDATE_POOL_PAL
+   if [ "$SDWDATE_POOL_ONE" = "" ]; then
+      declare -g SDWDATE_POOL_ONE
 
-      SDWDATE_POOL_PAL=(
+      SDWDATE_POOL_ONE=(
          boum.org
          chavez.indymedia.org
          db.debian.org
@@ -262,10 +262,10 @@ sdwdate_defaults() {
       )
    fi
 
-   if [ "$SDWDATE_POOL_NEUTRAL" = "" ]; then
-      declare -g SDWDATE_POOL_NEUTRAL
+   if [ "$SDWDATE_POOL_TWO" = "" ]; then
+      declare -g SDWDATE_POOL_TWO
 
-      SDWDATE_POOL_NEUTRAL=(
+      SDWDATE_POOL_TWO=(
          cve.mitre.org
          en.wikipedia.org
          lkml.org
@@ -283,10 +283,10 @@ sdwdate_defaults() {
       )
    fi
 
-   if [ "$SDWDATE_POOL_FOE" = "" ]; then
-      declare -g SDWDATE_POOL_FOE
+   if [ "$SDWDATE_POOL_THREE" = "" ]; then
+      declare -g SDWDATE_POOL_THREE
 
-      SDWDATE_POOL_FOE=(
+      SDWDATE_POOL_THREE=(
          encrypted.google.com
          github.com
          login.live.com
@@ -504,27 +504,27 @@ sdwdate_parse_cmd_options() {
                shift 2
                ;;
            --dispatch_pre_pal)
-               SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_PAL]=$2
+               SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_ONE]=$2
                shift 2
                ;;
            --dispatch_post_pal)
-               SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_PAL]=$2
+               SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_ONE]=$2
                shift 2
                ;;
            --dispatch_pre_neutral)
-               SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_NEUTRAL]=$2
+               SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_TWO]=$2
                shift 2
                ;;
            --dispatch_post_neutral)
-               SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_NEUTRAL]=$2
+               SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_TWO]=$2
                shift 2
                ;;
            --dispatch_pre_foe)
-               SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_FOE]=$2
+               SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_THREE]=$2
                shift 2
                ;;
            --dispatch_post_foe)
-               SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_FOE]=$2
+               SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_THREE]=$2
                shift 2
                ;;
            -q | --quiet)
@@ -1061,7 +1061,7 @@ sdwdate_pick() {
    declare -A -g SDWDATE_RESULT
    declare -A -g SDWDATE_TIME_DIFF
 
-   for SDWDATE_CURRENT_POOL in SDWDATE_POOL_PAL SDWDATE_POOL_NEUTRAL SDWDATE_POOL_FOE; do
+   for SDWDATE_CURRENT_POOL in SDWDATE_POOL_ONE SDWDATE_POOL_TWO SDWDATE_POOL_THREE; do
       ## Temporarily disabling error handler.
       ## Not using
       ## || { sdwdate_loop_return="?"; true; };
@@ -1087,11 +1087,11 @@ sdwdate_build_median() {
    trap "sdwdate_error_handler" ERR
 
    local results results_list min max
-   results="${SDWDATE_TIME_DIFF[SDWDATE_POOL_PAL]} ${SDWDATE_TIME_DIFF[SDWDATE_POOL_NEUTRAL]} ${SDWDATE_TIME_DIFF[SDWDATE_POOL_FOE]}"
+   results="${SDWDATE_TIME_DIFF[SDWDATE_POOL_ONE]} ${SDWDATE_TIME_DIFF[SDWDATE_POOL_TWO]} ${SDWDATE_TIME_DIFF[SDWDATE_POOL_THREE]}"
    sdwdate_log "Results summary: \
-pal: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_PAL]} | \
-neutral: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_NEUTRAL]} | \
-foe: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_FOE]} | \
+pal: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_ONE]} | \
+neutral: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_TWO]} | \
+foe: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_THREE]} | \
 second(s)"
 
    ## Thanks to NotANumber
