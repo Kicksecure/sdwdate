@@ -180,30 +180,30 @@ DISPATCH_POST_FAILURE=""
 
 ## This command will be `eval`uated before trying to connect to the pal pool.
 ## When set to "", it will be skipped.
-SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_PAL]=""
+SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_ONE]=""
 
 ## This command will be `eval`uated before after connecting to the pal pool.
 ## When set to "", it will be skipped.
-SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_PAL]=""
+SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_ONE]=""
 
 ## This command will be `eval`uated before trying to connect to the neutral pool.
 ## When set to "", it will be skipped.
-SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_NEUTRAL]=""
+SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_TWO]=""
 
 ## This command will be `eval`uated before after connecting to the neutral pool.
 ## When set to "", it will be skipped.
-SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_NEUTRAL]=""
+SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_TWO]=""
 
 ## This command will be `eval`uated before trying to connect to the foe pool.
 ## When set to "", it will be skipped.
-SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_FOE]=""
+SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_THREE]=""
 
 ## This command will be `eval`uated before trying after connecting to the pal pool.
 ## When set to "", it will be skipped.
-SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_FOE]=""
+SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_THREE]=""
 
 ## Pal pool.
-SDWDATE_POOL_PAL=(
+SDWDATE_POOL_ONE=(
    boum.org
    chavez.indymedia.org
    db.debian.org
@@ -220,7 +220,7 @@ SDWDATE_POOL_PAL=(
 )
 
 ## Neutral pool.
-SDWDATE_POOL_NEUTRAL=(
+SDWDATE_POOL_TWO=(
    cve.mitre.org
    en.wikipedia.org
    lkml.org
@@ -238,7 +238,7 @@ SDWDATE_POOL_NEUTRAL=(
 )
 
 ## Foe pool.
-SDWDATE_POOL_FOE=(
+SDWDATE_POOL_THREE=(
    encrypted.google.com
    github.com
    login.live.com
