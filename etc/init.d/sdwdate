@@ -82,9 +82,8 @@ do_start() {
 	   --exec /usr/bin/sdwdate -- $ND_PRE $ND_POST_SUCCESS $ND_POST_FAILURE
 
 	#bash -x /usr/bin/sdwdate $ND_PRE $ND_POST_SUCCESS $ND_POST_FAILURE & disown
-	#echo "$!" > "$PIDFILE"
-
 	ret="$?"
+	#echo "$!" > "$PIDFILE"
 
 	return "$ret"
 }
