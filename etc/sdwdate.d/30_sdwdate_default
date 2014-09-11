@@ -202,7 +202,7 @@ SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_THREE]=""
 ## When set to "", it will be skipped.
 SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_THREE]=""
 
-## Pal pool.
+## pool one.
 SDWDATE_POOL_ONE=(
    boum.org
    chavez.indymedia.org
@@ -219,7 +219,7 @@ SDWDATE_POOL_ONE=(
    www.torproject.org
 )
 
-## Neutral pool.
+## pool two.
 SDWDATE_POOL_TWO=(
    cve.mitre.org
    en.wikipedia.org
@@ -237,7 +237,7 @@ SDWDATE_POOL_TWO=(
    www.xkcd.com
 )
 
-## Foe pool.
+## pool three.
 SDWDATE_POOL_THREE=(
    encrypted.google.com
    github.com
