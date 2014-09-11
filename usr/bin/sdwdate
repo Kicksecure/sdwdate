@@ -954,9 +954,10 @@ sdwdate_loop() {
 
    eval "array=(\${$SDWDATE_CURRENT_POOL[@]})"
 
-   while true; do
-      declare -A -g remember
+   unset remember
+   declare -A -g remember
 
+   while true; do
       local array_length
       array_length="${#array[@]}"
       local array_length_remember
@@ -1047,10 +1048,10 @@ sdwdate_loop() {
       ## TODO
       sdwdate_log "$LINK (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) => diff = ${SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]} second(s)"
 
-      unset remember
-
       break
    done
+
+   unset remember
 
    return 0
 }
