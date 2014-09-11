@@ -396,15 +396,15 @@ sdwdate_parse_cmd_options() {
                shift 2
                ;;
            -P | --pool_one)
-               PAL_POOL=$2
+               SDWDATE_POOL_ONE=$2
                shift 2
                ;;
            -N | --pool_two)
-               NEUTRAL_POOL=$2
+               SDWDATE_POOL_TWO=$2
                shift 2
                ;;
            -F | --pool_three)
-               FOE_POOL=$2
+               SDWDATE_POOL_THREE=$2
                shift 2
                ;;
            -A | --allowed_per_pool_failure_ratio)
