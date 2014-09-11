@@ -53,6 +53,7 @@ log() {
 }
 
 do_start_nd() {
+   ND_PARSE_CMD_ONLY_STARTUP="--parsecmd_only_on_startup"
    ND_PRE="--dispatchpre true"
    ND_POST_SUCCESS="--dispatchpostsuccess true"
    ND_POST_FAILURE="--dispatchpostfailure true"
@@ -79,9 +80,9 @@ do_start() {
 	   --make-pidfile \
 	   --background \
 	   --chuid $USER_NAME:$USER_NAME \
-	   --exec /usr/bin/sdwdate -- $ND_PRE $ND_POST_SUCCESS $ND_POST_FAILURE
+	   --exec /usr/bin/sdwdate -- $ND_PARSE_CMD_ONLY_STARTUP $ND_PRE $ND_POST_SUCCESS $ND_POST_FAILURE
 
-	#bash -x /usr/bin/sdwdate $ND_PRE $ND_POST_SUCCESS $ND_POST_FAILURE & disown
+	#bash -x /usr/bin/sdwdate $ND_PARSE_CMD_ONLY_STARTUP $ND_PRE $ND_POST_SUCCESS $ND_POST_FAILURE & disown
 	ret="$?"
 	#echo "$!" > "$PIDFILE"
 
