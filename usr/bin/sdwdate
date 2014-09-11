@@ -54,10 +54,10 @@ $SCRIPTNAME [-aDdlpqTux] [long options...]
         -m --dispatchposterror                exec when an error is caught
         --dispatch_pre_one                    exec before run of curl
         --dispatch_post_one                   exec after run of curl
-        --dispatch_pre_two                exec before run of curl
-        --dispatch_post_two               exec after run of curl
-        --dispatch_pre_three                    exec before first run of curl
-        --dispatch_post_three                   exec after run of curl
+        --dispatch_pre_two                    exec before run of curl
+        --dispatch_post_two                   exec after run of curl
+        --dispatch_pre_three                  exec before first run of curl
+        --dispatch_post_three                 exec after run of curl
         --nodonefileonerror
         --noexitonerror"
 
