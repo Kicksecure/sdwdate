@@ -38,9 +38,9 @@ $SCRIPTNAME [-aDdlpqTux] [long options...]
         -l --log_file                         log to this file rather than to STDOUT
         -D --done_file                        create this file after one cycle of sdwdate
         -T --success_file                     create this file after setting time successfully
-        --pal_pool                            distrusted hostnames
-        --neutral_pool                        neutral hostnames
-        --foe_pool                            distrusted hostnames
+        --pool_one                            distrusted hostnames
+        --pool_two                            distrusted hostnames
+        --pool_three                          distrusted hostnames
         --allowed_per_pool_failure_ratio      ratio (0.0-1.0) of allowed per-pool failure
         -p --proxy                            what to pass to curl's --socks5-hostname
         -i --interval                         continuously run every x minutes
@@ -395,15 +395,15 @@ sdwdate_parse_cmd_options() {
                SUCCESS_FILE=$2
                shift 2
                ;;
-           -P | --pal_pool)
+           -P | --pool_one)
                PAL_POOL=$2
                shift 2
                ;;
-           -N | --neutral_pool)
+           -N | --pool_two)
                NEUTRAL_POOL=$2
                shift 2
                ;;
-           -F | --foe_pool)
+           -F | --pool_three)
                FOE_POOL=$2
                shift 2
                ;;
