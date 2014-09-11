@@ -1090,9 +1090,9 @@ sdwdate_build_median() {
    local results results_list min max
    results="${SDWDATE_TIME_DIFF[SDWDATE_POOL_ONE]} ${SDWDATE_TIME_DIFF[SDWDATE_POOL_TWO]} ${SDWDATE_TIME_DIFF[SDWDATE_POOL_THREE]}"
    sdwdate_log "Results summary: \
-pal: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_ONE]} | \
-neutral: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_TWO]} | \
-foe: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_THREE]} | \
+one: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_ONE]} | \
+two: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_TWO]} | \
+three: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_THREE]} | \
 second(s)"
 
    ## Thanks to NotANumber
