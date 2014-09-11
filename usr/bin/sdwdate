@@ -52,12 +52,12 @@ $SCRIPTNAME [-aDdlpqTux] [long options...]
         -x --dispatchpostsuccess              exec after successful run
         -z --dispatchpostfailure              exec after unsuccessful run
         -m --dispatchposterror                exec when an error is caught
-        --dispatch_pre_pal                    exec before run of curl
-        --dispatch_post_pal                   exec after run of curl
-        --dispatch_pre_neutral                exec before run of curl
-        --dispatch_post_neutral               exec after run of curl
-        --dispatch_pre_foe                    exec before first run of curl
-        --dispatch_post_foe                   exec after run of curl
+        --dispatch_pre_one                    exec before run of curl
+        --dispatch_post_one                   exec after run of curl
+        --dispatch_pre_two                exec before run of curl
+        --dispatch_post_two               exec after run of curl
+        --dispatch_pre_three                    exec before first run of curl
+        --dispatch_post_three                   exec after run of curl
         --nodonefileonerror
         --noexitonerror"
 
@@ -503,27 +503,27 @@ sdwdate_parse_cmd_options() {
                DISPATCH_POST_FAILURE=$2
                shift 2
                ;;
-           --dispatch_pre_pal)
+           --dispatch_pre_one)
                SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_ONE]=$2
                shift 2
                ;;
-           --dispatch_post_pal)
+           --dispatch_post_one)
                SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_ONE]=$2
                shift 2
                ;;
-           --dispatch_pre_neutral)
+           --dispatch_pre_two)
                SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_TWO]=$2
                shift 2
                ;;
-           --dispatch_post_neutral)
+           --dispatch_post_two)
                SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_TWO]=$2
                shift 2
                ;;
-           --dispatch_pre_foe)
+           --dispatch_pre_three)
                SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_THREE]=$2
                shift 2
                ;;
-           --dispatch_post_foe)
+           --dispatch_post_three)
                SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_THREE]=$2
                shift 2
                ;;
