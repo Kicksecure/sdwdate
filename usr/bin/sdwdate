@@ -38,9 +38,9 @@ $SCRIPTNAME [-aDdlpqTux] [long options...]
         -l --log_file                         log to this file rather than to STDOUT
         -D --done_file                        create this file after one cycle of sdwdate
         -T --success_file                     create this file after setting time successfully
-        --pal_pool                            distrusted hostnames
-        --neutral_pool                        neutral hostnames
-        --foe_pool                            distrusted hostnames
+        --pool_one                            distrusted hostnames
+        --pool_two                            distrusted hostnames
+        --pool_three                          distrusted hostnames
         --allowed_per_pool_failure_ratio      ratio (0.0-1.0) of allowed per-pool failure
         -p --proxy                            what to pass to curl's --socks5-hostname
         -i --interval                         continuously run every x minutes
@@ -52,12 +52,12 @@ $SCRIPTNAME [-aDdlpqTux] [long options...]
         -x --dispatchpostsuccess              exec after successful run
         -z --dispatchpostfailure              exec after unsuccessful run
         -m --dispatchposterror                exec when an error is caught
-        --dispatch_pre_pal                    exec before run of curl
-        --dispatch_post_pal                   exec after run of curl
-        --dispatch_pre_neutral                exec before run of curl
-        --dispatch_post_neutral               exec after run of curl
-        --dispatch_pre_foe                    exec before first run of curl
-        --dispatch_post_foe                   exec after run of curl
+        --dispatch_pre_one                    exec before run of curl
+        --dispatch_post_one                   exec after run of curl
+        --dispatch_pre_two                    exec before run of curl
+        --dispatch_post_two                   exec after run of curl
+        --dispatch_pre_three                  exec before first run of curl
+        --dispatch_post_three                 exec after run of curl
         --nodonefileonerror
         --noexitonerror"
 
@@ -395,16 +395,16 @@ sdwdate_parse_cmd_options() {
                SUCCESS_FILE=$2
                shift 2
                ;;
-           -P | --pal_pool)
-               PAL_POOL=$2
+           -P | --pool_one)
+               SDWDATE_POOL_ONE=$2
                shift 2
                ;;
-           -N | --neutral_pool)
-               NEUTRAL_POOL=$2
+           -N | --pool_two)
+               SDWDATE_POOL_TWO=$2
                shift 2
                ;;
-           -F | --foe_pool)
-               FOE_POOL=$2
+           -F | --pool_three)
+               SDWDATE_POOL_THREE=$2
                shift 2
                ;;
            -A | --allowed_per_pool_failure_ratio)
@@ -503,27 +503,27 @@ sdwdate_parse_cmd_options() {
                DISPATCH_POST_FAILURE=$2
                shift 2
                ;;
-           --dispatch_pre_pal)
+           --dispatch_pre_one)
                SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_ONE]=$2
                shift 2
                ;;
-           --dispatch_post_pal)
+           --dispatch_post_one)
                SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_ONE]=$2
                shift 2
                ;;
-           --dispatch_pre_neutral)
+           --dispatch_pre_two)
                SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_TWO]=$2
                shift 2
                ;;
-           --dispatch_post_neutral)
+           --dispatch_post_two)
                SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_TWO]=$2
                shift 2
                ;;
-           --dispatch_pre_foe)
+           --dispatch_pre_three)
                SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_THREE]=$2
                shift 2
                ;;
-           --dispatch_post_foe)
+           --dispatch_post_three)
                SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_THREE]=$2
                shift 2
                ;;
@@ -958,9 +958,10 @@ sdwdate_loop() {
 
    eval "array=(\${$SDWDATE_CURRENT_POOL[@]})"
 
-   while true; do
-      declare -A -g remember
+   unset remember
+   declare -A -g remember
 
+   while true; do
       local array_length
       array_length="${#array[@]}"
       local array_length_remember
@@ -1051,10 +1052,10 @@ sdwdate_loop() {
       ## TODO
       sdwdate_log "$LINK (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) => diff = ${SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]} second(s)"
 
-      unset remember
-
       break
    done
+
+   unset remember
 
    return 0
 }
@@ -1093,9 +1094,9 @@ sdwdate_build_median() {
    local results results_list min max
    results="${SDWDATE_TIME_DIFF[SDWDATE_POOL_ONE]} ${SDWDATE_TIME_DIFF[SDWDATE_POOL_TWO]} ${SDWDATE_TIME_DIFF[SDWDATE_POOL_THREE]}"
    sdwdate_log "Results summary: \
-pal: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_ONE]} | \
-neutral: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_TWO]} | \
-foe: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_THREE]} | \
+one: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_ONE]} | \
+two: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_TWO]} | \
+three: ${SDWDATE_TIME_DIFF[SDWDATE_POOL_THREE]} | \
 second(s)"
 
    ## Thanks to NotANumber

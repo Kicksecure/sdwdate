@@ -65,17 +65,17 @@ Sets mediate time after asking 3 https servers out of 3 different pools.
 
     create this file after setting time successfully
 
-  * --pal_pool hostnames
+  * --pool_one hostnames
 
-    Friendly distrusted hostnames.
+    Distrusted hostnames.
 
-  * --neutral_pool hostnames
+  * --pool_two hostnames
 
-    Neutral distrusted hostnames.
+    Distrusted hostnames.
 
-  * --foe_pool hostnames
+  * --pool_three hostnames
 
-    Distrusted distrusted hostnames.
+    Distrusted hostnames.
 
   * --allowed_per_pool_failure_ratio ratio
 
@@ -171,27 +171,27 @@ Sets mediate time after asking 3 https servers out of 3 different pools.
 
     exec when an error is caught
 
-  * --dispatch_pre_pal command
+  * --dispatch_pre_one command
 
     exec before run of curl
 
-  * --dispatch_post_pal command
+  * --dispatch_post_one command
 
     exec after run of curl
 
-  * --dispatch_pre_neutral command
+  * --dispatch_pre_two command
 
     exec before run of curl
 
-  * --dispatch_post_neutral command
+  * --dispatch_post_two command
 
     exec after run of curl
 
-  * --dispatch_pre_foe command
+  * --dispatch_pre_three command
 
     exec before first run of curl
 
-  * --dispatch_post_foe command
+  * --dispatch_post_three command
 
     exec after run of curl"
 
