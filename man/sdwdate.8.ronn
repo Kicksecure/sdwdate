@@ -150,6 +150,10 @@ Sets mediate time after asking 3 https servers out of 3 different pools.
 
     ignore /etc/sdwdate.d/ config folder
 
+  * --parsecmd_only_on_startup
+
+    Parse command line arguments only on startup.
+
   * -w --dispatchpre command
 
     exec before run

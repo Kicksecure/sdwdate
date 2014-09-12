@@ -221,35 +221,35 @@ SDWDATE_POOL_ONE=(
 
 ## pool two.
 SDWDATE_POOL_TWO=(
-   cve.mitre.org
+   grc.com
+   www.tarsnap.com
+   wikileaks.org
+   pressfreedomfoundation.org
+   securedrop.theguardian.com
+   safesource.forbes.com
    en.wikipedia.org
+   cve.mitre.org
+   duckduckgo.com
    lkml.org
-   thepiratebay.org
-   www.apache.org
-   www.centos.org
-   www.democracynow.org
-   www.duckduckgo.com
    www.gnu.org
+   fsf.org
    www.kernel.org
-   www.mozilla.org
-   www.stackexchange.com
-   www.startpage.com
-   www.xkcd.com
 )
 
 ## pool three.
 SDWDATE_POOL_THREE=(
-   encrypted.google.com
-   github.com
-   login.live.com
-   login.yahoo.com
-   secure.flickr.com
-   tumblr.com
-   twitter.com
-   www.adobe.com
-   www.gandi.net
-   www.myspace.com
-   www.paypal.com
-   www.rsa.com
-   www.sony.com
+   www.startpage.com
+   www.apache.org
+   www.centos.org
+   www.piratenpartei.de
+   www.torservers.net
+   www.accessnow.org
+   rsf.org
+   www.wauland.de
+   www.ccc.de
+   netzpolitik.org
+   privacyfoundation.ch
+   www.noisebridge.net
+   en.bitcoin.it
+   www.calyxinstitute.org
 )
