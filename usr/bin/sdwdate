@@ -47,6 +47,7 @@ $SCRIPTNAME [-aDdlpqTux] [long options...]
         --mininterval                         wait minimum between intervals
         -r --randomize                        randomize interval
         -n --noconfig                         ignore /etc/sdwdate.d/ config folder
+        --parsecmd_only_on_startup            parse command line arguments only on startup
         -w --dispatchpre                      exec before run
         -y --dispatchprerequisite             check before run
         -x --dispatchpostsuccess              exec after successful run
@@ -136,6 +137,10 @@ sdwdate_defaults() {
 
    if [ "$NOCONFIG" = "" ]; then
       NOCONFIG=""
+   fi
+
+   if [ "$PARSE_CMD_ONLY_ON_STARTUP" = "" ]; then
+      PARSE_CMD_ONLY_ON_STARTUP=""
    fi
 
    if [ "$RANDOMIZE" = "" ]; then
@@ -425,6 +430,10 @@ sdwdate_parse_cmd_options() {
                ;;
            -n | --noconfig)
                NOCONFIG="1"
+               shift 1
+               ;;
+           --parsecmd_only_on_startup)
+               PARSE_CMD_ONLY_ON_STARTUP="1"
                shift 1
                ;;
            -r | --randomize)
@@ -1565,6 +1574,20 @@ sdwdate_maybe_read_config_folder() {
    fi
 }
 
+sdwdate_maybe_parse_cmd_options() {
+   trap "sdwdate_error_handler" ERR
+   if [ "$PARSE_CMD_ONLY_ON_STARTUP" = "1" ]; then
+      if [ "$ALREADY_PARSED_CDM_ON_STARTUP" = "1" ]; then
+         true "ALREADY_PARSED_CDM_ON_STARTUP is 1, not parsing cmd options again."
+      else
+         ALREADY_PARSED_CDM_ON_STARTUP="1"
+         sdwdate_parse_cmd_options
+      fi
+   else
+      sdwdate_parse_cmd_options ${1+"$@"}
+   fi
+}
+
 sdwdate_main() {
    trap "sdwdate_error_handler" ERR
 
@@ -1576,7 +1599,7 @@ sdwdate_main() {
       sdwdate_log "Running sdwdate..."
 
       sdwdate_maybe_read_config_folder ${1+"$@"}
-      sdwdate_parse_cmd_options ${1+"$@"}
+      sdwdate_maybe_parse_cmd_options ${1+"$@"}
       sdwdate_defaults
       sdwdate_preparation
       if [ "$DEBUG" = "1" ]; then
