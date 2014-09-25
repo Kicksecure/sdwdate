@@ -13,9 +13,9 @@ Plugins are supported via hooks. These hooks include pre-connect, pre-fetch,
 post-fetch, post-success, post-failure, and progress. Sdwdate comes without a
 GUI, but is available as a plugin called timesync.
 
-This package contains the sdwdate time fetcher and daemon. There is no remote
-installation. To avoid conflicts, this daemon should be no be enabled together
-with ntp or tlsdated.
+This package contains the sdwdate time fetcher and daemon. No
+installation on remote servers required. To avoid conflicts, this daemon
+should be not be enabled together with ntp or tlsdated.
 
 (This package description has been [automatically](https://github.com/Whonix/whonix-developer-meta-files/blob/master/debug-steps/packaging-helper-script) extracted and mirrored from `debian/control`.)
 
