@@ -838,7 +838,7 @@ sdwdate_signal_sigusr1() {
 
 trap "sdwdate_signal_sigusr1" SIGUSR1
 
-sdwdate_download() {
+sdwdate_download_using_curl() {
    trap "sdwdate_error_handler" ERR
 
    LINK="https://"$1""
@@ -1029,7 +1029,7 @@ sdwdate_loop() {
          continue
       fi
 
-      sdwdate_download "${array[$random_integer]}"
+      sdwdate_download_using_curl "${array[$random_integer]}"
 
       if [ ! "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}" = "0" ]; then
          remember[$random_integer]=1
