@@ -292,19 +292,18 @@ sdwdate_defaults() {
       declare -g SDWDATE_POOL_THREE
 
       SDWDATE_POOL_THREE=(
-         encrypted.google.com
-         github.com
-         login.live.com
-         login.yahoo.com
-         secure.flickr.com
-         tumblr.com
-         twitter.com
-         www.adobe.com
-         www.gandi.net
-         www.myspace.com
-         www.paypal.com
-         www.rsa.com
-         www.sony.com
+         opentechfund.org
+         eff.org
+         fsf.org
+         fsfe.org
+         freedom.press
+         firstlook.org
+         schneier.com
+         debian.org
+         defectivebydesign.org
+         wikileaks.org
+         gnupg.org
+         gpgtools.org
       )
    fi
 }
