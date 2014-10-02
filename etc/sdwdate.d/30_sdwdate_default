@@ -19,9 +19,19 @@ DEBUG=0
 ## Remove "--silent" from invocations of curl.
 #CURL_VERBOSE=""
 
+## Extra options for tlsdate in case using tlsdate time setting method.
+#TLSDATE_EXTRA_OPTIONS="--verbose"
+
 ## Run as the following user name.
 ## Not implemented. Has no effect.
 USER=""
+
+## TODO
+## Must be either,
+## curl
+## sdwdate
+#TIME_FETCHING_METHOD="curl"
+TIME_FETCHING_METHOD="tlsdate"
 
 ## Do or do not actually change the date/time after successfully fetching it.
 ## 0 set date.

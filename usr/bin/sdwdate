@@ -14,6 +14,12 @@
 ## TODO:
 ## - implement --user
 
+## TODO tlsdate support:
+## - tlsdate defaults
+## - tlsdate cmd options
+## - V: time is greater than RECENT_COMPILE_DATE
+## - what happens if time is lesser than RECENT_COMPILE_DATE?
+
 #set -x
 set -o pipefail
 
@@ -360,6 +366,7 @@ sdwdate_parse_cmd_options() {
            -d | --debug)
                DEBUG=1
                CURL_VERBOSE=""
+               TLSDATE_VERBOSE="--verbose"
                shift
                ;;
            -u | --user)
@@ -606,6 +613,8 @@ sdwdate_preparation() {
       who_ami="$(whoami)"
    fi
    sdwdate_log "$FUNCNAME: who_ami is set to $who_ami."
+
+   sdwdate_log "$FUNCNAME: TIME_FETCHING_METHOD is set to $TIME_FETCHING_METHOD."
 }
 
 sdwdate_echo() {
@@ -756,6 +765,9 @@ sdwdate_sanity_tests() {
    command -v shuf >/dev/null
    command -v /usr/lib/sclockadj >/dev/null
    command -v /sbin/hwclock >/dev/null
+   ## TODO: when jessie becomes stable
+   #command -v tlsdate >/dev/null
+
    test -e "/dev/random"
    bash -n "$BASH_SOURCE"
 }
@@ -838,15 +850,34 @@ sdwdate_signal_sigusr1() {
 
 trap "sdwdate_signal_sigusr1" SIGUSR1
 
-sdwdate_download_using_curl() {
+tlsdate_show_log() {
+   trap "sdwdate_error_handler" ERR
+   local tlsdate_stdout tlsdate_stderr
+   if [ -r "$TEMP_DIR/$SDWDATE_CURRENT_POOL" ]; then
+      ## TODO: timeout
+      tlsdate_stdout="$(cat "$TEMP_DIR/$SDWDATE_CURRENT_POOL")"
+   fi
+   if [ -r "$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr" ]; then
+      ## TODO: timeout
+      tlsdate_stderr="$(cat "$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr")"
+   fi
+   sdwdate_log "tlsdate exit code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}"
+   sdwdate_log "tlsdate stdout: $tlsdate_stdout"
+   sdwdate_log "tlsdate stderr: $tlsdate_stderr"
+}
+
+sdwdate_download() {
    trap "sdwdate_error_handler" ERR
 
-   LINK="https://"$1""
+   LINK="https://$1"
+   LINK_WITHOUT_HTTPS="$1"
 
    if [ "$PROXY" = "" ]; then
       CURL_PROXY=""
+      TLSDATE_PROXY=""
    else
       CURL_PROXY="--socks5-hostname $PROXY"
+      TLSDATE_PROXY="--proxy socks5://$PROXY"
    fi
 
    sdwdate_log "getUrlDateDiff: "$LINK""
@@ -864,18 +895,60 @@ sdwdate_download_using_curl() {
       eval ${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}
    fi
 
-   ## --fail not required, because also 404 would include head, which is all we need
-   $CURL \
-      --tlsv1 \
-      --proto =https \
-      --max-time 180 \
-      --head \
-      $CURL_PROXY \
-      $CURL_VERBOSE \
-      $CURL_USER_AGENT \
-      --output "$TEMP_DIR/$SDWDATE_CURRENT_POOL" \
-      "$LINK" \
-      &
+   touch "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
+   rm "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
+   touch "$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr"
+   rm "$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr"
+
+   if [ "$TIME_FETCHING_METHOD" = "curl" ]; then
+      ## --fail not required, because also 404 would include head, which is all we need
+      $CURL \
+         --tlsv1 \
+         --proto =https \
+         --max-time 180 \
+         --head \
+         $CURL_PROXY \
+         $CURL_VERBOSE \
+         $CURL_USER_AGENT \
+         --output "$TEMP_DIR/$SDWDATE_CURRENT_POOL" \
+         "$LINK" \
+         &
+   elif [ "$TIME_FETCHING_METHOD" = "tlsdate" ]; then
+      ## TODO:
+      ## - does tlsdate handle timeouts or run forever?
+
+      ## - tlsdate defaults to tlsv1 as per tlsdate's man page.
+      ## - Long option --host did not work for some reason. Short option -H
+      ##   however worked fine.
+      ## - tlsdate does not work with -H https://www.torproject.org, but with
+      ##   -H www.torproject.org.
+      ## - Using --showtime=human, because --showtime=raw does not work.
+
+      sdwdate_log "Running: tlsdate \
+         $TLSDATE_PROXY \
+         $TLSDATE_VERBOSE \
+         $TLSDATE_EXTRA_OPTIONS \
+         --dont-set-clock \
+         --showtime=human \
+         -H \"$LINK_WITHOUT_HTTPS\" \
+         > \"$TEMP_DIR/$SDWDATE_CURRENT_POOL\" \
+         2> \"$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr\" \
+         &"
+
+      tlsdate \
+         $TLSDATE_PROXY \
+         $TLSDATE_VERBOSE \
+         $TLSDATE_EXTRA_OPTIONS \
+         --dont-set-clock \
+         --showtime=human \
+         -H "$LINK_WITHOUT_HTTPS" \
+         > "$TEMP_DIR/$SDWDATE_CURRENT_POOL" \
+         2> "$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr" \
+         &
+   else
+      msg="Unknown TIME_FETCHING_METHOD: $TIME_FETCHING_METHOD."
+      error "$msg"
+   fi
 
    SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]="$!"
 
@@ -892,18 +965,30 @@ sdwdate_download_using_curl() {
    SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]="$(( $TIME_END - $TIME_START ))"
 
    if [ ! "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}" = "0" ]; then
-      local command_v_exit_code="0"
-      command -v /usr/lib/curl-scripts/curl_exit_codes > /dev/null || { command_v_exit_code="$?" ; true; };
-      if [ "$command_v_exit_code" = "0" ]; then
-         ## If /usr/lib/curl-scripts/curl_exit_codes available, use it.
-         local curl_status_message
-         curl_status_message="$(/usr/lib/curl-scripts/curl_exit_codes "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}")" || true
-         sdwdate_log "No file could be downloaded from $LINK. (curl_exit_code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]} | curl_status_message: $curl_status_message)"
+      if [ "$TIME_FETCHING_METHOD" = "curl" ]; then
+         local command_v_exit_code="0"
+         command -v /usr/lib/curl-scripts/curl_exit_codes > /dev/null || { command_v_exit_code="$?" ; true; };
+         if [ "$command_v_exit_code" = "0" ]; then
+            ## If /usr/lib/curl-scripts/curl_exit_codes available, use it.
+            local curl_status_message
+            curl_status_message="$(/usr/lib/curl-scripts/curl_exit_codes "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}")" || true
+            sdwdate_log "No file could be downloaded from $LINK. (curl_exit_code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]} | curl_status_message: $curl_status_message)"
+         else
+            ## Fallback if /usr/lib/curl-scripts/curl_exit_codes is not available.
+            sdwdate_log "No file could be downloaded from $LINK. (curl_exit_code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]})"
+         fi
+      elif [ "$TIME_FETCHING_METHOD" = "tlsdate" ]; then
+         sdwdate_log "No time could be obtained from $LINK. (tlsdate exit code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]})"
+         tlsdate_show_log
       else
-         ## Fallback if /usr/lib/curl-scripts/curl_exit_codes is not available.
-         sdwdate_log "No file could be downloaded from $LINK. (curl_exit_code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]})"
+         msg="Unknown TIME_FETCHING_METHOD: $TIME_FETCHING_METHOD."
+         error "$msg"
       fi
       return 0
+   fi
+
+   if [ "$TIME_FETCHING_METHOD" = "tlsdate" ]; then
+      tlsdate_show_log
    fi
 
    test -f "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
@@ -926,6 +1011,14 @@ sdwdate_parse_date() {
 
    test -f "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
 
+   if [ "$TIME_FETCHING_METHOD" = "tlsdate" ]; then
+      ## Parsing not required. tlsdate already did that.
+      ## TODO: timeout
+      WEB_DATE_GMT="$(cat "$TEMP_DIR/$SDWDATE_CURRENT_POOL")"
+      SDWDATE_PARSE_SUCCESS="0"
+      return 0
+   fi
+
    local i
    i="0"
    local LINE
@@ -933,6 +1026,9 @@ sdwdate_parse_date() {
       true "i="\$\(\( $i + 1 \)\)""
       i="$(( $i + 1 ))"
       true "INFO: LINE: $LINE"
+      local LINE_LENGTH
+      LINE_LENGTH="${#LINE}"
+      true "Reply from $LINK. i: $i LINE_LENGTH: $LINE_LENGTH"
 
       if [ "$i" -gt "20" ]; then
          sdwdate_log "Bogus reply from $LINK did not include the \"Date\" field."
@@ -943,6 +1039,18 @@ sdwdate_parse_date() {
       FIRST_WORD="${LINE%%:*}"
       ## twitter used Date in lower case
       if [ "${FIRST_WORD,,}" = "date" ]; then
+         ## TODO: do not hard code 36
+         if [ "$LINE_LENGTH" -gt "36" ]; then
+            sdwdate_log "Bogus reply from $LINK for the \"Date\" field. Excessive line length: $LINE_LENGTH"
+            break
+         fi
+         ## TODO: do not hard code 36
+         if [ ! "$LINE_LENGTH" = "36" ]; then
+            sdwdate_log "Bogus reply from $LINK for the \"Date\" field. Line length $LINE_LENGTH does not equal expected 36."
+            break
+         fi
+         true "Reply from $LINK for the \"Date\" field. Line length: $LINE_LENGTH"
+
          WEB_DATE_GMT="${LINE#*:}"
          SDWDATE_PARSE_SUCCESS="0"
          break
@@ -958,7 +1066,29 @@ sdwdate_convert_to_unixtime() {
    WEB_DATE_UNIXTIME="$(date --date="$WEB_DATE_GMT" +"%s")" || { SDWDATE_CONVERT_SUCCESS="$?" ; true; };
 
    if [ ! "$SDWDATE_CONVERT_SUCCESS" = "0" ]; then
-      sdwdate_log "Bogus reply from $LINK. Could not convert to unixtime."
+      sdwdate_log "Bogus reply from $LINK. Could not convert to unixtime. \
+\`date\` failed with exit code: $SDWDATE_CONVERT_SUCCESS. date stdout: $WEB_DATE_UNIXTIME"
+      return 0
+   fi
+
+   local WEB_DATE_UNIXTIME_STRING_LENGTH
+   WEB_DATE_UNIXTIME_STRING_LENGTH="${#WEB_DATE_UNIXTIME}"
+
+   ## TODO: do not hard code 12
+   if [ "$WEB_DATE_UNIXTIME_STRING_LENGTH" -gt "12" ]; then
+      SDWDATE_CONVERT_SUCCESS="false"
+      sdwdate_log "Bogus reply from $LINK. Could not convert to unixtime. String length of WEB_DATE_UNIXTIME is bigger than 12, it is: $WEB_DATE_UNIXTIME_STRING_LENGTH"
+      return 0
+   else
+      true "Reply from $LINK WEB_DATE_UNIXTIME string length is exactly 10."
+   fi
+
+   if [[ "$WEB_DATE_UNIXTIME" != *[!0-9]* ]]; then
+      true "Reply from $LINK WEB_DATE_UNIXTIME is strictly numeric. WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME"
+   else
+      SDWDATE_CONVERT_SUCCESS="false"
+      sdwdate_log "Bogus reply from $LINK. Could not convert to unixtime. Result is not strictly numeric. WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME"
+      return 0
    fi
 }
 
@@ -1029,7 +1159,7 @@ sdwdate_loop() {
          continue
       fi
 
-      sdwdate_download_using_curl "${array[$random_integer]}"
+      sdwdate_download "${array[$random_integer]}"
 
       if [ ! "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}" = "0" ]; then
          remember[$random_integer]=1
