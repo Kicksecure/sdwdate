@@ -850,7 +850,7 @@ trap "sdwdate_signal_sigusr1" SIGUSR1
 sdwdate_download() {
    trap "sdwdate_error_handler" ERR
 
-   LINK="https://"$1""
+   LINK="https://$1"
 
    if [ "$PROXY" = "" ]; then
       CURL_PROXY=""
