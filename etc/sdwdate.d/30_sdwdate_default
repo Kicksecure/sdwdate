@@ -204,61 +204,61 @@ SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_THREE]=""
 
 ## pool one.
 SDWDATE_POOL_ONE=(
-   boum.org
-   chavez.indymedia.org
-   db.debian.org
-   debian.org
-   epic.org
-   mail.riseup.net
-   sarava.org
-   squat.net
-   tachanka.org
-   www.1984.is
-   www.eff.org
-   www.immerda.ch
-   www.privacyinternational.org
-   www.torproject.org
-   freedom.press
+         boum.org
+         chavez.indymedia.org
+         db.debian.org
+         debian.org
+         epic.org
+         mail.riseup.net
+         sarava.org
+         squat.net
+         tachanka.org
+         www.1984.is
+         www.eff.org
+         www.immerda.ch
+         www.privacyinternational.org
+         www.torproject.org
+         freedom.press
 )
 
 ## pool two.
 SDWDATE_POOL_TWO=(
-   grc.com
-   www.tarsnap.com
-   wikileaks.org
-   pressfreedomfoundation.org
-   securedrop.theguardian.com
-   safesource.forbes.com
-   en.wikipedia.org
-   cve.mitre.org
-   duckduckgo.com
-   lkml.org
-   www.gnu.org
-   fsf.org
-   fsfe.org
-   defectivebydesign.org
-   www.kernel.org
-   opentechfund.org
-   firstlook.org
+         grc.com
+         www.tarsnap.com
+         wikileaks.org
+         pressfreedomfoundation.org
+         securedrop.theguardian.com
+         safesource.forbes.com
+         en.wikipedia.org
+         cve.mitre.org
+         duckduckgo.com
+         lkml.org
+         www.gnu.org
+         fsf.org
+         fsfe.org
+         defectivebydesign.org
+         www.kernel.org
+         opentechfund.org
+         firstlook.org
 )
 
 ## pool three.
 SDWDATE_POOL_THREE=(
-   www.startpage.com
-   www.apache.org
-   www.centos.org
-   www.piratenpartei.de
-   www.torservers.net
-   www.accessnow.org
-   rsf.org
-   www.wauland.de
-   www.ccc.de
-   netzpolitik.org
-   privacyfoundation.ch
-   www.noisebridge.net
-   en.bitcoin.it
-   www.calyxinstitute.org
-   gnupg.org
-   gpgtools.org
-   schneier.com
+         www.startpage.com
+         www.apache.org
+         www.centos.org
+         www.piratenpartei.de
+         www.torservers.net
+         www.accessnow.org
+         rsf.org
+         www.wauland.de
+         www.ccc.de
+         netzpolitik.org
+         privacyfoundation.ch
+         www.noisebridge.net
+         en.bitcoin.it
+         www.calyxinstitute.org
+         gnupg.org
+         gpgtools.org
+         schneier.com
 )
