@@ -946,6 +946,9 @@ sdwdate_parse_date() {
       true "i="\$\(\( $i + 1 \)\)""
       i="$(( $i + 1 ))"
       true "INFO: LINE: $LINE"
+      local LINE_LENGTH
+      LINE_LENGTH="${#LINE}"
+      true "Reply from $LINK. i: $i LINE_LENGTH: $LINE_LENGTH"
 
       if [ "$i" -gt "20" ]; then
          sdwdate_log "Bogus reply from $LINK did not include the \"Date\" field."
@@ -956,6 +959,18 @@ sdwdate_parse_date() {
       FIRST_WORD="${LINE%%:*}"
       ## twitter used Date in lower case
       if [ "${FIRST_WORD,,}" = "date" ]; then
+         ## TODO: do not hard code 36
+         if [ "$LINE_LENGTH" -gt "36" ]; then
+            sdwdate_log "Bogus reply from $LINK for the \"Date\" field. Excessive line length: $LINE_LENGTH"
+            break
+         fi
+         ## TODO: do not hard code 36
+         if [ ! "$LINE_LENGTH" = "36" ]; then
+            sdwdate_log "Bogus reply from $LINK for the \"Date\" field. Line length $LINE_LENGTH does not equal expected 36."
+            break
+         fi
+         true "Reply from $LINK for the \"Date\" field. Line length: $LINE_LENGTH"
+
          WEB_DATE_GMT="${LINE#*:}"
          SDWDATE_PARSE_SUCCESS="0"
          break
@@ -971,7 +986,29 @@ sdwdate_convert_to_unixtime() {
    WEB_DATE_UNIXTIME="$(date --date="$WEB_DATE_GMT" +"%s")" || { SDWDATE_CONVERT_SUCCESS="$?" ; true; };
 
    if [ ! "$SDWDATE_CONVERT_SUCCESS" = "0" ]; then
-      sdwdate_log "Bogus reply from $LINK. Could not convert to unixtime."
+      sdwdate_log "Bogus reply from $LINK. Could not convert to unixtime. \
+\`date\` failed with exit code: $SDWDATE_CONVERT_SUCCESS. date stdout: $WEB_DATE_UNIXTIME"
+      return 0
+   fi
+
+   local WEB_DATE_UNIXTIME_STRING_LENGTH
+   WEB_DATE_UNIXTIME_STRING_LENGTH="${#WEB_DATE_UNIXTIME}"
+
+   ## TODO: do not hard code 12
+   if [ "$WEB_DATE_UNIXTIME_STRING_LENGTH" -gt "12" ]; then
+      SDWDATE_CONVERT_SUCCESS="false"
+      sdwdate_log "Bogus reply from $LINK. Could not convert to unixtime. String length of WEB_DATE_UNIXTIME is bigger than 12, it is: $WEB_DATE_UNIXTIME_STRING_LENGTH"
+      return 0
+   else
+      true "Reply from $LINK WEB_DATE_UNIXTIME string length is exactly 10."
+   fi
+
+   if [[ "$WEB_DATE_UNIXTIME" != *[!0-9]* ]]; then
+      true "Reply from $LINK WEB_DATE_UNIXTIME is strictly numeric. WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME"
+   else
+      SDWDATE_CONVERT_SUCCESS="false"
+      sdwdate_log "Bogus reply from $LINK. Could not convert to unixtime. Result is not strictly numeric. WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME"
+      return 0
    fi
 }
 
