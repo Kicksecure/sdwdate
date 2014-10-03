@@ -873,6 +873,10 @@ sdwdate_download() {
       eval ${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}
    fi
 
+   ## Sanity test.
+   touch "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
+   rm "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
+
    ## --fail not required, because also 404 would include head, which is all we need
    $CURL \
       --tlsv1 \
