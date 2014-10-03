@@ -899,7 +899,7 @@ sdwdate_download() {
       TLSDATE_PROXY="--proxy socks5://$PROXY"
    fi
 
-   sdwdate_log "getUrlDateDiff: "$LINK""
+   sdwdate_log "getUrlDateDiff: $LINK"
 
    sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]="0"
 
