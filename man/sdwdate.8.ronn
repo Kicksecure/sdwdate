@@ -199,6 +199,14 @@ Sets mediate time after asking 3 https servers out of 3 different pools.
 
     exec after run of curl"
 
+  * --time-fetching-method
+
+     curl or tlsdate
+
+  * --tlsdate-extra-options
+
+     tlsdate extra options
+
 ## DISPATCHER
 Can be commands or scripts.
 
