@@ -254,6 +254,7 @@ sdwdate_defaults() {
          boum.org
          chavez.indymedia.org
          db.debian.org
+         debian.org
          epic.org
          mail.riseup.net
          sarava.org
@@ -264,6 +265,7 @@ sdwdate_defaults() {
          www.immerda.ch
          www.privacyinternational.org
          www.torproject.org
+         freedom.press
       )
    fi
 
@@ -283,7 +285,11 @@ sdwdate_defaults() {
          lkml.org
          www.gnu.org
          fsf.org
+         fsfe.org
+         defectivebydesign.org
          www.kernel.org
+         opentechfund.org
+         firstlook.org
       )
    fi
 
@@ -305,6 +311,9 @@ sdwdate_defaults() {
          www.noisebridge.net
          en.bitcoin.it
          www.calyxinstitute.org
+         gnupg.org
+         gpgtools.org
+         schneier.com
       )
    fi
 }

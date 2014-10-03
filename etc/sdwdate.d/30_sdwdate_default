@@ -207,6 +207,7 @@ SDWDATE_POOL_ONE=(
    boum.org
    chavez.indymedia.org
    db.debian.org
+   debian.org
    epic.org
    mail.riseup.net
    sarava.org
@@ -217,6 +218,7 @@ SDWDATE_POOL_ONE=(
    www.immerda.ch
    www.privacyinternational.org
    www.torproject.org
+   freedom.press
 )
 
 ## pool two.
@@ -233,7 +235,11 @@ SDWDATE_POOL_TWO=(
    lkml.org
    www.gnu.org
    fsf.org
+   fsfe.org
+   defectivebydesign.org
    www.kernel.org
+   opentechfund.org
+   firstlook.org
 )
 
 ## pool three.
@@ -252,4 +258,7 @@ SDWDATE_POOL_THREE=(
    www.noisebridge.net
    en.bitcoin.it
    www.calyxinstitute.org
+   gnupg.org
+   gpgtools.org
+   schneier.com
 )
