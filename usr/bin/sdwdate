@@ -1552,7 +1552,7 @@ sdwdate_set_time_using_sclockadj() {
    done < "$sclockadj_subshell_fifo" &
 }
 
-sdwdate_set_new_time() {
+sdwdate_maybe_set_new_time() {
    trap "sdwdate_error_handler" ERR
 
    if [ "$DONT_SET_DATE" = "1" ]; then
@@ -1795,7 +1795,7 @@ sdwdate_main() {
          sdwdate_dispatcher_post_failure
       else
          sdwdate_build_median
-         sdwdate_set_new_time
+         sdwdate_maybe_set_new_time
          sdwdate_success
          sdwdate_dispatcher_post_success
       fi
