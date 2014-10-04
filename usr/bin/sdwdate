@@ -13,6 +13,8 @@
 
 ## TODO:
 ## - implement --user
+## - refactoring, having "_curl_" in variable names is not that good, because
+##   support for tlsdate has been added as well
 
 #set -x
 set -o pipefail
