@@ -673,8 +673,17 @@ sdwdate_log() {
       ID="No_ID"
    fi
 
-   local msg
+   local msg msg_string_length max_log_string_length
    msg="$ID: $@"
+   msg_string_length="${#msg}"
+   max_log_string_length="500"
+
+   if [ "$msg_string_length" -gt "$max_log_string_length" ]; then
+      ## Shorten excess length $msg to $max_log_string_length chars.
+      msg="${msg:0:$max_log_string_length}"
+      msg="${msg} ||| Shortened log msg string length!"
+   fi
+
    swddate_last_but_one_msg="$swddate_last_msg"
    swddate_last_msg="$msg"
 
