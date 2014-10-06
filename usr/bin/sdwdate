@@ -1162,8 +1162,8 @@ sdwdate_loop() {
          fi
       fi
 
-      if [ "$array_length" = "$array_length_remember" ]; then
-         sdwdate_log "ERROR: No member of the $SDWDATE_CURRENT_POOL could not be reached."
+      if [ "$array_length_remember" -ge "$array_length" ]; then
+         sdwdate_log "ERROR: No member of the $SDWDATE_CURRENT_POOL could not be reached. (debugging information: array_length_remember: $array_length_remember | array_length: $array_length)"
 
          ## Check, if we are running in daemon mode.
          if [ "$INTERVAL" = "" ] || [ "$INTERVAL" = "0" ]; then
@@ -1180,6 +1180,11 @@ sdwdate_loop() {
       ## adjust upward / downward
       local allowed_member_failures
       allowed_member_failures="$(/usr/bin/printf "%.f" "$temp")"
+      sdwdate_log "allowed_member_failures: $allowed_member_failures (debugging information: temp: $temp | $SDWDATE_CURRENT_POOL array_length: $array_length | array_length_remember: $array_length_remember)"
+      if [ "$allowed_member_failures" = "0" ]; then
+         allowed_member_failures="1"
+         sdwdate_log "allowed_member_failures (can not be 0): $allowed_member_failures"
+      fi
 
       if [ "$array_length_remember" -ge "$allowed_member_failures" ]; then
          sdwdate_log "ERROR: $allowed_member_failures members of the $SDWDATE_CURRENT_POOL could not be reached. (debugging information: array_length_remember: $array_length_remember | allowed_member_failures: $allowed_member_failures)"
