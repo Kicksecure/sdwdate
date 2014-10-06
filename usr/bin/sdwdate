@@ -1706,7 +1706,7 @@ sdwdate_sleep() {
    ## INTERVAL: in minutes
    ## sleep: in seconds
 
-   echo "RANDOMIZE: $RANDOMIZE"
+   sdwdate_log "RANDOMIZE: $RANDOMIZE"
 
    local minutes
    if [ "$RANDOMIZE" = "1" ]; then
