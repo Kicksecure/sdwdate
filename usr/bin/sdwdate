@@ -1110,6 +1110,12 @@ sdwdate_convert_to_unixtime() {
 
    SDWDATE_CONVERT_SUCCESS="0"
 
+   if [ "$WEB_DATE_FROM_TOOL" = "" ]; then
+      SDWDATE_CONVERT_SUCCESS="false"
+      sdwdate_log "Bogus reply from $LINK. Variable WEB_DATE_FROM_TOOL is empty."
+      return 0
+   fi
+
    WEB_DATE_UNIXTIME="$(date --date="$WEB_DATE_FROM_TOOL" +"%s")" || { SDWDATE_CONVERT_SUCCESS="$?" ; true; };
 
    if [ ! "$SDWDATE_CONVERT_SUCCESS" = "0" ]; then
