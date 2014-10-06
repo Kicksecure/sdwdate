@@ -947,8 +947,8 @@ sdwdate_get_time_from_remote() {
          "$LINK" \
          &
    elif [ "$TIME_FETCHING_METHOD" = "tlsdate" ]; then
-      ## - Does tlsdate handle timeouts or run forever?
-      ##   https://github.com/ioerror/tlsdate/issues/148
+      ## - tlsdate does not always timeout:
+      ##   https://github.com/ioerror/tlsdate/issues/149
       ## - tlsdate defaults to tlsv1 as per tlsdate's man page.
       ## - Long option --host did not work for some reason. Short option -H
       ##   however worked fine.
