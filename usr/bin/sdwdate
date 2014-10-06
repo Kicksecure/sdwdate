@@ -1339,6 +1339,24 @@ sdwdate_generate_nanoseconds() {
    sdwdate_log "Made up random extra ${PLUS_OR_MINUS}${extra_seconds} second[s] [${PLUS_OR_MINUS}${NANOSECONDS} nanosecond(s)]."
 }
 
+sdwdate_log_time_before_setting_time() {
+   trap "sdwdate_error_handler" ERR
+   local SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING
+   SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING="$(date +%s.%N)"
+   local SDWDATE_NEW_DATE_BEFORE_SETTING
+   SDWDATE_NEW_DATE_BEFORE_SETTING="$(date)"
+   sdwdate_log "Time before setting: $SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING [$SDWDATE_NEW_DATE_BEFORE_SETTING]"
+}
+
+sdwdate_log_time_after_setting_time() {
+   trap "sdwdate_error_handler" ERR
+   local SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING
+   SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING="$(date +%s.%N)"
+   local SDWDATE_NEW_DATE_AFTER_SETTING
+   SDWDATE_NEW_DATE_AFTER_SETTING="$(date)"
+   sdwdate_log "Time after setting using \`date\`: $SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING [$SDWDATE_NEW_DATE_AFTER_SETTING]"
+}
+
 sdwdate_set_time_using_date() {
    trap "sdwdate_error_handler" ERR
 
@@ -1346,11 +1364,7 @@ sdwdate_set_time_using_date() {
    ## sets: PLUS_OR_MINUS
    sdwdate_generate_nanoseconds
 
-   local SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING
-   SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING="$(date +%s.%N)"
-   local SDWDATE_NEW_DATE_BEFORE_SETTING
-   SDWDATE_NEW_DATE_BEFORE_SETTING="$(date)"
-   sdwdate_log "Time before setting using \`date\`: $SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING [$SDWDATE_NEW_DATE_BEFORE_SETTING]"
+   sdwdate_log_time_before_setting_time
 
    local OLD_UNIXTIME
    OLD_UNIXTIME="$(date +%s)"
@@ -1396,17 +1410,13 @@ sdwdate_set_time_using_date() {
 
    ## }} SDWDATE_NEW_TIME_FORMATTED_FOR_DATE
 
-   sdwdate_log "Setting time to $SDWDATE_NEW_TIME_FORMATTED_FOR_DATE..."
+   sdwdate_log "Setting time using \`date\` to $SDWDATE_NEW_TIME_FORMATTED_FOR_DATE..."
 
    ## Set new time. Syntax: date --set @1396733199.112834496
    ## There is an exception in /etc/sudoers.d/sdwdate.
    sudo /bin/date --set "@"$SDWDATE_NEW_TIME_FORMATTED_FOR_DATE"" > /dev/null
 
-   local SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING
-   SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING="$(date +%s.%N)"
-   local SDWDATE_NEW_DATE_AFTER_SETTING
-   SDWDATE_NEW_DATE_AFTER_SETTING="$(date)"
-   sdwdate_log "Time after setting using \`date\`: $SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING [$SDWDATE_NEW_DATE_AFTER_SETTING]"
+   sdwdate_log_time_after_setting_time
 
    if [ "$SYSTOHC" = "1" ]; then
       sudo /sbin/hwclock --systohc
