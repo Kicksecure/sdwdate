@@ -1134,7 +1134,13 @@ sdwdate_convert_to_unixtime() {
       true "Reply from $LINK WEB_DATE_UNIXTIME is strictly numeric. WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME"
    else
       SDWDATE_CONVERT_SUCCESS="false"
-      sdwdate_log "Bogus reply from $LINK. Could not convert to unixtime. Result is not strictly numeric. WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME"
+      test_exit_code="0"
+      [ "$WEB_DATE_UNIXTIME" -gt "0" ] 2>/dev/null || { test_exit_code="$?" ; true; };
+      if [ "$test_exit_code" = "1" ]; then
+         sdwdate_log "Bogus reply from $LINK. Negative unixtime. WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME (test_exit_code: $test_exit_code)"
+      else
+         sdwdate_log "Bogus reply from $LINK. Could not convert to unixtime. Result is not strictly numeric. WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME (test_exit_code: $test_exit_code)"
+      fi
       return 0
    fi
 }
