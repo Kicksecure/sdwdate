@@ -947,10 +947,8 @@ sdwdate_get_time_from_remote() {
          "$LINK" \
          &
    elif [ "$TIME_FETCHING_METHOD" = "tlsdate" ]; then
-      ## TODO:
-      ## - does tlsdate handle timeouts or run forever?
+      ## - Does tlsdate handle timeouts or run forever?
       ##   https://github.com/ioerror/tlsdate/issues/148
-
       ## - tlsdate defaults to tlsv1 as per tlsdate's man page.
       ## - Long option --host did not work for some reason. Short option -H
       ##   however worked fine.
@@ -958,7 +956,8 @@ sdwdate_get_time_from_remote() {
       ##   -H www.torproject.org.
       ## - Using --showtime=human, because --showtime=raw does not work.
 
-      sdwdate_log "Running: tlsdate \
+      sdwdate_log "Running: timeout --kill-after 5 180 \
+         tlsdate \
          $TLSDATE_PROXY \
          $TLSDATE_VERBOSE \
          $TLSDATE_EXTRA_OPTIONS \
@@ -969,16 +968,21 @@ sdwdate_get_time_from_remote() {
          2> \"$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr\" \
          &"
 
-      tlsdate \
-         $TLSDATE_PROXY \
-         $TLSDATE_VERBOSE \
-         $TLSDATE_EXTRA_OPTIONS \
-         --dont-set-clock \
-         --showtime=human \
-         -H "$LINK_WITHOUT_HTTPS" \
-         > "$TEMP_DIR/$SDWDATE_CURRENT_POOL" \
-         2> "$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr" \
-         &
+      timeout --kill-after 5 180 \
+         tlsdate \
+            $TLSDATE_PROXY \
+            $TLSDATE_VERBOSE \
+            $TLSDATE_EXTRA_OPTIONS \
+            --dont-set-clock \
+            --showtime=human \
+            -H "$LINK_WITHOUT_HTTPS" \
+            > "$TEMP_DIR/$SDWDATE_CURRENT_POOL" \
+            2> "$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr" \
+            &
+
+      ## `timeout` returns:
+      ## - 124 if sigterm was sufficient
+      ## - 137 if needed to use kill.
    else
       msg="Unknown TIME_FETCHING_METHOD: $TIME_FETCHING_METHOD."
       error "$msg"
@@ -997,6 +1001,12 @@ sdwdate_get_time_from_remote() {
 
    true "SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]="\$\(\( $TIME_END - $TIME_START \)\)""
    SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]="$(( $TIME_END - $TIME_START ))"
+
+   if [ "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}" = "124" ]; then
+      sdwdate_log "Timeout triggered (sigterm was sufficient). (exit code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]})"
+   elif [ "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}" = "137" ]; then
+      sdwdate_log "Timeout triggered (kill was required). (exit code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]})"
+   fi
 
    if [ ! "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}" = "0" ]; then
       if [ "$TIME_FETCHING_METHOD" = "curl" ]; then
