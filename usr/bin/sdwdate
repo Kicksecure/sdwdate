@@ -1716,8 +1716,6 @@ sdwdate_sleep() {
    ## INTERVAL: in minutes
    ## sleep: in seconds
 
-   sdwdate_log "RANDOMIZE: $RANDOMIZE"
-
    local minutes
    if [ "$RANDOMIZE" = "1" ]; then
       test -e "/dev/random"
@@ -1734,7 +1732,7 @@ sdwdate_sleep() {
    true "seconds="\$\(\( $minutes \* 60 \)\)""
    seconds="$(( $minutes * 60 ))"
 
-   sdwdate_log "Sleeping for $minutes minutes."
+   sdwdate_log "Sleeping for $minutes minutes. (RANDOMIZE: $RANDOMIZE)"
 
    sleep "$seconds" &
    sleep_pid="$!"
