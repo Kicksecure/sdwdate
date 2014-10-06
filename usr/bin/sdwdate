@@ -1342,15 +1342,15 @@ sdwdate_generate_nanoseconds() {
 sdwdate_set_time_using_date() {
    trap "sdwdate_error_handler" ERR
 
+   ## sets: NANOSECONDS
+   ## sets: PLUS_OR_MINUS
+   sdwdate_generate_nanoseconds
+
    local SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING
    SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING="$(date +%s.%N)"
    local SDWDATE_NEW_DATE_BEFORE_SETTING
    SDWDATE_NEW_DATE_BEFORE_SETTING="$(date)"
    sdwdate_log "Time before setting using \`date\`: $SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING [$SDWDATE_NEW_DATE_BEFORE_SETTING]"
-
-   ## sets: NANOSECONDS
-   ## sets: PLUS_OR_MINUS
-   sdwdate_generate_nanoseconds
 
    local OLD_UNIXTIME
    OLD_UNIXTIME="$(date +%s)"
