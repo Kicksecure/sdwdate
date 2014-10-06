@@ -780,6 +780,10 @@ trap "sdwdate_error_handler" ERR
 sdwdate_sanity_tests() {
    trap "sdwdate_error_handler" ERR
 
+   if [ "$ID" = "" ]; then
+      sdwdate_error_handler "Variable ID is empty."
+   fi
+
    command -v bash >/dev/null
    command -v bc >/dev/null
    command -v uuidgen >/dev/null
