@@ -691,7 +691,7 @@ sdwdate_log() {
    sdwdate_write_log "$msg"
 }
 
-sdwdate_safe_log() {
+sdwdate_no_duplicate_log() {
    trap "sdwdate_error_handler" ERR
 
    if [ ! -f "$LOG_FILE" ]; then
@@ -758,7 +758,7 @@ $error_text"
    if [ "$DISPATCH_POST_ERROR" = "" ]; then
       true
    else
-      sdwdate_safe_log "dispatching post_error (SDW_MODE: $SDW_MODE): $DISPATCH_POST_ERROR"
+      sdwdate_no_duplicate_log "dispatching post_error (SDW_MODE: $SDW_MODE): $DISPATCH_POST_ERROR"
       eval $DISPATCH_POST_ERROR
    fi
 
@@ -891,7 +891,7 @@ tlsdate_show_log() {
    if [ -r "$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr" ]; then
       tlsdate_stderr="$(timeout --kill-after 5 5 cat "$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr")" || tlsdate_stderr="timeout/cat exit code: $?"
    fi
-   sdwdate_log "tlsdate exit code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}"
+   sdwdate_log "tlsdate exit code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]} | tlsdate took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s"
    sdwdate_log "tlsdate stdout: $tlsdate_stdout"
    sdwdate_log "tlsdate stderr: $tlsdate_stderr"
 }
@@ -919,7 +919,7 @@ sdwdate_download() {
    local TIME_START
    TIME_START="$(date +%s)"
 
-   sdwdate_safe_log "dispatching SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL] (SDW_MODE: $SDW_MODE) (CURL: $CURL): ${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}"
+   sdwdate_no_duplicate_log "dispatching SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL] (SDW_MODE: $SDW_MODE) (CURL: $CURL): ${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}"
 
    if [ "${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}" = "" ]; then
       true
@@ -1006,13 +1006,13 @@ sdwdate_download() {
             ## If /usr/lib/curl-scripts/curl_exit_codes available, use it.
             local curl_status_message
             curl_status_message="$(/usr/lib/curl-scripts/curl_exit_codes "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}")" || true
-            sdwdate_log "No file could be downloaded from $LINK. (curl_exit_code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]} | curl_status_message: $curl_status_message)"
+            sdwdate_log "No file could be downloaded from $LINK. (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) (curl_exit_code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]} | curl_status_message: $curl_status_message)"
          else
             ## Fallback if /usr/lib/curl-scripts/curl_exit_codes is not available.
-            sdwdate_log "No file could be downloaded from $LINK. (curl_exit_code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]})"
+            sdwdate_log "No file could be downloaded from $LINK. (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) (curl_exit_code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]})"
          fi
       elif [ "$TIME_FETCHING_METHOD" = "tlsdate" ]; then
-         sdwdate_log "No time could be obtained from $LINK. (tlsdate exit code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]})"
+         sdwdate_log "No time could be obtained from $LINK. (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) (tlsdate exit code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]})"
          tlsdate_show_log
       else
          msg="Unknown TIME_FETCHING_METHOD: $TIME_FETCHING_METHOD."
@@ -1027,7 +1027,7 @@ sdwdate_download() {
 
    test -f "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
 
-   sdwdate_safe_log "dispatching SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]: ${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}"
+   sdwdate_no_duplicate_log "dispatching SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]: ${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}"
 
    if [ "${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}" = "" ]; then
       true
@@ -1603,7 +1603,7 @@ sdwdate_dispatcher_prerequisite() {
       true "DISPATCH_PREREQUISITE is empty, skipping."
    else
       while true; do
-         sdwdate_safe_log "dispatching prerequisite (SDW_MODE: $SDW_MODE) (CURL: $CURL) (LD_PRELOAD: $LD_PRELOAD): $DISPATCH_PREREQUISITE"
+         sdwdate_no_duplicate_log "dispatching prerequisite (SDW_MODE: $SDW_MODE) (CURL: $CURL) (LD_PRELOAD: $LD_PRELOAD): $DISPATCH_PREREQUISITE"
 
          local prerequisite_exit_code
          prerequisite_exit_code="0"
@@ -1621,7 +1621,7 @@ sdwdate_dispatcher_prerequisite() {
             sdwdate_error_handler "DISPATCH_PREREQUISITE exited $prerequisite_exit_code | $prerequisite_output | requested explicit exiting..."
          elif [ "$prerequisite_exit_code" = "2" ]; then
             ## Wait.
-            sdwdate_safe_log "DISPATCH_PREREQUISITE exited $prerequisite_exit_code | $prerequisite_output | waiting..."
+            sdwdate_no_duplicate_log "DISPATCH_PREREQUISITE exited $prerequisite_exit_code | $prerequisite_output | waiting..."
             sleep 10 &
             sleep_pid="$!"
             wait "$sleep_pid" || true
@@ -1641,7 +1641,7 @@ sdwdate_dispatcher_pre() {
    if [ "$DISPATCH_PRE" = "" ]; then
       true "DISPATCH_PRE is empty, skipping."
    else
-      sdwdate_safe_log "dispatching pre (SDW_MODE: $SDW_MODE): $DISPATCH_PRE"
+      sdwdate_no_duplicate_log "dispatching pre (SDW_MODE: $SDW_MODE): $DISPATCH_PRE"
       eval $DISPATCH_PRE
    fi
 }
@@ -1666,7 +1666,7 @@ sdwdate_dispatcher_post_success() {
    if [ "$DISPATCH_POST_SUCCESS" = "" ]; then
       true "DISPATCH_POST_SUCCESS is empty, skipping."
    else
-      sdwdate_safe_log "dispatching post_success (SDW_MODE: $SDW_MODE): $DISPATCH_POST_SUCCESS"
+      sdwdate_no_duplicate_log "dispatching post_success (SDW_MODE: $SDW_MODE): $DISPATCH_POST_SUCCESS"
       eval $DISPATCH_POST_SUCCESS
    fi
 }
@@ -1677,7 +1677,7 @@ sdwdate_dispatcher_post_failure() {
    if [ "$DISPATCH_POST_FAILURE" = "" ]; then
       true "DISPATCH_POST_FAILURE is empty, skipping."
    else
-      sdwdate_safe_log "dispatching post_failure (SDW_MODE: $SDW_MODE): $DISPATCH_POST_FAILURE"
+      sdwdate_no_duplicate_log "dispatching post_failure (SDW_MODE: $SDW_MODE): $DISPATCH_POST_FAILURE"
       eval $DISPATCH_POST_FAILURE
    fi
 }
