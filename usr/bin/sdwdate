@@ -1302,13 +1302,6 @@ second(s)"
    true "SDWDATE_MEDIAN_TIME_NANOSECONDS="\$\(\( $SDWDATE_MEDIAN_TIME_SECONDS \* 1000000000 \)\)""
    SDWDATE_MEDIAN_TIME_NANOSECONDS="$(( $SDWDATE_MEDIAN_TIME_SECONDS * 1000000000 ))"
 
-   local OLD_UNIXTIME
-   OLD_UNIXTIME="$(date +%s)"
-   local OLD_TIME
-   OLD_TIME="$(date)"
-
-   true "INFO: $BASH_SOURCE OLD: $OLD_UNIXTIME | $OLD_TIME"
-
    sdwdate_log "Min: $min | Max: $max | Median diff: $SDWDATE_MEDIAN_TIME_SECONDS second(s) [$SDWDATE_MEDIAN_TIME_NANOSECONDS nanosecond(s)]"
 }
 
