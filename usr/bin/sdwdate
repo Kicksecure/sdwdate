@@ -21,7 +21,7 @@ set -o pipefail
 
 SCRIPTNAME="$(basename "$BASH_SOURCE")"
 ownpid="$$"
-ID="$(uuidgen -r)"
+ID="$(cat "/proc/sys/kernel/random/uuid")"
 SDW_MODE="startup"
 
 sdwdate_usage() {

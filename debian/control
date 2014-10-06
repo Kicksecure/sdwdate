@@ -14,7 +14,7 @@ Standards-Version: 3.9.4
 
 Package: sdwdate
 Architecture: all
-Depends: curl, ca-certificates, uuid-runtime, sudo, logrotate, bc,
+Depends: curl, ca-certificates, sudo, logrotate, bc,
  ruby | ruby-interpreter, ruby-inline, ruby-dev,
  ruby1.9.1-dev | ruby-all-dev, gcc, ${misc:Depends}
 ## TODO:
