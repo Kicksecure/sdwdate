@@ -896,7 +896,7 @@ tlsdate_show_log() {
    sdwdate_log "tlsdate stderr: $tlsdate_stderr"
 }
 
-sdwdate_download() {
+sdwdate_get_time_from_remote() {
    trap "sdwdate_error_handler" ERR
 
    LINK="https://$1"
@@ -1192,7 +1192,7 @@ sdwdate_loop() {
          continue
       fi
 
-      sdwdate_download "${array[$random_integer]}"
+      sdwdate_get_time_from_remote "${array[$random_integer]}"
 
       if [ ! "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}" = "0" ]; then
          remember[$random_integer]=1
