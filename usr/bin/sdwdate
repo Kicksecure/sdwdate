@@ -17,12 +17,22 @@
 ##   support for tlsdate has been added as well
 
 #set -x
-set -o pipefail
 
-SCRIPTNAME="$(basename "$BASH_SOURCE")"
-ownpid="$$"
-ID="$(cat "/proc/sys/kernel/random/uuid")"
-SDW_MODE="startup"
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+   SCRIPT_WAS_SOURCED="true"
+else
+   SCRIPT_WAS_SOURCED="false"
+fi
+
+
+if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
+   set -o pipefail
+
+   SCRIPTNAME="$(basename "$BASH_SOURCE")"
+   ownpid="$$"
+   ID="$(cat "/proc/sys/kernel/random/uuid")"
+   SDW_MODE="startup"
+fi
 
 sdwdate_usage() {
    trap "sdwdate_error_handler" ERR
@@ -784,7 +794,9 @@ $error_text"
    fi
 }
 
-trap "sdwdate_error_handler" ERR
+if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
+   trap "sdwdate_error_handler" ERR
+fi
 
 sdwdate_sanity_tests() {
    trap "sdwdate_error_handler" ERR
@@ -856,7 +868,9 @@ sdwdate_signal_sigint() {
    exit 130
 }
 
-trap "sdwdate_signal_sigint" SIGINT ## ctrl + c
+if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
+   trap "sdwdate_signal_sigint" SIGINT ## ctrl + c
+fi
 
 sdwdate_signal_sigterm() {
    trap "sdwdate_error_handler" ERR
@@ -866,7 +880,9 @@ sdwdate_signal_sigterm() {
    exit 143
 }
 
-trap "sdwdate_signal_sigterm" SIGTERM
+if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
+   trap "sdwdate_signal_sigterm" SIGTERM
+fi
 
 sdwdate_enable_debugging() {
    ## usage: kill -sigusr1 pid
@@ -893,7 +909,9 @@ sdwdate_signal_sigusr1() {
    sdwdate_enable_debugging
 }
 
-trap "sdwdate_signal_sigusr1" SIGUSR1
+if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
+   trap "sdwdate_signal_sigusr1" SIGUSR1
+fi
 
 tlsdate_show_log() {
    trap "sdwdate_error_handler" ERR
@@ -1888,6 +1906,8 @@ sdwdate_main() {
    done
 }
 
-sdwdate_main ${1+"$@"}
+if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
+   sdwdate_main ${1+"$@"}
 
-sdwdate_log "End."
+   sdwdate_log "End."
+fi
