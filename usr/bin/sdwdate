@@ -1382,6 +1382,14 @@ sdwdate_log_time_after_setting_time() {
    sdwdate_log "Time after setting using \`date\`: $SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING [$SDWDATE_NEW_DATE_AFTER_SETTING]"
 }
 
+sdwdate_calculate_new_unixtime() {
+   trap "sdwdate_error_handler" ERR
+   local OLD_UNIXTIME
+   OLD_UNIXTIME="$(date +%s)"
+   true "NEW_UNIXTIME="\$\(\( $OLD_UNIXTIME + $SDWDATE_MEDIAN_TIME_SECONDS \)\)""
+   NEW_UNIXTIME="$(( $OLD_UNIXTIME + $SDWDATE_MEDIAN_TIME_SECONDS ))"
+}
+
 sdwdate_set_time_using_date() {
    trap "sdwdate_error_handler" ERR
 
@@ -1391,12 +1399,8 @@ sdwdate_set_time_using_date() {
 
    sdwdate_log_time_before_setting_time
 
-   local OLD_UNIXTIME
-   OLD_UNIXTIME="$(date +%s)"
-
-   local NEW_UNIXTIME
-   true "NEW_UNIXTIME="\$\(\( $OLD_UNIXTIME + $SDWDATE_MEDIAN_TIME_SECONDS \)\)""
-   NEW_UNIXTIME="$(( $OLD_UNIXTIME + $SDWDATE_MEDIAN_TIME_SECONDS ))"
+   ## sets: NEW_UNIXTIME
+   sdwdate_calculate_new_unixtime
 
    local NEW_UNIXTIME_WITH_NANOSECONDS
    NEW_UNIXTIME_WITH_NANOSECONDS="${NEW_UNIXTIME}000000000"
