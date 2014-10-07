@@ -1169,6 +1169,13 @@ sdwdate_convert_to_unixtime() {
       return 0
    fi
 
+   ## TODO: 50 is arbitrarily chosen.
+   if [ "$WEB_DATE_FROM_TOOL_STRING_LENGTH" -gt "50" ]; then
+      SDWDATE_CONVERT_SUCCESS="false"
+      sdwdate_log "Bogus reply from $LINK. WEB_DATE_FROM_TOOL_STRING_LENGTH is greater than 50. (WEB_DATE_FROM_TOOL_STRING_LENGTH: $WEB_DATE_FROM_TOOL_STRING_LENGTH)"
+      return 0
+   fi
+
    WEB_DATE_UNIXTIME="$(date --date="$WEB_DATE_FROM_TOOL" +"%s")" || { SDWDATE_CONVERT_SUCCESS="$?" ; true; };
 
    if [ ! "$SDWDATE_CONVERT_SUCCESS" = "0" ]; then
