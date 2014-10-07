@@ -759,7 +759,7 @@ $error_text"
       true
    else
       sdwdate_no_duplicate_log "dispatching post_error (SDW_MODE: $SDW_MODE): $DISPATCH_POST_ERROR"
-      eval $DISPATCH_POST_ERROR
+      sdwdate_eval $DISPATCH_POST_ERROR
    fi
 
    if [ "$SDW_EXIT_ON_ERROR" = "1" ]; then
@@ -928,7 +928,7 @@ sdwdate_get_time_from_remote() {
    if [ "${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}" = "" ]; then
       true
    else
-      eval ${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}
+      sdwdate_eval ${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}
    fi
 
    ## Sanity test.
@@ -1046,7 +1046,7 @@ sdwdate_get_time_from_remote() {
    if [ "${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}" = "" ]; then
       true
    else
-      eval ${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}
+      sdwdate_eval ${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}
    fi
 
    return 0
@@ -1687,6 +1687,11 @@ sdwdate_dispatcher_prerequisite() {
    fi
 }
 
+sdwdate_eval() {
+   trap "sdwdate_error_handler" ERR
+   eval_output="$(eval ${1+"$@"} 2>&1)"
+}
+
 sdwdate_dispatcher_pre() {
    trap "sdwdate_error_handler" ERR
 
@@ -1694,7 +1699,8 @@ sdwdate_dispatcher_pre() {
       true "DISPATCH_PRE is empty, skipping."
    else
       sdwdate_no_duplicate_log "dispatching pre (SDW_MODE: $SDW_MODE): $DISPATCH_PRE"
-      eval $DISPATCH_PRE
+      sdwdate_eval $DISPATCH_PRE
+
    fi
 }
 
@@ -1719,7 +1725,7 @@ sdwdate_dispatcher_post_success() {
       true "DISPATCH_POST_SUCCESS is empty, skipping."
    else
       sdwdate_no_duplicate_log "dispatching post_success (SDW_MODE: $SDW_MODE): $DISPATCH_POST_SUCCESS"
-      eval $DISPATCH_POST_SUCCESS
+      sdwdate_eval $DISPATCH_POST_SUCCESS
    fi
 }
 
@@ -1730,7 +1736,7 @@ sdwdate_dispatcher_post_failure() {
       true "DISPATCH_POST_FAILURE is empty, skipping."
    else
       sdwdate_no_duplicate_log "dispatching post_failure (SDW_MODE: $SDW_MODE): $DISPATCH_POST_FAILURE"
-      eval $DISPATCH_POST_FAILURE
+      sdwdate_eval $DISPATCH_POST_FAILURE
    fi
 }
 
