@@ -1599,7 +1599,7 @@ sdwdate_maybe_set_new_time() {
    trap "sdwdate_error_handler" ERR
 
    if [ "$DONT_SET_DATE" = "1" ]; then
-      return
+      return 0
    fi
 
    ## Do not needlessly try to change time, when there is no difference.
