@@ -1151,6 +1151,7 @@ sdwdate_convert_to_unixtime() {
    if [ ! "$SDWDATE_CONVERT_SUCCESS" = "0" ]; then
       sdwdate_log "Bogus reply from $LINK. Could not convert to unixtime. \
 \`date\` failed with exit code: $SDWDATE_CONVERT_SUCCESS. WEB_DATE_FROM_TOOL: $WEB_DATE_FROM_TOOL | date stdout: $WEB_DATE_UNIXTIME"
+      SDWDATE_CONVERT_SUCCESS="false"
       return 0
    fi
 
