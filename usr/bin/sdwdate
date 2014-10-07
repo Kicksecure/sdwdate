@@ -1817,16 +1817,13 @@ sdwdate_maybe_sleep_or_exit() {
 sdwdate_main() {
    trap "sdwdate_error_handler" ERR
 
-   sdwdate_log "sdwdate_main..."
-
    sdwdate_sanity_tests
 
    while true; do
-      sdwdate_log "Running sdwdate..."
-
       sdwdate_maybe_read_config_folder ${1+"$@"}
       sdwdate_maybe_parse_cmd_options ${1+"$@"}
       sdwdate_defaults
+      sdwdate_log "Running sdwdate... pid: $$ | LD_PRELOAD: $LD_PRELOAD"
       sdwdate_preparation
       if [ "$DEBUG" = "1" ]; then
          sdwdate_enable_debugging
@@ -1853,8 +1850,6 @@ sdwdate_main() {
       sdwdate_maybe_sleep_or_exit
    done
 }
-
-sdwdate_log "Loaded. | pid: $$ | LD_PRELOAD: $LD_PRELOAD"
 
 sdwdate_main ${1+"$@"}
 
