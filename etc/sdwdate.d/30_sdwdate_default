@@ -180,6 +180,11 @@ SDW_TOUCH_DONE_FILE_ON_ERROR="1"
 ## 0 disabled.
 SDW_EXIT_ON_ERROR="1"
 
+## echo remote unix time even when using --quiet
+## true - enabled.
+## false - disabled.
+ECHO_UNIX_TIME="false"
+
 ## This command will be `eval`uated when sdwdate succeeded.
 ## When set to "", it will be skipped.
 DISPATCH_POST_SUCCESS=""

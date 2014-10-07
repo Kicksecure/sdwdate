@@ -64,7 +64,8 @@ $SCRIPTNAME [-aDdlpqTux] [long options...]
         --nodonefileonerror                   do not create done file on error
         --noexitonerror                       do not exit on error
         --time-fetching-method                curl or tlsdate
-        --tlsdate-extra-options               tlsdate extra options"
+        --tlsdate-extra-options               tlsdate extra options
+        --echo-unixtime                       echo remote unix time even when using --quiet"
 
 #       -u --user                             userid to run as
 }
@@ -227,6 +228,10 @@ sdwdate_defaults() {
 
    if [ "$TLSDATE_EXTRA_OPTIONS" = "" ]; then
       TLSDATE_EXTRA_OPTIONS=""
+   fi
+
+   if [ "$ECHO_UNIX_TIME" = "" ]; then
+      ECHO_UNIX_TIME="false"
    fi
 
    if [ "${SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_ONE]}" = "" ]; then
@@ -569,6 +574,10 @@ sdwdate_parse_cmd_options() {
            --tlsdate-extra-options)
                TLSDATE_EXTRA_OPTIONS=$2
                shift 2
+               ;;
+           --echo-unixtime)
+               ECHO_UNIX_TIME=true
+               shift
                ;;
            --)
                shift
@@ -1333,6 +1342,10 @@ second(s)"
    sdwdate_calculate_new_unixtime
    sdwdate_log "local unixtime : $(date +%s) | local time : $(date)"
    sdwdate_log "remote unixtime: $NEW_UNIXTIME | remote time: $(date --date @${NEW_UNIXTIME})"
+
+   if [ "$ECHO_UNIX_TIME" = "true" ]; then
+      echo "$NEW_UNIXTIME"
+   fi
 }
 
 sdwdate_generate_nanoseconds() {

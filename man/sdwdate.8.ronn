@@ -154,6 +154,10 @@ Sets mediate time after asking 3 https servers out of 3 different pools.
 
     Parse command line arguments only on startup.
 
+  * --echo-unixtime
+
+    Echo remote unix time even when using --quiet.
+
   * -w --dispatchpre command
 
     exec before run
