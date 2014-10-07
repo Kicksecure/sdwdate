@@ -1104,6 +1104,9 @@ sdwdate_parse_date() {
       FIRST_WORD="${LINE%%:*}"
       ## twitter used Date in lower case
       if [ "${FIRST_WORD,,}" = "date" ]; then
+         ## Example line:
+         ## Date: Tue, 07 Oct 2014 03:51:14 GMT
+
          ## TODO: do not hard code 36
          if [ "$LINE_LENGTH" -gt "36" ]; then
             sdwdate_log "Bogus reply from $LINK for the \"Date\" field. Excessive line length: $LINE_LENGTH"
@@ -1117,6 +1120,8 @@ sdwdate_parse_date() {
          true "Reply from $LINK for the \"Date\" field. Line length: $LINE_LENGTH"
 
          WEB_DATE_FROM_TOOL="${LINE#*:}"
+         ## Example WEB_DATE_FROM_TOOL:
+         ##  Tue, 07 Oct 2014 03:48:07 GMT
          SDWDATE_PARSE_SUCCESS="0"
          break
       fi
