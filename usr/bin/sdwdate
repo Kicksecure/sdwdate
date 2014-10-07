@@ -1055,7 +1055,8 @@ sdwdate_get_time_from_remote() {
 sdwdate_parse_date() {
    trap "sdwdate_error_handler" ERR
 
-   SDWDATE_PARSE_SUCCESS="1"
+   true "Setting fallback..."
+   SDWDATE_PARSE_SUCCESS="false"
 
    test -f "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
 
