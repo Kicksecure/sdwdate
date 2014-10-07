@@ -1151,7 +1151,7 @@ sdwdate_convert_to_unixtime() {
       sdwdate_log "Bogus reply from $LINK. Could not convert to unixtime. String length of WEB_DATE_UNIXTIME is bigger than 12, it is: $WEB_DATE_UNIXTIME_STRING_LENGTH"
       return 0
    else
-      true "Reply from $LINK WEB_DATE_UNIXTIME string length is exactly 10."
+      true "Reply from $LINK WEB_DATE_UNIXTIME string length is not greater than 12."
    fi
 
    if [[ "$WEB_DATE_UNIXTIME" != *[!0-9]* ]]; then
