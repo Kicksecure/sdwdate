@@ -61,8 +61,8 @@ $SCRIPTNAME [-aDdlpqTux] [long options...]
         --dispatch_post_two                   exec after run of curl
         --dispatch_pre_three                  exec before first run of curl
         --dispatch_post_three                 exec after run of curl
-        --nodonefileonerror
-        --noexitonerror
+        --nodonefileonerror                   do not create done file on error
+        --noexitonerror                       do not exit on error
         --time-fetching-method                curl or tlsdate
         --tlsdate-extra-options               tlsdate extra options"
 
