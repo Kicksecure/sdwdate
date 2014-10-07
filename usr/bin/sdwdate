@@ -1448,7 +1448,7 @@ sdwdate_set_time_using_date() {
 
    ## Set new time. Syntax: date --set @1396733199.112834496
    ## There is an exception in /etc/sudoers.d/sdwdate.
-   sudo /bin/date --set "@"$SDWDATE_NEW_TIME_FORMATTED_FOR_DATE"" > /dev/null
+   sudo /bin/date --set "@${SDWDATE_NEW_TIME_FORMATTED_FOR_DATE}" > /dev/null
 
    sdwdate_log_time_after_setting_time
 
