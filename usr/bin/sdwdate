@@ -930,7 +930,7 @@ tlsdate_show_log() {
 sdwdate_get_time_from_remote() {
    trap "sdwdate_error_handler" ERR
 
-   LINK="https://$1"
+   LINK_WITH_HTTPS="https://$1"
    LINK_WITHOUT_HTTPS="$1"
 
    if [ "$PROXY" = "" ]; then
@@ -943,7 +943,7 @@ sdwdate_get_time_from_remote() {
 
    local current_time
    current_time="$(date)"
-   sdwdate_log "getUrlDateDiff: $LINK | $current_time"
+   sdwdate_log "getUrlDateDiff: $LINK_WITH_HTTPS | $current_time"
 
    sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]="0"
 
@@ -975,7 +975,7 @@ sdwdate_get_time_from_remote() {
          $CURL_VERBOSE \
          $CURL_USER_AGENT \
          --output "$TEMP_DIR/$SDWDATE_CURRENT_POOL" \
-         "$LINK" \
+         "$LINK_WITH_HTTPS" \
          &
    elif [ "$TIME_FETCHING_METHOD" = "tlsdate" ]; then
       ## - tlsdate does not always timeout:
@@ -1047,13 +1047,13 @@ sdwdate_get_time_from_remote() {
             ## If /usr/lib/curl-scripts/curl_exit_codes available, use it.
             local curl_status_message
             curl_status_message="$(/usr/lib/curl-scripts/curl_exit_codes "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}")" || true
-            sdwdate_log "No file could be downloaded from $LINK. (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) (curl_exit_code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]} | curl_status_message: $curl_status_message)"
+            sdwdate_log "No file could be downloaded from $LINK_WITH_HTTPS. (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) (curl_exit_code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]} | curl_status_message: $curl_status_message)"
          else
             ## Fallback if /usr/lib/curl-scripts/curl_exit_codes is not available.
-            sdwdate_log "No file could be downloaded from $LINK. (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) (curl_exit_code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]})"
+            sdwdate_log "No file could be downloaded from $LINK_WITH_HTTPS. (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) (curl_exit_code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]})"
          fi
       elif [ "$TIME_FETCHING_METHOD" = "tlsdate" ]; then
-         sdwdate_log "No time could be obtained from $LINK. (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) (tlsdate exit code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]})"
+         sdwdate_log "No time could be obtained from $LINK_WITH_HTTPS. (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) (tlsdate exit code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]})"
          tlsdate_show_log
       else
          msg="Unknown TIME_FETCHING_METHOD: $TIME_FETCHING_METHOD."
@@ -1111,10 +1111,10 @@ sdwdate_parse_date() {
       true "INFO: LINE: $LINE"
       local LINE_LENGTH
       LINE_LENGTH="${#LINE}"
-      true "Reply from $LINK. i: $i LINE_LENGTH: $LINE_LENGTH"
+      true "Reply from $LINK_WITH_HTTPS. i: $i LINE_LENGTH: $LINE_LENGTH"
 
       if [ "$i" -gt "20" ]; then
-         sdwdate_log "Bogus reply from $LINK did not include the \"Date\" field."
+         sdwdate_log "Bogus reply from $LINK_WITH_HTTPS did not include the \"Date\" field."
          break
       fi
 
@@ -1127,15 +1127,15 @@ sdwdate_parse_date() {
 
          ## TODO: do not hard code 36
          if [ "$LINE_LENGTH" -gt "36" ]; then
-            sdwdate_log "Bogus reply from $LINK for the \"Date\" field. Excessive line length: $LINE_LENGTH"
+            sdwdate_log "Bogus reply from $LINK_WITH_HTTPS for the \"Date\" field. Excessive line length: $LINE_LENGTH"
             break
          fi
          ## TODO: do not hard code 36
          if [ ! "$LINE_LENGTH" = "36" ]; then
-            sdwdate_log "Bogus reply from $LINK for the \"Date\" field. Line length $LINE_LENGTH does not equal expected 36."
+            sdwdate_log "Bogus reply from $LINK_WITH_HTTPS for the \"Date\" field. Line length $LINE_LENGTH does not equal expected 36."
             break
          fi
-         true "Reply from $LINK for the \"Date\" field. Line length: $LINE_LENGTH"
+         true "Reply from $LINK_WITH_HTTPS for the \"Date\" field. Line length: $LINE_LENGTH"
 
          WEB_DATE_FROM_TOOL="${LINE#*:}"
          ## Example WEB_DATE_FROM_TOOL:
@@ -1153,7 +1153,7 @@ sdwdate_convert_to_unixtime() {
 
    if [ "$WEB_DATE_FROM_TOOL" = "" ]; then
       SDWDATE_CONVERT_SUCCESS="false"
-      sdwdate_log "Bogus reply from $LINK. Variable WEB_DATE_FROM_TOOL is empty."
+      sdwdate_log "Bogus reply from $LINK_WITH_HTTPS. Variable WEB_DATE_FROM_TOOL is empty."
       return 0
    fi
 
@@ -1165,21 +1165,21 @@ sdwdate_convert_to_unixtime() {
    ## TODO: 20 is arbitrarily chosen.
    if [ "$WEB_DATE_FROM_TOOL_STRING_LENGTH" -lt "20" ]; then
       SDWDATE_CONVERT_SUCCESS="false"
-      sdwdate_log "Bogus reply from $LINK. WEB_DATE_FROM_TOOL_STRING_LENGTH is less than 20. (WEB_DATE_FROM_TOOL_STRING_LENGTH: $WEB_DATE_FROM_TOOL_STRING_LENGTH)"
+      sdwdate_log "Bogus reply from $LINK_WITH_HTTPS. WEB_DATE_FROM_TOOL_STRING_LENGTH is less than 20. (WEB_DATE_FROM_TOOL_STRING_LENGTH: $WEB_DATE_FROM_TOOL_STRING_LENGTH)"
       return 0
    fi
 
    ## TODO: 50 is arbitrarily chosen.
    if [ "$WEB_DATE_FROM_TOOL_STRING_LENGTH" -gt "50" ]; then
       SDWDATE_CONVERT_SUCCESS="false"
-      sdwdate_log "Bogus reply from $LINK. WEB_DATE_FROM_TOOL_STRING_LENGTH is greater than 50. (WEB_DATE_FROM_TOOL_STRING_LENGTH: $WEB_DATE_FROM_TOOL_STRING_LENGTH)"
+      sdwdate_log "Bogus reply from $LINK_WITH_HTTPS. WEB_DATE_FROM_TOOL_STRING_LENGTH is greater than 50. (WEB_DATE_FROM_TOOL_STRING_LENGTH: $WEB_DATE_FROM_TOOL_STRING_LENGTH)"
       return 0
    fi
 
    WEB_DATE_UNIXTIME="$(date --date="$WEB_DATE_FROM_TOOL" +"%s")" || { SDWDATE_CONVERT_SUCCESS="$?" ; true; };
 
    if [ ! "$SDWDATE_CONVERT_SUCCESS" = "0" ]; then
-      sdwdate_log "Bogus reply from $LINK. Could not convert to unixtime. \
+      sdwdate_log "Bogus reply from $LINK_WITH_HTTPS. Could not convert to unixtime. \
 \`date\` failed with exit code: $SDWDATE_CONVERT_SUCCESS. WEB_DATE_FROM_TOOL: $WEB_DATE_FROM_TOOL | date stdout: $WEB_DATE_UNIXTIME"
       SDWDATE_CONVERT_SUCCESS="false"
       return 0
@@ -1191,22 +1191,22 @@ sdwdate_convert_to_unixtime() {
    ## TODO: do not hard code 12
    if [ "$WEB_DATE_UNIXTIME_STRING_LENGTH" -gt "12" ]; then
       SDWDATE_CONVERT_SUCCESS="false"
-      sdwdate_log "Bogus reply from $LINK. Could not convert to unixtime. String length of WEB_DATE_UNIXTIME is bigger than 12, it is: $WEB_DATE_UNIXTIME_STRING_LENGTH"
+      sdwdate_log "Bogus reply from $LINK_WITH_HTTPS. Could not convert to unixtime. String length of WEB_DATE_UNIXTIME is bigger than 12, it is: $WEB_DATE_UNIXTIME_STRING_LENGTH"
       return 0
    else
-      true "Reply from $LINK WEB_DATE_UNIXTIME string length is not greater than 12."
+      true "Reply from $LINK_WITH_HTTPS WEB_DATE_UNIXTIME string length is not greater than 12."
    fi
 
    if [[ "$WEB_DATE_UNIXTIME" != *[!0-9]* ]]; then
-      true "Reply from $LINK WEB_DATE_UNIXTIME is strictly numeric. WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME"
+      true "Reply from $LINK_WITH_HTTPS WEB_DATE_UNIXTIME is strictly numeric. WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME"
    else
       SDWDATE_CONVERT_SUCCESS="false"
       test_exit_code="0"
       [ "$WEB_DATE_UNIXTIME" -gt "0" ] 2>/dev/null || { test_exit_code="$?" ; true; };
       if [ "$test_exit_code" = "1" ]; then
-         sdwdate_log "Bogus reply from $LINK. Negative unixtime. WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME (test_exit_code: $test_exit_code)"
+         sdwdate_log "Bogus reply from $LINK_WITH_HTTPS. Negative unixtime. WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME (test_exit_code: $test_exit_code)"
       else
-         sdwdate_log "Bogus reply from $LINK. Could not convert to unixtime. Result is not strictly numeric. WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME (test_exit_code: $test_exit_code)"
+         sdwdate_log "Bogus reply from $LINK_WITH_HTTPS. Could not convert to unixtime. Result is not strictly numeric. WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME (test_exit_code: $test_exit_code)"
       fi
       return 0
    fi
@@ -1314,7 +1314,7 @@ sdwdate_loop() {
       SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]="$(( $WEB_DATE_UNIXTIME - $OLD_UNIXTIME ))"
 
       ## TODO
-      sdwdate_log "$LINK (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) => diff = ${SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]} second(s)"
+      sdwdate_log "$LINK_WITH_HTTPS (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) => diff = ${SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]} second(s)"
 
       break
    done
