@@ -1061,9 +1061,17 @@ sdwdate_parse_date() {
 
    if [ "$TIME_FETCHING_METHOD" = "tlsdate" ]; then
       ## Parsing not required. tlsdate already did that.
-      WEB_DATE_FROM_TOOL="$(timeout --kill-after 5 5 cat "$TEMP_DIR/$SDWDATE_CURRENT_POOL")" || WEB_DATE_FROM_TOOL="timeout/cat exit code: $?"
-      SDWDATE_PARSE_SUCCESS="0"
-      return 0
+      local timeout_or_cat_exit_code
+      timeout_or_cat_exit_code="0"
+      WEB_DATE_FROM_TOOL="$(timeout --kill-after 5 5 cat "$TEMP_DIR/$SDWDATE_CURRENT_POOL")" || { timeout_or_cat_exit_code="$?" ; true; };
+      if [ "$timeout_or_cat_exit_code" = "0" ]; then
+         SDWDATE_PARSE_SUCCESS="0"
+         return 0
+      else
+         SDWDATE_PARSE_SUCCESS="false"
+         sdwdate_log "Could not read tlsdate time from file. (WEB_DATE_FROM_TOOL: $WEB_DATE_FROM_TOOL | timeout_or_cat_exit_code: $timeout_or_cat_exit_code)"
+         return 0
+      fi
    fi
 
    local i
