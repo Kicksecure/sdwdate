@@ -1328,6 +1328,11 @@ second(s)"
    SDWDATE_MEDIAN_TIME_NANOSECONDS="$(( $SDWDATE_MEDIAN_TIME_SECONDS * 1000000000 ))"
 
    sdwdate_log "Min: $min | Max: $max | Median diff: $SDWDATE_MEDIAN_TIME_SECONDS second(s) [$SDWDATE_MEDIAN_TIME_NANOSECONDS nanosecond(s)]"
+
+   ## sets: NEW_UNIXTIME
+   sdwdate_calculate_new_unixtime
+   sdwdate_log "local unixtime : $(date +%s) | local time : $(date)"
+   sdwdate_log "remote unixtime: $NEW_UNIXTIME | remote time: $(date --date @${NEW_UNIXTIME})"
 }
 
 sdwdate_generate_nanoseconds() {
