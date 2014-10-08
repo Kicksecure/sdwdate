@@ -107,6 +107,11 @@ Sets mediate time after asking 3 https servers out of 3 different pools.
     Do not use sclockadj when starting up. Directly use /bin/date instead. Will
     result in clock jumps.
 
+  * --timewarp-on-restartup
+
+    Do not use sclockadj when restarting when sdwdate succeeded once after boot.
+    Directly use /bin/date instead. Will result in clock jumps.
+
   * --timewarp-on-daemon
 
     Do not use sclockadj when in daemon mode. Directly use /bin/date instead.

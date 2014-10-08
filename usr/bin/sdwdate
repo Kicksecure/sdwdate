@@ -31,7 +31,11 @@ if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
    SCRIPTNAME="$(basename "$BASH_SOURCE")"
    ownpid="$$"
    ID="$(cat "/proc/sys/kernel/random/uuid")"
-   SDW_MODE="startup"
+   if [ ! -f "/var/run/sdwdate/first_success" ]; then
+      SDW_MODE="startup"
+   else
+      SDW_MODE="restartup"
+   fi
 fi
 
 sdwdate_usage() {
@@ -203,6 +207,10 @@ sdwdate_defaults() {
 
    if [ "$SDWDATE_USE_SCLOCKADJ_WHEN_STARTUP" = "" ]; then
       SDWDATE_USE_SCLOCKADJ_WHEN_STARTUP="0"
+   fi
+
+   if [ "$SDWDATE_USE_SCLOCKADJ_WHEN_RESTARTUP" = "" ]; then
+      SDWDATE_USE_SCLOCKADJ_WHEN_RESTARTUP="0"
    fi
 
    if [ "$SDWDATE_USE_SCLOCKADJ_WHEN_DAEMON" = "" ]; then
@@ -488,6 +496,10 @@ sdwdate_parse_cmd_options() {
                ;;
            --timewarp-on-startup)
                SDWDATE_USE_SCLOCKADJ_WHEN_STARTUP="0"
+               shift 1
+               ;;
+           --timewarp-on-restartup)
+               SDWDATE_USE_SCLOCKADJ_WHEN_RESTARTUP="0"
                shift 1
                ;;
            --timewarp-on-daemon)
@@ -1700,6 +1712,12 @@ sdwdate_maybe_set_new_time() {
 
    if [ "$SDW_MODE" = "startup" ]; then
       if [ "$SDWDATE_USE_SCLOCKADJ_WHEN_STARTUP" = "1" ]; then
+         sdwdate_set_time_using_sclockadj
+      else
+         sdwdate_set_time_using_date
+      fi
+   elif [ "$SDW_MODE" = "restartup" ]; then
+      if [ "$SDWDATE_USE_SCLOCKADJ_WHEN_RESTARTUP" = "1" ]; then
          sdwdate_set_time_using_sclockadj
       else
          sdwdate_set_time_using_date

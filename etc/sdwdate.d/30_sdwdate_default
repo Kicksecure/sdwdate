@@ -106,6 +106,13 @@ RANDOMIZE="1"
 SDWDATE_USE_SCLOCKADJ_WHEN_STARTUP="0"
 
 ## Use sclockadj instead of /bin/date (which would produce clock jumps) when
+## re-starting up when sdwdate succeeded at least once after boot.
+## 0 sclockadj disabled
+## 1 sclockadj enabled
+## defaults to: 0
+SDWDATE_USE_SCLOCKADJ_WHEN_RESTARTUP="0"
+
+## Use sclockadj instead of /bin/date (which would produce clock jumps) when
 ## in daemon mode.
 ## 0 sclockadj disabled
 ## 1 sclockadj enabled
