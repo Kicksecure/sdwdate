@@ -65,6 +65,10 @@ Sets mediate time after asking 3 https servers out of 3 different pools.
 
     create this file after setting time successfully
 
+  * --first_success_file
+
+    create this file after setting time successfully for the first time
+
   * --pool_one hostnames
 
     Distrusted hostnames.

@@ -68,6 +68,9 @@ DONE_FILE=/var/run/sdwdate/done
 ## Success file. Will only be created after a success.
 SUCCESS_FILE=/var/run/sdwdate/success
 
+## First success file. Will be created after the first success.
+FIRST_SUCCESS_FILE=/var/run/sdwdate/first_success
+
 ## How many members per pool are allowed to fail.
 ## If too many members are not reachable, time will not be adjusted.
 ALLOWED_PER_POOL_FAILURE_RATIO=0.34
