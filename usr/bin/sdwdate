@@ -210,7 +210,7 @@ sdwdate_defaults() {
    fi
 
    if [ "$SDWDATE_USE_SCLOCKADJ_WHEN_RESTARTUP" = "" ]; then
-      SDWDATE_USE_SCLOCKADJ_WHEN_RESTARTUP="0"
+      SDWDATE_USE_SCLOCKADJ_WHEN_RESTARTUP="1"
    fi
 
    if [ "$SDWDATE_USE_SCLOCKADJ_WHEN_DAEMON" = "" ]; then
