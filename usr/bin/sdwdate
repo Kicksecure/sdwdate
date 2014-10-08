@@ -1148,14 +1148,10 @@ sdwdate_parse_date() {
          ## Example line:
          ## Date: Tue, 07 Oct 2014 03:51:14 GMT
 
-         ## TODO: do not hard code 36
-         if [ "$LINE_LENGTH" -gt "36" ]; then
+         ## TODO: do not hard code 50
+         ## TODO: 50 has been arbitrarily chosen.
+         if [ "$LINE_LENGTH" -gt "50" ]; then
             sdwdate_log "Bogus reply from $LINK_WITH_HTTPS for the \"Date\" field. Excessive line length: $LINE_LENGTH"
-            break
-         fi
-         ## TODO: do not hard code 36
-         if [ ! "$LINE_LENGTH" = "36" ]; then
-            sdwdate_log "Bogus reply from $LINK_WITH_HTTPS for the \"Date\" field. Line length $LINE_LENGTH does not equal expected 36."
             break
          fi
          true "Reply from $LINK_WITH_HTTPS for the \"Date\" field. Line length: $LINE_LENGTH"
