@@ -250,7 +250,7 @@ sdwdate_defaults() {
    fi
 
    if [ "$TLSDATE_EXTRA_OPTIONS" = "" ]; then
-      TLSDATE_EXTRA_OPTIONS=""
+      TLSDATE_EXTRA_OPTIONS="--http"
    fi
 
    if [ "$ECHO_UNIX_TIME" = "" ]; then

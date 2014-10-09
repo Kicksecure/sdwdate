@@ -20,7 +20,8 @@ DEBUG=0
 #CURL_VERBOSE=""
 
 ## Extra options for tlsdate in case using tlsdate time setting method.
-#TLSDATE_EXTRA_OPTIONS="--verbose"
+TLSDATE_EXTRA_OPTIONS="--http"
+#TLSDATE_EXTRA_OPTIONS="--http --verbose"
 
 ## Run as the following user name.
 ## Not implemented. Has no effect.
