@@ -166,8 +166,8 @@ fi
 
 echo "-------------------- Begin Unit Test 9 --------------------"
 
-for TIME_FETCHING_METHOD in curl tlsdate; do
-   echo "-------------------- -------------------- -------------------- TIME_FETCHING_METHOD: $TIME_FETCHING_METHOD"
+download_unit_test() {
+   echo "-------------------- -------------------- -------------------- TIME_FETCHING_METHOD: $TIME_FETCHING_METHOD (TLSDATE_EXTRA_OPTIONS: $TLSDATE_EXTRA_OPTIONS)"
 
    sdwdate_defaults
 
@@ -187,10 +187,18 @@ for TIME_FETCHING_METHOD in curl tlsdate; do
       sdwdate_get_time_from_remote "$element"
       if [ ! "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}" = "0" ]; then
          echo "-------------------- -------------------- Unit Test 9: FAILED : $element"
-         #exit 1
       else
          echo "-------------------- -------------------- Unit Test 9: SUCCESS: $element"
       fi
-      #sleep 2
    done
-done
+}
+
+TIME_FETCHING_METHOD="curl"
+download_unit_test
+
+TIME_FETCHING_METHOD="tlsdate"
+download_unit_test
+
+TIME_FETCHING_METHOD="tlsdate"
+TLSDATE_EXTRA_OPTIONS="--http"
+download_unit_test
