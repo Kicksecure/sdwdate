@@ -236,10 +236,14 @@ For testing sdwdate's error handling, you can test-wise cause an error by
 creating an empty file /var/lib/sdw_error. ("sudo touch
 /var/lib/whonix/sdw_error" should be enough.)
 
-## RETURN VALUES
-0 Success
+## EXIT CODES
+0 Success.
 
-1 Error
+1 Error.
+
+130 Signal sigint received.
+
+143 Signal sigterm received.
 
 ## EXAMPLES
 
