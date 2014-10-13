@@ -5,9 +5,9 @@ friendly replacement for rdate and ntpdate that sets the system's clock by
 communicating via TCP with one or more HTTPS webservers.
 
 At randomized intervals, sdwdate connects to a variety of webservers and
-extracts the time stamps from headers (RFC 2616). Using sclockadj option, time
-is gradually adjusted preventing bigger clock jumps that could confuse logs,
-servers, Tor, i2p, etc.
+extracts the time stamps with help of curl or tlsdate from headers (RFC 2616).
+Using sclockadj option, time is gradually adjusted preventing bigger clock
+jumps that could confuse logs, servers, Tor, i2p, etc.
 
 Plugins are supported via hooks. These hooks include pre-connect, pre-fetch,
 post-fetch, post-success, post-failure, and progress. Sdwdate comes without a
