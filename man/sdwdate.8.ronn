@@ -214,11 +214,11 @@ Sets mediate time after asking 3 https servers out of 3 different pools.
 
   * --time-fetching-method
 
-     curl or tlsdate
+    curl or tlsdate
 
   * --tlsdate-extra-options
 
-     tlsdate extra options
+    tlsdate extra options
 
 ## DISPATCHER
 Can be commands or scripts.
@@ -245,9 +245,37 @@ creating an empty file /var/lib/sdw_error. ("sudo touch
 
 143 Signal sigterm received.
 
-## EXAMPLES
+## SIGNALS
 
-`sudo sdwdate`
+  * sigint
+
+    Clean up and exit.
+
+  * sigterm
+
+    Same as sigint.
+
+  * sigusr1
+
+    Enable extensive debugging.
+
+Examples:
+
+`sudo kill -sigint "$(cat "/var/run/sdwdate/pid")"`
+
+`sudo kill -sigterm "$(cat "/var/run/sdwdate/pid")"`
+
+`sudo kill -sigusr1 "$(cat "/var/run/sdwdate/pid")"`
+
+## EXAMPLES
+If you installed `sdwdate` from your distribution's repository, it should be
+already pre-configured to automatically run as daemon with sane defaults.
+
+`sdwdate --echo-unixtime --dont_set_date --quiet --done_file ./done --first_success_file ./first_success --success_file ./success --log_file ./log --interval 0`
+
+Should show something like this.
+
+`1413204987`
 
 ## WWW
 https://www.whonix.org/wiki/Dev/TimeSync
