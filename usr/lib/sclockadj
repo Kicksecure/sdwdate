@@ -89,11 +89,11 @@ module SneakyClockAdjuster
     puts "Running with PID: #{Process.pid}" if verbose
     Kernel.trap("TERM") do
       puts "Exiting..."
-      exit 0
+      exit 143
     end
     Kernel.trap("INT") do
       puts "Exiting..."
-      exit 0
+      exit 130
     end
 
     jumps     = make_jumps      amount, move_min, move_max

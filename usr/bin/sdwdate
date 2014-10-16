@@ -1573,8 +1573,12 @@ sdwdate_terminate_sclockadj() {
    fi
    SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
 
+   if [ "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "143" ]; then
+       sdwdate_log "subshell for sclockadj exited with expected non-zero exit code (sigterm): $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
+       return 0
+   fi
    if [ ! "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "0" ]; then
-       sdwdate_error_handler "subshell for sclockadj exited with non-zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
+       sdwdate_error_handler "subshell for sclockadj exited with unexpected non-zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
    fi
 }
 
@@ -1655,9 +1659,14 @@ sdwdate_set_time_using_sclockadj() {
          echo "Time after running sclockadj: $SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING [$SDWDATE_NEW_DATE_AFTER_SETTING]"
       }
 
+      sdwdate_subshell_wait() {
+         SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE="0"
+         wait "$SDWDATE_SCLOCKADJ_COMMAND_PID" || { SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE="$?" ; true; };
+      }
+
       sdwdate_subshell_trap_sigterm() {
+         ## Interrupted sdwdate_subshell_wait.
          if [ "$SDWDATE_SCLOCKADJ_COMMAND_PID" = "" ]; then
-            sdwdate_subshell_time_end
             return 0
          fi
          ## There is a /etc/sudoers.d exception.
@@ -1665,8 +1674,8 @@ sdwdate_set_time_using_sclockadj() {
          sclockadj_kill_helper_output="$(sudo /usr/lib/sclockadj_kill_helper "$SDWDATE_SCLOCKADJ_COMMAND_PID" 2>&1)"
          echo "sclockadj_kill_helper_output: $sclockadj_kill_helper_output"
          unset sclockadj_kill_helper_output
-         sdwdate_subshell_time_end
-         exit 0
+         ## Execute sdwdate_subshell_wait again to set SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE.
+         sdwdate_subshell_wait
       }
 
       trap "sdwdate_subshell_trap_sigterm" SIGTERM
@@ -1676,8 +1685,7 @@ sdwdate_set_time_using_sclockadj() {
       $SDWDATE_SCLOCKADJ_COMMAND 2>&1 &
       SDWDATE_SCLOCKADJ_COMMAND_PID="$!"
 
-      SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE="0"
-      wait "$SDWDATE_SCLOCKADJ_COMMAND_PID" || { SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE="$?" ; true; };
+      sdwdate_subshell_wait ## Might get interrupted by signal sigterm.
 
       sdwdate_subshell_time_end
 
