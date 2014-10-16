@@ -1582,8 +1582,6 @@ sdwdate_terminate_sclockadj() {
 sdwdate_set_time_using_sclockadj() {
    trap "sdwdate_error_handler" ERR
 
-   sdwdate_terminate_sclockadj
-
    ## sets: NANOSECONDS
    ## sets: PLUS_OR_MINUS
    sdwdate_generate_nanoseconds
@@ -1699,6 +1697,8 @@ sdwdate_set_time_using_sclockadj() {
 
 sdwdate_maybe_set_new_time() {
    trap "sdwdate_error_handler" ERR
+
+   sdwdate_terminate_sclockadj
 
    if [ "$DONT_SET_DATE" = "1" ]; then
       return 0
