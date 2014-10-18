@@ -25,6 +25,7 @@ SDW_DIR=/var/run/$NAME
 PIDFILE=$SDW_DIR/pid
 SDW_DONE_FILE=$SDW_DIR/done
 SDW_SUCCESS_FILE=$SDW_DIR/success
+SDW_FIRST_SUCCESS_FILE=$SDW_DIR/first_success
 LOG=/var/log/$NAME.log
 
 # Load the VERBOSE setting and other rcS variables
@@ -154,7 +155,13 @@ case "$1" in
 	do_stop
 	do_start_nd
 	;;
+  restartndclean)
+	rm --force "$SDW_FIRST_SUCCESS_FILE"
+	do_stop
+	do_start_nd
+	;;
   force-reload)
+	rm --force "$SDW_FIRST_SUCCESS_FILE"
 	do_stop
 	do_start
 	;;
@@ -163,7 +170,7 @@ case "$1" in
         exit $?
 	;;
   *)
-	echo "Usage: $SCRIPTNAME (start|stop|restart|force-reload|status)" >&2
+	echo "Usage: $SCRIPTNAME (start|stop|restart|restartnd|restartndclean|force-reload|status)" >&2
 	exit 3
 	;;
 esac
