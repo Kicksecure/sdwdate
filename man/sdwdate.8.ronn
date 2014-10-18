@@ -18,7 +18,7 @@ sdwdate(8) -- Secure Distributed Web Date
 `sdwdate` [option]
 
 ## DESCRIPTION
-Sets mediate time after asking 3 https servers out of 3 different pools.
+Builds mediate time by asking three https servers from three different pools.
 
 ## OPTIONS
   * -d --debug
