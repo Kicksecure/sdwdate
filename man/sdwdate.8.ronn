@@ -212,14 +212,6 @@ Builds mediate time by asking three https servers from three different pools.
 
     exec after run of curl"
 
-  * --time-fetching-method
-
-    curl or tlsdate
-
-  * --tlsdate-extra-options
-
-    tlsdate extra options
-
 ## DISPATCHER
 Can be commands or scripts.
 

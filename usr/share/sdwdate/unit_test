@@ -146,11 +146,6 @@ fi
 
 echo "-------------------- Begin Unit Test 8 --------------------"
 
-TEMP_DIR="/boot"
-## TODO: Just needs to be a big file. Any better one?
-SDWDATE_CURRENT_POOL="$(basename "/boot/vmlinuz-"*)"
-TIME_FETCHING_METHOD="tlsdate"
-
 ## TODO: There is no file that could be used to trigger the timeout 5 to read that file.
 
 ##sdwdate_parse_date
@@ -167,7 +162,7 @@ fi
 echo "-------------------- Begin Unit Test 9 --------------------"
 
 download_unit_test() {
-   echo "-------------------- -------------------- -------------------- TIME_FETCHING_METHOD: $TIME_FETCHING_METHOD (TLSDATE_EXTRA_OPTIONS: $TLSDATE_EXTRA_OPTIONS)"
+   echo "-------------------- -------------------- --------------------"
 
    sdwdate_defaults
 
@@ -193,12 +188,4 @@ download_unit_test() {
    done
 }
 
-TIME_FETCHING_METHOD="curl"
-download_unit_test
-
-TIME_FETCHING_METHOD="tlsdate"
-download_unit_test
-
-TIME_FETCHING_METHOD="tlsdate"
-TLSDATE_EXTRA_OPTIONS="--http"
 download_unit_test

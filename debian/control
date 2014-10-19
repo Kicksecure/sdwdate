@@ -17,8 +17,6 @@ Architecture: all
 Depends: curl, ca-certificates, sudo, logrotate, bc,
  ruby | ruby-interpreter, ruby-inline, ruby-dev,
  ruby1.9.1-dev | ruby-all-dev, gcc, ${misc:Depends}
-## TODO:
-## - add tlsdate when jessie gets stable
 Recommends: vbox-disable-timesync, timesanitycheck, bootclockrandomization,
  timesync
 Suggests: sdwdate-plugin-anon-shared-con-check,
@@ -29,7 +27,7 @@ Description: Secure Distributed Network Time Synchronization
  communicating via TCP with one or more HTTPS webservers.
  .
  At randomized intervals, sdwdate connects to a variety of webservers and
- extracts the time stamps with help of curl or tlsdate from headers (RFC 2616).
+ extracts the time stamps with help of curl from headers (RFC 2616).
  Using sclockadj option, time is gradually adjusted preventing bigger clock
  jumps that could confuse logs, servers, Tor, i2p, etc.
  .
