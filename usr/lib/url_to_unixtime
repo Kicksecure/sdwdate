@@ -4,13 +4,13 @@
 ## - add dependency python-requests to debian/control
 ## - add dependency python-dateutil to debian/control
 ## - any reason good reason to use libcurl instead or does python-requests support all we need?
-## - timeout
 ## - check if it really uses "--head" by inspecting traffic
 ## - command line parameter to maybe use https (as option true or false [not for .onion])
 ## - command line parameter to set url
 ## - command line parameter for proxy settings yes/no
 ## - command line parameter verbose option?
 ## - command line parameter for curl user agent
+## - command line parameter for timeout
 ## - error handling
 ## - anything else?
 
