@@ -11,6 +11,7 @@
 ## - command line parameter for proxy settings yes/no
 ## - command line parameter verbose option?
 ## - command line parameter for curl user agent
+## - error handling
 ## - anything else?
 
 import requests
