@@ -37,7 +37,14 @@ proxies = {
 }
 
 try:
-   response = requests.head(url, proxies=proxies)
+   #response = requests.head(url, proxies=proxies)
+
+   ## Fails as expected.
+   #cafile = '/usr/share/ca-certificates/mozilla/StartCom_Certification_Authority.crt'
+   ## Works as expected.
+   cafile = '/usr/share/ca-certificates/mozilla/DigiCert_High_Assurance_EV_Root_CA.crt'
+   response = requests.get(url, verify=cafile)
+
 except requests.exceptions.ConnectionError as e:
    print >> sys.stderr, "Request failed. | url: %s | ConnectionError: %s" % (url, e)
    sys.exit(1)
