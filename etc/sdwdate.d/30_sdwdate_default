@@ -58,6 +58,9 @@ DONE_FILE=/var/run/sdwdate/done
 ## Success file. Will only be created after a success.
 SUCCESS_FILE=/var/run/sdwdate/success
 
+## First success file. Will be created after the first success.
+FIRST_SUCCESS_FILE=/var/run/sdwdate/first_success
+
 ## How many members per pool are allowed to fail.
 ## If too many members are not reachable, time will not be adjusted.
 ALLOWED_PER_POOL_FAILURE_RATIO=0.34
@@ -91,6 +94,13 @@ RANDOMIZE="1"
 ## 1 sclockadj enabled
 ## defaults to: 0
 SDWDATE_USE_SCLOCKADJ_WHEN_STARTUP="0"
+
+## Use sclockadj instead of /bin/date (which would produce clock jumps) when
+## re-starting up when sdwdate succeeded at least once after boot.
+## 0 sclockadj disabled
+## 1 sclockadj enabled
+## defaults to: 1
+SDWDATE_USE_SCLOCKADJ_WHEN_RESTARTUP="1"
 
 ## Use sclockadj instead of /bin/date (which would produce clock jumps) when
 ## in daemon mode.
@@ -170,6 +180,11 @@ SDW_TOUCH_DONE_FILE_ON_ERROR="1"
 ## 0 disabled.
 SDW_EXIT_ON_ERROR="1"
 
+## echo remote unix time even when using --quiet
+## true - enabled.
+## false - disabled.
+ECHO_UNIX_TIME="false"
+
 ## This command will be `eval`uated when sdwdate succeeded.
 ## When set to "", it will be skipped.
 DISPATCH_POST_SUCCESS=""
@@ -204,52 +219,61 @@ SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_THREE]=""
 
 ## pool one.
 SDWDATE_POOL_ONE=(
-   boum.org
-   chavez.indymedia.org
-   db.debian.org
-   epic.org
-   mail.riseup.net
-   sarava.org
-   squat.net
-   tachanka.org
-   www.1984.is
-   www.eff.org
-   www.immerda.ch
-   www.privacyinternational.org
-   www.torproject.org
+         boum.org
+         chavez.indymedia.org
+         db.debian.org
+         debian.org
+         epic.org
+         mail.riseup.net
+         sarava.org
+         squat.net
+         tachanka.org
+         www.1984.is
+         www.eff.org
+         www.immerda.ch
+         www.privacyinternational.org
+         www.torproject.org
+         freedom.press
 )
 
 ## pool two.
 SDWDATE_POOL_TWO=(
-   grc.com
-   www.tarsnap.com
-   wikileaks.org
-   pressfreedomfoundation.org
-   securedrop.theguardian.com
-   safesource.forbes.com
-   en.wikipedia.org
-   cve.mitre.org
-   duckduckgo.com
-   lkml.org
-   www.gnu.org
-   fsf.org
-   www.kernel.org
+         grc.com
+         www.tarsnap.com
+         wikileaks.org
+         pressfreedomfoundation.org
+         securedrop.theguardian.com
+         safesource.forbes.com
+         en.wikipedia.org
+         cve.mitre.org
+         duckduckgo.com
+         lkml.org
+         www.gnu.org
+         fsf.org
+         fsfe.org
+         defectivebydesign.org
+         www.kernel.org
+         opentechfund.org
+         firstlook.org
 )
 
 ## pool three.
 SDWDATE_POOL_THREE=(
-   www.startpage.com
-   www.apache.org
-   www.centos.org
-   www.piratenpartei.de
-   www.torservers.net
-   www.accessnow.org
-   rsf.org
-   www.wauland.de
-   www.ccc.de
-   netzpolitik.org
-   privacyfoundation.ch
-   www.noisebridge.net
-   en.bitcoin.it
-   www.calyxinstitute.org
+         www.startpage.com
+         www.apache.org
+         www.centos.org
+         www.piratenpartei.de
+         www.torservers.net
+         www.accessnow.org
+         rsf.org
+         www.wauland.de
+         www.ccc.de
+         netzpolitik.org
+         privacyfoundation.ch
+         www.noisebridge.net
+         en.bitcoin.it
+         www.calyxinstitute.org
+         gnupg.org
+         gpgtools.org
+         schneier.com
 )
