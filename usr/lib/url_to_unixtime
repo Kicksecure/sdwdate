@@ -18,15 +18,38 @@ import requests
 import sys
 from dateutil.parser import parse
 
-url = "http://www.cnn.com"
+url = "https://check.torproject.org"
 
-response = requests.head(url)
+## Does not support socks proxies yet.
+## https://github.com/kennethreitz/requests/issues/2156
+proxies = {
+    'http' : "socks5://127.0.0.1:9050",
+    'https' : "socks5://127.0.0.1:9050"
+}
+
+proxies = {
+  "http": "http://127.0.0.1:9050",
+  "https": "http://127.0.0.1:9050",
+}
+
+try:
+   response = requests.head(url, proxies=proxies)
+except requests.exceptions.ConnectionError as e:
+   print >> sys.stderr, "Request failed. | url: %s | ConnectionError: %s" % (url, e)
+   sys.exit(1)
+
 content = response.headers
-date=response.headers.get('date')
+date = response.headers.get('date')
 
-## Thanks to:
-## eumiro
-## http://stackoverflow.com/a/3894047/2605155
-unixtime=parse(date).strftime('%s')
+try:
+   ## Thanks to:
+   ## eumiro
+   ## http://stackoverflow.com/a/3894047/2605155
+   unixtime = parse(date).strftime('%s')
+except ValueError as e:
+   print >> sys.stderr, "Parsing date from server failed. | date: %s | dateutil ValueError: %s" % (date, e)
+   sys.exit(2)
+
 print "%s" % (unixtime)
+
 sys.exit(0)
