@@ -3,6 +3,6 @@
 ## See the file COPYING for copying conditions.
 
 ALL ALL=NOPASSWD: /bin/date *
-ALL ALL=NOPASSWD: /usr/lib/sclockadj *
+ALL ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj *
 ALL ALL=NOPASSWD: /sbin/hwclock *
-ALL ALL=NOPASSWD: /usr/lib/sclockadj_kill_helper *
+ALL ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj_kill_helper *

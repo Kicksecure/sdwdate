@@ -822,7 +822,7 @@ sdwdate_sanity_tests() {
    command -v grep >/dev/null
    command -v sudo >/dev/null
    command -v shuf >/dev/null
-   command -v /usr/lib/sclockadj >/dev/null
+   command -v /usr/lib/sdwdate/sclockadj >/dev/null
    command -v /sbin/hwclock >/dev/null
 
    test -e "/dev/random"
@@ -1491,7 +1491,7 @@ sdwdate_set_time_using_sclockadj() {
    local SDWDATE_SCLOCKADJ_COMMAND
    ## There is an exception in /etc/sudoers.d/.
    SDWDATE_SCLOCKADJ_COMMAND="\
-      sudo /usr/lib/sclockadj \
+      sudo /usr/lib/sdwdate/sclockadj \
          $SDWDATE_SCLOCKADJ_VERBOSE \
          $SDWDATE_SCLOCKADJ_CHANGE_DATE \
          $SDWDATE_SCLOCKADJ_FIRST_WAIT \
@@ -1553,8 +1553,8 @@ sdwdate_set_time_using_sclockadj() {
             return 0
          fi
          ## There is a /etc/sudoers.d exception.
-         echo "executing: sudo /usr/lib/sclockadj_kill_helper $SDWDATE_SCLOCKADJ_COMMAND_PID"
-         sclockadj_kill_helper_output="$(sudo /usr/lib/sclockadj_kill_helper "$SDWDATE_SCLOCKADJ_COMMAND_PID" 2>&1)"
+         echo "executing: sudo /usr/lib/sdwdate/sclockadj_kill_helper $SDWDATE_SCLOCKADJ_COMMAND_PID"
+         sclockadj_kill_helper_output="$(sudo /usr/lib/sdwdate/sclockadj_kill_helper "$SDWDATE_SCLOCKADJ_COMMAND_PID" 2>&1)"
          echo "sclockadj_kill_helper_output: $sclockadj_kill_helper_output"
          unset sclockadj_kill_helper_output
          ## Execute sdwdate_subshell_wait again to set SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE.
