@@ -15,6 +15,7 @@
 ## - command line parameter verbose option?
 ## - command line parameter for curl user agent
 ## - command line parameter for timeout
+## - force use TLSv1, not SSL
 ## - error handling
 ## - max file size?
 ## - anything else?
