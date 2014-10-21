@@ -16,6 +16,7 @@
 ## - command line parameter for curl user agent
 ## - command line parameter for timeout
 ## - error handling
+## - max file size?
 ## - anything else?
 
 import requests
