@@ -1095,7 +1095,7 @@ sdwdate_convert_to_unixtime() {
       return 0
    fi
 
-   WEB_DATE_UNIXTIME="$(date --date="$WEB_DATE_FROM_TOOL" +"%s")" || { SDWDATE_CONVERT_SUCCESS="$?" ; true; };
+   WEB_DATE_UNIXTIME="$(/usr/lib/sdwdate/date_to_unixtime "$WEB_DATE_FROM_TOOL")" || { SDWDATE_CONVERT_SUCCESS="$?" ; true; };
 
    if [ ! "$SDWDATE_CONVERT_SUCCESS" = "0" ]; then
       sdwdate_log "Bogus reply from $LINK_PROCESSED. Could not convert to unixtime. \
