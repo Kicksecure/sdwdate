@@ -1457,15 +1457,17 @@ sdwdate_terminate_sclockadj() {
       wait "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" || { SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE="$?" ; true; };
       sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID no longer running. Exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
    fi
-   SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
 
    if [ "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "143" ]; then
        sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID exited with expected non-zero exit code (sigterm): $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
+       SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
        return 0
    fi
+
    if [ ! "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "0" ]; then
        sdwdate_error_handler "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID exited with unexpected non-zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
    fi
+   SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
 }
 
 sdwdate_set_time_using_sclockadj() {
