@@ -16,7 +16,7 @@ read first second _ <<< "$ps_output"
 ## /usr/lib/sclockadj
 
 if [ "$first" = "sudo" ]; then
-   if [ "$second" = "/usr/lib/sclockadj" ]; then
+   if [ "$second" = "/usr/lib/sdwdate/sclockadj" ]; then
       echo "kill -sigterm $pid"
       kill -sigterm "$pid"
       exit 0
