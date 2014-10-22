@@ -1163,7 +1163,7 @@ sdwdate_loop() {
       fi
 
       if [ "$array_length_remember" -ge "$array_length" ]; then
-         sdwdate_log "ERROR: No member of the $SDWDATE_CURRENT_POOL could not be reached. (debugging information: array_length_remember: $array_length_remember | array_length: $array_length)"
+         sdwdate_log "ERROR: No member of the $SDWDATE_CURRENT_POOL could be reached. (debugging information: array_length_remember: $array_length_remember | array_length: $array_length)"
 
          ## Check, if we are running in daemon mode.
          if [ "$INTERVAL" = "" ] || [ "$INTERVAL" = "0" ]; then
