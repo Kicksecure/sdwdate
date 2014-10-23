@@ -4,25 +4,14 @@
 ## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-## generic deb build script version 0.6
+## generic deb build script version 0.7
 
-set -x
-
-if [ -f /usr/lib/pre.bsh ]; then
-   source /usr/lib/pre.bsh
-fi
-
-set -e
-set -o pipefail
-
-cd "${BASH_SOURCE[0]%/*}"
-mydir="${PWD##*/}"
-
-parse_cmd() {
+make_parse_cmd() {
    ## Thanks to:
    ## http://mywiki.wooledge.org/BashFAQ/035
 
    local matched="false"
+   local deb
 
    while :
    do
@@ -36,6 +25,12 @@ parse_cmd() {
            dist)
                matched="true"
                make_dist
+               exit 0
+               shift
+               ;;
+           undist)
+               matched="true"
+               make_undist
                exit 0
                shift
                ;;
@@ -64,12 +59,12 @@ parse_cmd() {
                ;;
            deb-pkg-signed)
                matched="true"
-               deb_signed="true"
+               make_deb_signed="true"
                shift
                ;;
            deb-pkg-source)
                matched="true"
-               deb_source="true"
+               make_deb_source="true"
                shift
                ;;
            deb-pkg-install)
@@ -202,17 +197,17 @@ parse_cmd() {
       make_deb-pkg $@
       exit 0
    fi
-   if [ "$deb_signed" = "true" ]; then
+   if [ "$make_deb_signed" = "true" ]; then
       make_deb-pkg-signed $@
       exit 0
    fi
-   if [ "$deb_source" = "true" ]; then
+   if [ "$make_deb_source" = "true" ]; then
       make_deb-pkg-source $@
       exit 0
    fi
 }
 
-get_variables() {
+make_get_variables() {
    local temp
    command -v dpkg-parsechangelog >/dev/null
    OIFS="${IFS}"
@@ -231,35 +226,35 @@ get_variables() {
       ## Example first:
       ## version
       if [ "$first" = "version:" ]; then
-         changelog_version="$second"
-         ## Example changelog_version:
+         make_changelog_version="$second"
+         ## Example make_changelog_version:
          ## 3:0.1-1
-         revision="${second#*-}"
-         ## Example revision:
+         make_pkg_revision="${second#*-}"
+         ## Example make_pkg_revision:
          ## 1
          temp="${second%-*}"
-         ## Example version:
+         ## Example temp:
          ## 3:0.1
-         version="${temp#*:}"
-         ## Example version:
+         make_pkg_version="${temp#*:}"
+         ## Example make_pkg_version:
          ## 0.1
-         epoch="${second%:*}"
-         ## Example epoch:
+         make_epoch="${second%:*}"
+         ## Example make_epoch:
          ## 3
          break
       fi
    done
    IFS="${OIFS}"
-   if [ "$version" = "" ]; then
-      true "ERROR: variable version is empty."
+   if [ "$make_pkg_version" = "" ]; then
+      true "ERROR: variable make_pkg_version is empty."
       exit 1
    fi
-   main_package_name="$mydir"
-   if [ "$main_package_name" = "" ]; then
-      true "ERROR: variable main_package_name is empty."
+   make_main_package_name="$make_mydir"
+   if [ "$make_main_package_name" = "" ]; then
+      true "ERROR: variable make_main_package_name is empty."
       exit 1
    fi
-   main_deb_file="../${main_package_name}_${version}-${revision}_all.deb"
+   make_main_deb_file="../${make_main_package_name}_${make_pkg_version}-${make_pkg_revision}_all.deb"
 
    local grep_output line a package
    grep_output="$(grep "Package:" "debian/control")"
@@ -267,7 +262,7 @@ get_variables() {
    ## Package: anon-shared-packages-dependencies
    ## Package: anon-shared-packages-recommended
 
-   package_list="$main_package_name"
+   make_package_list="$make_main_package_name"
 
    OIFS="$IFS"
    NIFS=$'\n'
@@ -275,17 +270,23 @@ get_variables() {
    for line in $grep_output; do
       IFS="$OIFS"
       read a package _ <<< "$line"
-      if [ "$package" = "$main_package_name" ]; then
+      if [ "$package" = "$make_main_package_name" ]; then
          continue
       fi
-      package_list="$package_list $package"
+      make_package_list="$make_package_list $package"
    done
    IFS="$OIFS"
 }
 
-get_destdir() {
+make_get_destdir() {
    if [ "$DESTDIR" = "" ]; then
       DESTDIR="/"
+   fi
+}
+
+make_get_distdir() {
+   if [ "$DISTDIR" = "" ]; then
+      DISTDIR=".."
    fi
 }
 
@@ -295,7 +296,9 @@ make_help() {
 make help
    Show this help.
 make dist
-   Create package-version.tar.gz from source files in parent folder.
+   Create package-version.tar.gz from source files in \$DISTDIR (default \"..\").
+make undist
+   Delete package-version.tar.gz from source files in \$DISTDIR (default \"..\").
 make manpages
    Create man page from man source folder, which will be stored in debian/tmp-man folder.
 make uch
@@ -313,9 +316,9 @@ make deb-install
 make deb-icup
    Combination of make deb-pkg, make deb-pkg-install and make deb-pkg-cleanup.
 make deb-remove
-   apt-get remove main_package_name
+   apt-get remove make_main_package_name
 make deb-purge
-   apt-get purge main_package_name
+   apt-get purge make_main_package_name
 make deb-clean
    Delete temporary debhelper files.
 make deb-cleanup
@@ -341,7 +344,7 @@ make deb-chl-bumpup
 }
 
 make_dist() {
-   get_variables
+   make_undist
 
    ## Explicitly set access time, so we end up with a deterministic debian.tar.gz file.
    shopt -s globstar dotglob
@@ -349,18 +352,25 @@ make_dist() {
    touch -t "201308151102.35" ./debian/**
    shopt -u globstar dotglob
 
-   rm --force "../${main_package_name}_${version}.orig.tar.gz"
+   rm --force "$DISTDIR/${make_main_package_name}_${make_pkg_version}.orig.tar.gz"
 
    git archive \
-      --format=tar HEAD --prefix="${main_package_name}-${version}/" \
-      | gzip -n > "../${main_package_name}_${version}.orig.tar.gz"
+      --format=tar HEAD --prefix="${make_main_package_name}-${make_pkg_version}/" \
+      | gzip -n > "$DISTDIR/${make_main_package_name}_${make_pkg_version}.orig.tar.gz"
 
-   ls -la "../${main_package_name}_${version}.orig.tar.gz"
+   ls -la "$DISTDIR/${make_main_package_name}_${make_pkg_version}.orig.tar.gz"
+}
+
+make_undist() {
+   make_get_distdir
+   make_get_variables
+
+   rm --force "$DISTDIR/${make_main_package_name}_${make_pkg_version}.orig.tar.gz"
 }
 
 make_manpages() {
    shopt -s globstar dotglob nullglob
-   local i source_folder filename_without_ronn_file_extension
+   local i source_folder filename_without_ronn_file_extension base_name
    for i in "$PWD/man"/**; do
       if [ -d "$i" ]; then
          continue
@@ -392,7 +402,7 @@ make_clean() {
    make_deb-clean
 }
 
-make_deb-pkg_helper() {
+make_deb-pkg_shared() {
    make_dist
 
    if [ "$DEBUILD_LINTIAN_OPTS" = "" ]; then
@@ -405,46 +415,46 @@ make_deb-pkg_helper() {
       --no-lintian \
       --rootcmd="$PWD/debian/gain-root-command" \
       -sa \
-      $debuild_maybe_unsigned_opts \
-      $debuild_maybe_source_only_opt \
+      $make_debuild_maybe_unsigned_opts \
+      $make_debuild_maybe_unsigned_opts \
       ${1+"$@"}
 
    lintian $DEBUILD_LINTIAN_OPTS
 
-   true "INFO: You can find your deb file here: $main_deb_file"
+   true "INFO: You can find your deb file here: $make_main_deb_file"
 }
 
 make_deb-pkg() {
-   debuild_maybe_unsigned_opts="-us -uc"
-   make_deb-pkg_helper $@
+   make_debuild_maybe_unsigned_opts="-us -uc"
+   make_deb-pkg_shared $@
 }
 
 make_deb-pkg-signed() {
-   make_deb-pkg_helper $@
+   make_deb-pkg_shared $@
 }
 
 make_deb-pkg-source() {
-   debuild_maybe_source_only_opt="-S"
-   make_deb-pkg_helper $@
+   make_debuild_maybe_unsigned_opts="-S"
+   make_deb-pkg_shared $@
 }
 
 make_deb-install() {
-   get_variables
-   if [ ! -f "$main_deb_file" ]; then
-      true "ERROR: File $main_deb_file does not exist. Have you run \"make deb-pkg\" already?"
+   make_get_variables
+   if [ ! -f "$make_main_deb_file" ]; then
+      true "ERROR: File $make_main_deb_file does not exist. Have you run \"make deb-pkg\" already?"
       exit 1
    fi
-   sudo dpkg -i "$main_deb_file"
+   sudo dpkg -i "$make_main_deb_file"
 }
 
 make_deb-remove() {
-   get_variables
-   sudo apt-get remove "$main_package_name"
+   make_get_variables
+   sudo apt-get remove "$make_main_package_name"
 }
 
 make_deb-purge() {
-   get_variables
-   sudo apt-get purge "$main_package_name"
+   make_get_variables
+   sudo apt-get purge "$make_main_package_name"
 }
 
 make_deb-pkg-install() {
@@ -458,12 +468,12 @@ make_deb-icup() {
 }
 
 make_deb-clean() {
-   get_variables
+   make_get_variables
    if [ -d "debian/tmp-man" ]; then
       rm --recursive "debian/tmp-man"
    fi
    local to_delete package
-   for package in $package_list; do
+   for package in $make_package_list; do
       for to_delete in \
          "debian/$package.debhelper.log" \
          "debian/$package.substvars" \
@@ -484,9 +494,10 @@ make_deb-clean() {
 }
 
 make_deb-cleanup() {
+   make_undist
    make_deb-clean
    local to_delete package
-   for package in $package_list; do
+   for package in $make_package_list; do
       for to_delete in \
          "../${package}_"*-*"_all.deb" \
          "../${package}_"*-*".debian.tar.gz" \
@@ -495,7 +506,6 @@ make_deb-cleanup() {
          "../${package}_"*-*_*".changes" \
          "../${package}_"*-*"_source.build" \
          "../${package}_"*-*"_source.changes" \
-         "../${package}_"*".orig.tar.gz" \
          "../${package}_"*-*"_source.${package}.upload"
       do
          if [ -e "$to_delete" ]; then
@@ -506,25 +516,25 @@ make_deb-cleanup() {
 }
 
 make_dput-ubuntu-ppa() {
-   get_variables
-   dput "$main_package_name" "../${main_package_name}_${version}-${revision}_source.changes"
+   make_get_variables
+   dput "$make_main_package_name" "../${make_main_package_name}_${make_pkg_version}-${make_pkg_revision}_source.changes"
 }
 
 make_checkout() {
    git fetch
 }
 
-helper() {
-   get_destdir
+make_helper() {
+   make_get_destdir
    shopt -s globstar dotglob nullglob
    local d source_file file_without_pwd file_with_destdir
    for d in bin boot dev etc home lib opt sbin srv sys usr var; do
       if [ -d "$d" ]; then
          for source_file in "$PWD/$d"/**; do
-            if [ "$install_" = "true" ]; then
+            if [ "$make_install_" = "true" ]; then
                cp -R "$d" "$DESTDIR"
                continue
-            elif [ "$installsim" = "true" ]; then
+            elif [ "$make_installsim_" = "true" ]; then
                true "INFO: would do: cp -R $d $DESTDIR"
                continue
             fi
@@ -533,18 +543,18 @@ helper() {
             fi
             file_without_pwd="${source_file#$PWD}"
             file_with_destdir="${DESTDIR}${file_without_pwd}"
-            if [ "$uninstallcheck" = "true" ]; then
+            if [ "$make_uninstallcheck_" = "true" ]; then
                if [ -f "$file_with_destdir" ]; then
                   true "ERROR: file $file_with_destdir still installed."
-                  still_installed="true"
+                  local still_installed="true"
                fi
-            elif [ "$installcheck" = "true" ]; then
+            elif [ "$make_installcheck_" = "true" ]; then
                diff "$source_file" "$file_with_destdir"
-            elif [ "$uninstallsim" = "true" ]; then
+            elif [ "$make_uninstallsim_" = "true" ]; then
                if [ -f "$file_with_destdir" ]; then
                   true "INFO: would do: rm \"$file_with_destdir\""
                fi
-            elif [ "$uninstall" = "true" ]; then
+            elif [ "$make_uninstall_" = "true" ]; then
                if [ -f "$file_with_destdir" ]; then
                   rm "$file_with_destdir"
                fi
@@ -562,52 +572,52 @@ helper() {
 }
 
 make_install() {
-   install_="true"
-   helper
+   make_install_="true"
+   make_helper
 }
 
 make_installcheck() {
-   installcheck="true"
-   helper
+   make_installcheck_="true"
+   make_helper
 }
 
 make_installsim() {
-   installsim="true"
-   helper
+   make_installsim_="true"
+   make_helper
 }
 
 make_uninstallcheck() {
-   uninstallcheck="true"
-   helper
+   make_uninstallcheck_="true"
+   make_helper
 }
 
 make_uninstall() {
-   uninstall="true"
-   helper
+   make_uninstall_="true"
+   make_helper
 }
 
 make_uninstallsim() {
-   uninstallsim="true"
-   helper
+   make_uninstallsim_="true"
+   make_helper
 }
 
 make_deb-chl-bumpup() {
    command -v debchange >/dev/null
 
-   get_variables
+   make_get_variables
 
    local new_upstream_version_without_leading_zero new_upstream_version new_changelog_version new_revision
 
-   new_upstream_version_without_leading_zero="$(bc -l <<< "scale=9 ; $version + 0.1")"
+   new_upstream_version_without_leading_zero="$(bc -l <<< "scale=9 ; $make_pkg_version + 0.1")"
    new_upstream_version="$(printf '%3.1f\n' "$new_upstream_version_without_leading_zero")"
 
    new_revision="1"
 
-   new_changelog_version="$epoch:$new_upstream_version-$new_revision"
+   new_changelog_version="$make_epoch:$new_upstream_version-$new_revision"
 
    true "\
 Bumping version from / to...
-$changelog_version
+$make_changelog_version
 $new_changelog_version"
 
    if [ "$DEBEMAIL" = "" ]; then
@@ -623,4 +633,24 @@ $new_changelog_version"
       ""
 }
 
-parse_cmd ${1+"$@"}
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+   make_script_was_sourced="true"
+else
+   make_script_was_sourced="false"
+fi
+
+if [ "$make_script_was_sourced" = "false" ]; then
+   set -x
+
+   if [ -f /usr/lib/pre.bsh ]; then
+      source /usr/lib/pre.bsh
+   fi
+
+   set -e
+   set -o pipefail
+
+   cd "${BASH_SOURCE[0]%/*}"
+   make_mydir="${PWD##*/}"
+
+   make_parse_cmd ${1+"$@"}
+fi
