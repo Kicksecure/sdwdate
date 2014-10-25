@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-## generic deb build script version 0.7
+## generic deb build script version 0.8
 
 DESTDIR ?= /
 
@@ -12,6 +12,12 @@ dist:
 
 undist:
 	./make-helper.bsh undist
+
+debdist:
+	./make-helper.bsh debdist
+
+undebdist:
+	./make-helper.bsh undebdist
 
 manpages:
 	./make-helper.bsh manpages

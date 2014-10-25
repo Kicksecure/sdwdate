@@ -4,7 +4,7 @@
 ## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-## generic deb build script version 0.7
+## generic deb build script version 0.8
 
 make_parse_cmd() {
    ## Thanks to:
@@ -31,6 +31,18 @@ make_parse_cmd() {
            undist)
                matched="true"
                make_undist
+               exit 0
+               shift
+               ;;
+           debdist)
+               matched="true"
+               make_debdist
+               exit 0
+               shift
+               ;;
+           undebdist)
+               matched="true"
+               make_undebdist
                exit 0
                shift
                ;;
@@ -299,6 +311,10 @@ make dist
    Create package-version.tar.gz from source files in \$DISTDIR (default \"..\").
 make undist
    Delete package-version.tar.gz from source files in \$DISTDIR (default \"..\").
+make debdist
+   Create debian.tar.gz from source files in \$DISTDIR (default \"..\").
+make undebdist
+   Delete debian.tar.gz from source files in \$DISTDIR (default \"..\").
 make manpages
    Create man page from man source folder, which will be stored in debian/tmp-man folder.
 make uch
@@ -346,19 +362,46 @@ make deb-chl-bumpup
 make_dist() {
    make_undist
 
-   ## Explicitly set access time, so we end up with a deterministic debian.tar.gz file.
-   shopt -s globstar dotglob
-   touch -t "201308151102.35" ./debian
-   touch -t "201308151102.35" ./debian/**
-   shopt -u globstar dotglob
-
-   rm --force "$DISTDIR/${make_main_package_name}_${make_pkg_version}.orig.tar.gz"
-
    git archive \
-      --format=tar HEAD --prefix="${make_main_package_name}-${make_pkg_version}/" \
+      --format=tar \
+      --prefix="${make_main_package_name}-${make_pkg_version}/" \
+      HEAD \
       | gzip -n > "$DISTDIR/${make_main_package_name}_${make_pkg_version}.orig.tar.gz"
 
    ls -la "$DISTDIR/${make_main_package_name}_${make_pkg_version}.orig.tar.gz"
+   #sha512sum "$DISTDIR/${make_main_package_name}_${make_pkg_version}.orig.tar.gz"
+}
+
+make_debdist() {
+   make_undebdist
+
+   ## TODO: Not yet deterministic for some reason.
+   ## http://unix.stackexchange.com/questions/164104/how-to-create-a-deterministic-tar-gz-using-git-archive
+   #git archive \
+      #--format=tar \
+      #--prefix="debian/" \
+      #HEAD:debian \
+      #| sort -z | gzip -n > "$DISTDIR/${make_main_package_name}_${make_pkg_version}-${make_pkg_revision}.debian.tar.gz"
+
+   ## Deterministic.
+   ## TODO: differs from tarballs created by dpkg-source for some reason.
+   ##       For diagnose, example:
+   ##       diff <(tar -tvf anon-apt-sources-list_0.7-1.debian.tar.gz) <(tar -tvf _anon-apt-sources-list_0.7-1.debian.tar.gz)
+   find "debian" \
+      -print0 \
+         | tar \
+            --null \
+            --no-recursion \
+            --create \
+            --verbose \
+            --owner="0" --group="0" \
+            --numeric-owner \
+            -T \
+            - \
+            | gzip -9 -n > "$DISTDIR/${make_main_package_name}_${make_pkg_version}-${make_pkg_revision}.debian.tar.gz"
+
+   ls -la "$DISTDIR/${make_main_package_name}_${make_pkg_version}-${make_pkg_revision}.debian.tar.gz"
+   #sha512sum "$DISTDIR/${make_main_package_name}_${make_pkg_version}-${make_pkg_revision}.debian.tar.gz"
 }
 
 make_undist() {
@@ -366,6 +409,13 @@ make_undist() {
    make_get_variables
 
    rm --force "$DISTDIR/${make_main_package_name}_${make_pkg_version}.orig.tar.gz"
+}
+
+make_undebdist() {
+   make_get_distdir
+   make_get_variables
+
+   rm --force "$DISTDIR/${make_main_package_name}_${make_pkg_version}-${make_pkg_revision}.debian.tar.gz"
 }
 
 make_manpages() {
