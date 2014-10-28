@@ -4,7 +4,7 @@
 ## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-## generic deb build script version 0.8
+## generic deb build script version 0.9
 
 make_parse_cmd() {
    ## Thanks to:
@@ -220,16 +220,12 @@ make_parse_cmd() {
 }
 
 make_get_variables() {
-   local temp
+   local temp dpkg_line
    command -v dpkg-parsechangelog >/dev/null
-   OIFS="${IFS}"
-   NIFS=$'\n'
-   IFS="${NIFS}"
-   for line in $(dpkg-parsechangelog); do
-      ## Example line:
+   while read -r -d $'\n' dpkg_line; do
+      ## Example dpkg_line:
       ## Version: 0.1-1
-      IFS="${OIFS}"
-      read -r first second _ <<< "$line"
+      read -r first second _ <<< "$dpkg_line"
       ## Example first:
       ## Version:
       ## Example second:
@@ -255,8 +251,7 @@ make_get_variables() {
          ## 3
          break
       fi
-   done
-   IFS="${OIFS}"
+   done < <( dpkg-parsechangelog )
    if [ "$make_pkg_version" = "" ]; then
       true "ERROR: variable make_pkg_version is empty."
       exit 1
@@ -268,26 +263,21 @@ make_get_variables() {
    fi
    make_main_deb_file="../${make_main_package_name}_${make_pkg_version}-${make_pkg_revision}_all.deb"
 
-   local grep_output line a package
-   grep_output="$(grep "Package:" "debian/control")"
+   local grep_line a package
+
    ## Example: grep_output
    ## Package: anon-shared-packages-dependencies
    ## Package: anon-shared-packages-recommended
 
    make_package_list="$make_main_package_name"
 
-   OIFS="$IFS"
-   NIFS=$'\n'
-   IFS="$NIFS"
-   for line in $grep_output; do
-      IFS="$OIFS"
-      read a package _ <<< "$line"
+   while read -r -d $'\n' grep_line; do
+      read a package _ <<< "$grep_line"
       if [ "$package" = "$make_main_package_name" ]; then
          continue
       fi
       make_package_list="$make_package_list $package"
-   done
-   IFS="$OIFS"
+   done < <( grep "Package:" "debian/control" )
 }
 
 make_get_destdir() {

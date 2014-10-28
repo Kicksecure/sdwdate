@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-## generic deb build script version 0.8
+## generic deb build script version 0.9
 
 DESTDIR ?= /
 
