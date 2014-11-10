@@ -6,7 +6,6 @@
 
 ## TODO:
 ## - add dependency python-requests to debian/control
-## - add dependency python-dateutil to debian/control
 ## - any reason good reason to use libcurl instead or does python-requests support all we need?
 ## - check if it really uses "--head" by inspecting traffic
 ## - command line parameter to maybe use https (as option true or false [not for .onion])
