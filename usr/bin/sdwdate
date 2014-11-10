@@ -934,10 +934,6 @@ sdwdate_get_time_from_remote() {
       CURL_PROXY="--socks5-hostname $PROXY"
    fi
 
-   local current_time
-   current_time="$(date)"
-   sdwdate_log "getUrlDateDiff: $LINK_PROCESSED | $current_time"
-
    sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]="0"
 
    local TIME_START
@@ -956,6 +952,10 @@ sdwdate_get_time_from_remote() {
    rm "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
    touch "$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr"
    rm "$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr"
+
+   local current_time
+   current_time="$(date)"
+   sdwdate_log "getUrlDateDiff: $LINK_PROCESSED | $current_time"
 
    ## --fail not required, because also 404 would include head, which is all we need
    $CURL \
@@ -1548,6 +1548,7 @@ sdwdate_set_time_using_sclockadj() {
       }
 
       sdwdate_subshell_wait() {
+         echo "Waiting for pid to finish SDWDATE_SCLOCKADJ_COMMAND_PID: $SDWDATE_SCLOCKADJ_COMMAND_PID"
          SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE="0"
          wait "$SDWDATE_SCLOCKADJ_COMMAND_PID" || { SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE="$?" ; true; };
       }
