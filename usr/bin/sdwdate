@@ -28,7 +28,7 @@ if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
 
    SCRIPTNAME="$(basename "$BASH_SOURCE")"
    ownpid="$$"
-   ID="$(cat "/proc/sys/kernel/random/uuid")"
+   ID="$ownpid"
    if [ ! -f "/var/run/sdwdate/first_success" ]; then
       SDW_MODE="startup"
    else
@@ -374,7 +374,7 @@ sdwdate_read_config_folder() {
             sdwdate_error_handler "Invalid config file: $i
 bash_n_exit_code: $bash_n_exit_code
 bash_n_output:
-$bash_n_output"
+$bash_n_output" || true
          fi
          source "$i"
       fi
@@ -657,8 +657,6 @@ sdwdate_preparation() {
       who_ami="$(whoami)"
    fi
    sdwdate_log "$FUNCNAME: who_ami is set to $who_ami."
-
-   sdwdate_log "$FUNCNAME: TIME_FETCHING_METHOD is set to $TIME_FETCHING_METHOD."
 }
 
 sdwdate_echo() {
@@ -749,7 +747,7 @@ $error_text"
    fi
 
    local error_message
-   error_message="
+   error_message="\
 ############################################
 ## Error detected! Please report this bug! #
 ##
@@ -763,7 +761,21 @@ $error_text"
 ############################################\
 "
 
-   sdwdate_log "error_message: $error_message"
+   sdwdate_log "error_message: $error_message" || true
+
+   error_message="\
+############################################<br></br>
+## Error detected! Please report this bug! #<br></br>
+##<br></br>
+## BASH_SOURCE: $BASH_SOURCE<br></br>
+## SDW_EXIT_ON_ERROR: $SDW_EXIT_ON_ERROR<br></br>
+## SDW_MODE: $SDW_MODE<br></br>
+## SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE<br></br>
+##<br></br>
+## exit_code: $exit_code<br></br>
+## error_cause: $error_cause<br></br>
+############################################<br></br>\
+"
 
    true "DISPATCH_POST_ERROR: $DISPATCH_POST_ERROR"
 
@@ -779,20 +791,21 @@ $error_text"
    if [ "$DISPATCH_POST_ERROR" = "" ]; then
       true
    else
-      sdwdate_no_duplicate_log "dispatching post_error (SDW_MODE: $SDW_MODE): $DISPATCH_POST_ERROR"
-      sdwdate_eval $DISPATCH_POST_ERROR
+      sdwdate_log "dispatching post_error (SDW_MODE: $SDW_MODE) (SDW_EXIT_ON_ERROR: $SDW_EXIT_ON_ERROR): $DISPATCH_POST_ERROR" || true
+      sdwdate_eval $DISPATCH_POST_ERROR || true
+      sdwdate_log "dispatching post_error done." || true
    fi
 
    if [ "$SDW_EXIT_ON_ERROR" = "1" ]; then
-      sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Cleaning up..."
+      sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Cleaning up..." || true
       SIGNAL_TYPE="ERR"
       if [ "$(command -v "sdwdate_ex_funct")" ]; then
          sdwdate_ex_funct || true
       fi
-      sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Exiting."
+      sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Exiting." || true
       exit 1
    else
-      sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Continuing."
+      sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Continuing." || true
    fi
 }
 
@@ -804,7 +817,7 @@ sdwdate_sanity_tests() {
    trap "sdwdate_error_handler" ERR
 
    if [ "$ID" = "" ]; then
-      sdwdate_error_handler "Variable ID is empty."
+      sdwdate_error_handler "Variable ID is empty." || true
    fi
 
    command -v bash >/dev/null
@@ -843,7 +856,7 @@ sdwdate_ex_funct() {
    command_v_exit_code="0"
    command -v sdwdate_terminate_sclockadj >/dev/null 2>&1 || { command_v_exit_code="$?" ; true; };
    if [ "$command_v_exit_code" = "0" ]; then
-      sdwdate_terminate_sclockadj
+      sdwdate_terminate_sclockadj || true
    fi
 
    if [ ! "${SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]}" = "" ]; then
@@ -869,6 +882,7 @@ sdwdate_signal_sigint() {
 }
 
 if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
+   sdwdate_log 'Setting up: trap "sdwdate_signal_sigint" SIGINT'
    trap "sdwdate_signal_sigint" SIGINT ## ctrl + c
 fi
 
@@ -881,6 +895,7 @@ sdwdate_signal_sigterm() {
 }
 
 if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
+   sdwdate_log 'Setting up: trap "sdwdate_signal_sigterm" SIGTERM'
    trap "sdwdate_signal_sigterm" SIGTERM
 fi
 
@@ -934,16 +949,12 @@ sdwdate_get_time_from_remote() {
       CURL_PROXY="--socks5-hostname $PROXY"
    fi
 
-   local current_time
-   current_time="$(date)"
-   sdwdate_log "getUrlDateDiff: $LINK_PROCESSED | $current_time"
-
    sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]="0"
 
    local TIME_START
    TIME_START="$(date +%s)"
 
-   sdwdate_no_duplicate_log "dispatching SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL] (SDW_MODE: $SDW_MODE) (CURL: $CURL): ${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}"
+   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL] (SDW_MODE: $SDW_MODE) (CURL: $CURL): ${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}"
 
    if [ "${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}" = "" ]; then
       true
@@ -951,11 +962,17 @@ sdwdate_get_time_from_remote() {
       sdwdate_eval ${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}
    fi
 
+   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL] done."
+
    ## Sanity test.
    touch "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
    rm "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
    touch "$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr"
    rm "$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr"
+
+   local current_time
+   current_time="$(date)"
+   sdwdate_log "getUrlDateDiff: $LINK_PROCESSED | $current_time"
 
    ## --fail not required, because also 404 would include head, which is all we need
    $CURL \
@@ -1006,13 +1023,15 @@ sdwdate_get_time_from_remote() {
 
    test -f "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
 
-   sdwdate_no_duplicate_log "dispatching SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]: ${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}"
+   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]: ${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}"
 
    if [ "${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}" = "" ]; then
       true
    else
       sdwdate_eval ${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}
    fi
+
+   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL] done."
 
    return 0
 }
@@ -1095,11 +1114,14 @@ sdwdate_convert_to_unixtime() {
       return 0
    fi
 
-   WEB_DATE_UNIXTIME="$(date --date="$WEB_DATE_FROM_TOOL" +"%s")" || { SDWDATE_CONVERT_SUCCESS="$?" ; true; };
+   local timeout_after kill_after
+   timeout_after="5"
+   kill_after="5"
+   WEB_DATE_UNIXTIME="$(timeout --kill-after="$kill_after" "$timeout_after" "/usr/lib/sdwdate/date_to_unixtime" "$WEB_DATE_FROM_TOOL" 2>&1)" || { SDWDATE_CONVERT_SUCCESS="$?" ; true; };
 
    if [ ! "$SDWDATE_CONVERT_SUCCESS" = "0" ]; then
       sdwdate_log "Bogus reply from $LINK_PROCESSED. Could not convert to unixtime. \
-\`date\` failed with exit code: $SDWDATE_CONVERT_SUCCESS. WEB_DATE_FROM_TOOL: $WEB_DATE_FROM_TOOL | date stdout: $WEB_DATE_UNIXTIME"
+\`date\` failed with exit code: $SDWDATE_CONVERT_SUCCESS. WEB_DATE_FROM_TOOL: $WEB_DATE_FROM_TOOL | WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME"
       SDWDATE_CONVERT_SUCCESS="false"
       return 0
    fi
@@ -1160,7 +1182,7 @@ sdwdate_loop() {
       fi
 
       if [ "$array_length_remember" -ge "$array_length" ]; then
-         sdwdate_log "ERROR: No member of the $SDWDATE_CURRENT_POOL could not be reached. (debugging information: array_length_remember: $array_length_remember | array_length: $array_length)"
+         sdwdate_log "ERROR: No member of the $SDWDATE_CURRENT_POOL could be reached. (debugging information: array_length_remember: $array_length_remember | array_length: $array_length)"
 
          ## Check, if we are running in daemon mode.
          if [ "$INTERVAL" = "" ] || [ "$INTERVAL" = "0" ]; then
@@ -1328,7 +1350,7 @@ sdwdate_generate_nanoseconds() {
    elif [ "$ZERO_OR_ONE" = "1" ]; then
       PLUS_OR_MINUS="+"
    else
-      sdwdate_error_handler "ZERO_OR_ONE is neither 0 nor 1, it's: $ZERO_OR_ONE"
+      sdwdate_error_handler "ZERO_OR_ONE is neither 0 nor 1, it's: $ZERO_OR_ONE" || true
    fi
 
    ## Create a random number between 0 and 999999999.
@@ -1404,11 +1426,11 @@ sdwdate_set_time_using_date() {
    last_nine_string_length="${#last_nine}"
 
    if [ ! "$first_ten_string_length" = "10" ]; then
-      sdwdate_error_handler "$FUNCNAME: first_ten: $first_ten | first_ten_string_length: $first_ten_string_length"
+      sdwdate_error_handler "$FUNCNAME: first_ten: $first_ten | first_ten_string_length: $first_ten_string_length" || true
    fi
 
    if [ ! "$last_nine_string_length" = "9" ]; then
-      sdwdate_error_handler "$FUNCNAME: last_nine: $last_nine | last_nine_string_length: $last_nine_string_length"
+      sdwdate_error_handler "$FUNCNAME: last_nine: $last_nine | last_nine_string_length: $last_nine_string_length" || true
    fi
 
    local SDWDATE_NEW_TIME_FORMATTED_FOR_DATE
@@ -1454,15 +1476,19 @@ sdwdate_terminate_sclockadj() {
       wait "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" || { SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE="$?" ; true; };
       sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID no longer running. Exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
    fi
-   SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
 
-   if [ "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "143" ]; then
+   if [ "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "0" ]; then
+       sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID exited with expected zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
+   elif [ "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "130" ]; then
+       sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID exited with expected non-zero exit code (sigint): $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
+   elif [ "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "143" ]; then
        sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID exited with expected non-zero exit code (sigterm): $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
-       return 0
+   else
+       SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
+       ## Not using sdwdate_error_handler to prevent and endless loop.
+       error "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID exited with unexpected non-zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
    fi
-   if [ ! "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "0" ]; then
-       sdwdate_error_handler "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID exited with unexpected non-zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
-   fi
+   SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
 }
 
 sdwdate_set_time_using_sclockadj() {
@@ -1508,6 +1534,7 @@ sdwdate_set_time_using_sclockadj() {
    sclockadj_subshell_fifo="$TEMP_DIR/sclockadj.sclockadj_subshell_fifo"
    rm --force "$sclockadj_subshell_fifo"
    mkfifo "$sclockadj_subshell_fifo"
+   test -r "$sclockadj_subshell_fifo"
 
    {
       sdwdate_subshell_time_start() {
@@ -1543,8 +1570,10 @@ sdwdate_set_time_using_sclockadj() {
       }
 
       sdwdate_subshell_wait() {
+         echo "$FUNCNAME: Waiting for pid to finish SDWDATE_SCLOCKADJ_COMMAND_PID: $SDWDATE_SCLOCKADJ_COMMAND_PID"
          SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE="0"
          wait "$SDWDATE_SCLOCKADJ_COMMAND_PID" || { SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE="$?" ; true; };
+         echo "$FUNCNAME: SDWDATE_SCLOCKADJ_COMMAND_PID: $SDWDATE_SCLOCKADJ_COMMAND_PID | SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE: $SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
       }
 
       sdwdate_subshell_trap_sigterm() {
@@ -1557,7 +1586,7 @@ sdwdate_set_time_using_sclockadj() {
          sclockadj_kill_helper_output="$(sudo /usr/lib/sdwdate/sclockadj_kill_helper "$SDWDATE_SCLOCKADJ_COMMAND_PID" 2>&1)"
          echo "sclockadj_kill_helper_output: $sclockadj_kill_helper_output"
          unset sclockadj_kill_helper_output
-         ## Execute sdwdate_subshell_wait again to set SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE.
+         echo "$FUNCNAME: Execute sdwdate_subshell_wait again to set SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE."
          sdwdate_subshell_wait
       }
 
@@ -1575,7 +1604,7 @@ sdwdate_set_time_using_sclockadj() {
       echo "exit code: $SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
 
       exit "$SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
-   } > "$sclockadj_subshell_fifo" &
+   } > "$sclockadj_subshell_fifo" 2>&1 &
 
    SDWDATE_SUBSHELL_SCLOCKADJ_PID="$!"
    sdwdate_log "Started subshell for sclockadj with pid: $SDWDATE_SUBSHELL_SCLOCKADJ_PID"
@@ -1659,7 +1688,7 @@ sdwdate_dispatcher_prerequisite() {
             break
          elif [ "$prerequisite_exit_code" = "1" ]; then
             ## Error.
-            sdwdate_error_handler "DISPATCH_PREREQUISITE exited $prerequisite_exit_code | $prerequisite_output | requested explicit exiting..."
+            sdwdate_error_handler "DISPATCH_PREREQUISITE exited $prerequisite_exit_code | $prerequisite_output | requested explicit exiting..." || true
          elif [ "$prerequisite_exit_code" = "2" ]; then
             ## Wait.
             sdwdate_no_duplicate_log "DISPATCH_PREREQUISITE exited $prerequisite_exit_code | $prerequisite_output | waiting..."
@@ -1669,7 +1698,7 @@ sdwdate_dispatcher_prerequisite() {
             unset sleep_pid
          else
             ## Unexpected error.
-            sdwdate_error_handler "DISPATCH_PREREQUISITE exited $DISPATCH_PREREQUISITE, neither 0, 1, or 2. | $prerequisite_output | unexpected error, exiting..."
+            sdwdate_error_handler "DISPATCH_PREREQUISITE exited $DISPATCH_PREREQUISITE, neither 0, 1, or 2. | $prerequisite_output | unexpected error, exiting..." || true
          fi
 
       done
@@ -1679,6 +1708,8 @@ sdwdate_dispatcher_prerequisite() {
 sdwdate_eval() {
    trap "sdwdate_error_handler" ERR
    eval_output="$(eval ${1+"$@"} 2>&1)"
+   #eval_output="$(eval bash -x ${1+"$@"} 2>&1)"
+   #sdwdate_log "eval_output: $eval_output"
 }
 
 sdwdate_dispatcher_pre() {
@@ -1689,7 +1720,6 @@ sdwdate_dispatcher_pre() {
    else
       sdwdate_no_duplicate_log "dispatching pre (SDW_MODE: $SDW_MODE): $DISPATCH_PRE"
       sdwdate_eval $DISPATCH_PRE
-
    fi
 }
 
@@ -1714,8 +1744,9 @@ sdwdate_dispatcher_post_success() {
    if [ "$DISPATCH_POST_SUCCESS" = "" ]; then
       true "DISPATCH_POST_SUCCESS is empty, skipping."
    else
-      sdwdate_no_duplicate_log "dispatching post_success (SDW_MODE: $SDW_MODE): $DISPATCH_POST_SUCCESS"
+      sdwdate_log "dispatching post_success (SDW_MODE: $SDW_MODE): $DISPATCH_POST_SUCCESS"
       sdwdate_eval $DISPATCH_POST_SUCCESS
+      sdwdate_log "dispatching post_success done."
    fi
 }
 
@@ -1725,15 +1756,16 @@ sdwdate_dispatcher_post_failure() {
    if [ "$DISPATCH_POST_FAILURE" = "" ]; then
       true "DISPATCH_POST_FAILURE is empty, skipping."
    else
-      sdwdate_no_duplicate_log "dispatching post_failure (SDW_MODE: $SDW_MODE): $DISPATCH_POST_FAILURE"
+      sdwdate_log "dispatching post_failure (SDW_MODE: $SDW_MODE): $DISPATCH_POST_FAILURE"
       sdwdate_eval $DISPATCH_POST_FAILURE
+      sdwdate_log "dispatching post_failure done."
    fi
 }
 
 sdwdate_error_test() {
    trap "sdwdate_error_handler" ERR
    if [ -f "/var/lib/sdw_error" ]; then
-      sdwdate_error_handler "Test file /var/lib/sdw_error to force test an error exists."
+      sdwdate_error_handler "Test file /var/lib/sdw_error to force test an error exists." || true
       sleep 10 &
       sleep_pid="$!"
       wait "$sleep_pid" || true
@@ -1819,7 +1851,7 @@ sdwdate_main() {
       sdwdate_maybe_read_config_folder ${1+"$@"}
       sdwdate_maybe_parse_cmd_options ${1+"$@"}
       sdwdate_defaults
-      sdwdate_log "Running sdwdate... pid: $$ | LD_PRELOAD: $LD_PRELOAD"
+      sdwdate_log "Running sdwdate... pid: $$ | LD_PRELOAD: $LD_PRELOAD | SCRIPT_WAS_SOURCED: $SCRIPT_WAS_SOURCED"
       sdwdate_preparation
       if [ "$DEBUG" = "1" ]; then
          sdwdate_enable_debugging

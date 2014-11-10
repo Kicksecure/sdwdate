@@ -16,7 +16,17 @@
 import sys
 from dateutil.parser import parse
 
-date=str(sys.argv[1])
+try:
+   date = str(sys.argv[1])
+except IndexError as e:
+   print >> sys.stderr, "Parsing command line parameter failed. | e: %s" % (e)
+   sys.exit(1)
+
+date = date.strip()
+
+if date == "":
+   print >> sys.stderr, "Parsing command line parameter failed. | Empty parameter."
+   sys.exit(2)
 
 try:
    ## Thanks to:
@@ -25,7 +35,7 @@ try:
    unixtime = parse(date).strftime('%s')
 except ValueError as e:
    print >> sys.stderr, "Parsing date from server failed. | date: %s | dateutil ValueError: %s" % (date, e)
-   sys.exit(2)
+   sys.exit(3)
 
 print "%s" % (unixtime)
 
