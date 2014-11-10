@@ -28,7 +28,7 @@ if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
 
    SCRIPTNAME="$(basename "$BASH_SOURCE")"
    ownpid="$$"
-   ID="$(cat "/proc/sys/kernel/random/uuid")"
+   ID="$ownpid"
    if [ ! -f "/var/run/sdwdate/first_success" ]; then
       SDW_MODE="startup"
    else
@@ -948,7 +948,7 @@ sdwdate_get_time_from_remote() {
       sdwdate_eval ${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}
    fi
 
-   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL] done"
+   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL] done."
 
    ## Sanity test.
    touch "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
@@ -1017,7 +1017,7 @@ sdwdate_get_time_from_remote() {
       sdwdate_eval ${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}
    fi
 
-   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL] done"
+   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL] done."
 
    return 0
 }
@@ -1463,14 +1463,16 @@ sdwdate_terminate_sclockadj() {
       sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID no longer running. Exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
    fi
 
-   if [ "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "143" ]; then
+   if [ "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "0" ]; then
+       sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID exited with expected zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
+   elif [ "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "130" ]; then
+       sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID exited with expected non-zero exit code (sigint): $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
+   elif [ "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "143" ]; then
        sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID exited with expected non-zero exit code (sigterm): $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
+   else
        SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
-       return 0
-   fi
-
-   if [ ! "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "0" ]; then
-       sdwdate_error_handler "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID exited with unexpected non-zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" || true
+       ## Not using sdwdate_error_handler to prevent and endless loop.
+       error "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID exited with unexpected non-zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
    fi
    SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
 }
