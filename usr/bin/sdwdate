@@ -747,7 +747,7 @@ $error_text"
    fi
 
    local error_message
-   error_message="
+   error_message="\
 ############################################
 ## Error detected! Please report this bug! #
 ##
@@ -762,6 +762,20 @@ $error_text"
 "
 
    sdwdate_log "error_message: $error_message" || true
+
+   error_message="<br></br>
+############################################<br></br>
+## Error detected! Please report this bug! #<br></br>
+##<br></br>
+## BASH_SOURCE: $BASH_SOURCE<br></br>
+## SDW_EXIT_ON_ERROR: $SDW_EXIT_ON_ERROR<br></br>
+## SDW_MODE: $SDW_MODE<br></br>
+## SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE<br></br>
+##<br></br>
+## exit_code: $exit_code<br></br>
+## error_cause: $error_cause<br></br>
+############################################<br></br>\
+"
 
    true "DISPATCH_POST_ERROR: $DISPATCH_POST_ERROR"
 
