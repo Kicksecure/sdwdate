@@ -374,7 +374,7 @@ sdwdate_read_config_folder() {
             sdwdate_error_handler "Invalid config file: $i
 bash_n_exit_code: $bash_n_exit_code
 bash_n_output:
-$bash_n_output"
+$bash_n_output" || true
          fi
          source "$i"
       fi
@@ -803,7 +803,7 @@ sdwdate_sanity_tests() {
    trap "sdwdate_error_handler" ERR
 
    if [ "$ID" = "" ]; then
-      sdwdate_error_handler "Variable ID is empty."
+      sdwdate_error_handler "Variable ID is empty." || true
    fi
 
    command -v bash >/dev/null
@@ -842,7 +842,7 @@ sdwdate_ex_funct() {
    command_v_exit_code="0"
    command -v sdwdate_terminate_sclockadj >/dev/null 2>&1 || { command_v_exit_code="$?" ; true; };
    if [ "$command_v_exit_code" = "0" ]; then
-      sdwdate_terminate_sclockadj
+      sdwdate_terminate_sclockadj || true
    fi
 
    if [ ! "${SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]}" = "" ]; then
@@ -1336,7 +1336,7 @@ sdwdate_generate_nanoseconds() {
    elif [ "$ZERO_OR_ONE" = "1" ]; then
       PLUS_OR_MINUS="+"
    else
-      sdwdate_error_handler "ZERO_OR_ONE is neither 0 nor 1, it's: $ZERO_OR_ONE"
+      sdwdate_error_handler "ZERO_OR_ONE is neither 0 nor 1, it's: $ZERO_OR_ONE" || true
    fi
 
    ## Create a random number between 0 and 999999999.
@@ -1412,11 +1412,11 @@ sdwdate_set_time_using_date() {
    last_nine_string_length="${#last_nine}"
 
    if [ ! "$first_ten_string_length" = "10" ]; then
-      sdwdate_error_handler "$FUNCNAME: first_ten: $first_ten | first_ten_string_length: $first_ten_string_length"
+      sdwdate_error_handler "$FUNCNAME: first_ten: $first_ten | first_ten_string_length: $first_ten_string_length" || true
    fi
 
    if [ ! "$last_nine_string_length" = "9" ]; then
-      sdwdate_error_handler "$FUNCNAME: last_nine: $last_nine | last_nine_string_length: $last_nine_string_length"
+      sdwdate_error_handler "$FUNCNAME: last_nine: $last_nine | last_nine_string_length: $last_nine_string_length" || true
    fi
 
    local SDWDATE_NEW_TIME_FORMATTED_FOR_DATE
@@ -1470,7 +1470,7 @@ sdwdate_terminate_sclockadj() {
    fi
 
    if [ ! "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "0" ]; then
-       sdwdate_error_handler "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID exited with unexpected non-zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
+       sdwdate_error_handler "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID exited with unexpected non-zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" || true
    fi
    SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
 }
@@ -1672,7 +1672,7 @@ sdwdate_dispatcher_prerequisite() {
             break
          elif [ "$prerequisite_exit_code" = "1" ]; then
             ## Error.
-            sdwdate_error_handler "DISPATCH_PREREQUISITE exited $prerequisite_exit_code | $prerequisite_output | requested explicit exiting..."
+            sdwdate_error_handler "DISPATCH_PREREQUISITE exited $prerequisite_exit_code | $prerequisite_output | requested explicit exiting..." || true
          elif [ "$prerequisite_exit_code" = "2" ]; then
             ## Wait.
             sdwdate_no_duplicate_log "DISPATCH_PREREQUISITE exited $prerequisite_exit_code | $prerequisite_output | waiting..."
@@ -1682,7 +1682,7 @@ sdwdate_dispatcher_prerequisite() {
             unset sleep_pid
          else
             ## Unexpected error.
-            sdwdate_error_handler "DISPATCH_PREREQUISITE exited $DISPATCH_PREREQUISITE, neither 0, 1, or 2. | $prerequisite_output | unexpected error, exiting..."
+            sdwdate_error_handler "DISPATCH_PREREQUISITE exited $DISPATCH_PREREQUISITE, neither 0, 1, or 2. | $prerequisite_output | unexpected error, exiting..." || true
          fi
 
       done
@@ -1749,7 +1749,7 @@ sdwdate_dispatcher_post_failure() {
 sdwdate_error_test() {
    trap "sdwdate_error_handler" ERR
    if [ -f "/var/lib/sdw_error" ]; then
-      sdwdate_error_handler "Test file /var/lib/sdw_error to force test an error exists."
+      sdwdate_error_handler "Test file /var/lib/sdw_error to force test an error exists." || true
       sleep 10 &
       sleep_pid="$!"
       wait "$sleep_pid" || true
