@@ -657,8 +657,6 @@ sdwdate_preparation() {
       who_ami="$(whoami)"
    fi
    sdwdate_log "$FUNCNAME: who_ami is set to $who_ami."
-
-   sdwdate_log "$FUNCNAME: TIME_FETCHING_METHOD is set to $TIME_FETCHING_METHOD."
 }
 
 sdwdate_echo() {
@@ -763,7 +761,7 @@ $error_text"
 ############################################\
 "
 
-   sdwdate_log "error_message: $error_message"
+   sdwdate_log "error_message: $error_message" || true
 
    true "DISPATCH_POST_ERROR: $DISPATCH_POST_ERROR"
 
@@ -779,20 +777,21 @@ $error_text"
    if [ "$DISPATCH_POST_ERROR" = "" ]; then
       true
    else
-      sdwdate_no_duplicate_log "dispatching post_error (SDW_MODE: $SDW_MODE): $DISPATCH_POST_ERROR"
-      sdwdate_eval $DISPATCH_POST_ERROR
+      sdwdate_log "dispatching post_error (SDW_MODE: $SDW_MODE) (SDW_EXIT_ON_ERROR: $SDW_EXIT_ON_ERROR): $DISPATCH_POST_ERROR" || true
+      sdwdate_eval $DISPATCH_POST_ERROR || true
+      sdwdate_log "dispatching post_error done." || true
    fi
 
    if [ "$SDW_EXIT_ON_ERROR" = "1" ]; then
-      sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Cleaning up..."
+      sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Cleaning up..." || true
       SIGNAL_TYPE="ERR"
       if [ "$(command -v "sdwdate_ex_funct")" ]; then
          sdwdate_ex_funct || true
       fi
-      sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Exiting."
+      sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Exiting." || true
       exit 1
    else
-      sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Continuing."
+      sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Continuing." || true
    fi
 }
 
@@ -869,6 +868,7 @@ sdwdate_signal_sigint() {
 }
 
 if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
+   sdwdate_log 'Setting up: trap "sdwdate_signal_sigint" SIGINT'
    trap "sdwdate_signal_sigint" SIGINT ## ctrl + c
 fi
 
@@ -881,6 +881,7 @@ sdwdate_signal_sigterm() {
 }
 
 if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
+   sdwdate_log 'Setting up: trap "sdwdate_signal_sigterm" SIGTERM'
    trap "sdwdate_signal_sigterm" SIGTERM
 fi
 
@@ -939,13 +940,15 @@ sdwdate_get_time_from_remote() {
    local TIME_START
    TIME_START="$(date +%s)"
 
-   sdwdate_no_duplicate_log "dispatching SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL] (SDW_MODE: $SDW_MODE) (CURL: $CURL): ${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}"
+   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL] (SDW_MODE: $SDW_MODE) (CURL: $CURL): ${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}"
 
    if [ "${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}" = "" ]; then
       true
    else
       sdwdate_eval ${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}
    fi
+
+   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL] done"
 
    ## Sanity test.
    touch "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
@@ -1006,13 +1009,15 @@ sdwdate_get_time_from_remote() {
 
    test -f "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
 
-   sdwdate_no_duplicate_log "dispatching SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]: ${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}"
+   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]: ${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}"
 
    if [ "${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}" = "" ]; then
       true
    else
       sdwdate_eval ${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}
    fi
+
+   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL] done"
 
    return 0
 }
@@ -1549,9 +1554,10 @@ sdwdate_set_time_using_sclockadj() {
       }
 
       sdwdate_subshell_wait() {
-         echo "Waiting for pid to finish SDWDATE_SCLOCKADJ_COMMAND_PID: $SDWDATE_SCLOCKADJ_COMMAND_PID"
+         echo "$FUNCNAME: Waiting for pid to finish SDWDATE_SCLOCKADJ_COMMAND_PID: $SDWDATE_SCLOCKADJ_COMMAND_PID"
          SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE="0"
          wait "$SDWDATE_SCLOCKADJ_COMMAND_PID" || { SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE="$?" ; true; };
+         echo "$FUNCNAME: SDWDATE_SCLOCKADJ_COMMAND_PID: $SDWDATE_SCLOCKADJ_COMMAND_PID | SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE: $SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
       }
 
       sdwdate_subshell_trap_sigterm() {
@@ -1564,7 +1570,7 @@ sdwdate_set_time_using_sclockadj() {
          sclockadj_kill_helper_output="$(sudo /usr/lib/sdwdate/sclockadj_kill_helper "$SDWDATE_SCLOCKADJ_COMMAND_PID" 2>&1)"
          echo "sclockadj_kill_helper_output: $sclockadj_kill_helper_output"
          unset sclockadj_kill_helper_output
-         ## Execute sdwdate_subshell_wait again to set SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE.
+         echo "$FUNCNAME: Execute sdwdate_subshell_wait again to set SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE."
          sdwdate_subshell_wait
       }
 
@@ -1582,7 +1588,7 @@ sdwdate_set_time_using_sclockadj() {
       echo "exit code: $SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
 
       exit "$SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
-   } > "$sclockadj_subshell_fifo" &
+   } > "$sclockadj_subshell_fifo" 2>&1 &
 
    SDWDATE_SUBSHELL_SCLOCKADJ_PID="$!"
    sdwdate_log "Started subshell for sclockadj with pid: $SDWDATE_SUBSHELL_SCLOCKADJ_PID"
@@ -1686,6 +1692,8 @@ sdwdate_dispatcher_prerequisite() {
 sdwdate_eval() {
    trap "sdwdate_error_handler" ERR
    eval_output="$(eval ${1+"$@"} 2>&1)"
+   #eval_output="$(eval bash -x ${1+"$@"} 2>&1)"
+   #sdwdate_log "eval_output: $eval_output"
 }
 
 sdwdate_dispatcher_pre() {
@@ -1696,7 +1704,6 @@ sdwdate_dispatcher_pre() {
    else
       sdwdate_no_duplicate_log "dispatching pre (SDW_MODE: $SDW_MODE): $DISPATCH_PRE"
       sdwdate_eval $DISPATCH_PRE
-
    fi
 }
 
@@ -1721,8 +1728,9 @@ sdwdate_dispatcher_post_success() {
    if [ "$DISPATCH_POST_SUCCESS" = "" ]; then
       true "DISPATCH_POST_SUCCESS is empty, skipping."
    else
-      sdwdate_no_duplicate_log "dispatching post_success (SDW_MODE: $SDW_MODE): $DISPATCH_POST_SUCCESS"
+      sdwdate_log "dispatching post_success (SDW_MODE: $SDW_MODE): $DISPATCH_POST_SUCCESS"
       sdwdate_eval $DISPATCH_POST_SUCCESS
+      sdwdate_log "dispatching post_success done."
    fi
 }
 
@@ -1732,8 +1740,9 @@ sdwdate_dispatcher_post_failure() {
    if [ "$DISPATCH_POST_FAILURE" = "" ]; then
       true "DISPATCH_POST_FAILURE is empty, skipping."
    else
-      sdwdate_no_duplicate_log "dispatching post_failure (SDW_MODE: $SDW_MODE): $DISPATCH_POST_FAILURE"
+      sdwdate_log "dispatching post_failure (SDW_MODE: $SDW_MODE): $DISPATCH_POST_FAILURE"
       sdwdate_eval $DISPATCH_POST_FAILURE
+      sdwdate_log "dispatching post_failure done."
    fi
 }
 
@@ -1826,7 +1835,7 @@ sdwdate_main() {
       sdwdate_maybe_read_config_folder ${1+"$@"}
       sdwdate_maybe_parse_cmd_options ${1+"$@"}
       sdwdate_defaults
-      sdwdate_log "Running sdwdate... pid: $$ | LD_PRELOAD: $LD_PRELOAD"
+      sdwdate_log "Running sdwdate... pid: $$ | LD_PRELOAD: $LD_PRELOAD | SCRIPT_WAS_SOURCED: $SCRIPT_WAS_SOURCED"
       sdwdate_preparation
       if [ "$DEBUG" = "1" ]; then
          sdwdate_enable_debugging
