@@ -763,7 +763,7 @@ $error_text"
 
    sdwdate_log "error_message: $error_message" || true
 
-   error_message="<br></br>
+   error_message="\
 ############################################<br></br>
 ## Error detected! Please report this bug! #<br></br>
 ##<br></br>
