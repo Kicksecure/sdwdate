@@ -7,3 +7,4 @@ ALL ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj *
 ALL ALL=NOPASSWD: /sbin/hwclock *
 ALL ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj_kill_helper *
 ALL ALL=NOPASSWD: /usr/lib/sdwdate/date_to_unixtime
+Defaults:sdwdate env_keep += "INLINEDIR"

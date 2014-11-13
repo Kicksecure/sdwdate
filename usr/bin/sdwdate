@@ -139,6 +139,10 @@ sdwdate_defaults() {
    ## Export so plugins run by sdwdate can use it.
    export TEMP_DIR
 
+   if [ "$SDW_CACHE_DIR" = "" ]; then
+      SDW_CACHE_DIR="/var/cache/sdwdate"
+   fi
+
    if [ "$PROXY" = "" ]; then
       PROXY=""
    fi
@@ -1517,16 +1521,17 @@ sdwdate_set_time_using_sclockadj() {
    local SDWDATE_SCLOCKADJ_COMMAND
    ## There is an exception in /etc/sudoers.d/.
    SDWDATE_SCLOCKADJ_COMMAND="\
-      sudo /usr/lib/sdwdate/sclockadj \
-         $SDWDATE_SCLOCKADJ_VERBOSE \
-         $SDWDATE_SCLOCKADJ_CHANGE_DATE \
-         $SDWDATE_SCLOCKADJ_FIRST_WAIT \
-         $SDWDATE_SCLOCKADJ_SYSTOHC \
-         --move-min $SDWDATE_SCLOCKADJ_MOVE_MIN \
-         --move-max $SDWDATE_SCLOCKADJ_MOVE_MAX \
-         --wait-min $SDWDATE_SCLOCKADJ_WAIT_MIN \
-         --wait-max $SDWDATE_SCLOCKADJ_WAIT_MAX \
-         $sclockadj_add_or_subtract \
+      sudo INLINEDIR=$SDW_CACHE_DIR \
+         /usr/lib/sdwdate/sclockadj \
+            $SDWDATE_SCLOCKADJ_VERBOSE \
+            $SDWDATE_SCLOCKADJ_CHANGE_DATE \
+            $SDWDATE_SCLOCKADJ_FIRST_WAIT \
+            $SDWDATE_SCLOCKADJ_SYSTOHC \
+            --move-min $SDWDATE_SCLOCKADJ_MOVE_MIN \
+            --move-max $SDWDATE_SCLOCKADJ_MOVE_MAX \
+            --wait-min $SDWDATE_SCLOCKADJ_WAIT_MIN \
+            --wait-max $SDWDATE_SCLOCKADJ_WAIT_MAX \
+            $sclockadj_add_or_subtract \
    "
 
    sdwdate_log "Launching into background: $SDWDATE_SCLOCKADJ_COMMAND"
