@@ -179,6 +179,17 @@ end # module SneakyClockAdjuster
 
 class Cinline
 
+  # RubyInline puts compiled C in ~/.ruby_inline or INLINEDIR and expects this
+  # folder to not be other/group writable.
+  if ENV['SDW_CACHE_DIR'] then
+    sdw_dir = ENV['SDW_CACHE_DIR']
+    scl_dir = File.join sdw_dir, 'sclockadj'
+    system "mkdir -p #{scl_dir}" or warn "Couldn't make directory: #{scl_dir}"
+    system "export INLINEDIR=#{scl_dir}" or warn "Couldn't export INLINEDIR"
+  else
+    warn "Environment variable SDW_CACHE_DIR not set. Using ~/.ruby_inline"
+  end
+
   inline :C do |builder|
     builder.include '<stdio.h>'
     builder.include '<time.h>'
