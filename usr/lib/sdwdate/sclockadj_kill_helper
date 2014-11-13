@@ -1,5 +1,9 @@
 #!/bin/bash
 
+## This file is part of Whonix.
+## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
 pid="$1"
 
 ps_output="$(ps h --format command "$pid")"
