@@ -23,7 +23,7 @@ read -t 2 first second third _ <<< "$ps_output"
 ## Example first:
 ## sudo
 
-## Example second:
+## Example third:
 ## /usr/lib/sdwdate/sclockadj
 
 if [ "$first" = "sudo" ]; then
