@@ -69,7 +69,7 @@ ALLOWED_PER_POOL_FAILURE_RATIO=0.34
 ## When not set, default to: TEMP_DIR="$(mktemp --directory)"
 #TEMP_DIR=""
 
-## Cache dir.
+## Cache dir. Must not include spaces.
 SDW_CACHE_DIR="/var/cache/sdwdate"
 
 ## Which proxy curl should use.
