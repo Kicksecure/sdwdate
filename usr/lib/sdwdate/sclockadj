@@ -184,29 +184,30 @@ class Cinline
     builder.include '<time.h>'
     builder.include '<sys/time.h>'
     builder.c '
-    void getAndSet(long long addNsec) {
-    /* receive time adjustment, negative or positive, in nanoseconds */
+      void getAndSet(long long addNsec) {
+        /* receive time adjustment, negative or positive, in nanoseconds */
 
-    /* get current time in seconds since epoch + nanoseconds offset */
-    struct timespec tps; /* tv_sec; tv_nsec */
-    clock_gettime(0, &tps);
+        /* get current time in seconds since epoch + nanoseconds offset */
+        struct timespec tps; /* tv_sec; tv_nsec */
+        clock_gettime(0, &tps);
 
-    /* combine seconds and nanoseconds offset to manipulate */
-    long long nanosecondsSinceEpoch =
-        (long long)(tps.tv_sec) * 1000000000 + /* convert seconds to nanoseconds */
-        (long long)(tps.tv_nsec);              /* add offset */
+        /* combine seconds and nanoseconds offset to manipulate */
+        long long nanosecondsSinceEpoch =
+            (long long)(tps.tv_sec) * 1000000000 + /* convert seconds to nanoseconds */
+            (long long)(tps.tv_nsec);              /* add offset */
 
-    long long newNanosecondsSinceEpoch = nanosecondsSinceEpoch += addNsec;
+        long long newNanosecondsSinceEpoch = nanosecondsSinceEpoch += addNsec;
 
-    /* separate adjusted nanoseconds since epoch into seconds + nanoseconds offset */
-    long newNS = newNanosecondsSinceEpoch % 1000000000; /* pulls out nanoseconds */
-    long newS  = newNanosecondsSinceEpoch / 1000000000; /* truncates into seconds */
+        /* separate adjusted nanoseconds since epoch into seconds + nanoseconds offset */
+        long newNS = newNanosecondsSinceEpoch % 1000000000; /* pulls out nanoseconds */
+        long newS  = newNanosecondsSinceEpoch / 1000000000; /* truncates into seconds */
 
-    /* set struct with new values; set time */
-    tps.tv_sec  = newS; /* reusing old struct */
-    tps.tv_nsec = newNS;
-    clock_settime(0, &tps);
-    }'
+        /* set struct with new values; set time */
+        tps.tv_sec  = newS; /* reusing old struct */
+        tps.tv_nsec = newNS;
+        clock_settime(0, &tps);
+      }
+    '
   end
 
 end
