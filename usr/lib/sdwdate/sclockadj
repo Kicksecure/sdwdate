@@ -140,7 +140,7 @@ module SneakyClockAdjuster
         c_return_code = c.getAndSet(jump_ns)
         puts "c_return_code: #{c_return_code}" if verbose
         if c_return_code != 0 then
-          puts "ERROR: c_return_code was: #{c_return_code}"
+          warn "ERROR: c_return_code was: #{c_return_code}"
           exit c_return_code
         end
       end
