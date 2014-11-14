@@ -788,7 +788,7 @@ $error_text"
       touch "$DONE_FILE"
       ret="$?"
       if [ ! "$ret" = "0" ]; then
-         sdwdate_log "ERROR $BASH_SOURCE: Could not touch DONE_FILE: $DONE_FILE."
+         sdwdate_log "ERROR $BASH_SOURCE: Could not touch DONE_FILE: $DONE_FILE." || true
       fi
    fi
 
@@ -802,6 +802,13 @@ $error_text"
 
    if [ "$SDW_EXIT_ON_ERROR" = "1" ]; then
       sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Cleaning up..." || true
+      ## Check if function sdwdate_terminate_sclockadj is already available and
+      ## use it if available.
+      command_v_exit_code="0"
+      command -v sdwdate_terminate_sclockadj >/dev/null 2>&1 || { command_v_exit_code="$?" ; true; };
+      if [ "$command_v_exit_code" = "0" ]; then
+         sdwdate_terminate_sclockadj || true
+      fi
       SIGNAL_TYPE="ERR"
       if [ "$(command -v "sdwdate_ex_funct")" ]; then
          sdwdate_ex_funct || true
@@ -855,14 +862,6 @@ sdwdate_ex_funct() {
       kill -9 "$sleep_pid" || true
    fi
 
-   ## Check if function sdwdate_terminate_sclockadj is already available and
-   ## use it if available.
-   command_v_exit_code="0"
-   command -v sdwdate_terminate_sclockadj >/dev/null 2>&1 || { command_v_exit_code="$?" ; true; };
-   if [ "$command_v_exit_code" = "0" ]; then
-      sdwdate_terminate_sclockadj || true
-   fi
-
    if [ ! "${SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]}" = "" ]; then
       kill -9 "${SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]}" || true
    fi
@@ -880,6 +879,7 @@ sdwdate_ex_funct() {
 sdwdate_signal_sigint() {
    trap "sdwdate_error_handler" ERR
 
+   sdwdate_terminate_sclockadj
    SIGNAL_TYPE="SIGINT"
    sdwdate_ex_funct
    exit 130
@@ -893,6 +893,7 @@ fi
 sdwdate_signal_sigterm() {
    trap "sdwdate_error_handler" ERR
 
+   sdwdate_terminate_sclockadj
    SIGNAL_TYPE="SIGTERM"
    sdwdate_ex_funct
    exit 143
@@ -1490,7 +1491,8 @@ sdwdate_terminate_sclockadj() {
    else
        SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
        ## Not using sdwdate_error_handler to prevent and endless loop.
-       error "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID exited with unexpected non-zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
+       sdwdate_log "$FUNCNAME: subshell for sclockadj exited with unexpected non-zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
+       sdwdate_error "$FUNCNAME: subshell for sclockadj exited with unexpected non-zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
    fi
    SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
 }
