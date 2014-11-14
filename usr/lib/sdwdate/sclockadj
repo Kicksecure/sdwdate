@@ -136,7 +136,14 @@ module SneakyClockAdjuster
         jump_ns = -jump_ns
       end
 
-      c.getAndSet(jump_ns) unless debug
+      if not debug
+        c_return_code = c.getAndSet(jump_ns)
+        puts "c_return_code: #{c_return_code}" if verbose
+        if c_return_code != 0 then
+          puts "ERROR: c_return_code was: #{c_return_code}"
+          exit c_return_code
+        end
+      end
 
       if systohc then
         cmd = "hwclock --systohc"
@@ -184,12 +191,15 @@ class Cinline
     builder.include '<time.h>'
     builder.include '<sys/time.h>'
     builder.c '
-      void getAndSet(long long addNsec) {
+      int getAndSet(long long addNsec) {
         /* receive time adjustment, negative or positive, in nanoseconds */
 
         /* get current time in seconds since epoch + nanoseconds offset */
         struct timespec tps; /* tv_sec; tv_nsec */
-        clock_gettime(0, &tps);
+        if( clock_gettime(0, &tps) == -1 ) {
+          perror( "getclock" );
+          return EXIT_FAILURE;
+        }
 
         /* combine seconds and nanoseconds offset to manipulate */
         long long nanosecondsSinceEpoch =
@@ -205,7 +215,11 @@ class Cinline
         /* set struct with new values; set time */
         tps.tv_sec  = newS; /* reusing old struct */
         tps.tv_nsec = newNS;
-        clock_settime(0, &tps);
+        if( clock_settime(0, &tps) == -1 ) {
+          perror( "setclock" );
+          return EXIT_FAILURE;
+        }
+        return EXIT_SUCCESS;
       }
     '
   end
