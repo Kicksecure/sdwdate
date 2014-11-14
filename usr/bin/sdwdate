@@ -1518,6 +1518,9 @@ sdwdate_set_time_using_sclockadj() {
       sclockadj_add_or_subtract="--add $SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL"
    fi
 
+   ## Setting the INLINEDIR environment variable for ruby-inline, that requires
+   ## a non-group writeable cache dir.
+
    local SDWDATE_SCLOCKADJ_COMMAND
    ## There is an exception in /etc/sudoers.d/.
    SDWDATE_SCLOCKADJ_COMMAND="\
