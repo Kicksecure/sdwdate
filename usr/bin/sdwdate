@@ -39,6 +39,8 @@ fi
 
 trap "sdwdate_error_handler" ERR
 
+set +e
+
 trap "sdwdate_signal_sigint" SIGINT ## ctrl + c
 
 trap "sdwdate_signal_sigterm" SIGTERM
