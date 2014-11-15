@@ -4,14 +4,28 @@
 
 echo "-------------------- Start Unit Test --------------------"
 
-set -o pipefail
 set -e
+set -o pipefail
 
 echo "-------------------- Begin Sourcing --------------------"
 
-source /usr/bin/sdwdate
-
-unset -f sdwdate_error_handler
+for i in /usr/lib/sdwdate/modules.d/*; do
+   if [ -f "$i" ]; then
+      ## If the last character is a ~, ignore that file,
+      ## because it was created by some editor,
+      ## which creates backup files.
+      if [ "${i: -1}" = "~" ]; then
+         continue
+      fi
+      ## Skipping files such as .dpkg-old and .dpkg-dist.
+      if ( echo "$i" | grep -q ".dpkg-" ); then
+         true "skip $i"
+         continue
+      fi
+      bash -n "$i"
+      source "$i"
+   fi
+done
 
 echo "-------------------- End Sourcing --------------------"
 
