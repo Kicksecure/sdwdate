@@ -14,28 +14,6 @@
 ## TODO:
 ## - implement --user
 
-#set -x
-
-if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
-   SCRIPT_WAS_SOURCED="true"
-else
-   SCRIPT_WAS_SOURCED="false"
-fi
-
-
-if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
-   set -o pipefail
-
-   SCRIPTNAME="$(basename "$BASH_SOURCE")"
-   ownpid="$$"
-   ID="$ownpid"
-   if [ ! -f "/var/run/sdwdate/first_success" ]; then
-      SDW_MODE="startup"
-   else
-      SDW_MODE="restartup"
-   fi
-fi
-
 sdwdate_usage() {
    trap "sdwdate_error_handler" ERR
 
@@ -820,10 +798,6 @@ $error_text"
    fi
 }
 
-if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
-   trap "sdwdate_error_handler" ERR
-fi
-
 sdwdate_sanity_tests() {
    trap "sdwdate_error_handler" ERR
 
@@ -885,11 +859,6 @@ sdwdate_signal_sigint() {
    exit 130
 }
 
-if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
-   sdwdate_log 'Setting up: trap "sdwdate_signal_sigint" SIGINT'
-   trap "sdwdate_signal_sigint" SIGINT ## ctrl + c
-fi
-
 sdwdate_signal_sigterm() {
    trap "sdwdate_error_handler" ERR
 
@@ -898,11 +867,6 @@ sdwdate_signal_sigterm() {
    sdwdate_ex_funct
    exit 143
 }
-
-if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
-   sdwdate_log 'Setting up: trap "sdwdate_signal_sigterm" SIGTERM'
-   trap "sdwdate_signal_sigterm" SIGTERM
-fi
 
 sdwdate_enable_debugging() {
    ## usage: kill -sigusr1 pid
@@ -928,10 +892,6 @@ sdwdate_enable_debugging() {
 sdwdate_signal_sigusr1() {
    sdwdate_enable_debugging
 }
-
-if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
-   trap "sdwdate_signal_sigusr1" SIGUSR1
-fi
 
 sdwdate_get_time_from_remote() {
    trap "sdwdate_error_handler" ERR
@@ -1878,7 +1838,7 @@ sdwdate_main() {
       sdwdate_maybe_read_config_folder ${1+"$@"}
       sdwdate_maybe_parse_cmd_options ${1+"$@"}
       sdwdate_defaults
-      sdwdate_log "Running sdwdate... pid: $$ | LD_PRELOAD: $LD_PRELOAD | SCRIPT_WAS_SOURCED: $SCRIPT_WAS_SOURCED"
+      sdwdate_log "Running sdwdate... pid: $$ | LD_PRELOAD: $LD_PRELOAD"
       sdwdate_preparation
       if [ "$DEBUG" = "1" ]; then
          sdwdate_enable_debugging
@@ -1905,9 +1865,3 @@ sdwdate_main() {
       sdwdate_maybe_sleep_or_exit
    done
 }
-
-if [ "$SCRIPT_WAS_SOURCED" = "false" ]; then
-   sdwdate_main ${1+"$@"}
-
-   sdwdate_log "End."
-fi

@@ -1,0 +1,50 @@
+#!/bin/bash
+
+## This file is part of Whonix.
+## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+#set -x
+
+set -e
+set -o pipefail
+
+for i in /usr/lib/sdwdate/modules.d/*; do
+   if [ -f "$i" ]; then
+      ## If the last character is a ~, ignore that file,
+      ## because it was created by some editor,
+      ## which creates backup files.
+      if [ "${i: -1}" = "~" ]; then
+         continue
+      fi
+      ## Skipping files such as .dpkg-old and .dpkg-dist.
+      if ( echo "$i" | grep -q ".dpkg-" ); then
+         true "skip $i"
+         continue
+      fi
+      bash -n "$i"
+      source "$i"
+   fi
+done
+
+SCRIPTNAME="$(basename "$BASH_SOURCE")"
+ownpid="$$"
+ID="$ownpid"
+
+if [ ! -f "/var/run/sdwdate/first_success" ]; then
+   SDW_MODE="startup"
+else
+   SDW_MODE="restartup"
+fi
+
+trap "sdwdate_error_handler" ERR
+
+trap "sdwdate_signal_sigint" SIGINT ## ctrl + c
+
+trap "sdwdate_signal_sigterm" SIGTERM
+
+trap "sdwdate_signal_sigusr1" SIGUSR1
+
+sdwdate_main ${1+"$@"}
+
+sdwdate_log "End."
