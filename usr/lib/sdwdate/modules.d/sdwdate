@@ -1441,19 +1441,6 @@ sdwdate_terminate_sclockadj() {
       sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID no longer running. Exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
    fi
 
-   ## Debugging.
-   pid_still_running="0"
-   kill -0 "$sdwdate_subshell_read_pid" || { pid_still_running="$?" ; true; };
-   if [ "$pid_still_running" = "0" ]; then
-      sdwdate_log "$FUNCNAME: sdwdate_subshell_read_pid: $sdwdate_subshell_read_pid | pid_still_running: $pid_still_running | Please report this bug!"
-      sdwdate_subshell_read_pid=""
-      ## Not using sdwdate_error_handler to prevent and endless loop.
-      sdwdate_error "$FUNCNAME: sdwdate_subshell_read_pid: $sdwdate_subshell_read_pid | pid_still_running: $pid_still_running | Please report this bug!"
-   else
-      sdwdate_log "$FUNCNAME: sdwdate_subshell_read_pid: $sdwdate_subshell_read_pid no longer running as expected."
-   fi
-   sdwdate_subshell_read_pid=""
-
    if [ "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "0" ]; then
        sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID exited with expected zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
    elif [ "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "130" ]; then
@@ -1592,12 +1579,13 @@ sdwdate_set_time_using_sclockadj() {
    SDWDATE_SUBSHELL_SCLOCKADJ_PID="$!"
    sdwdate_log "Started subshell for sclockadj with pid: $SDWDATE_SUBSHELL_SCLOCKADJ_PID"
 
-   while read -r line; do
-      sdwdate_log "sclockadj reports: $line"
-   done < "$sclockadj_subshell_fifo" &
-
-   sdwdate_subshell_read_pid="$!"
-   sdwdate_log "Started subshell for read (sclockadj) with pid: $sdwdate_subshell_read_pid"
+   {
+      sdwdate_log "sdwdate_subshell_read: start"
+      while read -r sclockadj_line; do
+         sdwdate_log "sdwdate_subshell_read: sclockadj reports: $sclockadj_line"
+      done < "$sclockadj_subshell_fifo"
+      sdwdate_log "sdwdate_subshell_read: end"
+   } &
 }
 
 sdwdate_maybe_set_new_time() {
