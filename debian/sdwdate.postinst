@@ -24,6 +24,10 @@ case "$1" in
     configure)
        ## Not using --no-create-home, so sdwdate can write into /home/sdwdate.
        adduser --quiet --system --group sdwdate || true
+
+       mkdir --parents "/var/cache/sdwdate"
+       chown sdwdate:sdwdate "/var/cache/sdwdate"
+       chmod 0755 "/var/cache/sdwdate"
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

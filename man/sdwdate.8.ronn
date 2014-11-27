@@ -259,6 +259,37 @@ Examples:
 
 `sudo kill -sigusr1 "$(cat "/var/run/sdwdate/pid")"`
 
+## RUNNING SDWDATE AS NON-ROOT USER
+The `sdwdate` `.deb` package configures `sdwdate` as a daemon that starts as
+user `sdwdate`. Sdwdate needs root access for some actions such as setting
+the clock. Therefore it comes by default with a /etc/sudoers.d/sdwdate
+configuration snippet that adds the necessary sudo exceptions. If you want to
+run sdwdate as a different user, you need to add sudo exceptions for that user.
+Here is an example for user `user`. If the following is your
+`/etc/sudoers.d/sdwdate`.
+
+`sdwdate ALL=NOPASSWD: /bin/date *`
+
+`sdwdate ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj *`
+
+`sdwdate ALL=NOPASSWD: /sbin/hwclock *`
+
+`sdwdate ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj_kill_helper *`
+
+`Defaults:sdwdate env_keep += "INLINEDIR"`
+
+And you want to allow user `user`, you should add.
+
+`user ALL=NOPASSWD: /bin/date *`
+
+`user ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj *`
+
+`user ALL=NOPASSWD: /sbin/hwclock *`
+
+`user ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj_kill_helper *`
+
+`Defaults:user env_keep += "INLINEDIR"`
+
 ## EXAMPLES
 If you installed `sdwdate` from your distribution's repository, it should be
 already pre-configured to automatically run as daemon with sane defaults.
