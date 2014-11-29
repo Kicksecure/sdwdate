@@ -807,7 +807,6 @@ sdwdate_sanity_tests() {
 
    command -v bash >/dev/null
    command -v bc >/dev/null
-   command -v uuidgen >/dev/null
    command -v basename >/dev/null
    command -v mktemp >/dev/null
    command -v touch >/dev/null
