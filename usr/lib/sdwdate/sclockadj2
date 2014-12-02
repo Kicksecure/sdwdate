@@ -1,0 +1,10 @@
+#!/usr/bin/env python2.7
+
+import sys
+path="/usr/lib/pymodules/python2.7/"  # not on CentOS
+if path not in sys.path:
+    sys.path.insert(0, path)
+
+from sdwdate.sclockadj import main
+
+main()
