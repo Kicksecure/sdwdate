@@ -1,6 +1,10 @@
 #!/usr/bin/make -f
 
-## generic deb build script version 0.9
+## generic deb build script version 1.0
+
+## This is a copy.
+## master location:
+## https://github.com/Whonix/Whonix/blob/master/Makefile
 
 DESTDIR ?= /
 
@@ -87,6 +91,21 @@ uninstallsim:
 
 deb-chl-bumpup:
 	./make-helper.bsh deb-chl-bumpup
+
+git-tag-sign:
+	./make-helper.bsh git-tag-sign
+
+git-tag-verify:
+	./make-helper.bsh git-tag-verify
+
+git-tag-check:
+	./make-helper.bsh git-tag-check
+
+git-commit-verify:
+	./make-helper.bsh git-commit-verify
+
+git-verify:
+	./make-helper.bsh git-verify
 
 help:
 	./make-helper.bsh help
