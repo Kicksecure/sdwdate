@@ -1561,6 +1561,9 @@ sdwdate_set_time_using_sclockadj() {
 
       trap "sdwdate_subshell_trap_sigterm" SIGTERM
 
+      ## There is a /etc/sudoers.d exception.
+      sudo /usr/lib/sdwdate/sclockadj_debug_helper || true
+
       sdwdate_subshell_time_start
 
       $SDWDATE_SCLOCKADJ_COMMAND 2>&1 &
