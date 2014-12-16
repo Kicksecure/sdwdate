@@ -118,7 +118,7 @@ sdwdate_defaults() {
    export TEMP_DIR
 
    if [ "$SDW_CACHE_DIR" = "" ]; then
-      SDW_CACHE_DIR="/var/cache/sdwdate"
+      SDW_CACHE_DIR="/var/cache/sdwdate/sclockadj"
    fi
 
    if [ "$PROXY" = "" ]; then
