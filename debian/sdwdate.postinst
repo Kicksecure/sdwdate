@@ -28,6 +28,9 @@ case "$1" in
        mkdir --parents "/var/cache/sdwdate/sclockadj"
        chown --recursive root:root "/var/cache/sdwdate/sclockadj"
        chmod --recursive 700 "/var/cache/sdwdate/sclockadj"
+
+       ## Clean up from previous version.
+       rm -f -r "/var/cache/sdwdate/.ruby_inline"
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
