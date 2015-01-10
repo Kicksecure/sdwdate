@@ -693,7 +693,6 @@ sdwdate_no_duplicate_log() {
 }
 
 sdwdate_error_handler() {
-   trap "" ERR
    local exit_code="$?"
    local error_cause error_text
    error_text="$1"
@@ -779,8 +778,6 @@ $error_text"
    else
       sdwdate_log "$SCRIPTNAME (not timesync!): Error detected. Continuing." || true
    fi
-
-   trap "sdwdate_error_handler" ERR
 }
 
 sdwdate_sanity_tests() {
