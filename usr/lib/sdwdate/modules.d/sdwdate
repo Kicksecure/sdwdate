@@ -15,8 +15,6 @@
 ## - implement --user
 
 sdwdate_usage() {
-   trap "sdwdate_error_handler" ERR
-
    echo "\
 $SCRIPTNAME [-aDdlpqTux] [long options...]
         -d --debug                            debug
@@ -60,8 +58,6 @@ $SCRIPTNAME [-aDdlpqTux] [long options...]
 }
 
 sdwdate_defaults() {
-   trap "sdwdate_error_handler" ERR
-
    if [ "$CURL_VERBOSE" = "" ]; then
       CURL_VERBOSE="--silent"
    fi
@@ -118,7 +114,7 @@ sdwdate_defaults() {
    export TEMP_DIR
 
    if [ "$SDW_CACHE_DIR" = "" ]; then
-      SDW_CACHE_DIR="/var/cache/sdwdate"
+      SDW_CACHE_DIR="/var/cache/sdwdate/sclockadj"
    fi
 
    if [ "$PROXY" = "" ]; then
@@ -329,8 +325,6 @@ sdwdate_defaults() {
 }
 
 sdwdate_read_config_folder() {
-   trap "sdwdate_error_handler" ERR
-
    declare -A -g SDWDATE_CURL_DISPATCH_PRE
    declare -A -g SDWDATE_CURL_DISPATCH_POST
 
@@ -364,8 +358,6 @@ $bash_n_output" || true
 }
 
 sdwdate_parse_cmd_options() {
-   trap "sdwdate_error_handler" ERR
-
    ## Thanks to:
    ## http://mywiki.wooledge.org/BashFAQ/035
 
@@ -590,8 +582,6 @@ sdwdate_parse_cmd_options() {
 }
 
 sdwdate_preparation() {
-   trap "sdwdate_error_handler" ERR
-
    mkdir --parents "$(dirname "$LOG_FILE")"
    mkdir --parents "$(dirname "$DONE_FILE")"
    mkdir --parents "$(dirname "$SUCCESS_FILE")"
@@ -642,8 +632,6 @@ sdwdate_preparation() {
 }
 
 sdwdate_echo() {
-   trap "sdwdate_error_handler" ERR
-
    if [ "$QUIET" = "1" ]; then
       true
    else
@@ -652,8 +640,6 @@ sdwdate_echo() {
 }
 
 sdwdate_write_log() {
-   trap "sdwdate_error_handler" ERR
-
    ## Default, if the error happens before defaults are set and before config
    ## files are read.
    if [ "$LOG_FILE" = "" ]; then
@@ -668,8 +654,6 @@ sdwdate_write_log() {
 }
 
 sdwdate_log() {
-   trap "sdwdate_error_handler" ERR
-
    if [ "$ID" = "" ] ; then
       ID="No_ID"
    fi
@@ -693,8 +677,6 @@ sdwdate_log() {
 }
 
 sdwdate_no_duplicate_log() {
-   trap "sdwdate_error_handler" ERR
-
    if [ ! -f "$LOG_FILE" ]; then
       sdwdate_log "$@"
       return 0
@@ -799,15 +781,12 @@ $error_text"
 }
 
 sdwdate_sanity_tests() {
-   trap "sdwdate_error_handler" ERR
-
    if [ "$ID" = "" ]; then
       sdwdate_error_handler "Variable ID is empty." || true
    fi
 
    command -v bash >/dev/null
    command -v bc >/dev/null
-   command -v uuidgen >/dev/null
    command -v basename >/dev/null
    command -v mktemp >/dev/null
    command -v touch >/dev/null
@@ -828,8 +807,6 @@ sdwdate_sanity_tests() {
 }
 
 sdwdate_ex_funct() {
-   trap "sdwdate_error_handler" ERR
-
    sdwdate_log "$SCRIPTNAME (not timesync!): signal $SIGNAL_TYPE received. Cleaning up..."
 
    if [ ! "$sleep_pid" = "" ]; then
@@ -851,8 +828,6 @@ sdwdate_ex_funct() {
 }
 
 sdwdate_signal_sigint() {
-   trap "sdwdate_error_handler" ERR
-
    sdwdate_terminate_sclockadj
    SIGNAL_TYPE="SIGINT"
    sdwdate_ex_funct
@@ -860,8 +835,6 @@ sdwdate_signal_sigint() {
 }
 
 sdwdate_signal_sigterm() {
-   trap "sdwdate_error_handler" ERR
-
    sdwdate_terminate_sclockadj
    SIGNAL_TYPE="SIGTERM"
    sdwdate_ex_funct
@@ -894,8 +867,6 @@ sdwdate_signal_sigusr1() {
 }
 
 sdwdate_get_time_from_remote() {
-   trap "sdwdate_error_handler" ERR
-
    local LINK_UNPROCESSED first second
    LINK_UNPROCESSED="$1"
    IFS="." read -r first second <<< "$LINK_UNPROCESSED"
@@ -1002,8 +973,6 @@ sdwdate_get_time_from_remote() {
 }
 
 sdwdate_parse_date() {
-   trap "sdwdate_error_handler" ERR
-
    true "Setting fallback..."
    SDWDATE_PARSE_SUCCESS="false"
 
@@ -1050,8 +1019,6 @@ sdwdate_parse_date() {
 }
 
 sdwdate_convert_to_unixtime() {
-   trap "sdwdate_error_handler" ERR
-
    SDWDATE_CONVERT_SUCCESS="0"
 
    if [ "$WEB_DATE_FROM_TOOL" = "" ]; then
@@ -1231,8 +1198,6 @@ sdwdate_loop() {
 }
 
 sdwdate_pick() {
-   trap "sdwdate_error_handler" ERR
-
    declare -A -g SDWDATE_RESULT
    declare -A -g SDWDATE_TIME_DIFF
 
@@ -1259,8 +1224,6 @@ sdwdate_pick() {
 }
 
 sdwdate_build_median() {
-   trap "sdwdate_error_handler" ERR
-
    local results results_list min max
    results="${SDWDATE_TIME_DIFF[SDWDATE_POOL_ONE]} ${SDWDATE_TIME_DIFF[SDWDATE_POOL_TWO]} ${SDWDATE_TIME_DIFF[SDWDATE_POOL_THREE]}"
    sdwdate_log "Results summary: \
@@ -1298,8 +1261,6 @@ second(s)"
 }
 
 sdwdate_generate_nanoseconds() {
-   trap "sdwdate_error_handler" ERR
-
    local ZERO_OR_ONE
    ## Get a random 0 or 1.
    ## Will use this to decide to use plus or minus.
@@ -1332,7 +1293,6 @@ sdwdate_generate_nanoseconds() {
 }
 
 sdwdate_log_time_before_setting_time() {
-   trap "sdwdate_error_handler" ERR
    local SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING
    SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_BEFORE_SETTING="$(date +%s.%N)"
    local SDWDATE_NEW_DATE_BEFORE_SETTING
@@ -1341,7 +1301,6 @@ sdwdate_log_time_before_setting_time() {
 }
 
 sdwdate_log_time_after_setting_time() {
-   trap "sdwdate_error_handler" ERR
    local SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING
    SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING="$(date +%s.%N)"
    local SDWDATE_NEW_DATE_AFTER_SETTING
@@ -1350,7 +1309,6 @@ sdwdate_log_time_after_setting_time() {
 }
 
 sdwdate_calculate_new_unixtime() {
-   trap "sdwdate_error_handler" ERR
    local OLD_UNIXTIME
    OLD_UNIXTIME="$(date +%s)"
    true "NEW_UNIXTIME="\$\(\( $OLD_UNIXTIME + $SDWDATE_MEDIAN_TIME_SECONDS \)\)""
@@ -1358,8 +1316,6 @@ sdwdate_calculate_new_unixtime() {
 }
 
 sdwdate_set_time_using_date() {
-   trap "sdwdate_error_handler" ERR
-
    ## sets: NANOSECONDS
    ## sets: PLUS_OR_MINUS
    sdwdate_generate_nanoseconds
@@ -1420,8 +1376,6 @@ sdwdate_set_time_using_date() {
 }
 
 sdwdate_terminate_sclockadj() {
-   trap "sdwdate_error_handler" ERR
-
    if [ "$SDWDATE_SUBSHELL_SCLOCKADJ_PID" = "" ]; then
       return 0
    fi
@@ -1457,8 +1411,6 @@ sdwdate_terminate_sclockadj() {
 }
 
 sdwdate_set_time_using_sclockadj() {
-   trap "sdwdate_error_handler" ERR
-
    ## sets: NANOSECONDS
    ## sets: PLUS_OR_MINUS
    sdwdate_generate_nanoseconds
@@ -1562,6 +1514,9 @@ sdwdate_set_time_using_sclockadj() {
 
       trap "sdwdate_subshell_trap_sigterm" SIGTERM
 
+      ## There is a /etc/sudoers.d exception.
+      sudo /usr/lib/sdwdate/sclockadj_debug_helper || true
+
       sdwdate_subshell_time_start
 
       $SDWDATE_SCLOCKADJ_COMMAND 2>&1 &
@@ -1589,8 +1544,6 @@ sdwdate_set_time_using_sclockadj() {
 }
 
 sdwdate_maybe_set_new_time() {
-   trap "sdwdate_error_handler" ERR
-
    sdwdate_terminate_sclockadj
 
    if [ "$DONT_SET_DATE" = "1" ]; then
@@ -1641,8 +1594,6 @@ sdwdate_maybe_set_new_time() {
 }
 
 sdwdate_dispatcher_prerequisite() {
-   trap "sdwdate_error_handler" ERR
-
    if [ "$DISPATCH_PREREQUISITE" = "" ]; then
       true "DISPATCH_PREREQUISITE is empty, skipping."
    else
@@ -1680,15 +1631,12 @@ sdwdate_dispatcher_prerequisite() {
 }
 
 sdwdate_eval() {
-   trap "sdwdate_error_handler" ERR
    eval_output="$(eval ${1+"$@"} 2>&1)"
    #eval_output="$(eval bash -x ${1+"$@"} 2>&1)"
    #sdwdate_log "eval_output: $eval_output"
 }
 
 sdwdate_dispatcher_pre() {
-   trap "sdwdate_error_handler" ERR
-
    if [ "$DISPATCH_PRE" = "" ]; then
       true "DISPATCH_PRE is empty, skipping."
    else
@@ -1698,23 +1646,17 @@ sdwdate_dispatcher_pre() {
 }
 
 sdwdate_failed() {
-   trap "sdwdate_error_handler" ERR
-
    rm --force "$SUCCESS_FILE"
    touch "$DONE_FILE"
 }
 
 sdwdate_success() {
-   trap "sdwdate_error_handler" ERR
-
    touch "$FIRST_SUCCESS_FILE"
    touch "$SUCCESS_FILE"
    touch "$DONE_FILE"
 }
 
 sdwdate_dispatcher_post_success() {
-   trap "sdwdate_error_handler" ERR
-
    if [ "$DISPATCH_POST_SUCCESS" = "" ]; then
       true "DISPATCH_POST_SUCCESS is empty, skipping."
    else
@@ -1725,8 +1667,6 @@ sdwdate_dispatcher_post_success() {
 }
 
 sdwdate_dispatcher_post_failure() {
-   trap "sdwdate_error_handler" ERR
-
    if [ "$DISPATCH_POST_FAILURE" = "" ]; then
       true "DISPATCH_POST_FAILURE is empty, skipping."
    else
@@ -1737,7 +1677,6 @@ sdwdate_dispatcher_post_failure() {
 }
 
 sdwdate_error_test() {
-   trap "sdwdate_error_handler" ERR
    if [ -f "/var/lib/sdw_error" ]; then
       sdwdate_error_handler "Test file /var/lib/sdw_error to force test an error exists." || true
       sleep 10 &
@@ -1748,7 +1687,6 @@ sdwdate_error_test() {
 }
 
 sdwdate_sleep() {
-   trap "sdwdate_error_handler" ERR
    ## INTERVAL: in minutes
    ## sleep: in seconds
 
@@ -1777,7 +1715,6 @@ sdwdate_sleep() {
 }
 
 sdwdate_maybe_read_config_folder() {
-   trap "sdwdate_error_handler" ERR
    local grep_exit_code
    grep_exit_code="$?"
    echo "${1+"$@"}" | grep --quiet "\-\-noconfig" || { grep_exit_code="$?" ; true; };
@@ -1790,7 +1727,6 @@ sdwdate_maybe_read_config_folder() {
 }
 
 sdwdate_maybe_parse_cmd_options() {
-   trap "sdwdate_error_handler" ERR
    if [ "$PARSE_CMD_ONLY_ON_STARTUP" = "1" ]; then
       if [ "$ALREADY_PARSED_CDM_ON_STARTUP" = "1" ]; then
          true "ALREADY_PARSED_CDM_ON_STARTUP is 1, not parsing cmd options again."
@@ -1804,7 +1740,6 @@ sdwdate_maybe_parse_cmd_options() {
 }
 
 sdwdate_maybe_sleep_or_exit() {
-   trap "sdwdate_error_handler" ERR
    ## Check, if we are running in daemon mode.
    if [ "$INTERVAL" = "" ] || [ "$INTERVAL" = "0" ]; then
       ## No daemon mode.
@@ -1817,8 +1752,6 @@ sdwdate_maybe_sleep_or_exit() {
 }
 
 sdwdate_main() {
-   trap "sdwdate_error_handler" ERR
-
    sdwdate_sanity_tests
 
    while true; do

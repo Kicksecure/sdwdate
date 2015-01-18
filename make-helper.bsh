@@ -4,7 +4,11 @@
 ## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-## generic deb build script version 0.9
+## generic deb build script version 1.0
+
+## This is a copy.
+## master location:
+## https://github.com/Whonix/Whonix/blob/master/make-helper.bsh
 
 make_parse_cmd() {
    ## Thanks to:
@@ -183,6 +187,36 @@ make_parse_cmd() {
                exit 0
                shift
                ;;
+           git-tag-sign)
+               matched="true"
+               make_git_tag_sign
+               exit 0
+               shift
+               ;;
+           git-tag-verify)
+               matched="true"
+               make_git_tag_verify
+               exit 0
+               shift
+               ;;
+           git-tag-check)
+               matched="true"
+               make_git_tag_check
+               exit 0
+               shift
+               ;;
+           git-commit-verify)
+               matched="true"
+               make_git_commit_verify_current
+               exit 0
+               shift
+               ;;
+           git-verify)
+               matched="true"
+               make_git_verify
+               exit 0
+               shift
+               ;;
            --)
                shift
                break
@@ -201,7 +235,7 @@ make_parse_cmd() {
    ## will remain in the "$@" positional parameters.
 
    if [ ! "$matched" = "true" ]; then
-      true "ERROR: no valid option chosen!"
+      echo "ERROR: no valid option chosen!" >&2
       exit 1
    fi
 
@@ -222,6 +256,19 @@ make_parse_cmd() {
 make_get_variables() {
    local temp dpkg_line
    command -v dpkg-parsechangelog >/dev/null
+
+   ## When using python setup.py packaging method, there is no debian folder,
+   ## because that folder gets only temporarily created. To be able to use
+   ## common code to parse debian/changelog and debian/control, we temporarily
+   ## create that debian folder. We must delete it later, otherwise setup.py
+   ## would complain about an existing debian folder.
+   if [ -f "setup.py" ]; then
+      if [ -d "debian" ]; then
+         rm -r "debian"
+      fi
+      python setup.py --command-packages=stdeb.command debianize
+   fi
+
    while read -r -d $'\n' dpkg_line; do
       ## Example dpkg_line:
       ## Version: 0.1-1
@@ -252,32 +299,67 @@ make_get_variables() {
          break
       fi
    done < <( dpkg-parsechangelog )
+
+   make_pkg_version_with_revision="${make_pkg_version}-${make_pkg_revision}"
    if [ "$make_pkg_version" = "" ]; then
-      true "ERROR: variable make_pkg_version is empty."
+      echo "ERROR: variable make_pkg_version is empty." >&2
       exit 1
    fi
-   make_main_package_name="$make_mydir"
-   if [ "$make_main_package_name" = "" ]; then
-      true "ERROR: variable make_main_package_name is empty."
-      exit 1
-   fi
-   make_main_deb_file="../${make_main_package_name}_${make_pkg_version}-${make_pkg_revision}_all.deb"
+
+   ## Sanity test.
+   test -f debian/control
 
    local grep_line a package
+
+   grep_line="$(grep "Source:" "debian/control")"
+   read -r a package _ <<< "$grep_line"
+   make_source_package_name="$package"
+   make_package_list="$make_source_package_name"
 
    ## Example: grep_output
    ## Package: anon-shared-packages-dependencies
    ## Package: anon-shared-packages-recommended
 
-   make_package_list="$make_main_package_name"
-
    while read -r -d $'\n' grep_line; do
-      read a package _ <<< "$grep_line"
-      if [ "$package" = "$make_main_package_name" ]; then
+      read -r a package _ <<< "$grep_line"
+      if [ "$package" = "$make_source_package_name" ]; then
          continue
       fi
       make_package_list="$make_package_list $package"
    done < <( grep "Package:" "debian/control" )
+
+   make_main_deb_file_name="${package}_${make_pkg_version}-${make_pkg_revision}_all.deb"
+   make_main_deb_file="../$make_main_deb_file_name"
+
+   make_main_dsc_file_name="${make_source_package_name}_${make_pkg_version}-${make_pkg_revision}.dsc"
+   make_main_dsc_file="../$make_main_dsc_file_name"
+
+   make_debian_tarball_file_name="${make_source_package_name}_${make_pkg_version}-${make_pkg_revision}.debian.tar.gz"
+   make_debian_tarball="$DISTDIR/$make_debian_tarball_file_name"
+   if [ "$make_debdist_tolower" = "false" ]; then
+      true
+   else
+      make_debian_tarball_file_name="${make_debian_tarball_file_name,,}"
+      make_debian_tarball="${make_debian_tarball,,}"
+   fi
+
+   make_upstream_tarball_file_name="${make_source_package_name}_${make_pkg_version}.orig.tar.gz"
+   #make_upstream_tarball_file_name="${make_mydir}_${make_pkg_version}.orig.tar.gz"
+   make_upstream_tarball="$DISTDIR/$make_upstream_tarball_file_name"
+   if [ "$make_upstream_tarball_tolower" = "false" ]; then
+      true
+   else
+      make_upstream_tarball_file_name="${make_upstream_tarball_file_name,,}"
+      make_upstream_tarball="${make_upstream_tarball,,}"
+   fi
+
+   ## When using python setup.py packaging method, remove temporary debian
+   ## folder, that we created above.
+   if [ -f "setup.py" ]; then
+      if [ -d "debian" ]; then
+         rm -r "debian"
+      fi
+   fi
 }
 
 make_get_destdir() {
@@ -322,9 +404,9 @@ make deb-install
 make deb-icup
    Combination of make deb-pkg, make deb-pkg-install and make deb-pkg-cleanup.
 make deb-remove
-   apt-get remove make_main_package_name
+   apt-get remove make_source_package_name
 make deb-purge
-   apt-get purge make_main_package_name
+   apt-get purge make_source_package_name
 make deb-clean
    Delete temporary debhelper files.
 make deb-cleanup
@@ -346,32 +428,43 @@ make uninstall
 make uninstallsim
    Simulate what make uninstall would do.
 make deb-chl-bumpup
-   Bump upstream version number in debian/changelog."
+   Bump upstream version number in debian/changelog.
+make git-tag-sign
+   git tag (-s) sign latest pkg_version_with_revision from debian/changelog. Only a repository sanity check. Not for security purposes!
+make git-tag-verify
+   git tag (-v) verify latest pkg_version_with_revision from debian/changelog. Only a repository sanity check. Not for security purposes!
+make git-tag-check
+   Check if current git head is a signed git tag. Only a repository sanity check. Not for security purposes!
+make git-commit-verify
+   Check if current git head is a signed git commit. Only a repository sanity check. Not for security purposes!
+make git-verify
+   Combination of tag-check and commit-verify. Only a repository sanity check. Not for security purposes!"
 }
 
 make_dist() {
    make_undist
 
-   git archive \
-      --format=tar \
-      --prefix="${make_main_package_name}-${make_pkg_version}/" \
-      HEAD \
-      | gzip -n > "$DISTDIR/${make_main_package_name}_${make_pkg_version}.orig.tar.gz"
+   find \
+      "." \
+      -not \
+      -iwholename '*.git*' \
+      -print0 \
+         | tar \
+            --null \
+            --no-recursion \
+            --create \
+            --verbose \
+            --owner="0" --group="0" \
+            --numeric-owner \
+            -T \
+            - \
+               | gzip -9 -n > "$make_upstream_tarball"
 
-   ls -la "$DISTDIR/${make_main_package_name}_${make_pkg_version}.orig.tar.gz"
-   #sha512sum "$DISTDIR/${make_main_package_name}_${make_pkg_version}.orig.tar.gz"
+   ls -la "$make_upstream_tarball"
 }
 
 make_debdist() {
    make_undebdist
-
-   ## TODO: Not yet deterministic for some reason.
-   ## http://unix.stackexchange.com/questions/164104/how-to-create-a-deterministic-tar-gz-using-git-archive
-   #git archive \
-      #--format=tar \
-      #--prefix="debian/" \
-      #HEAD:debian \
-      #| sort -z | gzip -n > "$DISTDIR/${make_main_package_name}_${make_pkg_version}-${make_pkg_revision}.debian.tar.gz"
 
    ## Deterministic.
    ## TODO: differs from tarballs created by dpkg-source for some reason.
@@ -388,24 +481,23 @@ make_debdist() {
             --numeric-owner \
             -T \
             - \
-            | gzip -9 -n > "$DISTDIR/${make_main_package_name}_${make_pkg_version}-${make_pkg_revision}.debian.tar.gz"
+            | gzip -9 -n > "$make_debian_tarball"
 
-   ls -la "$DISTDIR/${make_main_package_name}_${make_pkg_version}-${make_pkg_revision}.debian.tar.gz"
-   #sha512sum "$DISTDIR/${make_main_package_name}_${make_pkg_version}-${make_pkg_revision}.debian.tar.gz"
+   ls -la "$make_debian_tarball"
 }
 
 make_undist() {
    make_get_distdir
    make_get_variables
 
-   rm --force "$DISTDIR/${make_main_package_name}_${make_pkg_version}.orig.tar.gz"
+   rm --force "$make_upstream_tarball"
 }
 
 make_undebdist() {
    make_get_distdir
    make_get_variables
 
-   rm --force "$DISTDIR/${make_main_package_name}_${make_pkg_version}-${make_pkg_revision}.debian.tar.gz"
+   rm --force "$make_debian_tarball"
 }
 
 make_manpages() {
@@ -445,22 +537,41 @@ make_clean() {
 make_deb-pkg_shared() {
    make_dist
 
-   if [ "$DEBUILD_LINTIAN_OPTS" = "" ]; then
-      export DEBUILD_LINTIAN_OPTS="--info --display-info --fail-on-warnings"
+   if [ "$make_use_gain_root_command" = "true" ]; then
+      local make_use_gain_root_command_maybe_switch make_use_gain_root_command_maybe_path
+      make_use_gain_root_command_maybe_switch="--rootcmd="
+      make_use_gain_root_command_maybe_path="$PWD/debian/gain-root-command"
    fi
 
-   ## Using --no-lintian, because debuild does not exist with a non-zero exit
-   ## code, should lintian find an error. Therefore running lintian afterwards.
-   debuild \
-      --no-lintian \
-      --rootcmd="$PWD/debian/gain-root-command" \
-      -sa \
-      $make_debuild_maybe_unsigned_opts \
-      $make_debuild_maybe_unsigned_opts \
-      ${1+"$@"}
+   if [ -f "setup.py" ]; then
+      "./build_deb.sh"
+      mv "deb_dist/"*".deb" ../
+      mv "deb_dist/"*".dsc" ../
+      mv "deb_dist/"*".tar.gz" ../
+      mv "deb_dist/"*".changes" ../
+   else
+      ## Using --no-lintian, because debuild does not exist with a non-zero exit
+      ## code, should lintian find an error. Therefore running lintian afterwards.
+      debuild \
+         --no-lintian \
+         ${make_use_gain_root_command_maybe_switch}${make_use_gain_root_command_maybe_path} \
+         -sa \
+         $make_debuild_maybe_unsigned_opts \
+         ${1+"$@"}
+   fi
 
-   lintian $DEBUILD_LINTIAN_OPTS
+   if [ "$make_use_lintian" = "true" ]; then
+      if [ "$DEBUILD_LINTIAN_OPTS" = "" ]; then
+         export DEBUILD_LINTIAN_OPTS="--info --display-info --fail-on-warnings"
+      fi
+      if [ -f "setup.py" ]; then
+         lintian $DEBUILD_LINTIAN_OPTS "../$make_main_dsc_file_name"
+      else
+         lintian $DEBUILD_LINTIAN_OPTS
+      fi
+   fi
 
+   test -f "$make_main_deb_file"
    true "INFO: You can find your deb file here: $make_main_deb_file"
 }
 
@@ -481,7 +592,7 @@ make_deb-pkg-source() {
 make_deb-install() {
    make_get_variables
    if [ ! -f "$make_main_deb_file" ]; then
-      true "ERROR: File $make_main_deb_file does not exist. Have you run \"make deb-pkg\" already?"
+      echo "ERROR: File $make_main_deb_file does not exist. Have you run \"make deb-pkg\" already?" >&2
       exit 1
    fi
    sudo dpkg -i "$make_main_deb_file"
@@ -489,12 +600,12 @@ make_deb-install() {
 
 make_deb-remove() {
    make_get_variables
-   sudo apt-get remove "$make_main_package_name"
+   sudo apt-get remove "$make_source_package_name"
 }
 
 make_deb-purge() {
    make_get_variables
-   sudo apt-get purge "$make_main_package_name"
+   sudo apt-get purge "$make_source_package_name"
 }
 
 make_deb-pkg-install() {
@@ -511,6 +622,9 @@ make_deb-clean() {
    make_get_variables
    if [ -d "debian/tmp-man" ]; then
       rm --recursive "debian/tmp-man"
+   fi
+   if [ -d "deb_dist" ]; then
+      rm --recursive "deb_dist"
    fi
    local to_delete package
    for package in $make_package_list; do
@@ -553,11 +667,14 @@ make_deb-cleanup() {
          fi
       done
    done
+   if [ -f "$make_upstream_tarball" ]; then
+      rm "$make_upstream_tarball"
+   fi
 }
 
 make_dput-ubuntu-ppa() {
    make_get_variables
-   dput "$make_main_package_name" "../${make_main_package_name}_${make_pkg_version}-${make_pkg_revision}_source.changes"
+   dput "$make_source_package_name" "../${make_source_package_name}_${make_pkg_version}-${make_pkg_revision}_source.changes"
 }
 
 make_checkout() {
@@ -585,7 +702,7 @@ make_helper() {
             file_with_destdir="${DESTDIR}${file_without_pwd}"
             if [ "$make_uninstallcheck_" = "true" ]; then
                if [ -f "$file_with_destdir" ]; then
-                  true "ERROR: file $file_with_destdir still installed."
+                  echo "ERROR: file $file_with_destdir still installed." >&2
                   local still_installed="true"
                fi
             elif [ "$make_installcheck_" = "true" ]; then
@@ -599,7 +716,7 @@ make_helper() {
                   rm "$file_with_destdir"
                fi
             else
-               true "ERROR 2: in $FUNCNAME!"
+               echo "ERROR 2: in $FUNCNAME!" >&2
                exit 1
             fi
          done
@@ -660,10 +777,6 @@ Bumping version from / to...
 $make_changelog_version
 $new_changelog_version"
 
-   if [ "$DEBEMAIL" = "" ]; then
-      export DEBEMAIL="adrelanos@riseup.net"
-   fi
-
    debchange \
       --newversion "$new_changelog_version" \
       "New upstream version."
@@ -671,6 +784,89 @@ $new_changelog_version"
    debchange \
       --release \
       ""
+}
+
+make_git_tag_shared() {
+   if [ "$make_git_tag_shared_done" = "true" ]; then
+      return 0
+   fi
+   make_get_variables
+   command -v git >/dev/null
+   make_git_tag_shared_done="true"
+}
+
+make_git_tag_sign() {
+   make_git_tag_shared
+   git tag -s "$make_pkg_version_with_revision" -m "."
+   make_git_tag_verify
+}
+
+make_git_tag_verify() {
+   make_git_tag_shared
+   git tag -v "$make_pkg_version_with_revision"
+}
+
+make_git_tag_check() {
+   make_git_tag_shared
+   local make_git_describe_output
+   make_git_describe_output="$(git describe --always --abbrev=1000000000)"
+   if [ ! "$make_pkg_version_with_revision" = "$make_git_describe_output" ]; then
+      echo "Failed! Current git head a unsigned git tag! \
+make_pkg_version_with_revision $make_pkg_version_with_revision differs from make_git_describe_output $make_git_describe_output" >&2
+      exit 1
+   fi
+   make_git_tag_verify
+   echo "Ok, current git head is a signed git tag."
+}
+
+make_git_commit_verify() {
+   ## Credits for this function: Mike Gerwitz
+   ## Source: mikegerwitz.com/papers/git-horror-story
+   ## Modified by Patrick Schleizer for use within this script.
+
+   # Validate signatures on each and every commit within the given range
+   ##
+
+   # if a ref is provided, append range spec to include all children
+   chkafter="${1+$1..}"
+
+   # note: bash users may instead use $'\t'; the echo statement below is a more
+   # portable option
+   t=$( echo '\t' )
+
+   # Check every commit after chkafter (or all commits if chkafter was not
+   # provided) for a trusted signature, listing invalid commits. %G? will output
+   # "G" if the signature is trusted.
+   local grep_exit_code="0"
+   git log --pretty="format:%H$t%aN$t%s$t%G?" "${chkafter:-HEAD}" \
+     | grep -v "${t}G$" \
+        || { grep_exit_code="$?" ; true; };
+
+   # grep will exit with a non-zero status if no matches are found, which we
+   # consider a success, so invert it
+   # [ $? -gt 0 ]
+   if [ $grep_exit_code -gt 0 ]; then
+      return 0
+   else
+      return 1
+   fi
+}
+
+make_git_commit_verify_current() {
+   make_git_tag_shared
+   local make_git_commit_verify_return_code="0"
+   make_git_commit_verify "HEAD~1" || { make_git_commit_verify_return_code="$?" ; true; };
+   if [ ! "$make_git_commit_verify_return_code" = "0" ]; then
+      echo "Failed! Current git head commit is unsigned" >&2
+      exit 1
+   fi
+   echo "Ok, current git head commit is signed."
+}
+
+make_git_verify() {
+   make_git_commit_verify_current
+   make_git_tag_check
+   echo "Ok, current git head is a signed git commit and a signed git tag."
 }
 
 if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then

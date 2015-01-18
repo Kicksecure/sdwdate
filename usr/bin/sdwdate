@@ -8,6 +8,7 @@
 
 set -e
 set -o pipefail
+set -o errtrace
 
 for i in /usr/lib/sdwdate/modules.d/*; do
    if [ -f "$i" ]; then
