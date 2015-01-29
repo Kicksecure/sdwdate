@@ -48,4 +48,13 @@ except ValueError as e:
 
 #print data
 #print date
+
+if not unixtime.isdigit():
+   print >> sys.stderr, 'unixtime conversion failed!'
+   print >> sys.stderr, 'data: %s' % (data)
+   print >> sys.stderr, 'date: %s' % (date)
+   print >> sys.stderr, 'unixtime: %s' % (unixtime)
+   print >> sys.stderr, 'unixtime not numeric!'
+   sys.exit(5)
+
 print "%s" % unixtime
