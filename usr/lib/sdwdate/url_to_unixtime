@@ -57,4 +57,17 @@ if not unixtime.isdigit():
    print >> sys.stderr, 'unixtime not numeric!'
    sys.exit(5)
 
+unixtime_string_length_is = len(unixtime)
+unixtime_string_length_max = 10
+
+if unixtime_string_length_is > unixtime_string_length_max:
+   print >> sys.stderr, 'unixtime conversion failed!'
+   print >> sys.stderr, 'data: %s' % (data)
+   print >> sys.stderr, 'date: %s' % (date)
+   print >> sys.stderr, 'unixtime: %s' % (unixtime)
+   print >> sys.stderr, 'unixtime_string_length_is: %s' % (unixtime_string_length_is)
+   print >> sys.stderr, 'unixtime_string_length_max: %s' % (unixtime_string_length_max)
+   print >> sys.stderr, 'unixtime has excessive string length!'
+   sys.exit(6)
+
 print "%s" % unixtime
