@@ -18,7 +18,7 @@ try:
     s.connect((url, 80))
 except IOError as e:
     print >> sys.stderr, e
-    sys.exit(1)
+    sys.exit(2)
 
 s.send('HEAD / HTTP/1.0\r\n\r\n')
 
@@ -34,7 +34,7 @@ date_pos = data.find('Date:') + 6
 date = data[date_pos:date_pos + 30].strip()
 if date == '':
    print >> sys.stderr, 'Parsing HTTP header date failed.'
-   sys.exit(2)
+   sys.exit(3)
 
 try:
     ## Thanks to:
@@ -44,7 +44,7 @@ try:
 except ValueError as e:
    print >> sys.stderr, ('Parsing date from server failed. | date: %s \
                          | dateutil ValueError: %s' % (date, e))
-   sys.exit(3)
+   sys.exit(4)
 
 #print data
 #print date
