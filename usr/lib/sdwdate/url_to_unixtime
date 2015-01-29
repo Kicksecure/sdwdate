@@ -1,0 +1,51 @@
+#!/usr/bin/python
+
+import sys, socks
+from dateutil.parser import parse
+
+try:
+    socket_ip =sys.argv[1]
+    socket_port = int(sys.argv[2])
+    url = sys.argv[3]
+except IndexError as e:
+   print >> sys.stderr, "Parsing command line parameter failed. | e: %s" % (e)
+   sys.exit(1)
+
+s = socks.socksocket()
+s.setproxy(socks.PROXY_TYPE_SOCKS5, socket_ip, socket_port)
+
+try:
+    s.connect((url, 80))
+except IOError as e:
+    print >> sys.stderr, e
+    sys.exit(1)
+
+s.send('HEAD / HTTP/1.0\r\n\r\n')
+
+data = ''
+buf = s.recv(1024)
+while len(buf):
+    data += buf
+    buf = s.recv(1024)
+s.close()
+
+date = ''
+date_pos = data.find('Date:') + 6
+date = data[date_pos:date_pos + 30].strip()
+if date == '':
+   print >> sys.stderr, 'Parsing HTTP header date failed.'
+   sys.exit(2)
+
+try:
+    ## Thanks to:
+    ## eumiro
+    ## http://stackoverflow.com/a/3894047/2605155
+    unixtime = parse(date).strftime('%s')
+except ValueError as e:
+   print >> sys.stderr, ('Parsing date from server failed. | date: %s \
+                         | dateutil ValueError: %s' % (date, e))
+   sys.exit(3)
+
+#print data
+#print date
+print "%s" % unixtime
