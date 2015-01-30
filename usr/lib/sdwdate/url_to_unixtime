@@ -4,7 +4,31 @@ import sys, socks
 from dateutil.parser import parse
 from datetime import datetime
 
-def sanity_checks(unixtime):
+def http_time(data):
+    date_pos = data.find('Date:')
+    if date_pos == -1:
+        ## not found, check if lowercase.
+        date_pos = data.find('date:')
+    if date_pos == -1:
+        ## "Date:" not found.
+        print >> sys.stderr, 'Parsing HTTP header date failed.'
+        sys.exit(3)
+
+    date_pos = date_pos + 6
+
+    http_time = ''
+    ## max accepted string length.
+    http_time = data[date_pos:date_pos + 29].strip()
+    ## min string length = max string length.
+    if len(http_time) < 29:
+        print >> sys.stderr, 'HTTP header date string too short.'
+        print >> sys.stderr, 'HTTP header date length: %s' % len(http_time)
+        print >> sys.stderr, 'HTTP header date value: "%s"' % (http_time)
+        sys.exit(4)
+
+    return http_time
+
+def unixtime_sanity_check(unixtime):
     try:
         unixtime_digit = int(unixtime)
     except ValueError as e:
@@ -56,13 +80,10 @@ while len(buf):
     buf = s.recv(1024)
 s.close()
 
-http_time = ''
-date_pos = data.find('Date:') + 6
-http_time = data[date_pos:date_pos + 30].strip()
-if http_time == '':
-    print >> sys.stderr, 'Parsing HTTP header date failed.'
-    sys.exit(3)
+#data = 'Date: Fri, 30 Jan 2015 20:11:52 GMT'
 
+## data sanity check
+http_time = http_time(data)
 try:
     ## Thanks to:
     ## eumiro
@@ -70,23 +91,22 @@ try:
     unixtime_http = parse(http_time).strftime('%s')
 except ValueError as e:
     print >> sys.stderr, ('Parsing date from server failed. | date: %s \
-                          | dateutil ValueError: %s' % (date, e))
-    sys.exit(4)
+                        | dateutil ValueError: %s' % (http_time, e))
+    sys.exit(5)
 
-#unixtime_http = '1422611120'
-
-if sanity_checks(unixtime_http):
+if unixtime_sanity_check(unixtime_http):
+    ## last sanity check: time offset.
     local_time_raw = datetime.now()
     local_time = format(local_time_raw, '%a, %d %b %Y %H:%M:%S GMT')
-    # do not perform sanity checks on local time.
     unixtime_local = parse(local_time).strftime('%s')
-
-    time_offset = 1000
-    # reject values too far away.
-    if int(unixtime_http) not in range(int(unixtime_local) - int(time_offset), \
-                                       int(unixtime_local) + int(time_offset)):
-        print 'Rejecting "%s". Offset too big.' % url
-        sys.exit(5)
+    ## may be overkill, but the function is there.
+    if unixtime_sanity_check(unixtime_local):
+        time_offset = 1000
+        ## reject values too far away.
+        if int(unixtime_http) not in range(int(unixtime_local) - int(time_offset), \
+                                        int(unixtime_local) + int(time_offset)):
+            print >> sys.stderr, 'Rejecting "%s", time offset is too big.' % url
+            sys.exit(6)
 
 #print '%s' % local_time
 #print '%s' % unixtime_local
