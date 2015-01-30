@@ -2,14 +2,41 @@
 
 import sys, socks
 from dateutil.parser import parse
+from datetime import datetime
+
+def sanity_checks(unixtime):
+    try:
+        unixtime_digit = int(unixtime)
+    except ValueError as e:
+        print >> sys.stderr, 'unixtime conversion failed!'
+        print >> sys.stderr, 'data: %s' % (data)
+        print >> sys.stderr, 'date: %s' % (date)
+        print >> sys.stderr, 'unixtime: %s' % (unixtime)
+        print >> sys.stderr, 'unixtime not numeric!'
+        sys.exit(5)
+
+    unixtime_string_length_is = len(unixtime)
+    unixtime_string_length_max = 10
+
+    if unixtime_string_length_is > unixtime_string_length_max:
+        print >> sys.stderr, 'unixtime conversion failed!'
+        print >> sys.stderr, 'data: %s' % (data)
+        print >> sys.stderr, 'date: %s' % (date)
+        print >> sys.stderr, 'unixtime: %s' % (unixtime)
+        print >> sys.stderr, 'unixtime_string_length_is: %s' % (unixtime_string_length_is)
+        print >> sys.stderr, 'unixtime_string_length_max: %s' % (unixtime_string_length_max)
+        print >> sys.stderr, 'unixtime has excessive string length!'
+        sys.exit(6)
+
+    return True
 
 try:
     socket_ip =sys.argv[1]
     socket_port = int(sys.argv[2])
     url = sys.argv[3]
 except IndexError as e:
-   print >> sys.stderr, "Parsing command line parameter failed. | e: %s" % (e)
-   sys.exit(1)
+    print >> sys.stderr, "Parsing command line parameter failed. | e: %s" % (e)
+    sys.exit(1)
 
 s = socks.socksocket()
 s.setproxy(socks.PROXY_TYPE_SOCKS5, socket_ip, socket_port)
@@ -29,45 +56,40 @@ while len(buf):
     buf = s.recv(1024)
 s.close()
 
-date = ''
+http_time = ''
 date_pos = data.find('Date:') + 6
-date = data[date_pos:date_pos + 30].strip()
-if date == '':
-   print >> sys.stderr, 'Parsing HTTP header date failed.'
-   sys.exit(3)
+http_time = data[date_pos:date_pos + 30].strip()
+if http_time == '':
+    print >> sys.stderr, 'Parsing HTTP header date failed.'
+    sys.exit(3)
 
 try:
     ## Thanks to:
     ## eumiro
     ## http://stackoverflow.com/a/3894047/2605155
-    unixtime = parse(date).strftime('%s')
+    unixtime_http = parse(http_time).strftime('%s')
 except ValueError as e:
-   print >> sys.stderr, ('Parsing date from server failed. | date: %s \
-                         | dateutil ValueError: %s' % (date, e))
-   sys.exit(4)
+    print >> sys.stderr, ('Parsing date from server failed. | date: %s \
+                          | dateutil ValueError: %s' % (date, e))
+    sys.exit(4)
 
-#print data
-#print date
+#unixtime_http = '1422611120'
 
-if not unixtime.isdigit():
-   print >> sys.stderr, 'unixtime conversion failed!'
-   print >> sys.stderr, 'data: %s' % (data)
-   print >> sys.stderr, 'date: %s' % (date)
-   print >> sys.stderr, 'unixtime: %s' % (unixtime)
-   print >> sys.stderr, 'unixtime not numeric!'
-   sys.exit(5)
+if sanity_checks(unixtime_http):
+    local_time_raw = datetime.now()
+    local_time = format(local_time_raw, '%a, %d %b %Y %H:%M:%S GMT')
+    # do not perform sanity checks on local time.
+    unixtime_local = parse(local_time).strftime('%s')
 
-unixtime_string_length_is = len(unixtime)
-unixtime_string_length_max = 10
+    time_offset = 1000
+    # reject values too far away.
+    if int(unixtime_http) not in range(int(unixtime_local) - int(time_offset), \
+                                       int(unixtime_local) + int(time_offset)):
+        print 'Rejecting "%s". Offset too big.' % url
+        sys.exit(5)
 
-if unixtime_string_length_is > unixtime_string_length_max:
-   print >> sys.stderr, 'unixtime conversion failed!'
-   print >> sys.stderr, 'data: %s' % (data)
-   print >> sys.stderr, 'date: %s' % (date)
-   print >> sys.stderr, 'unixtime: %s' % (unixtime)
-   print >> sys.stderr, 'unixtime_string_length_is: %s' % (unixtime_string_length_is)
-   print >> sys.stderr, 'unixtime_string_length_max: %s' % (unixtime_string_length_max)
-   print >> sys.stderr, 'unixtime has excessive string length!'
-   sys.exit(6)
+#print '%s' % local_time
+#print '%s' % unixtime_local
 
-print "%s" % unixtime
+#print '%s' % http_time
+print "%s" % unixtime_http
