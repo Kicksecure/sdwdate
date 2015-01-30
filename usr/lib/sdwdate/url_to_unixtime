@@ -37,7 +37,7 @@ def unixtime_sanity_check(unixtime):
         print >> sys.stderr, 'date: %s' % (date)
         print >> sys.stderr, 'unixtime: %s' % (unixtime)
         print >> sys.stderr, 'unixtime not numeric!'
-        sys.exit(5)
+        sys.exit(6)
 
     unixtime_string_length_is = len(unixtime)
     unixtime_string_length_max = 10
@@ -50,7 +50,7 @@ def unixtime_sanity_check(unixtime):
         print >> sys.stderr, 'unixtime_string_length_is: %s' % (unixtime_string_length_is)
         print >> sys.stderr, 'unixtime_string_length_max: %s' % (unixtime_string_length_max)
         print >> sys.stderr, 'unixtime has excessive string length!'
-        sys.exit(6)
+        sys.exit(7)
 
     return True
 
@@ -104,9 +104,9 @@ if unixtime_sanity_check(unixtime_http):
         time_offset = 1000
         ## reject values too far away.
         if int(unixtime_http) not in range(int(unixtime_local) - int(time_offset), \
-                                        int(unixtime_local) + int(time_offset)):
+                                           int(unixtime_local) + int(time_offset)):
             print >> sys.stderr, 'Rejecting "%s", time offset is too big.' % url
-            sys.exit(6)
+            sys.exit(8)
 
 #print '%s' % local_time
 #print '%s' % unixtime_local
