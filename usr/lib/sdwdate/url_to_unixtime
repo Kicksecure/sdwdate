@@ -99,10 +99,10 @@ except IndexError as e:
 data = request_data_from_remote_server(socket_ip, socket_port, url)
 
 ## data sanity check.
-date_tring_start_position = data_to_date_pos(data)
+date_string_start_position = data_to_date_pos(data)
 
 ## date string sanity check.
-http_time = data_to_http_time(date_tring_start_position)
+http_time = data_to_http_time(date_string_start_position)
 
 try:
     ## Thanks to:
