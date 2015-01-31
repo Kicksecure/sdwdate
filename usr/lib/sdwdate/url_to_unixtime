@@ -65,6 +65,28 @@ def unixtime_sanity_check(unixtime):
 
     return unixtime
 
+def request_data_from_remote_server(socket_ip, socket_port, url):
+    s = socks.socksocket()
+    s.setproxy(socks.PROXY_TYPE_SOCKS5, socket_ip, socket_port)
+
+    try:
+        s.connect((url, 80))
+
+    except IOError as e:
+        print >> sys.stderr, e
+        sys.exit(2)
+
+    s.send('HEAD / HTTP/1.0\r\n\r\n')
+
+    data = ''
+    buf = s.recv(1024)
+    while len(buf):
+        data += buf
+        buf = s.recv(1024)
+    s.close()
+
+    return data
+
 try:
     socket_ip = sys.argv[1]
     socket_port = int(sys.argv[2])
@@ -74,24 +96,7 @@ except IndexError as e:
     print >> sys.stderr, "Parsing command line parameter failed. | e: %s" % (e)
     sys.exit(1)
 
-s = socks.socksocket()
-s.setproxy(socks.PROXY_TYPE_SOCKS5, socket_ip, socket_port)
-
-try:
-    s.connect((url, 80))
-
-except IOError as e:
-    print >> sys.stderr, e
-    sys.exit(2)
-
-s.send('HEAD / HTTP/1.0\r\n\r\n')
-
-data = ''
-buf = s.recv(1024)
-while len(buf):
-    data += buf
-    buf = s.recv(1024)
-s.close()
+data = request_data_from_remote_server(socket_ip, socket_port, url)
 
 ## data sanity check.
 date_tring_start_position = data_to_date_pos(data)
