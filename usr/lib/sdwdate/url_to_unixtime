@@ -90,7 +90,7 @@ def request_data_from_remote_server(socket_ip, socket_port, url):
 
     return data
 
-def http_time_to_parsed_unixtime(http_time):
+def http_time_to_parsed_unixtime(data, http_time):
     try:
         ## Thanks to:
         ## eumiro
@@ -98,8 +98,10 @@ def http_time_to_parsed_unixtime(http_time):
         parsed_unixtime = parse(http_time).strftime('%s')
 
     except ValueError as e:
-        print >> sys.stderr, ('Parsing http_time from server failed. | http_time: %s \
-                            | dateutil ValueError: %s' % (http_time, e))
+        print >> sys.stderr, 'Parsing http_time from server failed!'
+        print >> sys.stderr, 'HTTP header data:\n%s' % (data)
+        print >> sys.stderr, 'http_time: %s' % (http_time)
+        print >> sys.stderr, 'dateutil ValueError: %s' % (e)
         sys.exit(5)
 
     return(parsed_unixtime)
@@ -121,7 +123,7 @@ def main_function():
    data = request_data_from_remote_server(socket_ip, socket_port, url)
    date_string_start_position = data_to_date_string_start_position(data)
    http_time = data_to_http_time(data, date_string_start_position)
-   parsed_unixtime = http_time_to_parsed_unixtime(http_time)
+   parsed_unixtime = http_time_to_parsed_unixtime(data, http_time)
    unixtime = unixtime_sanity_check(data, http_time, parsed_unixtime)
    print "%s" % unixtime
 
