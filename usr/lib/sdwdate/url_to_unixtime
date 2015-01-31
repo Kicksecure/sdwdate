@@ -76,7 +76,7 @@ def request_data_from_remote_server(socket_ip, socket_port, url):
         s.connect((url, 80))
 
     except IOError as e:
-        print >> sys.stderr, e
+        print >> sys.stderr, 'connect error: %s' % (e)
         sys.exit(2)
 
     s.send('HEAD / HTTP/1.0\r\n\r\n')
