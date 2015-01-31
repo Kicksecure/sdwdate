@@ -87,6 +87,20 @@ def request_data_from_remote_server(socket_ip, socket_port, url):
 
     return data
 
+def http_time_to_parsed_unixtime(http_time):
+    try:
+        ## Thanks to:
+        ## eumiro
+        ## http://stackoverflow.com/a/3894047/2605155
+        parsed_unixtime = parse(http_time).strftime('%s')
+
+    except ValueError as e:
+        print >> sys.stderr, ('Parsing date from server failed. | date: %s \
+                            | dateutil ValueError: %s' % (http_time, e))
+        sys.exit(5)
+
+    return(parsed_unixtime)
+
 try:
     socket_ip = sys.argv[1]
     socket_port = int(sys.argv[2])
@@ -102,16 +116,7 @@ date_string_start_position = data_to_date_pos(data)
 
 http_time = data_to_http_time(date_string_start_position)
 
-try:
-    ## Thanks to:
-    ## eumiro
-    ## http://stackoverflow.com/a/3894047/2605155
-    parsed_unixtime = parse(http_time).strftime('%s')
-
-except ValueError as e:
-    print >> sys.stderr, ('Parsing date from server failed. | date: %s \
-                        | dateutil ValueError: %s' % (http_time, e))
-    sys.exit(5)
+parsed_unixtime = http_time_to_parsed_unixtime(http_time)
 
 unixtime = unixtime_sanity_check(parsed_unixtime)
 
