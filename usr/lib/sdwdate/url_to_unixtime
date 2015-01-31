@@ -1,21 +1,85 @@
 #!/usr/bin/python
 
+## Copyright (C) 2015 troubadour <trobador@riseup.net>
+## Copyright (C) 2015 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
 import sys, socks
 from dateutil.parser import parse
+from datetime import datetime
+
+def data_sanity_check(data):
+    date_pos = data.find('Date:')
+
+    if date_pos == -1:
+        ## not found, check if lowercase.
+        date_pos = data.find('date:')
+
+    if date_pos == -1:
+        ## "Date:" not found.
+        print >> sys.stderr, 'Parsing HTTP header date failed.'
+        print >> sys.stderr, 'HTTP header data:\n %s' % data
+        sys.exit(3)
+
+    date_pos = date_pos + 6
+    return date_pos
+
+def httptime_sanity_check(date_pos):
+    http_time = ''
+    ## max accepted string length.
+    http_time = data[date_pos:date_pos + 29].strip()
+
+    ## min string length = max string length.
+    if len(http_time) < 29:
+        print >> sys.stderr, 'HTTP header date string too short.'
+        print >> sys.stderr, 'HTTP header date length: %s' % len(http_time)
+        print >> sys.stderr, 'HTTP header date value: "%s"' % (http_time)
+        sys.exit(4)
+
+    return http_time
+
+def unixtime_sanity_check(unixtime):
+    try:
+        unixtime_digit = int(unixtime)
+
+    except ValueError as e:
+        print >> sys.stderr, 'unixtime conversion failed!'
+        print >> sys.stderr, 'data: %s' % (data)
+        print >> sys.stderr, 'date: %s' % (date)
+        print >> sys.stderr, 'unixtime: %s' % (unixtime)
+        print >> sys.stderr, 'unixtime not numeric!'
+        sys.exit(6)
+
+    unixtime_string_length_is = len(unixtime)
+    unixtime_string_length_max = 10
+
+    if unixtime_string_length_is > unixtime_string_length_max:
+        print >> sys.stderr, 'unixtime conversion failed!'
+        print >> sys.stderr, 'data: %s' % (data)
+        print >> sys.stderr, 'date: %s' % (date)
+        print >> sys.stderr, 'unixtime: %s' % (unixtime)
+        print >> sys.stderr, 'unixtime_string_length_is: %s' % (unixtime_string_length_is)
+        print >> sys.stderr, 'unixtime_string_length_max: %s' % (unixtime_string_length_max)
+        print >> sys.stderr, 'unixtime has excessive string length!'
+        sys.exit(7)
+
+    return unixtime
 
 try:
     socket_ip =sys.argv[1]
     socket_port = int(sys.argv[2])
     url = sys.argv[3]
+
 except IndexError as e:
-   print >> sys.stderr, "Parsing command line parameter failed. | e: %s" % (e)
-   sys.exit(1)
+    print >> sys.stderr, "Parsing command line parameter failed. | e: %s" % (e)
+    sys.exit(1)
 
 s = socks.socksocket()
 s.setproxy(socks.PROXY_TYPE_SOCKS5, socket_ip, socket_port)
 
 try:
     s.connect((url, 80))
+
 except IOError as e:
     print >> sys.stderr, e
     sys.exit(2)
@@ -29,45 +93,24 @@ while len(buf):
     buf = s.recv(1024)
 s.close()
 
-date = ''
-date_pos = data.find('Date:') + 6
-date = data[date_pos:date_pos + 30].strip()
-if date == '':
-   print >> sys.stderr, 'Parsing HTTP header date failed.'
-   sys.exit(3)
+## data sanity check.
+date_tring_start_position = data_sanity_check(data)
+
+## date string sanity check.
+http_time = httptime_sanity_check(date_tring_start_position)
 
 try:
     ## Thanks to:
     ## eumiro
     ## http://stackoverflow.com/a/3894047/2605155
-    unixtime = parse(date).strftime('%s')
+    parsed_unixtime = parse(http_time).strftime('%s')
+
 except ValueError as e:
-   print >> sys.stderr, ('Parsing date from server failed. | date: %s \
-                         | dateutil ValueError: %s' % (date, e))
-   sys.exit(4)
+    print >> sys.stderr, ('Parsing date from server failed. | date: %s \
+                        | dateutil ValueError: %s' % (http_time, e))
+    sys.exit(5)
 
-#print data
-#print date
-
-if not unixtime.isdigit():
-   print >> sys.stderr, 'unixtime conversion failed!'
-   print >> sys.stderr, 'data: %s' % (data)
-   print >> sys.stderr, 'date: %s' % (date)
-   print >> sys.stderr, 'unixtime: %s' % (unixtime)
-   print >> sys.stderr, 'unixtime not numeric!'
-   sys.exit(5)
-
-unixtime_string_length_is = len(unixtime)
-unixtime_string_length_max = 10
-
-if unixtime_string_length_is > unixtime_string_length_max:
-   print >> sys.stderr, 'unixtime conversion failed!'
-   print >> sys.stderr, 'data: %s' % (data)
-   print >> sys.stderr, 'date: %s' % (date)
-   print >> sys.stderr, 'unixtime: %s' % (unixtime)
-   print >> sys.stderr, 'unixtime_string_length_is: %s' % (unixtime_string_length_is)
-   print >> sys.stderr, 'unixtime_string_length_max: %s' % (unixtime_string_length_max)
-   print >> sys.stderr, 'unixtime has excessive string length!'
-   sys.exit(6)
+## unixtime sanity check.
+unixtime = unixtime_sanity_check(parsed_unixtime)
 
 print "%s" % unixtime
