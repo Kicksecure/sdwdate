@@ -101,14 +101,19 @@ def http_time_to_parsed_unixtime(http_time):
 
     return(parsed_unixtime)
 
-try:
-    socket_ip = sys.argv[1]
-    socket_port = int(sys.argv[2])
-    url = sys.argv[3]
+def parse_command_line_parameters():
+    try:
+        socket_ip = sys.argv[1]
+        socket_port = int(sys.argv[2])
+        url = sys.argv[3]
 
-except IndexError as e:
-    print >> sys.stderr, "Parsing command line parameter failed. | e: %s" % (e)
-    sys.exit(1)
+    except IndexError as e:
+        print >> sys.stderr, "Parsing command line parameter failed. | e: %s" % (e)
+        sys.exit(1)
+
+    return(socket_ip, socket_port, url)
+
+socket_ip, socket_port, url = parse_command_line_parameters()
 
 data = request_data_from_remote_server(socket_ip, socket_port, url)
 
