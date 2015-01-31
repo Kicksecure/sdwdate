@@ -8,21 +8,27 @@ import sys, socks
 from dateutil.parser import parse
 from datetime import datetime
 
-def http_time(data):
+def data_sanity_check(data):
     date_pos = data.find('Date:')
+
     if date_pos == -1:
         ## not found, check if lowercase.
         date_pos = data.find('date:')
+
     if date_pos == -1:
         ## "Date:" not found.
         print >> sys.stderr, 'Parsing HTTP header date failed.'
+        print >> sys.stderr, 'HTTP header data:\n %s' % data
         sys.exit(3)
 
     date_pos = date_pos + 6
+    return date_pos
 
+def httptime_sanity_check(date_pos):
     http_time = ''
     ## max accepted string length.
     http_time = data[date_pos:date_pos + 29].strip()
+
     ## min string length = max string length.
     if len(http_time) < 29:
         print >> sys.stderr, 'HTTP header date string too short.'
@@ -35,6 +41,7 @@ def http_time(data):
 def unixtime_sanity_check(unixtime):
     try:
         unixtime_digit = int(unixtime)
+
     except ValueError as e:
         print >> sys.stderr, 'unixtime conversion failed!'
         print >> sys.stderr, 'data: %s' % (data)
@@ -56,12 +63,13 @@ def unixtime_sanity_check(unixtime):
         print >> sys.stderr, 'unixtime has excessive string length!'
         sys.exit(7)
 
-    return True
+    return unixtime
 
 try:
     socket_ip =sys.argv[1]
     socket_port = int(sys.argv[2])
     url = sys.argv[3]
+
 except IndexError as e:
     print >> sys.stderr, "Parsing command line parameter failed. | e: %s" % (e)
     sys.exit(1)
@@ -71,6 +79,7 @@ s.setproxy(socks.PROXY_TYPE_SOCKS5, socket_ip, socket_port)
 
 try:
     s.connect((url, 80))
+
 except IOError as e:
     print >> sys.stderr, e
     sys.exit(2)
@@ -84,36 +93,24 @@ while len(buf):
     buf = s.recv(1024)
 s.close()
 
-#data = 'Date: Fri, 30 Jan 2015 20:11:52 GMT'
+## data sanity check.
+date_tring_start_position = data_sanity_check(data)
 
-## data sanity check
-http_time = http_time(data)
+## date string sanity check.
+http_time = httptime_sanity_check(date_tring_start_position)
+
 try:
     ## Thanks to:
     ## eumiro
     ## http://stackoverflow.com/a/3894047/2605155
-    unixtime_http = parse(http_time).strftime('%s')
+    parsed_unixtime = parse(http_time).strftime('%s')
+
 except ValueError as e:
     print >> sys.stderr, ('Parsing date from server failed. | date: %s \
                         | dateutil ValueError: %s' % (http_time, e))
     sys.exit(5)
 
-if unixtime_sanity_check(unixtime_http):
-    ## last sanity check: time offset.
-    local_time_raw = datetime.now()
-    local_time = format(local_time_raw, '%a, %d %b %Y %H:%M:%S GMT')
-    unixtime_local = parse(local_time).strftime('%s')
-    ## may be overkill, but the function is there.
-    if unixtime_sanity_check(unixtime_local):
-        time_offset = 1000
-        ## reject values too far away.
-        if int(unixtime_http) not in range(int(unixtime_local) - int(time_offset), \
-                                           int(unixtime_local) + int(time_offset)):
-            print >> sys.stderr, 'Rejecting "%s", time offset is too big.' % url
-            sys.exit(8)
+## unixtime sanity check.
+unixtime = unixtime_sanity_check(parsed_unixtime)
 
-#print '%s' % local_time
-#print '%s' % unixtime_local
-
-#print '%s' % http_time
-print "%s" % unixtime_http
+print "%s" % unixtime
