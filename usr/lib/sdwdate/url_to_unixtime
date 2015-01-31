@@ -18,7 +18,7 @@ def data_to_date_string_start_position(data):
     if date_string_start_position == -1:
         ## "Date:" not found.
         print >> sys.stderr, 'Parsing HTTP header date failed.'
-        print >> sys.stderr, 'HTTP header data:\n %s' % data
+        print >> sys.stderr, 'HTTP header data:\n %s' % (data)
         sys.exit(3)
 
     date_string_start_position = date_string_start_position + 6
