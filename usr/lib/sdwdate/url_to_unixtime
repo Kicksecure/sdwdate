@@ -29,10 +29,12 @@ def data_to_http_time(data, date_string_start_position):
     ## max accepted string length.
     http_time = data[date_string_start_position:date_string_start_position + 29].strip()
 
+    http_time_string_length = len(http_time)
+
     ## min string length = max string length.
-    if len(http_time) < 29:
+    if http_time_string_length < 29:
         print >> sys.stderr, 'HTTP header date string too short.'
-        print >> sys.stderr, 'HTTP header date length: %s' % len(http_time)
+        print >> sys.stderr, 'HTTP header date length: %s' % http_time_string_length
         print >> sys.stderr, 'HTTP header date value: "%s"' % (http_time)
         sys.exit(4)
 
