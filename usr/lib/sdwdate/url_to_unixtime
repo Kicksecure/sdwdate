@@ -18,7 +18,7 @@ def data_to_date_string_start_position(data):
     if date_string_start_position == -1:
         ## "Date:" not found.
         print >> sys.stderr, 'Parsing HTTP header date failed.'
-        print >> sys.stderr, 'HTTP header data:\n %s' % (data)
+        print >> sys.stderr, 'HTTP header data:\n%s' % (data)
         sys.exit(3)
 
     date_string_start_position = date_string_start_position + 6
@@ -35,7 +35,7 @@ def data_to_http_time(data, date_string_start_position):
     if http_time_string_length < 29:
         print >> sys.stderr, 'HTTP header date string too short.'
         print >> sys.stderr, 'HTTP header date length: %s' % http_time_string_length
-        print >> sys.stderr, 'HTTP header data:\n %s' % (data)
+        print >> sys.stderr, 'HTTP header data:\n%s' % (data)
         print >> sys.stderr, 'HTTP header date value: "%s"' % (http_time)
         sys.exit(4)
 
