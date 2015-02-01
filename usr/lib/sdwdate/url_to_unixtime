@@ -6,7 +6,6 @@
 
 import sys, socks
 from dateutil.parser import parse
-from datetime import datetime
 
 def data_to_date_string_start_position(data):
     date_string_start_position = data.find('Date:')
@@ -75,7 +74,7 @@ def request_data_from_remote_server(socket_ip, socket_port, url):
     try:
         s.connect((url, 80))
 
-    except IOError as e:
+    except Exception as e:
         print >> sys.stderr, 'connect error: %s' % (e)
         sys.exit(2)
 
@@ -118,13 +117,14 @@ def parse_command_line_parameters():
 
     return(socket_ip, socket_port, url)
 
-def main_function():
+def main():
    socket_ip, socket_port, url = parse_command_line_parameters()
    data = request_data_from_remote_server(socket_ip, socket_port, url)
    date_string_start_position = data_to_date_string_start_position(data)
    http_time = data_to_http_time(data, date_string_start_position)
    parsed_unixtime = http_time_to_parsed_unixtime(data, http_time)
    unixtime = unixtime_sanity_check(data, http_time, parsed_unixtime)
+
    print "%s" % unixtime
 
-main_function()
+main()
