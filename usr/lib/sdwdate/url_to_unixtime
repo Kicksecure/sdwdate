@@ -6,7 +6,6 @@
 
 import sys, socks
 from dateutil.parser import parse
-from datetime import datetime
 
 def data_to_date_string_start_position(data):
     date_string_start_position = data.find('Date:')
