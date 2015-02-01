@@ -75,7 +75,10 @@ def request_data_from_remote_server(socket_ip, socket_port, url):
         s.connect((url, 80))
 
     except Exception as e:
-        print >> sys.stderr, 'connect error: %s' % (e)
+        if str(e).startswith('__init__'):
+            print >> sys.stderr, 'connect error: URL "%s" not found.' % url
+        else:
+            print >> sys.stderr, 'connect error: %s' % (e)
         sys.exit(2)
 
     s.send('HEAD / HTTP/1.0\r\n\r\n')
@@ -111,7 +114,7 @@ def parse_command_line_parameters():
         socket_port = int(sys.argv[2])
         url = sys.argv[3]
 
-    except IndexError as e:
+    except (IndexError) as e:
         print >> sys.stderr, "Parsing command line parameter failed. | e: %s" % (e)
         sys.exit(1)
 
