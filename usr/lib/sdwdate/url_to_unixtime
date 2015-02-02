@@ -4,7 +4,10 @@
 ## Copyright (C) 2015 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-## Usage example:
+## Usage:
+## /usr/lib/sdwdate/url_to_unixtime socket_ip socket_port url remote_port
+
+## Example:
 ## /usr/lib/sdwdate/url_to_unixtime 127.0.0.1 9050 check.torproject.org 443
 
 import sys, socks
