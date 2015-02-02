@@ -5,10 +5,10 @@
 ## See the file COPYING for copying conditions.
 
 ## Usage:
-## /usr/lib/sdwdate/url_to_unixtime socket_ip socket_port url remote_port
+## /usr/lib/sdwdate/url_to_unixtime socket_ip socket_port url remote_port verbosity
 
 ## Example:
-## /usr/lib/sdwdate/url_to_unixtime 127.0.0.1 9050 check.torproject.org 443
+## /usr/lib/sdwdate/url_to_unixtime 127.0.0.1 9050 check.torproject.org 80 true
 
 import sys, socks
 from dateutil.parser import parse
@@ -120,21 +120,28 @@ def parse_command_line_parameters():
         socket_port = int(sys.argv[2])
         url = sys.argv[3]
         remote_port = int(sys.argv[4])
+        verbosity = sys.argv[5]
 
     except (IndexError) as e:
         print >> sys.stderr, "Parsing command line parameter failed. | e: %s" % (e)
         sys.exit(1)
 
-    return(socket_ip, socket_port, url, remote_port)
+    return(socket_ip, socket_port, url, remote_port, verbosity)
+
+def output_unixtime(data, http_time, parsed_unixtime, unixtime, verbosity):
+    if verbosity == "true":
+        print >> sys.stderr, 'data: %s' % (data)
+        print >> sys.stderr, 'http_time: %s' % (http_time)
+        print >> sys.stderr, 'parsed_unixtime: %s' % (parsed_unixtime)
+    print "%s" % unixtime
 
 def main():
-   socket_ip, socket_port, url, remote_port = parse_command_line_parameters()
+   socket_ip, socket_port, url, remote_port, verbosity = parse_command_line_parameters()
    data = request_data_from_remote_server(socket_ip, socket_port, url, remote_port)
    date_string_start_position = data_to_date_string_start_position(data)
    http_time = data_to_http_time(data, date_string_start_position)
    parsed_unixtime = http_time_to_parsed_unixtime(data, http_time)
    unixtime = unixtime_sanity_check(data, http_time, parsed_unixtime)
-
-   print "%s" % unixtime
+   output_unixtime(data, http_time, parsed_unixtime, unixtime, verbosity)
 
 main()
