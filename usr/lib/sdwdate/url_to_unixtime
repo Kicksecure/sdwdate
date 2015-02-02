@@ -67,12 +67,12 @@ def unixtime_sanity_check(data, http_time, parsed_unixtime):
 
     return parsed_unixtime
 
-def request_data_from_remote_server(socket_ip, socket_port, url):
+def request_data_from_remote_server(socket_ip, socket_port, url, remote_port):
     s = socks.socksocket()
     s.setproxy(socks.PROXY_TYPE_SOCKS5, socket_ip, socket_port)
 
     try:
-        s.connect((url, 80))
+        s.connect((url, remote_port))
 
     except Exception as e:
         if str(e).startswith('__init__'):
@@ -113,16 +113,17 @@ def parse_command_line_parameters():
         socket_ip = sys.argv[1]
         socket_port = int(sys.argv[2])
         url = sys.argv[3]
+        remote_port = int(sys.argv[4])
 
     except (IndexError) as e:
         print >> sys.stderr, "Parsing command line parameter failed. | e: %s" % (e)
         sys.exit(1)
 
-    return(socket_ip, socket_port, url)
+    return(socket_ip, socket_port, url, remote_port)
 
 def main():
-   socket_ip, socket_port, url = parse_command_line_parameters()
-   data = request_data_from_remote_server(socket_ip, socket_port, url)
+   socket_ip, socket_port, url, remote_port = parse_command_line_parameters()
+   data = request_data_from_remote_server(socket_ip, socket_port, url, remote_port)
    date_string_start_position = data_to_date_string_start_position(data)
    http_time = data_to_http_time(data, date_string_start_position)
    parsed_unixtime = http_time_to_parsed_unixtime(data, http_time)
