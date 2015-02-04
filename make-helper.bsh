@@ -4,7 +4,7 @@
 ## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-## generic deb build script version 1.0
+## generic deb build script version 1.3
 
 ## This is a copy.
 ## master location:
@@ -128,6 +128,11 @@ make_parse_cmd() {
                make_deb-cleanup
                shift
                ;;
+           lintian)
+               matched="true"
+               make_lintian
+               shift
+               ;;
            dput-ubuntu-ppa)
                matched="true"
                make_dput-ubuntu-ppa
@@ -184,6 +189,12 @@ make_parse_cmd() {
            deb-chl-bumpup)
                matched="true"
                make_deb-chl-bumpup
+               exit 0
+               shift
+               ;;
+           deb-uachl-bumpup)
+               matched="true"
+               make_deb-uachl-bumpup
                exit 0
                shift
                ;;
@@ -256,18 +267,6 @@ make_parse_cmd() {
 make_get_variables() {
    local temp dpkg_line
    command -v dpkg-parsechangelog >/dev/null
-
-   ## When using python setup.py packaging method, there is no debian folder,
-   ## because that folder gets only temporarily created. To be able to use
-   ## common code to parse debian/changelog and debian/control, we temporarily
-   ## create that debian folder. We must delete it later, otherwise setup.py
-   ## would complain about an existing debian folder.
-   if [ -f "setup.py" ]; then
-      if [ -d "debian" ]; then
-         rm -r "debian"
-      fi
-      python setup.py --command-packages=stdeb.command debianize
-   fi
 
    while read -r -d $'\n' dpkg_line; do
       ## Example dpkg_line:
@@ -353,18 +352,15 @@ make_get_variables() {
       make_upstream_tarball="${make_upstream_tarball,,}"
    fi
 
-   ## When using python setup.py packaging method, remove temporary debian
-   ## folder, that we created above.
-   if [ -f "setup.py" ]; then
-      if [ -d "debian" ]; then
-         rm -r "debian"
-      fi
-   fi
+   make_upstream_tarball_source_folder_name="${make_source_package_name}-${make_pkg_version}"
 }
 
 make_get_destdir() {
    if [ "$DESTDIR" = "" ]; then
       DESTDIR="/"
+   fi
+   if type -t make_hook_at_the_end_of_get_destdir ; then
+      make_hook_at_the_end_of_get_destdir
    fi
 }
 
@@ -390,7 +386,7 @@ make undebdist
 make manpages
    Create man page from man source folder, which will be stored in debian/tmp-man folder.
 make uch
-   Store upstream changelog from git log in debian/changelog.upstream.
+   Store upstream changelog from git log in changelog.upstream.
 make install
    Copying the files from the source tree to system-wide directories.
 make installsim
@@ -429,6 +425,8 @@ make uninstallsim
    Simulate what make uninstall would do.
 make deb-chl-bumpup
    Bump upstream version number in debian/changelog.
+make deb-uachl-bumpup
+   Combination of make uch and make deb-chl-bumpup.
 make git-tag-sign
    git tag (-s) sign latest pkg_version_with_revision from debian/changelog. Only a repository sanity check. Not for security purposes!
 make git-tag-verify
@@ -444,12 +442,16 @@ make git-verify
 make_dist() {
    make_undist
 
+   ## Thanks to Andy Balaam who inspired on
+   ## http://superuser.com/a/599420/255849
+   ## how to prepend a folder name by using tar with --transform.
+
    find \
       "." \
-      -not \
-      -iwholename '*.git*' \
+      -not -iwholename '*.git*' \
       -print0 \
          | tar \
+            --transform "s,^\\.,$make_upstream_tarball_source_folder_name," \
             --null \
             --no-recursion \
             --create \
@@ -470,7 +472,9 @@ make_debdist() {
    ## TODO: differs from tarballs created by dpkg-source for some reason.
    ##       For diagnose, example:
    ##       diff <(tar -tvf anon-apt-sources-list_0.7-1.debian.tar.gz) <(tar -tvf _anon-apt-sources-list_0.7-1.debian.tar.gz)
-   find "debian" \
+   find \
+      "debian" \
+      -not -iwholename '*.git*' \
       -print0 \
          | tar \
             --null \
@@ -481,7 +485,7 @@ make_debdist() {
             --numeric-owner \
             -T \
             - \
-            | gzip -9 -n > "$make_debian_tarball"
+               | gzip -9 -n > "$make_debian_tarball"
 
    ls -la "$make_debian_tarball"
 }
@@ -526,8 +530,8 @@ make_manpages() {
 }
 
 make_uch() {
-   git log > "$PWD/debian/changelog.upstream"
-   test -f "$PWD/debian/changelog.upstream"
+   git log > "$PWD/changelog.upstream"
+   test -f "$PWD/changelog.upstream"
 }
 
 make_clean() {
@@ -537,42 +541,67 @@ make_clean() {
 make_deb-pkg_shared() {
    make_dist
 
+   if [ "$make_use_gain_root_command" = "" ]; then
+      if [ -x "$PWD/debian/gain-root-command" ]; then
+         if command -v faketime >/dev/null 2>&1 ; then
+            true "INFO: make_use_gain_root_command was unset, \
+\"$PWD/debian/gain-root-command\" is executable and faketime is installed. \
+Therefore automatically set make_use_gain_root_command=\"true\""
+            make_use_gain_root_command="true"
+         fi
+      fi
+   fi
+
    if [ "$make_use_gain_root_command" = "true" ]; then
       local make_use_gain_root_command_maybe_switch make_use_gain_root_command_maybe_path
       make_use_gain_root_command_maybe_switch="--rootcmd="
       make_use_gain_root_command_maybe_path="$PWD/debian/gain-root-command"
    fi
 
-   if [ -f "setup.py" ]; then
-      "./build_deb.sh"
-      mv "deb_dist/"*".deb" ../
-      mv "deb_dist/"*".dsc" ../
-      mv "deb_dist/"*".tar.gz" ../
-      mv "deb_dist/"*".changes" ../
-   else
-      ## Using --no-lintian, because debuild does not exist with a non-zero exit
-      ## code, should lintian find an error. Therefore running lintian afterwards.
-      debuild \
-         --no-lintian \
-         ${make_use_gain_root_command_maybe_switch}${make_use_gain_root_command_maybe_path} \
-         -sa \
-         $make_debuild_maybe_unsigned_opts \
-         ${1+"$@"}
-   fi
+   ## Using --no-lintian, because debuild does not exist with a non-zero exit
+   ## code, should lintian find an error. Therefore running lintian afterwards.
+   debuild \
+      --no-lintian \
+      ${make_use_gain_root_command_maybe_switch}${make_use_gain_root_command_maybe_path} \
+      -sa \
+      $make_debuild_maybe_unsigned_opts \
+      ${1+"$@"}
 
-   if [ "$make_use_lintian" = "true" ]; then
-      if [ "$DEBUILD_LINTIAN_OPTS" = "" ]; then
-         export DEBUILD_LINTIAN_OPTS="--info --display-info --fail-on-warnings"
-      fi
-      if [ -f "setup.py" ]; then
-         lintian $DEBUILD_LINTIAN_OPTS "../$make_main_dsc_file_name"
+   if [ "$make_use_lintian" = "false" ]; then
+      true "INFO: make_use_lintian is set to false, skipping lintian."
+   elif [ "$make_use_lintian" = "true" ]; then
+      true "INFO: make_use_lintian is set to true, running lintian..."
+      make_lintian
+   else
+      true "INFO: make_use_lintian is neither set to true or false. Autodetecting if lintian is installed..."
+      if command -v lintian >/dev/null 2>&1 ; then
+         true "INFO: lintian auto detected, using it..."
+         make_lintian
       else
-         lintian $DEBUILD_LINTIAN_OPTS
+         true "INFO: lintian not installed, skipping."
       fi
    fi
 
    test -f "$make_main_deb_file"
    true "INFO: You can find your deb file here: $make_main_deb_file"
+}
+
+make_lintian() {
+   if [ "$DEBUILD_LINTIAN_OPTS" = "" ]; then
+      export DEBUILD_LINTIAN_OPTS="--pedantic --info --display-info --fail-on-warnings"
+   fi
+   local make_lintian_exit_code="0"
+   lintian $DEBUILD_LINTIAN_OPTS || { make_lintian_exit_code="$?" ; true; };
+   if [ "$make_lintian_exit_code" = "0" ]; then
+      true "INFO: lintian exited 0."
+   else
+      if [ "$make_use_lintian" = "true" ]; then
+         true "ERROR: lintian exited $make_lintian_exit_code. Failing closed."
+         exit "$make_lintian_exit_code"
+      else
+         true "WARNING: lintian exited $make_lintian_exit_code. Failing open."
+      fi
+   fi
 }
 
 make_deb-pkg() {
@@ -631,7 +660,6 @@ make_deb-clean() {
       for to_delete in \
          "debian/$package.debhelper.log" \
          "debian/$package.substvars" \
-         "debian/changelog.upstream" \
          "debian/files" \
          "debian/$package.prerm.debhelper" \
          "debian/$package.postinst.debhelper" \
@@ -683,17 +711,26 @@ make_checkout() {
 
 make_helper() {
    make_get_destdir
+   [ -n "$make_folder_list_for_un_and_install" ] || make_folder_list_for_un_and_install="bin boot dev etc home lib opt sbin srv sys usr var"
    shopt -s globstar dotglob nullglob
    local d source_file file_without_pwd file_with_destdir
-   for d in bin boot dev etc home lib opt sbin srv sys usr var; do
+   for d in $make_folder_list_for_un_and_install; do
       if [ -d "$d" ]; then
          for source_file in "$PWD/$d"/**; do
             if [ "$make_install_" = "true" ]; then
+               if [ ! -d "$DESTDIR" ]; then
+                  mkdir --parents "$DESTDIR"
+               fi
                cp -R "$d" "$DESTDIR"
-               continue
+               break
             elif [ "$make_installsim_" = "true" ]; then
-               true "INFO: would do: cp -R $d $DESTDIR"
-               continue
+               if [ ! -d "$DESTDIR" ]; then
+                  true "INFO: would do: mkdir --parents \"$DESTDIR\""
+               else
+                  true "INFO: No need to run, because folder already exists: mkdir --parents \"$DESTDIR\""
+               fi
+               true "INFO: would do: cp -R \"$d\" \"$DESTDIR\""
+               break
             fi
             if [ ! -f "$source_file" ]; then
                continue
@@ -761,6 +798,14 @@ make_uninstallsim() {
 make_deb-chl-bumpup() {
    command -v debchange >/dev/null
 
+   if [ "$DEBEMAIL" = "" ]; then
+      ## Otherwise e-mail address in debian/changelog would default to
+      ## user@host.localdomain and then lintian would complain and exit with
+      ## failure code.
+      echo "ERROR: environment variable DEBEMAIL may not be empty!" >&2
+      exit 1
+   fi
+
    make_get_variables
 
    local new_upstream_version_without_leading_zero new_upstream_version new_changelog_version new_revision
@@ -784,6 +829,11 @@ $new_changelog_version"
    debchange \
       --release \
       ""
+}
+
+make_deb-uachl-bumpup() {
+   make_uch
+   make_deb-chl-bumpup
 }
 
 make_git_tag_shared() {
@@ -869,6 +919,36 @@ make_git_verify() {
    echo "Ok, current git head is a signed git commit and a signed git tag."
 }
 
+make_source_overrides_file() {
+   if [ -x "./make-helper-overrides.bsh" ]; then
+      bash -n "./make-helper-overrides.bsh"
+      source "./make-helper-overrides.bsh"
+   fi
+}
+
+make_source_overrides_folder() {
+   if [ -d "./make-helper-overrides.d" ]; then
+      local i
+      for i in "./make-helper-overrides.d/"*; do
+         if [ -x "$i" ]; then
+            ## If the last character is a ~, ignore that file,
+            ## because it was created by some editor,
+            ## which creates backup files.
+            if [ "${i: -1}" = "~" ]; then
+               continue
+            fi
+            ## Skipping files such as .dpkg-old and .dpkg-dist.
+            if ( echo "$i" | grep -q ".dpkg-" ); then
+               true "skip $i"
+               continue
+            fi
+            bash -n "$i"
+            source "$i"
+         fi
+      done
+   fi
+}
+
 if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
    make_script_was_sourced="true"
 else
@@ -887,6 +967,9 @@ if [ "$make_script_was_sourced" = "false" ]; then
 
    cd "${BASH_SOURCE[0]%/*}"
    make_mydir="${PWD##*/}"
+
+   make_source_overrides_file
+   make_source_overrides_folder
 
    make_parse_cmd ${1+"$@"}
 fi

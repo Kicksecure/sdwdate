@@ -33,7 +33,7 @@ $SCRIPTNAME [-aDdlpqTux] [long options...]
         --pool_two                            distrusted hostnames
         --pool_three                          distrusted hostnames
         --allowed_per_pool_failure_ratio      ratio (0.0-1.0) of allowed per-pool failure
-        -p --proxy                            what to pass to curl's --socks5-hostname
+        -p --proxy                            what to pass to curl's --proxy
         -i --interval                         continuously run every x minutes
         --mininterval                         wait minimum between intervals
         -r --randomize                        randomize interval
@@ -882,7 +882,7 @@ sdwdate_get_time_from_remote() {
    if [ "$PROXY" = "" ]; then
       CURL_PROXY=""
    else
-      CURL_PROXY="--socks5-hostname $PROXY"
+      CURL_PROXY="--proxy $PROXY"
    fi
 
    sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]="0"

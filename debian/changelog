@@ -1,3 +1,9 @@
+sdwdate (3:1.8-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Wed, 04 Feb 2015 00:52:10 +0000
+
 sdwdate (3:1.7-1) unstable; urgency=low
 
   * New upstream version.

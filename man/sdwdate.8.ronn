@@ -87,7 +87,7 @@ Builds mediate time by asking three https servers from three different pools.
 
   * -p --proxy proxy
 
-    what to pass to curl's --socks5-hostname
+    what to pass to curl's --proxy
 
   * -i --interval minutes
 

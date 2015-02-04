@@ -1,0 +1,2024 @@
+commit 206024034ea0594d41442778cd23a9ee534bd23d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 4 00:44:59 2015 +0000
+
+    added changelog.upstream
+
+commit 3433f1893da4d6dc8005ae6017295260369cab56
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 4 00:40:49 2015 +0000
+
+    updated makefile generic to version 1.3
+
+commit 7c62a8ed9c4b6b16ef81589c9f21e41e2415544d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Feb 3 23:58:52 2015 +0000
+
+    Added creation of upstream changelog to debian/rules
+
+commit 1882d21b505b11bba717e783e4c69f81a5602168
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 2 19:55:21 2015 +0000
+
+    added verbose output option
+
+commit bb31d9335b6a7f34ba4f6e6feb626337fa3919fd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 2 19:47:41 2015 +0000
+
+    comment
+
+commit 96743823b3bfd7da361418f294848d479ac1ccc8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 2 19:43:54 2015 +0000
+
+    comment
+
+commit b16ad3c11600c646e377d833b5ce6546787a3948
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 2 19:42:22 2015 +0000
+
+    made remote port configurable
+
+commit d6c841ec146cf7b3b551e0037592f196200125df
+Merge: 7edd0a9 c34a933
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 2 17:02:34 2015 +0000
+
+    Merge remote-tracking branch 'troubadoour/master'
+
+commit c34a9332b2fcec89d4d08910e3be05f649b6d919
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Feb 1 19:14:27 2015 +0000
+
+    python "__init__ error" -> "URL not found"
+
+commit 7edd0a90516ad8686e080374c3085762e9d0d6fd
+Merge: fe19ed7 3b48433
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Feb 1 13:44:55 2015 +0000
+
+    Merge remote-tracking branch 'troubadoour/master'
+
+commit 3b48433bdf4bcddcf4009ca242408bd32e8088f3
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Feb 1 09:25:15 2015 +0000
+
+    "except Exception" (catch all) in request_data_from_remote_server()
+
+commit 14c575184086a0ed39920a60fb938dbee3dac363
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Feb 1 09:21:52 2015 +0000
+
+    main_function() -> main()
+
+commit 4ac7ca16648a6295092c15bb5af3811400cc3d01
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Feb 1 09:18:57 2015 +0000
+
+    removed unused import (datetime)
+
+commit fe19ed7c1e1d491a6463e4453d63152d3b8fe5e3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 31 17:42:28 2015 +0000
+
+    output
+
+commit db25b4c81473d38f8f285d71b740841dc2918bd3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 31 17:28:18 2015 +0000
+
+    output, removed extra space after newline
+
+commit 72aa1836456317e83471d961736a524be40bd404
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 31 17:27:35 2015 +0000
+
+    improved debug output
+
+commit 0de85f91722c76efeae5c55291c91133a45f4c3a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 31 17:16:43 2015 +0000
+
+    minor
+
+commit 136bde4dd5ac15b57d3c83c95be1057d429600f8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 31 17:16:21 2015 +0000
+
+    output
+
+commit 5fbec87bec86c42a9d64984c3e138fe987a3cde7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 31 17:15:14 2015 +0000
+
+    more debug output
+
+commit 212e0158915ac5bf2b946b8226cdbd9796d0c226
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 31 17:12:56 2015 +0000
+
+    calculate len(http_time) just once, put into new variable http_time_string_length
+
+commit c9033850a66ae273661961bedf3640002bb282b4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 31 17:09:33 2015 +0000
+
+    refactoring, put individual calls into main_function, avoided use of global variables
+
+commit 3e14d446ab53250d91d15bb550cae4e5499b3411
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 31 16:52:50 2015 +0000
+
+    refactoring, put command line parser into its own function parse_command_line_parameters
+
+commit 3cf119cf97f86a53c04ef9b7cb722a152819a48e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 31 16:46:44 2015 +0000
+
+    refactoring, put parsing of "Date:" field into its own function http_time_to_parsed_unixtime
+
+commit cf449e1e9f0394c1eb31f102e0e667b5ed063fb7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 31 16:42:36 2015 +0000
+
+    removed obsolete comments
+
+commit 9587763da03ea042abf44137266f08a8f0117338
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 31 16:41:20 2015 +0000
+
+    fixed type, renamed variable, date_tring_start_position -> date_string_start_position
+
+commit 9b318332120a0de7dc054e5cb90ce635b4e6c284
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 31 16:40:23 2015 +0000
+
+    refactoring, put connection attempt into its own function request_data_from_remote_server
+
+commit f00d7289b39a79ac7be34862c19d10ec92bed706
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 31 16:31:33 2015 +0000
+
+    refactoring, renamed functions that were named *_sanity_test, but which were not just sanity checks, that did string parsing and sanity checks, to what they do
+
+commit 6d5b6d2167d1973632a89fb19166d8661408b697
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 31 16:26:41 2015 +0000
+
+    minor
+
+commit 8275e9207779e6a7481f5f247caef6048ccde582
+Merge: 9e01e65 315728b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 31 16:24:39 2015 +0000
+
+    Merge remote-tracking branch 'troubadoour/master'
+
+commit 315728bfff5e56055c4927a11c0188d35f402e77
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Jan 31 14:54:02 2015 +0000
+
+    sanity checks
+
+commit 37ab6ab52f5eebe6b8cf5dcbfe5ca76dec414283
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Jan 30 21:25:02 2015 +0000
+
+    license header
+
+commit 1db87b343fe1bcb1f56febfe91ee810d7e234725
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Jan 30 21:10:26 2015 +0000
+
+    exit codes.
+
+commit 1157ff5c81880929abb60356a026e014abf7b0ad
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Jan 30 20:22:22 2015 +0000
+
+    sanity checks.
+
+commit 900e21427b156ed666312c6145822ea584bd84f0
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Jan 30 16:01:22 2015 +0000
+
+    minor changes in sanity check.
+    added reject if unixtime > max time offset.
+
+commit 9e01e6568c122db1eeff9181ab309d150395c5b4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 29 01:18:45 2015 +0000
+
+    url_to_unixtime: check that string length is no bigger than 10
+
+commit 1fbd311da53107aefd5aeceb377a7b1cb3c863b4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 29 01:10:36 2015 +0000
+
+    url_to_unixtime: check if date conversion result is numeric
+
+commit 2d694d127aae7e9976d73325c87f4f2a63720c1e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 29 01:04:15 2015 +0000
+
+    url_to_unixtime: changed exit codes
+
+commit f41b882fee053e90711dcb84829458b4264682f7
+Merge: 698f1a8 afc95ea
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 29 00:59:47 2015 +0000
+
+    Merge remote-tracking branch 'troubadoour/master'
+
+commit afc95ea250f15b116f466c0af7a6ddf486096c67
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Jan 28 10:18:28 2015 +0000
+
+    + url_to_unixtime
+
+commit 698f1a8e612a12835bd12f753cc4e7f9da96583a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 17 22:55:58 2015 +0000
+
+    fixed changelog
+
+commit b3a2bbcfdb6d01fb1d1f8be1ba08cdb9305b1f88
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 10 16:59:35 2015 +0000
+
+    fix
+
+commit 94d587990101abea90587cfb6a53c0b9f6ab02c1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 9 21:28:42 2015 +0000
+
+    fix
+
+commit 379c7a4dd081f88928439e027eee82028c717aa8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 9 20:35:21 2015 +0000
+
+    simplified ERR traps by using errtrace
+
+commit 8b30434c2d7a856a655c29bdf20decb7e33d2f11
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 7 19:34:52 2015 +0000
+
+    bumped compat from 8 to 9
+
+commit 3c5dff97a6ab96b3596973fbb4982d41e7d1e7b3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 19 19:16:01 2014 +0000
+
+    bumped version number
+
+commit fd9918c7805f034b4531b092d7a125f4d9c0c36d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 16 02:20:40 2014 +0000
+
+    clean up /var/cache/sdwdate/.ruby_inline from previous versions
+
+commit 2b768717083fc9e7b1ff12d9e6ae58e975e5a1c6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 16 01:57:14 2014 +0000
+
+    debugging
+
+commit ddab4502cfa5959279c735f0f283401cd67d9be6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 16 01:43:06 2014 +0000
+
+    permission fix
+
+commit fa9aec989e9de7d22ccc4f6c16fc2acd105f8fa8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 5 19:01:18 2014 +0000
+
+    updated generic makefile
+
+commit e131fdc1a65ea2fd9b0d5e0e0002d81be6ab5135
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Nov 29 14:25:04 2014 +0000
+
+    cleanup / fix
+
+commit 55b58a73396e43d315c9914267485a380e6c2c4f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 21 15:54:27 2014 +0000
+
+    man page
+
+commit 3f2219955895866c8643c4cdf154714ef23cc80c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 21 15:49:59 2014 +0000
+
+    fix
+
+commit 7e2c4e6bca4fcc3e3d9f9956061bea8b90ca5828
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Nov 19 16:48:37 2014 +0000
+
+    fix
+
+commit c75069d4e775df36485306a4764bd73cff990e94
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Nov 15 03:03:55 2014 +0000
+
+    removed obsolete comment
+
+commit 7ea6b16a905c9a68acf99dd6fd28247f43462c28
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Nov 15 02:57:36 2014 +0000
+
+    unit test
+
+commit 642187320c4b810f09750269758bded9c9d1d20e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Nov 15 02:51:50 2014 +0000
+
+    fix
+
+commit db8b7b444b76028d28c59f719cd7140187726b7e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Nov 15 02:46:53 2014 +0000
+
+    refactoring step 2: moved commands outside of functions form usr/lib/sdwdate/modules.d/sdwdate to usr/bin/sdwdate so usr/lib/sdwdate/modules.d/sdwdate can be sourced (by unit test)
+
+commit 70d60ef7c9f0e96e578e5fb47315ab6e9e9174a3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Nov 15 02:35:13 2014 +0000
+
+    refactoring step 1: usr/bin/sdwdate -> usr/lib/sdwdate/modules.d/sdwdate
+
+commit ec0d88a0b2ca372937bc1806a689035bee266eb7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 14 19:22:48 2014 +0000
+
+    debugging
+
+commit 272af95221f263b15fd1fe8f5dc5c38fb2323bbc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 14 19:08:08 2014 +0000
+
+    improved error handler; refactoring
+
+commit 49b0a40f10575d2f047e0b1987cec580f0519ddd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 14 18:46:15 2014 +0000
+
+    refactoring
+
+commit f1167a20157cf579b6a52cebc2b8b6ece0a7b158
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 14 18:44:25 2014 +0000
+
+    comment
+
+commit 0f1613e9df1a99d0b8ac2643e404406ea5d5c44f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 14 18:37:01 2014 +0000
+
+    sclockadj: use warn instead of puts of error messages - https://github.com/Whonix/Whonix/issues/370
+
+commit dacd73afd32cb68915857e2263e0fddb61a1ea78
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 14 03:10:45 2014 +0000
+
+    sclockadj fix: Fail when run (as normal user) without rights to change clock. Check return codes of clock_gettime and clock_settime. https://github.com/Whonix/Whonix/issues/370
+
+commit d5b642181fe93c0f9b577012ca39f2099107c058
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 14 02:48:46 2014 +0000
+
+    indent
+
+commit 9324d67604190acef48ef711d56c5cddc1325f11
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 13 22:28:03 2014 +0000
+
+    comment
+
+commit be0923a46db1e3b6aff561b6e4b7c30a9d203c8a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 13 22:26:29 2014 +0000
+
+    sanity test
+
+commit 88e29d61d43414a7ba4b5430eb3ba18c1f71fca1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 13 22:20:28 2014 +0000
+
+    comment
+
+commit b27e595e9886bbf7c9de763508906839dd3a0ce8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 13 22:19:21 2014 +0000
+
+    stricter sudoers exceptions
+
+commit 676407f504b5c37bf1923428da9a52d122dc95d9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 13 22:15:48 2014 +0000
+
+    fix
+
+commit 936d4ccf2ffeb357d463b751c10c82b0b889ab88
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 13 21:53:24 2014 +0000
+
+    comment
+
+commit 4d6a56f487213900993f0272c43ffb3399f1626f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 13 21:37:53 2014 +0000
+
+    Fixed sclockadj home folder permission issue. When users had group writeable permission on their root home folder, sclockadj would break due to ruby-inline complaining. Thanks to Jason Ayala (@JasonJAyalaP) for help fixing this. Now using /var/cache/sdwdate by default as INLINE cache dir. - https://github.com/Whonix/Whonix/issues/365
+
+commit 9452673edebeb9f2df005379a876516dfa7e49ca
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 13 21:22:08 2014 +0000
+
+    Revert "Look for SDW_CACHE_DIR and set INLINEDIR"
+    
+    This reverts commit 0e094890cb5af8680f696f868ddb418d211ee088.
+
+commit 12ff7f4afc022ad36aec13ebb942b237627b6feb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 13 21:21:52 2014 +0000
+
+    Revert "Set INLINEDIR"
+    
+    This reverts commit 00740529edc537ed1db89426b554965a70977b8a.
+
+commit 00740529edc537ed1db89426b554965a70977b8a
+Author: Jason A <Github@JasonAyala.com>
+Date:   Wed Nov 12 20:37:15 2014 -0600
+
+    Set INLINEDIR
+
+commit 0e094890cb5af8680f696f868ddb418d211ee088
+Author: Jason A <Github@JasonAyala.com>
+Date:   Wed Nov 12 20:17:45 2014 -0600
+
+    Look for SDW_CACHE_DIR and set INLINEDIR
+
+commit 5e7cee3fcb17f4fdf174ab7906c75b784933cc0d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Nov 10 14:21:34 2014 +0000
+
+    improved error handler
+
+commit 0be81b4dd3f7c47359f23fccf12bdcc6efddf6e3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Nov 10 14:18:42 2014 +0000
+
+    improved error handler
+
+commit 6cbf81c2ab6c53924d5e04aa7a06b1edec056268
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Nov 10 14:12:19 2014 +0000
+
+    fix; Use own pid rather than /proc/sys/kernel/random/uuid as ID.; output
+
+commit a5742615f9fafeb75fbcc5f09343a463a873f3b2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Nov 10 13:39:34 2014 +0000
+
+    fix
+
+commit ad17f3b06030405abf775d6f11b68a36fe3cb6ae
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Nov 10 13:34:07 2014 +0000
+
+    fix; output; debugging
+
+commit 27de6dc982598e5482d1f34d2dc3ac9110cc6253
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Nov 10 12:18:27 2014 +0000
+
+    fix
+
+commit 1d931437485ee1093cf2d823c495320bddc66ca2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Nov 10 12:04:41 2014 +0000
+
+    sanity test
+
+commit 15ebbfec9ad76720aaf86676fac8a9bfeba85e34
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Nov 10 12:02:24 2014 +0000
+
+    output
+
+commit 7d8b97b9e8af1dbe0b413c17555ecfbff1d373cc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Oct 29 19:00:51 2014 +0000
+
+    fix
+
+commit 66bbc0161de2373756bcf598fde285ec658885ba
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Oct 29 00:04:48 2014 +0000
+
+    added libc6-dev as dependency to fix sclockadj error "/usr/include/ruby-2.1.0/ruby/defines.h:26:19: fatal error: stdio.h: No such file or directory" https://github.com/Whonix/Whonix/issues/360
+
+commit ef4be7f6feea10cfa004ba391d790532e01637eb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 28 22:35:28 2014 +0000
+
+    makefile: refactoring, avoid using IFS
+
+commit f7771bcaca130f3920daa5e9c879c91c62fbf892
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Oct 25 01:58:53 2014 +0000
+
+    makefile:
+    - make debdist; make undebdist
+    - cleanup
+    - refactoring
+
+commit dbf16001e01ae8fd43adae80ab54329e59b8620c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Oct 24 21:59:06 2014 +0000
+
+    added python dependency to fix lintian warning
+
+commit a4ac5828e8fc912d00cff70bd48f874ea1c89075
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Oct 24 21:55:20 2014 +0000
+
+    added python-dateutil dependency
+
+commit 084f4a93b2be4432984bc52eed56b610ba33c887
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Oct 23 22:43:04 2014 +0000
+
+    makefile:
+    - new target "make undist", which deletes the upstream tarball
+    - $DISTDIR variable for make (un)dist, which defaults to ".." and can be used to create upstream tarballs in arbitrary locations
+    - refactoring, all function names and global variables now start with "make_" to make the script `source`ing friendly
+    - made `source`able
+
+commit cb65df6cc4c6f168f8b18608eaf10c8ea2b570c1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Oct 22 23:36:48 2014 +0000
+
+    minor fix
+
+commit 5454501077f59211da3bed701d5ceda452640947
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Oct 22 23:34:47 2014 +0000
+
+    fix
+
+commit f4395928f7f8e6de0bf8713f765f62883e69864d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Oct 22 18:22:36 2014 +0000
+
+    output
+
+commit ca76b250c83cbbb2310892683c112172f2763029
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Oct 22 18:21:33 2014 +0000
+
+    Make sure /usr/lib/sdwdate/date_to_unixtime always times out using `timeout`.; Also catch stderr of /usr/lib/sdwdate/date_to_unixtime.
+
+commit 2d1a558af51734b2f7c1c8ccfab0b07f86493e01
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Oct 22 18:08:31 2014 +0000
+
+    /usr/lib/sdwdate/date_to_unixtime sanity tests
+
+commit 5306ca88e47ab35f09486ac6e79d8ad249c86d6b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Oct 22 17:52:30 2014 +0000
+
+    Replaced `sdwdate`'s use of GNU `date` with a `python` script /usr/lib/sdwdate/date_to_unixtime that uses `dateutil.parser`. Thanks to troubadoour for the review of /usr/lib/sdwdate/date_to_unixtime.
+
+commit 9e9b71918e799e65a91c145fa0ef63ba21232bdd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 20 14:04:05 2014 +0000
+
+    fix
+
+commit df08262bba6fc7c64fe6a7720b83a3ab48dde00c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 20 12:38:08 2014 +0000
+
+    bumped version number
+
+commit a3a69f6df4f006a600e09cd6e646721e940be6b8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 20 12:37:34 2014 +0000
+
+    moved files from usr/lib to policy conform usr/lib/sdwdate
+
+commit a10b16b137168fa03737823daab03ab2e98ce657
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 20 12:32:24 2014 +0000
+
+    remove usr/lib/url_to_unixtime from stable branch
+
+commit 927fd777adaeba03d636e608a136e104fb4d0681
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 20 12:19:51 2014 +0000
+
+    work on usr/lib/url_to_unixtime
+
+commit 94e0006beece1dd09ee8a9ac736fb1088a1c49db
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 20 03:04:01 2014 +0000
+
+    todo
+
+commit b6e4f9493387a8b37e237fb2549b83a59ccf50f2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 20 02:59:47 2014 +0000
+
+    todo
+
+commit 82f97c656f5bf64828566b9629677a0dde1cfa23
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 20 02:55:38 2014 +0000
+
+    fix
+
+commit 471017610b405f3d80c904a7bb1301173babf874
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 20 02:54:32 2014 +0000
+
+    ported proof of concept usr/lib/url_to_unixtime to from libcurl to python-requests
+
+commit 0fbdc1c62075436955b8ff1df54969a9f21486c9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 20 02:47:18 2014 +0000
+
+    added proof of concept usr/lib/url_to_unixtime using pycurl
+
+commit a6e456609da2e2345061f07803790c6c03fc80d5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Oct 19 16:43:04 2014 +0000
+
+    removed tlsdate support (https://github.com/Whonix/Whonix/issues/349) for reasons listed https://www.whonix.org/wiki/Dev/TimeSync#tlsdate
+
+commit 98cb972e5f6e0366c258b34c297a35a97238b886
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Oct 18 02:16:16 2014 +0000
+
+    man page
+
+commit b610036d8d6e5d35a4cde5f724f295056a43ec6a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Oct 18 01:06:23 2014 +0000
+
+    sdwdate: init script delete first success file when using force-reload
+    sdwdate: init script new debugging option restartndclean
+
+commit e3a8da2fc496d39973c2a29e7e6bbf65d660397c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Oct 16 21:46:18 2014 +0000
+
+    output
+
+commit 7fd55fd2ec5d65ea266d8f43ce03df0c2b4b2adc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Oct 16 18:26:23 2014 +0000
+
+    correct exit codes for sclockadj, sigterm exit 143, sigint exit 130
+
+commit 6b1413b8f1ef0042a2e5d67c297c028a0ff9b702
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Oct 16 18:12:37 2014 +0000
+
+    sdwdate_terminate_sclockadj: fix; refactoring; output
+
+commit 3515ac9d7a0da2c7698d0f7818a2d431fb3406b9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Oct 16 18:06:06 2014 +0000
+
+    refactoring
+
+commit 16fb252931590a13af1b15d3664f5b5ae402469c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 13 13:14:36 2014 +0000
+
+    man page
+
+commit 2609eb46b7992d510700e1db0c335c44a549f9d7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 13 12:51:53 2014 +0000
+
+    man page
+
+commit ad7772f6787120a789afd98b98789f6f9dee4689
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 13 12:51:16 2014 +0000
+
+    man page
+
+commit 5caf1c6f60b89425af326c510ab0cacc53552e90
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 13 12:46:18 2014 +0000
+
+    package description
+
+commit c3c689eff4e7c09f4c735382bd75b0b02c01dc32
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 13 12:36:56 2014 +0000
+
+    readme
+
+commit fdeffbd8ec3d393e2a431a33d618a622acb89c3d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 13 07:04:58 2014 +0000
+
+    support use of .onion domains (not use --tlsv1 --proto =https then) for curl time fetching method
+
+commit 8cf9101c55dae6d8bc6bf1d818f4e94d8eac2bf2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Oct 9 22:47:59 2014 +0000
+
+    use TLSDATE_EXTRA_OPTIONS="--http" to instruct tlsdate to extract time from http headers by default instead from TLS, because time from TLS is unreliable as per github.com/ioerror/tlsdate/issues/151
+
+commit d7a38c216465ddd5522b1fd737c27a51513515ab
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Oct 9 01:53:30 2014 +0000
+
+    unit test
+
+commit 87dd778c3c42d96aaff1024123a377d464e4a311
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Oct 9 01:15:02 2014 +0000
+
+    bumped version number
+
+commit 1cf54104a6f243da03878fdffcb20f3051ca78bc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Oct 9 01:14:44 2014 +0000
+
+    added unit test
+
+commit dd5cc2ca0ff60eb7534bc68b233013b2f7c3a8ab
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Oct 8 17:32:01 2014 +0000
+
+    local
+
+commit b573902333a17346051b67f5afb4fb5b64fc5eaf
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Oct 8 17:31:30 2014 +0000
+
+    fix
+
+commit 2142efc6752b9cc6f96d4bb5d329f6e62ab3651a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Oct 8 16:00:11 2014 +0000
+
+    use sclockadj by default in restartup mode
+
+commit 0c960965740770306b5c729469e512514da0c2c8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Oct 8 15:34:25 2014 +0000
+
+    implemented --timewarp-on-restartup and SDW_MODE restartup
+
+commit 28dd5e8c54723148aeb3534bd70b8fee8d2215c3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Oct 8 12:56:49 2014 +0000
+
+    create first success file /var/run/sdwdate/first_success
+
+commit 8e63f4cf1fe3e4a1ccbe06714cc605d5ddb181e0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 7 22:34:38 2014 +0000
+
+    refactoring
+
+commit 1c6ed6341e84dd6619696df9b0c5cce2dcf1f8b3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 7 22:03:01 2014 +0000
+
+    sanity test
+
+commit 1c388310208f8f6b4f7b674c3b850c3fe84530bc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 7 21:26:22 2014 +0000
+
+    do not do anything if script was sourced (useful for external unit tests)
+
+commit 762be759de2d5894fa6b96773f80295b24dafc7d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 7 15:09:28 2014 +0000
+
+    comments
+
+commit 531d075749c9808ae7dbc8f5d56322aedeb34a76
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 7 01:33:35 2014 +0000
+
+    refactoring
+
+commit 11c124739c782a70c5aa39c2087feaa6613191e0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 7 01:31:11 2014 +0000
+
+    sanity test
+
+commit ea035d4f5ba0ccd2d497e30c68357f02e12c9b65
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 7 01:25:08 2014 +0000
+
+    fix output
+
+commit 5d9a112917d18f12861d4fa96b3ceb94a155de8e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 7 01:09:30 2014 +0000
+
+    New option --echo-unixtime, echo remote unix time even when using --quiet.
+
+commit 8ea0be20c16c44a8048f3108897ee36035e6f5ab
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 7 01:01:48 2014 +0000
+
+    output
+
+commit 08d4519e934a0692e2c3712790a236a25a2af0e0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 7 00:59:41 2014 +0000
+
+    fix, be quiet when using --quiet
+
+commit 24723fbe8bf108964dc237ccbf122b6685643403
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 7 00:49:47 2014 +0000
+
+    quotes
+
+commit 9fd7bfe2dbe97fa9826815d4676102586eddb43f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 7 00:33:47 2014 +0000
+
+    be quieter when using --quiet
+
+commit d637009f136166136dad8321616e53e1f6e0e87f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 7 00:26:13 2014 +0000
+
+    add local/remote (unix)time to log below results overview
+
+commit 8f813a8da95a7a0d65bf998cef029247c7960e91
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 7 00:12:49 2014 +0000
+
+    refactoring
+
+commit f88ea138c4da76191bf09e03cc03f370691b30e7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 7 00:07:19 2014 +0000
+
+    refactoring
+
+commit 3aba5d0dfa98f97bb1157329b216892371bebfee
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 7 00:02:24 2014 +0000
+
+    refactoring
+
+commit 25db680049db667238f3e59c0aeb07b64efe192a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 7 00:00:21 2014 +0000
+
+    better error handling in case tlsdate stdout file cannot be read
+
+commit 435ccd72bc2de3735e5e5209ee628e35b3c0781b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 6 23:42:54 2014 +0000
+
+    sanity test
+
+commit f41623e1b9882f52b04e0bc15204bda452afa414
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 6 23:39:17 2014 +0000
+
+    report negative unixtime in log
+
+commit 8f6ac1addf0e05ef022dbee8d8943e17bc34c857
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 6 23:01:35 2014 +0000
+
+    sanity test
+
+commit 974fb1cfc7ef58ecffd85c6c3a95232b73b8ed94
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 6 22:59:48 2014 +0000
+
+    output
+
+commit d6800dd312e99f7cb55494b80216f0dd6f4f717d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 6 22:58:29 2014 +0000
+
+    refactoring
+
+commit 931705f4878981e9c4abc9bf91f4e2d40f97c0b7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 6 22:46:15 2014 +0000
+
+    output
+
+commit 6048cb25d0bf813d2cfbbcbe6722e379c9f125bb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 6 22:45:02 2014 +0000
+
+    refactoring
+
+commit 7bc7982094804624b3fbc8ba093603750888a579
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 6 22:41:21 2014 +0000
+
+    cleanup
+
+commit 7678e04ba2971f6577d35558da436ba7fc268e18
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 6 15:25:51 2014 +0000
+
+    obsoleted uuid-runtime dependency by using ID="$(cat "/proc/sys/kernel/random/uuid")"
+
+commit b734b571763f3808903038f29dcce2dcd37be4a4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 6 15:18:02 2014 +0000
+
+    fix, if only one pool member is being used; log output
+
+commit 638018a226b1285195e0598d44f9aaf1f0033355
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 6 14:45:51 2014 +0000
+
+    comments
+
+commit fd59b951bc7764d72e57dd55a8b6e274205a34db
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 6 14:42:40 2014 +0000
+
+    implemented timeout for tlsdate
+
+commit 7b79dcb96f56f8ddf98ff373e626b6a502e7bed7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 6 14:05:39 2014 +0000
+
+    refactoring
+
+commit 5a64885beeb28857d7dc98f92632891fd939228d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 6 13:57:30 2014 +0000
+
+    refactoring; output
+
+commit 4e6b5175b95e80652e605e6666fb2a64c8432fe1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Oct 4 01:53:11 2014 +0000
+
+    refactoring
+
+commit 06c5f91d99ce5152d2861d320288057b8581a489
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Oct 4 01:52:00 2014 +0000
+
+    refactoring
+
+commit b24565dd44fd3739b9bc6dc3e863ac2458ea2049
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Oct 4 01:43:24 2014 +0000
+
+    shorten length per log entry to 500 to prevent fake log entries
+
+commit 3f04bc93c8278bfff866a50055ec33df760d3b06
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Oct 4 01:21:50 2014 +0000
+
+    todo
+
+commit e204a9f1711008550a2ee53d04a8d13ba1771af7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Oct 3 22:15:12 2014 +0000
+
+    log output
+
+commit c4ea7568f20744a1f4badbbba0f3afaef33de27b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Oct 3 22:10:28 2014 +0000
+
+    quotes
+
+commit 2bae12637a12f997c02a662ba754a053fb038bc9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Oct 3 22:05:59 2014 +0000
+
+    alternative time fetching method using tlsdate as alternative to curl
+
+commit 2080339e764e5f24c4c3ad17751f7996b8a1852a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Oct 3 20:17:26 2014 +0000
+
+    refactoring (for making it easier to keep default config pools and built in pools in sync by using copy and paste)
+
+commit 36b7eb9b8c63fcda68356c3f23e482e1c4ebda6c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Oct 3 19:51:41 2014 +0000
+
+    sanity tests; todo
+
+commit 2ca1b3f586e047ca4c6819e16868047f2551848c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Oct 3 19:47:02 2014 +0000
+
+    sanity test
+
+commit 385a62e7473880ea58b45921ba0b112a665fb63b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Oct 3 19:45:44 2014 +0000
+
+    quotes
+
+commit d8ad2080e24ac38b0fd61e024a7b7bf1e42391ac
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Oct 3 19:40:59 2014 +0000
+
+    updated time source pools
+
+commit 0e709f5136b8c2257da7d119f88c9a4b53a67536
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Oct 1 23:15:19 2014 +0000
+
+    fix, set sdwdate pool defaults to same values as in default config file
+
+commit bf1fd1473ce5c0af33e30b707d2a1c8dcdb03409
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 25 22:01:23 2014 +0000
+
+    bumped version number
+
+commit cac937e41f912dd13cb99d793d37f7c2f21cc362
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 25 22:01:07 2014 +0000
+
+    updated readme
+
+commit 9094a8aeb314eba3372c57117effc4fc215d60ef
+Merge: 973d771 550badc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 18 16:27:35 2014 +0000
+
+    Merge branch 'Whonix9'
+
+commit 973d77102b38740636b8c411b48e8dee2adffa8c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 18 16:18:30 2014 +0000
+
+    Squashed commit of the following:
+    
+    commit e61ec90bd5477d1eba693e96e99524ec9a582220
+    Merge: 0d5a543 550badc
+    Author: Patrick Schleizer <adrelanos@riseup.net>
+    Date:   Fri Sep 12 17:29:15 2014 +0000
+    
+        .
+    
+    commit 550badcf3c1c8637753e07ec4327283d6844aa9a
+    Author: Patrick Schleizer <adrelanos@riseup.net>
+    Date:   Thu Sep 11 22:55:14 2014 +0000
+    
+        sdwdate: no longer using pal/neutral/foe pool design. Using three pools instead, that only contain servers of the type "pal". As per https://github.com/Whonix/Whonix/issues/310. Thanks to https://github.com/HulaHoopWhonix for suggesting it.
+    
+    commit 76f402526ac46be75a2d72683d2616669c72fc90
+    Author: Patrick Schleizer <adrelanos@riseup.net>
+    Date:   Thu Sep 11 15:30:14 2014 +0000
+    
+        fix, also show error notifications in case timesync restarted sdwdate
+    
+    commit 3e99ce2d69c7d30989329e8c7f1e934beba93486
+    Author: Patrick Schleizer <adrelanos@riseup.net>
+    Date:   Thu Sep 11 15:21:41 2014 +0000
+    
+        refactoring
+    
+    commit 4b8286ffbaf8bf607c409c50e9fc751929c9d675
+    Author: Patrick Schleizer <adrelanos@riseup.net>
+    Date:   Thu Sep 11 15:20:49 2014 +0000
+    
+        package description
+    
+    commit 5d8a586d761a3584b3c5e9adb6150278a79fff9a
+    Author: Patrick Schleizer <adrelanos@riseup.net>
+    Date:   Thu Sep 11 15:02:35 2014 +0000
+    
+        fix
+
+commit 550badcf3c1c8637753e07ec4327283d6844aa9a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 11 22:55:14 2014 +0000
+
+    sdwdate: no longer using pal/neutral/foe pool design. Using three pools instead, that only contain servers of the type "pal". As per https://github.com/Whonix/Whonix/issues/310. Thanks to https://github.com/HulaHoopWhonix for suggesting it.
+
+commit 76f402526ac46be75a2d72683d2616669c72fc90
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 11 15:30:14 2014 +0000
+
+    fix, also show error notifications in case timesync restarted sdwdate
+
+commit 3e99ce2d69c7d30989329e8c7f1e934beba93486
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 11 15:21:41 2014 +0000
+
+    refactoring
+
+commit 4b8286ffbaf8bf607c409c50e9fc751929c9d675
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 11 15:20:49 2014 +0000
+
+    package description
+
+commit 5d8a586d761a3584b3c5e9adb6150278a79fff9a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 11 15:02:35 2014 +0000
+
+    fix
+
+commit 0d5a543f04b0572bfd2731a5e484b619aa817c1c
+Merge: 5f3f27f a14df1a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 11 15:00:38 2014 +0000
+
+    Merge branch 'master' into development
+
+commit a14df1a4d451a561f25d6cb04ba2879e1b39e62c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 11 15:00:29 2014 +0000
+
+    bumped changelog version
+
+commit bdd9543b2ccd44a7347519250c293e732bb0aa3a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 11 14:54:51 2014 +0000
+
+    fix
+
+commit ae48ea27d03f6c68582ba4273f681c3c595bd950
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 11 14:53:48 2014 +0000
+
+    fix
+
+commit aa697c530db58ec2953bd7f0891c33452c7ee07e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 11 14:51:33 2014 +0000
+
+    fix
+
+commit 3f18249e182527a929024318158c9556ccd010c6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 11 14:50:14 2014 +0000
+
+    fix
+
+commit c91e0620a9d4e6a741106763db35743a71a3fafa
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 11 14:43:40 2014 +0000
+
+    comments
+
+commit cdc9d5a88e44a422fa4d1a21e01989dbe53ef64c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 11 14:42:09 2014 +0000
+
+    output
+
+commit 4df7872ef7416de2b37a4dd874be702e83b85f13
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 11 14:41:21 2014 +0000
+
+    comments
+
+commit df2b8f3469c80be734f02dde305f6883b59611d4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 11 14:39:12 2014 +0000
+
+    fix
+
+commit 5f3f27f909222706078dcac8503b6ba35c3774b6
+Merge: 7dafcb8 0be94a2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Sep 9 01:40:13 2014 +0000
+
+    Merge branch 'master' into development
+
+commit 0be94a24d4d4daba9350c55bda65ecc9bdb1872d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Sep 9 01:20:34 2014 +0000
+
+    sdwdate: Breaking change: pool variable names were renamed. SDWDATE_POOL_PAL, SDWDATE_POOL_NEUTRAL, are now called SDWDATE_POOL_ONE, SDWDATE_POOL_TWO, SDWDATE_POOL_THREE. If you were using custom pools, you should update your config according to the new variable names. As per https://github.com/Whonix/Whonix/issues/310.
+
+commit 8e03f6975d77d981009ad105954e5c7a8b348bff
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Sep 9 00:43:20 2014 +0000
+
+    sdwdate: curl, use --head rather than --include as per https://github.com/Whonix/Whonix/issues/315
+
+commit 7dafcb86b19eaba0ef33dc56db41125ac9c4f4f6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 4 16:30:55 2014 +0000
+
+    improved package description
+
+commit e5ca339b846f61a624cedebfe724a823335b88a9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Sep 3 13:13:43 2014 +0000
+
+    refactoring
+
+commit 98b80d3d9134fcc8cb815388a0ddaa27378b23e2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Sep 3 13:09:35 2014 +0000
+
+    refactoring
+
+commit d7d83cd242431d0052c1402324c9d2ad25b0d5ab
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Aug 28 14:09:05 2014 +0000
+
+    fix
+
+commit 1141a02477636ed42120baf2f6cc94d4feb0067c
+Author: JasonJAyalaP <jason@jasonayala.com>
+Date:   Thu Aug 28 00:22:33 2014 -0500
+
+    if running with debug, syshotl and clock_ is not called
+
+commit 95c020d3e5d83ec69ba7a169eecbd47bfa13ca88
+Author: JasonJAyalaP <jason@jasonayala.com>
+Date:   Thu Aug 28 00:18:58 2014 -0500
+
+    removed unnecessary  assertion
+
+commit 6d2451264c6334d2e265e5a685c6163ee29e0c2a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Aug 28 00:12:51 2014 +0000
+
+    log message when there is no need to set clock (when median diff is 0 seconds)
+
+commit e2456414a75a43cfa8e5fbb60105956a9672a878
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 26 15:57:31 2014 +0000
+
+    refactoring
+
+commit 0ab310b81c2a0d6f62571a8638255b933ae4a369
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Aug 22 22:59:05 2014 +0000
+
+    sdwdate: fix, clean up temporary directory on exit
+
+commit d40d604a4d560f287219692b6a139fbf27f97287
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Aug 22 20:41:11 2014 +0000
+
+    sdwdate: fixed systemd spams syslog due to time changed by sclockadj (fixed #289)
+
+commit b7ba91b61d2128abed470d891523aaf85e0d58cd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 19 18:52:42 2014 +0000
+
+    makefile: added new feature "make deb-chl-bumpup" - Bump upstream version number in debian/changelog.
+
+commit d71c5e4c6df2064dbffe1b6a29f6a0fd5c2609eb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Aug 17 20:54:26 2014 +0000
+
+    Updated debian/changelog.
+
+commit dc94d10acd86d014edb66725b94f782b7a243aa1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Aug 17 20:47:29 2014 +0000
+
+    Fixed changelog date.
+
+commit 5b9ded0271b71b0a69e143d4aeff9a6adce2833c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Aug 17 18:03:30 2014 +0000
+
+    bump version number
+
+commit d7e68713e533e1c15434ef031668f454c770fa6c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Aug 14 13:35:19 2014 +0000
+
+    Implemented make deb-icup: Combination of make deb-pkg, make deb-pkg-install and make deb-pkg-cleanup.
+
+commit 64026de1f62495640428ad6d5e99fe2a26c55d84
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 5 14:16:58 2014 +0000
+
+    work on debian jessie compatibility
+
+commit 7a040cadfbcff3473863078e770bab1a1384ba85
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jul 27 12:42:28 2014 +0000
+
+    packaging
+
+commit 5e0c91982999e64ce1f6430479d5f7e2ac50ee89
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jul 27 04:01:13 2014 +0000
+
+    packaging
+
+commit 6582fdf001146ec608222463bb6fc5d679a7fb9c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jul 26 15:26:39 2014 +0000
+
+    packaging
+
+commit 6933158f426b252a9e1751cf17049ea89d4b184f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jul 26 15:16:06 2014 +0000
+
+    packaging: removed build dependency on git, since the .git folder won't be included in the upstream tarball.
+
+commit a360a6d305479f80c60f648b55878daa76cd8ba3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jul 26 04:13:17 2014 +0000
+
+    quotes
+
+commit c9bb41ea5d998f908a8076cb4818a647b516a379
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jul 26 02:32:20 2014 +0000
+
+    sdwdate: fix terminating sclockadj (Closes #230); fix; output
+
+commit 58613fe57c9907134f7484f6deca7cf9b17223e1
+Author: JasonJAyalaP <jason@jasonayala.com>
+Date:   Thu Jul 24 18:51:28 2014 -0500
+
+    added C headers to satisfy warning
+
+commit 4502c11925cced4d581cbbdff7ac812dd4d31f63
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jul 24 14:12:25 2014 +0000
+
+    init script: added "Should-Start: rinetd" to aid /usr/lib/anon-shared-helper-scripts/tor_bootstrap_check.py 127.0.0.1 9151 0
+
+commit 377b390481e373970c63dd37acd0952d25eea13a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jul 15 14:15:31 2014 +0000
+
+    log time/date before and after running sclockadj; refactoring
+
+commit de3556e947ea04388673bb9af4410f85fb5f47a1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jul 12 15:34:19 2014 +0000
+
+    packaging
+
+commit 9971a44246c54fbb3797ca53aad169a34b5148bd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jul 12 15:27:07 2014 +0000
+
+    packaging
+
+commit 292a60627431599db8aafd66c4381fcfc0ea558f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jul 11 11:50:35 2014 +0000
+
+    output; refactoring
+
+commit 9fc88c9d20c4612350bd310a3a8b200d2842a301
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jul 11 03:12:51 2014 +0000
+
+    make up extra nanoseconds when setting time using `date`; output; sanity test; refactoring; debugging; quotes
+
+commit a39133eb9574c57242165d8f5e4c15d673c3bacb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jul 11 01:10:58 2014 +0000
+
+    added gcc as dependency (required by ruby-inline to dynamically compile the inline C code of sclockadj)
+
+commit 56d49d25dbf00aee79713970308b21082773995d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jul 10 15:28:09 2014 +0000
+
+    improved error handler; refactoring; output
+
+commit 93773cb53c66cc77dfe9a9f43a9ca60a848a2c48
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jul 10 14:57:22 2014 +0000
+
+    output
+
+commit bcd5f0223b193eb4b5b96550aba81b35b91620e1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jul 10 14:49:34 2014 +0000
+
+    output
+
+commit ab39fa46aa8eefcc05d1556ffa6d62723fefc498
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jul 10 12:10:58 2014 +0000
+
+    explicitly depend on ruby1.9.1-dev, so ruby1.8-dev (which would not work) is not installed
+
+commit 602b9a7c01a84bc7b584b67a2d6cc3f92d3b8aa0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jul 8 14:13:24 2014 +0000
+
+    output
+
+commit f671dfade2485b8fa92301932eb2cc52fec05803
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jul 8 14:05:03 2014 +0000
+
+    fix
+
+commit 8c3a614d1c70138901d624081a2551e243d35c29
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jul 7 13:16:57 2014 +0000
+
+    measure and log how long sclockadj was running
+
+commit 85a4cb426d486608ae6df9caaf13483715e8f859
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jul 7 13:01:25 2014 +0000
+
+    comments
+
+commit cdaa9972d841578788c6a11def3ef37e9e54bcb8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jul 7 12:51:54 2014 +0000
+
+    comments
+
+commit 2705bcb0f0c6b46db718fc41c4451dc541fbf80a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jul 7 12:50:31 2014 +0000
+
+    implemented --sclockadj-on-startup, --sclockadj-on-daemon
+
+commit 181a33984a2345b51034e05693b3f23e0153a61a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jul 7 12:46:29 2014 +0000
+
+    clock jump in startup mode, sclockadj in daemon mode
+
+commit c41ab3a28764c9ba6afb060752d6c28859270dd4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jul 7 12:44:46 2014 +0000
+
+    comments
+
+commit 3f2f52e489cb763bde27a628524eca3e04a2979b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jul 7 12:42:59 2014 +0000
+
+    clock jump in startup mode, sclockadj in daemon mode
+
+commit fb28c0c11bde312c3ce263ef74845e80b0ad06b7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jul 6 22:20:26 2014 +0000
+
+    depend on "ruby | ruby-interpreter" to fix a lintian warning
+
+commit 1bceaff28998926de848d7cc30f2985e5fcb3b05
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jul 6 13:31:04 2014 +0000
+
+    quotes
+
+commit ff483c50d10a6817709b9bc9371ae82b9be9f988
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jul 6 13:25:07 2014 +0000
+
+    use $BASH_SOURCE instead of $0
+
+commit 26f4f83ffd5f85d19885308989e0802d9903d30f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jul 6 12:14:32 2014 +0000
+
+    sanity test
+
+commit 1dbe78bbde2031cb9a155d1d865b303b01e6bf38
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jul 6 12:07:23 2014 +0000
+
+    run exit function on error; fix
+
+commit ed80c7e29c3a975d0918c2ff58b2a7f256f734b5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jul 6 11:48:40 2014 +0000
+
+    sanity test
+
+commit fd7135084dbcfb679b0525d54a75b9913e0ea4bb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jul 5 08:47:10 2014 +0000
+
+    set sclockadj subshell exit code to sclockadj's exit code
+
+commit bcc57d36025df757b79f1680b431d2c662a2ebbe
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jul 5 08:42:57 2014 +0000
+
+    refactoring
+
+commit f0913595b45135b366fd8b145187221efb023e4e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jul 5 08:41:21 2014 +0000
+
+    refactoring (typo)
+
+commit 773b685e93b624aea36a39f0955d763c1ca72703
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jul 5 08:40:31 2014 +0000
+
+    refactoring; check sclockadj subshell exit code
+
+commit 5d5b23e0560f74498b49392524e89be3aadfcb12
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jul 5 08:26:42 2014 +0000
+
+    typo
+
+commit cfe0a451662bdf9dab78700984c77da7652cd3e2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jul 5 08:09:44 2014 +0000
+
+    Bumped debian revision number to avoid lintian warning "new-package-should-close-itp-bug" so we can use lintian --fail-on-warnings as sanity test.
+
+commit 728dc739a97015b3feb27dec3d106d34b836a2c9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jul 5 06:52:59 2014 +0000
+
+    more standard exit codes, sigint exit 130, sigterm exit 143
+
+commit 704fd36f78a3562250f0034068dc410b95adece5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jul 5 05:42:22 2014 +0000
+
+    store stderr of $DISPATCH_PREREQUISITE also in prerequisite_output
+
+commit 8a7737cf8b828dde9c256a6b7a2cfe0b2d141684
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jul 5 05:41:17 2014 +0000
+
+    refactoring
+
+commit 60bb0f17b41f94d8a1937b15ad6b79284ce2e286
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jul 3 17:28:29 2014 +0000
+
+    fix
+
+commit 910512478a25f6dd44da9b75a268f88e824b3bb3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jul 2 11:46:49 2014 +0000
+
+    updated dependencies for sclockadj
+
+commit b32c1d28cdedb69bd6c8d7e21ec9cb3db09b0051
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jul 1 16:48:04 2014 +0000
+
+    fix
+
+commit 1e47a60e0bf93cbb120888e03450164c1990d3b0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jul 1 16:38:05 2014 +0000
+
+    sanity tests
+
+commit a86598715615fb447ef494100672bc1e2d711536
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jul 1 16:32:24 2014 +0000
+
+    quotes
+
+commit 92bd8dca59b4ff590113aa9b0b0f346f20e32957
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jul 1 16:31:46 2014 +0000
+
+    quotes
+
+commit 3100e850e38682886afd506710881ecc6d4edbd6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jul 1 13:20:50 2014 +0000
+
+    comment
+
+commit beb43bd933e64bb43fd4f8060e9f174dadf04ba8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jul 1 00:58:45 2014 +0000
+
+    fix
+
+commit 0b9db7a6f20362e336cbf4e1e3c55b281384a081
+Merge: 588692b f0a1f5c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jun 30 14:49:10 2014 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 588692b71f2a9d7348c786f6b404cb02083e6c72
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jun 30 14:46:22 2014 +0000
+
+    fix
+
+commit f0a1f5c303efdde74a44fc40779d3461ddb6b40a
+Merge: 486cc55 1f0cdc5
+Author: JasonJAyalaP <jason@jasonayala.com>
+Date:   Mon Jun 30 09:28:07 2014 -0500
+
+    merged
+
+commit 486cc5553de4ad02012d8b789d8b6ce970cf858b
+Author: JasonJAyalaP <jason@jasonayala.com>
+Date:   Mon Jun 30 09:20:12 2014 -0500
+
+    removed printf statements for better profiling
+
+commit 1f0cdc570d65f7e5fd2ff714ab5a763688c045f9
+Merge: 5c0abe9 ee30f1a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jun 30 11:21:30 2014 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 5c0abe93686883bad7a7c4bc3250bd16ab2dd0ba
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jun 30 11:13:30 2014 +0000
+
+    readme
+
+commit ee30f1a49d583bf78ee1c8c40f5dfcadfab9960f
+Author: JasonJAyalaP <jason@jasonayala.com>
+Date:   Sun Jun 29 14:31:41 2014 -0500
+
+    Added Ruby Inline C code
+
+commit c8038c61aa9da65e843bd6728c2bd69a7dc3ed58
+Merge: 9f2d0e3 4cba30b
+Author: JasonJAyalaP <jason@jasonayala.com>
+Date:   Sat Jun 28 19:12:24 2014 -0500
+
+    merged
+
+commit 9f2d0e36f13de214ce2d50adc6e9738659dccf78
+Author: JasonJAyalaP <jason@jasonayala.com>
+Date:   Sat Jun 28 19:10:04 2014 -0500
+
+    systohc fix
+
+commit 4cba30b00ea0959d4c37e14ee2158540b9e05995
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jun 28 19:25:59 2014 +0000
+
+    fix
+
+commit efd8b084f6470f54bcc4e836ae13585d5f37206c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jun 28 19:21:01 2014 +0000
+
+    fix
+
+commit d2ea1b2abba1bdde2d43afe57f796dfce49b0be0
+Author: JasonJAyalaP <jason@jasonayala.com>
+Date:   Sat Jun 28 14:02:21 2014 -0500
+
+    typo
+
+commit c3418d5de193166689bab7d7dbb2cf0ccd990f09
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jun 27 17:49:39 2014 +0000
+
+    new sanity test: test -e /dev/random
+
+commit c89c257416a00e07e2516d94eb36c277c9c25745
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jun 27 17:44:28 2014 +0000
+
+    output; refactoring
+
+commit aa871018e87d9744da2f42d0f6466c5153a5c5e5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jun 27 17:32:35 2014 +0000
+
+    use signal sigterm
+
+commit e386973a52aed07ac8b353f9706db01e08a9649a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jun 27 17:32:07 2014 +0000
+
+    implemented signal sigterm; refactoring
+
+commit 3737d9eab86ded3c28e659d9a3ca16fd3a63ef00
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jun 27 08:39:07 2014 +0000
+
+    implemented debug option
+
+commit d5b223a4c7ead0b47f4d8e8b10860efd22acfefc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jun 27 08:35:41 2014 +0000
+
+    comment
+
+commit 2d91d99776738bda680621dcadf0ee95970d740a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jun 26 19:57:36 2014 +0000
+
+    fix
+
+commit 9176b1c4f41ce3614cbc1b75f116d1085bc4e854
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jun 24 15:45:14 2014 +0000
+
+    added debian epoch; added dotglob
+
+commit fc882db8209a512748e013a4f4968f4d1a1d1bdf
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jun 23 23:27:37 2014 +0000
+
+    fix
+
+commit 14ed148e4cdef74c18f8db277015b04bbbff4d40
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jun 12 14:43:09 2014 +0000
+
+    packaging
+
+commit 2560d6e26fcfb87190d6f546d6baa582370662c1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jun 12 06:19:37 2014 +0000
+
+    improved package description, used @JasonJAyalaP suggestions and modified them a bit
+
+commit 3c756f468a8a524724c808bb92b851a99c59535e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jun 10 14:15:46 2014 +0000
+
+    added who_ami variable for eventual plugins
+
+commit 59d85312923ac85ea8ab00043a81501400cf3f3d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jun 9 11:52:16 2014 +0000
+
+    implemented option to update hardware clock --systohc (disabled by default) https://github.com/Whonix/Whonix/issues/169
+
+commit 28cde696b4d189b2d6342a9d53244a43bb215d4f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jun 9 11:14:53 2014 +0000
+
+    implemented options --no-move-forward and --no-move-backwards (disabled by default)
+
+commit 0ab390f62ce2008f2fdf1d4e53e7f3165c477ff5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jun 3 18:27:37 2014 +0000
+
+    readme
+
+commit e539884257fb25d790a4d2076dcfa5956b6e5753
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jun 2 14:38:38 2014 +0000
+
+    packaging
+
+commit b196448f6e0bdc273ef92135cf421eccbce0f750
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jun 1 15:38:35 2014 +0000
+
+    readme
+
+commit 14a27d5ea0475c8b2c025c5716080df34b1dbc67
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat May 31 11:38:27 2014 +0000
+
+    packaging
+
+commit dcc7c87ab90ce9d12a49b3f372e3429af30f71ee
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 29 10:06:25 2014 +0000
+
+    packaging
+
+commit fd61863476b05eb86e08f8cfd18f402e54d25027
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat May 24 00:02:50 2014 +0000
+
+    .
+
+commit 48cdbc935babb7933007d87db3d8c1cc9f61dac3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon May 12 14:07:00 2014 +0200
+
+    running sclockadj as root, so sclockadj can save one fork to sudo for performance reasons
+
+commit cb2f2beac3448073d2328479c4dedf203ea581cf
+Author: JasonJAyalaP <jason@jasonayala.com>
+Date:   Sun May 11 17:50:35 2014 -0500
+
+    fixed speed up
+
+commit 0988d0acf5ce227dab3df6cb6f34a7de9c85af4b
+Author: JasonJAyalaP <jason@jasonayala.com>
+Date:   Sun May 11 17:16:54 2014 -0500
+
+    Speed up, removed some verbose options temporarily
+
+commit d9d8e431d3d17a05e5dddbf5587fadfbd87e8ea0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat May 10 17:56:22 2014 +0200
+
+    sclokadj:
+    * Moved the first `%x[echo "$(date) | $(date +%N)` above the first `now = Time.now`, because I guess forking `date` is time expensive. That way now gets more accurate.
+    * Removed the `In seconds: #{now_ns.to_f / 1000000000}` part from the first `puts "Time now in nanoseconds: #{now_ns}"`, because it didn't look helpful in verbose log.
+    * Fixed the second `puts "Time now in nanoseconds: #{now_ns_after}"` by setting `now = Time.now` again. Before this change, first `Time now in nanoseconds:` equaled second `Time now in nanoseconds:`.
+    * Added `Diff nanoseconds` to see how much has actually changed.
+
+commit 335533dc6193e07fca7c6610391d1ad6d614d541
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat May 10 17:35:08 2014 +0200
+
+    moved lib/sclockadj to usr/lib/sclockadj
+
+commit 422c9f0e4a52cdf22793286dd71e5e7cd72e2e15
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat May 10 01:11:58 2014 +0200
+
+    - Integration of sclockadj into sdwdate.
+    - Sclockadj has been written by Jason Ayala (Jason@JasonAyala.com) (@JasonJAyalaP)
+    - https://github.com/Whonix/Whonix/issues/169
+    - Sclockadj helps sdwdate gradually adjusting the clock instead of producing clock jumps, which can confuse Tor, i2p, servers, logs and more.
+    - It can add/subtract any amount of nanoseconds.
+    - It supports waiting an interval of min/max nanoseconds between iterations, which will be randomized if min/max differs.
+    - It supports slewing the time for min/max nanoseconds, which will be randomized if min/max differs.
+    - It supports to wait before its first iteration.
+    - It can run either verbose or quite.
+    - It supports either really changing the time or running in debug mode.
+
+commit 4853c0cc6839285678538028848d803ae0a82ad6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat May 10 00:21:09 2014 +0200
+
+    fix
+
+commit 106f66fd043439c257a7efb8f9f50a3a009d9e5d
+Author: JasonJAyalaP <jason@jasonayala.com>
+Date:   Fri May 9 17:15:27 2014 -0500
+
+    added sclockadj
+
+commit 3abbc226429b6eb216f84fdb9c30f56c949bc703
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat May 3 14:15:56 2014 +0000
+
+    improved logging
+
+commit 4826248285919a5a92e866c16ad85a9e1e92a5e9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat May 3 13:49:13 2014 +0000
+
+    fix, use median instead of average as suggested in https://www.whonix.org/forum/index.php/topic,267.0.html
+
+commit c6e6c1a37579e952cf50ee81669de5288f1e8aba
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri May 2 14:14:30 2014 +0000
+
+    replaced python dependency (just for calculating a float) with bc
+
+commit 0f23985737e594b13ea1201dc0329508d312b83d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 1 22:34:14 2014 +0000
+
+    fix
+
+commit 02307b394ec4236adb771d1e0daae7675ef77dca
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 1 22:31:26 2014 +0000
+
+    refactoring
+
+commit b311cdccc0b2f90becd25836e06d219338cea192
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 1 22:26:15 2014 +0000
+
+    description
+
+commit 98c343e4a60d2a5ae58dd7566073167b4591a77e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 1 22:22:33 2014 +0000
+
+    improved description, thanks to @JasonJAyalaP
+
+commit acf0d448a89d7927762d9700b868e8dffd7e5ef5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 1 22:01:31 2014 +0000
+
+    added support for slowclockadj #169;
+    refactoring
+
+commit b353b0d8fde0f0803776004ea64cfcad50720c28
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 30 12:20:05 2014 +0000
+
+    comments
+
+commit 90b9aab2f157215c07a61b0bb0d95d501294bf9c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 30 11:33:44 2014 +0000
+
+    fix
+
+commit 98a46ba82b0b51e22e0f746a4543f249cbd88530
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 30 11:15:39 2014 +0000
+
+    fix
+
+commit 78f1308008e9275117dc2a3899e0639ae24e056c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 30 11:13:09 2014 +0000
+
+    added logrotation
+
+commit 7cd0bc9f508db2f220a1320c3e7b5365dedc0e76
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 30 11:12:28 2014 +0000
+
+    delete /var/log/sdwdate.log on purge
+
+commit b8842f58815d058fa84ee067d8da46db975cac6c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 30 10:44:25 2014 +0000
+
+    added sudo to depends (required to run `date` without password)
+
+commit 89b09590a73f4e4b93dd42ea0e7a298b08bc1b99
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 30 10:43:44 2014 +0000
+
+    - added uuid-runtime to dependencies
+    - added postinst script, which creates sdwdate user
+    - fixed lsb header by setting bootclockrandomization to SHOULD-START instead of REQUIRE-START
+    - start sdwdate as user "sdwdate" instead as user "user"
+    - added /etc/sudoers.d/sdwdate exception to allow sdwdate running `date` without root
+    - Using GNU's printf instead of bash's printf to fix a locale related bug.
+    - Added checking if `sudo` is available to sdwdate's sanity tests.
+
+commit dbf00397690222b75a972a10fd61e1d48b74330d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 30 09:24:06 2014 +0000
+
+    license
+
+commit 2247d4df128f2059e7dc65da34eac65fa3233efa
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 30 09:23:57 2014 +0000
+
+    no need to depend on dh-apparmor
+
+commit 5c91edc97e4fce185a614cb73de72cc0ed3c129e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Apr 29 17:52:56 2014 +0000
+
+    refactoring
+
+commit 12830676c0b0ab43965bc2b32e20de4222526c5c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Apr 28 11:54:53 2014 +0000
+
+    fix, make temp a local variable in function sdwdate_build_median
+
+commit ba00c6f04297fa674d2ce31fe857f0efcdc00f74
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Apr 27 17:48:41 2014 +0000
+
+    refactoring
+
+commit 589e63bd68317495e93c723fb85e88533d51b24a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Apr 27 15:27:42 2014 +0000
+
+    improved packaging
+
+commit 498f7009f3fbeda50850641458b4e969a7c5825f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Apr 26 12:41:39 2014 +0000
+
+    comments
+
+commit da8260132c2b82b850af456e8c9163778d50d62b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Apr 26 12:37:11 2014 +0000
+
+    initial commit

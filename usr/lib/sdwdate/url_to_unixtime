@@ -1,73 +1,147 @@
-#! /usr/bin/env python
+#!/usr/bin/python
 
-## This file is part of Whonix.
-## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
+## Copyright (C) 2015 troubadour <trobador@riseup.net>
+## Copyright (C) 2015 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-## TODO:
-## - add dependency python-requests to debian/control
-## - any reason good reason to use libcurl instead or does python-requests support all we need?
-## - check if it really uses "--head" by inspecting traffic
-## - command line parameter to maybe use https (as option true or false [not for .onion])
-## - command line parameter to set url
-## - command line parameter for proxy settings yes/no
-## - command line parameter verbose option?
-## - command line parameter for curl user agent
-## - command line parameter for timeout
-## - force use TLSv1, not SSL
-## - error handling
-## - max file size?
-## - anything else?
+## Usage:
+## /usr/lib/sdwdate/url_to_unixtime socket_ip socket_port url remote_port verbosity
 
-import requests
-import sys
+## Example:
+## /usr/lib/sdwdate/url_to_unixtime 127.0.0.1 9050 check.torproject.org 80 true
+
+import sys, socks
 from dateutil.parser import parse
 
-url = "https://check.torproject.org"
+def data_to_date_string_start_position(data):
+    date_string_start_position = data.find('Date:')
 
-## Does not support socks proxies yet.
-## https://github.com/kennethreitz/requests/issues/2156
-proxies = {
-    'http' : "socks5://127.0.0.1:9050",
-    'https' : "socks5://127.0.0.1:9050"
-}
+    if date_string_start_position == -1:
+        ## not found, check if lowercase.
+        date_string_start_position = data.find('date:')
 
-proxies = {
-  "http": "http://127.0.0.1:9050",
-  "https": "http://127.0.0.1:9050",
-}
+    if date_string_start_position == -1:
+        ## "Date:" not found.
+        print >> sys.stderr, 'Parsing HTTP header date failed.'
+        print >> sys.stderr, 'HTTP header data:\n%s' % (data)
+        sys.exit(3)
 
-try:
-   #response = requests.head(url, proxies=proxies)
+    date_string_start_position = date_string_start_position + 6
+    return date_string_start_position
 
-   ## Fails as expected.
-   #cafile = '/usr/share/ca-certificates/mozilla/StartCom_Certification_Authority.crt'
-   ## Works as expected.
-   cafile = '/usr/share/ca-certificates/mozilla/DigiCert_High_Assurance_EV_Root_CA.crt'
-   response = requests.get(url, verify=cafile)
+def data_to_http_time(data, date_string_start_position):
+    http_time = ''
+    ## max accepted string length.
+    http_time = data[date_string_start_position:date_string_start_position + 29].strip()
 
-except requests.exceptions.ConnectionError as e:
-   print >> sys.stderr, "Request failed. | url: %s | ConnectionError: %s" % (url, e)
-   sys.exit(1)
+    http_time_string_length = len(http_time)
 
-content = response.headers
-date = response.headers.get('date')
+    ## min string length = max string length.
+    if http_time_string_length < 29:
+        print >> sys.stderr, 'HTTP header date string too short.'
+        print >> sys.stderr, 'HTTP header date length: %s' % http_time_string_length
+        print >> sys.stderr, 'HTTP header data:\n%s' % (data)
+        print >> sys.stderr, 'HTTP header date value: "%s"' % (http_time)
+        sys.exit(4)
 
-date = date.strip()
+    return http_time
 
-if date == "":
-   print >> sys.stderr, "Parsing date from server failed. | Empty date."
-   sys.exit(2)
+def unixtime_sanity_check(data, http_time, parsed_unixtime):
+    try:
+        unixtime_digit = int(parsed_unixtime)
 
-try:
-   ## Thanks to:
-   ## eumiro
-   ## http://stackoverflow.com/a/3894047/2605155
-   unixtime = parse(date).strftime('%s')
-except ValueError as e:
-   print >> sys.stderr, "Parsing date from server failed. | date: %s | dateutil ValueError: %s" % (date, e)
-   sys.exit(3)
+    except ValueError as e:
+        print >> sys.stderr, 'parsed_unixtime conversion failed!'
+        print >> sys.stderr, 'data: %s' % (data)
+        print >> sys.stderr, 'http_time: %s' % (http_time)
+        print >> sys.stderr, 'parsed_unixtime: %s' % (parsed_unixtime)
+        print >> sys.stderr, 'parsed_unixtime not numeric!'
+        sys.exit(6)
 
-print "%s" % (unixtime)
+    unixtime_string_length_is = len(parsed_unixtime)
+    unixtime_string_length_max = 10
 
-sys.exit(0)
+    if unixtime_string_length_is > unixtime_string_length_max:
+        print >> sys.stderr, 'parsed_unixtime conversion failed!'
+        print >> sys.stderr, 'data: %s' % (data)
+        print >> sys.stderr, 'http_time: %s' % (http_time)
+        print >> sys.stderr, 'parsed_unixtime: %s' % (parsed_unixtime)
+        print >> sys.stderr, 'unixtime_string_length_is: %s' % (unixtime_string_length_is)
+        print >> sys.stderr, 'unixtime_string_length_max: %s' % (unixtime_string_length_max)
+        print >> sys.stderr, 'parsed_unixtime has excessive string length!'
+        sys.exit(7)
+
+    return parsed_unixtime
+
+def request_data_from_remote_server(socket_ip, socket_port, url, remote_port):
+    s = socks.socksocket()
+    s.setproxy(socks.PROXY_TYPE_SOCKS5, socket_ip, socket_port)
+
+    try:
+        s.connect((url, remote_port))
+
+    except Exception as e:
+        if str(e).startswith('__init__'):
+            print >> sys.stderr, 'connect error: URL "%s" not found.' % url
+        else:
+            print >> sys.stderr, 'connect error: %s' % (e)
+        sys.exit(2)
+
+    s.send('HEAD / HTTP/1.0\r\n\r\n')
+
+    data = ''
+    buf = s.recv(1024)
+    while len(buf):
+        data += buf
+        buf = s.recv(1024)
+    s.close()
+
+    return data
+
+def http_time_to_parsed_unixtime(data, http_time):
+    try:
+        ## Thanks to:
+        ## eumiro
+        ## http://stackoverflow.com/a/3894047/2605155
+        parsed_unixtime = parse(http_time).strftime('%s')
+
+    except ValueError as e:
+        print >> sys.stderr, 'Parsing http_time from server failed!'
+        print >> sys.stderr, 'HTTP header data:\n%s' % (data)
+        print >> sys.stderr, 'http_time: %s' % (http_time)
+        print >> sys.stderr, 'dateutil ValueError: %s' % (e)
+        sys.exit(5)
+
+    return(parsed_unixtime)
+
+def parse_command_line_parameters():
+    try:
+        socket_ip = sys.argv[1]
+        socket_port = int(sys.argv[2])
+        url = sys.argv[3]
+        remote_port = int(sys.argv[4])
+        verbosity = sys.argv[5]
+
+    except (IndexError) as e:
+        print >> sys.stderr, "Parsing command line parameter failed. | e: %s" % (e)
+        sys.exit(1)
+
+    return(socket_ip, socket_port, url, remote_port, verbosity)
+
+def output_unixtime(data, http_time, parsed_unixtime, unixtime, verbosity):
+    if verbosity == "true":
+        print >> sys.stderr, 'data: %s' % (data)
+        print >> sys.stderr, 'http_time: %s' % (http_time)
+        print >> sys.stderr, 'parsed_unixtime: %s' % (parsed_unixtime)
+    print "%s" % unixtime
+
+def main():
+   socket_ip, socket_port, url, remote_port, verbosity = parse_command_line_parameters()
+   data = request_data_from_remote_server(socket_ip, socket_port, url, remote_port)
+   date_string_start_position = data_to_date_string_start_position(data)
+   http_time = data_to_http_time(data, date_string_start_position)
+   parsed_unixtime = http_time_to_parsed_unixtime(data, http_time)
+   unixtime = unixtime_sanity_check(data, http_time, parsed_unixtime)
+   output_unixtime(data, http_time, parsed_unixtime, unixtime, verbosity)
+
+main()
