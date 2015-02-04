@@ -16,8 +16,8 @@ Package: sdwdate
 Architecture: all
 Depends: curl, ca-certificates, sudo, logrotate, bc,
  ruby | ruby-interpreter, ruby-inline, ruby-dev,
- ruby1.9.1-dev | ruby-all-dev, gcc, libc6-dev, python-dateutil, python,
- ${misc:Depends}
+ ruby1.9.1-dev | ruby-all-dev, gcc, libc6-dev, python-dateutil, python-socksipy,
+ python, ${misc:Depends}
 Recommends: vbox-disable-timesync, timesanitycheck, bootclockrandomization,
  timesync
 Suggests: sdwdate-plugin-anon-shared-con-check,
