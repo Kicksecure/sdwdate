@@ -72,7 +72,7 @@ ALLOWED_PER_POOL_FAILURE_RATIO=0.34
 ## Cache dir. Must not include spaces.
 SDW_CACHE_DIR="/var/cache/sdwdate/sclockadj"
 
-## Which proxy curl should use.
+## Which proxy curl should use for --proxy.
 ## If empty, no proxy will be used.
 PROXY=""
 
