@@ -1,6 +1,10 @@
 #!/usr/bin/make -f
 
-## generic deb build script version 1.0
+## This file is part of Whonix.
+## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+## generic deb build script version 1.3
 
 ## This is a copy.
 ## master location:
@@ -62,6 +66,9 @@ deb-clean:
 deb-cleanup:
 	./make-helper.bsh deb-cleanup
 
+lintian:
+	./make-helper.bsh lintian
+
 dput-ubuntu-ppa:
 	./make-helper.bsh dput-ubuntu-ppa
 
@@ -91,6 +98,9 @@ uninstallsim:
 
 deb-chl-bumpup:
 	./make-helper.bsh deb-chl-bumpup
+
+deb-uachl-bumpup:
+	./make-helper.bsh deb-uachl-bumpup
 
 git-tag-sign:
 	./make-helper.bsh git-tag-sign
