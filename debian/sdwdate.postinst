@@ -11,9 +11,9 @@ fi
 set -e
 
 true "
-####################################################################
-## INFO: Begin $DPKG_MAINTSCRIPT_NAME script $DPKG_MAINTSCRIPT_PACKAGE...
-####################################################################
+#####################################################################
+## INFO: BEGIN: $DPKG_MAINTSCRIPT_PACKAGE $DPKG_MAINTSCRIPT_NAME ${1+"$@"}
+#####################################################################
 "
 
 if [ -x /usr/lib/anon-shared-helper-scripts/torsocks-remove-ld-preload ]; then
@@ -49,9 +49,9 @@ true "INFO: debhelper beginning here."
 true "INFO: Done with debhelper."
 
 true "
-####################################################################
-## INFO: $DPKG_MAINTSCRIPT_NAME script $DPKG_MAINTSCRIPT_PACKAGE no error detected.
-####################################################################
+#####################################################################
+## INFO: END  : $DPKG_MAINTSCRIPT_PACKAGE $DPKG_MAINTSCRIPT_NAME ${1+"$@"}
+#####################################################################
 "
 
 ## Explicitly "exit 0", so eventually trapped errors can be ignored.
