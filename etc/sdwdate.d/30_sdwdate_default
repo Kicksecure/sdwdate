@@ -227,6 +227,11 @@ SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_THREE]=""
 ## bbbbbb6qtmqg65g6.onion:80
 ## pppppptkftqqnfsq.onion:80
 
+## SecureDrop List
+## https://freedom.press/securedrop/directory
+## https://freedom.press/sites/default/files/securedrop_list.txt
+## https://freedom.press/sites/default/files/securedrop.asc
+
 ## pool one.
 SDWDATE_POOL_ONE=(
          boum.org
