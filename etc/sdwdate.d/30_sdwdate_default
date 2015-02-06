@@ -220,57 +220,43 @@ SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_THREE]=""
 ## When set to "", it will be skipped.
 SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_THREE]=""
 
+## pool one.
+## SecureDrop List
+## https://freedom.press/securedrop/directory
+## https://freedom.press/sites/default/files/securedrop_list.txt
+## https://freedom.press/sites/default/files/securedrop_list.txt.asc
+## https://freedom.press/sites/default/files/securedrop.asc
+SDWDATE_POOL_ONE=(
+         dtsxnd3ykn32ywv6.onion
+         znig4bc5rlwyj4mz.onion
+         bczjr6ciiblco5ti.onion
+         vtjkwwcq5osuo6uq.onion
+         33y6fjyhs3phzfjj.onion
+         y6xjgkgwj47us5ca.onion
+         strngbxhwyuu37a3.onion
+         swdi5ymnwmrqhycl.onion
+         dqeasamlf3jld2kz.onion
+         pubdrop4dw6rk3aq.onion
+         hkjpnjbvhrxjvikd.onion
+         l7rt5kabupal7eo7.onion
+         v6gdwmm7ed4oifvd.onion
+         vbmwh445kf3fs2v4.onion
+         poulsensqiv6ocq4.onion
+)
+
+## pool two.
 ## Hosted by Thomas White.
 ## atlas777hhh7mcs7.onion:80
 ## compass6vpxj32p3.onion:80
 ## globe223ezvh6bps.onion:80
 ## bbbbbb6qtmqg65g6.onion:80
 ## pppppptkftqqnfsq.onion:80
-
-## SecureDrop List
-## https://freedom.press/securedrop/directory
-## https://freedom.press/sites/default/files/securedrop_list.txt
-## https://freedom.press/sites/default/files/securedrop_list.txt.asc
-## https://freedom.press/sites/default/files/securedrop.asc
-
-## pool one.
-SDWDATE_POOL_ONE=(
-         boum.org
-         chavez.indymedia.org
-         db.debian.org
-         debian.org
-         epic.org
-         mail.riseup.net
-         sarava.org
-         squat.net
-         tachanka.org
-         www.1984.is
-         www.eff.org
-         www.immerda.ch
-         www.privacyinternational.org
-         www.torproject.org
-         freedom.press
-)
-
-## pool two.
 SDWDATE_POOL_TWO=(
-         grc.com
-         www.tarsnap.com
-         wikileaks.org
-         pressfreedomfoundation.org
-         securedrop.theguardian.com
-         safesource.forbes.com
-         en.wikipedia.org
-         cve.mitre.org
-         duckduckgo.com
-         lkml.org
-         www.gnu.org
-         fsf.org
-         fsfe.org
-         defectivebydesign.org
-         www.kernel.org
-         opentechfund.org
-         firstlook.org
+         atlas777hhh7mcs7.onion:80
+         compass6vpxj32p3.onion:80
+         globe223ezvh6bps.onion:80
+         bbbbbb6qtmqg65g6.onion:80
+         pppppptkftqqnfsq.onion:80
 )
 
 ## pool three.
