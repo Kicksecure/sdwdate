@@ -8,16 +8,10 @@
 
 ## Bash Fragment.
 
-## Add this to curl as option.
-CURL_VERBOSE="--silent"
-
 ## Enable/disable debugging.
 ## 1 enabled.
 ## 2 disabled.
 DEBUG=0
-
-## Remove "--silent" from invocations of curl.
-#CURL_VERBOSE=""
 
 ## Run as the following user name.
 ## Not implemented. Has no effect.
@@ -43,12 +37,6 @@ NO_MOVE_BACKWARDS=0
 ## 1 enabled
 SYSTOHC=0
 
-## Http user agent.
-## When set to "", uses curl's default.
-#HTTP_USER_AGENT="$(/usr/bin/getTorbuttonUserAgent)"
-#HTTP_USER_AGENT="Mozilla/5.0 (Windows NT 6.1; rv:10.0) Gecko/20100101 Firefox/10.0"
-HTTP_USER_AGENT=""
-
 ## Log file.
 LOG_FILE=/var/log/sdwdate.log
 
@@ -72,9 +60,11 @@ ALLOWED_PER_POOL_FAILURE_RATIO=0.34
 ## Cache dir. Must not include spaces.
 SDW_CACHE_DIR="/var/cache/sdwdate/sclockadj"
 
-## Which proxy curl should use for --proxy.
-## If empty, no proxy will be used.
-PROXY=""
+## proxy IP
+PROXY_IP="127.0.0.1"
+
+## proxy port
+PROXY_PORT="9050"
 
 ## How often sdwdate should run in minutes.
 ## 0 disables it and sdwdate exits after run.
@@ -150,7 +140,7 @@ SDWDATE_SCLOCKADJ_WAIT_MIN="1000000000"
 ## (1000000000 ns = 1000 ms = 1 s)
 SDWDATE_SCLOCKADJ_WAIT_MAX="1000000000"
 
-## This command will be `eval`uated before DISPATCH_PREREQUISITE and before running curl.
+## This command will be `eval`uated before DISPATCH_PREREQUISITE and before running url to unixtime tool.
 ## sdwdate provides the $SDW_MODE variable, which is either set to
 ## - startup (when the sdwdate process is started)
 ## - daemon (when the sdwdate process finished one loop and will continue)
@@ -261,21 +251,5 @@ SDWDATE_POOL_TWO=(
 
 ## pool three.
 SDWDATE_POOL_THREE=(
-         www.startpage.com
-         www.apache.org
-         www.centos.org
-         www.piratenpartei.de
-         www.torservers.net
-         www.accessnow.org
-         rsf.org
-         www.wauland.de
-         www.ccc.de
-         netzpolitik.org
-         privacyfoundation.ch
-         www.noisebridge.net
-         en.bitcoin.it
-         www.calyxinstitute.org
-         gnupg.org
-         gpgtools.org
-         schneier.com
+         3g2upl4pq6kufc4m.onion:80
 )

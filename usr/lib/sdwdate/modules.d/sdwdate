@@ -33,7 +33,8 @@ $SCRIPTNAME [-aDdlpqTux] [long options...]
         --pool_two                            distrusted hostnames
         --pool_three                          distrusted hostnames
         --allowed_per_pool_failure_ratio      ratio (0.0-1.0) of allowed per-pool failure
-        -p --proxy                            what to pass to curl's --proxy
+        -p --proxy-ip                         proxy IP
+        -o --port-port                        proxy port
         -i --interval                         continuously run every x minutes
         --mininterval                         wait minimum between intervals
         -r --randomize                        randomize interval
@@ -44,12 +45,12 @@ $SCRIPTNAME [-aDdlpqTux] [long options...]
         -x --dispatchpostsuccess              exec after successful run
         -z --dispatchpostfailure              exec after unsuccessful run
         -m --dispatchposterror                exec when an error is caught
-        --dispatch_pre_one                    exec before run of curl
-        --dispatch_post_one                   exec after run of curl
-        --dispatch_pre_two                    exec before run of curl
-        --dispatch_post_two                   exec after run of curl
-        --dispatch_pre_three                  exec before first run of curl
-        --dispatch_post_three                 exec after run of curl
+        --dispatch_pre_one                    exec before run of url to unixtime tool
+        --dispatch_post_one                   exec after run of url to unixtime tool
+        --dispatch_pre_two                    exec before run of url to unixtime tool
+        --dispatch_post_two                   exec after run of url to unixtime tool
+        --dispatch_pre_three                  exec before first run of url to unixtime tool
+        --dispatch_post_three                 exec after run of url to unixtime tool
         --nodonefileonerror                   do not create done file on error
         --noexitonerror                       do not exit on error
         --echo-unixtime                       echo remote unix time even when using --quiet"
@@ -58,10 +59,6 @@ $SCRIPTNAME [-aDdlpqTux] [long options...]
 }
 
 sdwdate_defaults() {
-   if [ "$CURL_VERBOSE" = "" ]; then
-      CURL_VERBOSE="--silent"
-   fi
-
    if [ "$DEBUG" = "" ]; then
       DEBUG="0"
    fi
@@ -117,12 +114,12 @@ sdwdate_defaults() {
       SDW_CACHE_DIR="/var/cache/sdwdate/sclockadj"
    fi
 
-   if [ "$PROXY" = "" ]; then
-      PROXY=""
+   if [ "$PROXY_IP" = "" ]; then
+      PROXY_IP="127.0.0.1"
    fi
 
-   if [ "$CURL_PROXY" = "" ]; then
-      CURL_PROXY=""
+   if [ "$PROXY_PORT" = "" ]; then
+      PROXY_PORT="9050"
    fi
 
    if [ "$INTERVAL" = "" ]; then
@@ -370,7 +367,6 @@ sdwdate_parse_cmd_options() {
                ;;
            -d | --debug)
                DEBUG=1
-               CURL_VERBOSE=""
                shift
                ;;
            -u | --user)
@@ -431,8 +427,12 @@ sdwdate_parse_cmd_options() {
                ALLOWED_PER_POOL_FAILURE_RATIO=$2
                shift 2
                ;;
-           -p | --proxy)
-               PROXY=$2
+           -p | --proxy-ip)
+               PROXY_IP=$2
+               shift 2
+               ;;
+           -o | --proxy-port)
+               PROXY_PORT=$2
                shift 2
                ;;
            -i | --interval)
@@ -591,38 +591,9 @@ sdwdate_preparation() {
    rm --force "$SUCCESS_FILE"
    #rm --force "$FIRST_SUCCESS_FILE"
 
-   declare -A -g sdwdate_curl_exit_code
-   declare -A -g SDWDATE_CURL_PID
+   declare -A -g sdwdate_download_tool_exit_code
+   declare -A -g SDWDATE_DOWNLOAD_TOOL_PID
    declare -A -g SDWDATE_DOWNLOAD_TOOK_TIME
-
-   if [ "$HTTP_USER_AGENT" = "" ]; then
-      CURL_USER_AGENT=""
-   else
-      CURL_USER_AGENT="--user-agent $HTTP_USER_AGENT"
-   fi
-
-   local ret
-   ret="0"
-   command -v curl.anondist-orig >/dev/null || { ret="$?" ; true; };
-
-   if [ "$ret" = "0" ]; then
-      ## using the non-uwt-wrapped version, if the uwt wrapper is installed,
-      ## which is the case on a default Whonix installation
-      sdwdate_log "$FUNCNAME: Setting CURL to curl.anondist-orig."
-      export CURL=curl.anondist-orig
-   else
-      local ret
-      ret="0"
-      command -v curl >/dev/null || { ret="$?" ; true; };
-      if [ "$ret" = "0" ]; then
-         ## falling back to real curl, if the uwt wrapper has been uninstalled
-         sdwdate_log "$FUNCNAME: Setting CURL to curl."
-         export CURL=curl
-      else
-         sdwdate_log "$FUNCNAME: Can not find curl. Please report this bug!"
-         exit 1
-      fi
-   fi
 
    if [ "$who_ami" = "" ]; then
       ## Required for eventual plugins.
@@ -801,6 +772,8 @@ sdwdate_sanity_tests() {
    command -v shuf >/dev/null
    command -v /usr/lib/sdwdate/sclockadj >/dev/null
    command -v /sbin/hwclock >/dev/null
+   command -v /usr/lib/sdwdate/url_to_unixtime >/dev/null
+   command -v timeout >/dev/null
 
    test -e "/dev/random"
    bash -n "$BASH_SOURCE"
@@ -813,8 +786,8 @@ sdwdate_ex_funct() {
       kill -9 "$sleep_pid" || true
    fi
 
-   if [ ! "${SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]}" = "" ]; then
-      kill -9 "${SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]}" || true
+   if [ ! "${SDWDATE_DOWNLOAD_TOOL_PID[$SDWDATE_CURRENT_POOL]}" = "" ]; then
+      kill -9 "${SDWDATE_DOWNLOAD_TOOL_PID[$SDWDATE_CURRENT_POOL]}" || true
    fi
 
    if [ -d "$TEMP_DIR" ]; then
@@ -867,30 +840,20 @@ sdwdate_signal_sigusr1() {
 }
 
 sdwdate_get_time_from_remote() {
-   local LINK_UNPROCESSED first second
+   local LINK_UNPROCESSED link_url link_port
    LINK_UNPROCESSED="$1"
-   IFS="." read -r first second <<< "$LINK_UNPROCESSED"
-
-   if [ "$second" = "onion" ]; then
-      LINK_PROCESSED="$LINK_UNPROCESSED"
-      CURL_MAYBE_USE_HTTPS=""
-   else
-      LINK_PROCESSED="https://$LINK_UNPROCESSED"
-      CURL_MAYBE_USE_HTTPS="--tlsv1 --proto =https"
+   IFS=":" read -r link_url link_port <<< "$LINK_UNPROCESSED"
+   if [ "$link_port" = "" ]; then
+      link_port="80"
    fi
+   LINK_PROCESSED="${link_url}:${link_port}"
 
-   if [ "$PROXY" = "" ]; then
-      CURL_PROXY=""
-   else
-      CURL_PROXY="--proxy $PROXY"
-   fi
-
-   sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]="0"
+   sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]="0"
 
    local TIME_START
    TIME_START="$(date +%s)"
 
-   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL] (SDW_MODE: $SDW_MODE) (CURL: $CURL): ${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}"
+   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL] (SDW_MODE: $SDW_MODE): ${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}"
 
    if [ "${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}" = "" ]; then
       true
@@ -910,25 +873,31 @@ sdwdate_get_time_from_remote() {
    current_time="$(date)"
    sdwdate_log "getUrlDateDiff: $LINK_PROCESSED | $current_time"
 
-   ## --fail not required, because also 404 would include head, which is all we need
-   $CURL \
-      $CURL_MAYBE_USE_HTTPS \
-      --max-time 180 \
-      --head \
-      $CURL_PROXY \
-      $CURL_VERBOSE \
-      $CURL_USER_AGENT \
-      --output "$TEMP_DIR/$SDWDATE_CURRENT_POOL" \
-      "$LINK_PROCESSED" \
-      &
+   timeout_after="180"
+   kill_after="10"
 
-   SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]="$!"
+   ## Debugging.
+   #timeout_after="0.001"
+   #kill_after="0.001"
 
-   sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]="0"
-   wait "${SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]}" || { sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]="$?" ; true; };
-   unset SDWDATE_CURL_PID[$SDWDATE_CURRENT_POOL]
+   timeout --kill-after="$kill_after" "$timeout_after" \
+      "/usr/lib/sdwdate/url_to_unixtime" \
+         "$PROXY_IP" \
+         "$PROXY_PORT" \
+         "$link_url" \
+         "$link_port" \
+         "false" \
+         1>"$TEMP_DIR/$SDWDATE_CURRENT_POOL" \
+         2>"$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr" \
+         &
 
-   true "INFO: sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}"
+   SDWDATE_DOWNLOAD_TOOL_PID[$SDWDATE_CURRENT_POOL]="$!"
+
+   sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]="0"
+   wait "${SDWDATE_DOWNLOAD_TOOL_PID[$SDWDATE_CURRENT_POOL]}" || { sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]="$?" ; true; };
+   unset SDWDATE_DOWNLOAD_TOOL_PID[$SDWDATE_CURRENT_POOL]
+
+   true "INFO: sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]: ${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}"
 
    local TIME_END
    TIME_END="$(date +%s)"
@@ -936,28 +905,23 @@ sdwdate_get_time_from_remote() {
    true "SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]="\$\(\( $TIME_END - $TIME_START \)\)""
    SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]="$(( $TIME_END - $TIME_START ))"
 
-   if [ "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}" = "124" ]; then
-      sdwdate_log "Timeout triggered (sigterm was sufficient). (exit code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]})"
-   elif [ "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}" = "137" ]; then
-      sdwdate_log "Timeout triggered (kill was required). (exit code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]})"
+   local stdout stderr
+   stdout="$(cat $TEMP_DIR/$SDWDATE_CURRENT_POOL)" || true
+   stderr="$(cat $TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr)" || true
+
+   if [ "${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}" = "124" ]; then
+      sdwdate_log "Timeout triggered (sigterm was sufficient). (exit code: ${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}) (stdout: $stdout) (stderr: $stderr)"
+   elif [ "${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}" = "137" ]; then
+      sdwdate_log "Timeout triggered (sigkill was required). (exit code: ${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}) (stdout: $stdout) (stderr: $stderr)"
    fi
 
-   if [ ! "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}" = "0" ]; then
-      local command_v_exit_code="0"
-      command -v /usr/lib/curl-scripts/curl_exit_codes > /dev/null || { command_v_exit_code="$?" ; true; };
-      if [ "$command_v_exit_code" = "0" ]; then
-         ## If /usr/lib/curl-scripts/curl_exit_codes available, use it.
-         local curl_status_message
-         curl_status_message="$(/usr/lib/curl-scripts/curl_exit_codes "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}")" || true
-         sdwdate_log "No file could be downloaded from $LINK_PROCESSED. (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) (curl_exit_code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]} | curl_status_message: $curl_status_message)"
-      else
-         ## Fallback if /usr/lib/curl-scripts/curl_exit_codes is not available.
-         sdwdate_log "No file could be downloaded from $LINK_PROCESSED. (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) (curl_exit_code: ${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]})"
-      fi
+   if [ ! "${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}" = "0" ]; then
+      sdwdate_log "No file could be downloaded from $LINK_PROCESSED. (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) (download_tool_exit_code: ${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}) (stdout: $stdout) (stderr: $stderr)"
       return 0
    fi
 
    test -f "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
+   WEB_DATE_UNIXTIME="$stdout"
 
    sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]: ${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}"
 
@@ -970,120 +934,6 @@ sdwdate_get_time_from_remote() {
    sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL] done."
 
    return 0
-}
-
-sdwdate_parse_date() {
-   true "Setting fallback..."
-   SDWDATE_PARSE_SUCCESS="false"
-
-   test -f "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
-
-   local i
-   i="0"
-   local LINE
-   while read -r LINE; do
-      true "i="\$\(\( $i + 1 \)\)""
-      i="$(( $i + 1 ))"
-      true "INFO: LINE: $LINE"
-      local LINE_LENGTH
-      LINE_LENGTH="${#LINE}"
-      true "Reply from $LINK_PROCESSED. i: $i LINE_LENGTH: $LINE_LENGTH"
-
-      if [ "$i" -gt "20" ]; then
-         sdwdate_log "Bogus reply from $LINK_PROCESSED did not include the \"Date\" field."
-         break
-      fi
-
-      local FIRST_WORD
-      FIRST_WORD="${LINE%%:*}"
-      ## twitter used Date in lower case
-      if [ "${FIRST_WORD,,}" = "date" ]; then
-         ## Example line:
-         ## Date: Tue, 07 Oct 2014 03:51:14 GMT
-
-         ## TODO: do not hard code 50
-         ## TODO: 50 has been arbitrarily chosen.
-         if [ "$LINE_LENGTH" -gt "50" ]; then
-            sdwdate_log "Bogus reply from $LINK_PROCESSED for the \"Date\" field. Excessive line length: $LINE_LENGTH"
-            break
-         fi
-         true "Reply from $LINK_PROCESSED for the \"Date\" field. Line length: $LINE_LENGTH"
-
-         WEB_DATE_FROM_TOOL="${LINE#*:}"
-         ## Example WEB_DATE_FROM_TOOL:
-         ##  Tue, 07 Oct 2014 03:48:07 GMT
-         SDWDATE_PARSE_SUCCESS="0"
-         break
-      fi
-   done < "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
-}
-
-sdwdate_convert_to_unixtime() {
-   SDWDATE_CONVERT_SUCCESS="0"
-
-   if [ "$WEB_DATE_FROM_TOOL" = "" ]; then
-      SDWDATE_CONVERT_SUCCESS="false"
-      sdwdate_log "Bogus reply from $LINK_PROCESSED. Variable WEB_DATE_FROM_TOOL is empty."
-      return 0
-   fi
-
-   local WEB_DATE_FROM_TOOL_STRING_LENGTH
-   WEB_DATE_FROM_TOOL_STRING_LENGTH="${#WEB_DATE_FROM_TOOL}"
-   ## Debugging.
-   sdwdate_log "WEB_DATE_FROM_TOOL_STRING_LENGTH: $WEB_DATE_FROM_TOOL_STRING_LENGTH"
-
-   ## TODO: 20 is arbitrarily chosen.
-   if [ "$WEB_DATE_FROM_TOOL_STRING_LENGTH" -lt "20" ]; then
-      SDWDATE_CONVERT_SUCCESS="false"
-      sdwdate_log "Bogus reply from $LINK_PROCESSED. WEB_DATE_FROM_TOOL_STRING_LENGTH is less than 20. (WEB_DATE_FROM_TOOL_STRING_LENGTH: $WEB_DATE_FROM_TOOL_STRING_LENGTH)"
-      return 0
-   fi
-
-   ## TODO: 50 is arbitrarily chosen.
-   if [ "$WEB_DATE_FROM_TOOL_STRING_LENGTH" -gt "50" ]; then
-      SDWDATE_CONVERT_SUCCESS="false"
-      sdwdate_log "Bogus reply from $LINK_PROCESSED. WEB_DATE_FROM_TOOL_STRING_LENGTH is greater than 50. (WEB_DATE_FROM_TOOL_STRING_LENGTH: $WEB_DATE_FROM_TOOL_STRING_LENGTH)"
-      return 0
-   fi
-
-   local timeout_after kill_after
-   timeout_after="5"
-   kill_after="5"
-   WEB_DATE_UNIXTIME="$(timeout --kill-after="$kill_after" "$timeout_after" "/usr/lib/sdwdate/date_to_unixtime" "$WEB_DATE_FROM_TOOL" 2>&1)" || { SDWDATE_CONVERT_SUCCESS="$?" ; true; };
-
-   if [ ! "$SDWDATE_CONVERT_SUCCESS" = "0" ]; then
-      sdwdate_log "Bogus reply from $LINK_PROCESSED. Could not convert to unixtime. \
-\`date\` failed with exit code: $SDWDATE_CONVERT_SUCCESS. WEB_DATE_FROM_TOOL: $WEB_DATE_FROM_TOOL | WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME"
-      SDWDATE_CONVERT_SUCCESS="false"
-      return 0
-   fi
-
-   local WEB_DATE_UNIXTIME_STRING_LENGTH
-   WEB_DATE_UNIXTIME_STRING_LENGTH="${#WEB_DATE_UNIXTIME}"
-
-   ## TODO: do not hard code 12
-   if [ "$WEB_DATE_UNIXTIME_STRING_LENGTH" -gt "12" ]; then
-      SDWDATE_CONVERT_SUCCESS="false"
-      sdwdate_log "Bogus reply from $LINK_PROCESSED. Could not convert to unixtime. String length of WEB_DATE_UNIXTIME is bigger than 12, it is: $WEB_DATE_UNIXTIME_STRING_LENGTH"
-      return 0
-   else
-      true "Reply from $LINK_PROCESSED WEB_DATE_UNIXTIME string length is not greater than 12."
-   fi
-
-   if [[ "$WEB_DATE_UNIXTIME" != *[!0-9]* ]]; then
-      true "Reply from $LINK_PROCESSED WEB_DATE_UNIXTIME is strictly numeric. WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME"
-   else
-      SDWDATE_CONVERT_SUCCESS="false"
-      local test_exit_code
-      test_exit_code="0"
-      [ "$WEB_DATE_UNIXTIME" -gt "0" ] 2>/dev/null || { test_exit_code="$?" ; true; };
-      if [ "$test_exit_code" = "1" ]; then
-         sdwdate_log "Bogus reply from $LINK_PROCESSED. Negative unixtime. WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME (test_exit_code: $test_exit_code)"
-      else
-         sdwdate_log "Bogus reply from $LINK_PROCESSED. Could not convert to unixtime. Result is not strictly numeric. WEB_DATE_UNIXTIME: $WEB_DATE_UNIXTIME (test_exit_code: $test_exit_code)"
-      fi
-      return 0
-   fi
 }
 
 sdwdate_loop() {
@@ -1158,25 +1008,11 @@ sdwdate_loop() {
          continue
       fi
 
+      ## sets: sdwdate_download_tool_exit_code
+      ## sets maybe: WEB_DATE_UNIXTIME
       sdwdate_get_time_from_remote "${array[$random_integer]}"
 
-      if [ ! "${sdwdate_curl_exit_code[$SDWDATE_CURRENT_POOL]}" = "0" ]; then
-         remember[$random_integer]=1
-         continue
-      fi
-
-      ## sets: SDWDATE_PARSE_SUCCESS
-      sdwdate_parse_date
-
-      if [ ! "$SDWDATE_PARSE_SUCCESS" = "0" ]; then
-         remember[$random_integer]=1
-         continue
-      fi
-
-      ## sets: WEB_DATE_UNIXTIME
-      sdwdate_convert_to_unixtime
-
-      if [ ! "$SDWDATE_CONVERT_SUCCESS" = "0" ]; then
+      if [ ! "${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}" = "0" ]; then
          remember[$random_integer]=1
          continue
       fi
@@ -1598,7 +1434,7 @@ sdwdate_dispatcher_prerequisite() {
       true "DISPATCH_PREREQUISITE is empty, skipping."
    else
       while true; do
-         sdwdate_no_duplicate_log "dispatching prerequisite (SDW_MODE: $SDW_MODE) (CURL: $CURL) (LD_PRELOAD: $LD_PRELOAD): $DISPATCH_PREREQUISITE"
+         sdwdate_no_duplicate_log "dispatching prerequisite (SDW_MODE: $SDW_MODE) (LD_PRELOAD: $LD_PRELOAD): $DISPATCH_PREREQUISITE"
 
          local prerequisite_exit_code
          prerequisite_exit_code="0"
