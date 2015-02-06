@@ -220,6 +220,13 @@ SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_THREE]=""
 ## When set to "", it will be skipped.
 SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_THREE]=""
 
+## Hosted by Thomas White.
+## atlas777hhh7mcs7.onion:80
+## compass6vpxj32p3.onion:80
+## globe223ezvh6bps.onion:80
+## bbbbbb6qtmqg65g6.onion:80
+## pppppptkftqqnfsq.onion:80
+
 ## pool one.
 SDWDATE_POOL_ONE=(
          boum.org
