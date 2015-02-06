@@ -11,9 +11,9 @@ fi
 set -e
 
 true "
-####################################################################
-## INFO: Begin $DPKG_MAINTSCRIPT_NAME script $DPKG_MAINTSCRIPT_PACKAGE...
-####################################################################
+#####################################################################
+## INFO: BEGIN: $DPKG_MAINTSCRIPT_PACKAGE $DPKG_MAINTSCRIPT_NAME ${1+"$@"}
+#####################################################################
 "
 
 if [ -x /usr/lib/anon-shared-helper-scripts/torsocks-remove-ld-preload ]; then
