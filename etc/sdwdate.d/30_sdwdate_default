@@ -188,27 +188,27 @@ DISPATCH_POST_FAILURE=""
 
 ## This command will be `eval`uated before trying to connect to the pool one.
 ## When set to "", it will be skipped.
-SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_ONE]=""
+SDWDATE_TIME_TOOL_DISPATCH_PRE[SDWDATE_POOL_ONE]=""
 
 ## This command will be `eval`uated before after connecting to the pool one.
 ## When set to "", it will be skipped.
-SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_ONE]=""
+SDWDATE_TIME_TOOL_DISPATCH_POST[SDWDATE_POOL_ONE]=""
 
 ## This command will be `eval`uated before trying to connect to the pool two.
 ## When set to "", it will be skipped.
-SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_TWO]=""
+SDWDATE_TIME_TOOL_DISPATCH_PRE[SDWDATE_POOL_TWO]=""
 
 ## This command will be `eval`uated before after connecting to the pool two.
 ## When set to "", it will be skipped.
-SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_TWO]=""
+SDWDATE_TIME_TOOL_DISPATCH_POST[SDWDATE_POOL_TWO]=""
 
 ## This command will be `eval`uated before trying to connect to pool three.
 ## When set to "", it will be skipped.
-SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_THREE]=""
+SDWDATE_TIME_TOOL_DISPATCH_PRE[SDWDATE_POOL_THREE]=""
 
 ## This command will be `eval`uated before trying after connecting to the pool three.
 ## When set to "", it will be skipped.
-SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_THREE]=""
+SDWDATE_TIME_TOOL_DISPATCH_POST[SDWDATE_POOL_THREE]=""
 
 ## pool one.
 ## SecureDrop List

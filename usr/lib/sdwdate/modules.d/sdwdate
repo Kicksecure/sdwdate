@@ -220,34 +220,34 @@ sdwdate_defaults() {
       ECHO_UNIX_TIME="false"
    fi
 
-   if [ "${SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_ONE]}" = "" ]; then
-      declare -A -g SDWDATE_CURL_DISPATCH_PRE
-      SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_ONE]="true"
+   if [ "${SDWDATE_TIME_TOOL_DISPATCH_PRE[SDWDATE_POOL_ONE]}" = "" ]; then
+      declare -A -g SDWDATE_TIME_TOOL_DISPATCH_PRE
+      SDWDATE_TIME_TOOL_DISPATCH_PRE[SDWDATE_POOL_ONE]="true"
    fi
 
-   if [ "${SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_ONE]}" = "" ]; then
-      declare -A -g SDWDATE_CURL_DISPATCH_POST
-      SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_ONE]="true"
+   if [ "${SDWDATE_TIME_TOOL_DISPATCH_POST[SDWDATE_POOL_ONE]}" = "" ]; then
+      declare -A -g SDWDATE_TIME_TOOL_DISPATCH_POST
+      SDWDATE_TIME_TOOL_DISPATCH_POST[SDWDATE_POOL_ONE]="true"
    fi
 
-   if [ "${SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_TWO]}" = "" ]; then
-      declare -A -g SDWDATE_CURL_DISPATCH_PRE
-      SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_TWO]="true"
+   if [ "${SDWDATE_TIME_TOOL_DISPATCH_PRE[SDWDATE_POOL_TWO]}" = "" ]; then
+      declare -A -g SDWDATE_TIME_TOOL_DISPATCH_PRE
+      SDWDATE_TIME_TOOL_DISPATCH_PRE[SDWDATE_POOL_TWO]="true"
    fi
 
-   if [ "${SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_TWO]}" = "" ]; then
-      declare -A -g SDWDATE_CURL_DISPATCH_POST
-      SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_TWO]="true"
+   if [ "${SDWDATE_TIME_TOOL_DISPATCH_POST[SDWDATE_POOL_TWO]}" = "" ]; then
+      declare -A -g SDWDATE_TIME_TOOL_DISPATCH_POST
+      SDWDATE_TIME_TOOL_DISPATCH_POST[SDWDATE_POOL_TWO]="true"
    fi
 
-   if [ "${SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_THREE]}" = "" ]; then
-      declare -A -g SDWDATE_CURL_DISPATCH_PRE
-      SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_THREE]="true"
+   if [ "${SDWDATE_TIME_TOOL_DISPATCH_PRE[SDWDATE_POOL_THREE]}" = "" ]; then
+      declare -A -g SDWDATE_TIME_TOOL_DISPATCH_PRE
+      SDWDATE_TIME_TOOL_DISPATCH_PRE[SDWDATE_POOL_THREE]="true"
    fi
 
-   if [ "${SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_THREE]}" = "" ]; then
-      declare -A -g SDWDATE_CURL_DISPATCH_POST
-      SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_THREE]="true"
+   if [ "${SDWDATE_TIME_TOOL_DISPATCH_POST[SDWDATE_POOL_THREE]}" = "" ]; then
+      declare -A -g SDWDATE_TIME_TOOL_DISPATCH_POST
+      SDWDATE_TIME_TOOL_DISPATCH_POST[SDWDATE_POOL_THREE]="true"
    fi
 
    if [ "$SDWDATE_POOL_ONE" = "" ]; then
@@ -322,8 +322,8 @@ sdwdate_defaults() {
 }
 
 sdwdate_read_config_folder() {
-   declare -A -g SDWDATE_CURL_DISPATCH_PRE
-   declare -A -g SDWDATE_CURL_DISPATCH_POST
+   declare -A -g SDWDATE_TIME_TOOL_DISPATCH_PRE
+   declare -A -g SDWDATE_TIME_TOOL_DISPATCH_POST
 
    if [ "$NOCONFIG" = "1" ]; then
       return 0
@@ -532,27 +532,27 @@ sdwdate_parse_cmd_options() {
                shift 2
                ;;
            --dispatch_pre_one)
-               SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_ONE]=$2
+               SDWDATE_TIME_TOOL_DISPATCH_PRE[SDWDATE_POOL_ONE]=$2
                shift 2
                ;;
            --dispatch_post_one)
-               SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_ONE]=$2
+               SDWDATE_TIME_TOOL_DISPATCH_POST[SDWDATE_POOL_ONE]=$2
                shift 2
                ;;
            --dispatch_pre_two)
-               SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_TWO]=$2
+               SDWDATE_TIME_TOOL_DISPATCH_PRE[SDWDATE_POOL_TWO]=$2
                shift 2
                ;;
            --dispatch_post_two)
-               SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_TWO]=$2
+               SDWDATE_TIME_TOOL_DISPATCH_POST[SDWDATE_POOL_TWO]=$2
                shift 2
                ;;
            --dispatch_pre_three)
-               SDWDATE_CURL_DISPATCH_PRE[SDWDATE_POOL_THREE]=$2
+               SDWDATE_TIME_TOOL_DISPATCH_PRE[SDWDATE_POOL_THREE]=$2
                shift 2
                ;;
            --dispatch_post_three)
-               SDWDATE_CURL_DISPATCH_POST[SDWDATE_POOL_THREE]=$2
+               SDWDATE_TIME_TOOL_DISPATCH_POST[SDWDATE_POOL_THREE]=$2
                shift 2
                ;;
            -q | --quiet)
@@ -853,15 +853,15 @@ sdwdate_get_time_from_remote() {
    local TIME_START
    TIME_START="$(date +%s)"
 
-   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL] (SDW_MODE: $SDW_MODE): ${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}"
+   sdwdate_log "dispatching SDWDATE_TIME_TOOL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL] (SDW_MODE: $SDW_MODE): ${SDWDATE_TIME_TOOL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}"
 
-   if [ "${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}" = "" ]; then
+   if [ "${SDWDATE_TIME_TOOL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}" = "" ]; then
       true
    else
-      sdwdate_eval ${SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}
+      sdwdate_eval ${SDWDATE_TIME_TOOL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL]}
    fi
 
-   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL] done."
+   sdwdate_log "dispatching SDWDATE_TIME_TOOL_DISPATCH_PRE[$SDWDATE_CURRENT_POOL] done."
 
    ## Sanity test.
    touch "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
@@ -923,15 +923,15 @@ sdwdate_get_time_from_remote() {
    test -f "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
    WEB_DATE_UNIXTIME="$stdout"
 
-   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]: ${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}"
+   sdwdate_log "dispatching SDWDATE_TIME_TOOL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]: ${SDWDATE_TIME_TOOL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}"
 
-   if [ "${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}" = "" ]; then
+   if [ "${SDWDATE_TIME_TOOL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}" = "" ]; then
       true
    else
-      sdwdate_eval ${SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}
+      sdwdate_eval ${SDWDATE_TIME_TOOL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}
    fi
 
-   sdwdate_log "dispatching SDWDATE_CURL_DISPATCH_POST[$SDWDATE_CURRENT_POOL] done."
+   sdwdate_log "dispatching SDWDATE_TIME_TOOL_DISPATCH_POST[$SDWDATE_CURRENT_POOL] done."
 
    return 0
 }
