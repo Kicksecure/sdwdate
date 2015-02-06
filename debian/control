@@ -14,10 +14,10 @@ Standards-Version: 3.9.4
 
 Package: sdwdate
 Architecture: all
-Depends: curl, ca-certificates, sudo, logrotate, bc,
+Depends: sudo, logrotate, bc,
  ruby | ruby-interpreter, ruby-inline, ruby-dev,
  ruby1.9.1-dev | ruby-all-dev, gcc, libc6-dev, python-dateutil, python-socksipy,
- python, ${misc:Depends}
+ python, tor, ${misc:Depends}
 Recommends: vbox-disable-timesync, timesanitycheck, bootclockrandomization,
  timesync
 Suggests: sdwdate-plugin-anon-shared-con-check,
@@ -25,10 +25,10 @@ Suggests: sdwdate-plugin-anon-shared-con-check,
 Description: Secure Distributed Network Time Synchronization
  Time keeping is crucial for security, privacy, and anonymity. Sdwdate is a Tor
  friendly replacement for rdate and ntpdate that sets the system's clock by
- communicating via TCP with one or more HTTPS webservers.
+ communicating via onion encrypted TCP with with Tor onion webservers.
  .
  At randomized intervals, sdwdate connects to a variety of webservers and
- extracts the time stamps with help of curl from headers (RFC 2616).
+ extracts the time stamps from http headers (RFC 2616).
  Using sclockadj option, time is gradually adjusted preventing bigger clock
  jumps that could confuse logs, servers, Tor, i2p, etc.
  .
