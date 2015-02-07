@@ -1125,7 +1125,7 @@ sdwdate_generate_nanoseconds() {
    extra_seconds_without_leading_zero="$(bc -l <<< "scale=9 ; $NANOSECONDS / 1000000000")"
    extra_seconds="$(printf '%3.9f\n' "$extra_seconds_without_leading_zero")"
 
-   sdwdate_log "Made up random extra ${NANOSECONDS_PLUS_OR_MINUS}${extra_seconds} second[s] [${NANOSECONDS_PLUS_OR_MINUS}${NANOSECONDS} nanosecond(s)]."
+   sdwdate_log "Made up random extra: ${NANOSECONDS_PLUS_OR_MINUS}${extra_seconds} second[s] [${NANOSECONDS_PLUS_OR_MINUS}${NANOSECONDS} nanosecond(s)]."
 }
 
 sdwdate_log_time_before_setting_time() {
