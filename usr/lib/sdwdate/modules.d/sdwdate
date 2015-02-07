@@ -871,7 +871,7 @@ sdwdate_get_time_from_remote() {
 
    local current_time
    current_time="$(date)"
-   sdwdate_log "getUrlDateDiff: $LINK_PROCESSED | $current_time"
+   sdwdate_log "getUrlDateDiff: $LINK_PROCESSED | Current Time: $current_time"
 
    timeout_after="180"
    kill_after="10"
