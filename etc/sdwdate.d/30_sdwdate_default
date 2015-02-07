@@ -216,10 +216,10 @@ SDWDATE_TIME_TOOL_DISPATCH_POST[SDWDATE_POOL_THREE]=""
 ## https://freedom.press/sites/default/files/securedrop_list.txt
 ## https://freedom.press/sites/default/files/securedrop_list.txt.asc
 ## https://freedom.press/sites/default/files/securedrop.asc
+## removed bczjr6ciiblco5ti.onion because down
 SDWDATE_POOL_ONE=(
          dtsxnd3ykn32ywv6.onion
          znig4bc5rlwyj4mz.onion
-         bczjr6ciiblco5ti.onion
          vtjkwwcq5osuo6uq.onion
          33y6fjyhs3phzfjj.onion
          y6xjgkgwj47us5ca.onion
