@@ -1154,6 +1154,9 @@ sdwdate_set_time_using_date() {
 
    sdwdate_log_time_before_setting_time
 
+   ## sets: SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL
+   sdwdate_get_move_time_nanoseonds_total
+
    local NEW_UNIXTIME_WITH_NANOSECONDS
    NEW_UNIXTIME_WITH_NANOSECONDS="${NEW_UNIXTIME}000000000"
 
@@ -1246,6 +1249,9 @@ sdwdate_terminate_sclockadj() {
 sdwdate_get_move_time_nanoseonds_total() {
    true "SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL="\$\(\( $SDWDATE_MEDIAN_TIME_NANOSECONDS $NANOSECONDS_PLUS_OR_MINUS $NANOSECONDS \)\)""
    SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL="$(( $SDWDATE_MEDIAN_TIME_NANOSECONDS $NANOSECONDS_PLUS_OR_MINUS $NANOSECONDS ))"
+
+   ##SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL
+   sdwdate_log "Moving: [$SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL nanosecond(s)]"
 }
 
 sdwdate_set_time_using_sclockadj() {
