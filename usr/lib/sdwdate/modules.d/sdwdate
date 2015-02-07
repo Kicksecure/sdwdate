@@ -921,6 +921,14 @@ sdwdate_get_time_from_remote() {
    test -f "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
    WEB_DATE_UNIXTIME="$stdout"
 
+   local OLD_UNIXTIME
+   OLD_UNIXTIME="$(date +%s)"
+
+   true "SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]="\$\(\( $WEB_DATE_UNIXTIME - $OLD_UNIXTIME \)\)""
+   SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]="$(( $WEB_DATE_UNIXTIME - $OLD_UNIXTIME ))"
+
+   sdwdate_log "result: $LINK_PROCESSED (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) => diff = ${SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]} second(s)"
+
    sdwdate_log "dispatching SDWDATE_TIME_TOOL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]: ${SDWDATE_TIME_TOOL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}"
 
    if [ "${SDWDATE_TIME_TOOL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}" = "" ]; then
@@ -1013,14 +1021,6 @@ sdwdate_loop() {
          remember[$random_integer]=1
          continue
       fi
-
-      local OLD_UNIXTIME
-      OLD_UNIXTIME="$(date +%s)"
-
-      true "SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]="\$\(\( $WEB_DATE_UNIXTIME - $OLD_UNIXTIME \)\)""
-      SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]="$(( $WEB_DATE_UNIXTIME - $OLD_UNIXTIME ))"
-
-      sdwdate_log "result: $LINK_PROCESSED (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) => diff = ${SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]} second(s)"
 
       break
    done
