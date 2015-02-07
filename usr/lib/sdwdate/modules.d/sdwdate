@@ -1152,9 +1152,7 @@ sdwdate_set_time_using_date() {
    ## sets: NANOSECONDS_PLUS_OR_MINUS
    sdwdate_generate_nanoseconds
 
-   ## Not required.
-   ## Done by function sdwdate_subshell_time_start.
-   #sdwdate_log_time_before_setting_time
+   sdwdate_log_time_before_setting_time
 
    local NEW_UNIXTIME_WITH_NANOSECONDS
    NEW_UNIXTIME_WITH_NANOSECONDS="${NEW_UNIXTIME}000000000"
@@ -1255,7 +1253,9 @@ sdwdate_set_time_using_sclockadj() {
    ## sets: NANOSECONDS_PLUS_OR_MINUS
    sdwdate_generate_nanoseconds
 
-   sdwdate_log_time_before_setting_time
+   ## Not required.
+   ## Done by function sdwdate_subshell_time_start.
+   #sdwdate_log_time_before_setting_time
 
    ## sets: SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL
    sdwdate_get_move_time_nanoseonds_total
