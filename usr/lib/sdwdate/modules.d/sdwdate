@@ -1231,6 +1231,8 @@ sdwdate_terminate_sclockadj() {
       sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID no longer running. Exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
    fi
 
+   sdwdate_log_time_after_setting_time
+
    if [ "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "0" ]; then
        sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID exited with expected zero exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
    elif [ "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "130" ]; then
