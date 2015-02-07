@@ -908,13 +908,13 @@ sdwdate_get_time_from_remote() {
    stderr="$(cat $TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr)" || true
 
    if [ "${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}" = "124" ]; then
-      sdwdate_log "Timeout triggered (sigterm was sufficient). (exit code: ${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}) (stdout: $stdout) (stderr: $stderr)"
+      sdwdate_log "result: $LINK_PROCESSED | local time: $(date) | status: failed  | took: ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s | download_tool_exit_code: ${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]} | stdout: $stdout | stderr: $stderr | timeout_type: sigterm"
    elif [ "${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}" = "137" ]; then
-      sdwdate_log "Timeout triggered (sigkill was required). (exit code: ${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}) (stdout: $stdout) (stderr: $stderr)"
+      sdwdate_log "result: $LINK_PROCESSED | local time: $(date) | status: failed  | took: ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s | download_tool_exit_code: ${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]} | stdout: $stdout | stderr: $stderr | timeout_type: sigkill"
    fi
 
    if [ ! "${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}" = "0" ]; then
-      sdwdate_log "No file could be downloaded from $LINK_PROCESSED. (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) (download_tool_exit_code: ${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}) (stdout: $stdout) (stderr: $stderr)"
+      sdwdate_log "result: $LINK_PROCESSED | local time: $(date) | status: failed  | took: ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s | download_tool_exit_code: ${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]} | stdout: $stdout | stderr: $stderr"
       return 0
    fi
 
@@ -927,7 +927,7 @@ sdwdate_get_time_from_remote() {
    true "SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]="\$\(\( $WEB_DATE_UNIXTIME - $OLD_UNIXTIME \)\)""
    SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]="$(( $WEB_DATE_UNIXTIME - $OLD_UNIXTIME ))"
 
-   sdwdate_log "result: $LINK_PROCESSED (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) => diff = ${SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]} second(s)"
+   sdwdate_log "result: $LINK_PROCESSED | local time: $(date) | status: success | took: ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s | diff: ${SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]} second(s)"
 
    sdwdate_log "dispatching SDWDATE_TIME_TOOL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]: ${SDWDATE_TIME_TOOL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}"
 
