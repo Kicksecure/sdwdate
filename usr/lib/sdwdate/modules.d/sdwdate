@@ -1110,9 +1110,9 @@ sdwdate_generate_nanoseconds() {
    ZERO_OR_ONE="$(( 0+($(od -An -N2 -i "/dev/random") )%(0+2) ))"
 
    if [ "$ZERO_OR_ONE" = "0" ]; then
-      PLUS_OR_MINUS="-"
+      NANOSECONDS_PLUS_OR_MINUS="-"
    elif [ "$ZERO_OR_ONE" = "1" ]; then
-      PLUS_OR_MINUS="+"
+      NANOSECONDS_PLUS_OR_MINUS="+"
    else
       sdwdate_error_handler "ZERO_OR_ONE is neither 0 nor 1, it's: $ZERO_OR_ONE" || true
    fi
@@ -1128,7 +1128,7 @@ sdwdate_generate_nanoseconds() {
    extra_seconds_without_leading_zero="$(bc -l <<< "scale=9 ; $NANOSECONDS / 1000000000")"
    extra_seconds="$(printf '%3.9f\n' "$extra_seconds_without_leading_zero")"
 
-   sdwdate_log "Made up random extra ${PLUS_OR_MINUS}${extra_seconds} second[s] [${PLUS_OR_MINUS}${NANOSECONDS} nanosecond(s)]."
+   sdwdate_log "Made up random extra ${NANOSECONDS_PLUS_OR_MINUS}${extra_seconds} second[s] [${NANOSECONDS_PLUS_OR_MINUS}${NANOSECONDS} nanosecond(s)]."
 }
 
 sdwdate_log_time_before_setting_time() {
@@ -1149,7 +1149,7 @@ sdwdate_log_time_after_setting_time() {
 
 sdwdate_set_time_using_date() {
    ## sets: NANOSECONDS
-   ## sets: PLUS_OR_MINUS
+   ## sets: NANOSECONDS_PLUS_OR_MINUS
    sdwdate_generate_nanoseconds
 
    ## Not required.
@@ -1160,8 +1160,8 @@ sdwdate_set_time_using_date() {
    NEW_UNIXTIME_WITH_NANOSECONDS="${NEW_UNIXTIME}000000000"
 
    local SDWDATE_MOVE_TIME_UNIXTIME_WITH_NANOSECONDS
-   true "SDWDATE_MOVE_TIME_UNIXTIME_WITH_NANOSECONDS="\$\(\( $NEW_UNIXTIME_WITH_NANOSECONDS $PLUS_OR_MINUS $NANOSECONDS \)\)""
-   SDWDATE_MOVE_TIME_UNIXTIME_WITH_NANOSECONDS="$(( $NEW_UNIXTIME_WITH_NANOSECONDS $PLUS_OR_MINUS $NANOSECONDS ))"
+   true "SDWDATE_MOVE_TIME_UNIXTIME_WITH_NANOSECONDS="\$\(\( $NEW_UNIXTIME_WITH_NANOSECONDS $NANOSECONDS_PLUS_OR_MINUS $NANOSECONDS \)\)""
+   SDWDATE_MOVE_TIME_UNIXTIME_WITH_NANOSECONDS="$(( $NEW_UNIXTIME_WITH_NANOSECONDS $NANOSECONDS_PLUS_OR_MINUS $NANOSECONDS ))"
 
    ## {{ SDWDATE_NEW_TIME_FORMATTED_FOR_DATE
 
@@ -1246,13 +1246,13 @@ sdwdate_terminate_sclockadj() {
 }
 
 sdwdate_get_move_time_nanoseonds_total() {
-   true "SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL="\$\(\( $SDWDATE_MEDIAN_TIME_NANOSECONDS $PLUS_OR_MINUS $NANOSECONDS \)\)""
-   SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL="$(( $SDWDATE_MEDIAN_TIME_NANOSECONDS $PLUS_OR_MINUS $NANOSECONDS ))"
+   true "SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL="\$\(\( $SDWDATE_MEDIAN_TIME_NANOSECONDS $NANOSECONDS_PLUS_OR_MINUS $NANOSECONDS \)\)""
+   SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL="$(( $SDWDATE_MEDIAN_TIME_NANOSECONDS $NANOSECONDS_PLUS_OR_MINUS $NANOSECONDS ))"
 }
 
 sdwdate_set_time_using_sclockadj() {
    ## sets: NANOSECONDS
-   ## sets: PLUS_OR_MINUS
+   ## sets: NANOSECONDS_PLUS_OR_MINUS
    sdwdate_generate_nanoseconds
 
    sdwdate_log_time_before_setting_time
