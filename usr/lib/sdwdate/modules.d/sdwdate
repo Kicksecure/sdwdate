@@ -1245,6 +1245,11 @@ sdwdate_terminate_sclockadj() {
    SDWDATE_SUBSHELL_SCLOCKADJ_PID=""
 }
 
+sdwdate_get_move_time_nanoseonds_total() {
+   true "SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL="\$\(\( $SDWDATE_MEDIAN_TIME_NANOSECONDS $PLUS_OR_MINUS $NANOSECONDS \)\)""
+   SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL="$(( $SDWDATE_MEDIAN_TIME_NANOSECONDS $PLUS_OR_MINUS $NANOSECONDS ))"
+}
+
 sdwdate_set_time_using_sclockadj() {
    ## sets: NANOSECONDS
    ## sets: PLUS_OR_MINUS
@@ -1252,9 +1257,8 @@ sdwdate_set_time_using_sclockadj() {
 
    sdwdate_log_time_before_setting_time
 
-   local SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL
-   true "SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL="\$\(\( $SDWDATE_MEDIAN_TIME_NANOSECONDS $PLUS_OR_MINUS $NANOSECONDS \)\)""
-   SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL="$(( $SDWDATE_MEDIAN_TIME_NANOSECONDS $PLUS_OR_MINUS $NANOSECONDS ))"
+   ## sets: SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL
+   sdwdate_get_move_time_nanoseonds_total
 
    local first_char
    first_char=${SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL::1}
