@@ -869,7 +869,7 @@ sdwdate_get_time_from_remote() {
    touch "$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr"
    rm "$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr"
 
-   sdwdate_log "getUrlDateDiff: $LINK_PROCESSED | local time: $(date)"
+   sdwdate_log "get: $LINK_PROCESSED | local time: $(date)"
 
    timeout_after="180"
    kill_after="10"
@@ -1020,7 +1020,7 @@ sdwdate_loop() {
       true "SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]="\$\(\( $WEB_DATE_UNIXTIME - $OLD_UNIXTIME \)\)""
       SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]="$(( $WEB_DATE_UNIXTIME - $OLD_UNIXTIME ))"
 
-      sdwdate_log "Result from $LINK_PROCESSED (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) => diff = ${SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]} second(s)"
+      sdwdate_log "result: $LINK_PROCESSED (took ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s) => diff = ${SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]} second(s)"
 
       break
    done
