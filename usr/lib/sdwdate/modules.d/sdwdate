@@ -1141,7 +1141,7 @@ sdwdate_log_time_after_setting_time() {
    SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING="$(date +%s.%N)"
    local SDWDATE_NEW_DATE_AFTER_SETTING
    SDWDATE_NEW_DATE_AFTER_SETTING="$(date)"
-   sdwdate_log "Time after setting using \`date\`: $SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING [$SDWDATE_NEW_DATE_AFTER_SETTING]"
+   sdwdate_log "Time after setting using: $SDWDATE_NEW_UNIXTIME_AND_NANOSECONDS_AFTER_SETTING [$SDWDATE_NEW_DATE_AFTER_SETTING]"
 }
 
 sdwdate_calculate_new_unixtime() {
