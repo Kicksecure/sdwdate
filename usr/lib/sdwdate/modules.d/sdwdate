@@ -982,7 +982,7 @@ sdwdate_loop() {
       if [ "$allowed_member_failures" = "0" ]; then
          allowed_member_failures="1"
       fi
-      sdwdate_log "allowed_member_failures: $allowed_member_failures (debugging information: temp: $temp | $SDWDATE_CURRENT_POOL array_length: $array_length | array_length_remember: $array_length_remember)"
+      sdwdate_log "allowed_member_failures: $allowed_member_failures (debugging information: temp: $temp | SDWDATE_CURRENT_POOL: $SDWDATE_CURRENT_POOL | array_length: $array_length | array_length_remember: $array_length_remember)"
 
       if [ "$array_length_remember" -ge "$allowed_member_failures" ]; then
          sdwdate_log "ERROR: $allowed_member_failures members of the $SDWDATE_CURRENT_POOL could not be reached. (debugging information: array_length_remember: $array_length_remember | allowed_member_failures: $allowed_member_failures)"
