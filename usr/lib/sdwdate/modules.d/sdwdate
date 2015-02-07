@@ -1251,6 +1251,8 @@ sdwdate_set_time_using_sclockadj() {
    ## sets: PLUS_OR_MINUS
    sdwdate_generate_nanoseconds
 
+   sdwdate_log_time_before_setting_time
+
    local SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL
    true "SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL="\$\(\( $SDWDATE_MEDIAN_TIME_NANOSECONDS $PLUS_OR_MINUS $NANOSECONDS \)\)""
    SDWDATE_MOVE_TIME_NANOSECONDS_TOTAL="$(( $SDWDATE_MEDIAN_TIME_NANOSECONDS $PLUS_OR_MINUS $NANOSECONDS ))"
