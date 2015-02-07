@@ -1156,7 +1156,9 @@ sdwdate_set_time_using_date() {
    ## sets: PLUS_OR_MINUS
    sdwdate_generate_nanoseconds
 
-   sdwdate_log_time_before_setting_time
+   ## Not required.
+   ## Done by function sdwdate_subshell_time_start.
+   #sdwdate_log_time_before_setting_time
 
    ## sets: NEW_UNIXTIME
    sdwdate_calculate_new_unixtime
@@ -1231,7 +1233,8 @@ sdwdate_terminate_sclockadj() {
       sdwdate_log "$FUNCNAME: subshell for sclockadj with pid $SDWDATE_SUBSHELL_SCLOCKADJ_PID no longer running. Exit code: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE"
    fi
 
-   ## Not required, done in function sdwdate_subshell_time_end.
+   ## Not required.
+   ## Done by function sdwdate_subshell_time_end.
    #sdwdate_log_time_after_setting_time
 
    if [ "$SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE" = "0" ]; then
