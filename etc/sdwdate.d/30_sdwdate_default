@@ -255,4 +255,8 @@ SDWDATE_POOL_TWO=(
 SDWDATE_POOL_THREE=(
          "3g2upl4pq6kufc4m.onion:80#https://duck.co/forum/thread/1762/is-the-duckduckgo-hidden-service-legitimate"
          "dju2peblv7upfz3q.onion:80#https://guardianproject.info/2014/10/16/reducing-metadata-leakage-from-software-updates/"
+         "msydqstlz2kzerdg.onion:80#https://ahmia.fi/address/msydqstlz2kzerdg"
+         "uj3wazyk5u4hnvtk.onion:80#https://thepiratebay.se/blog/238"
+         "bitmailendavkbec.onion:80#https://bitmessage.org/forum/index.php?topic=1556.0"
+         "suw74isz7wqzpmgu.onion:80#https://www.wikileaks.org/wiki/WikiLeaks:Tor"
 )
