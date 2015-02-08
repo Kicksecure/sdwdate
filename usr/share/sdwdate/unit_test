@@ -6,10 +6,11 @@ echo "-------------------- Start Unit Test --------------------"
 
 set -e
 set -o pipefail
+set -o errtrace
 
 echo "-------------------- Begin Sourcing --------------------"
 
-for i in /usr/lib/sdwdate/modules.d/*; do
+for i in /usr/lib/sdwdate/modules.d/* /etc/sdwdate.d/*; do
    if [ -f "$i" ]; then
       ## If the last character is a ~, ignore that file,
       ## because it was created by some editor,
@@ -57,128 +58,12 @@ sdwdate_no_duplicate_log() {
 
 echo "-------------------- End Setup for Unit Test --------------------"
 
-
 echo "-------------------- Begin Unit Test 1 --------------------"
-
-sdwdate_convert_to_unixtime
-
-if [ "$SDWDATE_CONVERT_SUCCESS" = "false" ]; then
-   echo "-------------------- Unit Test 1: SUCCESS --------------------"
-else
-   echo "-------------------- Unit Test 1: FAILED! --------------------"
-   exit 1
-fi
-
-echo "-------------------- Begin Unit Test 2 --------------------"
-
-WEB_DATE_FROM_TOOL="xxxxxxxxxx"
-sdwdate_convert_to_unixtime
-
-if [ "$SDWDATE_CONVERT_SUCCESS" = "false" ]; then
-   echo "-------------------- Unit Test 2: SUCCESS --------------------"
-else
-   echo "-------------------- Unit Test 2: FAILED! --------------------"
-   exit 1
-fi
-
-echo "-------------------- Begin Unit Test 3 --------------------"
-
-WEB_DATE_FROM_TOOL="$(dd if=/dev/random bs=1 count=60)"
-
-sdwdate_convert_to_unixtime
-
-if [ "$SDWDATE_CONVERT_SUCCESS" = "false" ]; then
-   echo "-------------------- Unit Test 3: SUCCESS --------------------"
-else
-   echo "-------------------- Unit Test 3: FAILED! --------------------"
-   exit 1
-fi
-
-echo "-------------------- Begin Unit Test 4 --------------------"
-
-WEB_DATE_FROM_TOOL=" Tue Oct  7 21:55:16 UTC 2014"
-
-sdwdate_convert_to_unixtime
-
-if [ "$SDWDATE_CONVERT_SUCCESS" = "0" ]; then
-   echo "-------------------- Unit Test 4: SUCCESS --------------------"
-else
-   echo "-------------------- Unit Test 4: FAILED! --------------------"
-   exit 1
-fi
-
-echo "-------------------- Begin Unit Test 5 --------------------"
-
-TEMP_DIR="/tmp/test"
-SDWDATE_CURRENT_POOL="testpool"
-mkdir --parents "$TEMP_DIR"
-rm --force "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
-touch "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
-
-sdwdate_parse_date
-
-if [ "$SDWDATE_PARSE_SUCCESS" = "false" ]; then
-   echo "-------------------- Unit Test 5: SUCCESS --------------------"
-else
-   echo "-------------------- Unit Test 5: FAILED! --------------------"
-   exit 1
-fi
-
-echo "-------------------- Begin Unit Test 6 --------------------"
-
-TEMP_DIR="/tmp/test"
-SDWDATE_CURRENT_POOL="testpool"
-mkdir --parents "$TEMP_DIR"
-touch "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
-echo "test" > "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
-
-sdwdate_parse_date
-
-if [ "$SDWDATE_PARSE_SUCCESS" = "false" ]; then
-   echo "-------------------- Unit Test 6: SUCCESS --------------------"
-else
-   echo "-------------------- Unit Test 6: FAILED! --------------------"
-   exit 1
-fi
-
-echo "-------------------- Begin Unit Test 7 --------------------"
-
-TEMP_DIR="/tmp/test"
-SDWDATE_CURRENT_POOL="testpool"
-mkdir --parents "$TEMP_DIR"
-touch "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
-echo "$(dd if=/dev/random bs=1 count=6000)" > "$TEMP_DIR/$SDWDATE_CURRENT_POOL"
-
-sdwdate_parse_date
-
-if [ "$SDWDATE_PARSE_SUCCESS" = "false" ]; then
-   echo "-------------------- Unit Test 7: SUCCESS --------------------"
-else
-   echo "-------------------- Unit Test 7: FAILED! --------------------"
-   exit 1
-fi
-
-echo "-------------------- Begin Unit Test 8 --------------------"
-
-## TODO: There is no file that could be used to trigger the timeout 5 to read that file.
-
-##sdwdate_parse_date
-
-if [ "$SDWDATE_PARSE_SUCCESS" = "false" ]; then
-   #echo "-------------------- Unit Test 8: SUCCESS --------------------"
-   true
-else
-   #echo "-------------------- Unit Test 8: FAILED! --------------------"
-   #exit 1
-   true
-fi
-
-echo "-------------------- Begin Unit Test 9 --------------------"
 
 download_unit_test() {
    echo "-------------------- -------------------- --------------------"
 
-   sdwdate_defaults
+   #sdwdate_defaults
 
    TEMP_DIR="/tmp/test"
    SDWDATE_CURRENT_POOL="testpool"
@@ -188,16 +73,15 @@ download_unit_test() {
    declare -A -g sdwdate_download_tool_exit_code
    declare -A -g SDWDATE_DOWNLOAD_TOOL_PID
    declare -A -g SDWDATE_DOWNLOAD_TOOK_TIME
-   CURL=curl
 
    i="0"
-   for element in ${SDWDATE_POOL_ONE[@]} ${SDWDATE_POOL_TWO[@]} ${SDWDATE_POOL_THREE[@]}; do
+   for element in "${SDWDATE_POOL_ONE[@]}" "${SDWDATE_POOL_TWO[@]}" "${SDWDATE_POOL_THREE[@]}"; do
       i="$(( $i + 1 ))"
       sdwdate_get_time_from_remote "$element"
       if [ ! "${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}" = "0" ]; then
-         echo "-------------------- -------------------- Unit Test 9: FAILED : $element"
+         echo "FAILED : $element"
       else
-         echo "-------------------- -------------------- Unit Test 9: SUCCESS: $element"
+         echo "SUCCESS: $element"
       fi
    done
 }
