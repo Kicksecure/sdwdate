@@ -223,8 +223,9 @@ SDWDATE_TIME_TOOL_DISPATCH_POST[SDWDATE_POOL_THREE]=""
 ##          https://freedom.press/sites/default/files/securedrop_list.txt
 ##          https://freedom.press/sites/default/files/securedrop_list.txt.asc
 ##          https://freedom.press/sites/default/files/securedrop.asc
-##       removed:
-##          bczjr6ciiblco5ti.onion#Forbes	https://safesource.forbes.com	bczjr6ciiblco5ti.onion because down
+##       removed because down:
+##          "bczjr6ciiblco5ti.onion#Forbes	https://safesource.forbes.com	bczjr6ciiblco5ti.onion"
+##          "l7rt5kabupal7eo7.onion#BayLeaks	https://bayleaks.com	l7rt5kabupal7eo7.onion"
 SDWDATE_POOL_ONE=(
          "dtsxnd3ykn32ywv6.onion#BalkanLeaks	https://www.balkanleaks.eu	dtsxnd3ykn32ywv6.onion"
          "znig4bc5rlwyj4mz.onion#ExposeFacts	https://exposefacts.org	znig4bc5rlwyj4mz.onion"
@@ -236,7 +237,6 @@ SDWDATE_POOL_ONE=(
          "dqeasamlf3jld2kz.onion#Project On Gov't Oversight (POGO)	https://securedrop.pogo.org	dqeasamlf3jld2kz.onion"
          "pubdrop4dw6rk3aq.onion#ProPublica	https://securedrop.propublica.org	pubdrop4dw6rk3aq.onion"
          "hkjpnjbvhrxjvikd.onion#Radio24syv	https://securedrop.radio24syv.dk	hkjpnjbvhrxjvikd.onion"
-         "l7rt5kabupal7eo7.onion#BayLeaks	https://bayleaks.com	l7rt5kabupal7eo7.onion"
          "v6gdwmm7ed4oifvd.onion#Barton Gellman	https://tcfmailvault.info	v6gdwmm7ed4oifvd.onion"
          "vbmwh445kf3fs2v4.onion#The Washington Post	https://ssl.washingtonpost.com/securedrop	vbmwh445kf3fs2v4.onion"
          "poulsensqiv6ocq4.onion#Wired's Kevin Poulsen	https://pressfreedomfoundation.org/about/tech/kevin-poulsen	poulsensqiv6ocq4.onion"
@@ -250,8 +250,11 @@ SDWDATE_POOL_ONE=(
 ##       https://en.wikipedia.org/wiki/GlobaLeaks#Implementations
 ##       http://www.webcitation.org/6WBrtPlrq
 ##       Name of organization 	Implementation date 	Category 	Tor Url 	Tor2web Url 	Country
-##     removed:
-##     Perun[23] 	2012-April-7 	Investigative Journalism 	Closed 	Closed 	Serbia
+##     removed because down:
+##       Perun[23] 	2012-April-7 	Investigative Journalism 	Closed 	Closed 	Serbia
+##       "jeuhrnvdyr3xyqz3.onion#Internet Governance Transparency Initiative 	2014-April-5 	Transparency Activism 	jeuhrnvdyr3xyqz3.onion 	https://jeuhrnvdyr3xyqz3.tor2web.org 	Unknown"
+##       "ea433ils4wtprqbv.onion#EcuadorTransparente 	2014-June-19 	Transparency Activism 	ea433ils4wtprqbv.onion 	https://ea433ils4wtprqbv.tor2web.org/ 	Ecuador"
+##       "3qnry3qqjvc2u3c4.onion#ManxLeaks 	2014-July-07 	Transparency Activism 	3qnry3qqjvc2u3c4.onion 	https://3qnry3qqjvc2u3c4.tor2web.org 	Isle of Man"
 SDWDATE_POOL_TWO=(
          "atlas777hhh7mcs7.onion:80#Hosted by Thomas White. https://www.whonix.org/pipermail/whonix-devel/2015-February/000297.html"
          "compass6vpxj32p3.onion:80#Hosted by Thomas White. https://www.whonix.org/pipermail/whonix-devel/2015-February/000297.html"
@@ -268,23 +271,23 @@ SDWDATE_POOL_TWO=(
          "ppdz5djzpo3w5k2z.onion#WildLeaks [34][35][36][37][38][39] 	2014-February-7 	WildLife Crime Activism 	ppdz5djzpo3w5k2z.onion 	https://secure.wildleaks.org 	United States/Africa"
          "pltloztihmfrg2sw.onion#Salzburger-Piratenpartei 	2014-March-4 	Activism 	pltloztihmfrg2sw.onion 	https://pltloztihmfrg2sw.tor2web.org 	Austria"
          "ur5b2b4brz427ygh.onion#Nawaatleaks [40] 	2014-March-27 	Activism 	ur5b2b4brz427ygh.onion 	https://ur5b2b4brz427ygh.tor2web.org 	Tunisia"
-         "jeuhrnvdyr3xyqz3.onion#Internet Governance Transparency Initiative 	2014-April-5 	Transparency Activism 	jeuhrnvdyr3xyqz3.onion 	https://jeuhrnvdyr3xyqz3.tor2web.org 	Unknown"
          "w6csjytbrl273che.onion#Filtrala [41][42] 	2014-April-23 	Anticorruption Activism 	w6csjytbrl273che.onion 	https://w6csjytbrl273che.tor2web.org/ 	Spain"
          "abkjckdgoabr7bmm.onion#MediaDirect [43] 	2014-May-11 	Transparency Activism 	abkjckdgoabr7bmm.onion 	https://abkjckdgoabr7bmm.tor2web.org 	Australia"
          "5r4bjnjug3apqdii.onion#ExpoLeaks[44] [45] [46] 	2014-June-10 	Investigative Journalism 	5r4bjnjug3apqdii.onion 	https://5r4bjnjug3apqdii.tor2web.org/ 	Italy"
          "bqs3dobnazs7h4u4.onion#ExtremeLeaks 	2014-June-18 	Investigative Journalism 	bqs3dobnazs7h4u4.onion 	https://www.extremeleaks.org/ 	Norway"
-         "ea433ils4wtprqbv.onion#EcuadorTransparente 	2014-June-19 	Transparency Activism 	ea433ils4wtprqbv.onion 	https://ea433ils4wtprqbv.tor2web.org/ 	Ecuador"
-         "3qnry3qqjvc2u3c4.onion#ManxLeaks 	2014-July-07 	Transparency Activism 	3qnry3qqjvc2u3c4.onion 	https://3qnry3qqjvc2u3c4.tor2web.org 	Isle of Man"
          "fkut2p37apcg6l7f.onion#Allerta Anticorruzione[47][48] 	2014-October-14 	Anticorruption Activism 	fkut2p37apcg6l7f.onion 	https://alac.transparency.it 	Italy"
          "6iolddfbfinntq2b.onion#Brussels Leaks 	2014-October 24 	Europe Focus Anticorruption Transparency Activism 	6iolddfbfinntq2b.onion 	https://6iolddfbfinntq2b.tor2web.org 	Belgium"
 )
 
 ## pool three.
+##   info:
+##     individual websites
+##   removed because down:
+##     "suw74isz7wqzpmgu.onion:80#https://www.wikileaks.org/wiki/WikiLeaks:Tor"
 SDWDATE_POOL_THREE=(
          "3g2upl4pq6kufc4m.onion:80#https://duck.co/forum/thread/1762/is-the-duckduckgo-hidden-service-legitimate"
          "dju2peblv7upfz3q.onion:80#https://guardianproject.info/2014/10/16/reducing-metadata-leakage-from-software-updates/"
          "msydqstlz2kzerdg.onion:80#https://ahmia.fi/address/msydqstlz2kzerdg"
          "uj3wazyk5u4hnvtk.onion:80#https://thepiratebay.se/blog/238"
          "bitmailendavkbec.onion:80#https://bitmessage.org/forum/index.php?topic=1556.0"
-         "suw74isz7wqzpmgu.onion:80#https://www.wikileaks.org/wiki/WikiLeaks:Tor"
 )
