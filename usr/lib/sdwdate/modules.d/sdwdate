@@ -1428,6 +1428,7 @@ sdwdate_maybe_set_new_time() {
 
    ## Do not needlessly try to change time, when there is no difference.
    if [ "$SDWDATE_MEDIAN_TIME_SECONDS" = "0" ]; then
+      sdwdate_log "require time change: 0 second(s) [0 nanosecond(s)]"
       sdwdate_log "No need to set clock."
       return 0
    fi
