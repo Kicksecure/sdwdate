@@ -244,11 +244,11 @@ SDWDATE_POOL_ONE=(
 
 ## pool two.
 SDWDATE_POOL_TWO=(
-         "atlas777hhh7mcs7.onion:80#Hosted by Thomas White."
-         "compass6vpxj32p3.onion:80#Hosted by Thomas White."
-         "globe223ezvh6bps.onion:80#Hosted by Thomas White."
-         "bbbbbb6qtmqg65g6.onion:80#Hosted by Thomas White."
-         "pppppptkftqqnfsq.onion:80#Hosted by Thomas White."
+         "atlas777hhh7mcs7.onion:80#Hosted by Thomas White. https://www.whonix.org/pipermail/whonix-devel/2015-February/000297.html"
+         "compass6vpxj32p3.onion:80#Hosted by Thomas White. https://www.whonix.org/pipermail/whonix-devel/2015-February/000297.html"
+         "globe223ezvh6bps.onion:80#Hosted by Thomas White. https://www.whonix.org/pipermail/whonix-devel/2015-February/000297.html"
+         "bbbbbb6qtmqg65g6.onion:80#Hosted by Thomas White. https://www.whonix.org/pipermail/whonix-devel/2015-February/000297.html"
+         "pppppptkftqqnfsq.onion:80#Hosted by Thomas White. https://www.whonix.org/pipermail/whonix-devel/2015-February/000297.html"
 )
 
 ## pool three.
