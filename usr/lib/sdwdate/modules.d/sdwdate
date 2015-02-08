@@ -127,7 +127,7 @@ sdwdate_defaults() {
    fi
 
    if [ "$MIN_INTERVAL" = "" ]; then
-      MIN_INTERVAL="10"
+      MIN_INTERVAL="60"
    fi
 
    if [ "$NOCONFIG" = "" ]; then

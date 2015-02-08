@@ -68,14 +68,14 @@ PROXY_PORT="9050"
 
 ## How often sdwdate should run in minutes.
 ## 0 disables it and sdwdate exits after run.
-INTERVAL="60"
+INTERVAL="180"
 
 ## How many minutes should be waited before running sdwdate again.
 ## Only has an effect when RANDOMIZE is set to 1 as well.
-MIN_INTERVAL="10"
+MIN_INTERVAL="60"
 
 ## Randomize the interval above.
-## Minimum 10 minutes.
+## Minimum 60 minutes.
 ## Maximum $INTERVAL minutes.
 ## 0 disabled.
 ## 1 enabled.
