@@ -210,46 +210,49 @@ SDWDATE_TIME_TOOL_DISPATCH_PRE[SDWDATE_POOL_THREE]=""
 ## When set to "", it will be skipped.
 SDWDATE_TIME_TOOL_DISPATCH_POST[SDWDATE_POOL_THREE]=""
 
+## pool syntax
+## "url.onion[:port]#comment"
+
 ## pool one.
-## SecureDrop List
-## https://freedom.press/securedrop/directory
-## https://freedom.press/sites/default/files/securedrop_list.txt
-## https://freedom.press/sites/default/files/securedrop_list.txt.asc
-## https://freedom.press/sites/default/files/securedrop.asc
-## removed bczjr6ciiblco5ti.onion because down
+##    SecureDrop List
+##       info:
+##          Last updated Thu Oct 23 16:15:00 PDT 2014
+##          Organization	Landing Page	Tor Hidden Service Address
+##       in use:
+##          https://freedom.press/securedrop/directory
+##          https://freedom.press/sites/default/files/securedrop_list.txt
+##          https://freedom.press/sites/default/files/securedrop_list.txt.asc
+##          https://freedom.press/sites/default/files/securedrop.asc
+##       removed:
+##          bczjr6ciiblco5ti.onion#Forbes	https://safesource.forbes.com	bczjr6ciiblco5ti.onion because down
 SDWDATE_POOL_ONE=(
-         dtsxnd3ykn32ywv6.onion
-         znig4bc5rlwyj4mz.onion
-         vtjkwwcq5osuo6uq.onion
-         33y6fjyhs3phzfjj.onion
-         y6xjgkgwj47us5ca.onion
-         strngbxhwyuu37a3.onion
-         swdi5ymnwmrqhycl.onion
-         dqeasamlf3jld2kz.onion
-         pubdrop4dw6rk3aq.onion
-         hkjpnjbvhrxjvikd.onion
-         l7rt5kabupal7eo7.onion
-         v6gdwmm7ed4oifvd.onion
-         vbmwh445kf3fs2v4.onion
-         poulsensqiv6ocq4.onion
+         "dtsxnd3ykn32ywv6.onion#BalkanLeaks	https://www.balkanleaks.eu	dtsxnd3ykn32ywv6.onion"
+         "znig4bc5rlwyj4mz.onion#ExposeFacts	https://exposefacts.org	znig4bc5rlwyj4mz.onion"
+         "vtjkwwcq5osuo6uq.onion#Greenpeace New Zealand	https://www.safesource.org.nz	vtjkwwcq5osuo6uq.onion"
+         "33y6fjyhs3phzfjj.onion#The Guardian	https://securedrop.theguardian.com	33y6fjyhs3phzfjj.onion"
+         "y6xjgkgwj47us5ca.onion#The Intercept	https://firstlook.org/theintercept/securedrop	y6xjgkgwj47us5ca.onion"
+         "strngbxhwyuu37a3.onion#The New Yorker	https://projects.newyorker.com/strongbox	strngbxhwyuu37a3.onion"
+         "swdi5ymnwmrqhycl.onion#NRKbeta	https://nrkbeta.no/tips	swdi5ymnwmrqhycl.onion"
+         "dqeasamlf3jld2kz.onion#Project On Gov't Oversight (POGO)	https://securedrop.pogo.org	dqeasamlf3jld2kz.onion"
+         "pubdrop4dw6rk3aq.onion#ProPublica	https://securedrop.propublica.org	pubdrop4dw6rk3aq.onion"
+         "hkjpnjbvhrxjvikd.onion#Radio24syv	https://securedrop.radio24syv.dk	hkjpnjbvhrxjvikd.onion"
+         "l7rt5kabupal7eo7.onion#BayLeaks	https://bayleaks.com	l7rt5kabupal7eo7.onion"
+         "v6gdwmm7ed4oifvd.onion#Barton Gellman	https://tcfmailvault.info	v6gdwmm7ed4oifvd.onion"
+         "vbmwh445kf3fs2v4.onion#The Washington Post	https://ssl.washingtonpost.com/securedrop	vbmwh445kf3fs2v4.onion"
+         "poulsensqiv6ocq4.onion#Wired's Kevin Poulsen	https://pressfreedomfoundation.org/about/tech/kevin-poulsen	poulsensqiv6ocq4.onion"
 )
 
 ## pool two.
-## Hosted by Thomas White.
-## atlas777hhh7mcs7.onion:80
-## compass6vpxj32p3.onion:80
-## globe223ezvh6bps.onion:80
-## bbbbbb6qtmqg65g6.onion:80
-## pppppptkftqqnfsq.onion:80
 SDWDATE_POOL_TWO=(
-         atlas777hhh7mcs7.onion:80
-         compass6vpxj32p3.onion:80
-         globe223ezvh6bps.onion:80
-         bbbbbb6qtmqg65g6.onion:80
-         pppppptkftqqnfsq.onion:80
+         "atlas777hhh7mcs7.onion:80#Hosted by Thomas White."
+         "compass6vpxj32p3.onion:80#Hosted by Thomas White."
+         "globe223ezvh6bps.onion:80#Hosted by Thomas White."
+         "bbbbbb6qtmqg65g6.onion:80#Hosted by Thomas White."
+         "pppppptkftqqnfsq.onion:80#Hosted by Thomas White."
 )
 
 ## pool three.
 SDWDATE_POOL_THREE=(
-         3g2upl4pq6kufc4m.onion:80
+         "3g2upl4pq6kufc4m.onion:80#https://duck.co/forum/thread/1762/is-the-duckduckgo-hidden-service-legitimate"
+         "dju2peblv7upfz3q.onion:80#https://guardianproject.info/2014/10/16/reducing-metadata-leakage-from-software-updates/"
 )

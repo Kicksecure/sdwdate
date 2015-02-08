@@ -840,13 +840,34 @@ sdwdate_signal_sigusr1() {
 }
 
 sdwdate_get_time_from_remote() {
-   local LINK_UNPROCESSED link_url link_port
-   LINK_UNPROCESSED="$1"
-   IFS=":" read -r link_url link_port <<< "$LINK_UNPROCESSED"
-   if [ "$link_port" = "" ]; then
+   local link_unprocessed link_url_part link_comment_part link_url link_port link_processed
+   link_unprocessed="$@"
+   ## Example link_unprocessed:
+   ## atlas777hhh7mcs7.onion:80#Hosted by Thomas White.
+
+   link_url_part="${link_unprocessed%"#"*}"
+   ## Examples link_url_part:
+   ## atlas777hhh7mcs7.onion:80
+   ## atlas777hhh7mcs7.onion
+   link_comment_part="${link_unprocessed#*"#"}"
+   ## Example link_comment_part:
+   ## Hosted by Thomas White.
+
+   if echo "$link_url_part" | grep -q ":" ; then
+      ## When link_url_part is for example:
+      ## atlas777hhh7mcs7.onion:80
+      link_url="${link_url_part%":"*}"
+      link_port="${link_url_part#*":"}"
+   else
+      ## When link_url_part is for example:
+      ## atlas777hhh7mcs7.onion
+      link_url="$link_url_part"
       link_port="80"
    fi
-   LINK_PROCESSED="${link_url}:${link_port}"
+
+   link_processed="${link_url}:${link_port}"
+   ## Example link_processed:
+   ## atlas777hhh7mcs7.onion:80
 
    sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]="0"
 
@@ -869,7 +890,7 @@ sdwdate_get_time_from_remote() {
    touch "$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr"
    rm "$TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr"
 
-   sdwdate_log "get   : $LINK_PROCESSED | local time: $(date)"
+   sdwdate_log "get   : $link_processed | local time: $(date) | link_comment_part: $link_comment_part"
 
    timeout_after="180"
    kill_after="10"
@@ -908,13 +929,13 @@ sdwdate_get_time_from_remote() {
    stderr="$(cat $TEMP_DIR/$SDWDATE_CURRENT_POOL.stderr)" || true
 
    if [ "${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}" = "124" ]; then
-      sdwdate_log "result: $LINK_PROCESSED | local time: $(date) | status: failed  | took: ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s | download_tool_exit_code: ${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]} | stdout: $stdout | stderr: $stderr | timeout_type: sigterm"
+      sdwdate_log "result: $link_processed | local time: $(date) | status: failed  | took: ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s | download_tool_exit_code: ${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]} | stdout: $stdout | stderr: $stderr | timeout_type: sigterm"
    elif [ "${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}" = "137" ]; then
-      sdwdate_log "result: $LINK_PROCESSED | local time: $(date) | status: failed  | took: ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s | download_tool_exit_code: ${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]} | stdout: $stdout | stderr: $stderr | timeout_type: sigkill"
+      sdwdate_log "result: $link_processed | local time: $(date) | status: failed  | took: ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s | download_tool_exit_code: ${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]} | stdout: $stdout | stderr: $stderr | timeout_type: sigkill"
    fi
 
    if [ ! "${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}" = "0" ]; then
-      sdwdate_log "result: $LINK_PROCESSED | local time: $(date) | status: failed  | took: ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s | download_tool_exit_code: ${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]} | stdout: $stdout | stderr: $stderr"
+      sdwdate_log "result: $link_processed | local time: $(date) | status: failed  | took: ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s | download_tool_exit_code: ${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]} | stdout: $stdout | stderr: $stderr"
       return 0
    fi
 
@@ -927,7 +948,7 @@ sdwdate_get_time_from_remote() {
    true "SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]="\$\(\( $WEB_DATE_UNIXTIME - $OLD_UNIXTIME \)\)""
    SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]="$(( $WEB_DATE_UNIXTIME - $OLD_UNIXTIME ))"
 
-   sdwdate_log "result: $LINK_PROCESSED | local time: $(date) | status: success | took: ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s | diff: ${SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]} second(s)"
+   sdwdate_log "result: $link_processed | local time: $(date) | status: success | took: ${SDWDATE_DOWNLOAD_TOOK_TIME[$SDWDATE_CURRENT_POOL]}s | diff: ${SDWDATE_TIME_DIFF[$SDWDATE_CURRENT_POOL]} second(s)"
 
    sdwdate_log "dispatching SDWDATE_TIME_TOOL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]: ${SDWDATE_TIME_TOOL_DISPATCH_POST[$SDWDATE_CURRENT_POOL]}"
 
@@ -945,7 +966,9 @@ sdwdate_get_time_from_remote() {
 sdwdate_loop() {
    trap "sdwdate_error_handler" ERR
 
-   eval "array=(\${$SDWDATE_CURRENT_POOL[@]})"
+   eval "array=(
+      \"\${$SDWDATE_CURRENT_POOL[@]}\"
+   )"
 
    unset remember
    declare -A -g remember
