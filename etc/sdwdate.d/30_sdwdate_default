@@ -212,6 +212,14 @@ SDWDATE_TIME_TOOL_DISPATCH_POST[SDWDATE_POOL_THREE]=""
 
 ## pool syntax
 ## "url.onion[:port]#comment"
+## "
+##    url.onion[:port]#comment
+##    [url.onion[:port]#comment]
+##    [url.onion[:port]#comment]
+##    [...]
+## "
+## "url.onion[:port]#comment"
+## ...
 
 ## pool one.
 ##    SecureDrop List
@@ -256,11 +264,13 @@ SDWDATE_POOL_ONE=(
 ##       "ea433ils4wtprqbv.onion#EcuadorTransparente 	2014-June-19 	Transparency Activism 	ea433ils4wtprqbv.onion 	https://ea433ils4wtprqbv.tor2web.org/ 	Ecuador"
 ##       "3qnry3qqjvc2u3c4.onion#ManxLeaks 	2014-July-07 	Transparency Activism 	3qnry3qqjvc2u3c4.onion 	https://3qnry3qqjvc2u3c4.tor2web.org 	Isle of Man"
 SDWDATE_POOL_TWO=(
-         "atlas777hhh7mcs7.onion:80#Hosted by Thomas White. https://www.whonix.org/pipermail/whonix-devel/2015-February/000297.html"
-         "compass6vpxj32p3.onion:80#Hosted by Thomas White. https://www.whonix.org/pipermail/whonix-devel/2015-February/000297.html"
-         "globe223ezvh6bps.onion:80#Hosted by Thomas White. https://www.whonix.org/pipermail/whonix-devel/2015-February/000297.html"
-         "bbbbbb6qtmqg65g6.onion:80#Hosted by Thomas White. https://www.whonix.org/pipermail/whonix-devel/2015-February/000297.html"
-         "pppppptkftqqnfsq.onion:80#Hosted by Thomas White. https://www.whonix.org/pipermail/whonix-devel/2015-February/000297.html"
+         "
+            atlas777hhh7mcs7.onion:80#Hosted by Thomas White. https://www.whonix.org/pipermail/whonix-devel/2015-February/000297.html
+            compass6vpxj32p3.onion:80#Hosted by Thomas White. https://www.whonix.org/pipermail/whonix-devel/2015-February/000297.html
+            globe223ezvh6bps.onion:80#Hosted by Thomas White. https://www.whonix.org/pipermail/whonix-devel/2015-February/000297.html
+            bbbbbb6qtmqg65g6.onion:80#Hosted by Thomas White. https://www.whonix.org/pipermail/whonix-devel/2015-February/000297.html
+            pppppptkftqqnfsq.onion:80#Hosted by Thomas White. https://www.whonix.org/pipermail/whonix-devel/2015-February/000297.html
+         "
          "w6csjytbrl273che.onion#Ljost[24][25] 	2012-September-30 	Transparency Activism 	w6csjytbrl273che.onion 	https://w6csjytbrl273che.tor2web.org/ 	Iceland"
          "ak2uqfavwgmjrvtu.onion#MagyarLeaks[26] 	2013-July-7 	Investigative Journalism 	ak2uqfavwgmjrvtu.onion 	https://ak2uqfavwgmjrvtu.tor2web.org 	Hungary"
          "yn6ocmvu4ok3k3al.onion#Publeaks [27][28] 	2013-September-9 	+40 National/Local Media Consortium 	yn6ocmvu4ok3k3al.onion 	https://secure.publeaks.nl 	Netherlands"
@@ -296,16 +306,18 @@ SDWDATE_POOL_THREE=(
          "bitmailendavkbec.onion:80#https://bitmessage.org/forum/index.php?topic=1556.0"
          "wi7qkxyrdpu5cmvr.onion#Austici www.autistici.org/en/stuff/man_anon/tor.html"
          "ic6au7wa3f6naxjq.onion#https://lists.gnupg.org/pipermail/gnupg-users/2014-April/049578.html"
-         "nzh3fv6jc6jskki3#riseup.net:       nzh3fv6jc6jskki3.onion (port 443)"
-         "nzh3fv6jc6jskki3.onion#help.riseup.net:  nzh3fv6jc6jskki3.onion (port 443)"
-         "cwoiopiifrlzcuos.onion#black.riseup.net: cwoiopiifrlzcuos.onion (port 443)"
-         "zsolxunfmbfuq7wf.onion#imap.riseup.net:  zsolxunfmbfuq7wf.onion (port 993)"
-         "yfm6sdhnfbulplsw.onion#labs.riseup.net:  yfm6sdhnfbulplsw.onion (port 80, 443)"
-         "xpgylzydxykgdqyg.onion#lists.riseup.net: xpgylzydxykgdqyg.onion (port 80, 443)"
-         "zsolxunfmbfuq7wf.onion#mail.riseup.net:  zsolxunfmbfuq7wf.onion (ports 443, 465, 587)"
-         "5jp7xtmox6jyoqd5:443#pad.riseup.net:   5jp7xtmox6jyoqd5.onion (port 443) (note: only works with https://5jp7xtmox6jyoqd5.onion)"
-         "zsolxunfmbfuq7wf.onion#pop.riseup.net:   zsolxunfmbfuq7wf.onion (port 995)"
-         "zsolxunfmbfuq7wf.onion#smtp.riseup.net:  zsolxunfmbfuq7wf.onion (ports 465, 587)"
-         "j6uhdvbhz74oefxf.onion#user.riseup.net:  j6uhdvbhz74oefxf.onion (port 80, 443)"
-         "7lvd7fa5yfbdqaii.onion#we.riseup.net:    7lvd7fa5yfbdqaii.onion (port 443)"
+         "
+            nzh3fv6jc6jskki3#riseup.net:       nzh3fv6jc6jskki3.onion (port 443)
+            nzh3fv6jc6jskki3.onion#help.riseup.net:  nzh3fv6jc6jskki3.onion (port 443)
+            cwoiopiifrlzcuos.onion#black.riseup.net: cwoiopiifrlzcuos.onion (port 443)
+            zsolxunfmbfuq7wf.onion#imap.riseup.net:  zsolxunfmbfuq7wf.onion (port 993)
+            yfm6sdhnfbulplsw.onion#labs.riseup.net:  yfm6sdhnfbulplsw.onion (port 80, 443)
+            xpgylzydxykgdqyg.onion#lists.riseup.net: xpgylzydxykgdqyg.onion (port 80, 443)
+            zsolxunfmbfuq7wf.onion#mail.riseup.net:  zsolxunfmbfuq7wf.onion (ports 443, 465, 587)
+            5jp7xtmox6jyoqd5:443#pad.riseup.net:   5jp7xtmox6jyoqd5.onion (port 443) (note: only works with https://5jp7xtmox6jyoqd5.onion)
+            zsolxunfmbfuq7wf.onion#pop.riseup.net:   zsolxunfmbfuq7wf.onion (port 995)
+            zsolxunfmbfuq7wf.onion#smtp.riseup.net:  zsolxunfmbfuq7wf.onion (ports 465, 587)
+            j6uhdvbhz74oefxf.onion#user.riseup.net:  j6uhdvbhz74oefxf.onion (port 80, 443)
+            7lvd7fa5yfbdqaii.onion#we.riseup.net:    7lvd7fa5yfbdqaii.onion (port 443)
+         "
 )

@@ -74,15 +74,35 @@ download_unit_test() {
    declare -A -g SDWDATE_DOWNLOAD_TOOL_PID
    declare -A -g SDWDATE_DOWNLOAD_TOOK_TIME
 
-   i="0"
    for element in "${SDWDATE_POOL_ONE[@]}" "${SDWDATE_POOL_TWO[@]}" "${SDWDATE_POOL_THREE[@]}"; do
-      i="$(( $i + 1 ))"
-      sdwdate_get_time_from_remote "$element"
-      if [ ! "${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}" = "0" ]; then
-         echo "FAILED : $element"
-      else
-         echo "SUCCESS: $element"
-      fi
+      echo "element: $element"
+      number_lines_counter="0"
+      while read -r -d $'\n' line; do
+         line_without_spaces="${line// /}"
+         if [ "$line_without_spaces" = "" ]; then
+            ## Skipping empty or lines with leading/trailing spaces (such as '"     ').
+            continue
+         fi
+         number_lines_counter="$(( $number_lines_counter + 1 ))"
+
+         link_unprocessed="$(sdwdate_pick_single_link_from_maybe_multi_lined_mirror_list "$element")"
+         echo "link_unprocessed: $link_unprocessed"
+
+         ## sets: link_url_part
+         ## sets: link_comment_part
+         ## sets: link_url
+         ## sets: link_port
+         sdwdate_link_with_comments_to_processed_link
+
+         echo "\${link_url}:\${link_port}: ${link_url}:${link_port}"
+         sdwdate_get_time_from_remote
+         if [ ! "${sdwdate_download_tool_exit_code[$SDWDATE_CURRENT_POOL]}" = "0" ]; then
+            echo "FAILED : ${link_url}:${link_port}"
+         else
+            echo "SUCCESS: ${link_url}:${link_port}"
+         fi
+         echo "----------"
+      done < <( echo "$element" )
    done
 }
 
