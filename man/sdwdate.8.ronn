@@ -85,9 +85,13 @@ Builds mediate time by asking three https servers from three different pools.
 
     ratio (0.0-1.0) of allowed per-pool failure
 
-  * -p --proxy proxy
+  * -p --proxy-ip
 
-    what to pass to curl's --proxy
+    proxy IP
+
+  * -o --port-port
+
+    proxy port
 
   * -i --interval minutes
 
@@ -190,27 +194,27 @@ Builds mediate time by asking three https servers from three different pools.
 
   * --dispatch_pre_one command
 
-    exec before run of curl
+    exec before run of url to unixtime tool
 
   * --dispatch_post_one command
 
-    exec after run of curl
+    exec after run of url to unixtime tool
 
   * --dispatch_pre_two command
 
-    exec before run of curl
+    exec before run of url to unixtime tool
 
   * --dispatch_post_two command
 
-    exec after run of curl
+    exec after run of url to unixtime tool
 
   * --dispatch_pre_three command
 
-    exec before first run of curl
+    exec before first run of url to unixtime tool
 
   * --dispatch_post_three command
 
-    exec after run of curl"
+    exec after run of url to unixtime tool"
 
 ## DISPATCHER
 Can be commands or scripts.
