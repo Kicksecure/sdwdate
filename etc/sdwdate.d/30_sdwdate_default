@@ -282,12 +282,30 @@ SDWDATE_POOL_TWO=(
 ## pool three.
 ##   info:
 ##     individual websites
+##     riseup.net List
+##        https://help.riseup.net/en/tor#riseups-tor-hidden-services
 ##   removed because down:
 ##     "suw74isz7wqzpmgu.onion:80#https://www.wikileaks.org/wiki/WikiLeaks:Tor"
+##   removed because no http:
+##     "4cjw6cwpeaeppfqz.onion#xmpp.riseup.net:  4cjw6cwpeaeppfqz.onion (ports 5222, 5269)"
 SDWDATE_POOL_THREE=(
          "3g2upl4pq6kufc4m.onion:80#https://duck.co/forum/thread/1762/is-the-duckduckgo-hidden-service-legitimate"
          "dju2peblv7upfz3q.onion:80#https://guardianproject.info/2014/10/16/reducing-metadata-leakage-from-software-updates/"
          "msydqstlz2kzerdg.onion:80#https://ahmia.fi/address/msydqstlz2kzerdg"
          "uj3wazyk5u4hnvtk.onion:80#https://thepiratebay.se/blog/238"
          "bitmailendavkbec.onion:80#https://bitmessage.org/forum/index.php?topic=1556.0"
+         "wi7qkxyrdpu5cmvr.onion#Austici www.autistici.org/en/stuff/man_anon/tor.html"
+         "ic6au7wa3f6naxjq.onion#https://lists.gnupg.org/pipermail/gnupg-users/2014-April/049578.html"
+         "nzh3fv6jc6jskki3#riseup.net:       nzh3fv6jc6jskki3.onion (port 443)"
+         "nzh3fv6jc6jskki3.onion#help.riseup.net:  nzh3fv6jc6jskki3.onion (port 443)"
+         "cwoiopiifrlzcuos.onion#black.riseup.net: cwoiopiifrlzcuos.onion (port 443)"
+         "zsolxunfmbfuq7wf.onion#imap.riseup.net:  zsolxunfmbfuq7wf.onion (port 993)"
+         "yfm6sdhnfbulplsw.onion#labs.riseup.net:  yfm6sdhnfbulplsw.onion (port 80, 443)"
+         "xpgylzydxykgdqyg.onion#lists.riseup.net: xpgylzydxykgdqyg.onion (port 80, 443)"
+         "zsolxunfmbfuq7wf.onion#mail.riseup.net:  zsolxunfmbfuq7wf.onion (ports 443, 465, 587)"
+         "5jp7xtmox6jyoqd5:443#pad.riseup.net:   5jp7xtmox6jyoqd5.onion (port 443) (note: only works with https://5jp7xtmox6jyoqd5.onion)"
+         "zsolxunfmbfuq7wf.onion#pop.riseup.net:   zsolxunfmbfuq7wf.onion (port 995)"
+         "zsolxunfmbfuq7wf.onion#smtp.riseup.net:  zsolxunfmbfuq7wf.onion (ports 465, 587)"
+         "j6uhdvbhz74oefxf.onion#user.riseup.net:  j6uhdvbhz74oefxf.onion (port 80, 443)"
+         "7lvd7fa5yfbdqaii.onion#we.riseup.net:    7lvd7fa5yfbdqaii.onion (port 443)"
 )
