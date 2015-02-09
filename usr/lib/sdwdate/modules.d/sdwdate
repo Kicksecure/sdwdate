@@ -1431,27 +1431,27 @@ sdwdate_set_time_using_sclockadj() {
          sclockadj_kill_helper_output="$(sudo /usr/lib/sdwdate/sclockadj_kill_helper "$SDWDATE_SCLOCKADJ_COMMAND_PID" 2>&1)"
          echo "$FUNCNAME: sclockadj_kill_helper_output: $sclockadj_kill_helper_output"
          unset sclockadj_kill_helper_output
-         echo "$FUNCNAME: Execute sdwdate_subshell_wait again to set SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE."
-         sdwdate_subshell_wait
+      }
+
+      sdwdate_subshell_exit() {
+         echo "exit code: $SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
+         exit "$SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
+      }
+
+      sdwdate_subshell_main() {
+         ## There is a /etc/sudoers.d exception.
+         sudo /usr/lib/sdwdate/sclockadj_debug_helper || true
+         sdwdate_subshell_time_start
+         $SDWDATE_SCLOCKADJ_COMMAND 2>&1 &
+         SDWDATE_SCLOCKADJ_COMMAND_PID="$!"
+         sdwdate_subshell_wait ## Might get interrupted by signal sigterm.
+         sdwdate_subshell_time_end
+         sdwdate_subshell_exit
       }
 
       trap "sdwdate_subshell_trap_sigterm" SIGTERM
 
-      ## There is a /etc/sudoers.d exception.
-      sudo /usr/lib/sdwdate/sclockadj_debug_helper || true
-
-      sdwdate_subshell_time_start
-
-      $SDWDATE_SCLOCKADJ_COMMAND 2>&1 &
-      SDWDATE_SCLOCKADJ_COMMAND_PID="$!"
-
-      sdwdate_subshell_wait ## Might get interrupted by signal sigterm.
-
-      sdwdate_subshell_time_end
-
-      echo "exit code: $SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
-
-      exit "$SDWDATE_SCLOCKADJ_COMMAND_EXIT_CODE"
+      sdwdate_subshell_main
    } > "$sclockadj_subshell_fifo" 2>&1 &
 
    SDWDATE_SUBSHELL_SCLOCKADJ_PID="$!"
