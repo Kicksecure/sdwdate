@@ -234,6 +234,7 @@ SDWDATE_TIME_TOOL_DISPATCH_POST[SDWDATE_POOL_THREE]=""
 ##       removed because down:
 ##          "bczjr6ciiblco5ti.onion#Forbes	https://safesource.forbes.com	bczjr6ciiblco5ti.onion"
 ##          "l7rt5kabupal7eo7.onion#BayLeaks	https://bayleaks.com	l7rt5kabupal7eo7.onion"
+##   individual websites
 SDWDATE_POOL_ONE=(
          "dtsxnd3ykn32ywv6.onion#BalkanLeaks	https://www.balkanleaks.eu	dtsxnd3ykn32ywv6.onion"
          "znig4bc5rlwyj4mz.onion#ExposeFacts	https://exposefacts.org	znig4bc5rlwyj4mz.onion"
@@ -248,6 +249,7 @@ SDWDATE_POOL_ONE=(
          "v6gdwmm7ed4oifvd.onion#Barton Gellman	https://tcfmailvault.info	v6gdwmm7ed4oifvd.onion"
          "vbmwh445kf3fs2v4.onion#The Washington Post	https://ssl.washingtonpost.com/securedrop	vbmwh445kf3fs2v4.onion"
          "poulsensqiv6ocq4.onion#Wired's Kevin Poulsen	https://pressfreedomfoundation.org/about/tech/kevin-poulsen	poulsensqiv6ocq4.onion"
+         "tigas3l7uusztiqu.onion#https://mike.tig.as tinkerer at ProPublica in New York"
 )
 
 ## pool two.
