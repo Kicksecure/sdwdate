@@ -81,10 +81,7 @@ def request_data_from_remote_server(socket_ip, socket_port, url, remote_port):
         s.connect((url, remote_port))
 
     except Exception as e:
-        if str(e).startswith('__init__'):
-            print >> sys.stderr, 'connect error: URL "%s" not found.' % url
-        else:
-            print >> sys.stderr, 'connect error: %s' % (e)
+        print >> sys.stderr, 'connect error: %s' % (e)
         sys.exit(2)
 
     s.send('HEAD / HTTP/1.0\r\n\r\n')
