@@ -25,7 +25,7 @@ Suggests: sdwdate-plugin-anon-shared-con-check,
 Description: Secure Distributed Network Time Synchronization
  Time keeping is crucial for security, privacy, and anonymity. Sdwdate is a Tor
  friendly replacement for rdate and ntpdate that sets the system's clock by
- communicating via onion encrypted TCP with with Tor onion webservers.
+ communicating via onion encrypted TCP with Tor onion webservers.
  .
  At randomized intervals, sdwdate connects to a variety of webservers and
  extracts the time stamps from http headers (RFC 2616).
