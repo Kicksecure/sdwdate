@@ -85,6 +85,14 @@ Builds mediate time by asking three https servers from three different pools.
 
     ratio (0.0-1.0) of allowed per-pool failure
 
+  * --cache-dir
+
+    cache directory
+
+  * --temp-dir
+
+    temporary directory
+
   * -p --proxy-ip
 
     proxy IP

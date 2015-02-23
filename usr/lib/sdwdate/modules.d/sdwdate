@@ -33,6 +33,8 @@ $SCRIPTNAME [-aDdlpqTux] [long options...]
         --pool_two                            distrusted hostnames
         --pool_three                          distrusted hostnames
         --allowed_per_pool_failure_ratio      ratio (0.0-1.0) of allowed per-pool failure
+        --cache-dir                           cache directory
+        --temp-dir                            temporary directory
         -p --proxy-ip                         proxy IP
         -o --port-port                        proxy port
         -i --interval                         continuously run every x minutes
@@ -425,6 +427,14 @@ sdwdate_parse_cmd_options() {
                ;;
            -A | --allowed_per_pool_failure_ratio)
                ALLOWED_PER_POOL_FAILURE_RATIO=$2
+               shift 2
+               ;;
+           --cache-dir)
+               SDW_CACHE_DIR=$2
+               shift 2
+               ;;
+           --temp-dir)
+               TEMP_DIR=$2
                shift 2
                ;;
            -p | --proxy-ip)
