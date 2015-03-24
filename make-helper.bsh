@@ -4,7 +4,7 @@
 ## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-## generic deb build script version 1.3
+## generic deb build script version 1.4
 
 ## This is a copy.
 ## master location:
@@ -22,49 +22,55 @@ make_parse_cmd() {
        case $1 in
            help)
                matched="true"
-               make_help
+               make_function_run make_help
                exit 0
                shift
                ;;
            dist)
                matched="true"
-               make_dist
+               make_function_run make_dist
                exit 0
                shift
                ;;
            undist)
                matched="true"
-               make_undist
+               make_function_run make_undist
                exit 0
                shift
                ;;
            debdist)
                matched="true"
-               make_debdist
+               make_function_run make_debdist
                exit 0
                shift
                ;;
            undebdist)
                matched="true"
-               make_undebdist
+               make_function_run make_undebdist
                exit 0
                shift
                ;;
            manpages)
                matched="true"
-               make_manpages
+               make_function_run make_manpages
                exit 0
                shift
                ;;
            uch)
                matched="true"
-               make_uch
+               make_function_run make_uch
                exit 0
                shift
                ;;
            install)
                matched="true"
-               make_install
+               make_function_run make_install
+               exit 0
+               shift
+               ;;
+           deb-build-dep)
+               matched="true"
+               make_function_run make_deb-build-dep
                exit 0
                shift
                ;;
@@ -85,31 +91,31 @@ make_parse_cmd() {
                ;;
            deb-pkg-install)
                matched="true"
-               make_deb-pkg-install
+               make_function_run make_deb-pkg-install
                exit 0
                shift
                ;;
            deb-install)
                matched="true"
-               make_deb-install
+               make_function_run make_deb-install
                exit 0
                shift
                ;;
            deb-icup)
                matched="true"
-               make_deb-icup
+               make_function_run make_deb-icup
                exit 0
                shift
                ;;
            deb-remove)
                matched="true"
-               make_deb-remove
+               make_function_run make_deb-remove
                exit 0
                shift
                ;;
            deb-purge)
                matched="true"
-               make_deb-purge
+               make_function_run make_deb-purge
                exit 0
                shift
                ;;
@@ -120,111 +126,111 @@ make_parse_cmd() {
                ;;
            deb-clean)
                matched="true"
-               make_deb-clean
+               make_function_run make_deb-clean
                shift
                ;;
            deb-cleanup)
                matched="true"
-               make_deb-cleanup
+               make_function_run make_deb-cleanup
                shift
                ;;
            lintian)
                matched="true"
-               make_lintian
+               make_function_run make_lintian
                shift
                ;;
            dput-ubuntu-ppa)
                matched="true"
-               make_dput-ubuntu-ppa
+               make_function_run make_dput-ubuntu-ppa
                shift
                ;;
            clean)
                matched="true"
-               make_clean
+               make_function_run make_clean
                exit 0
                shift
                ;;
            distclean)
                matched="true"
-               make_clean
+               make_function_run make_clean
                exit 0
                shift
                ;;
            checkout)
                matched="true"
-               make_checkout
+               make_function_run make_checkout
                exit 0
                shift
                ;;
            installcheck)
                matched="true"
-               make_installcheck
+               make_function_run make_installcheck
                exit 0
                shift
                ;;
            installsim)
                matched="true"
-               make_installsim
+               make_function_run make_installsim
                exit 0
                shift
                ;;
            uninstallcheck)
                matched="true"
-               make_uninstallcheck
+               make_function_run make_uninstallcheck
                exit 0
                shift
                ;;
            uninstall)
                matched="true"
-               make_uninstall
+               make_function_run make_uninstall
                exit 0
                shift
                ;;
            uninstallsim)
                matched="true"
-               make_uninstallsim
+               make_function_run make_uninstallsim
                exit 0
                shift
                ;;
            deb-chl-bumpup)
                matched="true"
-               make_deb-chl-bumpup
+               make_function_run make_deb-chl-bumpup
                exit 0
                shift
                ;;
            deb-uachl-bumpup)
                matched="true"
-               make_deb-uachl-bumpup
+               make_function_run make_deb-uachl-bumpup
                exit 0
                shift
                ;;
            git-tag-sign)
                matched="true"
-               make_git_tag_sign
+               make_function_run make_git_tag_sign
                exit 0
                shift
                ;;
            git-tag-verify)
                matched="true"
-               make_git_tag_verify
+               make_function_run make_git_tag_verify
                exit 0
                shift
                ;;
            git-tag-check)
                matched="true"
-               make_git_tag_check
+               make_function_run make_git_tag_check
                exit 0
                shift
                ;;
            git-commit-verify)
                matched="true"
-               make_git_commit_verify_current
+               make_function_run make_git_commit_verify_current
                exit 0
                shift
                ;;
            git-verify)
                matched="true"
-               make_git_verify
+               make_function_run make_git_verify
                exit 0
                shift
                ;;
@@ -251,15 +257,15 @@ make_parse_cmd() {
    fi
 
    if [ "$deb" = "true" ]; then
-      make_deb-pkg $@
+      make_function_run make_deb-pkg $@
       exit 0
    fi
    if [ "$make_deb_signed" = "true" ]; then
-      make_deb-pkg-signed $@
+      make_function_run make_deb-pkg-signed $@
       exit 0
    fi
    if [ "$make_deb_source" = "true" ]; then
-      make_deb-pkg-source $@
+      make_function_run make_deb-pkg-source $@
       exit 0
    fi
 }
@@ -391,6 +397,9 @@ make install
    Copying the files from the source tree to system-wide directories.
 make installsim
    Simulate copying the files from the source tree to system-wide directories.
+make deb-build-dep
+   Install build dependencies listed in debian/control under Build-Depends using apt-get.
+   Various environment variables supported.
 make deb-pkg
    Create a deb, which will be stored in parent folder.
 make deb-pkg-install
@@ -440,7 +449,7 @@ make git-verify
 }
 
 make_dist() {
-   make_undist
+   make_function_run make_undist
 
    ## Thanks to Andy Balaam who inspired on
    ## http://superuser.com/a/599420/255849
@@ -466,12 +475,12 @@ make_dist() {
 }
 
 make_debdist() {
-   make_undebdist
+   make_function_run make_undebdist
 
    ## Deterministic.
    ## TODO: differs from tarballs created by dpkg-source for some reason.
    ##       For diagnose, example:
-   ##       diff <(tar -tvf anon-apt-sources-list_0.7-1.debian.tar.gz) <(tar -tvf _anon-apt-sources-list_0.7-1.debian.tar.gz)
+   ##       diff <(tar -tvf genmkfile_0.7-1.debian.tar.gz) <(tar -tvf _genmkfile_0.7-1.debian.tar.gz)
    find \
       "debian" \
       -not -iwholename '*.git*' \
@@ -491,15 +500,15 @@ make_debdist() {
 }
 
 make_undist() {
-   make_get_distdir
-   make_get_variables
+   make_function_run make_get_distdir
+   make_function_run make_get_variables
 
    rm --force "$make_upstream_tarball"
 }
 
 make_undebdist() {
-   make_get_distdir
-   make_get_variables
+   make_function_run make_get_distdir
+   make_function_run make_get_variables
 
    rm --force "$make_debian_tarball"
 }
@@ -535,11 +544,47 @@ make_uch() {
 }
 
 make_clean() {
-   make_deb-clean
+   make_function_run make_deb-clean
+}
+
+make_deb-build-dep() {
+   local make_deb_build_dependencies make_debian_control_file
+
+   make_debian_control_file="debian/control"
+   test -f "$make_debian_control_file"
+
+   ## How do I extract the package version from debian/changelog?
+   ## http://askubuntu.com/questions/332771/how-do-i-extract-the-package-version-from-debian-changelog
+
+   ## Thanks to Jason Mehring (nrgaway@gmail.com) for the grep, cut, sed, tr magic.
+   make_deb_build_dependencies="$( \
+      grep \
+         "Build-Depends:" "$make_debian_control_file" | \
+            cut -d: -f 2- | \
+               sed -e 's/ *, */\n/g' | \
+                  cut -d'(' -f 1 | \
+                     tr -d " " \
+      )"
+
+   local apt_get_exit_code="0"
+   $CHROOT \
+      apt-get \
+         $apt_sourcelist_empty \
+         $apt_sourceparts \
+         $apt_timeout_opts \
+         $apt_verify_opts \
+         $apt_unattended_opts \
+         --yes \
+         --no-install-recommends \
+         install \
+         $make_deb_build_dependencies \
+         || { apt_get_exit_code="$?" ; true; };
+
+   exit "$apt_get_exit_code"
 }
 
 make_deb-pkg_shared() {
-   make_dist
+   make_function_run make_dist
 
    if [ "$make_use_gain_root_command" = "" ]; then
       if [ -x "$PWD/debian/gain-root-command" ]; then
@@ -571,12 +616,12 @@ Therefore automatically set make_use_gain_root_command=\"true\""
       true "INFO: make_use_lintian is set to false, skipping lintian."
    elif [ "$make_use_lintian" = "true" ]; then
       true "INFO: make_use_lintian is set to true, running lintian..."
-      make_lintian
+      make_function_run make_lintian
    else
       true "INFO: make_use_lintian is neither set to true or false. Autodetecting if lintian is installed..."
       if command -v lintian >/dev/null 2>&1 ; then
          true "INFO: lintian auto detected, using it..."
-         make_lintian
+         make_function_run make_lintian
       else
          true "INFO: lintian not installed, skipping."
       fi
@@ -606,20 +651,20 @@ make_lintian() {
 
 make_deb-pkg() {
    make_debuild_maybe_unsigned_opts="-us -uc"
-   make_deb-pkg_shared $@
+   make_function_run make_deb-pkg_shared $@
 }
 
 make_deb-pkg-signed() {
-   make_deb-pkg_shared $@
+   make_function_run make_deb-pkg_shared $@
 }
 
 make_deb-pkg-source() {
    make_debuild_maybe_unsigned_opts="-S"
-   make_deb-pkg_shared $@
+   make_function_run make_deb-pkg_shared $@
 }
 
 make_deb-install() {
-   make_get_variables
+   make_function_run make_get_variables
    if [ ! -f "$make_main_deb_file" ]; then
       echo "ERROR: File $make_main_deb_file does not exist. Have you run \"make deb-pkg\" already?" >&2
       exit 1
@@ -628,27 +673,27 @@ make_deb-install() {
 }
 
 make_deb-remove() {
-   make_get_variables
+   make_function_run make_get_variables
    sudo apt-get remove "$make_source_package_name"
 }
 
 make_deb-purge() {
-   make_get_variables
+   make_function_run make_get_variables
    sudo apt-get purge "$make_source_package_name"
 }
 
 make_deb-pkg-install() {
-   make_deb-pkg
-   make_deb-install
+   make_function_run make_deb-pkg
+   make_function_run make_deb-install
 }
 
 make_deb-icup() {
-   make_deb-pkg-install
-   make_deb-cleanup
+   make_function_run make_deb-pkg-install
+   make_function_run make_deb-cleanup
 }
 
 make_deb-clean() {
-   make_get_variables
+   make_function_run make_get_variables
    if [ -d "debian/tmp-man" ]; then
       rm --recursive "debian/tmp-man"
    fi
@@ -676,12 +721,12 @@ make_deb-clean() {
 }
 
 make_deb-cleanup() {
-   make_undist
-   make_deb-clean
+   make_function_run make_undist
+   make_function_run make_deb-clean
    local to_delete package
    for package in $make_package_list; do
       for to_delete in \
-         "../${package}_"*-*"_all.deb" \
+         "../${package}_"*-*_*".deb" \
          "../${package}_"*-*".debian.tar.gz" \
          "../${package}_"*-*".dsc" \
          "../${package}_"*-*_*".build" \
@@ -701,7 +746,7 @@ make_deb-cleanup() {
 }
 
 make_dput-ubuntu-ppa() {
-   make_get_variables
+   make_function_run make_get_variables
    dput "$make_source_package_name" "../${make_source_package_name}_${make_pkg_version}-${make_pkg_revision}_source.changes"
 }
 
@@ -710,7 +755,7 @@ make_checkout() {
 }
 
 make_helper() {
-   make_get_destdir
+   make_function_run make_get_destdir
    [ -n "$make_folder_list_for_un_and_install" ] || make_folder_list_for_un_and_install="bin boot dev etc home lib opt sbin srv sys usr var"
    shopt -s globstar dotglob nullglob
    local d source_file file_without_pwd file_with_destdir
@@ -767,32 +812,32 @@ make_helper() {
 
 make_install() {
    make_install_="true"
-   make_helper
+   make_function_run make_helper
 }
 
 make_installcheck() {
    make_installcheck_="true"
-   make_helper
+   make_function_run make_helper
 }
 
 make_installsim() {
    make_installsim_="true"
-   make_helper
+   make_function_run make_helper
 }
 
 make_uninstallcheck() {
    make_uninstallcheck_="true"
-   make_helper
+   make_function_run make_helper
 }
 
 make_uninstall() {
    make_uninstall_="true"
-   make_helper
+   make_function_run make_helper
 }
 
 make_uninstallsim() {
    make_uninstallsim_="true"
-   make_helper
+   make_function_run make_helper
 }
 
 make_deb-chl-bumpup() {
@@ -802,11 +847,15 @@ make_deb-chl-bumpup() {
       ## Otherwise e-mail address in debian/changelog would default to
       ## user@host.localdomain and then lintian would complain and exit with
       ## failure code.
-      echo "ERROR: environment variable DEBEMAIL may not be empty!" >&2
+      echo "ERROR: environment variable DEBEMAIL may not be empty! Both, DEBEMAIL and DEBFULLNAME need to be set!" >&2
+      exit 1
+   fi
+   if [ "$DEBFULLNAME" = "" ]; then
+      echo "ERROR: environment variable DEBFULLNAME may not be empty! Both, DEBEMAIL and DEBFULLNAME need to be set!" >&2
       exit 1
    fi
 
-   make_get_variables
+   make_function_run make_get_variables
 
    local new_upstream_version_without_leading_zero new_upstream_version new_changelog_version new_revision
 
@@ -822,9 +871,11 @@ Bumping version from / to...
 $make_changelog_version
 $new_changelog_version"
 
+   [ -n "$DEBCHANGE_MSG" ] || DEBCHANGE_MSG="New upstream version (local package)."
+
    debchange \
       --newversion "$new_changelog_version" \
-      "New upstream version."
+      "$DEBCHANGE_MSG"
 
    debchange \
       --release \
@@ -832,32 +883,32 @@ $new_changelog_version"
 }
 
 make_deb-uachl-bumpup() {
-   make_uch
-   make_deb-chl-bumpup
+   make_function_run make_uch
+   make_function_run make_deb-chl-bumpup
 }
 
 make_git_tag_shared() {
    if [ "$make_git_tag_shared_done" = "true" ]; then
       return 0
    fi
-   make_get_variables
+   make_function_run make_get_variables
    command -v git >/dev/null
    make_git_tag_shared_done="true"
 }
 
 make_git_tag_sign() {
-   make_git_tag_shared
+   make_function_run make_git_tag_shared
    git tag -s "$make_pkg_version_with_revision" -m "."
-   make_git_tag_verify
+   make_function_run make_git_tag_verify
 }
 
 make_git_tag_verify() {
-   make_git_tag_shared
+   make_function_run make_git_tag_shared
    git tag -v "$make_pkg_version_with_revision"
 }
 
 make_git_tag_check() {
-   make_git_tag_shared
+   make_function_run make_git_tag_shared
    local make_git_describe_output
    make_git_describe_output="$(git describe --always --abbrev=1000000000)"
    if [ ! "$make_pkg_version_with_revision" = "$make_git_describe_output" ]; then
@@ -865,7 +916,7 @@ make_git_tag_check() {
 make_pkg_version_with_revision $make_pkg_version_with_revision differs from make_git_describe_output $make_git_describe_output" >&2
       exit 1
    fi
-   make_git_tag_verify
+   make_function_run make_git_tag_verify
    echo "Ok, current git head is a signed git tag."
 }
 
@@ -903,9 +954,9 @@ make_git_commit_verify() {
 }
 
 make_git_commit_verify_current() {
-   make_git_tag_shared
+   make_function_run make_git_tag_shared
    local make_git_commit_verify_return_code="0"
-   make_git_commit_verify "HEAD~1" || { make_git_commit_verify_return_code="$?" ; true; };
+   make_function_run make_git_commit_verify "HEAD~1" || { make_git_commit_verify_return_code="$?" ; true; };
    if [ ! "$make_git_commit_verify_return_code" = "0" ]; then
       echo "Failed! Current git head commit is unsigned" >&2
       exit 1
@@ -914,8 +965,8 @@ make_git_commit_verify_current() {
 }
 
 make_git_verify() {
-   make_git_commit_verify_current
-   make_git_tag_check
+   make_function_run make_git_commit_verify_current
+   make_function_run make_git_tag_check
    echo "Ok, current git head is a signed git commit and a signed git tag."
 }
 
@@ -949,6 +1000,26 @@ make_source_overrides_folder() {
    fi
 }
 
+make_function_run() {
+   local function_name function_name_return_code
+   function_name="$1"
+   shift
+   if type -t "${function_name}_hook_pre" >/dev/null ; then
+      "${function_name}_hook_pre" ${1+"$@"}
+   fi
+   if type -t "${function_name}" >/dev/null ; then
+      "$function_name" ${1+"$@"}
+      function_name_return_code="$?"
+      if [ ! "$function_name_return_code" = "0" ]; then
+         true "INFO: function_name_return_code: $function_name_return_code"
+         return "$function_name_return_code"
+      fi
+   fi
+   if type -t "${function_name}_hook_post" >/dev/null ; then
+      "${function_name}_hook_post" ${1+"$@"}
+   fi
+}
+
 if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
    make_script_was_sourced="true"
 else
@@ -968,8 +1039,8 @@ if [ "$make_script_was_sourced" = "false" ]; then
    cd "${BASH_SOURCE[0]%/*}"
    make_mydir="${PWD##*/}"
 
-   make_source_overrides_file
-   make_source_overrides_folder
+   make_function_run make_source_overrides_file ${1+"$@"}
+   make_function_run make_source_overrides_folder ${1+"$@"}
 
-   make_parse_cmd ${1+"$@"}
+   make_function_run make_parse_cmd ${1+"$@"}
 fi

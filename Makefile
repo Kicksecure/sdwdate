@@ -4,7 +4,7 @@
 ## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-## generic deb build script version 1.3
+## generic deb build script version 1.4
 
 ## This is a copy.
 ## master location:
@@ -35,6 +35,9 @@ uch:
 
 install:
 	./make-helper.bsh install
+
+deb-build-dep:
+	./make-helper.bsh deb-build-dep
 
 deb-pkg:
 	./make-helper.bsh deb-pkg ${ARGS}
