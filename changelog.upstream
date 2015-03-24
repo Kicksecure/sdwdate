@@ -1,3 +1,401 @@
+commit 3adefa1a7eb3dc79be2fbb38952d9e137c3f9bb2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Mar 24 17:26:47 2015 +0000
+
+    updated makefile generic to version 1.4
+
+commit 099757a1d4a77d056371f5edf319b2bc0bcf02bc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 23 18:37:10 2015 +0000
+
+    implemented --cache-dir and --temp-dir - https://phabricator.whonix.org/T3 - https://phabricator.whonix.org/T4
+
+commit c99df1531b065a56b0c6c71b0355888ce99a7c9d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 16 07:49:47 2015 +0000
+
+    package description
+
+commit b015142d64f31d849991d9d1794110baaab1c19b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 16 07:49:00 2015 +0000
+
+    wheezy + jessie compatibility
+
+commit dfc13a8ba3274be49b743b1d666b78fb2d7ab46c
+Merge: dc123bd 298c009
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 16 07:44:40 2015 +0000
+
+    Merge remote-tracking branch 'troubadoour/master'
+
+commit 298c00941ddfecc1a31b104be9954207cc60af78
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Feb 15 20:50:50 2015 +0000
+
+    - python-socksipy  + python-pysocks
+
+commit dc123bd805e8604845b4936a6bdb3bd8b84d6e8b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 11 05:59:00 2015 +0000
+
+    added "tigas3l7uusztiqu.onion#https://mike.tig.as tinkerer at ProPublica in New York"
+
+commit 494c8660772a150a44ce0d199c7d7a4ba9a65469
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 11 02:07:15 2015 +0000
+
+    added "fncuwbiisyh6ak3i.onion#https://keybase.io/docs/command_line/tor"
+
+commit 361a07f8f59aa64325f1696c7ecf5c06e8431e86
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Feb 10 02:17:07 2015 +0000
+
+    "344c6kbnjnljjzlz.onion#VFEmail https://www.vfemail.net"
+
+commit 41f8f6fa24a5781ddbd39d4643efacec4893233c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Feb 10 00:05:16 2015 +0000
+
+    refactored hook dispatching system for code reduction and to make it easier to add new hooks
+
+commit 26a7363f67243d7e77c69d82461337a309180367
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 9 23:19:20 2015 +0000
+
+    output
+
+commit fcdc03a6b6fc6be6e5b6b9bc415d5d15f21bd4cf
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 9 23:16:48 2015 +0000
+
+    added "timaq4ygg2iegci7.onion#https://github.com/meejah/txtorcon http://txtorcon.readthedocs.org"
+
+commit da4e893d9f449a401d3903315e4a93527887203c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 9 14:36:41 2015 +0000
+
+    refactoring; fix
+
+commit 4eab9aa9f7b1cdfd640206b0fa5a720b4508e1bc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 9 14:31:43 2015 +0000
+
+    output
+
+commit 620eec25901e73746a592f9a7586d0c1f137bb71
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 9 14:26:20 2015 +0000
+
+    output
+
+commit c454f1db3fac155a73c1b7a02d70ca5e6541bdd0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 9 14:01:40 2015 +0000
+
+    updated man page
+
+commit a1e79fcf2354af361eedc6bdb99acc87b5deaeac
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 9 08:40:26 2015 +0000
+
+    fix, don't give more weight to a pool member, just because it provides mirrors; changed pool format; refactoring
+
+commit 7627de5fadc8cf62f3bba26e57bda16a88b1c788
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 9 06:58:33 2015 +0000
+
+    added more hidden services as suggested (https://www.whonix.org/forum/index.php/topic,943.msg6912.html#msg6912) by mitm (autistici, gnupg, riseup list)
+
+commit bac8abab4379edd04106e6bf3e26e222c79154fe
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Feb 8 15:06:59 2015 +0000
+
+    removed onion that are down
+
+commit b44d39c4e52c630f70d9d5f7a0d59f52875566de
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Feb 8 14:57:32 2015 +0000
+
+    updated unit test for latest sdwdate
+
+commit 68f8840d85f848eea00c15326c8c0a03b49a9a71
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Feb 8 14:45:59 2015 +0000
+
+    added more hidden services, added GlobaLeaks List as suggested by mitm in the forums https://www.whonix.org/forum/index.php/topic,943.0.html ; comments
+
+commit c6ad23700e5cf132fd2b4b0427b77f688e7e7f35
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Feb 8 14:28:39 2015 +0000
+
+    comment
+
+commit b28839696520075627ef9a323c2bfb82dce0ea3a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Feb 8 14:26:58 2015 +0000
+
+    added new hidden services suggested by mitm in the forums https://www.whonix.org/forum/index.php/topic,943.msg6886.html#msg6886
+
+commit b4c4f4ee5228acd953c91818722f3a9e3b09012a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Feb 8 14:11:49 2015 +0000
+
+    increased sdwdate interval to INTERVAL="180" and MIN_INTERVAL="60" - https://phabricator.whonix.org/T147
+
+commit 2fa4e15a850be759634baf48e8a558c318f03f29
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Feb 8 04:20:32 2015 +0000
+
+    output
+
+commit 31097c671e512f3b44c84d3c16d595c6ee4287fe
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Feb 8 01:58:57 2015 +0000
+
+    added more hidden services; support comments for links in pools; output; comments; refactoring
+
+commit 1bf25f74752fb9bae7a075a87448ef053de3d51a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 19:14:15 2015 +0000
+
+    output
+
+commit fe2ec54cadf53ba42248b687b7f83ad3bcc92b0a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 19:06:41 2015 +0000
+
+    output
+
+commit ca711602d020ec30b5efc520365a5827905a32c3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 19:05:32 2015 +0000
+
+    refactoring; output
+
+commit df4faba4bad153aa43f0e54bcfc57a23bff0196d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 18:58:29 2015 +0000
+
+    output
+
+commit 3c8b43a62b7137b17932a84d0a5476f6bd5ae98f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 18:55:44 2015 +0000
+
+    output
+
+commit 05c2767e10b0a85ca94a3a31ec69b62fe83ef1e9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 18:54:59 2015 +0000
+
+    output
+
+commit 0df90e9a8177f94f9bd44a28f3d32b89242d6884
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 18:52:41 2015 +0000
+
+    refactoring; output
+
+commit 5cb3798a1cd266778f4d8ead7f515fd693b3717f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 18:51:11 2015 +0000
+
+    output
+
+commit 6c5c51d121a210b89df3cea1f3f1bc782a76d792
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 18:48:48 2015 +0000
+
+    output
+
+commit b543369946464174001449a37cc9d4b9345558e7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 18:39:38 2015 +0000
+
+    output
+
+commit 09c734cf777a05fa7f4e6e20d59c25c13bf8116e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 18:21:46 2015 +0000
+
+    output
+
+commit 0dbc251b79683fd7fa843848779932c986c0bac3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 18:13:51 2015 +0000
+
+    output
+
+commit 9d0972da09e5ec64fc9b355969064b3645f869ba
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 18:11:15 2015 +0000
+
+    fix
+
+commit 9de7d055f38d8002a1ab76adc0c4a7a865c321e2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 18:07:08 2015 +0000
+
+    refactoring
+
+commit 35d81e978c25e0be70df2cfa5ba6932f9053499c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 18:06:05 2015 +0000
+
+    refactoring
+
+commit 8232b1d050ddc8a1ebd4f1de342b927a1dacd253
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 18:00:24 2015 +0000
+
+    refactoring; fix
+
+commit 08cb6d9bced93c67f3f25e1c26550f5d3bc5a76e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 17:52:03 2015 +0000
+
+    minor
+
+commit 3040a209c6e676a850e63070ede1587cef94ff27
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 17:48:15 2015 +0000
+
+    fix
+
+commit 1b311ffea4cff20f5658a816a4f6bd34246db32d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 17:40:07 2015 +0000
+
+    fix
+
+commit bf2b1c8de5d8689494cc2270377214791d510c66
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 17:36:30 2015 +0000
+
+    output
+
+commit eea473b329c1516bc8b49702eb7e6faec9b9da76
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 17:34:43 2015 +0000
+
+    output
+
+commit d428a57693f81e2f07729b1adb3a3e767ace9200
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 17:32:46 2015 +0000
+
+    output
+
+commit bdd6ff2ac0b6f91faffb3c0c0a288b77c0495a07
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 17:32:17 2015 +0000
+
+    output
+
+commit d77176f65dd3cf92535ff77497851fcb8da66ea3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 17:33:46 2015 +0000
+
+    output
+
+commit 61e1d063e7d78581dedebb21554b7b9501ab2214
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 7 00:22:00 2015 +0000
+
+    removed bczjr6ciiblco5ti.onion because down
+
+commit 8a73d07921b4de524e6e076733dcb49de526007e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 6 22:22:54 2015 +0000
+
+    refactoring
+
+commit 6ce1bddb3394d9576416fd2278ff007e068ccd09
+Merge: 530301c e3f545b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 6 22:19:43 2015 +0000
+
+    Merge branch 'development'
+
+commit e3f545b0b209399cbad2f418ffc66fe5ef1d315c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 6 22:18:28 2015 +0000
+
+    work on port sdwdate to url_to_unixtime https://phabricator.whonix.org/T132
+    work on Hidden Services as sdwdate time sources - https://phabricator.whonix.org/T132
+
+commit 2c8c7f7c4e0c23b50f48c52f66204167e6b6a91d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 6 18:04:51 2015 +0000
+
+    work on Hidden Services as sdwdate time sources - https://phabricator.whonix.org/T132
+
+commit 3b86930af71a5afb6050868e78d95af6bada2d8b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 6 17:54:24 2015 +0000
+
+    comment
+
+commit af9369a4b6bc9b74cc4fc1b9a02de1349dfbe3db
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 6 17:07:35 2015 +0000
+
+    comment
+
+commit ff9738be3f877a9f62683b597ea233a6ace49803
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 6 17:02:10 2015 +0000
+
+    comment
+
+commit 022bee35bdf796c8d0b6787bf0d565f327055dee
+Merge: 9b6f5e7 530301c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 6 17:00:38 2015 +0000
+
+    Merge branch 'master' into development
+
+commit 530301ccaa32b36aa035a1f9daff33916e6af45c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 6 04:28:41 2015 +0000
+
+    maintainer script output
+
+commit 284c3f22bd291c7a5f02da0641309a8ca0b1ee13
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 6 04:24:11 2015 +0000
+
+    maintainer script output
+
+commit 9b6f5e7b1cfa8751ba9aea80bb5dd1a9a9fc50e7
+Merge: 3588515 1373658
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 4 22:23:56 2015 +0000
+
+    Merge branch 'master' into development
+    
+    Conflicts:
+    	usr/lib/sdwdate/url_to_unixtime
+
+commit 13736580ca53c351724e87ded276eb3230f23e5e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 4 20:36:49 2015 +0000
+
+    added dependency python-socksipy
+
+commit 5724d83b258a469b7a9a7bbc65153987f986369b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 4 14:30:58 2015 +0000
+
+    instead of --socks5-hostname, use more modern --proxy + user:password@ip:port syntax for curl for better stream isolation - https://phabricator.whonix.org/T126
+
+commit 9ee6b42b059c88d4801ea64e8329637507fa1232
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 4 00:56:31 2015 +0000
+
+    bumped changelog version
+
 commit 206024034ea0594d41442778cd23a9ee534bd23d
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Feb 4 00:44:59 2015 +0000
@@ -237,6 +635,13 @@ Date:   Wed Jan 28 10:18:28 2015 +0000
 
     + url_to_unixtime
 
+commit 35885156fd29fbd91270176ca4d222ee3532c744
+Merge: 0b2eae0 698f1a8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 18 17:41:43 2015 +0000
+
+    Merge branch 'master' into development
+
 commit 698f1a8e612a12835bd12f753cc4e7f9da96583a
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Jan 17 22:55:58 2015 +0000
@@ -302,6 +707,13 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Nov 29 14:25:04 2014 +0000
 
     cleanup / fix
+
+commit 0b2eae0ad6e684277ef920839d5ef253c8142bef
+Merge: 5a6c172 55b58a7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 27 04:35:09 2014 +0000
+
+    Merge branch 'master' into development
 
 commit 55b58a73396e43d315c9914267485a380e6c2c4f
 Author: Patrick Schleizer <adrelanos@riseup.net>
@@ -463,6 +875,25 @@ Date:   Wed Nov 12 20:17:45 2014 -0600
 
     Look for SDW_CACHE_DIR and set INLINEDIR
 
+commit 5a6c1729df8caaaddcabc8caeb2108faca199ca7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Nov 10 14:34:02 2014 +0000
+
+    .
+
+commit 539930ab42dcdbffd86ea1d3ba361385545890a3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Nov 10 14:30:38 2014 +0000
+
+    .
+
+commit 850fe16b128d3126209cf1749fdc3003407e25e3
+Merge: 7ef031f 5e7cee3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Nov 10 14:25:09 2014 +0000
+
+    .
+
 commit 5e7cee3fcb17f4fdf174ab7906c75b784933cc0d
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Nov 10 14:21:34 2014 +0000
@@ -596,6 +1027,49 @@ Date:   Wed Oct 22 17:52:30 2014 +0000
 
     Replaced `sdwdate`'s use of GNU `date` with a `python` script /usr/lib/sdwdate/date_to_unixtime that uses `dateutil.parser`. Thanks to troubadoour for the review of /usr/lib/sdwdate/date_to_unixtime.
 
+commit 7ef031fa030256d30277ce8fdb41345027381d4d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 21 22:57:02 2014 +0000
+
+    todo
+
+commit ebff906082d52435f5e429a3d4e4b6a8ae3b51bd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 21 00:13:00 2014 +0000
+
+    .
+
+commit 5a534753bc21ea377c1cc4811b7ada184eaf758d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 20 14:30:13 2014 +0000
+
+    test ca pinning
+
+commit b7a3411eef84c2840595b5d43552dbe0b7666a1a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 20 14:16:02 2014 +0000
+
+    .
+
+commit 52717c620ac1548ee87beba73292252d70f6e575
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 20 14:12:34 2014 +0000
+
+    .
+
+commit 548f325fd673598a7663ce8fa5c6b0e7ff6d53e9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 20 14:11:29 2014 +0000
+
+    added usr/lib/sdwdate/date_to_unixtime
+
+commit 2058137f6586dc42a38db44f40769685f2288040
+Merge: 7d9287e 9e9b719
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 20 14:07:48 2014 +0000
+
+    Merge branch 'master' into development
+
 commit 9e9b71918e799e65a91c145fa0ef63ba21232bdd
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Oct 20 14:04:05 2014 +0000
@@ -613,6 +1087,19 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Oct 20 12:37:34 2014 +0000
 
     moved files from usr/lib to policy conform usr/lib/sdwdate
+
+commit 7d9287e80126929fa8304a0e754364eeffa09f53
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 20 12:34:29 2014 +0000
+
+    added usr/lib/sdwdate/url_to_unixtime
+
+commit fa9f502364680f18d55b970740598c4e03b04557
+Merge: e61ec90 a10b16b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 20 12:33:47 2014 +0000
+
+    Merge branch 'master' into development
 
 commit a10b16b137168fa03737823daab03ab2e98ce657
 Author: Patrick Schleizer <adrelanos@riseup.net>
@@ -1114,6 +1601,13 @@ Date:   Thu Sep 18 16:18:30 2014 +0000
     Date:   Thu Sep 11 15:02:35 2014 +0000
     
         fix
+
+commit e61ec90bd5477d1eba693e96e99524ec9a582220
+Merge: 0d5a543 550badc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Sep 12 17:29:15 2014 +0000
+
+    .
 
 commit 550badcf3c1c8637753e07ec4327283d6844aa9a
 Author: Patrick Schleizer <adrelanos@riseup.net>
