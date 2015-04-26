@@ -10,7 +10,7 @@ Build-Depends: debhelper (>= 9), faketime, genmkfile, ruby-ronn (>= 0.7.3)
 Homepage: https://github.com/Whonix/sdwdate
 Vcs-Browser: https://github.com/Whonix/sdwdate
 Vcs-Git: https://github.com/Whonix/sdwdate.git
-Standards-Version: 3.9.4
+Standards-Version: 3.9.6
 
 Package: sdwdate
 Architecture: all
