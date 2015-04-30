@@ -1,3 +1,27 @@
+commit 8cbd3f24f9cf663a33361d9a1b97f4d1ee9fd4b2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 30 14:43:51 2015 +0000
+
+    removed dependency on ruby1.9.1-dev to fix lintian warning 'E: sdwdate: depends-on-obsolete-package depends: ruby1.9.1-dev'
+
+commit e8e3106df7a925bbcf6471d188ad524634037b90
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Apr 28 13:43:23 2015 +0000
+
+    added debian/source/lintian-overrides with debian-watch-may-check-gpg-signature to fix lintian warning - https://phabricator.whonix.org/T277
+
+commit 2b57bf880e55df43a50732a86302ae421ee17e08
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Apr 26 23:16:12 2015 +0000
+
+    packaging, bumped Standards-Version from 3.9.4 to 3.9.6 for jessie support
+
+commit 688100c802d34215d1e25a0b7dbe7bbbdd5bf06a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Apr 7 17:42:43 2015 +0000
+
+    bumped changelog version
+
 commit f8e3b85b54ddf8744aac2a8c5ffd11e8cff19fee
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Apr 2 18:41:24 2015 +0000
