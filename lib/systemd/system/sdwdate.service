@@ -16,6 +16,7 @@ User = sdwdate
 Group = sdwdate
 ExecStart = /usr/bin/sdwdate
 ExecReload = /bin/kill -sighup $MAINPID
+SuccessExitStatus = 143
 
 [Install]
 WantedBy = multi-user.target
