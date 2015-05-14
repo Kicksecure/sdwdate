@@ -32,6 +32,7 @@ SCRIPTNAME="$(basename "$BASH_SOURCE")"
 ownpid="$$"
 ID="$ownpid"
 
+## XXX: do not hardcode path to /var/run/sdwdate
 if [ ! -f "/var/run/sdwdate/first_success" ]; then
    SDW_MODE="startup"
 else
@@ -50,6 +51,7 @@ trap "sdwdate_signal_sigusr1" SIGUSR1
 
 trap "sdwdate_signal_sighup" SIGHUP
 
+## XXX: do not hardcode path to /var/run/sdwdate
 echo "$ownpid" > "/var/run/sdwdate/pid"
 
 sdwdate_main ${1+"$@"}
