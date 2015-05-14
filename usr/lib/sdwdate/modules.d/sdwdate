@@ -841,6 +841,11 @@ sdwdate_signal_sigusr1() {
    sdwdate_enable_debugging
 }
 
+sdwdate_signal_sighup() {
+   rm --force "$SUCCESS_FILE"
+   SDW_MODE="sighup"
+}
+
 sdwdate_pick_single_link_from_maybe_multi_lined_mirror_list() {
    local maybe_multiple_lined_link number_lines_counter line
    local line_without_spaces random_item_number number_lines
@@ -1492,6 +1497,12 @@ sdwdate_maybe_set_new_time() {
       else
          sdwdate_set_time_using_date
       fi
+   elif [ "$SDW_MODE" = "sighup" ]; then
+      if [ "$SDWDATE_USE_SCLOCKADJ_WHEN_RESTARTUP" = "1" ]; then
+         sdwdate_set_time_using_sclockadj
+      else
+         sdwdate_set_time_using_date
+      fi
    elif [ "$SDW_MODE" = "daemon" ]; then
       if [ "$SDWDATE_USE_SCLOCKADJ_WHEN_DAEMON" = "1" ]; then
          sdwdate_set_time_using_sclockadj
@@ -1499,7 +1510,7 @@ sdwdate_maybe_set_new_time() {
          sdwdate_set_time_using_date
       fi
    else
-      sdwdate_error_handler 'SDW_MODE is neither "startup" nor "daemon".'
+      sdwdate_error_handler 'Invalid SDW_MODE.'
    fi
 }
 

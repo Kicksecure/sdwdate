@@ -48,6 +48,8 @@ trap "sdwdate_signal_sigterm" SIGTERM
 
 trap "sdwdate_signal_sigusr1" SIGUSR1
 
+trap "sdwdate_signal_sighup" SIGHUP
+
 sdwdate_main ${1+"$@"}
 
 sdwdate_log "End."
