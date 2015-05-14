@@ -678,7 +678,7 @@ sdwdate_error_handler() {
    local error_cause error_text
    error_text="$1"
    if [ "$error_text" = "" ]; then
-      error_cause="$FUNCNAME signal ERR detected with BASH_COMMAND:
+      error_cause="$FUNCNAME signal ERR detected in line ${BASH_LINENO[0]} with BASH_COMMAND:
 $BASH_COMMAND"
    else
       error_cause="$FUNCNAME called with error_text:
@@ -691,6 +691,9 @@ $error_text"
       SDW_EXIT_ON_ERROR="1"
    fi
 
+   local current_time
+   current_time="$(date)" || true
+
    local error_message
    error_message="\
 ############################################
@@ -700,9 +703,11 @@ $error_text"
 ## SDW_EXIT_ON_ERROR: $SDW_EXIT_ON_ERROR
 ## SDW_MODE: $SDW_MODE
 ## SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE
+## current_time: $current_time
 ##
 ## exit_code: $exit_code
-## error_cause: $error_cause
+## error_cause:
+$error_cause
 ############################################\
 "
 
@@ -716,9 +721,11 @@ $error_text"
 ## SDW_EXIT_ON_ERROR: $SDW_EXIT_ON_ERROR<br></br>
 ## SDW_MODE: $SDW_MODE<br></br>
 ## SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE: $SDWDATE_SUBSHELL_SCLOCKADJ_EXIT_CODE<br></br>
+## current_time: $current_time<br></br>
 ##<br></br>
 ## exit_code: $exit_code<br></br>
-## error_cause: $error_cause<br></br>
+## error_cause:<br></br>
+$error_cause<br></br>
 ############################################<br></br>\
 "
 
