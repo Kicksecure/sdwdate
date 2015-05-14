@@ -50,6 +50,8 @@ trap "sdwdate_signal_sigusr1" SIGUSR1
 
 trap "sdwdate_signal_sighup" SIGHUP
 
+echo "$ownpid" > "/var/run/sdwdate/pid"
+
 sdwdate_main ${1+"$@"}
 
 sdwdate_log "End."
