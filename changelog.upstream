@@ -1,3 +1,45 @@
+commit d5dd22a2cabed8e5f35e4f90defa351b51d5fd83
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri May 15 20:29:20 2015 +0000
+
+    debugging
+
+commit 2f7960a0217605eaf05950ca467df4f2484a3f57
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 14 23:39:48 2015 +0000
+
+    systemd unit: added 'SuccessExitStatus = 143'
+
+commit 9b722218b9a7911cf214c0f3c5b482f0e57d2ba3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 14 23:15:34 2015 +0000
+
+    comment
+
+commit f1f8d4c41a55241b46aa4a847aab168c09a132c0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 14 23:14:33 2015 +0000
+
+    write own pid to /var/run/sdwdate/pid
+
+commit 61eebbaa7037f02ec36dff4d34d3ec4899eba1e5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 14 13:13:48 2015 +0000
+
+    output
+
+commit 8716d1847a3d317e1222e3ec8327168904372fcc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 14 13:06:02 2015 +0000
+
+    debugging
+
+commit cf3986e74c339da3edbcf0fec725738f9ca5de10
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 14 12:10:04 2015 +0000
+
+    bumped changelog version
+
 commit 62c32cb2cd2bb9f518bb8b5cd7c84906a4294f1e
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu May 14 12:05:36 2015 +0000
