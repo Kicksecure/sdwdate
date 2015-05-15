@@ -1075,6 +1075,7 @@ sdwdate_loop() {
          continue
       fi
 
+      sdwdate_write_log "\${array[$random_integer]}: ${array[$random_integer]}"
       link_unprocessed="$(sdwdate_pick_single_link_from_maybe_multi_lined_mirror_list "${array[$random_integer]}")"
 
       ## sets: link_url_part
