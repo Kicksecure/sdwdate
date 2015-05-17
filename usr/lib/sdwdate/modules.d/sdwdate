@@ -810,7 +810,7 @@ sdwdate_ex_funct() {
 }
 
 sdwdate_signal_sigint() {
-   sdwdate_log "$SCRIPTNAME (not timesync!): signal sigint received..."
+   sdwdate_log "$SCRIPTNAME (not timesync!): signal SIGINT received..."
    sdwdate_terminate_sclockadj
    SIGNAL_TYPE="SIGINT"
    sdwdate_ex_funct
@@ -818,7 +818,7 @@ sdwdate_signal_sigint() {
 }
 
 sdwdate_signal_sigterm() {
-   sdwdate_log "$SCRIPTNAME (not timesync!): signal sigterm received..."
+   sdwdate_log "$SCRIPTNAME (not timesync!): signal SIGTERM received..."
    sdwdate_terminate_sclockadj
    SIGNAL_TYPE="SIGTERM"
    sdwdate_ex_funct
