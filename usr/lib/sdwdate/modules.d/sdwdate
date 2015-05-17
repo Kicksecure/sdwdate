@@ -1423,6 +1423,7 @@ sdwdate_set_time_using_sclockadj() {
       }
 
       sdwdate_subshell_trap_sigterm() {
+         echo "$FUNCNAME: SIGTERM received."
          ## Interrupted sdwdate_subshell_wait.
          if [ "$SDWDATE_SCLOCKADJ_COMMAND_PID" = "" ]; then
             return 0
