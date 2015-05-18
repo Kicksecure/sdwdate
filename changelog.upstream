@@ -1,3 +1,33 @@
+commit 80506c46a7f3dbd30b488cde8d2da62feae86e70
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon May 18 11:12:26 2015 +0000
+
+    fix; refactoring
+
+commit 3a14c5ecc0649c66df43a396a20a47da4b27383d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun May 17 11:39:45 2015 +0000
+
+    systemd unit: added 'KillMode = process', because the daemon handles terminating child processes itself - https://phabricator.whonix.org/T106
+
+commit 8f1aed065003ac091dbb862d6ad5e97a87ae94b2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun May 17 11:30:37 2015 +0000
+
+    output
+
+commit 507386077ef938bdfce92f8da98eb200730a572f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun May 17 11:29:54 2015 +0000
+
+    output
+
+commit dd8e86011195b77b5e7dfd2e4573cc9ae20938b2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri May 15 20:29:37 2015 +0000
+
+    bumped changelog version
+
 commit d5dd22a2cabed8e5f35e4f90defa351b51d5fd83
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri May 15 20:29:20 2015 +0000
