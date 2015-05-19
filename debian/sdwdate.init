@@ -1,0 +1,178 @@
+#! /bin/bash
+### BEGIN INIT INFO
+# Provides:          sdwdate
+# Required-Start:    $remote_fs $syslog mountkernfs
+# Required-Stop:     $remote_fs $syslog
+# Should-Start:      bootclockrandomization rinetd
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# X-Start-Before:    tor
+# Short-Description: Set time using sdwdate
+# Description:       Set time using sdwdate
+### END INIT INFO
+
+## This file is part of Whonix.
+## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+#set -x
+
+DESC="Starting sdwdate"
+NAME=sdwdate
+USER_NAME=$NAME
+SCRIPTNAME=/etc/init.d/$NAME
+SDW_DIR=/var/run/$NAME
+PIDFILE=$SDW_DIR/pid
+SDW_DONE_FILE=$SDW_DIR/done
+SDW_SUCCESS_FILE=$SDW_DIR/success
+SDW_FIRST_SUCCESS_FILE=$SDW_DIR/first_success
+LOG=/var/log/$NAME.log
+
+# Load the VERBOSE setting and other rcS variables
+. /lib/init/vars.sh
+
+# Define LSB log_* functions.
+# Depend on lsb-base (>= 3.2-14) to ensure that this file is present
+# and status_of_proc is working.
+. /lib/lsb/init-functions
+
+# Create status directory and log file
+install -o $USER_NAME -g $USER_NAME -m 0755 -d ${SDW_DIR}
+chown --recursive $USER_NAME:$USER_NAME ${SDW_DIR}
+
+if [ ! -f "${LOG}" ]; then
+   install -o $USER_NAME -g $USER_NAME -m 0644 /dev/null "${LOG}"
+fi
+chown --recursive $USER_NAME:$USER_NAME "${LOG}"
+
+if [ -f "/etc/default/$NAME" ]; then
+   source "/etc/default/$NAME"
+fi
+
+log() {
+	echo "$@" >> "${LOG}"
+}
+
+do_start_nd() {
+   ND_PARSE_CMD_ONLY_STARTUP="--parsecmd_only_on_startup"
+   ND_PRE="--dispatchpre true"
+   ND_POST_SUCCESS="--dispatchpostsuccess true"
+   ND_POST_FAILURE="--dispatchpostfailure true"
+   ND_PROGRESS='--dispatch_pre_one true --dispatch_post_one true --dispatch_pre_two true --dispatch_post_two true --dispatch_pre_three true --dispatch_post_three true'
+   do_start
+}
+
+do_start() {
+        do_status
+        if [ "$?" = "0" ]; then
+           return 0
+        fi
+
+	if [ -e "$SDW_DONE_FILE" ]; then
+		rm -f "$SDW_DONE_FILE"
+	fi
+
+	if [ -e "$SDW_SUCCESS_FILE" ]; then
+		rm -f "$SDW_SUCCESS_FILE"
+	fi
+
+	start-stop-daemon \
+	   --start \
+	   --pidfile "$PIDFILE" \
+	   --make-pidfile \
+	   --background \
+	   --chuid $USER_NAME:$USER_NAME \
+	   --exec /usr/bin/sdwdate -- $ND_PARSE_CMD_ONLY_STARTUP $ND_PRE $ND_POST_SUCCESS $ND_POST_FAILURE $ND_PROGRESS
+
+	#bash -x /usr/bin/sdwdate $ND_PARSE_CMD_ONLY_STARTUP $ND_PRE $ND_POST_SUCCESS $ND_POST_FAILURE & disown
+	ret="$?"
+	#echo "$!" > "$PIDFILE"
+
+	return "$ret"
+}
+
+do_stop() {
+	start-stop-daemon \
+	   --stop \
+	   --quiet \
+	   --pidfile "$PIDFILE" \
+	   --signal TERM \
+	   --retry 5 \
+	   2> /dev/null
+
+	ret="$?"
+
+	if [ -e "$PIDFILE" ]; then
+		rm -f "$PIDFILE"
+	fi
+
+	if [ -e "$SDW_DONE_FILE" ]; then
+		rm -f "$SDW_DONE_FILE"
+	fi
+
+	if [ -e "$SDW_SUCCESS_FILE" ]; then
+		rm -f "$SDW_SUCCESS_FILE"
+	fi
+
+	return "$ret"
+}
+
+do_status() {
+   if [ -e "$PIDFILE" ]; then
+
+      local ps_p_exit_code
+      ps_p_exit_code="0"
+      ps -p "$(cat "$PIDFILE")" >/dev/null || { ps_p_exit_code="$?"; true; };
+
+      return "$ps_p_exit_code"
+   else
+      return "1"
+   fi
+}
+
+case "$1" in
+  start)
+	log_daemon_msg "Starting $NAME"
+	do_start
+	case "$?" in
+		0|1) log_end_msg 0 ;;
+		2) log_end_msg 1 ;;
+	esac
+	;;
+  stop)
+        log_daemon_msg "Stopping $NAME"
+        do_stop
+        case "$?" in
+                0|1) log_end_msg 0 ;;
+                2) log_end_msg 1 ;;
+        esac
+        ;;
+  restart)
+	do_stop
+	do_start
+	;;
+  restartnd)
+	do_stop
+	do_start_nd
+	;;
+  restartndclean)
+	rm --force "$SDW_FIRST_SUCCESS_FILE"
+	do_stop
+	do_start_nd
+	;;
+  force-reload)
+	rm --force "$SDW_FIRST_SUCCESS_FILE"
+	do_stop
+	do_start
+	;;
+  status)
+        do_status
+        exit $?
+	;;
+  *)
+	echo "Usage: $SCRIPTNAME (start|stop|restart|restartnd|restartndclean|force-reload|status)" >&2
+	exit 3
+	;;
+esac
+
+:
