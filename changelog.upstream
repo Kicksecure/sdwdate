@@ -1,3 +1,21 @@
+commit 8dea63996d9056b68121ce6f31fc801b27e4e547
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue May 19 16:00:08 2015 +0000
+
+    restored init script to debian/sdwdate.init - https://phabricator.whonix.org/T316
+
+commit 8c31029d53a7f455f643ce0be86e5b66a5e826eb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue May 19 15:58:06 2015 +0000
+
+    lib/systemd/system/sdwdate.service -> debian/sdwdate.service - https://phabricator.whonix.org/T316
+
+commit 9219238be781230f602197e5816b9b0039484702
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon May 18 11:14:45 2015 +0000
+
+    bumped changelog version
+
 commit 80506c46a7f3dbd30b488cde8d2da62feae86e70
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon May 18 11:12:26 2015 +0000
