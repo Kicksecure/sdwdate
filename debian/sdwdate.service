@@ -3,21 +3,21 @@
 ## See the file COPYING for copying conditions.
 
 [Unit]
-Description = Secure Distribiuted Web Date
-Documentation = https://www.whonix.org/wiki/Dev/TimeSync
-After = network.target
-Wants = rinetd.service
-Wants = bootclockrandomization.service
-Wants = tor.service
+Description=Secure Distribiuted Web Date
+Documentation=https://www.whonix.org/wiki/Dev/TimeSync
+After=network.target
+Wants=rinetd.service
+Wants=bootclockrandomization.service
+Wants=tor.service
 
 [Service]
-Type = simple
-User = sdwdate
-Group = sdwdate
-ExecStart = /usr/bin/sdwdate
-ExecReload = /bin/kill -sighup $MAINPID
-SuccessExitStatus = 143
-KillMode = process
+Type=simple
+User=sdwdate
+Group=sdwdate
+ExecStart=/usr/bin/sdwdate
+ExecReload=/bin/kill -sighup $MAINPID
+SuccessExitStatus=143
+KillMode=process
 
 [Install]
-WantedBy = multi-user.target
+WantedBy=multi-user.target
