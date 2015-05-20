@@ -1,3 +1,27 @@
+commit 9c04753b62353049c8cc6a172509c04eb3cfcc98
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed May 20 15:42:01 2015 +0000
+
+    debian/sdwdate.service -> lib/systemd/system/sdwdate.service - https://phabricator.whonix.org/T316
+
+commit 3d445b7c75f696997f9f1730b94eab4abfa4dfb6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed May 20 15:40:55 2015 +0000
+
+    deprecated sysvinit script again - https://phabricator.whonix.org/T316
+
+commit fb1480d8ee7ba130579555f43944608b4fea2f34
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed May 20 15:39:51 2015 +0000
+
+    systemd unit: workaround/fix, removed spaces, likely bug in 'deb-systemd-helper' that prevents enabling the service by default - https://phabricator.whonix.org/T316
+
+commit 910949db48e93ad1f745c7fd3195f2f99e522a26
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue May 19 20:10:46 2015 +0000
+
+    bumped changelog version
+
 commit 8dea63996d9056b68121ce6f31fc801b27e4e547
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue May 19 16:00:08 2015 +0000
