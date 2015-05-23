@@ -52,7 +52,8 @@ trap "sdwdate_signal_sigusr1" SIGUSR1
 trap "sdwdate_signal_sighup" SIGHUP
 
 ## XXX: do not hardcode path to /var/run/sdwdate
-echo "$ownpid" > "/var/run/sdwdate/pid"
+## XXX: remove workaround during migration to systemd
+echo "$ownpid" > "/var/run/sdwdate/pid" || echo "$ownpid" > "/var/run/sdwdate/pid_"
 
 sdwdate_main ${1+"$@"}
 

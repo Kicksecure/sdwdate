@@ -851,7 +851,6 @@ sdwdate_signal_sigusr1() {
 }
 
 sdwdate_signal_sighup() {
-   rm --force "$SUCCESS_FILE"
    SDW_MODE="sighup"
 }
 
