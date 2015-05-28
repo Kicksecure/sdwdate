@@ -17,6 +17,8 @@ Group=sdwdate
 ExecStart=/usr/bin/sdwdate
 SuccessExitStatus=143
 KillMode=process
+TimeoutSec=30
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
