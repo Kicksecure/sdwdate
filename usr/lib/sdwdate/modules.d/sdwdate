@@ -1590,12 +1590,12 @@ sdwdate_dispatcher() {
       sdwdate_log "SDW_EXIT_ON_ERROR: $SDW_EXIT_ON_ERROR" || true
       eval_output="$(eval $dispatcher_variable_content 2>&1)" || true
       #eval_output="$(eval bash -x $dispatcher_variable_content 2>&1)" || true
-      #sdwdate_log "eval_output: $eval_output" || true
+      #sdwdate_write_log "eval_output: $eval_output" || true
       sdwdate_log "dispatching $dispatcher_variable_name done." || true
    else
       eval_output="$(eval $dispatcher_variable_content 2>&1)"
       #eval_output="$(eval bash -x $dispatcher_variable_content 2>&1)"
-      #sdwdate_log "eval_output: $eval_output"
+      #sdwdate_write_log "eval_output: $eval_output"
       sdwdate_log "dispatching $dispatcher_variable_name done."
    fi
 }
