@@ -1,3 +1,21 @@
+commit 52e09908ca9b8181de4b64a96b1abb80e4693863
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jun 1 14:52:26 2015 +0000
+
+    check sdwdate prerequisite before each fetch attempt - https://phabricator.whonix.org/T334
+
+commit d51b8ecbc44485e21bc5e6244670c55067ff20b4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri May 29 15:46:15 2015 +0000
+
+    comment
+
+commit 83832d35f56e05b4a05107cd4450b0040f447ff2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 28 20:57:26 2015 +0000
+
+    bumped changelog version
+
 commit 095cb9b82816a699e04a9171080b53b835f2fa39
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu May 28 20:05:41 2015 +0000
