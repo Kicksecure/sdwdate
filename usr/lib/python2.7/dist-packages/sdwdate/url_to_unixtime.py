@@ -27,7 +27,6 @@ def unixtime_sanity_check(data, http_time, parsed_unixtime, url):
         print >> sys.stderr, 'parsed_unixtime: %s' % (parsed_unixtime)
         print >> sys.stderr, 'parsed_unixtime not numeric!'
         return
-        #exit(6)
 
     unixtime_string_length_is = len(parsed_unixtime)
     unixtime_string_length_max = 10
@@ -41,7 +40,6 @@ def unixtime_sanity_check(data, http_time, parsed_unixtime, url):
         print >> sys.stderr, 'unixtime_string_length_max: %s' % (unixtime_string_length_max)
         print >> sys.stderr, 'parsed_unixtime has excessive string length!'
         return
-        #sys.exit(7)
 
     urls.append(url)
     unix_times.append(parsed_unixtime)
@@ -59,7 +57,6 @@ def http_time_to_parsed_unixtime(data, http_time, url):
         print >> sys.stderr, 'http_time: %s' % (http_time)
         print >> sys.stderr, 'dateutil ValueError: %s' % (e)
         return
-        #sys.exit(5)
 
     #print(parsed_unixtime)
     unixtime_sanity_check(data, http_time, parsed_unixtime, url)
@@ -78,7 +75,6 @@ def data_to_http_time(data, date_string_start_position, url):
         print >> sys.stderr, 'HTTP header data:\n%s' % (data)
         print >> sys.stderr, 'HTTP header date value: "%s"' % (http_time)
         return
-        #sys.exit(4)
 
     #print http_time
     http_time_to_parsed_unixtime(data, http_time, url)
@@ -93,9 +89,7 @@ def data_to_date_string_start_position(data, url):
     if date_string_start_position == -1:
         ## "Date:" not found.
         print >> sys.stderr, 'Parsing HTTP header date failed: "%s"' % (url)
-        #print 'HTTP header data:\n%s' % (data)
         return
-        #sys.exit(3)
 
     else:
         date_string_start_position = date_string_start_position + 6
@@ -105,29 +99,23 @@ def data_to_date_string_start_position(data, url):
 def request_data_from_remote_server(socket_ip, socket_port, url, remote_port):
     s = socks.socksocket()
     s.setproxy(socks.PROXY_TYPE_SOCKS5, socket_ip, socket_port)
-    #print 'THREAD STARTED "%s"' % url
 
     try:
         s.connect((url, remote_port))
         print 'CONNECTED "%s"' % url
 
-    ## Should occur only when tor is not running (stopped, crashed,
-    ## gateway shut down...)
-    except socks.GeneralProxyError as e:
-        error = '%s' % (e)
-        urls.append(error)
-        return urls
-
     except IOError as e:
         ## {{ wheezy compatibility
         if str(e).startswith('__init__'):
-            print >> sys.stderr, 'connect error: URL "%s" not found.' % url
-        else:
+            urls.append(url)
+            unix_times.append('URL not found')
+            #print >> sys.stderr, 'connect error: URL "%s" not found.' % url
         ## }}
-            ## Should return the errors to sdwdate for logging.
-            print >> sys.stderr, '"%s" %s ' % (url, e)
+        else:
+            error = '%s' % (e)
+            urls.append(url)
+            unix_times.append(error)
         return
-        #sys.exit
 
     s.send('HEAD / HTTP/1.0\r\n\r\n')
     data = ''
@@ -143,22 +131,30 @@ def request_data_from_remote_server(socket_ip, socket_port, url, remote_port):
 
 
 def url_to_unixtime(remotes):
+    #print remotes
+
+    url = []
     threads = []
 
     timeout = gevent.Timeout()
     timer = []
     seconds = 10
 
-    for i in range(0, len(remotes)):
+    print 'GEVENT started'
+
+    for i in range(len(remotes)):
         timer.append(timeout.start_new(seconds))
         args = (request_data_from_remote_server, '127.0.0.1', '9050', remotes[i], 80)
         threads.append(gevent.spawn(*args))
 
-    for i in range(0, len(remotes)):
+    for i in range(len(remotes)):
         try:
             threads[i].join(timeout=timer[i])
 
         except Timeout:
-            print >> sys.stderr, '"%s" Timeout' % (threads[i].args[2])
+            urls.append(threads[i].args[2])
+            unix_times.append('Timeout')
+
+    print 'GEVENT exiting'
 
     return urls, unix_times
