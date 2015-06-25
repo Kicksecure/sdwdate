@@ -90,7 +90,7 @@ class Sdwdate():
                 print 'General Proxy Error'
                 sys.exit(1)
 
-        return True
+        return False
 
     def check_remote(self, remote, value):
         try:
@@ -167,7 +167,7 @@ class Sdwdate():
                 ## Add code here.
                 sys.exit(1)
 
-            if self.general_proxy_error(self.returned_values):
+            if not self.general_proxy_error(self.returned_values):
                 self.valid_urls = []
                 self.unixtimes = []
                 for i in range(len(self.urls)):
