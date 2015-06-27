@@ -82,12 +82,12 @@ def read_pools():
             url = pool_one[i][1:23]
             pool_one_single.append(url)
 
-    #print 'pool_one_multi'
-    #for i in xrange(len(pool_one_multi)):
-        #print pool_one_multi[i]
-    #print 'pool 1 singles'
-    #for i in range(len(pool_one_single)):
-        #print pool_one_single[i]
+    print 'pool_one_multi'
+    for i in xrange(len(pool_one_multi)):
+        print pool_one_multi[i]
+    print 'pool 1 singles'
+    for i in range(len(pool_one_single)):
+        print pool_one_single[i]
 
     for i in range(len(pool_two)):
         if multi_line and pool_two[i] == '"':
@@ -103,12 +103,12 @@ def read_pools():
             url = pool_two[i][1:23]
             pool_two_single.append(url)
 
-    #print 'pool_two_multi'
-    #for i in xrange(len(pool_two_multi)):
-        #print pool_two_multi[i]
-    #print 'pool 2 singles'
-    #for i in range(len(pool_two_single)):
-        #print pool_two_single[i]
+    print 'pool_two_multi'
+    for i in xrange(len(pool_two_multi)):
+        print pool_two_multi[i]
+    print 'pool 2 singles'
+    for i in range(len(pool_two_single)):
+        print pool_two_single[i]
 
     for i in range(len(pool_three)):
         if multi_line and pool_three[i] == '"':
@@ -124,14 +124,15 @@ def read_pools():
             url = pool_three[i][1:23]
             pool_three_single.append(url)
 
-    #print 'pool_three_multi'
-    #for i in xrange(len(pool_three_multi)):
-        #print pool_three_multi[i]
-    #print 'pool 2 singles'
-    #for i in range(len(pool_three_single)):
-        #print pool_three_single[i]
+    print 'pool_three_multi'
+    for i in xrange(len(pool_three_multi)):
+        print pool_three_multi[i]
+    print 'pool_three_single'
+    for i in range(len(pool_three_single)):
+        print pool_three_single[i]
 
-    return pool_one_single, pool_two_single, pool_three_single
+    return (pool_one_single, pool_two_single, pool_three_single,
+            pool_one_multi, pool_two_multi, pool_three_multi)
 
 if __name__ == "__main__":
     read_pools()
