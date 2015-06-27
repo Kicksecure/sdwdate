@@ -1,61 +1,19 @@
 #!/usr/bin/env python
 
 import sys
-from url_to_unixtime import url_to_unixtime
 import time, random
+
+from url_to_unixtime import url_to_unixtime
+from config import read_pools
 
 from numbers import Number
 import re
 
-#import config
 
 
 class Sdwdate():
     def __init__(self):
-        self.pool_one = ['dtsxnd3ykn32ywv6.onion',
-                    'znig4bc5rlwyj4mz.onion',
-                    'vtjkwwcq5osuo6uq.onion',
-                    '33y6fjyhs3phzfjj.onion',
-                    'y6xjgkgwj47us5ca.onion',
-                    'strngbxhwyuu37a3.onion',
-                    'swdi5ymnwmrqhycl.onion',
-                    'dqeasamlf3jld2kz.onion',
-                    'pubdrop4dw6rk3aq.onion',
-                    'hkjpnjbvhrxjvikd.onion',
-                    'v6gdwmm7ed4oifvd.onion',
-                    'vbmwh445kf3fs2v4.onion',
-                    'poulsensqiv6ocq4.onion',
-                    'tigas3l7uusztiqu.onion',
-                    'w6csjytbrl273che.onion',
-                    'ak2uqfavwgmjrvtu.onion']
-
-        self.pool_two =  ['yn6ocmvu4ok3k3al.onion',
-                    'acabtd4btrxjjrvr.onion',
-                    '5r4bjnjug3apqdii.onion',
-                    '2dermafialks7aai.onion',
-                    'ymi7h25hgp3bj63v.onion',
-                    'ppdz5djzpo3w5k2z.onion',
-                    'pltloztihmfrg2sw.onion',
-                    'ur5b2b4brz427ygh.onion',
-                    'abkjckdgoabr7bmm.onion',
-                    'bqs3dobnazs7h4u4.onion',
-                    'fkut2p37apcg6l7f.onion',
-                    '6iolddfbfinntq2b.onion',
-                    'nzh3fv6jc6jskki3.onion']
-
-        self.pool_three = ['cwoiopiifrlzcuos.onion',
-                    'zsolxunfmbfuq7wf.onion',
-                    'yfm6sdhnfbulplsw.onion',
-                    'j6uhdvbhz74oefxf.onion',
-                    '3g2upl4pq6kufc4m.onion',
-                    'dju2peblv7upfz3q.onion',
-                    'msydqstlz2kzerdg.onion',
-                    'uj3wazyk5u4hnvtk.onion',
-                    'wi7qkxyrdpu5cmvr.onion',
-                    'ic6au7wa3f6naxjq.onion',
-                    'timaq4ygg2iegci7.onion',
-                    '344c6kbnjnljjzlz.onion',
-                    'fncuwbiisyh6ak3i.onion']
+        self.pool_one, self.pool_two, self.pool_three = read_pools()
 
         self.number_of_pools = 3
 
@@ -80,9 +38,6 @@ class Sdwdate():
         print 'Start %s' % (time.time())
 
     def general_proxy_error(self, pools):
-        #print pools[0]
-        #print pools[1]
-        #print pools[2]
         if (pools[0] == 'Connection closed unexpectedly' and
             pools[1] == 'Connection closed unexpectedly' and
             pools[2] == 'Connection closed unexpectedly'):
@@ -116,9 +71,6 @@ class Sdwdate():
                     if len(self.already_picked_index_pool_one) == len(self.pool_one):
                         self.already_picked_index_pool_one = []
                         self.url_random_pool_one = []
-                        ## Should stop here? Declare the pool invalid?
-                        #self.number_of_pools = self.number_of_pools - 1
-                        #self.pool_one_done = True
 
                     if url_index not in self.already_picked_index_pool_one:
                         self.already_picked_index_pool_one.append(url_index)
@@ -163,6 +115,7 @@ class Sdwdate():
             if len(self.url_random) > 0:
                 print 'random urls %s' % (self.url_random)
                 self.urls, self.returned_values = url_to_unixtime(self.url_random)
+                print 'returned urls "%s"' % (self.urls)
             else:
                 ## Add code here.
                 sys.exit(1)
