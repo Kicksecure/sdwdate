@@ -5,15 +5,27 @@ import time, random
 
 from url_to_unixtime import url_to_unixtime
 from config import read_pools
-
-from numbers import Number
-import re
-
-
+from error_handler import SdwdateError
 
 class Sdwdate():
     def __init__(self):
-        self.pool_one, self.pool_two, self.pool_three = read_pools()
+        self.pool_one_single, self.pool_two_single, self.pool_three_single, \
+        self.pool_one_multi, self.pool_two_multi, self.pool_three_multi = read_pools()
+
+        if len(self.pool_one_multi) > 0:
+            self.pool_one = self.pool_one_multi
+        else:
+            self.pool_one = self.pool_one_single
+
+        if len(self.pool_two_multi) > 0:
+            self.pool_two = self.pool_two_multi
+        else:
+            self.pool_two = self.pool_two_single
+
+        if len(self.pool_one_multi) > 0:
+            self.pool_three = self.pool_three_multi
+        else:
+            self.pool_three = self.pool_three_multi
 
         self.number_of_pools = 3
 
