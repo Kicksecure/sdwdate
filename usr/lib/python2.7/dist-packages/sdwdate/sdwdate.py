@@ -5,7 +5,7 @@ import time, random
 
 from url_to_unixtime import url_to_unixtime
 from config import read_pools
-from error_handler import SdwdateError
+#from error_handler import SdwdateError
 
 class Sdwdate():
     def __init__(self):
