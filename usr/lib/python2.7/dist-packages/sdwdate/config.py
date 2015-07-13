@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os
+import os, sys
 import glob
 import time
 import re
@@ -15,15 +15,6 @@ def read_pools():
     pool_two = []
     pool_three = []
 
-    pool_one_single = []
-    pool_one_multi = []
-
-    pool_two_single = []
-    pool_two_multi = []
-
-    pool_three_single = []
-    pool_three_multi = []
-
     if os.path.exists('/etc/sdwdate.d/'):
         files = sorted(glob.glob('/etc/sdwdate.d/*'))
 
@@ -34,6 +25,7 @@ def read_pools():
                     conf_found = True
                     with open(conf) as c:
                         for line in c:
+                            line = line.strip()
                             if line.startswith('SDWDATE_POOL_ONE'):
                                 SDWDATE_POOL_ONE = True
 
@@ -46,14 +38,20 @@ def read_pools():
                                 SDWDATE_POOL_TWO = False
                                 SDWDATE_POOL_THREE = True
 
-                            elif SDWDATE_POOL_ONE and not line.startswith('##'):
-                                pool_one.append(line.strip())
+                            elif SDWDATE_POOL_ONE and line.startswith('"'):
+                                url = re.search(r'"(.*)#', line)
+                                print '%s' % (url.group(1))
+                                pool_one.append(url.group(1))
 
-                            elif SDWDATE_POOL_TWO and not line.startswith('##'):
-                                pool_two.append(line.strip())
+                            elif SDWDATE_POOL_TWO and line.startswith('"'):
+                                url = re.search(r'"(.*)#', line)
+                                print '%s' % (url.group(1))
+                                pool_two.append(url.group(1))
 
-                            elif SDWDATE_POOL_THREE and not line.startswith('##'):
-                                pool_three.append(line.strip())
+                            elif SDWDATE_POOL_THREE and line.startswith('"'):
+                                url = re.search(r'"(.*)#', line)
+                                print '%s' % (url.group(1))
+                                pool_three.append(url.group(1))
 
             if not conf_found:
                 self.set_default()
@@ -68,71 +66,7 @@ def read_pools():
         print('User configuration folder "/etc/cpfpy.d" does not exist.'\
                 ' Running with default configuration.')
 
-    for i in range(len(pool_one)):
-        if multi_line and pool_one[i] == '"':
-            multi_line = False
-        elif multi_line:
-            url = pool_one[i][0:22]
-            pool_one_multi.append(url)
-        elif pool_one[i] == '"':
-            multi_line = True
-        elif pool_one[i].startswith('"'):
-            #url = re.search(r'"(.*)#', pool_one[i])
-            #pool_one_single.append(url.group(1))
-            url = pool_one[i][1:23]
-            pool_one_single.append(url)
-
-    print 'pool_one_multi'
-    for i in xrange(len(pool_one_multi)):
-        print pool_one_multi[i]
-    print 'pool 1 singles'
-    for i in range(len(pool_one_single)):
-        print pool_one_single[i]
-
-    for i in range(len(pool_two)):
-        if multi_line and pool_two[i] == '"':
-            multi_line = False
-        elif multi_line:
-            url = pool_two[i][0:22]
-            pool_two_multi.append(url)
-        elif pool_two[i] == '"':
-            multi_line = True
-        elif pool_two[i].startswith('"'):
-            #url = re.search(r'"(.*)#', pool_two[i])
-            #pool_two_single.append(url.group(1))
-            url = pool_two[i][1:23]
-            pool_two_single.append(url)
-
-    print 'pool_two_multi'
-    for i in xrange(len(pool_two_multi)):
-        print pool_two_multi[i]
-    print 'pool 2 singles'
-    for i in range(len(pool_two_single)):
-        print pool_two_single[i]
-
-    for i in range(len(pool_three)):
-        if multi_line and pool_three[i] == '"':
-            multi_line = False
-        elif multi_line:
-            url = pool_three[i][0:22]
-            pool_three_multi.append(url)
-        elif pool_three[i] == '"':
-            multi_line = True
-        elif pool_three[i].startswith('"'):
-            #url = re.search(r'"(.*)#', pool_three[i])
-            #pool_three_single.append(url.group(1))
-            url = pool_three[i][1:23]
-            pool_three_single.append(url)
-
-    print 'pool_three_multi'
-    for i in xrange(len(pool_three_multi)):
-        print pool_three_multi[i]
-    print 'pool_three_single'
-    for i in range(len(pool_three_single)):
-        print pool_three_single[i]
-
-    return (pool_one_single, pool_two_single, pool_three_single,
-            pool_one_multi, pool_two_multi, pool_three_multi)
+    return (pool_one, pool_two, pool_three)
 
 if __name__ == "__main__":
     read_pools()

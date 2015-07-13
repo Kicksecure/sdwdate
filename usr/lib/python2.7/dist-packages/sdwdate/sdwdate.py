@@ -9,25 +9,13 @@ from config import read_pools
 
 class Sdwdate():
     def __init__(self):
-        self.pool_one_single, self.pool_two_single, self.pool_three_single, \
-        self.pool_one_multi, self.pool_two_multi, self.pool_three_multi = read_pools()
+        self.pool_one, self.pool_two, self.pool_three = read_pools()
 
-        if len(self.pool_one_multi) > 0:
-            ## Increment the range of random.
-            self.range_pool_one = len(self.pool_one_single) + 1
-            print len(self.pool_one_multi)
-        else:
-            self.range_pool_one = len(self.pool_one_single)
+        self.range_pool_one = len(self.pool_one)
 
-        if len(self.pool_two_multi) > 0:
-            self.range_pool_two = len(self.pool_two_single) + 1
-        else:
-            self.range_pool_two = len(self.pool_two_single)
+        self.range_pool_two = len(self.pool_two)
 
-        if len(self.pool_three_multi) > 0:
-            self.range_pool_three = len(self.pool_three_single) + 1
-        else:
-            self.range_pool_three = len(self.pool_three_single)
+        self.range_pool_three = len(self.pool_three)
 
         self.number_of_pools = 3
 
@@ -82,14 +70,6 @@ class Sdwdate():
                     url_index = []
                     url_index = random.sample(range(self.range_pool_one), 1)
                     index = url_index[0]
-                    ## url_index is zero based.
-                    if index > len(self.pool_one_single) - 1:
-                        ## muti-line entry exists in pool, make it current, pick a random member,
-                        self.pool_one = self.pool_one_multi
-                        url_index = random.sample(range(len(self.pool_one_multi)), 1)
-                    else:
-                        ## otherwise, use a single member.
-                        self.pool_one = self.pool_one_single
 
                     if len(self.already_picked_index_pool_one) == len(self.pool_one):
                         self.already_picked_index_pool_one = []
@@ -107,11 +87,6 @@ class Sdwdate():
                     url_index = []
                     url_index = random.sample(range(self.range_pool_two), 1)
                     index = url_index[0]
-                    if index > len(self.pool_two_single) - 1:
-                        url_index = random.sample(range(len(self.pool_two_multi)), 1)
-                        self.pool_two = self.pool_two_multi
-                    else:
-                        self.pool_two = self.pool_two_single
 
                     if len(self.url_random_pool_two) == len(self.pool_two):
                         self.already_picked_index_pool_two = []
@@ -129,11 +104,6 @@ class Sdwdate():
                     url_index = []
                     url_index = random.sample(range(self.range_pool_three), 1)
                     index = url_index[0]
-                    if index > len(self.pool_three_single) - 1:
-                        url_index = random.sample(range(len(self.pool_three_multi)), 1)
-                        self.pool_three = self.pool_three_multi
-                    else:
-                        self.pool_three = self.pool_three_single
 
                     if len(self.url_random_pool_three) == len(self.pool_three):
                         self.already_picked_index_pool_three = []
