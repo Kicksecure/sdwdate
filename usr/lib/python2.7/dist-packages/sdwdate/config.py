@@ -15,8 +15,8 @@ def read_pools():
     pool_two = []
     pool_three = []
 
-    if os.path.exists('/etc/sdwdate.d/'):
-        files = sorted(glob.glob('/etc/sdwdate.d/*'))
+    if os.path.exists('/etc/sdwdate-python.d/'):
+        files = sorted(glob.glob('/etc/sdwdate-python.d/*'))
 
         if files:
             conf_found = False
@@ -40,17 +40,14 @@ def read_pools():
 
                             elif SDWDATE_POOL_ONE and line.startswith('"'):
                                 url = re.search(r'"(.*)#', line)
-                                print '%s' % (url.group(1))
                                 pool_one.append(url.group(1))
 
                             elif SDWDATE_POOL_TWO and line.startswith('"'):
                                 url = re.search(r'"(.*)#', line)
-                                print '%s' % (url.group(1))
                                 pool_two.append(url.group(1))
 
                             elif SDWDATE_POOL_THREE and line.startswith('"'):
                                 url = re.search(r'"(.*)#', line)
-                                print '%s' % (url.group(1))
                                 pool_three.append(url.group(1))
 
             if not conf_found:
