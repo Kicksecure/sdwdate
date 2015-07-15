@@ -12,9 +12,7 @@ class Sdwdate():
         self.pool_one, self.pool_two, self.pool_three = read_pools()
 
         self.range_pool_one = len(self.pool_one)
-
         self.range_pool_two = len(self.pool_two)
-
         self.range_pool_three = len(self.pool_three)
 
         self.number_of_pools = 3
@@ -33,6 +31,7 @@ class Sdwdate():
 
         self.valid_urls = []
         self.unixtimes = []
+        self.pools_diff = []
 
         self.invalid_urls = []
         self.url_errors = []
@@ -132,29 +131,54 @@ class Sdwdate():
                     if self.check_remote(self.urls[i], self.returned_values[i]):
                         self.valid_urls.append(self.urls[i])
                         self.unixtimes.append(self.returned_values[i])
+
                     else:
                         self.invalid_urls.append(self.urls[i])
                         self.url_errors.append(self.returned_values[i])
 
+            old_unixtime = (time.time())
+            print 'old_unixtime %s' % old_unixtime
+
             if not self.pool_one_done:
                 for i in range(len(self.url_random_pool_one)):
                     self.pool_one_done = self.url_random_pool_one[i] in self.valid_urls
+                    if self.pool_one_done:
+                        valid_url = self.url_random_pool_one[i]
+                        ## Values are teturned randomly. Get the index of the url.
+                        index = self.valid_urls.index(valid_url)
+                        ## Pool matching web time.
+                        web_time = self.unixtimes[index]
+                        self.pools_diff.append(int(web_time) - old_unixtime)
+                        print 'pool_one: last_url %s, web_time %s' % (valid_url, web_time)
                 print 'pool_one_done %s' % (self.pool_one_done)
 
             if not self.pool_two_done:
                 for i in range(len(self.url_random_pool_two)):
                     self.pool_two_done = self.url_random_pool_two[i] in self.valid_urls
+                    if self.pool_two_done:
+                        valid_url = self.url_random_pool_two[i]
+                        index = self.valid_urls.index(valid_url)
+                        web_time = self.unixtimes[index]
+                        self.pools_diff.append(int(web_time) - old_unixtime)
+                        print 'pool_two: last_url %s, web_time %s' % (valid_url, web_time)
                 print 'pool_two_done %s' % (self.pool_two_done)
 
             if not self.pool_three_done:
                 for i in range(len(self.url_random_pool_three)):
                     self.pool_three_done = self.url_random_pool_three[i] in self.valid_urls
+                    if self.pool_three_done:
+                        valid_url = self.url_random_pool_three[i]
+                        index = self.valid_urls.index(valid_url)
+                        web_time = self.unixtimes[index]
+                        self.pools_diff.append(int(web_time) - old_unixtime)
+                        print 'pool_one: last_url %s, web_time %s' % (valid_url, web_time)
                 print 'pool_three_done %s' % (self.pool_three_done)
 
         print 'valid urls %s' % (self.valid_urls)
         ## Duplicates in bad urls, same url appended because pool not done.
         ## Remove duplicates
         print 'bad urls %s' % (list(set(self.invalid_urls)))
+        print 'pools diff %s' % self.pools_diff
 
         print 'End %s' % (time.time())
 
