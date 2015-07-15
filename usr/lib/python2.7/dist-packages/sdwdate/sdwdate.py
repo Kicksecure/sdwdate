@@ -50,10 +50,9 @@ class Sdwdate():
 
     def check_remote(self, remote, value):
         try:
-            if True:
-                n = int(value)
-                print 'check_remote "%s" %s, True' % (remote, value)
-                return True
+            n = int(value)
+            print 'check_remote "%s" %s, True' % (remote, value)
+            return True
         except ValueError:
             print 'check_remote "%s" %s, False' % (remote, value)
             return False
@@ -148,7 +147,7 @@ class Sdwdate():
                         index = self.valid_urls.index(valid_url)
                         ## Pool matching web time.
                         web_time = self.unixtimes[index]
-                        self.pools_diff.append(int(web_time) - old_unixtime)
+                        self.pools_diff.append(int(web_time) - int(old_unixtime))
                         print 'pool_one: last_url %s, web_time %s' % (valid_url, web_time)
                 print 'pool_one_done %s' % (self.pool_one_done)
 
@@ -159,7 +158,7 @@ class Sdwdate():
                         valid_url = self.url_random_pool_two[i]
                         index = self.valid_urls.index(valid_url)
                         web_time = self.unixtimes[index]
-                        self.pools_diff.append(int(web_time) - old_unixtime)
+                        self.pools_diff.append(int(web_time) - int(old_unixtime))
                         print 'pool_two: last_url %s, web_time %s' % (valid_url, web_time)
                 print 'pool_two_done %s' % (self.pool_two_done)
 
@@ -170,21 +169,35 @@ class Sdwdate():
                         valid_url = self.url_random_pool_three[i]
                         index = self.valid_urls.index(valid_url)
                         web_time = self.unixtimes[index]
-                        self.pools_diff.append(int(web_time) - old_unixtime)
+                        self.pools_diff.append(int(web_time) - int(old_unixtime))
                         print 'pool_one: last_url %s, web_time %s' % (valid_url, web_time)
                 print 'pool_three_done %s' % (self.pool_three_done)
 
         print 'valid urls %s' % (self.valid_urls)
+        print 'pools diff %s' % self.pools_diff
         ## Duplicates in bad urls, same url appended because pool not done.
         ## Remove duplicates
         print 'bad urls %s' % (list(set(self.invalid_urls)))
-        print 'pools diff %s' % self.pools_diff
 
         print 'End %s' % (time.time())
 
+    def build_median(self):
+        diffs = sorted(self.pools_diff)
+        print 'sorted %s' % (diffs)
+        ## We can have more than three values in valid_urls / pools_diff.
+        if len(diffs) % 2 == 0:
+            ## Even number of values. Median = sum(2 middle values) / 2
+            median = (diffs[(len(diffs) / 2) - 1] + diffs[len(diffs) / 2]) / 2
+        else:
+            ## Odd number of values. Median = middle value.
+            median = diffs[(len(diffs) / 2)]
+        print 'median %s' % median
+
 def main():
     sdwdate_ = Sdwdate()
+
     sdwdate_.sdwdate_loop()
+    sdwdate_.build_median()
 
 if __name__ == "__main__":
     main()
