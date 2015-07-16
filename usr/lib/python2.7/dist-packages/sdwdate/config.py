@@ -52,16 +52,18 @@ def read_pools():
 
             if not conf_found:
                 self.set_default()
-                print('No valid file found in user configuration folder "/etc/sdwdate.d".'\
-                        ' Running with default configuration.')
+                print('No valid file found in user configuration folder "/etc/sdwdate.d".')
 
         else:
-            print('No file found in user configuration folder "/etc/cpfpy.d".'\
-                    ' Running with default configuration.')
+            print('No file found in user configuration folder "/etc/cpfpy.d".')
 
     else:
-        print('User configuration folder "/etc/cpfpy.d" does not exist.'\
-                ' Running with default configuration.')
+        print('User configuration folder "/etc/cpfpy.d" does not exist.')
+
+    ## Remove duplicates.
+    pool_one = list(set(pool_one))
+    pool_two = list(set(pool_two))
+    pool_three = list(set(pool_three))
 
     return (pool_one, pool_two, pool_three)
 
