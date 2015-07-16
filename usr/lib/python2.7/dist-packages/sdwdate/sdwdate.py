@@ -3,6 +3,7 @@
 import sys
 import time
 import random
+from random import randint
 
 from url_to_unixtime import url_to_unixtime
 from config import read_pools
@@ -37,6 +38,8 @@ class Sdwdate():
 
         self.invalid_urls = []
         self.url_errors = []
+
+        self.range_nanoseconds = 999999999
 
         print 'Start %s' % (time.time())
 
@@ -198,13 +201,36 @@ class Sdwdate():
         else:
             ## Odd number of values. Median = middle value.
             median = diffs[(len(diffs) / 2)]
+        return median
+
+    def add_subtract_nanoseconds(self):
+        median = self.build_median()
+
+        if median == 0:
+            print('Time difference = 0. Not setting time')
+            return
+
+        sign = randint(0, 1)
+
+        nanoseconds = randint(0, self.range_nanoseconds)
+        seconds = float(nanoseconds) / 1000000000
+
+        if sign == 0:
+            newdiff = median + seconds
+        else:
+            newdiff = median - seconds
+
+        print 'nanoseconds %s' % nanoseconds
+        print 'seconds %s' % seconds
+        print 'sign %s' % sign
         print 'median %s' % median
+        print 'newdiff %s' % newdiff
 
 def main():
     sdwdate_ = Sdwdate()
 
     sdwdate_.sdwdate_loop()
-    sdwdate_.build_median()
+    sdwdate_.add_subtract_nanoseconds()
 
 if __name__ == "__main__":
     main()
