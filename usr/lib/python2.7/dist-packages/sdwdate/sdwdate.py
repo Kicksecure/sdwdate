@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
 import sys
-import time, random
+import time
+import random
 
 from url_to_unixtime import url_to_unixtime
 from config import read_pools
 #from error_handler import SdwdateError
+
 
 class Sdwdate():
     def __init__(self):
@@ -118,6 +120,11 @@ class Sdwdate():
             if len(self.url_random) > 0:
                 print 'random urls %s' % (self.url_random)
                 self.urls, self.returned_values = url_to_unixtime(self.url_random)
+                if len(self.urls) == 0:
+                    ## Most likely, internet connection is down.
+                    ## Raise eror, log.
+                    print('No values returned from url_to_unixtime')
+                    sys.exit()
                 print 'returned urls "%s"' % (self.urls)
             else:
                 ## Add code here.
