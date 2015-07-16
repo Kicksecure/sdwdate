@@ -39,6 +39,7 @@ class Sdwdate():
         self.invalid_urls = []
         self.url_errors = []
 
+        self.median = 0
         self.range_nanoseconds = 999999999
 
         print 'Start %s' % (time.time())
@@ -197,16 +198,15 @@ class Sdwdate():
         ## We can have more than three values in valid_urls / pools_diff.
         if len(diffs) % 2 == 0:
             ## Even number of values. Median = sum(2 middle values) / 2
-            median = (diffs[(len(diffs) / 2) - 1] + diffs[len(diffs) / 2]) / 2
+            self.median = (diffs[(len(diffs) / 2) - 1] + diffs[len(diffs) / 2]) / 2
         else:
             ## Odd number of values. Median = middle value.
-            median = diffs[(len(diffs) / 2)]
-        return median
+            self.median = diffs[(len(diffs) / 2)]
 
     def add_subtract_nanoseconds(self):
         median = self.build_median()
 
-        if median == 0:
+        if self.median == 0:
             print('Time difference = 0. Not setting time')
             return
 
@@ -216,20 +216,21 @@ class Sdwdate():
         seconds = float(nanoseconds) / 1000000000
 
         if sign == 0:
-            newdiff = median + seconds
+            newdiff = self.median + seconds
         else:
-            newdiff = median - seconds
+            newdiff = self.median - seconds
 
         print 'nanoseconds %s' % nanoseconds
         print 'seconds %s' % seconds
         print 'sign %s' % sign
-        print 'median %s' % median
+        print 'median %s' % self.median
         print 'newdiff %s' % newdiff
 
 def main():
     sdwdate_ = Sdwdate()
 
     sdwdate_.sdwdate_loop()
+    sdwdate_.build_median()
     sdwdate_.add_subtract_nanoseconds()
 
 if __name__ == "__main__":
