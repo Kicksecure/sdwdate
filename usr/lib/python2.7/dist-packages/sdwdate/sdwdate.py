@@ -4,6 +4,7 @@ import sys
 import time
 import random
 from random import randint
+from subprocess import Popen, call, PIPE
 
 from url_to_unixtime import url_to_unixtime
 from config import read_pools
@@ -41,6 +42,9 @@ class Sdwdate():
 
         self.median = 0
         self.range_nanoseconds = 999999999
+        self.newdiff_nanoseconds = 0
+
+        self.sclockadj_pid = 0
 
         print 'Start %s' % (time.time())
 
@@ -208,7 +212,7 @@ class Sdwdate():
 
         if self.median == 0:
             print('Time difference = 0. Not setting time')
-            return
+            return False
 
         sign = randint(0, 1)
 
@@ -216,22 +220,67 @@ class Sdwdate():
         seconds = float(nanoseconds) / 1000000000
 
         if sign == 0:
-            newdiff = self.median + seconds
+            new_diff = self.median + seconds
         else:
-            newdiff = self.median - seconds
+            new_diff = self.median - seconds
+
+        self.newdiff_nanoseconds = int(new_diff * 1000000000)
 
         print 'nanoseconds %s' % nanoseconds
         print 'seconds %s' % seconds
         print 'sign %s' % sign
         print 'median %s' % self.median
-        print 'newdiff %s' % newdiff
+        print 'new_diff %s' % new_diff
+
+        return True
+
+    def run_sclockadj(self):
+        if self.newdiff_nanoseconds > 0:
+            add_subtract = "--add"
+        else:
+            add_subtract = "--subtract"
+        cmd = [
+            "sudo",
+            "INLINEDIR=/var/cache/sdwdate/sclockadj",
+            "/usr/lib/sdwdate/sclockadj",
+            "--debug",
+            "--verbose",
+            "--no-systohc",
+            "--no-first-wait",
+            "--move-min", "5000000",
+            "--move-max", "5000000",
+            "--wait-min", "1000000000",
+            "--wait-max", "1000000000",
+            add_subtract, str(abs(self.newdiff_nanoseconds))]
+
+        ## Run sclockadj in a subshell.
+        sclockadj = Popen(cmd)
+
+        self.sclockadj_pid = sclockadj.pid
+
+        ## Running sclockadj_debug_helper, in case...
+        cmd = ["sudo", "/usr/lib/sdwdate/sclockadj_debug_helper"]
+        ## Pipe stdout in subprocess.
+        helper = Popen(cmd, stdout=PIPE)
+        ## Read the output.
+        line = helper.stdout.read()
+        print line
+
+    def kill_sclockadj(self):
+        cmd = 'sudo /usr/lib/sdwdate/sclockadj_kill_helper ' + str(self.sclockadj_pid)
+        call(cmd, shell=True)
+
 
 def main():
     sdwdate_ = Sdwdate()
 
     sdwdate_.sdwdate_loop()
     sdwdate_.build_median()
-    sdwdate_.add_subtract_nanoseconds()
+    if sdwdate_.add_subtract_nanoseconds() == True:
+        sdwdate_.run_sclockadj()
+
+    time.sleep(10)
+    sdwdate_.kill_sclockadj()
 
 if __name__ == "__main__":
     main()
