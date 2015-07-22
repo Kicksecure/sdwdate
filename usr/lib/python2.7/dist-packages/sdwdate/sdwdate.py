@@ -42,6 +42,7 @@ class Sdwdate():
 
         self.median = 0
         self.range_nanoseconds = 999999999
+        self.new_diff = 0
         self.newdiff_nanoseconds = 0
 
         self.sclockadj_pid = 0
@@ -220,17 +221,17 @@ class Sdwdate():
         seconds = float(nanoseconds) / 1000000000
 
         if sign == 0:
-            new_diff = self.median + seconds
+            self.new_diff = self.median + seconds
         else:
-            new_diff = self.median - seconds
+            self.new_diff = self.median - seconds
 
-        self.newdiff_nanoseconds = int(new_diff * 1000000000)
+        self.newdiff_nanoseconds = int(self.new_diff * 1000000000)
 
         print 'nanoseconds %s' % nanoseconds
         print 'seconds %s' % seconds
         print 'sign %s' % sign
         print 'median %s' % self.median
-        print 'new_diff %s' % new_diff
+        print 'new_diff %s' % self.new_diff
 
         return True
 
@@ -270,6 +271,19 @@ class Sdwdate():
         cmd = 'sudo /usr/lib/sdwdate/sclockadj_kill_helper ' + str(self.sclockadj_pid)
         call(cmd, shell=True)
 
+    def set_time_using_date(self):
+        old_unixtime = time.time()
+        print 'Old time %.9f' % (old_unixtime)
+        new_unixtime = '%.9f' % (old_unixtime + self.new_diff)
+        print 'New time %s' % str(new_unixtime)
+        ## Debug: print old date.
+        cmd = '/bin/date'
+        call(cmd, shell=True)
+        cmd = '/bin/date --set @' + str(new_unixtime)
+        print cmd
+        ## Set and print new date.
+        call(cmd, shell=True)
+
 
 def main():
     sdwdate_ = Sdwdate()
@@ -277,10 +291,11 @@ def main():
     sdwdate_.sdwdate_loop()
     sdwdate_.build_median()
     if sdwdate_.add_subtract_nanoseconds() == True:
-        sdwdate_.run_sclockadj()
+        sdwdate_.set_time_using_date()
+        #sdwdate_.run_sclockadj()
 
-    time.sleep(10)
-    sdwdate_.kill_sclockadj()
+    #time.sleep(10)
+    #sdwdate_.kill_sclockadj()
 
 if __name__ == "__main__":
     main()
