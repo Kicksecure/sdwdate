@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import signal
 import gevent
 import os
 import time
