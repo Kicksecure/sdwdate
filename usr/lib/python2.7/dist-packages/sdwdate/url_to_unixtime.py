@@ -133,12 +133,15 @@ def request_data_from_remote_server(socket_ip, socket_port, url, remote_port):
 def url_to_unixtime(remotes):
     #print remotes
 
-    url = []
     threads = []
 
     timeout = gevent.Timeout()
     timer = []
     seconds = 10
+
+    ## Clear lists.
+    del urls[:]
+    del unix_times[:]
 
     print 'GEVENT started'
 

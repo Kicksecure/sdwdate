@@ -29,6 +29,9 @@ class Sdwdate():
         self.already_picked_index_pool_two = []
         self.already_picked_index_pool_three = []
 
+        self.urls = []
+        self.url_random = []
+
         self.url_random_pool_one = []
         self.url_random_pool_two = []
         self.url_random_pool_three = []
@@ -71,8 +74,11 @@ class Sdwdate():
     def sdwdate_loop(self):
         while len(self.valid_urls) < self.number_of_pools:
             print "MAIN LOOP"
-            self.urls = []
-            self.url_random = []
+            print 'valid_urls %s' % len(self.valid_urls)
+            print 'number_of_pools %s' % self.number_of_pools
+            ## Clear the list.
+            self.urls[:] = []
+            self.url_random[:] = []
 
             if not self.pool_one_done:
                 while True:
@@ -132,7 +138,7 @@ class Sdwdate():
                 if len(self.urls) == 0:
                     ## Most likely, internet connection is down.
                     ## Raise eror, log.
-                    print('No values returned from url_to_unixtime')
+                    print('No values returned from url_to_unixtime.')
                     sys.exit()
                 print 'returned urls "%s"' % (self.urls)
             else:
@@ -140,8 +146,8 @@ class Sdwdate():
                 sys.exit(1)
 
             if not self.general_proxy_error(self.returned_values):
-                self.valid_urls = []
-                self.unixtimes = []
+                #self.valid_urls = []
+                #self.unixtimes = []
                 for i in range(len(self.urls)):
                     if self.check_remote(self.urls[i], self.returned_values[i]):
                         self.valid_urls.append(self.urls[i])
@@ -186,14 +192,14 @@ class Sdwdate():
                         index = self.valid_urls.index(valid_url)
                         web_time = self.unixtimes[index]
                         self.pools_diff.append(int(web_time) - int(old_unixtime))
-                        print 'pool_one: last_url %s, web_time %s' % (valid_url, web_time)
+                        print 'pool_three: last_url %s, web_time %s' % (valid_url, web_time)
                 print 'pool_three_done %s' % (self.pool_three_done)
 
-        print 'valid urls %s' % (self.valid_urls)
-        print 'pools diff %s' % self.pools_diff
-        ## Duplicates in bad urls, same url appended because pool not done.
-        ## Remove duplicates
-        print 'bad urls %s' % (list(set(self.invalid_urls)))
+            print 'valid urls %s' % (self.valid_urls)
+        #print 'pools diff %s' % self.pools_diff
+        ### Duplicates in bad urls, same url appended because pool not done.
+        ### Remove duplicates
+        #print 'bad urls %s' % (list(set(self.invalid_urls)))
 
         print 'End %s' % (time.time())
 
@@ -208,12 +214,15 @@ class Sdwdate():
             ## Odd number of values. Median = middle value.
             self.median = diffs[(len(diffs) / 2)]
 
-    def add_subtract_nanoseconds(self):
-        median = self.build_median()
-
+    def maybe_set_new_time(self):
         if self.median == 0:
             print('Time difference = 0. Not setting time')
             return False
+        else:
+            return True
+
+    def add_subtract_nanoseconds(self):
+        median = self.build_median()
 
         sign = randint(0, 1)
 
@@ -244,8 +253,8 @@ class Sdwdate():
             "sudo",
             "INLINEDIR=/var/cache/sdwdate/sclockadj",
             "/usr/lib/sdwdate/sclockadj",
-            "--debug",
-            "--verbose",
+            "--no-debug",
+            "--no-verbose",
             "--no-systohc",
             "--no-first-wait",
             "--move-min", "5000000",
@@ -256,16 +265,16 @@ class Sdwdate():
 
         ## Run sclockadj in a subshell.
         sclockadj = Popen(cmd)
-
         self.sclockadj_pid = sclockadj.pid
 
         ## Running sclockadj_debug_helper, in case...
-        cmd = ["sudo", "/usr/lib/sdwdate/sclockadj_debug_helper"]
-        ## Pipe stdout in subprocess.
-        helper = Popen(cmd, stdout=PIPE)
-        ## Read the output.
-        line = helper.stdout.read()
-        print line
+        ## May be read the last line to ensure sclockadj is running.
+        #cmd = ["sudo", "/usr/lib/sdwdate/sclockadj_debug_helper"]
+        ### Pipe stdout in subprocess.
+        #helper = Popen(cmd, stdout=PIPE)
+        ### Read the output.
+        #line = helper.stdout.read()
+        #print line
 
     def kill_sclockadj(self):
         cmd = 'sudo /usr/lib/sdwdate/sclockadj_kill_helper ' + str(self.sclockadj_pid)
@@ -279,23 +288,22 @@ class Sdwdate():
         ## Debug: print old date.
         cmd = '/bin/date'
         call(cmd, shell=True)
+        ## Set new time.
         cmd = '/bin/date --set @' + str(new_unixtime)
         print cmd
-        ## Set and print new date.
         call(cmd, shell=True)
 
-
 def main():
-    sdwdate_ = Sdwdate()
+    while True:
+        sdwdate_ = Sdwdate()
+        sdwdate_.sdwdate_loop()
+        sdwdate_.build_median()
 
-    sdwdate_.sdwdate_loop()
-    sdwdate_.build_median()
-    if sdwdate_.add_subtract_nanoseconds() == True:
-        sdwdate_.set_time_using_date()
-        #sdwdate_.run_sclockadj()
+        if sdwdate_.maybe_set_new_time():
+            sdwdate_.set_time_using_date()
 
-    #time.sleep(10)
-    #sdwdate_.kill_sclockadj()
+        print 'sleeping..\n\n\n'
+        time.sleep(30)
 
 if __name__ == "__main__":
     main()
