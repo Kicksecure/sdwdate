@@ -195,24 +195,16 @@ class Sdwdate():
                         print 'pool_three: last_url %s, web_time %s' % (valid_url, web_time)
                 print 'pool_three_done %s' % (self.pool_three_done)
 
-            print 'valid urls %s' % (self.valid_urls)
-        #print 'pools diff %s' % self.pools_diff
-        ### Duplicates in bad urls, same url appended because pool not done.
-        ### Remove duplicates
-        #print 'bad urls %s' % (list(set(self.invalid_urls)))
+        print 'valid urls %s' % (self.valid_urls)
+        print 'pools diff %s' % self.pools_diff
+        print 'bad urls %s' % (self.invalid_urls)
 
         print 'End %s' % (time.time())
 
     def build_median(self):
         diffs = sorted(self.pools_diff)
         print 'sorted %s' % (diffs)
-        ## We can have more than three values in valid_urls / pools_diff.
-        if len(diffs) % 2 == 0:
-            ## Even number of values. Median = sum(2 middle values) / 2
-            self.median = (diffs[(len(diffs) / 2) - 1] + diffs[len(diffs) / 2]) / 2
-        else:
-            ## Odd number of values. Median = middle value.
-            self.median = diffs[(len(diffs) / 2)]
+        self.median = diffs[(len(diffs) / 2)]
 
     def maybe_set_new_time(self):
         if self.median == 0:
