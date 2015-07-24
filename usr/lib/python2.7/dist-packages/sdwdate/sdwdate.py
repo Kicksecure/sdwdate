@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import gevent
 import os
 import time
 import random
@@ -308,7 +309,14 @@ class Sdwdate():
         cmd = '/bin/date --set @' + str(new_unixtime)
         call(cmd, shell=True)
 
+def signal_sigterm_handler():
+    if sdwdate_.sclockadj_pid != 0:
+        sdwdate_.kill_sclockadj()
+    sys.exit(143)
+
 def main():
+    gevent.signal(signal.SIGTERM, signal_sigterm_handler)
+
     first_success_dir = '/tmp/sdwdate/'
     if not os.path.exists(first_success_dir):
         os.mkdir(first_success_dir)
