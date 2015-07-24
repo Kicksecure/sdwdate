@@ -307,7 +307,8 @@ class Sdwdate():
         cmd = '/bin/date'
         call(cmd, shell=True)
         ## Set new time.
-        cmd = '/bin/date --set @' + str(new_unixtime)
+        ## There is a /etc/sudoers.d exception.
+        cmd = 'sudo /bin/date --set @' + str(new_unixtime)
         call(cmd, shell=True)
 
 def signal_sigterm_handler():
