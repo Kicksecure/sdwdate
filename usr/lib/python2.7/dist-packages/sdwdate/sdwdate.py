@@ -222,10 +222,7 @@ class Sdwdate():
             return True
 
     def add_subtract_nanoseconds(self):
-        median = self.build_median()
-
         sign = randint(0, 1)
-
         nanoseconds = randint(0, self.range_nanoseconds)
         seconds = float(nanoseconds) / 1000000000
 
@@ -300,6 +297,7 @@ def main():
         sdwdate_.build_median()
 
         if sdwdate_.maybe_set_new_time():
+            sdwdate_.add_subtract_nanoseconds()
             sdwdate_.set_time_using_date()
 
         print 'sleeping..\n\n\n'
