@@ -53,6 +53,9 @@ class Sdwdate():
         print 'Start %s' % (time.time())
 
     def general_proxy_error(self, pools):
+        '''
+        This error occurs (at least) when Tor is not running.
+        '''
         if (pools[0] == 'Connection closed unexpectedly' and
             pools[1] == 'Connection closed unexpectedly' and
             pools[2] == 'Connection closed unexpectedly'):
@@ -63,6 +66,9 @@ class Sdwdate():
         return False
 
     def check_remote(self, remote, value):
+        '''
+        Check returned value. True if numeric.
+        '''
         try:
             n = int(value)
             print 'check_remote "%s" %s, True' % (remote, value)
@@ -72,6 +78,12 @@ class Sdwdate():
             return False
 
     def sdwdate_loop(self):
+        '''
+        Check remotes.
+        Pick a random url in eaxh pool, check the returned value.
+        Append valid urls if time is returned, otherwise restart a cycle
+        with a new random url, until every pool has a time value.
+        '''
         while len(self.valid_urls) < self.number_of_pools:
             print "MAIN LOOP"
             print 'valid_urls %s' % len(self.valid_urls)
@@ -146,8 +158,6 @@ class Sdwdate():
                 sys.exit(1)
 
             if not self.general_proxy_error(self.returned_values):
-                #self.valid_urls = []
-                #self.unixtimes = []
                 for i in range(len(self.urls)):
                     if self.check_remote(self.urls[i], self.returned_values[i]):
                         self.valid_urls.append(self.urls[i])
@@ -202,11 +212,17 @@ class Sdwdate():
         print 'End %s' % (time.time())
 
     def build_median(self):
+        '''
+        Get the median (not average) from the list of values.
+        '''
         diffs = sorted(self.pools_diff)
         print 'sorted %s' % (diffs)
         self.median = diffs[(len(diffs) / 2)]
 
     def maybe_set_new_time(self):
+        '''
+        Do not set time if diff = 0.
+        '''
         if self.median == 0:
             print('Time difference = 0. Not setting time')
             return False
@@ -214,6 +230,10 @@ class Sdwdate():
             return True
 
     def add_subtract_nanoseconds(self):
+        '''
+        Could we replace this in sdwdate_loop pool_diff calcuations?
+        -> int(web_time) - old_unixtime
+        '''
         sign = randint(0, 1)
         nanoseconds = randint(0, self.range_nanoseconds)
         seconds = float(nanoseconds) / 1000000000
@@ -234,6 +254,10 @@ class Sdwdate():
         return True
 
     def run_sclockadj(self):
+        '''
+        Set time with sneaky_clock_adjuster.
+        Should we use sclockadj_debug_helper?
+        '''
         if self.newdiff_nanoseconds > 0:
             add_subtract = "--add"
         else:
@@ -266,6 +290,8 @@ class Sdwdate():
         #print line
 
     def kill_sclockadj(self):
+        '''
+        '''
         cmd = 'sudo /usr/lib/sdwdate/sclockadj_kill_helper ' + str(self.sclockadj_pid)
         call(cmd, shell=True)
 
@@ -274,12 +300,11 @@ class Sdwdate():
         print 'Old time %.9f' % (old_unixtime)
         new_unixtime = '%.9f' % (old_unixtime + self.new_diff)
         print 'New time %s' % str(new_unixtime)
-        ## Debug: print old date.
+        ## Debug: print old time.
         cmd = '/bin/date'
         call(cmd, shell=True)
         ## Set new time.
         cmd = '/bin/date --set @' + str(new_unixtime)
-        print cmd
         call(cmd, shell=True)
 
 def main():
@@ -290,10 +315,13 @@ def main():
 
         if sdwdate_.maybe_set_new_time():
             sdwdate_.add_subtract_nanoseconds()
+            #sdwdate_.run_sclockadj()
             sdwdate_.set_time_using_date()
 
         print 'sleeping..\n\n\n'
-        time.sleep(30)
+        time.sleep(10)
+        if sdwdate_.sclockadj_pid != 0:
+            sdwdate_.kill_sclockadj()
 
 if __name__ == "__main__":
     main()

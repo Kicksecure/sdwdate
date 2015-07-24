@@ -10,7 +10,6 @@ def read_pools():
     SDWDATE_POOL_TWO = False
     SDWDATE_POOL_THREE = False
 
-    multi_line = False
     pool_one = []
     pool_two = []
     pool_three = []
@@ -51,14 +50,13 @@ def read_pools():
                                 pool_three.append(url.group(1))
 
             if not conf_found:
-                self.set_default()
                 print('No valid file found in user configuration folder "/etc/sdwdate.d".')
 
         else:
-            print('No file found in user configuration folder "/etc/cpfpy.d".')
+            print('No file found in user configuration folder "/etc/sdwdate.d".')
 
     else:
-        print('User configuration folder "/etc/cpfpy.d" does not exist.')
+        print('User configuration folder "/etc/sdwdate.d" does not exist.')
 
     ## Remove duplicates.
     pool_one = list(set(pool_one))
