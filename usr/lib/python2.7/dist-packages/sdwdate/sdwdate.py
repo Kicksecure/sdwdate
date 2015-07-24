@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import os
 import time
 import random
 from random import randint
@@ -308,6 +309,12 @@ class Sdwdate():
         call(cmd, shell=True)
 
 def main():
+    first_success_dir = '/tmp/sdwdate/'
+    if not os.path.exists(first_success_dir):
+        os.mkdir(first_success_dir)
+
+    first_success_file = first_success_dir + 'first_success'
+
     while True:
         sdwdate_ = Sdwdate()
         sdwdate_.sdwdate_loop()
@@ -315,11 +322,15 @@ def main():
 
         if sdwdate_.maybe_set_new_time():
             sdwdate_.add_subtract_nanoseconds()
-            #sdwdate_.run_sclockadj()
-            sdwdate_.set_time_using_date()
+            if os.path.exists(first_success_file):
+                sdwdate_.run_sclockadj()
+            else:
+                sdwdate_.set_time_using_date()
+                f = open(first_success_file, 'w')
+                f.close()
 
-        print 'sleeping..\n\n\n'
-        time.sleep(10)
+        print 'sleeping...\n\n\n'
+        time.sleep(30)
         if sdwdate_.sclockadj_pid != 0:
             sdwdate_.kill_sclockadj()
 
