@@ -157,7 +157,7 @@ def url_to_unixtime(remotes):
         except Timeout:
             urls.append(threads[i].args[2])
             unix_times.append('Timeout')
+            gevent.kill(threads[i])
 
     print 'GEVENT exiting'
-
     return urls, unix_times
