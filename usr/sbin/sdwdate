@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import logging
 import signal
 import gevent
 import os
@@ -9,14 +10,16 @@ import random
 from random import randint
 from subprocess import Popen, call, PIPE
 
-from url_to_unixtime import url_to_unixtime
-from config import read_pools
+from sdwdate import url_to_unixtime
+from sdwdate import config
 #from error_handler import SdwdateError
 
 
 class Sdwdate():
     def __init__(self):
-        self.pool_one, self.pool_two, self.pool_three = read_pools()
+        self.pool_one, self.pool_two, self.pool_three = config.read_pools()
+
+        self.iteration = 0
 
         self.range_pool_one = len(self.pool_one)
         self.range_pool_two = len(self.pool_two)
@@ -53,7 +56,9 @@ class Sdwdate():
 
         self.sclockadj_pid = 0
 
-        print 'Start %s' % (time.time())
+        message = 'Fetching remote times, start %s' % (time.time())
+        print(message)
+        logger.debug(message)
 
     def general_proxy_error(self, pools):
         '''
@@ -63,7 +68,7 @@ class Sdwdate():
             pools[1] == 'Connection closed unexpectedly' and
             pools[2] == 'Connection closed unexpectedly'):
                 ## Raise error, log, user warning.
-                print 'General Proxy Error'
+                logger.critical('General Proxy Error')
                 sys.exit(1)
 
         return False
@@ -74,10 +79,14 @@ class Sdwdate():
         '''
         try:
             n = int(value)
-            print 'check_remote "%s" %s, True' % (remote, value)
+            message = 'Remote status "%s", True' % (remote)
+            print(message)
+            logger.debug(message)
             return True
         except ValueError:
-            print 'check_remote "%s" %s, False' % (remote, value)
+            message = 'Remote status "%s", False: %s' % (remote, value)
+            print(message)
+            logger.debug(message)
             return False
 
     def sdwdate_loop(self):
@@ -88,10 +97,12 @@ class Sdwdate():
         with a new random url, until every pool has a time value.
         '''
         while len(self.valid_urls) < self.number_of_pools:
-            print "MAIN LOOP"
-            print 'valid_urls %s' % len(self.valid_urls)
-            print 'number_of_pools %s' % self.number_of_pools
-            ## Clear the list.
+            self.iteration = self.iteration + 1
+            message = 'Main loop, iteration %s' % (self.iteration)
+            print(message)
+            logger.debug(message)
+
+            ## Clear the lists.
             self.urls[:] = []
             self.url_random[:] = []
 
@@ -107,7 +118,7 @@ class Sdwdate():
 
                     if url_index not in self.already_picked_index_pool_one:
                         self.already_picked_index_pool_one.append(url_index)
-                        print 'pool 1 added %s' % (self.pool_one[url_index[0]])
+                        #print 'pool 1 added %s' % (self.pool_one[url_index[0]])
                         self.url_random_pool_one.append(self.pool_one[url_index[0]])
                         self.url_random.append(self.pool_one[url_index[0]])
                         break
@@ -124,7 +135,7 @@ class Sdwdate():
 
                     if url_index not in self.already_picked_index_pool_two:
                         self.already_picked_index_pool_two.append(url_index)
-                        print 'pool 2 added %s' % (self.pool_two[url_index[0]])
+                        #print 'pool 2 added %s' % (self.pool_two[url_index[0]])
                         self.url_random_pool_two.append(self.pool_two[url_index[0]])
                         self.url_random.append(self.pool_two[url_index[0]])
                         break
@@ -141,21 +152,28 @@ class Sdwdate():
 
                     if url_index not in self.already_picked_index_pool_three:
                         self.already_picked_index_pool_three.append(url_index)
-                        print 'pool 3 added %s' % (self.pool_three[url_index[0]])
+                        #print 'pool 3 added %s' % (self.pool_three[url_index[0]])
                         self.url_random_pool_three.append(self.pool_three[url_index[0]])
                         self.url_random.append(self.pool_three[url_index[0]])
                         break
 
             ## Fetch remotes.
             if len(self.url_random) > 0:
-                print 'random urls %s' % (self.url_random)
-                self.urls, self.returned_values = url_to_unixtime(self.url_random)
+                message = 'Random urls %s' % (self.url_random)
+                print(message)
+                logger.debug(message)
+
+                self.urls, self.returned_values = url_to_unixtime.url_to_unixtime(self.url_random)
                 if len(self.urls) == 0:
                     ## Most likely, internet connection is down.
                     ## Raise eror, log.
-                    print('No values returned from url_to_unixtime.')
+                    message = ('No values returned from url_to_unixtime. Internet connection might be down.')
+                    print(message)
+                    logger.critical(message)
                     sys.exit()
-                print 'returned urls "%s"' % (self.urls)
+                message = 'returned urls "%s"' % (self.urls)
+                print(message)
+                logger.debug(message)
             else:
                 ## Add code here.
                 sys.exit(1)
@@ -171,7 +189,7 @@ class Sdwdate():
                         self.url_errors.append(self.returned_values[i])
 
             old_unixtime = (time.time())
-            print 'old_unixtime %s' % old_unixtime
+            #print 'old_unixtime %s' % old_unixtime
 
             if not self.pool_one_done:
                 for i in range(len(self.url_random_pool_one)):
@@ -183,8 +201,10 @@ class Sdwdate():
                         ## Pool matching web time.
                         web_time = self.unixtimes[index]
                         self.pools_diff.append(int(web_time) - int(old_unixtime))
-                        print 'pool_one: last_url %s, web_time %s' % (valid_url, web_time)
-                print 'pool_one_done %s' % (self.pool_one_done)
+                        message = 'Pool one: last_url %s, web_time %s' % (valid_url, web_time)
+                        print(message)
+                        logger.debug(message)
+                #print 'pool_one_done %s' % (self.pool_one_done)
 
             if not self.pool_two_done:
                 for i in range(len(self.url_random_pool_two)):
@@ -194,8 +214,10 @@ class Sdwdate():
                         index = self.valid_urls.index(valid_url)
                         web_time = self.unixtimes[index]
                         self.pools_diff.append(int(web_time) - int(old_unixtime))
-                        print 'pool_two: last_url %s, web_time %s' % (valid_url, web_time)
-                print 'pool_two_done %s' % (self.pool_two_done)
+                        message = 'Pool two: last_url %s, web_time %s' % (valid_url, web_time)
+                        print(message)
+                        logger.debug(message)
+                #print 'pool_two_done %s' % (self.pool_two_done)
 
             if not self.pool_three_done:
                 for i in range(len(self.url_random_pool_three)):
@@ -205,29 +227,43 @@ class Sdwdate():
                         index = self.valid_urls.index(valid_url)
                         web_time = self.unixtimes[index]
                         self.pools_diff.append(int(web_time) - int(old_unixtime))
-                        print 'pool_three: last_url %s, web_time %s' % (valid_url, web_time)
-                print 'pool_three_done %s' % (self.pool_three_done)
+                        message = 'Pool three: last_url %s, web_time %s' % (valid_url, web_time)
+                        print(message)
+                        logger.debug(message)
+                #print 'pool_three_done %s' % (self.pool_three_done)
 
-        print 'valid urls %s' % (self.valid_urls)
-        print 'pools diff %s' % self.pools_diff
-        print 'bad urls %s' % (self.invalid_urls)
+        message = 'Valid urls %s' % (self.valid_urls)
+        print(message)
+        logger.debug(message)
+        #message = 'Pool diff %s' % self.pools_diff
+        #print(message)
+        #logger.debug(message)
+        message = 'bad urls %s' % (self.invalid_urls)
+        print(message)
+        logger.debug(message)
 
-        print 'End %s' % (time.time())
+        message = 'Fetching remote times, end %s' % (time.time())
+        print(message)
+        logger.debug(message)
 
     def build_median(self):
         '''
         Get the median (not average) from the list of values.
         '''
         diffs = sorted(self.pools_diff)
-        print 'sorted %s' % (diffs)
+        message = 'Pool differences, sorted: %s' % diffs
+        print(message)
+        logger.debug(message)
         self.median = diffs[(len(diffs) / 2)]
 
-    def maybe_set_new_time(self):
+    def set_new_time(self):
         '''
         Do not set time if diff = 0.
         '''
         if self.median == 0:
-            print('Time difference = 0. Not setting time')
+            message = 'Time difference = 0. Not setting time'
+            print(message)
+            logger.debug(message)
             return False
         else:
             return True
@@ -237,6 +273,7 @@ class Sdwdate():
         Could we replace this in sdwdate_loop pool_diff calcuations?
         -> int(web_time) - old_unixtime
         '''
+        signs = ['+', '-']
         sign = randint(0, 1)
         nanoseconds = randint(0, self.range_nanoseconds)
         seconds = float(nanoseconds) / 1000000000
@@ -248,11 +285,16 @@ class Sdwdate():
 
         self.newdiff_nanoseconds = int(self.new_diff * 1000000000)
 
-        print 'nanoseconds %s' % nanoseconds
-        print 'seconds %s' % seconds
-        print 'sign %s' % sign
-        print 'median %s' % self.median
-        print 'new_diff %s' % self.new_diff
+        #print 'nanoseconds %s' % nanoseconds
+        message = 'Median time difference: %s' % self.median
+        print(message)
+        logger.debug(message)
+        message = 'Seconds to add: %s %s' % (signs[sign], seconds)
+        print(message)
+        logger.debug(message)
+        message = 'New time difference: %s' % self.new_diff
+        print(message)
+        logger.debug(message)
 
         return True
 
@@ -283,6 +325,10 @@ class Sdwdate():
         sclockadj = Popen(cmd)
         self.sclockadj_pid = sclockadj.pid
 
+        message = 'Running sclockaj, PID=%s' % (self.sclockadj_pid)
+        print(message)
+        logger.debug(message)
+
         ## Running sclockadj_debug_helper, in case...
         ## May be read the last line to ensure sclockadj is running.
         #cmd = ["sudo", "/usr/lib/sdwdate/sclockadj_debug_helper"]
@@ -299,27 +345,41 @@ class Sdwdate():
         call(cmd, shell=True)
 
     def set_time_using_date(self):
-        old_unixtime = time.time()
-        print 'Old time %.9f' % (old_unixtime)
-        new_unixtime = '%.9f' % (old_unixtime + self.new_diff)
-        print 'New time %s' % str(new_unixtime)
-        ## Debug: print old time.
-        cmd = '/bin/date'
-        call(cmd, shell=True)
+        message = 'setting time using date.'
+        print(message)
+        logger.debug(message)
+
+        old_unixtime = float('%.9f' % (time.time()))
+        message = 'Old unixttime: %s' % (str(old_unixtime))
+        print(message)
+        logger.debug(message)
+
+        new_unixtime = float('%.9f' % (old_unixtime + self.new_diff))
+        message = 'New unixtime %s' % (str(new_unixtime))
+        print(message)
+        logger.debug(message)
+
         ## Set new time.
-        ## There is a /etc/sudoers.d exception.
         cmd = 'sudo /bin/date --set @' + str(new_unixtime)
         call(cmd, shell=True)
 
 def signal_sigterm_handler():
     if sdwdate_.sclockadj_pid != 0:
         sdwdate_.kill_sclockadj()
+    logger.warning('Signal SIGTERM received. Exiting.')
     sys.exit(143)
 
-def main():
+if __name__ == "__main__":
     gevent.signal(signal.SIGTERM, signal_sigterm_handler)
 
-    first_success_dir = '/tmp/sdwdate/'
+    logger = logging.getLogger('sdwdate_log')
+    logger.setLevel(logging.DEBUG)
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    handler = logging.FileHandler('/var/log/sdwdate-python.log')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+    first_success_dir = '/run/sdwdate/'
     if not os.path.exists(first_success_dir):
         os.mkdir(first_success_dir)
 
@@ -330,7 +390,7 @@ def main():
         sdwdate_.sdwdate_loop()
         sdwdate_.build_median()
 
-        if sdwdate_.maybe_set_new_time():
+        if sdwdate_.set_new_time():
             sdwdate_.add_subtract_nanoseconds()
             if os.path.exists(first_success_file):
                 sdwdate_.run_sclockadj()
@@ -339,10 +399,10 @@ def main():
                 f = open(first_success_file, 'w')
                 f.close()
 
-        print 'sleeping...\n\n\n'
-        time.sleep(30)
+        message = 'Sleeping...'
+        print(message + '\n\n')
+        logger.debug(message)
+
+        time.sleep(20)
         if sdwdate_.sclockadj_pid != 0:
             sdwdate_.kill_sclockadj()
-
-if __name__ == "__main__":
-    main()
