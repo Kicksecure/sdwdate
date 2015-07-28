@@ -375,15 +375,15 @@ if __name__ == "__main__":
     logger = logging.getLogger('sdwdate_log')
     logger.setLevel(logging.DEBUG)
     formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-    handler = logging.FileHandler('/var/log/sdwdate-python.log')
+    handler = logging.FileHandler('/var/log/sdwdate.log')
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
-    first_success_dir = '/run/sdwdate/'
+    first_success_dir = '/run/sdwdate'
     if not os.path.exists(first_success_dir):
         os.mkdir(first_success_dir)
 
-    first_success_file = first_success_dir + 'first_success'
+    first_success_file = first_success_dir + '/first_success'
 
     while True:
         sdwdate_ = Sdwdate()
