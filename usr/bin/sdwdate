@@ -10,14 +10,14 @@ import random
 from random import randint
 from subprocess import Popen, call, PIPE
 
-from sdwdate import url_to_unixtime
-from sdwdate import config
+from sdwdate.url_to_unixtime import url_to_unixtime
+from sdwdate.config import read_pools
 #from error_handler import SdwdateError
 
 
 class Sdwdate():
     def __init__(self):
-        self.pool_one, self.pool_two, self.pool_three = config.read_pools()
+        self.pool_one, self.pool_two, self.pool_three = read_pools()
 
         self.iteration = 0
 
@@ -98,7 +98,7 @@ class Sdwdate():
         '''
         while len(self.valid_urls) < self.number_of_pools:
             self.iteration = self.iteration + 1
-            message = 'Main loop, iteration %s' % (self.iteration)
+            message = 'Running sdwdate loop, iteration %s' % (self.iteration)
             print(message)
             logger.debug(message)
 
@@ -163,7 +163,7 @@ class Sdwdate():
                 print(message)
                 logger.debug(message)
 
-                self.urls, self.returned_values = url_to_unixtime.url_to_unixtime(self.url_random)
+                self.urls, self.returned_values = url_to_unixtime(self.url_random)
                 if len(self.urls) == 0:
                     ## Most likely, internet connection is down.
                     ## Raise eror, log.
@@ -171,7 +171,7 @@ class Sdwdate():
                     print(message)
                     logger.critical(message)
                     sys.exit()
-                message = 'returned urls "%s"' % (self.urls)
+                message = 'Returned urls "%s"' % (self.urls)
                 print(message)
                 logger.debug(message)
             else:
@@ -238,7 +238,7 @@ class Sdwdate():
         #message = 'Pool diff %s' % self.pools_diff
         #print(message)
         #logger.debug(message)
-        message = 'bad urls %s' % (self.invalid_urls)
+        message = 'Bad urls %s' % (self.invalid_urls)
         print(message)
         logger.debug(message)
 
@@ -345,7 +345,7 @@ class Sdwdate():
         call(cmd, shell=True)
 
     def set_time_using_date(self):
-        message = 'setting time using date.'
+        message = 'Setting time using date.'
         print(message)
         logger.debug(message)
 
@@ -403,6 +403,6 @@ if __name__ == "__main__":
         print(message + '\n\n')
         logger.debug(message)
 
-        time.sleep(20)
+        time.sleep(200)
         if sdwdate_.sclockadj_pid != 0:
             sdwdate_.kill_sclockadj()
