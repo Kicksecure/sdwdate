@@ -7,11 +7,10 @@ import random
 
 def sort_pool(pool):
     ## Check number of multi-line pool.
-    double_quotes = 0
+    number_of_pool_multi = 0
     for i in range(len(pool)):
-        if pool[i] == ('"'):
-            double_quotes = double_quotes + 1
-    number_of_pool_multi =  double_quotes / 2
+        if pool[i] == ('['):
+            number_of_pool_multi = number_of_pool_multi + 1
 
     ## Dynamically create multi-line lists.
     multi_list = [[] for i in range(number_of_pool_multi)]
@@ -21,13 +20,13 @@ def sort_pool(pool):
     multi_index = 0
     pool_single = []
     for i in range(len(pool)):
-        if multi_line and pool[i] == '"':
+        if multi_line and pool[i] == ']':
             multi_line = False
             multi_index = multi_index + 1
         elif multi_line:
             url = re.search(r'"(.*)#', pool[i])
             multi_list[multi_index].append(url.group(1))
-        elif pool[i] == '"':
+        elif pool[i] == '[':
             multi_line = True
         elif pool[i].startswith('"'):
             url = re.search(r'"(.*)#', pool[i])
