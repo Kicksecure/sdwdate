@@ -4,14 +4,6 @@ import os
 import glob
 import re
 import random
-import logging
-
-logger = logging.getLogger('sdwdate_log')
-logger.setLevel(logging.DEBUG)
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-handler = logging.FileHandler('/var/log/sdwdate.log')
-handler.setFormatter(formatter)
-logger.addHandler(handler)
 
 def sort_pool(pool):
     ## Check number of multi-line pool.
@@ -36,11 +28,6 @@ def sort_pool(pool):
             url = re.search(r'"(.*)#', pool[i])
             if url != None:
                 multi_list[multi_index].append(url.group(1))
-            ## Most likely missing '#' at end of url.
-            ## We have to catch it because Python raise an exception and stops.
-            else:
-                ## Log twice the error. To be checked.
-                logger.warning('Malformed line in config file: %s' % (pool[i]))
 
         elif pool[i] == '[':
             multi_line = True
@@ -49,8 +36,6 @@ def sort_pool(pool):
             url = re.search(r'"(.*)#', pool[i])
             if url != None:
                 pool_single.append(url.group(1))
-            else:
-                logger.warning('Malformed line in config file: %s' % (pool[i]))
 
     ## Pick a random url in each multi-line pool,
     ## append it to single url pool.
@@ -117,6 +102,10 @@ def read_pools():
     pool_one_sorted = sort_pool(pool_one)
     pool_two_sorted = sort_pool(pool_two)
     pool_three_sorted = sort_pool(pool_three)
+
+    pool_one_sorted = list(set(pool_one_sorted))
+    pool_two_sorted = list(set(pool_two_sorted))
+    pool_three_sorted = list(set(pool_three_sorted))
 
     print pool_one_sorted
     print pool_two_sorted
