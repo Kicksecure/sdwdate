@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import sys
 import logging
 import signal
 import gevent
@@ -12,7 +11,6 @@ from subprocess import Popen, call, PIPE
 
 from sdwdate.url_to_unixtime import url_to_unixtime
 from sdwdate.config import read_pools
-#from error_handler import SdwdateError
 
 
 class Sdwdate():
@@ -67,10 +65,7 @@ class Sdwdate():
         if (pools[0] == 'Connection closed unexpectedly' and
             pools[1] == 'Connection closed unexpectedly' and
             pools[2] == 'Connection closed unexpectedly'):
-                ## Raise error, log, user warning.
-                logger.critical('General Proxy Error')
-                sys.exit(1)
-
+                return True
         return False
 
     def check_remote(self, remote, value):
@@ -96,6 +91,7 @@ class Sdwdate():
         Append valid urls if time is returned, otherwise restart a cycle
         with a new random url, until every pool has a time value.
         '''
+        print len(self.pool_one)
         while len(self.valid_urls) < self.number_of_pools:
             self.iteration = self.iteration + 1
             message = 'Running sdwdate loop, iteration %s' % (self.iteration)
@@ -106,19 +102,23 @@ class Sdwdate():
             self.urls[:] = []
             self.url_random[:] = []
 
+            pool_invalid = False
+            message = ''
+
             if not self.pool_one_done:
                 while True:
                     url_index = []
                     url_index = random.sample(range(self.range_pool_one), 1)
                     index = url_index[0]
+                    print self.already_picked_index_pool_one
 
                     if len(self.already_picked_index_pool_one) == len(self.pool_one):
-                        self.already_picked_index_pool_one = []
-                        self.url_random_pool_one = []
+                        pool_invalid = True
+                        message = ' Time will not be set: no valid time returned from pool one..'
+                        break
 
                     if url_index not in self.already_picked_index_pool_one:
                         self.already_picked_index_pool_one.append(url_index)
-                        #print 'pool 1 added %s' % (self.pool_one[url_index[0]])
                         self.url_random_pool_one.append(self.pool_one[url_index[0]])
                         self.url_random.append(self.pool_one[url_index[0]])
                         break
@@ -129,13 +129,13 @@ class Sdwdate():
                     url_index = random.sample(range(self.range_pool_two), 1)
                     index = url_index[0]
 
-                    if len(self.url_random_pool_two) == len(self.pool_two):
-                        self.already_picked_index_pool_two = []
-                        self.url_random_pool_two = []
+                    if len(self.already_picked_index_pool_two) == len(self.pool_two):
+                        pool_invalid = True
+                        message = ' Time will not be set: no valid time returned from pool two.'
+                        break
 
                     if url_index not in self.already_picked_index_pool_two:
                         self.already_picked_index_pool_two.append(url_index)
-                        #print 'pool 2 added %s' % (self.pool_two[url_index[0]])
                         self.url_random_pool_two.append(self.pool_two[url_index[0]])
                         self.url_random.append(self.pool_two[url_index[0]])
                         break
@@ -146,16 +146,20 @@ class Sdwdate():
                     url_index = random.sample(range(self.range_pool_three), 1)
                     index = url_index[0]
 
-                    if len(self.url_random_pool_three) == len(self.pool_three):
-                        self.already_picked_index_pool_three = []
-                        self.url_random_pool_three = []
+                    if len(self.already_picked_index_pool_three) == len(self.pool_three):
+                        pool_invalid = True
+                        message = 'Time will not be set: no valid time returned from pool three'
+                        break
 
                     if url_index not in self.already_picked_index_pool_three:
                         self.already_picked_index_pool_three.append(url_index)
-                        #print 'pool 3 added %s' % (self.pool_three[url_index[0]])
                         self.url_random_pool_three.append(self.pool_three[url_index[0]])
                         self.url_random.append(self.pool_three[url_index[0]])
                         break
+
+            if pool_invalid:
+                print(message)
+                return(message)
 
             ## Fetch remotes.
             if len(self.url_random) > 0:
@@ -169,14 +173,14 @@ class Sdwdate():
                     ## Raise eror, log.
                     message = ('No values returned from url_to_unixtime. Internet connection might be down.')
                     print(message)
-                    logger.critical(message)
-                    sys.exit()
+                    return(message)
                 message = 'Returned urls "%s"' % (self.urls)
                 print(message)
                 logger.debug(message)
             else:
-                ## Add code here.
-                sys.exit(1)
+                message = 'Something is wrong. sdwdate loop could not build a list or urls.'
+                print(message)
+                return(message)
 
             if not self.general_proxy_error(self.returned_values):
                 for i in range(len(self.urls)):
@@ -187,9 +191,12 @@ class Sdwdate():
                     else:
                         self.invalid_urls.append(self.urls[i])
                         self.url_errors.append(self.returned_values[i])
+            else:
+                message = 'General Proxy Error. Is Tor running?'
+                print(message)
+                return(message)
 
             old_unixtime = (time.time())
-            #print 'old_unixtime %s' % old_unixtime
 
             if not self.pool_one_done:
                 for i in range(len(self.url_random_pool_one)):
@@ -204,7 +211,6 @@ class Sdwdate():
                         message = 'Pool one: last_url %s, web_time %s' % (valid_url, web_time)
                         print(message)
                         logger.debug(message)
-                #print 'pool_one_done %s' % (self.pool_one_done)
 
             if not self.pool_two_done:
                 for i in range(len(self.url_random_pool_two)):
@@ -217,7 +223,6 @@ class Sdwdate():
                         message = 'Pool two: last_url %s, web_time %s' % (valid_url, web_time)
                         print(message)
                         logger.debug(message)
-                #print 'pool_two_done %s' % (self.pool_two_done)
 
             if not self.pool_three_done:
                 for i in range(len(self.url_random_pool_three)):
@@ -230,14 +235,11 @@ class Sdwdate():
                         message = 'Pool three: last_url %s, web_time %s' % (valid_url, web_time)
                         print(message)
                         logger.debug(message)
-                #print 'pool_three_done %s' % (self.pool_three_done)
 
         message = 'Valid urls %s' % (self.valid_urls)
         print(message)
         logger.debug(message)
-        #message = 'Pool diff %s' % self.pools_diff
-        #print(message)
-        #logger.debug(message)
+
         message = 'Bad urls %s' % (self.invalid_urls)
         print(message)
         logger.debug(message)
@@ -245,6 +247,8 @@ class Sdwdate():
         message = 'Fetching remote times, end %s' % (time.time())
         print(message)
         logger.debug(message)
+
+        return('Success')
 
     def build_median(self):
         '''
@@ -387,22 +391,26 @@ if __name__ == "__main__":
 
     while True:
         sdwdate_ = Sdwdate()
-        sdwdate_.sdwdate_loop()
-        sdwdate_.build_median()
+        sdwdate_loop_result = sdwdate_.sdwdate_loop()
+        if sdwdate_loop_result == 'Success':
+            sdwdate_.build_median()
 
-        if sdwdate_.set_new_time():
-            sdwdate_.add_subtract_nanoseconds()
-            if os.path.exists(first_success_file):
-                sdwdate_.run_sclockadj()
-            else:
-                sdwdate_.set_time_using_date()
-                f = open(first_success_file, 'w')
-                f.close()
+            if sdwdate_.set_new_time():
+                sdwdate_.add_subtract_nanoseconds()
+                if os.path.exists(first_success_file):
+                    sdwdate_.run_sclockadj()
+                else:
+                    sdwdate_.set_time_using_date()
+                    f = open(first_success_file, 'w')
+                    f.close()
+
+        else:
+            logger.warning(sdwdate_loop_result)
 
         message = 'Sleeping...'
         print(message + '\n\n')
         logger.debug(message)
 
-        time.sleep(200)
+        time.sleep(1800)
         if sdwdate_.sclockadj_pid != 0:
             sdwdate_.kill_sclockadj()
