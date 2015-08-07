@@ -7,7 +7,8 @@ import os
 import time
 import random
 from random import randint
-from subprocess import Popen, call, PIPE
+from subprocess import Popen, call, PIPE, check_output
+import pickle
 
 from sdwdate.url_to_unixtime import url_to_unixtime
 from sdwdate.config import read_pools
@@ -54,6 +55,17 @@ class Sdwdate():
 
         self.sclockadj_pid = 0
 
+        self.last_shell_date = ''
+
+        self.first_success_path = '/var/run/sdwdate/first_success'
+        self.status_path = '/var/run/sdwdate/status'
+
+        self.success_icon = '/usr/share/icons/anon-icon-pack/IconApproved.png'
+        self.busy_icon = '/usr/share/icons/anon-icon-pack/620px-Ambox_outdated.svg.png'
+        self.error_icon = '/usr/share/icons/anon-icon-pack/212px-Timeblock.svg.png'
+
+        self.status = {'icon' : '', 'message' : ''}
+
         message = 'Fetching remote times, start %s' % (time.time())
         print(message)
         logger.debug(message)
@@ -91,7 +103,8 @@ class Sdwdate():
         Append valid urls if time is returned, otherwise restart a cycle
         with a new random url, until every pool has a time value.
         '''
-        print len(self.pool_one)
+        self.write_status(self.busy_icon, 'Fetching remote times...')
+
         while len(self.valid_urls) < self.number_of_pools:
             self.iteration = self.iteration + 1
             message = 'Running sdwdate loop, iteration %s' % (self.iteration)
@@ -110,11 +123,10 @@ class Sdwdate():
                     url_index = []
                     url_index = random.sample(range(self.range_pool_one), 1)
                     index = url_index[0]
-                    print self.already_picked_index_pool_one
 
                     if len(self.already_picked_index_pool_one) == len(self.pool_one):
                         pool_invalid = True
-                        message = ' Time will not be set: no valid time returned from pool one..'
+                        message = ' Time is not set: no valid time returned from pool one'
                         break
 
                     if url_index not in self.already_picked_index_pool_one:
@@ -131,7 +143,7 @@ class Sdwdate():
 
                     if len(self.already_picked_index_pool_two) == len(self.pool_two):
                         pool_invalid = True
-                        message = ' Time will not be set: no valid time returned from pool two.'
+                        message = ' Time is not set: no valid time returned from pool two'
                         break
 
                     if url_index not in self.already_picked_index_pool_two:
@@ -148,7 +160,7 @@ class Sdwdate():
 
                     if len(self.already_picked_index_pool_three) == len(self.pool_three):
                         pool_invalid = True
-                        message = 'Time will not be set: no valid time returned from pool three'
+                        message = 'Time is not set: no valid time returned from pool three'
                         break
 
                     if url_index not in self.already_picked_index_pool_three:
@@ -159,28 +171,30 @@ class Sdwdate():
 
             if pool_invalid:
                 print(message)
-                return(message)
+                return self.error_icon, message
 
             ## Fetch remotes.
             if len(self.url_random) > 0:
-                message = 'Random urls %s' % (self.url_random)
+                message = 'Requested urls %s' % (self.url_random)
                 print(message)
                 logger.debug(message)
 
                 self.urls, self.returned_values = url_to_unixtime(self.url_random)
+
                 if len(self.urls) == 0:
                     ## Most likely, internet connection is down.
-                    ## Raise eror, log.
                     message = ('No values returned from url_to_unixtime. Internet connection might be down.')
                     print(message)
-                    return(message)
+                    return self.error_icon, message
+
                 message = 'Returned urls "%s"' % (self.urls)
                 print(message)
                 logger.debug(message)
+
             else:
                 message = 'Something is wrong. sdwdate loop could not build a list or urls.'
                 print(message)
-                return(message)
+                return self.status_color[2], message + '\nPlease report this bug'
 
             if not self.general_proxy_error(self.returned_values):
                 for i in range(len(self.urls)):
@@ -194,7 +208,7 @@ class Sdwdate():
             else:
                 message = 'General Proxy Error. Is Tor running?'
                 print(message)
-                return(message)
+                return self.error_icon, message
 
             old_unixtime = (time.time())
 
@@ -248,7 +262,8 @@ class Sdwdate():
         print(message)
         logger.debug(message)
 
-        return('Success')
+        message = 'success'
+        return self.success_icon, message
 
     def build_median(self):
         '''
@@ -299,8 +314,6 @@ class Sdwdate():
         message = 'New time difference: %s' % self.new_diff
         print(message)
         logger.debug(message)
-
-        return True
 
     def run_sclockadj(self):
         '''
@@ -366,6 +379,16 @@ class Sdwdate():
         ## Set new time.
         cmd = 'sudo /bin/date --set @' + str(new_unixtime)
         call(cmd, shell=True)
+        self.last_shell_date = check_output('date')
+        #print self.last_shell_date
+
+    def write_status(self, *args):
+        self.status['icon'] = args[0]
+        self.status['message'] = args[1]
+
+        with open(self.status_path, 'wb') as f:
+            pickle.dump(self.status, f)
+
 
 def signal_sigterm_handler():
     if sdwdate_.sclockadj_pid != 0:
@@ -383,34 +406,33 @@ if __name__ == "__main__":
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
-    first_success_dir = '/run/sdwdate'
-    if not os.path.exists(first_success_dir):
-        os.mkdir(first_success_dir)
-
-    first_success_file = first_success_dir + '/first_success'
-
     while True:
         sdwdate_ = Sdwdate()
-        sdwdate_loop_result = sdwdate_.sdwdate_loop()
-        if sdwdate_loop_result == 'Success':
+        icon, message = sdwdate_.sdwdate_loop()
+
+        if message == 'success':
             sdwdate_.build_median()
 
             if sdwdate_.set_new_time():
                 sdwdate_.add_subtract_nanoseconds()
-                if os.path.exists(first_success_file):
+                if os.path.exists(sdwdate_.first_success_path):
                     sdwdate_.run_sclockadj()
                 else:
                     sdwdate_.set_time_using_date()
-                    f = open(first_success_file, 'w')
+                    f = open(sdwdate_.first_success_path, 'w')
                     f.close()
 
+            sleep_time = 1
+            message = 'Sleeping for %s minutes' % sleep_time
+            print(message + '\n\n')
+            logger.debug(message)
+            sdwdate_.write_status(icon, 'Sleeping')
+
         else:
-            logger.warning(sdwdate_loop_result)
+            logger.warning(message)
+            print(message)
+            sdwdate_.write_status(icon, message)
 
-        message = 'Sleeping...'
-        print(message + '\n\n')
-        logger.debug(message)
-
-        time.sleep(1800)
+        time.sleep(sleep_time * 60)
         if sdwdate_.sclockadj_pid != 0:
             sdwdate_.kill_sclockadj()
