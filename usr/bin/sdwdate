@@ -177,7 +177,7 @@ class Sdwdate():
             if len(self.url_random) > 0:
                 message = 'Requested urls %s' % (self.url_random)
                 print(message)
-                logger.debug(message)
+                #logger.debug(message)
 
                 self.urls, self.returned_values = url_to_unixtime(self.url_random)
 
@@ -386,14 +386,23 @@ class Sdwdate():
         self.status['icon'] = args[0]
         self.status['message'] = args[1]
 
-        with open(self.status_path, 'wb') as f:
-            pickle.dump(self.status, f)
-
+        try:
+            with open(self.status_path, 'wb') as f:
+                pickle.dump(self.status, f)
+        except IOError as e:
+            logger.debug(e)
 
 def signal_sigterm_handler():
+    ## Inform sdwdate-gui
+    icon = sdwdate_.error_icon
+    message = 'sdwdate stopped, signal SIGTERM received'
+    sdwdate_.write_status(icon, message)
+
     if sdwdate_.sclockadj_pid != 0:
         sdwdate_.kill_sclockadj()
+
     logger.warning('Signal SIGTERM received. Exiting.')
+
     sys.exit(143)
 
 if __name__ == "__main__":
@@ -422,8 +431,7 @@ if __name__ == "__main__":
                     f = open(sdwdate_.first_success_path, 'w')
                     f.close()
 
-            sleep_time = 1
-            message = 'Sleeping for %s minutes' % sleep_time
+            message = 'Sleeping.'# for %s minutes' % sleep_time
             print(message + '\n\n')
             logger.debug(message)
             sdwdate_.write_status(icon, 'Sleeping')
@@ -433,6 +441,7 @@ if __name__ == "__main__":
             print(message)
             sdwdate_.write_status(icon, message)
 
+        sleep_time = 1
         time.sleep(sleep_time * 60)
         if sdwdate_.sclockadj_pid != 0:
             sdwdate_.kill_sclockadj()
