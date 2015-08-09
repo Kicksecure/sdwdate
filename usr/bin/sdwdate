@@ -64,6 +64,8 @@ class Sdwdate():
         self.busy_icon = '/usr/share/icons/anon-icon-pack/620px-Ambox_outdated.svg.png'
         self.error_icon = '/usr/share/icons/anon-icon-pack/212px-Timeblock.svg.png'
 
+        self.succeeded = os.path.exists(self.first_success_path)
+
         self.status = {'icon' : '', 'message' : ''}
 
         message = 'Fetching remote times, start %s' % (time.time())
@@ -103,7 +105,12 @@ class Sdwdate():
         Append valid urls if time is returned, otherwise restart a cycle
         with a new random url, until every pool has a time value.
         '''
-        self.write_status(self.busy_icon, 'Fetching remote times...')
+        if self.succeeded:
+            ## Update tool tip.
+            ## Update icon after SIGTERM.
+            self.write_status(self.success_icon, 'Fetching remote times...')
+        else:
+            self.write_status(self.busy_icon, 'No internet. Fetching remote times...')
 
         while len(self.valid_urls) < self.number_of_pools:
             self.iteration = self.iteration + 1
@@ -424,7 +431,8 @@ if __name__ == "__main__":
 
             if sdwdate_.set_new_time():
                 sdwdate_.add_subtract_nanoseconds()
-                if os.path.exists(sdwdate_.first_success_path):
+
+                if sdwdate_.succeeded:
                     sdwdate_.run_sclockadj()
                 else:
                     sdwdate_.set_time_using_date()
