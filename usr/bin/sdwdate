@@ -122,9 +122,6 @@ class Sdwdate():
             self.urls[:] = []
             self.url_random[:] = []
 
-            pool_invalid = False
-            message = ''
-
             if not self.pool_one_done:
                 while True:
                     url_index = []
@@ -132,9 +129,10 @@ class Sdwdate():
                     index = url_index[0]
 
                     if len(self.already_picked_index_pool_one) == len(self.pool_one):
-                        pool_invalid = True
                         message = ' Time is not set: no valid time returned from pool one'
-                        break
+                        print(message)
+                        logger.warning(message)
+                        return self.error_icon, message
 
                     if url_index not in self.already_picked_index_pool_one:
                         self.already_picked_index_pool_one.append(url_index)
@@ -149,9 +147,10 @@ class Sdwdate():
                     index = url_index[0]
 
                     if len(self.already_picked_index_pool_two) == len(self.pool_two):
-                        pool_invalid = True
                         message = ' Time is not set: no valid time returned from pool two'
-                        break
+                        print(message)
+                        logger.warning(message)
+                        return self.error_icon, message
 
                     if url_index not in self.already_picked_index_pool_two:
                         self.already_picked_index_pool_two.append(url_index)
@@ -166,19 +165,16 @@ class Sdwdate():
                     index = url_index[0]
 
                     if len(self.already_picked_index_pool_three) == len(self.pool_three):
-                        pool_invalid = True
                         message = 'Time is not set: no valid time returned from pool three'
-                        break
+                        print(message)
+                        logger.warning(message)
+                        return self.error_icon, message
 
                     if url_index not in self.already_picked_index_pool_three:
                         self.already_picked_index_pool_three.append(url_index)
                         self.url_random_pool_three.append(self.pool_three[url_index[0]])
                         self.url_random.append(self.pool_three[url_index[0]])
                         break
-
-            if pool_invalid:
-                print(message)
-                return self.error_icon, message
 
             ## Fetch remotes.
             if len(self.url_random) > 0:
