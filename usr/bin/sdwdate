@@ -393,12 +393,12 @@ class Sdwdate():
 
 def signal_sigterm_handler():
     ## Inform sdwdate-gui
-    icon = sdwdate_.error_icon
+    icon = sdwdate.error_icon
     message = 'sdwdate stopped, signal SIGTERM received'
-    sdwdate_.write_status(icon, message)
+    sdwdate.write_status(icon, message)
 
-    if sdwdate_.sclockadj_pid != 0:
-        sdwdate_.kill_sclockadj()
+    if sdwdate.sclockadj_pid != 0:
+        sdwdate.kill_sclockadj()
 
     logger.warning('Signal SIGTERM received. Exiting.')
 
@@ -415,34 +415,34 @@ if __name__ == "__main__":
     logger.addHandler(handler)
 
     while True:
-        sdwdate_ = Sdwdate()
-        icon, status = sdwdate_.sdwdate_loop()
+        sdwdate = Sdwdate()
+        icon, status = sdwdate.sdwdate_loop()
 
         if status == 'success':
-            sdwdate_.build_median()
-            if sdwdate_.succeeded:
-                if sdwdate_.set_new_time():
-                    sdwdate_.add_subtract_nanoseconds()
-                    sdwdate_.run_sclockadj()
+            sdwdate.build_median()
+            if sdwdate.succeeded:
+                if sdwdate.set_new_time():
+                    sdwdate.add_subtract_nanoseconds()
+                    sdwdate.run_sclockadj()
             else:
-                f = open(sdwdate_.first_success_path, 'w')
+                f = open(sdwdate.first_success_path, 'w')
                 f.close()
-                if sdwdate_.set_new_time():
-                    sdwdate_.add_subtract_nanoseconds()
-                    sdwdate_.set_time_using_date()
+                if sdwdate.set_new_time():
+                    sdwdate.add_subtract_nanoseconds()
+                    sdwdate.set_time_using_date()
 
             print('sleeping' + '\n\n')
             logger.debug('sleeping')
-            message = sdwdate_.message + '\nSleeping.'
-            sdwdate_.write_status(icon, message)
+            message = sdwdate.message + '\nSleeping.'
+            sdwdate.write_status(icon, message)
 
         elif status == 'error':
-            logger.warning(sdwdate_.message)
-            print(sdwdate_.message)
-            sdwdate_.write_status(icon, sdwdate_.message)
+            logger.warning(sdwdate.message)
+            print(sdwdate.message)
+            sdwdate.write_status(icon, sdwdate.message)
 
         sleep_time = 1
         time.sleep(sleep_time * 60)
-        if sdwdate_.sclockadj_pid != 0:
-            sdwdate_.kill_sclockadj()
+        if sdwdate.sclockadj_pid != 0:
+            sdwdate.kill_sclockadj()
 
