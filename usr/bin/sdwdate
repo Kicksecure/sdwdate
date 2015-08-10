@@ -123,8 +123,8 @@ class Sdwdate():
             self.url_random[:] = []
 
             if not self.pool_one_done:
-                while True:
-                    url_index = []
+                url_index = []
+                while url_index not in self.already_picked_index_pool_one:
                     url_index = random.sample(range(self.range_pool_one), 1)
                     index = url_index[0]
 
@@ -134,15 +134,13 @@ class Sdwdate():
                         logger.warning(message)
                         return self.error_icon, message
 
-                    if url_index not in self.already_picked_index_pool_one:
-                        self.already_picked_index_pool_one.append(url_index)
-                        self.url_random_pool_one.append(self.pool_one[url_index[0]])
-                        self.url_random.append(self.pool_one[url_index[0]])
-                        break
+                    self.already_picked_index_pool_one.append(url_index)
+                    self.url_random_pool_one.append(self.pool_one[url_index[0]])
+                    self.url_random.append(self.pool_one[url_index[0]])
 
             if not self.pool_two_done:
-                while True:
-                    url_index = []
+                url_index = []
+                while url_index not in self.already_picked_index_pool_two:
                     url_index = random.sample(range(self.range_pool_two), 1)
                     index = url_index[0]
 
@@ -152,15 +150,13 @@ class Sdwdate():
                         logger.warning(message)
                         return self.error_icon, message
 
-                    if url_index not in self.already_picked_index_pool_two:
-                        self.already_picked_index_pool_two.append(url_index)
-                        self.url_random_pool_two.append(self.pool_two[url_index[0]])
-                        self.url_random.append(self.pool_two[url_index[0]])
-                        break
+                    self.already_picked_index_pool_two.append(url_index)
+                    self.url_random_pool_two.append(self.pool_two[url_index[0]])
+                    self.url_random.append(self.pool_two[url_index[0]])
 
             if not self.pool_three_done:
-                while True:
-                    url_index = []
+                url_index = []
+                while url_index not in self.already_picked_index_pool_three:
                     url_index = random.sample(range(self.range_pool_three), 1)
                     index = url_index[0]
 
@@ -170,11 +166,9 @@ class Sdwdate():
                         logger.warning(message)
                         return self.error_icon, message
 
-                    if url_index not in self.already_picked_index_pool_three:
-                        self.already_picked_index_pool_three.append(url_index)
-                        self.url_random_pool_three.append(self.pool_three[url_index[0]])
-                        self.url_random.append(self.pool_three[url_index[0]])
-                        break
+                    self.already_picked_index_pool_three.append(url_index)
+                    self.url_random_pool_three.append(self.pool_three[url_index[0]])
+                    self.url_random.append(self.pool_three[url_index[0]])
 
             ## Fetch remotes.
             if len(self.url_random) > 0:
