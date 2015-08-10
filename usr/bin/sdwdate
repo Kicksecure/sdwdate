@@ -418,16 +418,16 @@ if __name__ == "__main__":
 
         if message == 'success':
             sdwdate_.build_median()
-
-            if sdwdate_.set_new_time():
-                sdwdate_.add_subtract_nanoseconds()
-
-                if sdwdate_.succeeded:
+            if sdwdate_.succeeded:
+                if sdwdate_.set_new_time():
+                    sdwdate_.add_subtract_nanoseconds()
                     sdwdate_.run_sclockadj()
-                else:
+            else:
+                f = open(sdwdate_.first_success_path, 'w')
+                f.close()
+                if sdwdate_.set_new_time():
+                    sdwdate_.add_subtract_nanoseconds()
                     sdwdate_.set_time_using_date()
-                    f = open(sdwdate_.first_success_path, 'w')
-                    f.close()
 
             message = 'Sleeping.'# for %s minutes' % sleep_time
             print(message + '\n\n')
