@@ -68,6 +68,8 @@ class Sdwdate():
 
         self.status = {'icon' : '', 'message' : ''}
 
+        self.message = ''
+
         message = 'Fetching remote times, start %s' % (time.time())
         print(message)
         logger.debug(message)
@@ -129,10 +131,10 @@ class Sdwdate():
                     index = url_index[0]
 
                     if len(self.already_picked_index_pool_one) == len(self.pool_one):
-                        message = ' Time is not set: no valid time returned from pool one'
+                        self.message = ' Time is not set: no valid time returned from pool one'
                         print(message)
                         logger.warning(message)
-                        return self.error_icon, message
+                        return self.error_icon, 'error'
 
                     self.already_picked_index_pool_one.append(url_index)
                     self.url_random_pool_one.append(self.pool_one[url_index[0]])
@@ -145,10 +147,10 @@ class Sdwdate():
                     index = url_index[0]
 
                     if len(self.already_picked_index_pool_two) == len(self.pool_two):
-                        message = ' Time is not set: no valid time returned from pool two'
+                        self.message = ' Time is not set: no valid time returned from pool two'
                         print(message)
                         logger.warning(message)
-                        return self.error_icon, message
+                        return self.error_icon, 'error'
 
                     self.already_picked_index_pool_two.append(url_index)
                     self.url_random_pool_two.append(self.pool_two[url_index[0]])
@@ -161,10 +163,10 @@ class Sdwdate():
                     index = url_index[0]
 
                     if len(self.already_picked_index_pool_three) == len(self.pool_three):
-                        message = 'Time is not set: no valid time returned from pool three'
+                        self.message = 'Time is not set: no valid time returned from pool three'
                         print(message)
                         logger.warning(message)
-                        return self.error_icon, message
+                        return self.error_icon, 'error'
 
                     self.already_picked_index_pool_three.append(url_index)
                     self.url_random_pool_three.append(self.pool_three[url_index[0]])
@@ -180,18 +182,19 @@ class Sdwdate():
 
                 if len(self.urls) == 0:
                     ## Most likely, internet connection is down.
-                    message = ('No values returned from url_to_unixtime. Internet connection might be down.')
+                    self.message = ('No values returned from url_to_unixtime. Internet connection might be down.')
                     print(message)
-                    return self.error_icon, message
+                    return self.error_icon, 'error'
 
                 message = 'Returned urls "%s"' % (self.urls)
                 print(message)
                 logger.debug(message)
 
             else:
-                message = 'Something is wrong. sdwdate loop could not build a list or urls.'
+                self.message = ('Something is wrong. sdwdate loop could not build a list or urls.\n' +
+                                'Please report this bug')
                 print(message)
-                return self.status_color[2], message + '\nPlease report this bug'
+                return self.status_color[2], 'error'
 
             if not self.general_proxy_error(self.returned_values):
                 for i in range(len(self.urls)):
@@ -203,9 +206,9 @@ class Sdwdate():
                         self.invalid_urls.append(self.urls[i])
                         self.url_errors.append(self.returned_values[i])
             else:
-                message = 'General Proxy Error. Is Tor running?'
+                self.message = 'General Proxy Error. Is Tor running?'
                 print(message)
-                return self.error_icon, message
+                return self.error_icon, 'error'
 
             old_unixtime = (time.time())
 
@@ -259,8 +262,9 @@ class Sdwdate():
         print(message)
         logger.debug(message)
 
-        message = 'success'
-        return self.success_icon, message
+        last_shell_date = check_output('date').strip()
+        self.message = 'Last run (on ' + last_shell_date + ') was successful.'
+        return self.success_icon, 'success'
 
     def build_median(self):
         '''
@@ -376,8 +380,6 @@ class Sdwdate():
         ## Set new time.
         cmd = 'sudo /bin/date --set @' + str(new_unixtime)
         call(cmd, shell=True)
-        self.last_shell_date = check_output('date')
-        #print self.last_shell_date
 
     def write_status(self, *args):
         self.status['icon'] = args[0]
@@ -414,9 +416,9 @@ if __name__ == "__main__":
 
     while True:
         sdwdate_ = Sdwdate()
-        icon, message = sdwdate_.sdwdate_loop()
+        icon, status = sdwdate_.sdwdate_loop()
 
-        if message == 'success':
+        if status == 'success':
             sdwdate_.build_median()
             if sdwdate_.succeeded:
                 if sdwdate_.set_new_time():
@@ -429,17 +431,18 @@ if __name__ == "__main__":
                     sdwdate_.add_subtract_nanoseconds()
                     sdwdate_.set_time_using_date()
 
-            message = 'Sleeping.'# for %s minutes' % sleep_time
-            print(message + '\n\n')
-            logger.debug(message)
-            sdwdate_.write_status(icon, 'Sleeping')
-
-        else:
-            logger.warning(message)
-            print(message)
+            print('sleeping' + '\n\n')
+            logger.debug('sleeping')
+            message = sdwdate_.message + '\nSleeping.'
             sdwdate_.write_status(icon, message)
+
+        elif status == 'error':
+            logger.warning(sdwdate_.message)
+            print(sdwdate_.message)
+            sdwdate_.write_status(icon, sdwdate_.message)
 
         sleep_time = 1
         time.sleep(sleep_time * 60)
         if sdwdate_.sclockadj_pid != 0:
             sdwdate_.kill_sclockadj()
+
