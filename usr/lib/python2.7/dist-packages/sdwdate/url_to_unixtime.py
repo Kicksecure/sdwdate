@@ -131,10 +131,7 @@ def request_data_from_remote_server(socket_ip, socket_port, url, remote_port):
 
 
 def url_to_unixtime(remotes):
-    #print remotes
-
     threads = []
-
     timeout = gevent.Timeout()
     timer = []
     seconds = 10
@@ -153,11 +150,15 @@ def url_to_unixtime(remotes):
     for i in range(len(remotes)):
         try:
             threads[i].join(timeout=timer[i])
-
         except Timeout:
             urls.append(threads[i].args[2])
             unix_times.append('Timeout')
             gevent.kill(threads[i])
+
+    ## Cleanup before next round.
+    ## On fast retries, unfinished greenlets might be returned.
+    for i in range(len(threads)):
+        gevent.kill(threads[i])
 
     print 'GEVENT exiting'
     return urls, unix_times
