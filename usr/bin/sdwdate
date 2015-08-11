@@ -60,7 +60,7 @@ class Sdwdate():
         self.first_success_path = '/var/run/sdwdate/first_success'
         self.status_path = '/var/run/sdwdate/status'
 
-        self.success_icon = '/usr/share/icons/anon-icon-pack/IconApproved.png'
+        self.success_icon = '/usr/share/icons/anon-icon-pack/Ambox_currentevent.svg.png'
         self.busy_icon = '/usr/share/icons/anon-icon-pack/620px-Ambox_outdated.svg.png'
         self.error_icon = '/usr/share/icons/anon-icon-pack/212px-Timeblock.svg.png'
 
