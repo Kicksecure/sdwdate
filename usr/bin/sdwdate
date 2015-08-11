@@ -107,10 +107,13 @@ class Sdwdate():
         Append valid urls if time is returned, otherwise restart a cycle
         with a new random url, until every pool has a time value.
         '''
+        global retrying_loop
+
         if self.succeeded:
-            ## Update tool tip.
-            ## Update icon after SIGTERM.
-            self.write_status(self.success_icon, 'Fetching remote times...')
+            if not retrying_loop:
+                ## Update tool tip.
+                ## Update icon after SIGTERM.
+                self.write_status(self.success_icon, 'Fetching remote times...')
         else:
             self.write_status(self.busy_icon, 'No internet. Fetching remote times...')
 
@@ -132,8 +135,7 @@ class Sdwdate():
 
                     if len(self.already_picked_index_pool_one) == len(self.pool_one):
                         self.message = ' Time is not set: no valid time returned from pool one'
-                        print(message)
-                        logger.warning(message)
+                        logger.warning(self.message)
                         return self.error_icon, 'error'
 
                     self.already_picked_index_pool_one.append(url_index)
@@ -148,8 +150,7 @@ class Sdwdate():
 
                     if len(self.already_picked_index_pool_two) == len(self.pool_two):
                         self.message = ' Time is not set: no valid time returned from pool two'
-                        print(message)
-                        logger.warning(message)
+                        logger.warning(self.message)
                         return self.error_icon, 'error'
 
                     self.already_picked_index_pool_two.append(url_index)
@@ -164,8 +165,7 @@ class Sdwdate():
 
                     if len(self.already_picked_index_pool_three) == len(self.pool_three):
                         self.message = 'Time is not set: no valid time returned from pool three'
-                        print(message)
-                        logger.warning(message)
+                        logger.warning(self.message)
                         return self.error_icon, 'error'
 
                     self.already_picked_index_pool_three.append(url_index)
@@ -176,15 +176,25 @@ class Sdwdate():
             if len(self.url_random) > 0:
                 message = 'Requested urls %s' % (self.url_random)
                 print(message)
-                #logger.debug(message)
+                logger.debug(message)
 
                 self.urls, self.returned_values = url_to_unixtime(self.url_random)
 
+                #if len(self.urls) == 0:
+                    ### Most likely, internet connection is down.
+                    #self.message = ('No values returned from url_to_unixtime. Internet connection might be down.')
+                    #print(message)
+                    #return self.error_icon, 'error'
+
                 if len(self.urls) == 0:
-                    ## Most likely, internet connection is down.
-                    self.message = ('No values returned from url_to_unixtime. Internet connection might be down.')
-                    print(message)
-                    return self.error_icon, 'error'
+                    if retrying_loop:
+                        retrying_loop = False
+                        self.message = 'No values returned from url_to_unixtime. Internet connection might be down.'
+                        return self.error_icon, 'error'
+                    else:
+                        retrying_loop = True
+                        self.message = 'No values returned from url_to_unixtime. Retrying...'
+                        return self.busy_icon, 'retry'
 
                 message = 'Returned urls "%s"' % (self.urls)
                 print(message)
@@ -201,7 +211,6 @@ class Sdwdate():
                     if self.check_remote(self.urls[i], self.returned_values[i]):
                         self.valid_urls.append(self.urls[i])
                         self.unixtimes.append(self.returned_values[i])
-
                     else:
                         self.invalid_urls.append(self.urls[i])
                         self.url_errors.append(self.returned_values[i])
@@ -264,6 +273,7 @@ class Sdwdate():
 
         last_shell_date = check_output('date').strip()
         self.message = 'Last run (on ' + last_shell_date + ') was successful.'
+        retrying_loop = False
         return self.success_icon, 'success'
 
     def build_median(self):
@@ -414,6 +424,8 @@ if __name__ == "__main__":
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
+    retrying_loop = False
+
     while True:
         sdwdate = Sdwdate()
         icon, status = sdwdate.sdwdate_loop()
@@ -431,18 +443,25 @@ if __name__ == "__main__":
                     sdwdate.add_subtract_nanoseconds()
                     sdwdate.set_time_using_date()
 
-            print('sleeping' + '\n\n')
-            logger.debug('sleeping')
             message = sdwdate.message + '\nSleeping.'
             sdwdate.write_status(icon, message)
+            sleep_time = 1
+
+        elif status == 'retry':
+            logger.warning(sdwdate.message)
+            print(sdwdate.message)
+            sdwdate.write_status(icon, sdwdate.message)
+            #print icon
+            sleep_time = 0.2
 
         elif status == 'error':
             logger.warning(sdwdate.message)
             print(sdwdate.message)
             sdwdate.write_status(icon, sdwdate.message)
+            sleep_time = 0.2
 
-        sleep_time = 1
+        print('Sleeping' + '\n\n')
+        logger.debug('Sleeping')
         time.sleep(sleep_time * 60)
         if sdwdate.sclockadj_pid != 0:
             sdwdate.kill_sclockadj()
-
