@@ -16,7 +16,7 @@ Package: sdwdate
 Architecture: all
 Depends: sudo, logrotate, bc,
  ruby | ruby-interpreter, ruby-inline, ruby-dev,
- ruby-all-dev, gcc, libc6-dev, python-dateutil,
+ ruby-all-dev, gcc, libc6-dev, python-dateutil, python-gevent,
  python-pysocks | python-socksipy, python, tor, ${misc:Depends}
 Recommends: vbox-disable-timesync, timesanitycheck, bootclockrandomization,
  timesync
