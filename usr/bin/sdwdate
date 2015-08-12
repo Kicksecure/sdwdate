@@ -72,7 +72,7 @@ class Sdwdate():
 
         message = 'Fetching remote times, start %s' % (time.time())
         print(message)
-        logger.debug(message)
+        logger.info(message)
 
     def general_proxy_error(self, pools):
         '''
@@ -92,12 +92,12 @@ class Sdwdate():
             n = int(value)
             message = 'Remote status "%s", True' % (remote)
             print(message)
-            logger.debug(message)
+            logger.info(message)
             return True
         except ValueError:
             message = 'Remote status "%s", False: %s' % (remote, value)
             print(message)
-            logger.debug(message)
+            logger.info(message)
             return False
 
     def sdwdate_loop(self):
@@ -121,7 +121,7 @@ class Sdwdate():
             self.iteration = self.iteration + 1
             message = 'Running sdwdate loop, iteration %s' % (self.iteration)
             print(message)
-            logger.debug(message)
+            logger.info(message)
 
             ## Clear the lists.
             self.urls[:] = []
@@ -176,7 +176,7 @@ class Sdwdate():
             if len(self.url_random) > 0:
                 message = 'Requested urls %s' % (self.url_random)
                 print(message)
-                logger.debug(message)
+                logger.info(message)
 
                 self.urls, self.returned_values = url_to_unixtime(self.url_random)
 
@@ -198,7 +198,7 @@ class Sdwdate():
 
                 message = 'Returned urls "%s"' % (self.urls)
                 print(message)
-                logger.debug(message)
+                logger.info(message)
 
             else:
                 self.message = ('Something is wrong. sdwdate loop could not build a list or urls.\n' +
@@ -233,7 +233,7 @@ class Sdwdate():
                         self.pools_diff.append(int(web_time) - int(old_unixtime))
                         message = 'Pool one: last_url %s, web_time %s' % (valid_url, web_time)
                         print(message)
-                        logger.debug(message)
+                        logger.info(message)
 
             if not self.pool_two_done:
                 for i in range(len(self.url_random_pool_two)):
@@ -245,7 +245,7 @@ class Sdwdate():
                         self.pools_diff.append(int(web_time) - int(old_unixtime))
                         message = 'Pool two: last_url %s, web_time %s' % (valid_url, web_time)
                         print(message)
-                        logger.debug(message)
+                        logger.info(message)
 
             if not self.pool_three_done:
                 for i in range(len(self.url_random_pool_three)):
@@ -257,19 +257,19 @@ class Sdwdate():
                         self.pools_diff.append(int(web_time) - int(old_unixtime))
                         message = 'Pool three: last_url %s, web_time %s' % (valid_url, web_time)
                         print(message)
-                        logger.debug(message)
+                        logger.info(message)
 
         message = 'Valid urls %s' % (self.valid_urls)
         print(message)
-        logger.debug(message)
+        logger.info(message)
 
         message = 'Bad urls %s' % (self.invalid_urls)
         print(message)
-        logger.debug(message)
+        logger.info(message)
 
         message = 'Fetching remote times, end %s' % (time.time())
         print(message)
-        logger.debug(message)
+        logger.info(message)
 
         last_shell_date = check_output('date').strip()
         self.message = 'Last run (on ' + last_shell_date + ') was successful.'
@@ -283,7 +283,7 @@ class Sdwdate():
         diffs = sorted(self.pools_diff)
         message = 'Pool differences, sorted: %s' % diffs
         print(message)
-        logger.debug(message)
+        logger.info(message)
         self.median = diffs[(len(diffs) / 2)]
 
     def set_new_time(self):
@@ -293,7 +293,7 @@ class Sdwdate():
         if self.median == 0:
             message = 'Time difference = 0. Not setting time'
             print(message)
-            logger.debug(message)
+            logger.info(message)
             return False
         else:
             return True
@@ -318,13 +318,13 @@ class Sdwdate():
         #print 'nanoseconds %s' % nanoseconds
         message = 'Median time difference: %s' % self.median
         print(message)
-        logger.debug(message)
+        logger.info(message)
         message = 'Seconds to add: %s %s' % (signs[sign], seconds)
         print(message)
-        logger.debug(message)
+        logger.info(message)
         message = 'New time difference: %s' % self.new_diff
         print(message)
-        logger.debug(message)
+        logger.info(message)
 
     def run_sclockadj(self):
         '''
@@ -355,7 +355,7 @@ class Sdwdate():
 
         message = 'Running sclockaj, PID=%s' % (self.sclockadj_pid)
         print(message)
-        logger.debug(message)
+        logger.info(message)
 
         ## Running sclockadj_debug_helper, in case...
         ## May be read the last line to ensure sclockadj is running.
@@ -375,17 +375,17 @@ class Sdwdate():
     def set_time_using_date(self):
         message = 'Setting time using date.'
         print(message)
-        logger.debug(message)
+        logger.info(message)
 
         old_unixtime = float('%.9f' % (time.time()))
         message = 'Old unixttime: %s' % (str(old_unixtime))
         print(message)
-        logger.debug(message)
+        logger.info(message)
 
         new_unixtime = float('%.9f' % (old_unixtime + self.new_diff))
         message = 'New unixtime %s' % (str(new_unixtime))
         print(message)
-        logger.debug(message)
+        logger.info(message)
 
         ## Set new time.
         cmd = 'sudo /bin/date --set @' + str(new_unixtime)
@@ -399,7 +399,7 @@ class Sdwdate():
             with open(self.status_path, 'wb') as f:
                 pickle.dump(self.status, f)
         except IOError as e:
-            logger.debug(e)
+            logger.info(e)
 
 def signal_sigterm_handler():
     ## Inform sdwdate-gui
@@ -410,7 +410,7 @@ def signal_sigterm_handler():
     if sdwdate.sclockadj_pid != 0:
         sdwdate.kill_sclockadj()
 
-    logger.debug('Signal SIGTERM received. Exiting.')
+    logger.info('Signal SIGTERM received. Exiting.')
 
     sys.exit(143)
 
@@ -418,7 +418,7 @@ if __name__ == "__main__":
     gevent.signal(signal.SIGTERM, signal_sigterm_handler)
 
     logger = logging.getLogger('sdwdate_log')
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
     formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     handler = logging.FileHandler('/var/log/sdwdate.log')
     handler.setFormatter(formatter)
@@ -461,7 +461,7 @@ if __name__ == "__main__":
             sleep_time = 0.2
 
         print('Sleeping' + '\n\n')
-        logger.debug('Sleeping')
+        logger.info('Sleeping')
         time.sleep(sleep_time * 60)
         if sdwdate.sclockadj_pid != 0:
             sdwdate.kill_sclockadj()
