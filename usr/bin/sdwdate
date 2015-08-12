@@ -133,7 +133,7 @@ class Sdwdate():
                     url_index = random.sample(range(self.range_pool_one), 1)
                     index = url_index[0]
 
-                    if len(self.already_picked_index_pool_one) == len(self.pool_one):
+                    if len(self.already_picked_index_pool_one) >= len(self.pool_one):
                         self.message = ' Time is not set: no valid time returned from pool one'
                         logger.warning(self.message)
                         return self.error_icon, 'error'
@@ -148,7 +148,7 @@ class Sdwdate():
                     url_index = random.sample(range(self.range_pool_two), 1)
                     index = url_index[0]
 
-                    if len(self.already_picked_index_pool_two) == len(self.pool_two):
+                    if len(self.already_picked_index_pool_two) >= len(self.pool_two):
                         self.message = ' Time is not set: no valid time returned from pool two'
                         logger.warning(self.message)
                         return self.error_icon, 'error'
@@ -163,7 +163,7 @@ class Sdwdate():
                     url_index = random.sample(range(self.range_pool_three), 1)
                     index = url_index[0]
 
-                    if len(self.already_picked_index_pool_three) == len(self.pool_three):
+                    if len(self.already_picked_index_pool_three) >= len(self.pool_three):
                         self.message = 'Time is not set: no valid time returned from pool three'
                         logger.warning(self.message)
                         return self.error_icon, 'error'
