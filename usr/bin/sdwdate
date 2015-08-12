@@ -410,7 +410,7 @@ def signal_sigterm_handler():
     if sdwdate.sclockadj_pid != 0:
         sdwdate.kill_sclockadj()
 
-    logger.warning('Signal SIGTERM received. Exiting.')
+    logger.debug('Signal SIGTERM received. Exiting.')
 
     sys.exit(143)
 
