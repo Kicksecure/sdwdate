@@ -107,8 +107,4 @@ def read_pools():
     pool_two_sorted = list(set(pool_two_sorted))
     pool_three_sorted = list(set(pool_three_sorted))
 
-    print pool_one_sorted
-    print pool_two_sorted
-    print pool_three_sorted
-
     return(pool_one_sorted,  pool_two_sorted, pool_three_sorted)
