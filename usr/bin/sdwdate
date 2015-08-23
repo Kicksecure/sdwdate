@@ -58,13 +58,15 @@ class Sdwdate():
         self.last_shell_date = ''
 
         self.first_success_path = '/var/run/sdwdate/first_success'
+        self.success_path = '/var/run/sdwdate/success'
         self.status_path = '/var/run/sdwdate/status'
 
         self.success_icon = '/usr/share/icons/sdwdate-gui/Ambox_currentevent.svg.png'
         self.busy_icon = '/usr/share/icons/sdwdate-gui/620px-Ambox_outdated.svg.png'
         self.error_icon = '/usr/share/icons/sdwdate-gui/212px-Timeblock.svg.png'
 
-        self.succeeded = os.path.exists(self.first_success_path)
+        self.first_success = os.path.exists(self.first_success_path)
+        self.success = os.path.exists(self.success_path)
 
         self.status = {'icon' : '', 'message' : ''}
 
@@ -109,13 +111,16 @@ class Sdwdate():
         '''
         global retrying_loop
 
-        if self.succeeded:
+        if self.success:
             if not retrying_loop:
                 ## Update tool tip.
                 ## Update icon after SIGTERM.
                 self.write_status(self.success_icon, 'Fetching remote times...')
         else:
-            self.write_status(self.busy_icon, 'No internet. Fetching remote times...')
+            if not self.first_success:
+                self.write_status(self.busy_icon, 'No internet. Fetching remote times...')
+            else:
+                self.write_status(self.success_icon, 'Fetching remote times...')
 
         while len(self.valid_urls) < self.number_of_pools:
             self.iteration = self.iteration + 1
@@ -432,13 +437,18 @@ if __name__ == "__main__":
 
         if status == 'success':
             sdwdate.build_median()
-            if sdwdate.succeeded:
+            
+            if sdwdate.success:
                 if sdwdate.set_new_time():
                     sdwdate.add_subtract_nanoseconds()
                     sdwdate.run_sclockadj()
             else:
-                f = open(sdwdate.first_success_path, 'w')
+                if not sdwdate.first_success:
+                    f = open(sdwdate.first_success_path, 'w')
+                    f.close()
+                f = open(sdwdate.success_path, 'w')
                 f.close()
+
                 if sdwdate.set_new_time():
                     sdwdate.add_subtract_nanoseconds()
                     sdwdate.set_time_using_date()
