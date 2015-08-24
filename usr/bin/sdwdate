@@ -399,12 +399,9 @@ class Sdwdate():
     def write_status(self, *args):
         self.status['icon'] = args[0]
         self.status['message'] = args[1]
+         with open(self.status_path, 'wb') as f:
+             pickle.dump(self.status, f)
 
-        try:
-            with open(self.status_path, 'wb') as f:
-                pickle.dump(self.status, f)
-        except IOError as e:
-            logger.info(e)
 
 def signal_sigterm_handler():
     ## Inform sdwdate-gui
@@ -437,7 +434,7 @@ if __name__ == "__main__":
 
         if status == 'success':
             sdwdate.build_median()
-            
+
             if sdwdate.success:
                 if sdwdate.set_new_time():
                     sdwdate.add_subtract_nanoseconds()
@@ -455,23 +452,24 @@ if __name__ == "__main__":
 
             message = sdwdate.message + '\nSleeping.'
             sdwdate.write_status(icon, message)
-            sleep_time = 1
+            sleep_time = 10
 
         elif status == 'retry':
             logger.warning(sdwdate.message)
             print(sdwdate.message)
             sdwdate.write_status(icon, sdwdate.message)
             #print icon
-            sleep_time = 0.2
+            sleep_time = 0.1
 
         elif status == 'error':
             logger.warning(sdwdate.message)
             print(sdwdate.message)
             sdwdate.write_status(icon, sdwdate.message)
-            sleep_time = 0.2
+            sleep_time = 0.1
 
-        print('Sleeping' + '\n\n')
-        logger.info('Sleeping')
+        message = 'Sleeping for %s minutes' % (sleep_time)
+        print(message)
+        logger.info(message)
         time.sleep(sleep_time * 60)
         if sdwdate.sclockadj_pid != 0:
             sdwdate.kill_sclockadj()
