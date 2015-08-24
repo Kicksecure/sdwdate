@@ -1,3 +1,15 @@
+commit b66ca854ea1d2be60b738582723acc849921c830
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Aug 19 23:37:06 2015 +0000
+
+    workaround for 'dh_installinit should run systemd-tmpfiles if a /usr/lib/tmpfiles.d/ snippet gets shipped for systemd-only packages also' - http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=795519
+
+commit 9abcf123f57cc9412b5e3552246223b242f732b3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 3 15:00:13 2015 +0000
+
+    bumped changelog version
+
 commit 52e09908ca9b8181de4b64a96b1abb80e4693863
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Jun 1 14:52:26 2015 +0000
