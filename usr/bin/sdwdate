@@ -399,8 +399,8 @@ class Sdwdate():
     def write_status(self, *args):
         self.status['icon'] = args[0]
         self.status['message'] = args[1]
-         with open(self.status_path, 'wb') as f:
-             pickle.dump(self.status, f)
+        with open(self.status_path, 'wb') as f:
+            pickle.dump(self.status, f)
 
 
 def signal_sigterm_handler():
