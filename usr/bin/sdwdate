@@ -12,6 +12,7 @@ import pickle
 
 from sdwdate.url_to_unixtime import url_to_unixtime
 from sdwdate.config import read_pools
+from sdwdate.timesanitycheck import timesanitycheck
 
 
 class Sdwdate():
@@ -102,6 +103,19 @@ class Sdwdate():
             logger.info(message)
             return False
 
+    def time_sanity_check(self):
+        status, time_one, time_two = timesanitycheck()
+
+        if status == 'sane':
+            self.message = 'The clock is %s. Current time "%s"' % (status, time_one)
+        elif status == 'slow':
+            self.message = ('The clock is %s. Current time "%s" is less than the build timestamp "%s"'
+                % (status, time_one, time_two))
+        elif status == 'fast':
+            self.message = ('The clock is %s. Current time "%s" is greater than the build timestamp "%s"'
+                % (status, time_one, time_two))
+        return status
+
     def sdwdate_loop(self):
         '''
         Check remotes.
@@ -109,6 +123,14 @@ class Sdwdate():
         Append valid urls if time is returned, otherwise restart a cycle
         with a new random url, until every pool has a time value.
         '''
+        time_sanity_check = self.time_sanity_check()
+        if time_sanity_check == 'sane':
+            print self.message
+            logger.info(self.message)
+        else:
+            print self.message
+            return self.error_icon, 'error'
+
         global retrying_loop
 
         if self.success:
@@ -404,7 +426,7 @@ class Sdwdate():
 
 
 def signal_sigterm_handler():
-    ## Inform sdwdate-gui
+    # Inform sdwdate-gui
     icon = sdwdate.error_icon
     message = 'sdwdate stopped, signal SIGTERM received'
     sdwdate.write_status(icon, message)
@@ -413,7 +435,6 @@ def signal_sigterm_handler():
         sdwdate.kill_sclockadj()
 
     logger.info('Signal SIGTERM received. Exiting.')
-
     sys.exit(143)
 
 if __name__ == "__main__":
@@ -465,7 +486,7 @@ if __name__ == "__main__":
             logger.warning(sdwdate.message)
             print(sdwdate.message)
             sdwdate.write_status(icon, sdwdate.message)
-            sleep_time = 0.1
+            sleep_time = 10
 
         message = 'Sleeping for %s minutes' % (sleep_time)
         print(message)
