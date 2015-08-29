@@ -117,6 +117,127 @@ class Sdwdate():
                 % (status, time_one, time_two))
         return status
 
+    def build_median(self):
+        '''
+        Get the median (not average) from the list of values.
+        '''
+        diffs = sorted(self.pools_diff)
+        message = 'Pool differences, sorted: %s' % diffs
+        print(message)
+        logger.info(message)
+        self.median = diffs[(len(diffs) / 2)]
+
+    def set_new_time(self):
+        '''
+        Do not set time if diff = 0.
+        '''
+        if self.median == 0:
+            message = 'Time difference = 0. Not setting time'
+            print(message)
+            logger.info(message)
+            return False
+        else:
+            return True
+
+    def add_subtract_nanoseconds(self):
+        '''
+        Could we replace this in sdwdate_loop pool_diff calcuations?
+        -> int(web_time) - old_unixtime
+        '''
+        signs = ['+', '-']
+        sign = randint(0, 1)
+        nanoseconds = randint(0, self.range_nanoseconds)
+        seconds = float(nanoseconds) / 1000000000
+
+        if sign == 0:
+            self.new_diff = self.median + seconds
+        else:
+            self.new_diff = self.median - seconds
+
+        self.newdiff_nanoseconds = int(self.new_diff * 1000000000)
+
+        #print 'nanoseconds %s' % nanoseconds
+        message = 'Median time difference: %s' % self.median
+        print(message)
+        logger.info(message)
+        message = 'Seconds to add: %s %s' % (signs[sign], seconds)
+        print(message)
+        logger.info(message)
+        message = 'New time difference: %s' % self.new_diff
+        print(message)
+        logger.info(message)
+
+    def run_sclockadj(self):
+        '''
+        Set time with sneaky_clock_adjuster.
+        Should we use sclockadj_debug_helper?
+        '''
+        if self.newdiff_nanoseconds > 0:
+            add_subtract = "--add"
+        else:
+            add_subtract = "--subtract"
+        cmd = [
+            "sudo",
+            "INLINEDIR=/var/cache/sdwdate/sclockadj",
+            "/usr/lib/sdwdate/sclockadj",
+            "--no-debug",
+            "--no-verbose",
+            "--no-systohc",
+            "--no-first-wait",
+            "--move-min", "5000000",
+            "--move-max", "5000000",
+            "--wait-min", "1000000000",
+            "--wait-max", "1000000000",
+            add_subtract, str(abs(self.newdiff_nanoseconds))]
+
+        ## Run sclockadj in a subshell.
+        sclockadj = Popen(cmd)
+        self.sclockadj_pid = sclockadj.pid
+
+        message = 'Running sclockaj, PID=%s' % (self.sclockadj_pid)
+        print(message)
+        logger.info(message)
+
+        ## Running sclockadj_debug_helper, in case...
+        ## May be read the last line to ensure sclockadj is running.
+        #cmd = ["sudo", "/usr/lib/sdwdate/sclockadj_debug_helper"]
+        ### Pipe stdout in subprocess.
+        #helper = Popen(cmd, stdout=PIPE)
+        ### Read the output.
+        #line = helper.stdout.read()
+        #print line
+
+    def kill_sclockadj(self):
+        '''
+        '''
+        cmd = 'sudo /usr/lib/sdwdate/sclockadj_kill_helper ' + str(self.sclockadj_pid)
+        call(cmd, shell=True)
+
+    def set_time_using_date(self):
+        message = 'Setting time using date.'
+        print(message)
+        logger.info(message)
+
+        old_unixtime = float('%.9f' % (time.time()))
+        message = 'Old unixttime: %s' % (str(old_unixtime))
+        print(message)
+        logger.info(message)
+
+        new_unixtime = float('%.9f' % (old_unixtime + self.new_diff))
+        message = 'New unixtime %s' % (str(new_unixtime))
+        print(message)
+        logger.info(message)
+
+        ## Set new time.
+        cmd = 'sudo /bin/date --set @' + str(new_unixtime)
+        call(cmd, shell=True)
+
+    def write_status(self, *args):
+        self.status['icon'] = args[0]
+        self.status['message'] = args[1]
+        with open(self.status_path, 'wb') as f:
+            pickle.dump(self.status, f)
+
     def sdwdate_loop(self):
         '''
         Check remotes.
@@ -294,127 +415,6 @@ class Sdwdate():
         self.message = 'Last run (on ' + last_shell_date + ') was successful.'
         retrying_loop = False
         return self.success_icon, 'success'
-
-    def build_median(self):
-        '''
-        Get the median (not average) from the list of values.
-        '''
-        diffs = sorted(self.pools_diff)
-        message = 'Pool differences, sorted: %s' % diffs
-        print(message)
-        logger.info(message)
-        self.median = diffs[(len(diffs) / 2)]
-
-    def set_new_time(self):
-        '''
-        Do not set time if diff = 0.
-        '''
-        if self.median == 0:
-            message = 'Time difference = 0. Not setting time'
-            print(message)
-            logger.info(message)
-            return False
-        else:
-            return True
-
-    def add_subtract_nanoseconds(self):
-        '''
-        Could we replace this in sdwdate_loop pool_diff calcuations?
-        -> int(web_time) - old_unixtime
-        '''
-        signs = ['+', '-']
-        sign = randint(0, 1)
-        nanoseconds = randint(0, self.range_nanoseconds)
-        seconds = float(nanoseconds) / 1000000000
-
-        if sign == 0:
-            self.new_diff = self.median + seconds
-        else:
-            self.new_diff = self.median - seconds
-
-        self.newdiff_nanoseconds = int(self.new_diff * 1000000000)
-
-        #print 'nanoseconds %s' % nanoseconds
-        message = 'Median time difference: %s' % self.median
-        print(message)
-        logger.info(message)
-        message = 'Seconds to add: %s %s' % (signs[sign], seconds)
-        print(message)
-        logger.info(message)
-        message = 'New time difference: %s' % self.new_diff
-        print(message)
-        logger.info(message)
-
-    def run_sclockadj(self):
-        '''
-        Set time with sneaky_clock_adjuster.
-        Should we use sclockadj_debug_helper?
-        '''
-        if self.newdiff_nanoseconds > 0:
-            add_subtract = "--add"
-        else:
-            add_subtract = "--subtract"
-        cmd = [
-            "sudo",
-            "INLINEDIR=/var/cache/sdwdate/sclockadj",
-            "/usr/lib/sdwdate/sclockadj",
-            "--no-debug",
-            "--no-verbose",
-            "--no-systohc",
-            "--no-first-wait",
-            "--move-min", "5000000",
-            "--move-max", "5000000",
-            "--wait-min", "1000000000",
-            "--wait-max", "1000000000",
-            add_subtract, str(abs(self.newdiff_nanoseconds))]
-
-        ## Run sclockadj in a subshell.
-        sclockadj = Popen(cmd)
-        self.sclockadj_pid = sclockadj.pid
-
-        message = 'Running sclockaj, PID=%s' % (self.sclockadj_pid)
-        print(message)
-        logger.info(message)
-
-        ## Running sclockadj_debug_helper, in case...
-        ## May be read the last line to ensure sclockadj is running.
-        #cmd = ["sudo", "/usr/lib/sdwdate/sclockadj_debug_helper"]
-        ### Pipe stdout in subprocess.
-        #helper = Popen(cmd, stdout=PIPE)
-        ### Read the output.
-        #line = helper.stdout.read()
-        #print line
-
-    def kill_sclockadj(self):
-        '''
-        '''
-        cmd = 'sudo /usr/lib/sdwdate/sclockadj_kill_helper ' + str(self.sclockadj_pid)
-        call(cmd, shell=True)
-
-    def set_time_using_date(self):
-        message = 'Setting time using date.'
-        print(message)
-        logger.info(message)
-
-        old_unixtime = float('%.9f' % (time.time()))
-        message = 'Old unixttime: %s' % (str(old_unixtime))
-        print(message)
-        logger.info(message)
-
-        new_unixtime = float('%.9f' % (old_unixtime + self.new_diff))
-        message = 'New unixtime %s' % (str(new_unixtime))
-        print(message)
-        logger.info(message)
-
-        ## Set new time.
-        cmd = 'sudo /bin/date --set @' + str(new_unixtime)
-        call(cmd, shell=True)
-
-    def write_status(self, *args):
-        self.status['icon'] = args[0]
-        self.status['message'] = args[1]
-        with open(self.status_path, 'wb') as f:
-            pickle.dump(self.status, f)
 
 
 def signal_sigterm_handler():
