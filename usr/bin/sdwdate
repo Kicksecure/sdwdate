@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import sys
 import logging
 import signal
 import gevent
@@ -158,7 +159,6 @@ class Sdwdate():
                 url_index = []
                 while url_index not in self.already_picked_index_pool_one:
                     url_index = random.sample(range(self.range_pool_one), 1)
-                    index = url_index[0]
 
                     if len(self.already_picked_index_pool_one) >= len(self.pool_one):
                         self.message = ' Time is not set: no valid time returned from pool one'
@@ -173,7 +173,6 @@ class Sdwdate():
                 url_index = []
                 while url_index not in self.already_picked_index_pool_two:
                     url_index = random.sample(range(self.range_pool_two), 1)
-                    index = url_index[0]
 
                     if len(self.already_picked_index_pool_two) >= len(self.pool_two):
                         self.message = ' Time is not set: no valid time returned from pool two'
@@ -188,7 +187,6 @@ class Sdwdate():
                 url_index = []
                 while url_index not in self.already_picked_index_pool_three:
                     url_index = random.sample(range(self.range_pool_three), 1)
-                    index = url_index[0]
 
                     if len(self.already_picked_index_pool_three) >= len(self.pool_three):
                         self.message = 'Time is not set: no valid time returned from pool three'
@@ -206,12 +204,6 @@ class Sdwdate():
                 logger.info(message)
 
                 self.urls, self.returned_values = url_to_unixtime(self.url_random)
-
-                #if len(self.urls) == 0:
-                    ### Most likely, internet connection is down.
-                    #self.message = ('No values returned from url_to_unixtime. Internet connection might be down.')
-                    #print(message)
-                    #return self.error_icon, 'error'
 
                 if len(self.urls) == 0:
                     if retrying_loop:
@@ -231,7 +223,7 @@ class Sdwdate():
                 self.message = ('Something is wrong. sdwdate loop could not build a list or urls.\n' +
                                 'Please report this bug')
                 print(message)
-                return self.status_color[2], 'error'
+                return self.error_icon, 'error'
 
             if not self.general_proxy_error(self.returned_values):
                 for i in range(len(self.urls)):
