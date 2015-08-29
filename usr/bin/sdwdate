@@ -112,7 +112,7 @@ class Sdwdate():
             self.message = ('The clock is %s. Current time "%s" is less than the build timestamp "%s"'
                 % (status, time_one, time_two))
         elif status == 'fast':
-            self.message = ('The clock is %s. Current time "%s" is greater than the build timestamp "%s"'
+            self.message = ('The clock is %s. Current time "%s" is greater than the expiration timestamp "%s"'
                 % (status, time_one, time_two))
         return status
 
