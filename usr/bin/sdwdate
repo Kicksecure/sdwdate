@@ -3,7 +3,6 @@
 import sys
 import logging
 import signal
-import signal
 import os
 import time
 import random
@@ -82,10 +81,15 @@ class Sdwdate():
         '''
         This error occurs (at least) when Tor is not running.
         '''
-        if (pools[0] == 'Connection closed unexpectedly' and
-            pools[1] == 'Connection closed unexpectedly' and
-            pools[2] == 'Connection closed unexpectedly'):
-                return True
+        try:
+            if (pools[0] == 'Connection closed unexpectedly' and
+                pools[1] == 'Connection closed unexpectedly' and
+                pools[2] == 'Connection closed unexpectedly'):
+                    return True
+        # If tor is stopping during a cycle, some urls are not returned,
+        # raising an error.
+        except IndexError:
+            return True
         return False
 
     def check_remote(self, remote, value):
