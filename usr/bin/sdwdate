@@ -3,7 +3,7 @@
 import sys
 import logging
 import signal
-import gevent
+import signal
 import os
 import time
 import random
@@ -417,7 +417,7 @@ class Sdwdate():
         return self.success_icon, 'success'
 
 
-def signal_sigterm_handler():
+def signal_sigterm_handler(signum, frame):
     # Inform sdwdate-gui
     icon = sdwdate.error_icon
     message = 'sdwdate stopped, signal SIGTERM received'
@@ -430,7 +430,7 @@ def signal_sigterm_handler():
     sys.exit(143)
 
 if __name__ == "__main__":
-    gevent.signal(signal.SIGTERM, signal_sigterm_handler)
+    signal.signal(signal.SIGTERM, signal_sigterm_handler)
 
     logger = logging.getLogger('sdwdate_log')
     logger.setLevel(logging.INFO)
