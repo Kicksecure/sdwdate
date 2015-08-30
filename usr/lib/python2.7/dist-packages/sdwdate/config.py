@@ -108,3 +108,6 @@ def read_pools():
     pool_three_sorted = list(set(pool_three_sorted))
 
     return(pool_one_sorted,  pool_two_sorted, pool_three_sorted)
+
+if __name__ == "__main__":
+    read_pools()
