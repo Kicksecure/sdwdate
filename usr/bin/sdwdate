@@ -434,6 +434,10 @@ def signal_sigterm_handler(signum, frame):
     sys.exit(143)
 
 if __name__ == "__main__":
+    ## When restarted from sdwdate-gui, allow sufficient time betwwen
+    ## status changes. See related comment in sdwdate-gui.
+    time.sleep(0.2)
+
     signal.signal(signal.SIGTERM, signal_sigterm_handler)
 
     logger = logging.getLogger('sdwdate_log')
