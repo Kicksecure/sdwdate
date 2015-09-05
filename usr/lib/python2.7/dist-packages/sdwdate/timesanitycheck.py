@@ -19,7 +19,7 @@ def timesanitycheck():
     build_time = time.strftime('%a %b %d %H:%M:%S UTC %Y', time.gmtime(os.path.getmtime(build_timestamp_file)))
     build_unixtime = time.mktime(datetime.strptime(build_time, '%a %b %d %H:%M:%S UTC %Y').timetuple())
 
-    expiration_unixtime = 1409936800
+    expiration_unixtime = 1999936800
     expiration_time = datetime.strftime(datetime.fromtimestamp(expiration_unixtime), '%a %b %d %H:%M:%S UTC %Y')
 
     if current_unixtime < build_unixtime:
