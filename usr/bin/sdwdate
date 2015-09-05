@@ -245,7 +245,7 @@ class Sdwdate():
     def sdwdate_loop(self):
         '''
         Check remotes.
-        Pick a random url in eaxh pool, check the returned value.
+        Pick a random url in each pool, check the returned value.
         Append valid urls if time is returned, otherwise restart a cycle
         with a new random url, until every pool has a time value.
         '''
@@ -370,7 +370,7 @@ class Sdwdate():
                     self.pool_one_done = self.url_random_pool_one[i] in self.valid_urls
                     if self.pool_one_done:
                         valid_url = self.url_random_pool_one[i]
-                        ## Values are teturned randomly. Get the index of the url.
+                        ## Values are returned randomly. Get the index of the url.
                         index = self.valid_urls.index(valid_url)
                         ## Pool matching web time.
                         web_time = self.unixtimes[index]
@@ -434,7 +434,7 @@ def signal_sigterm_handler(signum, frame):
     sys.exit(143)
 
 if __name__ == "__main__":
-    ## When restarted from sdwdate-gui, allow sufficient time betwwen
+    ## When restarted from sdwdate-gui, allow sufficient time between
     ## status changes. See related comment in sdwdate-gui.
     time.sleep(0.2)
 
