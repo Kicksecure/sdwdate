@@ -471,7 +471,7 @@ if __name__ == "__main__":
                     sdwdate.add_subtract_nanoseconds()
                     sdwdate.set_time_using_date()
 
-            message = sdwdate.message + '\nSleeping.'
+            message = sdwdate.message + '<br>Sleeping.'
             sdwdate.write_status(icon, message)
             sleep_time = 10
 
