@@ -112,12 +112,12 @@ class Sdwdate():
         status, time_one, time_two = timesanitycheck()
 
         if status == 'sane':
-            self.message = 'The clock is %s. Current time "%s"' % (status, time_one)
+            self.message = 'The clock is %s<br> Current time "%s"' % (status, time_one)
         elif status == 'slow':
-            self.message = ('The clock is %s. Current time "%s" is less than the build timestamp "%s"'
+            self.message = ('The clock is %s.<br> Current time "%s" is less than the build timestamp "%s"'
                 % (status, time_one, time_two))
         elif status == 'fast':
-            self.message = ('The clock is %s. Current time "%s" is greater than the expiration timestamp "%s"'
+            self.message = ('The clock is %s.<br> Current time "%s" is greater than the expiration timestamp "%s"'
                 % (status, time_one, time_two))
         return status
 
@@ -333,11 +333,11 @@ class Sdwdate():
                 if len(self.urls) == 0:
                     if retrying_loop:
                         retrying_loop = False
-                        self.message = 'No values returned from url_to_unixtime. Internet connection might be down.'
+                        self.message = 'No values returned from url_to_unixtime.<br> Internet connection might be down.'
                         return self.error_icon, 'error'
                     else:
                         retrying_loop = True
-                        self.message = 'No values returned from url_to_unixtime. Retrying...'
+                        self.message = 'No values returned from url_to_unixtime.<br> Retrying...'
                         return self.busy_icon, 'retry'
 
                 message = 'Returned urls "%s"' % (self.urls)
@@ -345,8 +345,8 @@ class Sdwdate():
                 logger.info(message)
 
             else:
-                self.message = ('Something is wrong. sdwdate loop could not build a list or urls.\n' +
-                                'Please report this bug')
+                self.message = ('Something is wrong. sdwdate loop could not build a list or urls.<br>'
+                                ' Please report this bug')
                 print(message)
                 return self.error_icon, 'error'
 
