@@ -455,22 +455,18 @@ if __name__ == "__main__":
 
         if status == 'success':
             sdwdate.build_median()
-
-            if sdwdate.success:
-                if sdwdate.set_new_time():
-                    sdwdate.add_subtract_nanoseconds()
+            sdwdate.add_subtract_nanoseconds()
+            if sdwdate.set_new_time():
+                if sdwdate.success:
                     sdwdate.run_sclockadj()
-            else:
-                if not sdwdate.first_success:
-                    f = open(sdwdate.first_success_path, 'w')
-                    f.close()
-                f = open(sdwdate.success_path, 'w')
+                else:
+                    sdwdate.set_time_using_date()
+            if not sdwdate.first_success:
+                f = open(sdwdate.first_success_path, 'w')
                 f.close()
 
-                if sdwdate.set_new_time():
-                    sdwdate.add_subtract_nanoseconds()
-                    sdwdate.set_time_using_date()
-
+            f = open(sdwdate.success_path, 'w')
+            f.close()
             message = sdwdate.message + '<br>Sleeping.'
             sdwdate.write_status(icon, message)
             sleep_time = 10
