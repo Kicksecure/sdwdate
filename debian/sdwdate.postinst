@@ -51,6 +51,8 @@ if [ -d /run/systemd/system ] ; then
 	systemd-tmpfiles --create /usr/lib/tmpfiles.d/sdwdate.conf >/dev/null || true
 fi
 
+service systemd-timesyncd stop >/dev/null 2>&1 || true
+
 true "INFO: debhelper beginning here."
 
 #DEBHELPER#
