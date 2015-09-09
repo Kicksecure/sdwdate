@@ -53,6 +53,8 @@ fi
 
 service systemd-timesyncd stop >/dev/null 2>&1 || true
 
+timedatectl set-ntp false >/dev/null 2>&1 || true
+
 true "INFO: debhelper beginning here."
 
 #DEBHELPER#
