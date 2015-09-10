@@ -10,15 +10,18 @@ def sort_pool(pool):
     number_of_pool_multi = 0
     for i in range(len(pool)):
         if pool[i] == ('['):
-            number_of_pool_multi = number_of_pool_multi + 1
+            number_of_pool_multi += 1
 
     ## Dynamically create multi-line lists.
-    multi_list = [[] for i in range(number_of_pool_multi)]
+    multi_list_url = [[] for i in range(number_of_pool_multi)]
+    multi_list_comment = [[] for i in range(number_of_pool_multi)]
 
     ## Sort...
     multi_line = False
     multi_index = 0
-    pool_single = []
+    pool_single_url = []
+    pool_single_comment = []
+
     for i in range(len(pool)):
         if multi_line and pool[i] == ']':
             multi_line = False
@@ -27,7 +30,10 @@ def sort_pool(pool):
         elif multi_line and pool[i].startswith('"'):
             url = re.search(r'"(.*)#', pool[i])
             if url != None:
-                multi_list[multi_index].append(url.group(1))
+                multi_list_url[multi_index].append(url.group(1))
+            comment = re.search(r'#(.*)"', pool[i])
+            if comment != None:
+                multi_list_comment[multi_index].append(comment.group(1))
 
         elif pool[i] == '[':
             multi_line = True
@@ -35,15 +41,21 @@ def sort_pool(pool):
         elif pool[i].startswith('"'):
             url = re.search(r'"(.*)#', pool[i])
             if url != None:
-                pool_single.append(url.group(1))
+                pool_single_url.append(url.group(1))
+            comment = re.search(r'#(.*)"', pool[i])
+            if comment != None:
+                pool_single_comment.append(comment.group(1))
 
     ## Pick a random url in each multi-line pool,
     ## append it to single url pool.
     for i in range(number_of_pool_multi):
-        single_url = multi_list[i][random.sample(range(len(multi_list[i])), 1)[0]]
-        pool_single.append(single_url)
+        single_ulr_index = random.sample(range(len(multi_list_url[i])), 1)[0]
+        single_url = multi_list_url[i][single_ulr_index]
+        single_comment = multi_list_comment[i][single_ulr_index]
+        pool_single_url.append(single_url)
+        pool_single_comment.append(single_comment)
 
-    return(pool_single)
+    return(pool_single_url, pool_single_comment)
 
 def read_pools():
     SDWDATE_POOL_ONE = False
@@ -54,9 +66,9 @@ def read_pools():
     pool_two = []
     pool_three = []
 
-    pool_one_sorted = []
-    pool_two_sorted = []
-    pool_three_sorted = []
+    pool_one_url = []
+    pool_two_url = []
+    pool_three_url = []
 
     if os.path.exists('/etc/sdwdate-python.d/'):
         files = sorted(glob.glob('/etc/sdwdate-python.d/*'))
@@ -99,15 +111,20 @@ def read_pools():
     else:
         print('User configuration folder "/etc/sdwdate.d" does not exist.')
 
-    pool_one_sorted = sort_pool(pool_one)
-    pool_two_sorted = sort_pool(pool_two)
-    pool_three_sorted = sort_pool(pool_three)
+    pool_one_url, pool_one_comment = sort_pool(pool_one)
+    pool_two_url , pool_two_comment = sort_pool(pool_two)
+    pool_three_url, pool_three_comment = sort_pool(pool_three)
 
-    pool_one_sorted = list(set(pool_one_sorted))
-    pool_two_sorted = list(set(pool_two_sorted))
-    pool_three_sorted = list(set(pool_three_sorted))
+    #pool_one_url = list(set(pool_one_url))
+    #pool_two_url = list(set(pool_two_url))
+    #pool_three_url = list(set(pool_three_url))
 
-    return(pool_one_sorted,  pool_two_sorted, pool_three_sorted)
+    return(pool_one_url,
+           pool_two_url,
+           pool_three_url,
+           pool_one_comment,
+           pool_two_comment,
+           pool_three_comment)
 
 if __name__ == "__main__":
     read_pools()

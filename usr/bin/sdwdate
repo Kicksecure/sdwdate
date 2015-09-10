@@ -17,13 +17,18 @@ from sdwdate.timesanitycheck import timesanitycheck
 
 class Sdwdate():
     def __init__(self):
-        self.pool_one, self.pool_two, self.pool_three = read_pools()
+        (self.pool_one_url,
+         self.pool_two_url,
+         self.pool_three_url,
+         self.pool_one_comment,
+         self.pool_two_comment,
+         self.pool_three_comment) = read_pools()
 
         self.iteration = 0
 
-        self.range_pool_one = len(self.pool_one)
-        self.range_pool_two = len(self.pool_two)
-        self.range_pool_three = len(self.pool_three)
+        self.range_pool_one = len(self.pool_one_url)
+        self.range_pool_two = len(self.pool_two_url)
+        self.range_pool_three = len(self.pool_three_url)
 
         self.number_of_pools = 3
 
@@ -107,6 +112,20 @@ class Sdwdate():
             print(message)
             logger.info(message)
             return False
+
+    def get_comment(self, remote):
+        ''' For logging the commnents, get the index of the url
+            to get it from pool_nnn_comment.
+        '''
+        pools_url = [self.pool_one_url, self.pool_two_url, self.pool_three_url]
+        pools_comment = [self.pool_one_comment, self.pool_two_comment, self.pool_three_comment]
+        for i in range(len(pools_url)):
+            try:
+                url_index = pools_url[i].index(remote)
+                url_comment = pools_comment[i][url_index]
+            except ValueError:
+                pass
+        return url_comment
 
     def time_sanity_check(self):
         status, time_one, time_two = timesanitycheck()
@@ -285,42 +304,42 @@ class Sdwdate():
                 while url_index not in self.already_picked_index_pool_one:
                     url_index = random.sample(range(self.range_pool_one), 1)
 
-                    if len(self.already_picked_index_pool_one) >= len(self.pool_one):
+                    if len(self.already_picked_index_pool_one) >= len(self.pool_one_url):
                         self.message = ' Time is not set: no valid time returned from pool one'
                         logger.warning(self.message)
                         return self.error_icon, 'error'
 
                     self.already_picked_index_pool_one.append(url_index)
-                    self.url_random_pool_one.append(self.pool_one[url_index[0]])
-                    self.url_random.append(self.pool_one[url_index[0]])
+                    self.url_random_pool_one.append(self.pool_one_url[url_index[0]])
+                    self.url_random.append(self.pool_one_url[url_index[0]])
 
             if not self.pool_two_done:
                 url_index = []
                 while url_index not in self.already_picked_index_pool_two:
                     url_index = random.sample(range(self.range_pool_two), 1)
 
-                    if len(self.already_picked_index_pool_two) >= len(self.pool_two):
+                    if len(self.already_picked_index_pool_two) >= len(self.pool_two_url):
                         self.message = ' Time is not set: no valid time returned from pool two'
                         logger.warning(self.message)
                         return self.error_icon, 'error'
 
                     self.already_picked_index_pool_two.append(url_index)
-                    self.url_random_pool_two.append(self.pool_two[url_index[0]])
-                    self.url_random.append(self.pool_two[url_index[0]])
+                    self.url_random_pool_two.append(self.pool_two_url[url_index[0]])
+                    self.url_random.append(self.pool_two_url[url_index[0]])
 
             if not self.pool_three_done:
                 url_index = []
                 while url_index not in self.already_picked_index_pool_three:
                     url_index = random.sample(range(self.range_pool_three), 1)
 
-                    if len(self.already_picked_index_pool_three) >= len(self.pool_three):
+                    if len(self.already_picked_index_pool_three) >= len(self.pool_three_url):
                         self.message = 'Time is not set: no valid time returned from pool three'
                         logger.warning(self.message)
                         return self.error_icon, 'error'
 
                     self.already_picked_index_pool_three.append(url_index)
-                    self.url_random_pool_three.append(self.pool_three[url_index[0]])
-                    self.url_random.append(self.pool_three[url_index[0]])
+                    self.url_random_pool_three.append(self.pool_three_url[url_index[0]])
+                    self.url_random.append(self.pool_three_url[url_index[0]])
 
             ## Fetch remotes.
             if len(self.url_random) > 0:
@@ -403,13 +422,19 @@ class Sdwdate():
                         print(message)
                         logger.info(message)
 
-        message = 'Valid urls %s' % (self.valid_urls)
-        print(message)
-        logger.info(message)
+        message = 'Valid urls:\n'
+        for i in range(len(self.valid_urls)):
+            url_comment = self.get_comment(self.valid_urls[i])
+            message = message + '%s: "%s"\n' % (self.valid_urls[i], url_comment)
+        print(message.strip())
+        logger.info(message.strip())
 
-        message = 'Bad urls %s' % (self.invalid_urls)
-        print(message)
-        logger.info(message)
+        message = 'Bad urls:\n'
+        for i in range(len(self.invalid_urls)):
+            url_comment = self.get_comment(self.invalid_urls[i])
+            message = message + '%s: "%s"\n' % (self.invalid_urls[i], url_comment)
+        print(message.strip())
+        logger.info(message.strip())
 
         message = 'Fetching remote times, end %s' % (time.time())
         print(message)
