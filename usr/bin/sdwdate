@@ -164,7 +164,7 @@ class Sdwdate():
 
     def add_subtract_nanoseconds(self):
         '''
-        Could we replace this in sdwdate_loop pool_diff calcuations?
+        Could we replace this in sdwdate_loop pool_diff calculations?
         -> int(web_time) - old_unixtime
         '''
         signs = ['+', '-']
