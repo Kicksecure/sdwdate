@@ -47,6 +47,12 @@ def unixtime_sanity_check(data, http_time, parsed_unixtime, url):
         unix_times.append(error)
         return
 
+    if unixtime_string_length_is < unixtime_string_length_max:
+        error = 'parsed_unixtime string length too short'
+        urls.append(url)
+        unix_times.append(error)
+        return
+
     urls.append(url)
     unix_times.append(parsed_unixtime)
 
@@ -70,6 +76,7 @@ def http_time_to_parsed_unixtime(data, http_time, url):
     ## Tests #################################
     #parsed_unixtime = '%sA' % parsed_unixtime
     #parsed_unixtime = '%s1' % parsed_unixtime
+    #parsed_unixtime = parsed_unixtime[:9]
     ##########################################
     unixtime_sanity_check(data, http_time, parsed_unixtime, url)
 
