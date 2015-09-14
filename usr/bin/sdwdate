@@ -10,7 +10,7 @@ from random import randint
 from subprocess import Popen, call, PIPE, check_output
 import pickle
 
-from sdwdate.url_to_unixtime import url_to_unixtime
+from sdwdate.remote_times import get_time_from_servers
 from sdwdate.config import read_pools
 from sdwdate.timesanitycheck import timesanitycheck
 
@@ -347,12 +347,12 @@ class Sdwdate():
                 print(message)
                 logger.info(message)
 
-                self.urls, self.returned_values = url_to_unixtime(self.url_random)
+                self.urls, self.returned_values = get_time_from_servers(self.url_random)
 
                 if len(self.urls) == 0:
                     if retrying_loop:
                         retrying_loop = False
-                        self.message = 'No values returned from url_to_unixtime.<br> Internet connection might be down.'
+                        self.message = 'No values returned from servers.<br> Internet connection might be down.'
                         return self.error_icon, 'error'
                     else:
                         retrying_loop = True
