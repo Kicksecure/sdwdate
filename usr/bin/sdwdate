@@ -9,6 +9,7 @@ import random
 from random import randint
 from subprocess import Popen, call, PIPE, check_output
 import pickle
+import re
 
 from sdwdate.remote_times import get_time_from_servers
 from sdwdate.config import read_pools
@@ -441,7 +442,7 @@ class Sdwdate():
         logger.info(message)
 
         last_shell_date = check_output('date').strip()
-        self.message = 'Last run (on ' + last_shell_date + ') was successful.'
+        self.message = 'Last run (on ' + last_shell_date + ') was successful'
         retrying_loop = False
         return self.success_icon, 'success'
 
@@ -492,26 +493,29 @@ if __name__ == "__main__":
 
             f = open(sdwdate.success_path, 'w')
             f.close()
-            message = sdwdate.message + '<br>Sleeping.'
-            sdwdate.write_status(icon, message)
             sleep_time = 10
+            log_level = 'info'
 
         elif status == 'retry':
-            logger.warning(sdwdate.message)
-            print(sdwdate.message)
-            sdwdate.write_status(icon, sdwdate.message)
-            #print icon
             sleep_time = 0.1
+            log_level = 'warning'
 
         elif status == 'error':
-            logger.warning(sdwdate.message)
-            print(sdwdate.message)
-            sdwdate.write_status(icon, sdwdate.message)
             sleep_time = 10
+            log_level = 'warning'
 
-        message = 'Sleeping for %s minutes' % (sleep_time)
-        print(message)
-        logger.info(message)
+        message = '%s.<br> Sleeping for %s minutes.' % (sdwdate.message, sleep_time)
+        stripped_message = re.sub('<[^<]+?>', '', message)
+
+        sdwdate.write_status(icon, message)
+
+        if log_level == 'info':
+            logger.info(stripped_message)
+        elif log_level == 'warning':
+            logger.warning(stripped_message)
+
+        print(stripped_message)
+
         time.sleep(sleep_time * 60)
         if sdwdate.sclockadj_pid != 0:
             sdwdate.kill_sclockadj()
