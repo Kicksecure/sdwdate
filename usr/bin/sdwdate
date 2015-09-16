@@ -132,7 +132,7 @@ class Sdwdate():
         status, time_one, time_two = timesanitycheck()
 
         if status == 'sane':
-            self.message = 'The clock is %s<br> Current time "%s"' % (status, time_one)
+            self.message = 'The clock is %s. Current time "%s".' % (status, time_one)
         elif status == 'slow':
             self.message = ('The clock is %s.<br> Current time [%s] is less than the build timestamp [%s]'
                 % (status, time_one, time_two))
@@ -274,6 +274,7 @@ class Sdwdate():
             print self.message
             logger.info(self.message)
         else:
+            stripped_message = re.sub('<[^<]+?>', '', self.message)
             print self.message
             return self.error_icon, 'error'
 
