@@ -5,6 +5,7 @@ import logging
 import signal
 import os
 import time
+from datetime import datetime
 import random
 from random import randint
 from subprocess import Popen, call, PIPE, check_output
@@ -394,9 +395,13 @@ class Sdwdate():
                         ## Values are returned randomly. Get the index of the url.
                         index = self.valid_urls.index(valid_url)
                         ## Pool matching web time.
-                        web_time = self.unixtimes[index]
-                        self.pools_diff.append(int(web_time) - int(old_unixtime))
-                        message = 'Pool one: last_url %s, web_time %s' % (valid_url, web_time)
+                        web_unixtime = int(self.unixtimes[index])
+                        web_time = (datetime.strftime(datetime.fromtimestamp(web_unixtime),
+                                                      '%a %b %d %H:%M:%S UTC %Y'))
+                        pool_one_diff = int(web_unixtime) - int(old_unixtime)
+                        self.pools_diff.append(pool_one_diff)
+                        message = ('Pool one: last url: %s, web unixtime: %s, web time: %s, diff: %s seconds'
+                                   % (valid_url, web_unixtime, web_time, pool_one_diff))
                         print(message)
                         logger.info(message)
 
@@ -406,9 +411,13 @@ class Sdwdate():
                     if self.pool_two_done:
                         valid_url = self.url_random_pool_two[i]
                         index = self.valid_urls.index(valid_url)
-                        web_time = self.unixtimes[index]
-                        self.pools_diff.append(int(web_time) - int(old_unixtime))
-                        message = 'Pool two: last_url %s, web_time %s' % (valid_url, web_time)
+                        web_unixtime = int(self.unixtimes[index])
+                        web_time = (datetime.strftime(datetime.fromtimestamp(web_unixtime),
+                                                      '%a %b %d %H:%M:%S UTC %Y'))
+                        pool_two_diff = int(web_unixtime) - int(old_unixtime)
+                        self.pools_diff.append(int(web_unixtime) - int(old_unixtime))
+                        message = ('Pool two: last url: %s, web unixtime: %s, web time: %s, diff: %s seconds'
+                                   % (valid_url, web_unixtime, web_time, pool_two_diff))
                         print(message)
                         logger.info(message)
 
@@ -418,9 +427,13 @@ class Sdwdate():
                     if self.pool_three_done:
                         valid_url = self.url_random_pool_three[i]
                         index = self.valid_urls.index(valid_url)
-                        web_time = self.unixtimes[index]
-                        self.pools_diff.append(int(web_time) - int(old_unixtime))
-                        message = 'Pool three: last_url %s, web_time %s' % (valid_url, web_time)
+                        web_unixtime = int(self.unixtimes[index])
+                        web_time = (datetime.strftime(datetime.fromtimestamp(web_unixtime),
+                                                      '%a %b %d %H:%M:%S UTC %Y'))
+                        pool_three_diff = int(web_unixtime) - int(old_unixtime)
+                        self.pools_diff.append(int(web_unixtime) - int(old_unixtime))
+                        message = ('Pool three: last url: %s, web unixtime: %s, web time: %s, diff: %s seconds'
+                                   % (valid_url, web_unixtime, web_time, pool_three_diff))
                         print(message)
                         logger.info(message)
 
