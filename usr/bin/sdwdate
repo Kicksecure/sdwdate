@@ -80,10 +80,6 @@ class Sdwdate():
 
         self.message = ''
 
-        message = 'Fetching remote times, start %s' % (time.time())
-        print(message)
-        logger.info(message)
-
     def general_proxy_error(self, pools):
         '''
         This error occurs (at least) when Tor is not running.
@@ -270,6 +266,14 @@ class Sdwdate():
         Append valid urls if time is returned, otherwise restart a cycle
         with a new random url, until every pool has a time value.
         '''
+        start_unixtime = time.time()
+        start_time = (datetime.strftime(datetime.fromtimestamp(start_unixtime),
+                                        '%a %b %d %H:%M:%S UTC %Y'))
+        message = ('Fetching remote times, start %s (unixtime %s)'
+                   % (start_time, start_unixtime))
+        print(message)
+        logger.info(message)
+
         time_sanity_check = self.time_sanity_check()
         if time_sanity_check == 'sane':
             print self.message
@@ -451,7 +455,11 @@ class Sdwdate():
         print(message.strip())
         logger.info(message.strip())
 
-        message = 'Fetching remote times, end %s' % (time.time())
+        end_unixtime = time.time()
+        end_time = (datetime.strftime(datetime.fromtimestamp(start_unixtime),
+                                        '%a %b %d %H:%M:%S UTC %Y'))
+        message = ('Fetching remote times, end %s (unixtime %s)'
+                   % (end_time, end_unixtime))
         print(message)
         logger.info(message)
 
