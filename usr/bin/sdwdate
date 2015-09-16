@@ -215,7 +215,7 @@ class Sdwdate():
         sclockadj = Popen(cmd)
         self.sclockadj_pid = sclockadj.pid
 
-        message = 'Running sclockaj, PID=%s' % (self.sclockadj_pid)
+        message = 'Gradually adjusting the time by running sclockaj, PID=%s' % (self.sclockadj_pid)
         print(message)
         logger.info(message)
 
@@ -235,10 +235,6 @@ class Sdwdate():
         call(cmd, shell=True)
 
     def set_time_using_date(self):
-        message = 'Setting time using date.'
-        print(message)
-        logger.info(message)
-
         old_unixtime = float('%.9f' % (time.time()))
         message = 'Old unixttime: %s' % (str(old_unixtime))
         print(message)
@@ -252,6 +248,10 @@ class Sdwdate():
         ## Set new time.
         cmd = 'sudo /bin/date --set @' + str(new_unixtime)
         call(cmd, shell=True)
+
+        message = 'Instantly setting the time by using command "%s"' % cmd
+        print(message)
+        logger.info(message)
 
     def write_status(self, *args):
         self.status['icon'] = args[0]
