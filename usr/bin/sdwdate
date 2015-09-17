@@ -215,7 +215,7 @@ class Sdwdate():
         sclockadj = Popen(cmd)
         self.sclockadj_pid = sclockadj.pid
 
-        message = 'Gradually adjusting the time by running sclockaj, PID=%s' % (self.sclockadj_pid)
+        message = 'Gradually adjusting the time by running sclockadj, PID=%s' % (self.sclockadj_pid)
         print(message)
         logger.info(message)
 
