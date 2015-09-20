@@ -292,44 +292,21 @@ class Sdwdate():
             self.urls[:] = []
             self.url_random[:] = []
 
-            if not self.pool_one_done:
-                url_index = []
-                url_index = random.sample(range(self.range_pool_one), 1)
+            for pool in self.pools:
+                if not pool.done:
+                    url_index = random.randrange(0, pool.url_range)
 
-                if len(self.already_picked_index_pool_one) >= len(self.pool_one_url):
-                    self.message = ' Time is not set: no valid time returned from pool one'
-                    logger.warning(self.message)
-                    return self.error_icon, 'error'
+                    if len(pool.already_picked_index) >= len(pool.pool_url):
+                        self.message = ' Time is not set: no valid time returned from pool one'
+                        logger.warning(self.message)
+                        return self.error_icon, 'error'
 
-                self.already_picked_index_pool_one.append(url_index)
-                self.url_random_pool_one.append(self.pool_one_url[url_index[0]])
-                self.url_random.append(self.pool_one_url[url_index[0]])
+                    pool.already_picked_index.append(url_index)
+                    pool.url_random.append(pool.pool_url[url_index])
+                    self.url_random.append(pool.pool_url[url_index])
 
-            if not self.pool_two_done:
-                url_index = []
-                url_index = random.sample(range(self.range_pool_two), 1)
-
-                if len(self.already_picked_index_pool_two) >= len(self.pool_two_url):
-                    self.message = ' Time is not set: no valid time returned from pool two'
-                    logger.warning(self.message)
-                    return self.error_icon, 'error'
-
-                self.already_picked_index_pool_two.append(url_index)
-                self.url_random_pool_two.append(self.pool_two_url[url_index[0]])
-                self.url_random.append(self.pool_two_url[url_index[0]])
-
-            if not self.pool_three_done:
-                url_index = []
-                url_index = random.sample(range(self.range_pool_three), 1)
-
-                if len(self.already_picked_index_pool_three) >= len(self.pool_three_url):
-                    self.message = 'Time is not set: no valid time returned from pool three'
-                    logger.warning(self.message)
-                    return self.error_icon, 'error'
-
-                self.already_picked_index_pool_three.append(url_index)
-                self.url_random_pool_three.append(self.pool_three_url[url_index[0]])
-                self.url_random.append(self.pool_three_url[url_index[0]])
+            print self.url_random
+            sys.exit()
 
             ## Fetch remotes.
             if len(self.url_random) > 0:
