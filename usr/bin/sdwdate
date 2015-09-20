@@ -16,6 +16,17 @@ from sdwdate.remote_times import get_time_from_servers
 from sdwdate.config import read_pools
 from sdwdate.timesanitycheck import timesanitycheck
 
+class Pool:
+    def __init__(self, pool):
+        self.pool_url, self.pool_comment = read_pools(pool)
+        self.url_random = []
+        self.already_picked_index = []
+        self.done = False
+
+    @property
+    def url_range(self):
+        return len(self.pool_url)
+
 
 class Sdwdate():
     def __init__(self):
