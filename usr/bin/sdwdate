@@ -348,10 +348,10 @@ class Sdwdate():
 
             for pool in self.pools:
                 if not pool.done:
-                    for url_random in pool.url_random:
-                        pool.done = url_random in self.valid_urls
+                    for url in pool.url_random:
+                        pool.done = url in self.valid_urls
                         if pool.done:
-                            valid_url = url_random
+                            valid_url = url
                             ## Values are returned randomly. Get the index of the url.
                             index = self.valid_urls.index(valid_url)
                             ## Pool matching web time.
