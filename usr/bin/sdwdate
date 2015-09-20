@@ -99,14 +99,12 @@ class Sdwdate():
 
     def get_comment(self, remote):
         ''' For logging the commnents, get the index of the url
-            to get it from pool_nnn_comment.
+            to get it from pool.comment.
         '''
-        pools_url = [self.pool_one_url, self.pool_two_url, self.pool_three_url]
-        pools_comment = [self.pool_one_comment, self.pool_two_comment, self.pool_three_comment]
-        for i in range(len(pools_url)):
+        for url in self.pools:
             try:
-                url_index = pools_url[i].index(remote)
-                url_comment = pools_comment[i][url_index]
+                url_index = url.pool_url.index(remote)
+                url_comment = url.pool_comment[url_index]
             except ValueError:
                 pass
         return url_comment
@@ -366,8 +364,6 @@ class Sdwdate():
                                     % (valid_url, web_unixtime, web_time, pool_diff))
                             print(message)
                             logger.info(message)
-
-            sys.exit()
 
         message = 'Reachable urls:\n'
         for i in range(len(self.valid_urls)):
