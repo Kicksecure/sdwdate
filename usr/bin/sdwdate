@@ -366,16 +366,16 @@ class Sdwdate():
                             logger.info(message)
 
         message = 'Reachable urls:\n'
-        for i in range(len(self.valid_urls)):
-            url_comment = self.get_comment(self.valid_urls[i])
-            message = message + '%s: "%s"\n' % (self.valid_urls[i], url_comment)
+        for url in self.valid_urls:
+            url_comment = self.get_comment(url)
+            message = message + '%s: "%s"\n' % (url, url_comment)
         print(message.strip())
         logger.info(message.strip())
 
         message = 'Unreachable urls:\n'
-        for i in range(len(self.invalid_urls)):
-            url_comment = self.get_comment(self.invalid_urls[i])
-            message = message + '%s: "%s"\n' % (self.invalid_urls[i], url_comment)
+        for url in self.invalid_urls:
+            url_comment = self.get_comment(url)
+            message = message + '%s: "%s"\n' % (url, url_comment)
         print(message.strip())
         logger.info(message.strip())
 
