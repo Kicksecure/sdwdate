@@ -30,40 +30,15 @@ class Pool:
 
 class Sdwdate():
     def __init__(self):
-        (self.pool_one_url,
-         self.pool_two_url,
-         self.pool_three_url,
-         self.pool_one_comment,
-         self.pool_two_comment,
-         self.pool_three_comment) = read_pools()
-
         self.iteration = 0
-
-        self.range_pool_one = len(self.pool_one_url)
-        self.range_pool_two = len(self.pool_two_url)
-        self.range_pool_three = len(self.pool_three_url)
-
         self.number_of_pools = 3
 
-        self.pool_one_done = False
-        self.pool_two_done = False
-        self.pool_three_done = False
-
-        self.already_picked_index_pool_one = []
-        self.already_picked_index_pool_two = []
-        self.already_picked_index_pool_three = []
-
+        self.pools = [Pool(pool) for pool in range(self.number_of_pools)]
         self.urls = []
         self.url_random = []
-
-        self.url_random_pool_one = []
-        self.url_random_pool_two = []
-        self.url_random_pool_three = []
-
         self.valid_urls = []
         self.unixtimes = []
         self.pools_diff = []
-
         self.invalid_urls = []
         self.url_errors = []
 
