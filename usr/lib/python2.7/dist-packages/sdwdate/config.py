@@ -57,7 +57,7 @@ def sort_pool(pool):
 
     return(pool_single_url, pool_single_comment)
 
-def read_pools():
+def read_pools(pool):
     SDWDATE_POOL_ONE = False
     SDWDATE_POOL_TWO = False
     SDWDATE_POOL_THREE = False
@@ -115,16 +115,12 @@ def read_pools():
     pool_two_url , pool_two_comment = sort_pool(pool_two)
     pool_three_url, pool_three_comment = sort_pool(pool_three)
 
-    #pool_one_url = list(set(pool_one_url))
-    #pool_two_url = list(set(pool_two_url))
-    #pool_three_url = list(set(pool_three_url))
+    pool_url = [pool_one_url, pool_two_url, pool_three_url]
+    pool_comment = [pool_one_comment, pool_two_comment, pool_three_comment]
 
-    return(pool_one_url,
-           pool_two_url,
-           pool_three_url,
-           pool_one_comment,
-           pool_two_comment,
-           pool_three_comment)
+    return(pool_url[pool],
+           pool_comment[pool])
+
 
 if __name__ == "__main__":
     read_pools()
