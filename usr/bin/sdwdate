@@ -18,14 +18,14 @@ from sdwdate.timesanitycheck import timesanitycheck
 
 class Pool:
     def __init__(self, pool):
-        self.pool_url, self.pool_comment = read_pools(pool)
+        self.url, self.comment = read_pools(pool)
         self.url_random = []
         self.already_picked_index = []
         self.done = False
 
     @property
     def url_range(self):
-        return len(self.pool_url)
+        return len(self.url)
 
 
 class Sdwdate():
@@ -103,8 +103,8 @@ class Sdwdate():
         '''
         for url in self.pools:
             try:
-                url_index = url.pool_url.index(remote)
-                url_comment = url.pool_comment[url_index]
+                url_index = url.url.index(remote)
+                url_comment = url.comment[url_index]
             except ValueError:
                 pass
         return url_comment
@@ -294,14 +294,14 @@ class Sdwdate():
                 if not pool.done:
                     url_index = random.randrange(0, pool.url_range)
 
-                    if len(pool.already_picked_index) >= len(pool.pool_url):
+                    if len(pool.already_picked_index) >= len(pool.url):
                         self.message = ' Time is not set: no valid time returned from pool one'
                         logger.warning(self.message)
                         return self.error_icon, 'error'
 
                     pool.already_picked_index.append(url_index)
-                    pool.url_random.append(pool.pool_url[url_index])
-                    self.url_random.append(pool.pool_url[url_index])
+                    pool.url_random.append(pool.url[url_index])
+                    self.url_random.append(pool.url[url_index])
 
             ## Fetch remotes.
             if len(self.url_random) > 0:
