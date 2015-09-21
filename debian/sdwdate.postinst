@@ -53,9 +53,11 @@ fi
 
 service systemd-timesyncd stop >/dev/null 2>&1 || true
 
-## Deletes /etc/system/sysinit.target.wants/systemd-timesyncd.service.
+## Deletes /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service.
 ## Otherwise timedatectl still thinks systemd-timesyncd is enabled.
 timedatectl set-ntp false >/dev/null 2>&1 || true
+## Make sure it gets really deleted even if timedatectl does not work.
+rm --force /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service
 
 true "INFO: debhelper beginning here."
 
