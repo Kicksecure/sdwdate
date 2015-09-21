@@ -82,6 +82,22 @@ class Sdwdate():
             return True
         return False
 
+    def general_timeout_error(self, pools):
+        '''
+        This error occurs (at least) when internet connection is down.
+        '''
+        returned_error = 'Timeout'
+        try:
+            if (pools[0] == returned_error and
+                pools[1] == returned_error and
+                pools[2] == returned_error):
+                    return True
+        # If tor is stopping during a cycle, some urls are not returned,
+        # raising an error.
+        except IndexError:
+            return True
+        return False
+
     def check_remote(self, remote, value):
         '''
         Check returned value. True if numeric.
@@ -337,6 +353,11 @@ class Sdwdate():
 
             if self.general_proxy_error(self.returned_values):
                 self.message = 'General Proxy Error. Is Tor running?'
+                print(message)
+                return self.error_icon, 'error'
+
+            if self.general_timeout_error(self.returned_values):
+                self.message = 'General Timeout Error. Internet might be down'
                 print(message)
                 return self.error_icon, 'error'
 
