@@ -292,10 +292,13 @@ class Sdwdate():
 
             for pool in self.pools:
                 if not pool.done:
-                    url_index = random.randrange(0, pool.url_range)
+                    pool_range = pool.url_range
+                    url_index = random.randrange(0, pool_range)
 
-                    if len(pool.already_picked_index) >= len(pool.url):
-                        self.message = ' Time is not set: no valid time returned from pool one'
+                    if len(pool.already_picked_index) >= pool_range:
+                        pool_number = self.pools.index(pool) + 1
+                        self.message = (' Time is not set: no valid time returned from pool %s'
+                                        % (pool_number))
                         logger.warning(self.message)
                         return self.error_icon, 'error'
 
