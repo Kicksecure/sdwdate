@@ -284,13 +284,8 @@ class Sdwdate():
             print self.message
             return self.error_icon, 'error'
 
-        global retrying_loop
-
         if self.success:
-            if not retrying_loop:
-                ## Update tool tip.
-                ## Update icon after SIGTERM.
-                self.write_status(self.success_icon, 'Fetching remote times...')
+            self.write_status(self.success_icon, 'Fetching remote times...')
         else:
             if not self.first_success:
                 self.write_status(self.busy_icon, 'No internet. Fetching remote times...')
@@ -332,14 +327,9 @@ class Sdwdate():
                 self.urls, self.returned_values = get_time_from_servers(self.url_random)
 
                 if len(self.urls) == 0:
-                    if retrying_loop:
-                        retrying_loop = False
-                        self.message = 'No values returned from servers.<br> Internet connection might be down.'
-                        return self.error_icon, 'error'
-                    else:
-                        retrying_loop = True
-                        self.message = 'No values returned from url_to_unixtime.<br> Retrying...'
-                        return self.busy_icon, 'retry'
+                    self.message = 'No values returned from servers.<br> Please report this bug.'
+                    print message
+                    return self.error_icon, 'error'
 
                 message = 'Returned urls "%s"' % (self.urls)
                 print(message)
@@ -467,10 +457,6 @@ if __name__ == "__main__":
             f.close()
             sleep_time = 10
             log_level = 'info'
-
-        elif status == 'retry':
-            sleep_time = 0.1
-            log_level = 'warning'
 
         elif status == 'error':
             sleep_time = 10
