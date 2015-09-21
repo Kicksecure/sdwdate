@@ -70,10 +70,11 @@ class Sdwdate():
         '''
         This error occurs (at least) when Tor is not running.
         '''
+        returned_error = 'connect error: Connection closed unexpectedly'
         try:
-            if (pools[0] == 'Connection closed unexpectedly' and
-                pools[1] == 'Connection closed unexpectedly' and
-                pools[2] == 'Connection closed unexpectedly'):
+            if (pools[0] == returned_error and
+                pools[1] == returned_error and
+                pools[2] == returned_error):
                     return True
         # If tor is stopping during a cycle, some urls are not returned,
         # raising an error.
@@ -334,18 +335,18 @@ class Sdwdate():
                 print(message)
                 return self.error_icon, 'error'
 
-            if not self.general_proxy_error(self.returned_values):
-                for i in range(len(self.urls)):
-                    if self.check_remote(self.urls[i], self.returned_values[i]):
-                        self.valid_urls.append(self.urls[i])
-                        self.unixtimes.append(self.returned_values[i])
-                    else:
-                        self.invalid_urls.append(self.urls[i])
-                        self.url_errors.append(self.returned_values[i])
-            else:
+            if self.general_proxy_error(self.returned_values):
                 self.message = 'General Proxy Error. Is Tor running?'
                 print(message)
                 return self.error_icon, 'error'
+
+            for i in range(len(self.urls)):
+                if self.check_remote(self.urls[i], self.returned_values[i]):
+                    self.valid_urls.append(self.urls[i])
+                    self.unixtimes.append(self.returned_values[i])
+                else:
+                    self.invalid_urls.append(self.urls[i])
+                    self.url_errors.append(self.returned_values[i])
 
             old_unixtime = (time.time())
 
