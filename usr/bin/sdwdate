@@ -304,19 +304,21 @@ class Sdwdate():
 
             for pool in self.pools:
                 if not pool.done:
-                    pool_range = pool.url_range
-                    url_index = random.randrange(0, pool_range)
+                    url_index = 0
+                    while url_index not in pool.already_picked_index:
+                        pool_range = pool.url_range
+                        url_index = random.randrange(0, pool_range)
 
-                    if len(pool.already_picked_index) >= pool_range:
-                        pool_number = self.pools.index(pool) + 1
-                        self.message = (' Time is not set: no valid time returned from pool %s'
-                                        % (pool_number))
-                        logger.warning(self.message)
-                        return self.error_icon, 'error'
+                        if len(pool.already_picked_index) >= pool_range:
+                            pool_number = self.pools.index(pool) + 1
+                            self.message = (' Time is not set: no valid time returned from pool %s'
+                                            % (pool_number))
+                            logger.warning(self.message)
+                            return self.error_icon, 'error'
 
-                    pool.already_picked_index.append(url_index)
-                    pool.url_random.append(pool.url[url_index])
-                    self.url_random.append(pool.url[url_index])
+                        pool.already_picked_index.append(url_index)
+                        pool.url_random.append(pool.url[url_index])
+                        self.url_random.append(pool.url[url_index])
 
             ## Fetch remotes.
             if len(self.url_random) > 0:
@@ -377,7 +379,7 @@ class Sdwdate():
                             self.pools_diff.append(pool_diff)
                             pool_number = self.pools.index(pool) + 1
                             message = ('Pool %s last url: %s, web unixtime: %s, web time: %s, diff: %s seconds'
-                                       % (pool_number, valid_url, web_unixtime, web_time, pool_diff))
+                                    % (pool_number, valid_url, web_unixtime, web_time, pool_diff))
                             print(message)
                             logger.info(message)
 
