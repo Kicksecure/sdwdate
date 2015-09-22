@@ -51,8 +51,6 @@ if [ -d /run/systemd/system ] ; then
 	systemd-tmpfiles --create /usr/lib/tmpfiles.d/sdwdate.conf >/dev/null || true
 fi
 
-service systemd-timesyncd stop >/dev/null 2>&1 || true
-
 ## Deletes /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service.
 ## Otherwise timedatectl still thinks systemd-timesyncd is enabled.
 timedatectl set-ntp false >/dev/null 2>&1 || true

@@ -9,6 +9,7 @@ After=network.target
 Wants=rinetd.service
 Wants=bootclockrandomization.service
 Wants=tor.service
+Conflicts=systemd-timesyncd.service
 
 [Service]
 Type=simple
