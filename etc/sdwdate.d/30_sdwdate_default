@@ -315,7 +315,7 @@ SDWDATE_POOL_THREE=(
             yfm6sdhnfbulplsw.onion#labs.riseup.net:  yfm6sdhnfbulplsw.onion (port 80, 443)
             xpgylzydxykgdqyg.onion#lists.riseup.net: xpgylzydxykgdqyg.onion (port 80, 443)
             zsolxunfmbfuq7wf.onion#mail.riseup.net:  zsolxunfmbfuq7wf.onion (ports 443, 465, 587)
-            5jp7xtmox6jyoqd5:443#pad.riseup.net:   5jp7xtmox6jyoqd5.onion (port 443) (note: only works with https://5jp7xtmox6jyoqd5.onion)
+            5jp7xtmox6jyoqd5.onion:443#pad.riseup.net:   5jp7xtmox6jyoqd5.onion (port 443) (note: only works with https://5jp7xtmox6jyoqd5.onion)
             zsolxunfmbfuq7wf.onion#pop.riseup.net:   zsolxunfmbfuq7wf.onion (port 995)
             zsolxunfmbfuq7wf.onion#smtp.riseup.net:  zsolxunfmbfuq7wf.onion (ports 465, 587)
             j6uhdvbhz74oefxf.onion#user.riseup.net:  j6uhdvbhz74oefxf.onion (port 80, 443)
