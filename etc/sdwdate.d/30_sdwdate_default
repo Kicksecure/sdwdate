@@ -250,6 +250,9 @@ SDWDATE_POOL_ONE=(
          "vbmwh445kf3fs2v4.onion#The Washington Post	https://ssl.washingtonpost.com/securedrop	vbmwh445kf3fs2v4.onion"
          "poulsensqiv6ocq4.onion#Wired's Kevin Poulsen	https://pressfreedomfoundation.org/about/tech/kevin-poulsen	poulsensqiv6ocq4.onion"
          "tigas3l7uusztiqu.onion#https://mike.tig.as tinkerer at ProPublica in New York"
+         "gawker5oxtsc6fa7.onion#Gawker Media https://gawkermediagroup.com/securedrop"
+         "n572ltkg4nld3bsz.onion#The Globe and Mail https://sec.theglobeandmail.com/securedrop"
+         "udrciweihl4qe63p.onion#NEOSleaks https://neos.eu/leaks/"
 )
 
 ## pool two.
@@ -324,4 +327,6 @@ SDWDATE_POOL_THREE=(
          "timaq4ygg2iegci7.onion#https://github.com/meejah/txtorcon http://txtorcon.readthedocs.org"
          "344c6kbnjnljjzlz.onion#VFEmail https://www.vfemail.net"
          "fncuwbiisyh6ak3i.onion#https://keybase.io/docs/command_line/tor"
+         "wlchatc3pjwpli5r.onion#https://twitter.com/wikileaks/status/590907709387624450"
+         "nodd5fyasyj4jqgp.onion#http://www.thesun.co.uk/sol/homepage/news/6429126/The-Sun-Whistleblower-Charter.html"
 )
