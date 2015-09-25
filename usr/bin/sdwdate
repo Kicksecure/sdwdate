@@ -437,6 +437,11 @@ if __name__ == "__main__":
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
+    self_pid = os.getpid()
+    pid_message = 'sdwdate started. PID %s' % self_pid
+    print pid_message
+    logger.info(pid_message)
+
     while True:
         sdwdate = Sdwdate()
         icon, status = sdwdate.sdwdate_loop()
