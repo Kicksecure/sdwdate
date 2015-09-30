@@ -76,7 +76,7 @@ class Sdwdate():
                 pools[1] == returned_error and
                 pools[2] == returned_error):
                     return True
-        # If tor is stopping during a cycle, some urls are not returned,
+        # If tor stops during a cycle, some urls are not returned,
         # raising an error.
         except IndexError:
             return True
@@ -92,8 +92,8 @@ class Sdwdate():
                 pools[1] == returned_error and
                 pools[2] == returned_error):
                     return True
-        # If tor is stopping during a cycle, some urls are not returned,
-        # raising an error.
+        # If internet disconnects during a cycle, some urls are
+        # not returned, raising an error.
         except IndexError:
             return True
         return False
