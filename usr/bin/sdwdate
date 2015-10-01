@@ -16,6 +16,9 @@ from sdwdate.remote_times import get_time_from_servers
 from sdwdate.config import read_pools
 from sdwdate.timesanitycheck import timesanitycheck
 
+from guimessages.translations import _translations
+
+
 class Pool:
     def __init__(self, pool):
         self.url, self.comment = read_pools(pool)
@@ -63,8 +66,11 @@ class Sdwdate():
         self.success = os.path.exists(self.success_path)
 
         self.status = {'icon' : '', 'message' : ''}
-
         self.message = ''
+
+        translations_path ='/usr/share/translations/sdwdate.yaml'
+        translation = _translations(translations_path, 'sdwdate')
+        self._ = translation.gettext
 
     def general_proxy_error(self, pools):
         '''
@@ -130,13 +136,14 @@ class Sdwdate():
         status, time_one, time_two = timesanitycheck()
 
         if status == 'sane':
-            self.message = 'The clock is %s. Current time "%s".' % (status, time_one)
+            self.message = (self._('tsc_1') + status + self._('tsc_2') + time_one)
+            #'The clock is %s. Current time "%s".' % (status, time_one)
         elif status == 'slow':
-            self.message = ('The clock is %s.<br> Current time [%s] is less than the build timestamp [%s]'
-                % (status, time_one, time_two))
+            self.message = (self._('tsc_1') + status + self._('tsc_2') + time_one
+                            + self._('slow_clock') + time_two) + self._('cause')
         elif status == 'fast':
-            self.message = ('The clock is %s.<br> Current time [%s] is greater than the expiration timestamp [%s]'
-                % (status, time_one, time_two))
+            self.message = (self._('tsc_1') + status + self._('tsc_2') + time_one
+                            + self._('fast_clock') + time_two)+ self._('cause')
         return status
 
     def build_median(self):
@@ -254,6 +261,12 @@ class Sdwdate():
         print(message)
         logger.info(message)
 
+    def strip_html(self, message):
+        ## New line for log.
+        tmp_message = re.sub('<br>', '\n', message)
+        ## Strip rmaining HTML.
+        return(re.sub('<[^<]+?>', '', tmp_message))
+
     def write_status(self, *args):
         self.status['icon'] = args[0]
         self.status['message'] = args[1]
@@ -276,21 +289,28 @@ class Sdwdate():
         logger.info(message)
 
         time_sanity_check = self.time_sanity_check()
+        stripped_message = self.strip_html(self.message)
+        print stripped_message
+
         if time_sanity_check == 'sane':
-            print self.message
-            logger.info(self.message)
+            logger.info(stripped_message)
         else:
-            stripped_message = re.sub('<[^<]+?>', '', self.message)
-            print self.message
             return self.error_icon, 'error'
 
+        fetching_msg = self._('fetching')
+        restricted_msg = self._('restricted')
+        print restricted_msg
+        print fetching_msg
         if self.success:
-            self.write_status(self.success_icon, 'Fetching remote times...')
+            self.write_status(self.success_icon, fetching_msg)
+            logger.info(fetching_msg)
         else:
             if not self.first_success:
-                self.write_status(self.busy_icon, 'No internet. Fetching remote times...')
+                self.write_status(self.busy_icon, (fetching_msg + restricted_msg))
+                logger.info(fetching_msg + restricted_msg)
             else:
-                self.write_status(self.success_icon, 'Fetching remote times...')
+                self.write_status(self.success_icon, fetching_msg)
+                logger.info(fetching_msg)
 
         while len(self.valid_urls) < self.number_of_pools:
             self.iteration = self.iteration + 1
@@ -311,8 +331,7 @@ class Sdwdate():
 
                         if len(pool.already_picked_index) >= pool_range:
                             pool_number = self.pools.index(pool) + 1
-                            self.message = (' Time is not set: no valid time returned from pool %s'
-                                            % (pool_number))
+                            self.message = self._('no_valid_time') + str(pool_number) + self._('restart')
                             logger.warning(self.message)
                             return self.error_icon, 'error'
 
@@ -329,7 +348,7 @@ class Sdwdate():
                 self.urls, self.returned_values = get_time_from_servers(self.url_random)
 
                 if len(self.urls) == 0:
-                    self.message = 'No values returned from servers.<br> Please report this bug.'
+                    self.message = self._('no_value_returned') + self._('restart')
                     print message
                     return self.error_icon, 'error'
 
@@ -338,18 +357,17 @@ class Sdwdate():
                 logger.info(message)
 
             else:
-                self.message = ('Something is wrong. sdwdate loop could not build a list or urls.<br>'
-                                ' Please report this bug')
+                self.message = self._('list_not_built') + self._('restart')
                 print(message)
                 return self.error_icon, 'error'
 
             if self.general_proxy_error(self.returned_values):
-                self.message = 'General Proxy Error. Is Tor running?'
+                self.message = self._('general_proxy_error')
                 print(message)
                 return self.error_icon, 'error'
 
             if self.general_timeout_error(self.returned_values):
-                self.message = 'General Timeout Error. Internet might be down'
+                self.message = self._('general_timeout_error')
                 print(message)
                 return self.error_icon, 'error'
 
@@ -406,7 +424,7 @@ class Sdwdate():
         logger.info(message)
 
         last_shell_date = check_output('date').strip()
-        self.message = 'Last run (on ' + last_shell_date + ') was successful'
+        self.message = self._('success_1') + last_shell_date + self._('success_2')
         retrying_loop = False
         return self.success_icon, 'success'
 
@@ -414,13 +432,14 @@ class Sdwdate():
 def signal_sigterm_handler(signum, frame):
     # Inform sdwdate-gui
     icon = sdwdate.error_icon
-    message = 'sdwdate stopped, signal SIGTERM received'
+    message = sdwdate._('user_kill')
+    stripped_message = re.sub('<[^<]+?>', '', message)
     sdwdate.write_status(icon, message)
 
     if sdwdate.sclockadj_pid != 0:
         sdwdate.kill_sclockadj()
 
-    logger.info('Signal SIGTERM received. Exiting.')
+    logger.info(stripped_message)
     sys.exit(143)
 
 if __name__ == "__main__":
@@ -467,8 +486,10 @@ if __name__ == "__main__":
             sleep_time = 10
             log_level = 'warning'
 
-        message = '%s.<br> Sleeping for %s minutes.' % (sdwdate.message, sleep_time)
-        stripped_message = re.sub('<[^<]+?>', '', message)
+
+        message = (sdwdate.message + sdwdate._('sleeping') +
+                   str(sleep_time) + sdwdate._('minutes'))
+        stripped_message = sdwdate.strip_html(message)
 
         sdwdate.write_status(icon, message)
 
