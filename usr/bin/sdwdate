@@ -391,7 +391,8 @@ class Sdwdate():
                             index = self.valid_urls.index(url)
                             ## Pool matching web time.
                             web_unixtime = int(self.unixtimes[index])
-                            if self.time_sanity_check(web_unixtime) == 'sane':
+                            sanitycheck_status = self.time_sanity_check(web_unixtime)
+                            if sanitycheck_status == 'sane':
                                 web_time = (datetime.strftime(datetime.fromtimestamp(web_unixtime),
                                                             '%a %b %d %H:%M:%S UTC %Y'))
                                 pool_diff = int(web_unixtime) - int(old_unixtime)
@@ -405,7 +406,8 @@ class Sdwdate():
                                 pool.done = False
                                 del self.valid_urls[index]
                                 self.invalid_urls.append(url)
-                                message = '%s: time sanity check failed' % url
+                                message = ('%s: time sanity check failed, server time is %s'
+                                            % (url, sanitycheck_status))
                                 print message
                                 logger.warning(message)
 
