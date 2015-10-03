@@ -1,7 +1,8 @@
+import sys
 import os, time
 from datetime import datetime
 
-def timesanitycheck():
+def timesanitycheck(unixtime):
     whonix_build_file = '/usr/share/whonix/build_timestamp'
     anondist_build_file = '/var/lib/anon-dist/build_version'
     spare_file = '/usr/share/zoneinfo/UTC'
@@ -13,8 +14,8 @@ def timesanitycheck():
     else:
         build_timestamp_file = spare_file
 
-    current_time = datetime.strftime(datetime.now(), '%a %b %d %H:%M:%S UTC %Y')
-    current_unixtime = time.mktime(datetime.strptime(current_time, '%a %b %d %H:%M:%S UTC %Y').timetuple())
+    current_unixtime = unixtime
+    current_time = datetime.strftime(datetime.fromtimestamp(unixtime), '%a %b %d %H:%M:%S UTC %Y')
 
     build_time = time.strftime('%a %b %d %H:%M:%S UTC %Y', time.gmtime(os.path.getmtime(build_timestamp_file)))
     build_unixtime = time.mktime(datetime.strptime(build_time, '%a %b %d %H:%M:%S UTC %Y').timetuple())
