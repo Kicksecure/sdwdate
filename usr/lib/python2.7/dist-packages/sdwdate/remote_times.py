@@ -4,6 +4,8 @@
 ## Copyright (C) 2015 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
+import os
+from subprocess import check_output
 import gevent
 from gevent.subprocess import Popen, PIPE
 
@@ -20,10 +22,17 @@ def get_time_from_servers(remotes):
     del urls[:]
     del unix_times[:]
 
+    if os.path.exists('/usr/share/anon-gw-base-files/gateway'):
+        ip_address = '127.0.0.1'
+    elif os.path.exists('/usr/lib/qubes-whonix'):
+        ip_address = check_output(['qubesdb-read', '/qubes-gateway'])
+    else:
+        ip_address = '10.152.152.10'
+
     for i in range(len(remotes)):
         threads.append(Popen([url_to_unixtime_path,
-                              '127.0.0.1',
-                              '9050',
+                              ip_address,
+                              '9108',
                               remotes[i],
                               '80',
                               '0'], stdout=PIPE))
