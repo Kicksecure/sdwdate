@@ -8,6 +8,7 @@ import time
 from datetime import datetime
 import random
 from random import randint
+import subprocess
 from subprocess import Popen, call, PIPE, check_output
 import pickle
 import re
@@ -453,6 +454,23 @@ def signal_sigterm_handler(signum, frame):
     logger.info(stripped_message)
     sys.exit(143)
 
+def prerequisite_check():
+    prerequisite_path = ['/usr/lib/anon-shared-helper-scripts/te_pe_tb_check']
+    temp_dir = check_output(["mktemp", "--directory"])
+    os.environ["TEMP_DIR"] = temp_dir
+    tor_status = False
+    while not tor_status:
+        prerequisite_status = Popen(prerequisite_path,
+                                    stdin=PIPE,
+                                    stderr=PIPE)
+        value, error = prerequisite_status.communicate()
+        if error == '':
+            tor_status = True
+        else:
+            print error
+            logger.warning(error)
+            time.sleep(5)
+
 if __name__ == "__main__":
     ## When restarted from sdwdate-gui, allow sufficient time between
     ## status changes. See related comment in sdwdate-gui.
@@ -471,6 +489,8 @@ if __name__ == "__main__":
     pid_message = 'sdwdate started. PID %s' % self_pid
     print pid_message
     logger.info(pid_message)
+
+    prerequisite_check()
 
     while True:
         sdwdate = Sdwdate()
