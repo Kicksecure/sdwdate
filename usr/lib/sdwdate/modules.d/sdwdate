@@ -1475,8 +1475,6 @@ sdwdate_set_time_using_sclockadj() {
 }
 
 sdwdate_maybe_set_new_time() {
-   sdwdate_terminate_sclockadj
-
    if [ "$DONT_SET_DATE" = "1" ]; then
       return 0
    fi
@@ -1689,6 +1687,8 @@ sdwdate_main() {
       if [ "$DEBUG" = "1" ]; then
          sdwdate_enable_debugging
       fi
+
+      sdwdate_terminate_sclockadj
 
       sdwdate_error_test
 
