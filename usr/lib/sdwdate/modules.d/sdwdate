@@ -1448,7 +1448,7 @@ sdwdate_set_time_using_sclockadj() {
 
       sdwdate_subshell_main() {
          ## There is a /etc/sudoers.d exception.
-         sudo /usr/lib/sdwdate/sclockadj_debug_helper || true
+         #sudo /usr/lib/sdwdate/sclockadj_debug_helper || true
          sdwdate_subshell_time_start
          $SDWDATE_SCLOCKADJ_COMMAND 2>&1 &
          SDWDATE_SCLOCKADJ_COMMAND_PID="$!"
