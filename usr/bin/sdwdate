@@ -461,14 +461,14 @@ def prerequisite_check():
     tor_status = False
     while not tor_status:
         prerequisite_status = Popen(prerequisite_path,
-                                    stdin=PIPE,
+                                    stdout=PIPE,
                                     stderr=PIPE)
         value, error = prerequisite_status.communicate()
-        if error == '':
+        if value == '':
             tor_status = True
         else:
-            print error
-            logger.warning(error)
+            print value
+            logger.warning(value)
             time.sleep(5)
 
 if __name__ == "__main__":
