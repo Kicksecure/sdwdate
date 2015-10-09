@@ -457,7 +457,7 @@ def signal_sigterm_handler(signum, frame):
 def prerequisite_check():
     prerequisite_path = ['/usr/lib/anon-shared-helper-scripts/te_pe_tb_check']
     temp_dir = check_output(["mktemp", "--directory"])
-    os.environ["TEMP_DIR"] = temp_dir
+    os.environ["TEMP_DIR"] = temp_dir.strip()
     tor_status = False
     while not tor_status:
         prerequisite_status = Popen(prerequisite_path,
@@ -467,8 +467,8 @@ def prerequisite_check():
         if value == '':
             tor_status = True
         else:
-            print value
-            logger.warning(value)
+            print value.strip()
+            logger.warning(value.strip())
             time.sleep(5)
 
 if __name__ == "__main__":
