@@ -70,8 +70,8 @@ def read_pools(pool):
     pool_two_url = []
     pool_three_url = []
 
-    if os.path.exists('/etc/sdwdate-python.d/'):
-        files = sorted(glob.glob('/etc/sdwdate-python.d/*'))
+    if os.path.exists('/etc/sdwdate.d/'):
+        files = sorted(glob.glob('/etc/sdwdate.d/*'))
 
         if files:
             conf_found = False
