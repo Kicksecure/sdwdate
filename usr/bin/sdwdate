@@ -469,6 +469,10 @@ def prerequisite_check():
         else:
             print value.strip()
             logger.warning(value.strip())
+            sdwdate = Sdwdate()
+            icon = sdwdate.error_icon
+            sdwdate.write_status(icon, value)
+
             time.sleep(5)
 
 if __name__ == "__main__":
