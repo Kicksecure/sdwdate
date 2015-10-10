@@ -459,6 +459,8 @@ def prerequisite_check():
     temp_dir = check_output(["mktemp", "--directory"])
     os.environ["TEMP_DIR"] = temp_dir.strip()
     tor_status = False
+    message = ''
+    previous_messsage = ''
     while not tor_status:
         prerequisite_status = Popen(prerequisite_path,
                                     stdout=PIPE,
@@ -469,11 +471,13 @@ def prerequisite_check():
         else:
             sdwdate = Sdwdate()
             message = value.strip()
-            stripped_message = sdwdate.strip_html(message)
-            print stripped_message
-            logger.warning(stripped_message)
-            icon = sdwdate.error_icon
-            sdwdate.write_status(icon, message)
+            if message != previous_messsage:
+                previous_messsage = message
+                stripped_message = sdwdate.strip_html(message)
+                print stripped_message
+                logger.warning(stripped_message)
+                icon = sdwdate.error_icon
+                sdwdate.write_status(icon, message)
             time.sleep(10)
 
 if __name__ == "__main__":
