@@ -467,11 +467,13 @@ def prerequisite_check():
         if value == '':
             tor_status = True
         else:
-            print value.strip()
-            logger.warning(value.strip())
             sdwdate = Sdwdate()
+            message = value.strip()
+            stripped_message = sdwdate.strip_html(message)
+            print stripped_message
+            logger.warning(stripped_message)
             icon = sdwdate.error_icon
-            sdwdate.write_status(icon, value)
+            sdwdate.write_status(icon, message)
             time.sleep(10)
 
 if __name__ == "__main__":
@@ -519,7 +521,6 @@ if __name__ == "__main__":
         elif status == 'error':
             sleep_time = 10
             log_level = 'warning'
-
 
         message = (sdwdate.message + sdwdate._('sleeping') +
                    str(sleep_time) + sdwdate._('minutes'))
