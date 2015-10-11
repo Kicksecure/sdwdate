@@ -9,7 +9,7 @@ from subprocess import check_output
 import gevent
 from gevent.subprocess import Popen, PIPE
 
-def get_time_from_servers(remotes):
+def get_time_from_servers(remotes, ip_address, port_number):
     url_to_unixtime_path = '/usr/lib/sdwdate/url_to_unixtime'
 
     threads = []
@@ -22,17 +22,10 @@ def get_time_from_servers(remotes):
     del urls[:]
     del unix_times[:]
 
-    if os.path.exists('/usr/share/anon-gw-base-files/gateway'):
-        ip_address = '127.0.0.1'
-    elif os.path.exists('/usr/lib/qubes-whonix'):
-        ip_address = check_output(['qubesdb-read', '/qubes-gateway'])
-    else:
-        ip_address = '10.152.152.10'
-
     for i in range(len(remotes)):
         threads.append(Popen([url_to_unixtime_path,
                               ip_address,
-                              '9108',
+                              port_number,
                               remotes[i],
                               '80',
                               '0'], stdout=PIPE))

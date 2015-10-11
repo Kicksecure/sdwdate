@@ -16,6 +16,7 @@ import re
 from sdwdate.remote_times import get_time_from_servers
 from sdwdate.config import read_pools
 from sdwdate.timesanitycheck import timesanitycheck
+from sdwdate.proxy_settings import proxy_settings
 
 from guimessages.translations import _translations
 
@@ -72,6 +73,8 @@ class Sdwdate():
         translations_path ='/usr/share/translations/sdwdate.yaml'
         translation = _translations(translations_path, 'sdwdate')
         self._ = translation.gettext
+
+        self.proxy_ip, self.proxy_port = proxy_settings()
 
     def general_proxy_error(self, pools):
         '''
@@ -335,7 +338,9 @@ class Sdwdate():
                 print(message)
                 logger.info(message)
 
-                self.urls, self.returned_values = get_time_from_servers(self.url_random)
+                self.urls, self.returned_values = get_time_from_servers(self.url_random,
+                                                                        self.proxy_ip,
+                                                                        self.proxy_port)
 
                 if len(self.urls) == 0:
                     self.message = self._('no_value_returned') + self._('restart')
