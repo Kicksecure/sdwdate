@@ -292,7 +292,6 @@ class Sdwdate():
         current_unixtime = time.time()
         time_sanity_check = self.time_sanity_check(current_unixtime)
         stripped_message = self.strip_html(self.message)
-        print stripped_message
 
         if time_sanity_check == 'sane':
             logger.info(stripped_message)
@@ -301,8 +300,6 @@ class Sdwdate():
 
         fetching_msg = self._('fetching')
         restricted_msg = self._('restricted')
-        print restricted_msg
-        print fetching_msg
         if self.success:
             self.write_status(self.success_icon, fetching_msg)
             logger.info(fetching_msg)
