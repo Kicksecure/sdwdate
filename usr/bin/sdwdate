@@ -78,15 +78,10 @@ class Sdwdate():
         This error occurs (at least) when Tor is not running.
         '''
         returned_error = 'connect error: Connection closed unexpectedly'
-        try:
-            if (pools[0] == returned_error and
-                pools[1] == returned_error and
-                pools[2] == returned_error):
-                    return True
-        # If tor stops during a cycle, some urls are not returned,
-        # raising an error.
-        except IndexError:
-            return True
+        if (pools[0] == returned_error and
+            pools[1] == returned_error and
+            pools[2] == returned_error):
+                return True
         return False
 
     def general_timeout_error(self, pools):
@@ -94,15 +89,10 @@ class Sdwdate():
         This error occurs (at least) when internet connection is down.
         '''
         returned_error = 'Timeout'
-        try:
-            if (pools[0] == returned_error and
-                pools[1] == returned_error and
-                pools[2] == returned_error):
-                    return True
-        # If internet disconnects during a cycle, some urls are
-        # not returned, raising an error.
-        except IndexError:
-            return True
+        if (pools[0] == returned_error and
+            pools[1] == returned_error and
+            pools[2] == returned_error):
+                return True
         return False
 
     def check_remote(self, remote, value):
@@ -361,15 +351,15 @@ class Sdwdate():
                 print(message)
                 return self.error_icon, 'error'
 
-            if self.general_proxy_error(self.returned_values):
-                self.message = self._('general_proxy_error')
-                print(message)
-                return self.error_icon, 'error'
-
-            if self.general_timeout_error(self.returned_values):
-                self.message = self._('general_timeout_error')
-                print(message)
-                return self.error_icon, 'error'
+            if len(self.returned_values) > 2:
+                if self.general_proxy_error(self.returned_values):
+                    self.message = self._('general_proxy_error')
+                    print(message)
+                    return self.error_icon, 'error'
+                if self.general_timeout_error(self.returned_values):
+                    self.message = self._('general_timeout_error')
+                    print(message)
+                    return self.error_icon, 'error'
 
             for i in range(len(self.urls)):
                 if self.check_remote(self.urls[i], self.returned_values[i]):
@@ -516,11 +506,11 @@ if __name__ == "__main__":
 
             f = open(sdwdate.success_path, 'w')
             f.close()
-            sleep_time = 10
+            sleep_time = 0.1
             log_level = 'info'
 
         elif status == 'error':
-            sleep_time = 10
+            sleep_time = 0.1
             log_level = 'warning'
 
         message = (sdwdate.message + sdwdate._('sleeping') +
