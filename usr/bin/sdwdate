@@ -74,12 +74,8 @@ class Sdwdate():
         translation = _translations(translations_path, 'sdwdate')
         self._ = translation.gettext
 
-        self.run_prerequisite = False
         self.prerequisite_path = '/usr/lib/anon-shared-helper-scripts/te_pe_tb_check'
         if os.path.exists(self.prerequisite_path):
-            ## Create temp dir for te_pe_tb_check
-            temp_dir = check_output(["mktemp", "--directory"])
-            os.environ["TEMP_DIR"] = temp_dir.strip()
             self.run_prerequisite = True
 
         self.proxy_ip, self.proxy_port = proxy_settings()
@@ -455,6 +451,8 @@ def signal_sigterm_handler(signum, frame):
     sys.exit(143)
 
 def prerequisite_check():
+    temp_dir = check_output(["mktemp", "--directory"])
+    os.environ["TEMP_DIR"] = temp_dir.strip()
     tor_status = False
     message = ''
     previous_messsage = ''
