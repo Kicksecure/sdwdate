@@ -74,6 +74,10 @@ class Sdwdate():
         translation = _translations(translations_path, 'sdwdate')
         self._ = translation.gettext
 
+        self.prerequisite_path = '/usr/lib/anon-shared-helper-scripts/te_pe_tb_check'
+        if os.path.exists(self.prerequisite_path):
+            self.run_prerequisite = True
+
         self.proxy_ip, self.proxy_port = proxy_settings()
 
     def general_proxy_error(self, pools):
@@ -447,21 +451,20 @@ def signal_sigterm_handler(signum, frame):
     sys.exit(143)
 
 def prerequisite_check():
-    prerequisite_path = ['/usr/lib/anon-shared-helper-scripts/te_pe_tb_check']
     temp_dir = check_output(["mktemp", "--directory"])
     os.environ["TEMP_DIR"] = temp_dir.strip()
     tor_status = False
     message = ''
     previous_messsage = ''
+    sdwdate = Sdwdate()
     while not tor_status:
-        prerequisite_status = Popen(prerequisite_path,
+        prerequisite_status = Popen(sdwdate.prerequisite_path,
                                     stdout=PIPE,
                                     stderr=PIPE)
         value, error = prerequisite_status.communicate()
         if value == '':
             tor_status = True
         else:
-            sdwdate = Sdwdate()
             message = value.strip()
             if message != previous_messsage:
                 previous_messsage = message
@@ -491,7 +494,9 @@ if __name__ == "__main__":
     print pid_message
     logger.info(pid_message)
 
-    prerequisite_check()
+    sdwdate = Sdwdate()
+    if sdwdate.run_prerequisite:
+        prerequisite_check()
 
     while True:
         sdwdate = Sdwdate()
