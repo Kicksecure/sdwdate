@@ -29,7 +29,7 @@ def proxy_settings():
         ## ip_address = PROXY_IP
         pass
     else:
-        ip_address = '1270.0.1'
+        ip_address = '127.0.0.1'
 
     if os.path.exists('/usr/share/whonix'):
         port_number = '9108'
