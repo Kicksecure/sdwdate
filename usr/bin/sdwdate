@@ -445,7 +445,6 @@ class Sdwdate():
 
 
 def signal_sigterm_handler(signum, frame):
-    tmp_dir = PreCheckVariables.temp_dir
     # Inform sdwdate-gui
     icon = sdwdate.error_icon
     message = sdwdate._('user_kill')
@@ -455,7 +454,9 @@ def signal_sigterm_handler(signum, frame):
     if sdwdate.sclockadj_pid != 0:
         sdwdate.kill_sclockadj()
     ## Remove te_pe_tb_check temp directory.
-    rmtree(tmp_dir)
+    pre_check = PreCheckVariables()
+    if pre_check.run_prerequisite:
+        rmtree(pre_check.temp_dir)
 
     logger.info(stripped_message)
     sys.exit(143)
