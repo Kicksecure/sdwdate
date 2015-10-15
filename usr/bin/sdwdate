@@ -12,6 +12,7 @@ import subprocess
 from subprocess import Popen, call, PIPE, check_output
 import pickle
 import re
+from shutil import rmtree
 
 from sdwdate.remote_times import get_time_from_servers
 from sdwdate.config import read_pools
@@ -19,6 +20,16 @@ from sdwdate.timesanitycheck import timesanitycheck
 from sdwdate.proxy_settings import proxy_settings
 
 from guimessages.translations import _translations
+
+
+class PreCheckVariables:
+    run_prerequisite = False
+    prerequisite_path = '/usr/lib/anon-shared-helper-scripts/te_pe_tb_check'
+    if os.path.exists(prerequisite_path):
+        ## Create tenp dir for te_pe_tb_check.
+        temp_dir = check_output(["mktemp", "--directory"]).strip()
+        os.environ["TEMP_DIR"] = temp_dir
+        run_prerequisite = True
 
 
 class Pool:
@@ -73,10 +84,6 @@ class Sdwdate():
         translations_path ='/usr/share/translations/sdwdate.yaml'
         translation = _translations(translations_path, 'sdwdate')
         self._ = translation.gettext
-
-        self.prerequisite_path = '/usr/lib/anon-shared-helper-scripts/te_pe_tb_check'
-        if os.path.exists(self.prerequisite_path):
-            self.run_prerequisite = True
 
         self.proxy_ip, self.proxy_port = proxy_settings()
 
@@ -438,6 +445,7 @@ class Sdwdate():
 
 
 def signal_sigterm_handler(signum, frame):
+    tmp_dir = PreCheckVariables.temp_dir
     # Inform sdwdate-gui
     icon = sdwdate.error_icon
     message = sdwdate._('user_kill')
@@ -446,19 +454,21 @@ def signal_sigterm_handler(signum, frame):
 
     if sdwdate.sclockadj_pid != 0:
         sdwdate.kill_sclockadj()
+    ## Remove te_pe_tb_check temp directory.
+    rmtree(tmp_dir)
 
     logger.info(stripped_message)
     sys.exit(143)
 
+
 def prerequisite_check():
-    temp_dir = check_output(["mktemp", "--directory"])
-    os.environ["TEMP_DIR"] = temp_dir.strip()
+    pre_check = PreCheckVariables()
     tor_status = False
     message = ''
     previous_messsage = ''
     sdwdate = Sdwdate()
     while not tor_status:
-        prerequisite_status = Popen(sdwdate.prerequisite_path,
+        prerequisite_status = Popen(pre_check.prerequisite_path,
                                     stdout=PIPE,
                                     stderr=PIPE)
         value, error = prerequisite_status.communicate()
@@ -480,6 +490,7 @@ if __name__ == "__main__":
     ## status changes. See related comment in sdwdate-gui.
     time.sleep(0.2)
 
+    pre_check = PreCheckVariables()
     signal.signal(signal.SIGTERM, signal_sigterm_handler)
 
     logger = logging.getLogger('sdwdate.log')
@@ -494,8 +505,7 @@ if __name__ == "__main__":
     print pid_message
     logger.info(pid_message)
 
-    sdwdate = Sdwdate()
-    if sdwdate.run_prerequisite:
+    if pre_check.run_prerequisite:
         prerequisite_check()
 
     while True:
