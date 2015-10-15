@@ -25,7 +25,7 @@ from guimessages.translations import _translations
 class PreCheckVariables:
     run_prerequisite = False
     prerequisite_path = '/usr/lib/anon-shared-helper-scripts/te_pe_tb_check'
-    if os.path.exists(prerequisite_path):
+    if os.access(prerequisite_path, os.X_OK):
         ## Create tenp dir for te_pe_tb_check.
         temp_dir = check_output(["mktemp", "--directory"]).strip()
         os.environ["TEMP_DIR"] = temp_dir
@@ -476,7 +476,7 @@ def prerequisite_check():
         if value == '':
             tor_status = True
         else:
-            message = value.strip()
+            message = 'Prerequsite check:<br> %s' % value.strip()
             if message != previous_messsage:
                 previous_messsage = message
                 stripped_message = sdwdate.strip_html(message)
@@ -527,11 +527,11 @@ if __name__ == "__main__":
 
             f = open(sdwdate.success_path, 'w')
             f.close()
-            sleep_time = 0.1
+            sleep_time = 10
             log_level = 'info'
 
         elif status == 'error':
-            sleep_time = 0.1
+            sleep_time = 10
             log_level = 'warning'
 
         message = (sdwdate.message + sdwdate._('sleeping') +
