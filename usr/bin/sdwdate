@@ -37,6 +37,9 @@ class Pool:
         self.url, self.comment = read_pools(pool)
         self.url_random = []
         self.already_picked_index = []
+        allowed_failure_ratio = 0.34
+        self.invalid_urls = 0
+        self.allowed_failures = int(len(self.url) * allowed_failure_ratio)
         self.done = False
 
     @property
@@ -383,6 +386,14 @@ class Sdwdate():
                 else:
                     self.invalid_urls.append(self.urls[i])
                     self.url_errors.append(self.returned_values[i])
+                    for pool in self.pools:
+                        if self.urls[i] in pool.url_random:
+                            pool.invalid_urls += 1
+                            if pool.invalid_urls >= pool.allowed_failures:
+                                self.message = (self._('max_pool_failures') +
+                                           str(self.pools.index(pool) + 1) +
+                                           ' (' + str(pool.invalid_urls) + ')<br>')
+                                return self.error_icon, 'error'
 
             old_unixtime = (time.time())
 

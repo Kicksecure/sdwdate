@@ -27,3 +27,5 @@ sdwdate:
 
         general_proxy_error: '<b>General Proxy Error.</b> Is Tor running?'
         general_timeout_error: '<b>General Timeout Error.</b> Internet connection might be down'
+
+        max_pool_failures: 'Maximum number of allowed failures reached in pool '
