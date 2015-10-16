@@ -537,7 +537,7 @@ if __name__ == "__main__":
 
             f = open(sdwdate.success_path, 'w')
             f.close()
-            sleep_time = 10
+            sleep_time = randint(60, 180)
             log_level = 'info'
 
         elif status == 'error':
