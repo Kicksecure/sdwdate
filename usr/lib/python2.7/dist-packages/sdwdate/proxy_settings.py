@@ -1,11 +1,12 @@
 import os
 import glob
 import re
-
+from subprocess import check_output
 
 def proxy_settings():
     ip_address = ''
     port_number = ''
+    settings_path = '/usr/lib/anon-shared-helper-scripts/settings_echo'
 
     if os.path.exists('/etc/sdwdate.d/'):
         files = sorted(glob.glob('/etc/sdwdate.d/*'))
@@ -18,13 +19,10 @@ def proxy_settings():
                 if line.startswith('PROXY_PORT'):
                     port_number = re.search(r'=(.*)', line).group(1)
 
-    if os.path.exists('/usr/share/whonix'):
-        if os.path.exists('/usr/share/anon-gw-base-files/gateway'):
-            ip_address = '127.0.0.1'
-        elif os.path.exists('/usr/lib/qubes-whonix'):
-            ip_address = check_output(['qubesdb-read', '/qubes-gateway'])
-        else:
-            ip_address = '10.152.152.10'
+    if (os.path.exists('/usr/share/whonix') and
+        os.access(settings_path, os.X_OK)):
+            proxy_settings = check_output(settings_path)
+            ip_address = re.search(r'"(.*)"', proxy_settings).group(1)
     elif ip_address != '':
         ## ip_address = PROXY_IP
         pass
@@ -39,7 +37,7 @@ def proxy_settings():
     else:
         port_number = '9050'
 
-    print 'ip %s port %s' % (ip_address, port_number)
+    #print 'ip %s port %s' % (ip_address, port_number)
     return ip_address, port_number
 
 if __name__ == "__main__":
