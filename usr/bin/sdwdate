@@ -23,6 +23,9 @@ from guimessages.translations import _translations
 
 
 class PreCheckVariables:
+    def __init__(self):
+        pass
+
     run_prerequisite = False
     prerequisite_path = '/usr/lib/anon-shared-helper-scripts/te_pe_tb_check'
     if os.access(prerequisite_path, os.X_OK):
