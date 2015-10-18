@@ -4,8 +4,6 @@
 ## Copyright (C) 2015 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-import os
-from subprocess import check_output
 import gevent
 from gevent.subprocess import Popen, PIPE
 
