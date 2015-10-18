@@ -84,10 +84,10 @@ class Sdwdate:
         self.first_success = os.path.exists(self.first_success_path)
         self.success = os.path.exists(self.success_path)
 
-        self.status = {'icon' : '', 'message' : ''}
+        self.status = {'icon': '', 'message': ''}
         self.message = ''
 
-        translations_path ='/usr/share/translations/sdwdate.yaml'
+        translations_path = '/usr/share/translations/sdwdate.yaml'
         translation = _translations(translations_path, 'sdwdate')
         self._ = translation.gettext
 
@@ -100,9 +100,9 @@ class Sdwdate:
         '''
         returned_error = 'connect error: Connection closed unexpectedly'
         if (pools[0] == returned_error and
-            pools[1] == returned_error and
-            pools[2] == returned_error):
-                return True
+                    pools[1] == returned_error and
+                    pools[2] == returned_error):
+            return True
         return False
 
     @staticmethod
@@ -112,9 +112,9 @@ class Sdwdate:
         '''
         returned_error = 'Timeout'
         if (pools[0] == returned_error and
-            pools[1] == returned_error and
-            pools[2] == returned_error):
-                return True
+                    pools[1] == returned_error and
+                    pools[2] == returned_error):
+            return True
         return False
 
     @staticmethod
@@ -138,6 +138,7 @@ class Sdwdate:
         ''' For logging the commnents, get the index of the url
             to get it from pool.comment.
         '''
+        url_comment = ''
         for url in self.pools:
             try:
                 url_index = url.url.index(remote)
@@ -151,13 +152,13 @@ class Sdwdate:
 
         if status == 'sane':
             self.message = (self._('tsc_1') + status + self._('tsc_2') + time_one)
-            #'The clock is %s. Current time "%s".' % (status, time_one)
+            # 'The clock is %s. Current time "%s".' % (status, time_one)
         elif status == 'slow':
             self.message = (self._('tsc_1') + status + self._('tsc_2') + time_one
                             + self._('slow_clock') + time_two) + self._('cause')
         elif status == 'fast':
             self.message = (self._('tsc_1') + status + self._('tsc_2') + time_one
-                            + self._('fast_clock') + time_two)+ self._('cause')
+                            + self._('fast_clock') + time_two) + self._('cause')
         return status
 
     def build_median(self):
@@ -199,7 +200,7 @@ class Sdwdate:
 
         self.newdiff_nanoseconds = int(self.new_diff * 1000000000)
 
-        #print 'nanoseconds %s' % nanoseconds
+        # print 'nanoseconds %s' % nanoseconds
         message = 'Median time difference: %s' % self.median
         print(message)
         logger.info(message)
@@ -243,12 +244,12 @@ class Sdwdate:
 
         ## Running sclockadj_debug_helper, in case...
         ## May be read the last line to ensure sclockadj is running.
-        #cmd = ["sudo", "/usr/lib/sdwdate/sclockadj_debug_helper"]
+        # cmd = ["sudo", "/usr/lib/sdwdate/sclockadj_debug_helper"]
         ### Pipe stdout in subprocess.
-        #helper = Popen(cmd, stdout=PIPE)
+        # helper = Popen(cmd, stdout=PIPE)
         ### Read the output.
-        #line = helper.stdout.read()
-        #print line
+        # line = helper.stdout.read()
+        # print line
 
     def kill_sclockadj(self):
         '''
@@ -394,8 +395,8 @@ class Sdwdate:
                             pool.invalid_urls += 1
                             if pool.invalid_urls >= pool.allowed_failures:
                                 self.message = (self._('max_pool_failures') +
-                                           str(self.pools.index(pool) + 1) +
-                                           ' (' + str(pool.invalid_urls) + ')<br>')
+                                                str(self.pools.index(pool) + 1) +
+                                                ' (' + str(pool.invalid_urls) + ')<br>')
                                 return self.error_icon, 'error'
 
             old_unixtime = (time.time())
@@ -412,12 +413,12 @@ class Sdwdate:
                             sanitycheck_status = self.time_sanity_check(web_unixtime)
                             if sanitycheck_status == 'sane':
                                 web_time = (datetime.strftime(datetime.fromtimestamp(web_unixtime),
-                                                            '%a %b %d %H:%M:%S UTC %Y'))
+                                                              '%a %b %d %H:%M:%S UTC %Y'))
                                 pool_diff = int(web_unixtime) - int(old_unixtime)
                                 self.pools_diff.append(pool_diff)
                                 pool_number = self.pools.index(pool) + 1
                                 message = ('Pool %s last url: %s, web unixtime: %s, web time: %s, diff: %s seconds'
-                                        % (pool_number, url, web_unixtime, web_time, pool_diff))
+                                           % (pool_number, url, web_unixtime, web_time, pool_diff))
                                 print(message)
                                 logger.info(message)
                             else:
@@ -425,7 +426,7 @@ class Sdwdate:
                                 del self.valid_urls[index]
                                 self.invalid_urls.append(url)
                                 message = ('%s: time sanity check failed, server time is %s'
-                                            % (url, sanitycheck_status))
+                                           % (url, sanitycheck_status))
                                 print message
                                 logger.warning(message)
 
@@ -445,7 +446,7 @@ class Sdwdate:
 
         end_unixtime = time.time()
         end_time = (datetime.strftime(datetime.fromtimestamp(start_unixtime),
-                                        '%a %b %d %H:%M:%S UTC %Y'))
+                                      '%a %b %d %H:%M:%S UTC %Y'))
         message = ('Fetching remote times, end %s (unixtime %s)'
                    % (end_time, end_unixtime))
         print(message)
@@ -498,6 +499,7 @@ def prerequisite_check():
                 icon = sdwdate.error_icon
                 sdwdate.write_status(icon, message)
             time.sleep(10)
+
 
 if __name__ == "__main__":
     ## When restarted from sdwdate-gui, allow sufficient time between
