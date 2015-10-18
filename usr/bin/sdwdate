@@ -319,7 +319,7 @@ class Sdwdate():
                 logger.info(fetching_msg)
 
         while len(self.valid_urls) < self.number_of_pools:
-            self.iteration = self.iteration + 1
+            self.iteration += 1
             message = 'Running sdwdate loop, iteration %s' % (self.iteration)
             print(message)
             logger.info(message)
@@ -426,14 +426,14 @@ class Sdwdate():
         message = 'Reachable urls:\n'
         for url in self.valid_urls:
             url_comment = self.get_comment(url)
-            message = message + '%s: "%s"\n' % (url, url_comment)
+            message += '%s: "%s"\n' % (url, url_comment)
         print(message.strip())
         logger.info(message.strip())
 
         message = 'Unreachable urls:\n'
         for url in self.invalid_urls:
             url_comment = self.get_comment(url)
-            message = message + '%s: "%s"\n' % (url, url_comment)
+            message += '%s: "%s"\n' % (url, url_comment)
         print(message.strip())
         logger.info(message.strip())
 
