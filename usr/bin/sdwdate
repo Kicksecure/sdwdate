@@ -50,7 +50,7 @@ class Pool:
         return len(self.url)
 
 
-class Sdwdate():
+class Sdwdate:
     def __init__(self):
         self.iteration = 0
         self.number_of_pools = 3
@@ -124,7 +124,7 @@ class Sdwdate():
         '''
         try:
             n = int(value)
-            message = 'Remote status "%s", True' % (remote)
+            message = 'Remote status "%s", True' % remote
             print(message)
             logger.info(message)
             return True
@@ -237,7 +237,7 @@ class Sdwdate():
         sclockadj = Popen(cmd)
         self.sclockadj_pid = sclockadj.pid
 
-        message = 'Gradually adjusting the time by running sclockadj, PID=%s' % (self.sclockadj_pid)
+        message = 'Gradually adjusting the time by running sclockadj, PID=%s' % self.sclockadj_pid
         print(message)
         logger.info(message)
 
@@ -279,7 +279,7 @@ class Sdwdate():
         ## New line for log.
         tmp_message = re.sub('<br>', '\n', message)
         ## Strip rmaining HTML.
-        return(re.sub('<[^<]+?>', '', tmp_message))
+        return re.sub('<[^<]+?>', '', tmp_message)
 
     def write_status(self, *args):
         self.status['icon'] = args[0]
@@ -326,7 +326,7 @@ class Sdwdate():
 
         while len(self.valid_urls) < self.number_of_pools:
             self.iteration += 1
-            message = 'Running sdwdate loop, iteration %s' % (self.iteration)
+            message = 'Running sdwdate loop, iteration %s' % self.iteration
             print(message)
             logger.info(message)
 
@@ -353,7 +353,7 @@ class Sdwdate():
 
             ## Fetch remotes.
             if len(self.url_random) > 0:
-                message = 'Requested urls %s' % (self.url_random)
+                message = 'Requested urls %s' % self.url_random
                 print(message)
                 logger.info(message)
 
@@ -365,7 +365,7 @@ class Sdwdate():
                     self.message = self._('no_value_returned') + self._('restart')
                     return self.error_icon, 'error'
 
-                message = 'Returned urls "%s"' % (self.urls)
+                message = 'Returned urls "%s"' % self.urls
                 print(message)
                 logger.info(message)
 
