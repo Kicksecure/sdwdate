@@ -93,7 +93,8 @@ class Sdwdate():
 
         self.proxy_ip, self.proxy_port = proxy_settings()
 
-    def general_proxy_error(self, pools):
+    @staticmethod
+    def general_proxy_error(pools):
         '''
         This error occurs (at least) when Tor is not running.
         '''
@@ -104,7 +105,8 @@ class Sdwdate():
                 return True
         return False
 
-    def general_timeout_error(self, pools):
+    @staticmethod
+    def general_timeout_error(pools):
         '''
         This error occurs (at least) when internet connection is down.
         '''
@@ -115,7 +117,8 @@ class Sdwdate():
                 return True
         return False
 
-    def check_remote(self, remote, value):
+    @staticmethod
+    def check_remote(remote, value):
         '''
         Check returned value. True if numeric.
         '''
