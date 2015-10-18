@@ -357,7 +357,6 @@ class Sdwdate():
 
                 if len(self.urls) == 0:
                     self.message = self._('no_value_returned') + self._('restart')
-                    print message
                     return self.error_icon, 'error'
 
                 message = 'Returned urls "%s"' % (self.urls)
@@ -366,7 +365,6 @@ class Sdwdate():
 
             else:
                 self.message = self._('list_not_built') + self._('restart')
-                print(message)
                 return self.error_icon, 'error'
 
             if len(self.returned_values) > 2:
@@ -376,7 +374,6 @@ class Sdwdate():
                     return self.error_icon, 'error'
                 if self.general_timeout_error(self.returned_values):
                     self.message = self._('general_timeout_error')
-                    print(message)
                     return self.error_icon, 'error'
 
             for i in range(len(self.urls)):
