@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+
+import time
+from sdwdate.remote_times import get_time_from_servers
+from sdwdate.config import read_pools
+from sdwdate.proxy_settings import proxy_settings
+
+
+class Pool:
+    def __init__(self, pool):
+        self.urls, self.comments = read_pools(pool, 'test')
+
+
+class CheckRemotes:
+    def __init__(self):
+        self.number_of_pools = 3
+        self.pools = [Pool(pool) for pool in range(self.number_of_pools)]
+        self.urls = []
+        self.returned_values = []
+        self.proxy_ip, self.proxy_port = proxy_settings()
+
+    def loop(self):
+        time_stamp = str(int(time.time()))
+        file_name = 'sdwate_remotes_check-%s' % (time_stamp)
+        f = open(file_name, 'a')
+        print 'Starting remotes check...'
+        for pool in self.pools:
+            self.urls, self.returned_values = get_time_from_servers(pool.urls,
+                                                                    self.proxy_ip,
+                                                                    self.proxy_port)
+            for url in range(len(self.urls)):
+                msg = 'pool %s url %s: %s' % (self.pools.index(pool) + 1, self.urls[url], self.returned_values[url])
+                print msg
+                f.write('%s\n' % msg)
+        f.close()
+
+if __name__ == '__main__':
+    remotes = CheckRemotes()
+    remotes.loop()
+
