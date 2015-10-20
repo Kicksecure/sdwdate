@@ -22,7 +22,7 @@ def proxy_settings():
     if (os.path.exists('/usr/share/whonix') and
         os.access(settings_path, os.X_OK)):
             proxy_settings = check_output(settings_path)
-            ip_address = re.search(r'"(.*)"', proxy_settings).group(1)
+            ip_address = re.search(r'TOR_CONTROL_HOST="(.*)"', proxy_settings).group(1)
     elif ip_address != '':
         ## ip_address = PROXY_IP
         pass
