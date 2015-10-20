@@ -8,7 +8,6 @@ import time
 from datetime import datetime
 import random
 from random import randint
-import subprocess
 from subprocess import Popen, call, PIPE, check_output
 import pickle
 import re
