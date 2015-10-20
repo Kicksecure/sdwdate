@@ -36,7 +36,7 @@ class PreCheckVariables:
 
 class Pool:
     def __init__(self, pool):
-        self.url, self.comment = read_pools(pool)
+        self.url, self.comment = read_pools(pool, 'production')
         self.url_random = []
         self.already_picked_index = []
         allowed_failure_ratio = 0.34
