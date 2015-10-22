@@ -1,3 +1,125 @@
+commit bebb7ccd983e57c3fd2bff7668ac1041a15d8cdd
+Merge: f8a705f 80a003e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Oct 17 16:50:35 2015 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 80a003e53066ae0816962cd69e300acd8b83f790
+Merge: f8a705f 5e12a99
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Oct 17 16:49:56 2015 +0000
+
+    Merge pull request #7 from HulaHoopWhonix/patch-2
+    
+    Update 30_sdwdate_default
+
+commit 5e12a990b04ba13f46ef3ec7ec0299b56a2440b0
+Author: HulaHoopWhonix <bancfc@openmailbox.org>
+Date:   Sat Oct 17 11:40:20 2015 -0400
+
+    Update 30_sdwdate_default
+
+commit 61873306314996bd0dd4e8514b5199b3cb1d2dde
+Author: HulaHoopWhonix <bancfc@openmailbox.org>
+Date:   Fri Oct 16 21:52:15 2015 -0400
+
+    Update 30_sdwdate_default
+
+commit f8a705f3dcab93321e05e92fec0f897b28dddcf0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Oct 8 11:41:39 2015 +0000
+
+    deactivated sclockadj_debug_helper
+
+commit 4c3773af11c5fed6b6a0af30e8904b53630eb8f4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Oct 8 11:39:50 2015 +0000
+
+    terminate sclockadj before every cycle, not just after successfully obtaining a new time stamp - https://www.whonix.org/forum/index.php/topic,1301.msg10758.html#msg10758
+
+commit 85ae84bef5dc5896e844b032f5277a32b036667d
+Merge: 8377e85 1a214bd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Oct 4 12:44:47 2015 +0200
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 1a214bdf643347fb53dcb50760bbac8a1ffb3feb
+Merge: 8377e85 9fdc8eb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Oct 4 12:44:00 2015 +0200
+
+    Merge pull request #5 from cle4r/master
+    
+    Add Qubes-Os Site to Pool
+
+commit 9fdc8ebd3fe028c1b491d5755f56de4812e1f482
+Author: cle4r <cle4r@maili2p.org>
+Date:   Fri Oct 2 18:59:30 2015 +0200
+
+    Add Qubes-Os Site to Pool
+
+commit 8377e85f6e857a8af7ba21761c4b727090e507fe
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 24 20:25:29 2015 +0000
+
+    added new hidden services as suggested by HulaHoop - https://phabricator.whonix.org/T266#3828
+
+commit 3b64133f0bf3b286136796c648cb1e8adf45f0b5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 24 20:11:47 2015 +0000
+
+    removed hidden services that are down
+
+commit 5631edd879a05445133c3df00dd8ed9b7b3ed2d7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 24 18:43:15 2015 +0000
+
+    fixed broken pool member
+
+commit 56b0cf7922819b8b7e559ae421b0ff3af36eb877
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 24 18:39:26 2015 +0000
+
+    removed broken duplicate pool member
+
+commit 50fd9eb567da5128c53d0592ee99a75334c6efa9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Sep 22 11:54:58 2015 +0000
+
+    use cleaner solution 'Conflicts: systemd-timesyncd' rather than 'service systemd-timesyncd stop'
+
+commit 1566b7c9b7d36bdb4b48cd607c743df5d4d57fe2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Sep 21 23:57:07 2015 +0000
+
+    Make sure /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service really gets really deleted even if timedatectl does not work.
+
+commit a39e5780b39a1d3d317337b2e05994c0c1000455
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Sep 9 17:26:17 2015 +0000
+
+    comment
+
+commit 6e11cfd12662cf576268b4bc047c7e4f46e0fd05
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Sep 9 17:16:40 2015 +0000
+
+    timedatectl set-ntp false >/dev/null 2>&1 || true
+
+commit 83ef0068cb7c0287d6f2d6feab2d8d4961f8a260
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Sep 8 14:48:29 2015 +0000
+
+    disable systemd-timesyncd by default as it conflicts with sdwdate - https://phabricator.whonix.org/T336
+
+commit 5b92a2444e7f0c42c4b998cfcffdd6e656b4767b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 25 14:08:19 2015 +0000
+
+    bumped changelog version
+
 commit 351a67f558542d884eedd1bb995bc24f9520d4f4
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Aug 24 17:47:24 2015 +0000
