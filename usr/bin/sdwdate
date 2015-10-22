@@ -444,7 +444,7 @@ class Sdwdate:
         logger.info(message.strip())
 
         end_unixtime = time.time()
-        end_time = (datetime.strftime(datetime.fromtimestamp(start_unixtime),
+        end_time = (datetime.strftime(datetime.fromtimestamp(end_unixtime),
                                       '%a %b %d %H:%M:%S UTC %Y'))
         message = ('Fetching remote times, end %s (unixtime %s)'
                    % (end_time, end_unixtime))
