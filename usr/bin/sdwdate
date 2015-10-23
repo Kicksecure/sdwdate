@@ -393,9 +393,11 @@ class Sdwdate:
                         if self.urls[i] in pool.url_random:
                             pool.invalid_urls += 1
                             if pool.invalid_urls >= pool.allowed_failures:
-                                self.message = (self._('max_pool_failures') +
+                                self.message = (self._('max_pool_failures_1') +
                                                 str(self.pools.index(pool) + 1) +
-                                                ' (' + str(pool.invalid_urls) + ')<br>')
+                                                ' (' + str(pool.invalid_urls) + ' of ' +
+                                                str(len(pool.url)) + ')' +
+                                                self._('max_pool_failures_2') + '<br>')
                                 return self.error_icon, 'error'
 
             old_unixtime = (time.time())
@@ -546,7 +548,7 @@ if __name__ == "__main__":
 
             f = open(sdwdate.success_path, 'w')
             f.close()
-            sleep_time = randint(60, 180)
+            sleep_time = 0.2 #randint(60, 180)
             log_level = 'info'
 
         elif status == 'error':
