@@ -4,6 +4,7 @@ import sys
 import logging
 import signal
 import os
+import glob
 import time
 from datetime import datetime
 import random
@@ -39,14 +40,28 @@ class Pool:
         self.url, self.comment = read_pools(pool, 'production')
         self.url_random = []
         self.already_picked_index = []
-        allowed_failure_ratio = 0.34
         self.invalid_urls = 0
-        self.allowed_failures = int(len(self.url) * allowed_failure_ratio)
         self.done = False
 
     @property
     def url_range(self):
         return len(self.url)
+
+    @property
+    def allowed_failures(self):
+        if os.path.exists('/etc/sdwdate.d/'):
+            files = sorted(glob.glob('/etc/sdwdate.d/*'))
+            for f in files:
+                with open(f) as conf:
+                    lines = conf.readlines()
+                for line in lines:
+                    if line.startswith('MAX_FAILURE_RATIO'):
+                        failure_ratio = re.search(r'=(.*)', line).group(1)
+            return int(len(self.url) * float(failure_ratio))
+        else:
+            return int(len(self.url) * 0.34)
+        return int(len(self.url) * 0.34)
+
 
 
 class Sdwdate:
@@ -55,6 +70,8 @@ class Sdwdate:
         self.number_of_pools = 3
 
         self.pools = [Pool(pool) for pool in range(self.number_of_pools)]
+        ## Could get it here to prevent reading the file in sdwdate_loop for each Unreachable url.
+        #self.allowed_failures = [Pool(pool).allowed_failures for pool in range(self.number_of_pools)]
         self.urls = []
         self.url_random = []
         self.valid_urls = []
@@ -548,7 +565,7 @@ if __name__ == "__main__":
 
             f = open(sdwdate.success_path, 'w')
             f.close()
-            sleep_time = 0.2 #randint(60, 180)
+            sleep_time = randint(60, 180)
             log_level = 'info'
 
         elif status == 'error':
