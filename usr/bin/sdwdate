@@ -519,6 +519,11 @@ if __name__ == "__main__":
     pid_message = 'sdwdate started. PID %s' % self_pid
     print pid_message
     logger.info(pid_message)
+    sdwdate = Sdwdate()
+    proxy_message = ('Tor control host: %s  Tor control port: %s'
+                     % (sdwdate.proxy_ip, sdwdate.proxy_port))
+    print proxy_message
+    logger.info(proxy_message)
 
     if pre_check.run_prerequisite:
         prerequisite_check()
