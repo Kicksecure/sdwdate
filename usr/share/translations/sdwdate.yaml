@@ -29,5 +29,4 @@ sdwdate:
         general_timeout_error: '<b>General Timeout Error.</b> Internet connection might be down'
 
         max_pool_failures_1: '<b>Maximum allowed number of failures</b> reached in pool '
-        max_pool_failures_2: '. Giving up.<br> If the problem occurs too frequently, please report it.<br>
-                                You may increase MAX_FAILURE_RATIO (see /etc/sdwdate.d/30_default.conf).'
+        max_pool_failures_2: '. Giving up.<br> If the problem occurs too frequently, please report it.'
