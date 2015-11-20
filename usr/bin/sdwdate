@@ -1,60 +1,596 @@
-#!/bin/bash
+#!/usr/bin/env python
 
-## This file is part of Whonix.
-## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
-## See the file COPYING for copying conditions.
+import sys
+import logging
+import signal
+import os
+import glob
+import time
+from datetime import datetime
+import random
+from random import randint
+from subprocess import Popen, call, PIPE, check_output
+import pickle
+import re
+from shutil import rmtree
 
-#set -x
+from sdwdate.remote_times import get_time_from_servers
+from sdwdate.config import read_pools
+from sdwdate.timesanitycheck import timesanitycheck
+from sdwdate.proxy_settings import proxy_settings
 
-set -e
-set -o pipefail
-set -o errtrace
+from guimessages.translations import _translations
 
-for i in /usr/lib/sdwdate/modules.d/*; do
-   if [ -f "$i" ]; then
-      ## If the last character is a ~, ignore that file,
-      ## because it was created by some editor,
-      ## which creates backup files.
-      if [ "${i: -1}" = "~" ]; then
-         continue
-      fi
-      ## Skipping files such as .dpkg-old and .dpkg-dist.
-      if ( echo "$i" | grep -q ".dpkg-" ); then
-         true "skip $i"
-         continue
-      fi
-      bash -n "$i"
-      source "$i"
-   fi
-done
 
-SCRIPTNAME="$(basename "$BASH_SOURCE")"
-ownpid="$$"
-ID="$ownpid"
+class PreCheckVariables:
+    def __init__(self):
+        pass
 
-## XXX: do not hardcode path to /var/run/sdwdate
-if [ ! -f "/var/run/sdwdate/first_success" ]; then
-   SDW_MODE="startup"
-else
-   SDW_MODE="restartup"
-fi
+    run_prerequisite = False
+    prerequisite_path = '/usr/lib/anon-shared-helper-scripts/te_pe_tb_check'
+    if os.access(prerequisite_path, os.X_OK):
+        ## Create tenp dir for te_pe_tb_check.
+        temp_dir = check_output(["mktemp", "--directory"]).strip()
+        os.environ["TEMP_DIR"] = temp_dir
+        run_prerequisite = True
 
-trap "sdwdate_error_handler" ERR
 
-set +e
+class Pool:
+    def __init__(self, pool):
+        self.url, self.comment = read_pools(pool, 'production')
+        self.url_random = []
+        self.already_picked_index = []
+        self.invalid_urls = 0
+        self.done = False
 
-trap "sdwdate_signal_sigint" SIGINT ## ctrl + c
+    @property
+    def url_range(self):
+        return len(self.url)
 
-trap "sdwdate_signal_sigterm" SIGTERM
+    @property
+    def allowed_failures(self):
+        if os.path.exists('/etc/sdwdate.d/'):
+            files = sorted(glob.glob('/etc/sdwdate.d/*'))
+            for f in files:
+                with open(f) as conf:
+                    lines = conf.readlines()
+                for line in lines:
+                    if line.startswith('MAX_FAILURE_RATIO'):
+                        failure_ratio = re.search(r'=(.*)', line).group(1)
+            return int(len(self.url) * float(failure_ratio))
+        else:
+            return int(len(self.url) * 0.34)
+        return int(len(self.url) * 0.34)
 
-trap "sdwdate_signal_sigusr1" SIGUSR1
 
-trap "sdwdate_signal_sighup" SIGHUP
 
-## XXX: do not hardcode path to /var/run/sdwdate
-## XXX: remove workaround during migration to systemd
-echo "$ownpid" > "/var/run/sdwdate/pid" || echo "$ownpid" > "/var/run/sdwdate/pid_"
+class Sdwdate:
+    def __init__(self):
+        self.iteration = 0
+        self.number_of_pools = 3
 
-sdwdate_main ${1+"$@"}
+        self.pools = [Pool(pool) for pool in range(self.number_of_pools)]
+        ## Could get it here to prevent reading the file in sdwdate_loop for each Unreachable url.
+        #self.allowed_failures = [Pool(pool).allowed_failures for pool in range(self.number_of_pools)]
+        self.urls = []
+        self.url_random = []
+        self.valid_urls = []
+        self.unixtimes = []
+        self.pools_diff = []
+        self.invalid_urls = []
+        self.url_errors = []
 
-sdwdate_log "End."
+        self.median = 0
+        self.range_nanoseconds = 999999999
+        self.new_diff = 0
+        self.newdiff_nanoseconds = 0
+
+        self.sclockadj_pid = 0
+
+        self.last_shell_date = ''
+
+        self.first_success_path = '/var/run/sdwdate/first_success'
+        self.success_path = '/var/run/sdwdate/success'
+        self.status_path = '/var/run/sdwdate/status'
+
+        self.success_icon = '/usr/share/icons/sdwdate-gui/Ambox_currentevent.svg.png'
+        self.busy_icon = '/usr/share/icons/sdwdate-gui/620px-Ambox_outdated.svg.png'
+        self.error_icon = '/usr/share/icons/sdwdate-gui/212px-Timeblock.svg.png'
+
+        self.first_success = os.path.exists(self.first_success_path)
+        self.success = os.path.exists(self.success_path)
+
+        self.status = {'icon': '', 'message': ''}
+        self.message = ''
+
+        translations_path = '/usr/share/translations/sdwdate.yaml'
+        translation = _translations(translations_path, 'sdwdate')
+        self._ = translation.gettext
+
+        self.proxy_ip, self.proxy_port = proxy_settings()
+
+    @staticmethod
+    def general_proxy_error(pools):
+        '''
+        This error occurs (at least) when Tor is not running.
+        '''
+        returned_error = 'connect error: Connection closed unexpectedly'
+        if (pools[0] == returned_error and
+                    pools[1] == returned_error and
+                    pools[2] == returned_error):
+            return True
+        return False
+
+    @staticmethod
+    def general_timeout_error(pools):
+        '''
+        This error occurs (at least) when internet connection is down.
+        '''
+        returned_error = 'Timeout'
+        if (pools[0] == returned_error and
+                    pools[1] == returned_error and
+                    pools[2] == returned_error):
+            return True
+        return False
+
+    @staticmethod
+    def check_remote(remote, value):
+        '''
+        Check returned value. True if numeric.
+        '''
+        try:
+            n = int(value)
+            message = 'Remote status "%s", True' % remote
+            print(message)
+            logger.info(message)
+            return True
+        except ValueError:
+            message = 'Remote status "%s", False: %s' % (remote, value)
+            print(message)
+            logger.info(message)
+            return False
+
+    def get_comment(self, remote):
+        ''' For logging the commnents, get the index of the url
+            to get it from pool.comment.
+        '''
+        url_comment = ''
+        for url in self.pools:
+            try:
+                url_index = url.url.index(remote)
+                url_comment = url.comment[url_index]
+            except ValueError:
+                pass
+        return url_comment
+
+    def time_sanity_check(self, unixtime):
+        status, time_one, time_two = timesanitycheck(unixtime)
+
+        if status == 'sane':
+            self.message = (self._('tsc_1') + status + self._('tsc_2') + time_one)
+            # 'The clock is %s. Current time "%s".' % (status, time_one)
+        elif status == 'slow':
+            self.message = (self._('tsc_1') + status + self._('tsc_2') + time_one
+                            + self._('slow_clock') + time_two) + self._('cause')
+        elif status == 'fast':
+            self.message = (self._('tsc_1') + status + self._('tsc_2') + time_one
+                            + self._('fast_clock') + time_two) + self._('cause')
+        return status
+
+    def build_median(self):
+        '''
+        Get the median (not average) from the list of values.
+        '''
+        diffs = sorted(self.pools_diff)
+        message = 'Pool differences, sorted: %s' % diffs
+        print(message)
+        logger.info(message)
+        self.median = diffs[(len(diffs) / 2)]
+
+    def set_new_time(self):
+        '''
+        Do not set time if diff = 0.
+        '''
+        if self.median == 0:
+            message = 'Time difference = 0. Not setting time'
+            print(message)
+            logger.info(message)
+            return False
+        else:
+            return True
+
+    def add_subtract_nanoseconds(self):
+        '''
+        Could we replace this in sdwdate_loop pool_diff calculations?
+        -> int(web_time) - old_unixtime
+        '''
+        signs = ['+', '-']
+        sign = randint(0, 1)
+        nanoseconds = randint(0, self.range_nanoseconds)
+        seconds = float(nanoseconds) / 1000000000
+
+        if sign == 0:
+            self.new_diff = self.median + seconds
+        else:
+            self.new_diff = self.median - seconds
+
+        self.newdiff_nanoseconds = int(self.new_diff * 1000000000)
+
+        # print 'nanoseconds %s' % nanoseconds
+        message = 'Median time difference: %s' % self.median
+        print(message)
+        logger.info(message)
+        message = 'Seconds to add: %s %s' % (signs[sign], seconds)
+        print(message)
+        logger.info(message)
+        message = 'New time difference: %s' % self.new_diff
+        print(message)
+        logger.info(message)
+
+    def run_sclockadj(self):
+        '''
+        Set time with sneaky_clock_adjuster.
+        Should we use sclockadj_debug_helper?
+        '''
+        if self.newdiff_nanoseconds > 0:
+            add_subtract = "--add"
+        else:
+            add_subtract = "--subtract"
+        cmd = [
+            "sudo",
+            "INLINEDIR=/var/cache/sdwdate/sclockadj",
+            "/usr/lib/sdwdate/sclockadj",
+            "--no-debug",
+            "--no-verbose",
+            "--no-systohc",
+            "--no-first-wait",
+            "--move-min", "5000000",
+            "--move-max", "5000000",
+            "--wait-min", "1000000000",
+            "--wait-max", "1000000000",
+            add_subtract, str(abs(self.newdiff_nanoseconds))]
+
+        ## Run sclockadj in a subshell.
+        sclockadj = Popen(cmd)
+        self.sclockadj_pid = sclockadj.pid
+
+        message = 'Gradually adjusting the time by running sclockadj, PID=%s' % self.sclockadj_pid
+        print(message)
+        logger.info(message)
+
+        ## Running sclockadj_debug_helper, in case...
+        ## May be read the last line to ensure sclockadj is running.
+        # cmd = ["sudo", "/usr/lib/sdwdate/sclockadj_debug_helper"]
+        ### Pipe stdout in subprocess.
+        # helper = Popen(cmd, stdout=PIPE)
+        ### Read the output.
+        # line = helper.stdout.read()
+        # print line
+
+    def kill_sclockadj(self):
+        '''
+        '''
+        cmd = 'sudo /usr/lib/sdwdate/sclockadj_kill_helper ' + str(self.sclockadj_pid)
+        call(cmd, shell=True)
+
+    def set_time_using_date(self):
+        old_unixtime = float('%.9f' % (time.time()))
+        message = 'Old unixttime: %s' % (str(old_unixtime))
+        print(message)
+        logger.info(message)
+
+        new_unixtime = float('%.9f' % (old_unixtime + self.new_diff))
+        message = 'New unixtime %s' % (str(new_unixtime))
+        print(message)
+        logger.info(message)
+
+        ## Set new time.
+        cmd = 'sudo /bin/date --set @' + str(new_unixtime)
+        call(cmd, shell=True)
+
+        message = 'Instantly setting the time by using command "%s"' % cmd
+        print(message)
+        logger.info(message)
+
+    def strip_html(self, message):
+        ## New line for log.
+        tmp_message = re.sub('<br>', '\n', message)
+        ## Strip rmaining HTML.
+        return re.sub('<[^<]+?>', '', tmp_message)
+
+    def write_status(self, *args):
+        self.status['icon'] = args[0]
+        self.status['message'] = args[1]
+        with open(self.status_path, 'wb') as f:
+            pickle.dump(self.status, f)
+
+    def sdwdate_loop(self):
+        '''
+        Check remotes.
+        Pick a random url in each pool, check the returned value.
+        Append valid urls if time is returned, otherwise restart a cycle
+        with a new random url, until every pool has a time value.
+        '''
+        start_unixtime = time.time()
+        start_time = (datetime.strftime(datetime.fromtimestamp(start_unixtime),
+                                        '%a %b %d %H:%M:%S UTC %Y'))
+        message = ('Fetching remote times, start %s (unixtime %s)'
+                   % (start_time, start_unixtime))
+        print(message)
+        logger.info(message)
+
+        current_unixtime = time.time()
+        time_sanity_check = self.time_sanity_check(current_unixtime)
+        stripped_message = self.strip_html(self.message)
+
+        if time_sanity_check == 'sane':
+            logger.info(stripped_message)
+        else:
+            return self.error_icon, 'error'
+
+        fetching_msg = self._('fetching')
+        restricted_msg = self._('restricted')
+        if self.success:
+            self.write_status(self.success_icon, fetching_msg)
+            logger.info(fetching_msg)
+        else:
+            if not self.first_success:
+                self.write_status(self.busy_icon, (fetching_msg + restricted_msg))
+                logger.info(fetching_msg + restricted_msg)
+            else:
+                self.write_status(self.success_icon, fetching_msg)
+                logger.info(fetching_msg)
+
+        while len(self.valid_urls) < self.number_of_pools:
+            self.iteration += 1
+            message = 'Running sdwdate loop, iteration %s' % self.iteration
+            print(message)
+            logger.info(message)
+
+            ## Clear the lists.
+            self.urls[:] = []
+            self.url_random[:] = []
+
+            for pool in self.pools:
+                if not pool.done:
+                    pool_range = pool.url_range
+                    url_index = random.randrange(0, pool_range)
+                    while url_index in pool.already_picked_index:
+                        url_index = random.randrange(0, pool_range)
+
+                    pool.already_picked_index.append(url_index)
+                    if len(pool.already_picked_index) >= pool_range:
+                        pool_number = self.pools.index(pool) + 1
+                        self.message = self._('no_valid_time') + str(pool_number) + self._('restart')
+                        logger.warning(self.message)
+                        return self.error_icon, 'error'
+
+                    pool.url_random.append(pool.url[url_index])
+                    self.url_random.append(pool.url[url_index])
+
+            ## Fetch remotes.
+            if len(self.url_random) > 0:
+                message = 'Requested urls %s' % self.url_random
+                print(message)
+                logger.info(message)
+
+                self.urls, self.returned_values = get_time_from_servers(self.url_random,
+                                                                        self.proxy_ip,
+                                                                        self.proxy_port)
+
+                if len(self.urls) == 0:
+                    self.message = self._('no_value_returned') + self._('restart')
+                    return self.error_icon, 'error'
+
+                message = 'Returned urls "%s"' % self.urls
+                print(message)
+                logger.info(message)
+
+            else:
+                self.message = self._('list_not_built') + self._('restart')
+                return self.error_icon, 'error'
+
+            if len(self.returned_values) > 2:
+                if self.general_proxy_error(self.returned_values):
+                    self.message = self._('general_proxy_error')
+                    print(message)
+                    return self.error_icon, 'error'
+                if self.general_timeout_error(self.returned_values):
+                    self.message = self._('general_timeout_error')
+                    return self.error_icon, 'error'
+
+            for i in range(len(self.urls)):
+                if self.check_remote(self.urls[i], self.returned_values[i]):
+                    self.valid_urls.append(self.urls[i])
+                    self.unixtimes.append(self.returned_values[i])
+                else:
+                    self.invalid_urls.append(self.urls[i])
+                    self.url_errors.append(self.returned_values[i])
+                    for pool in self.pools:
+                        if self.urls[i] in pool.url_random:
+                            pool.invalid_urls += 1
+                            if pool.invalid_urls >= pool.allowed_failures:
+                                self.message = (self._('max_pool_failures_1') +
+                                                str(self.pools.index(pool) + 1) +
+                                                ' (' + str(pool.invalid_urls) + ' of ' +
+                                                str(len(pool.url)) + ')' +
+                                                self._('max_pool_failures_2') + '<br>')
+                                return self.error_icon, 'error'
+
+            old_unixtime = (time.time())
+
+            for pool in self.pools:
+                if not pool.done:
+                    for url in pool.url_random:
+                        pool.done = url in self.valid_urls
+                        if pool.done:
+                            ## Values are returned randomly. Get the index of the url.
+                            index = self.valid_urls.index(url)
+                            ## Pool matching web time.
+                            web_unixtime = int(self.unixtimes[index])
+                            sanitycheck_status = self.time_sanity_check(web_unixtime)
+                            if sanitycheck_status == 'sane':
+                                web_time = (datetime.strftime(datetime.fromtimestamp(web_unixtime),
+                                                              '%a %b %d %H:%M:%S UTC %Y'))
+                                pool_diff = int(web_unixtime) - int(old_unixtime)
+                                self.pools_diff.append(pool_diff)
+                                pool_number = self.pools.index(pool) + 1
+                                message = ('Pool %s last url: %s, web unixtime: %s, web time: %s, diff: %s seconds'
+                                           % (pool_number, url, web_unixtime, web_time, pool_diff))
+                                print(message)
+                                logger.info(message)
+                            else:
+                                pool.done = False
+                                del self.valid_urls[index]
+                                self.invalid_urls.append(url)
+                                message = ('%s: time sanity check failed, server time is %s'
+                                           % (url, sanitycheck_status))
+                                print message
+                                logger.warning(message)
+
+        message = 'Reachable urls:\n'
+        for url in self.valid_urls:
+            url_comment = self.get_comment(url)
+            message += '%s: "%s"\n' % (url, url_comment)
+        print(message.strip())
+        logger.info(message.strip())
+
+        message = 'Unreachable urls:\n'
+        for url in self.invalid_urls:
+            url_comment = self.get_comment(url)
+            message += '%s: "%s"\n' % (url, url_comment)
+        print(message.strip())
+        logger.info(message.strip())
+
+        end_unixtime = time.time()
+        end_time = (datetime.strftime(datetime.fromtimestamp(end_unixtime),
+                                      '%a %b %d %H:%M:%S UTC %Y'))
+        message = ('Fetching remote times, end %s (unixtime %s)'
+                   % (end_time, end_unixtime))
+        print(message)
+        logger.info(message)
+
+        last_shell_date = check_output('date').strip()
+        self.message = self._('success_1') + last_shell_date + self._('success_2')
+        retrying_loop = False
+        return self.success_icon, 'success'
+
+
+def signal_sigterm_handler(signum, frame):
+    # Inform sdwdate-gui
+    icon = sdwdate.error_icon
+    message = sdwdate._('user_kill')
+    stripped_message = re.sub('<[^<]+?>', '', message)
+    sdwdate.write_status(icon, message)
+
+    if sdwdate.sclockadj_pid != 0:
+        sdwdate.kill_sclockadj()
+    ## Remove te_pe_tb_check temp directory.
+    pre_check = PreCheckVariables()
+    if pre_check.run_prerequisite:
+        rmtree(pre_check.temp_dir)
+
+    logger.info(stripped_message)
+    sys.exit(143)
+
+
+def prerequisite_check():
+    pre_check = PreCheckVariables()
+    tor_status = False
+    message = ''
+    previous_messsage = ''
+    sdwdate = Sdwdate()
+    while not tor_status:
+        prerequisite_status = Popen(pre_check.prerequisite_path,
+                                    stdout=PIPE,
+                                    stderr=PIPE)
+        value, error = prerequisite_status.communicate()
+        if value == '':
+            tor_status = True
+        else:
+            message = 'Prerequsite check:<br> %s' % value.strip()
+            if message != previous_messsage:
+                previous_messsage = message
+                stripped_message = sdwdate.strip_html(message)
+                print stripped_message
+                logger.warning(stripped_message)
+                icon = sdwdate.error_icon
+                sdwdate.write_status(icon, message)
+            time.sleep(10)
+
+
+if __name__ == "__main__":
+    ## When restarted from sdwdate-gui, allow sufficient time between
+    ## status changes. See related comment in sdwdate-gui.
+    time.sleep(0.2)
+
+    pre_check = PreCheckVariables()
+    signal.signal(signal.SIGTERM, signal_sigterm_handler)
+
+    logger = logging.getLogger('sdwdate.log')
+    logger.setLevel(logging.INFO)
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    handler = logging.FileHandler('/var/log/sdwdate.log')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+    self_pid = os.getpid()
+    pid_message = 'sdwdate started. PID %s' % self_pid
+    print pid_message
+    logger.info(pid_message)
+    sdwdate = Sdwdate()
+    proxy_message = ('Tor socks host: %s  Tor socks port: %s'
+                     % (sdwdate.proxy_ip, sdwdate.proxy_port))
+    print proxy_message
+    logger.info(proxy_message)
+
+    if pre_check.run_prerequisite:
+        prerequisite_check()
+
+    while True:
+        sdwdate = Sdwdate()
+        icon, status = sdwdate.sdwdate_loop()
+
+        if status == 'success':
+            sdwdate.build_median()
+            sdwdate.add_subtract_nanoseconds()
+            if sdwdate.set_new_time():
+                if sdwdate.success:
+                    sdwdate.run_sclockadj()
+                else:
+                    sdwdate.set_time_using_date()
+            if not sdwdate.first_success:
+                f = open(sdwdate.first_success_path, 'w')
+                f.close()
+
+            f = open(sdwdate.success_path, 'w')
+            f.close()
+            sleep_time = randint(60, 180)
+            log_level = 'info'
+
+        elif status == 'error':
+            sleep_time = 10
+            log_level = 'warning'
+
+        message = (sdwdate.message + sdwdate._('sleeping') +
+                   str(sleep_time) + sdwdate._('minutes'))
+        stripped_message = sdwdate.strip_html(message)
+
+        sdwdate.write_status(icon, message)
+
+        if log_level == 'info':
+            logger.info(stripped_message)
+        elif log_level == 'warning':
+            logger.warning(stripped_message)
+
+        print(stripped_message)
+
+        seconds_to_sleep = sleep_time * 60
+        ## Using sh sleep in place of python's time.sleep().
+        ## The latter uses the system clock for its inactive state time.
+        ## It becomes utterly confused when sclockadj is running.
+        cmd = 'sleep %s' % seconds_to_sleep
+        call(cmd, shell=True)
+        #time.sleep(seconds_to_sleep)
+        if sdwdate.sclockadj_pid != 0:
+            sdwdate.kill_sclockadj()

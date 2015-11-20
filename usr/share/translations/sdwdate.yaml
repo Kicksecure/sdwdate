@@ -1,0 +1,32 @@
+sdwdate:
+    en:
+        fetching: 'Fetching remote times...'
+        restricted: '<br>Outgoing internet access is still restricted because initial time fetching is not done yet'
+        user_kill: 'Signal SIGTERM received. sdwdate stopped by user. '
+        sleeping: '<br> Sleeping for '
+        minutes: ' minutes.'
+        success_1: 'Last run (on '
+        success_2: ') was successful.<br> '
+
+        tsc_1: '<b>The clock is '
+        tsc_2: '</b><br> Current time '
+        slow_clock: ' is less than<br> the build timestamp '
+        fast_clock: ' is greater than<br> the expiration timestamp '
+        cause: '<br><br>Possible causes:<br>
+                - the host clock is wrong -> shut down the VM, fix the clock in the host and restart the VM.<br>
+                - the VM clok is wrong -> manually fix the clock. Restart tor if necessary.<br>
+                - a host clock attack succeeded.<br>
+                - a bios clock failure.<br>'
+
+        no_valid_time: 'Time is not set:<b> no valid time returned from pool </b><br>
+                        Possible causes:<br>- internet connection is down
+                        <br>- tor is not running'
+        no_value_returned: '<b>No values returned from servers.</b>'
+        list_not_built: '<b>Something is wrong. sdwdate could not build a list or urls.</b>'
+        restart: '<br> Restart sdwdate. If the problem persists, please report this bug.<br>'
+
+        general_proxy_error: '<b>General Proxy Error.</b> Is Tor running?'
+        general_timeout_error: '<b>General Timeout Error.</b> Internet connection might be down'
+
+        max_pool_failures_1: '<b>Maximum allowed number of failures</b> reached in pool '
+        max_pool_failures_2: '. Giving up.<br> If the problem occurs too frequently, please report it.'
