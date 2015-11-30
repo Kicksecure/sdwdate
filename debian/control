@@ -6,7 +6,8 @@ Source: sdwdate
 Section: misc
 Priority: optional
 Maintainer: Patrick Schleizer <adrelanos@riseup.net>
-Build-Depends: debhelper (>= 9), faketime, genmkfile, ruby-ronn (>= 0.7.3), dh-systemd
+Build-Depends: debhelper (>= 9), faketime, genmkfile, ruby-ronn (>= 0.7.3),
+ dh-systemd, dh-apparmor
 Homepage: https://github.com/Whonix/sdwdate
 Vcs-Browser: https://github.com/Whonix/sdwdate
 Vcs-Git: https://github.com/Whonix/sdwdate.git
