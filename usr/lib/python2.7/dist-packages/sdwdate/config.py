@@ -78,36 +78,35 @@ def read_pools(pool, mode):
     pool_three_url = []
 
     if os.path.exists('/etc/sdwdate.d/'):
-        files = sorted(glob.glob('/etc/sdwdate.d/*'))
+        files = sorted(glob.glob('/etc/sdwdate.d/*.conf'))
 
         if files:
             conf_found = False
             for conf in files:
-                if not conf.endswith('~') and conf.count('.dpkg-') == 0:
-                    conf_found = True
-                    with open(conf) as c:
-                        for line in c:
-                            line = line.strip()
-                            if line.startswith('SDWDATE_POOL_ONE'):
-                                SDWDATE_POOL_ONE = True
+                conf_found = True
+                with open(conf) as c:
+                    for line in c:
+                        line = line.strip()
+                        if line.startswith('SDWDATE_POOL_ONE'):
+                            SDWDATE_POOL_ONE = True
 
-                            elif line.startswith('SDWDATE_POOL_TWO'):
-                                SDWDATE_POOL_ONE = False
-                                SDWDATE_POOL_TWO = True
+                        elif line.startswith('SDWDATE_POOL_TWO'):
+                            SDWDATE_POOL_ONE = False
+                            SDWDATE_POOL_TWO = True
 
-                            elif line.startswith('SDWDATE_POOL_THREE'):
-                                SDWDATE_POOL_ONE = False
-                                SDWDATE_POOL_TWO = False
-                                SDWDATE_POOL_THREE = True
+                        elif line.startswith('SDWDATE_POOL_THREE'):
+                            SDWDATE_POOL_ONE = False
+                            SDWDATE_POOL_TWO = False
+                            SDWDATE_POOL_THREE = True
 
-                            elif SDWDATE_POOL_ONE and not line.startswith('##'):
-                                pool_one.append(line)
+                        elif SDWDATE_POOL_ONE and not line.startswith('##'):
+                            pool_one.append(line)
 
-                            elif SDWDATE_POOL_TWO and not line.startswith('##'):
-                                pool_two.append(line)
+                        elif SDWDATE_POOL_TWO and not line.startswith('##'):
+                            pool_two.append(line)
 
-                            elif SDWDATE_POOL_THREE and not line.startswith('##'):
-                                pool_three.append(line)
+                        elif SDWDATE_POOL_THREE and not line.startswith('##'):
+                            pool_three.append(line)
 
             if not conf_found:
                 print('No valid file found in user configuration folder "/etc/sdwdate.d".')
