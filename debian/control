@@ -22,8 +22,6 @@ Depends: sudo, logrotate, bc,
  ${misc:Depends}
 Recommends: vbox-disable-timesync, timesanitycheck, bootclockrandomization,
  timesync
-Suggests: sdwdate-plugin-anon-shared-con-check,
- sdwdate-plugin-anon-shared-streamiso
 Description: Secure Distributed Network Time Synchronization
  Time keeping is crucial for security, privacy, and anonymity. Sdwdate is a Tor
  friendly replacement for rdate and ntpdate that sets the system's clock by
