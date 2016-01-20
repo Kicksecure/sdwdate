@@ -1,0 +1,93 @@
+# Last modified: Tue May  6 20:18:21 UTC 2014
+#include <tunables/global>
+
+/usr/bin/sdwdate {
+    #include <abstractions/base>
+    #include <abstractions/bash>
+    #include <abstractions/sdwdate>
+
+    capability audit_write,
+    capability net_admin,
+
+    @{HOME}/sdwdatetest rwk,
+
+    /bin/touch rix,
+    /bin/run-parts rix,
+    /bin/date rix,
+    /bin/systemctl rix,
+    /bin/bash rix,
+
+    /etc/nsswitch.conf r,
+    /etc/pam.d/other r,
+    /etc/pam.d/common-auth r,
+    /etc/pam.d/common-account r,
+    /etc/apt/sources.list.d/ r,
+    /etc/apt/sources.list.d/* r,
+    /etc/uwt.d/ r,
+    /etc/uwt.d/* r,
+    /etc/login.defs r,
+    /etc/machine-id r,
+
+    /home/sdwdate/.msgcollector rwk,
+    /home/sdwdate/.msgcollector/** rwk,
+
+    /lib//security/* mr,
+
+    @{PROC}/sys/kernel/random/boot_id r,
+
+    /run/sdwdate/done rwcx,
+
+    ## TODO: Remove /run/... and add ~/.timesync/*
+    /run/timesync/timesync_pid rix,
+    /run/timesync/timesync_done rwix,
+    /run/timesync/timesync_running rwcix,
+
+    /sys/fs/cgroup/systemd/system.slice/bootclockrandomization.service/ r,
+    /sys/fs/cgroup/systemd/system.slice/bootclockrandomization.service/* r,
+    /sys/fs/cgroup/systemd/system.slice/timesanitycheck.service/ r,
+    /sys/fs/cgroup/systemd/system.slice/timesanitycheck.service/* r,
+
+    /tmp/** lrwcix,
+
+    /usr/bin/sudo rix,
+
+    /usr/lib/timesync/timesync_pre rix,
+    /usr/lib/timesync/timesync_post_error rix,
+    /usr/lib/timesync/timesync_post_success rix,
+    /usr/lib/timesync/timesync_post_failure rix,
+    /usr/lib/timesync/timesync_progress rix,
+    /usr/lib/msgcollector/msgcollector rix,
+    /usr/lib/msgcollector/msgprogress rix,
+    /usr/lib/*-linux-gnu/ruby/2.1.0/** mr,
+
+    # Whonix 10
+    /usr/lib/sdwdate/sclockadj_debug_helper rix,
+
+    /usr/lib/curl-scripts/curl_exit_codes rix,
+    /usr/lib/python*/** mr,
+    /usr/lib/python*/lib-dynload/datetime.so mr,
+
+    /usr/lib/msgcollector/striphtml rix,
+
+    deny /usr/local/lib/** r,
+
+    /usr/bin/find rix,
+
+    /usr/share/rubygems-integration/all/specifications/ r,
+
+    /var/cache/apt/pkgcache.bin rwk,
+    /var/cache/apt/pkgcache.bin* rwk,
+    /var/cache/apt/srcpkgcache.bin rwk,
+    /var/cache/sdwdate/ r,
+    /var/cache/sdwdate/** mrw,
+
+    /var/lib/dpkg/lock rwcxk,
+    /var/lib/dpkg/updates/ r,
+    /var/lib/dpkg/status r,
+    /var/lib/apt/lists/* r,
+
+    /var/log/bootclockrandomization.log rwk,
+    /var/log/timesanitycheck.log rwk,
+
+    /var/log/sdwdate.log rwk,
+}
