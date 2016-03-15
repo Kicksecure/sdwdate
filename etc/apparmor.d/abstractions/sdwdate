@@ -151,7 +151,9 @@
     /usr/lib/sdwdate/sclockadj_kill_helper rix,
     /usr/lib/sdwdate/sclockadj rix,
     /usr/lib/sdwdate/restart_fresh rix,
+    /usr/lib/anon-shared-helper-scripts/settings_echo rix,
     /usr/lib/sudo/sudoers.so mr,
+    usr/lib/python2.7/dist-packages/sdwdate/* rix,
 
     /usr/sbin/service rix,
 
@@ -161,6 +163,7 @@
     /usr/share/tor/tor-service-defaults-torrc r,
     /usr/share/rubygems-integration r,
     /usr/share/rubygems-integration/** r,
+    /usr/share/translations/sdwdate.yaml r,
 
     /var/lib/apt/extended_states r,
     /var/lib/apt/lists/ r,
