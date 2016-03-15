@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e
+
+if [ ! "$(id -u)" = "0" ]; then
+   echo "ERROR: Must run as root!" >&2
+   exit 2
+fi
+
+## Do not interfere with the clock if the service was stopped.
+if test -f /var/run/sdwdate/was_running.status ; then
+   rm -f /var/run/sdwdate/was_running.status
+   /usr/lib/sdwdate/clock-fix || true
+fi
