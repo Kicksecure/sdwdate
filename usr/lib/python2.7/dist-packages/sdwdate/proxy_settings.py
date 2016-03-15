@@ -8,17 +8,6 @@ def proxy_settings():
     port_number = ''
     settings_path = '/usr/lib/anon-shared-helper-scripts/settings_echo'
 
-    if os.path.exists('/etc/sdwdate.d/'):
-        files = sorted(glob.glob('/etc/sdwdate.d/*'))
-        for f in files:
-            with open(f) as conf:
-                lines = conf.readlines()
-            for line in lines:
-                if line.startswith('PROXY_IP'):
-                    ip_address = re.search(r'=(.*)', line).group(1)
-                if line.startswith('PROXY_PORT'):
-                    port_number = re.search(r'=(.*)', line).group(1)
-
     if (os.path.exists('/usr/share/whonix') and
         os.access(settings_path, os.X_OK)):
             proxy_settings = check_output(settings_path)
@@ -36,6 +25,17 @@ def proxy_settings():
         pass
     else:
         port_number = '9050'
+
+    if os.path.exists('/etc/sdwdate.d/'):
+        files = sorted(glob.glob('/etc/sdwdate.d/*'))
+        for f in files:
+            with open(f) as conf:
+                lines = conf.readlines()
+            for line in lines:
+                if line.startswith('PROXY_IP'):
+                    ip_address = re.search(r'=(.*)', line).group(1)
+                if line.startswith('PROXY_PORT'):
+                    port_number = re.search(r'=(.*)', line).group(1)
 
     #print 'ip %s port %s' % (ip_address, port_number)
     return ip_address, port_number
