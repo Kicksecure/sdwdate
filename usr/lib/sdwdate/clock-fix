@@ -1,19 +1,26 @@
 #!/bin/bash
 
+set -x
 set -e
 
 if [ ! "$(id -u)" = "0" ]; then
-   echo "ERROR: Must run as root!" >&2
+   echo "$0 ERROR: Must run as root!" >> /var/log/sdwdate.log
    exit 2
 fi
 
 if [ -d "/usr/lib/qubes" ]; then
    randomized_unix_time="$(timeout --kill-after="5" "5" /usr/lib/qubes/qrexec-client-vm dom0 qubes.GetRandomizedTime)"
 else
-   echo "ERROR: Not implemented in Non-Qubes-Whonix. See: https://www.whonix.org/wiki/Troubleshooting#Clock_Fix" >&2
+   echo "$0 INFO: Clock fix after resume not implemented in Non-Qubes-Whonix. See: https://www.whonix.org/wiki/Troubleshooting#Clock_Fix" >> /var/log/sdwdate.log
    exit 3
 fi
 
+echo "$0 INFO: date before roughly fixing it: $(date -u)" >> /var/log/sdwdate.log
+
 date --set "@$randomized_unix_time" >/dev/null
 
+echo "$0 INFO: date after roughly fixing it : $(date -u)" >> /var/log/sdwdate.log
+
+echo "$0 INFO: Restarting sdwdate..." >> /var/log/sdwdate.log
 service sdwdate restart
+echo "$0 INFO: Done, restarted sdwdate." >> /var/log/sdwdate.log

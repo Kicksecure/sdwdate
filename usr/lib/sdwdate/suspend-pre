@@ -1,13 +1,20 @@
 #!/bin/bash
 
+set -x
 set -e
 
 if [ ! "$(id -u)" = "0" ]; then
-   echo "ERROR: Must run as root!" >&2
+   echo "$0 ERROR: Must run as root!" >> /var/log/sdwdate.log
    exit 2
 fi
 
 if service sdwdate status >/dev/null ; then
+   echo "$0 INFO: Creating /var/run/sdwdate/was_running.status..." >> /var/log/sdwdate.log
    touch /var/run/sdwdate/was_running.status
+   echo "$0 INFO: Done, created /var/run/sdwdate/was_running.status." >> /var/log/sdwdate.log
+   echo "$0 INFO: Stopping sdwdate..." >> /var/log/sdwdate.log
    service sdwdate stop
+   echo "$0 INFO: Done, stopped sdwdate." >> /var/log/sdwdate.log
+else
+   echo "$0 INFO: sdwdate was not running, no need to stop it." >> /var/log/sdwdate.log
 fi

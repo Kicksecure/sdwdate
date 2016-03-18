@@ -1,14 +1,21 @@
 #!/bin/bash
 
+set -x
 set -e
 
 if [ ! "$(id -u)" = "0" ]; then
-   echo "ERROR: Must run as root!" >&2
+   echo "$0 ERROR: Must run as root!" >> /var/log/sdwdate.log
    exit 2
 fi
 
 ## Do not interfere with the clock if the service was stopped.
 if test -f /var/run/sdwdate/was_running.status ; then
+   echo "$0 INFO: Deleting /var/run/sdwdate/was_running.status..." >> /var/log/sdwdate.log
    rm -f /var/run/sdwdate/was_running.status
+   echo "$0 INFO: Done, deleted /var/run/sdwdate/was_running.status." >> /var/log/sdwdate.log
+   echo "$0 INFO: Running /usr/lib/sdwdate/clock-fix..."
    /usr/lib/sdwdate/clock-fix || true
+   echo "$0 INFO: Done with /usr/lib/sdwdate/clock-fix."
+else
+   echo "$0 INFO: File /var/run/sdwdate/was_running.status did not exist, meaning we previously did not stop sdwdate so not starting it now." >> /var/log/sdwdate.log
 fi
