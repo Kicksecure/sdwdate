@@ -50,7 +50,7 @@ class Pool:
     @property
     def allowed_failures(self):
         if os.path.exists('/etc/sdwdate.d/'):
-            files = sorted(glob.glob('/etc/sdwdate.d/*'))
+            files = sorted(glob.glob('/etc/sdwdate.d/*.conf'))
             for f in files:
                 with open(f) as conf:
                     lines = conf.readlines()

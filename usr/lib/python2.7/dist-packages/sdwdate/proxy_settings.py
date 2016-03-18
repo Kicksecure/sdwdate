@@ -27,7 +27,7 @@ def proxy_settings():
         port_number = '9050'
 
     if os.path.exists('/etc/sdwdate.d/'):
-        files = sorted(glob.glob('/etc/sdwdate.d/*'))
+        files = sorted(glob.glob('/etc/sdwdate.d/*.conf'))
         for f in files:
             with open(f) as conf:
                 lines = conf.readlines()
