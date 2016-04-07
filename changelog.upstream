@@ -1,3 +1,363 @@
+commit 95850f6c985d9fa3d15cec97f0aa366686ffdf6c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Mar 18 23:52:10 2016 +0000
+
+    suspend pre / post logging
+    
+    https://github.com/QubesOS/qubes-issues/issues/1764
+
+commit 89de9713d23dbec669d98ffd7c8bb1e020ccb743
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Mar 18 23:35:53 2016 +0000
+
+    only source configuration files ending with .conf
+
+commit 5c1aea77af147283032ad065dd6daad721d5d89f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Mar 18 23:15:20 2016 +0000
+
+    added Qubes suspend pre / post hooks
+    
+    https://github.com/QubesOS/qubes-issues/issues/1779
+
+commit e29863e1238384845a1b441216cccf343c049eee
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Mar 15 15:42:26 2016 +0000
+
+    allow proxy settings to be set for Whonix users through /etc/sdwdate.d also
+
+commit 5dda98423eda800e3bec5bfe6234e34b849e61b6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Mar 15 14:47:13 2016 +0000
+
+    added suspend-pre, suspend-post and clock-fix handler scripts
+    
+    https://github.com/QubesOS/qubes-issues/issues/1764
+
+commit 0e3de197a1875bd3db80e2128e3df1f6117a551c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Mar 15 01:13:40 2016 +0000
+
+    fixed various apparmor denied messages
+
+commit 9cb8c1dfa92bb84d52ae7e95f67a000f8e5d7119
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 29 14:48:49 2016 +0100
+
+    grouped Debian mirrors provided by the same host
+
+commit 2eeddab5c2a30ae07bc021337795ad793743c2da
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 29 14:20:30 2016 +0100
+
+    fix
+
+commit 6d38c8d374a279a9b6a83000f96a85dc7e14d664
+Merge: c001bcf dcb7be3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 29 14:19:16 2016 +0100
+
+    added new services
+    - j7652k4sod2azfu6.onion https://www.systemli.org/en/service/etherpad.html Systemli.org privacy tech collective
+    - infotombjhy7tcrg.onion https://infotomb.com Censorship resistant file upload
+
+commit dcb7be304755b71b742f029e61ffd092e53c8106
+Merge: c001bcf eda8b3d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 29 14:18:53 2016 +0100
+
+    Merge pull request #11 from HulaHoopWhonix/patch-6
+    
+    Update 30_default.conf
+
+commit eda8b3d458fbd674fb11474cea28718f4ff96d5c
+Author: HulaHoopWhonix <bancfc@openmailbox.org>
+Date:   Fri Jan 29 03:48:03 2016 +0000
+
+    Update 30_default.conf
+
+commit 571297c4784ac6d9bc307f98e0c5db0b5a8c6f63
+Author: HulaHoopWhonix <bancfc@openmailbox.org>
+Date:   Fri Jan 29 03:32:32 2016 +0000
+
+    Update 30_default.conf
+
+commit c001bcf4a445354112d7fd8978e12aabbbd36c19
+Merge: b57ce5b 68d0fb9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 23:13:38 2016 +0100
+
+    added toristinkirir4xj.onion - https://twitter.com/mrphs/status/691382133710000128 The Torist literary magazine
+
+commit 68d0fb9b65981ae97fc65dd4334015640a549243
+Merge: b57ce5b 2ab77b2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 23:12:45 2016 +0100
+
+    Merge pull request #10 from HulaHoopWhonix/patch-5
+    
+    Update 30_default.conf
+
+commit 2ab77b294efb1b180df580f9af055d5d262dcfbf
+Author: HulaHoopWhonix <bancfc@openmailbox.org>
+Date:   Tue Jan 26 04:16:11 2016 +0000
+
+    Update 30_default.conf
+
+commit b57ce5b3a5dc04612735691d991e85119a04f25e
+Merge: 6b7407c 46e4ce6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 23 23:32:02 2016 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 46e4ce64ea8fcf74de2fc2949ce3f144d01775bc
+Merge: 6b7407c d4feca1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 23 23:31:25 2016 +0100
+
+    Merge pull request #9 from HulaHoopWhonix/patch-4
+    
+    added lqdnwwwmaouokzmg.onion
+    https://twitter.com/torproject/status/689958927044317185
+    https://www.laquadrature.net
+
+commit d4feca19fac18a14caf256416e6724db6d0120a9
+Author: HulaHoopWhonix <bancfc@openmailbox.org>
+Date:   Sat Jan 23 17:57:11 2016 +0000
+
+    Update 30_default.conf
+
+commit 6b7407c107b55d8e2d4e8a219540d64bd173cdbe
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 20 17:42:02 2016 +0000
+
+    merged apparmor-profile-sdwdate
+
+commit 4b5e0ae9b587808b9f6153272457a00fe6dea1ea
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 20 17:34:30 2016 +0000
+
+    removed no longer needed Suggests:
+    
+    sdwdate-plugin-anon-shared-con-check, sdwdate-plugin-anon-shared-streamiso,
+    because these plugins no longer exists (integrated into sdwdate)
+
+commit 57c66361cdad31f2225013efab875f1cbcd0a55e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Dec 7 15:04:45 2015 +0000
+
+    removed extraneous empty line introduced by previous commit
+
+commit 3aebe139aa92e189e56f0d78a27acc3dd2724558
+Merge: 5340203 1f44fd9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Dec 7 15:03:56 2015 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 1f44fd9e4e190a17755e896b4e075801d600fc10
+Merge: 5340203 6183f97
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Dec 7 15:03:13 2015 +0000
+
+    Merge pull request #8 from HulaHoopWhonix/patch-3
+    
+    Added Debian mirrors
+
+commit 6183f97a0ad5fc641e7a6bcefebb8dc6fd3f165d
+Author: HulaHoopWhonix <bancfc@openmailbox.org>
+Date:   Sat Dec 5 13:22:43 2015 +0000
+
+    Added Debian mirrors
+
+commit 5340203367d1ad9511e37601ebc36facb2b4bf00
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Nov 30 20:06:15 2015 +0000
+
+    enable AppArmor profile /etc/apparmor.d/usr.lib.sdwdate.url_to_unixtime
+
+commit 47e9a0eb84fd184ac799b0d48b9ccc67d55db747
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Nov 30 19:47:48 2015 +0000
+
+    Only source configuration files that end with the '.conf' extension.
+    
+    Thanks to @nrgaway for the suggestion!
+    
+    https://phabricator.whonix.org/T286
+
+commit 3068b649a57433f6edb1ae5f714674ad0ae33b6d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 20 18:08:52 2015 +0100
+
+    backported improvements to sdwdate pool configuration
+    
+    from sdwdate master branch (bash) /etc/sdwdate/30_sdwdate_default to python branch
+    
+    https://github.com/Whonix/sdwdate/blob/5e12a990b04ba13f46ef3ec7ec0299b56a2440b0/etc/sdwdate.d/30_sdwdate_default
+
+commit 811a053f0b18d4b355685d9fe441b8a4312c5b75
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Nov 21 17:28:49 2015 +0000
+
+    Remove test.d files
+    deleted:    usr/share/test_d_files/40_pool_one_invalid
+    deleted:    usr/share/test_d_files/50_pool_two_invalid
+
+commit 7071842ecc90b875aeae0dc8ddd5541a878d8743
+Merge: 4f6f532 fa1d317
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 20 17:19:12 2015 +0000
+
+    replaced sdwdate bash with sdwdate python rewrite by @troubadoour
+    
+    Merge remote-tracking branch 'troubadoour/python'
+    
+    Conflicts:
+    	usr/lib/sdwdate/modules.d/sdwdate
+    	usr/share/test_d_files/40_pool_one_invalid
+
+commit fa1d3178d1a71f0e1a01c558f187765fb0e7ace7
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Oct 24 16:32:55 2015 +0000
+
+    remove "You may increase MAX_FAILURE_RATIO" in max_pool_failures message
+
+commit 0941fa436e121dd74d4401c2e85bc0e6008bbccf
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Oct 24 15:38:40 2015 +0000
+
+    Tor control -> Tor socks
+
+commit 3882c4c330852c8b5501ffd01d4b3c32761f1f6c
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Oct 23 21:02:20 2015 +0000
+
+    typo in PROXY_PORT
+
+commit 8c028f1d6dc8e5baed1a9c355294cf991f8ff025
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Oct 23 20:58:02 2015 +0000
+
+    MAX_FAILURE_RATIO in /etc/sdwdate.d/30_default.conf
+
+commit d442166b36618b86406b6ca182c8d67fb0a56a3a
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Oct 23 18:38:15 2015 +0000
+
+    expanded max_pool_failures message
+
+commit 112d21e4c1d906b93816aa18d2e9cb121089100b
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Oct 23 16:03:52 2015 +0000
+
+    logging proxy settings
+
+commit d2ae04588d5512ba7cea01cac30cf87e97b862d6
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Oct 23 07:21:06 2015 +0000
+
+    sleep time -> use sh sleep in place of python's time.sleep(),
+     because the latter uses system clock and get confused when
+    sclokadj is running
+
+commit 4f6f5321bb02896bb60ceed417c6234925211bce
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Oct 22 23:12:38 2015 +0000
+
+    bumped changelog version
+
+commit 744ed92008eeb695900dd62e987759fb8185d167
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Oct 22 18:11:46 2015 +0000
+
+    fix: end fetching time was same as start fetching time
+
+commit 09b21f2dbb4bdf091943c5e38b7f777bd9173e40
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Oct 20 21:57:19 2015 +0000
+
+    proxy_settings.py -> search for TOR_CONTROL_HOST variable
+
+commit 6e411d29135a4423933e48614f141df072363f01
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Oct 20 21:01:49 2015 +0000
+
+    make usr/share/sdwdate/unit_test executalbe
+
+commit 9f86c29e103bd49a57e1cd5698a05f7006155ced
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Oct 20 20:55:23 2015 +0000
+
+    new file: usr/share/sdwdate/unit_test: get time from all sdwdate remotes, create a timestamped file (unixtime) with the results
+
+commit 2fab852c3d5e84d75204a732b722ec48db6bdb25
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Oct 20 20:50:03 2015 +0000
+
+    sdwdate -> read pools in production mode
+
+commit d91192b01f46a9a07d0dd74735395e6b89824397
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Oct 20 20:48:12 2015 +0000
+
+    unused import
+
+commit 236627f994938080e24995118cfe4572e47b0c72
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Oct 20 20:43:57 2015 +0000
+
+    config.py -> production/test modes
+
+commit f8308b1854bfcb4bdf7992be2ecb474f5e7b0094
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Oct 18 19:59:43 2015 +0000
+
+    unused imports
+
+commit 38661f00c92317b3b193397f08100f37414aea92
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Oct 18 19:49:38 2015 +0000
+
+    may return unbound variable url_comment
+
+commit 63205ecb3ba4595c98db64ccd200e4d485d71f2b
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Oct 18 19:38:41 2015 +0000
+
+    redundant parentheses
+
+commit 09123374a4c8cb6f175823d96261a431fdeff3ab
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Oct 18 19:34:34 2015 +0000
+
+    static methods
+
+commit af304467d14bbf01a1850d2af207e0ffc32e1925
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Oct 18 19:27:14 2015 +0000
+
+    __init__ method in PreCheckVariables class
+
+commit 18d882b86a987b397029520e9e7aece7060b139c
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Oct 18 19:22:13 2015 +0000
+
+    augmented statements
+
+commit 0bbd549a00c3c6ab1112a3cb6f8b6c80036d9a5f
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Oct 18 18:21:17 2015 +0000
+
+    redundant print statements
+
+commit 064f27675ff44396d2911ae3c265f5a7cc9ed445
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Oct 17 20:40:57 2015 +0000
+
+    get proxy settings from /usr/lib/anon-shared-helper-scripts/settings_echo
+
 commit bebb7ccd983e57c3fd2bff7668ac1041a15d8cdd
 Merge: f8a705f 80a003e
 Author: Patrick Schleizer <adrelanos@riseup.net>
@@ -26,6 +386,183 @@ Date:   Fri Oct 16 21:52:15 2015 -0400
 
     Update 30_sdwdate_default
 
+commit 8f40791e24a656211600168b75751266975291cb
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Oct 16 22:25:35 2015 +0000
+
+    + random sleep time
+
+commit a0ac1b866c9bd05be606ff10a074da43d1e5c128
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Oct 16 22:07:40 2015 +0000
+
+    + pool allowed failure ratio
+
+commit 1b84af9c8199865d9e302466120216893f09e9b5
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Oct 16 21:37:01 2015 +0000
+
+    rewrite pool append loop
+
+commit c5af008288e490195a0020820eb3e81c234c49b3
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Oct 15 21:38:56 2015 +0000
+
+    missing dot
+
+commit ad96d7fcacebf3c2f4c81f46a2c0fd72bb7aa25d
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Oct 15 20:43:42 2015 +0000
+
+    prerequisite_check: check if file is executable
+
+commit 23ff604be643705f4955c3958e28c911b3b1751a
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Oct 15 20:21:52 2015 +0000
+
+    check "usr/share/whonix", check configuration PROXY settings, default to 127.0.0.1:9050
+
+commit 1dfcc8da2f3bd58d17893bd8d8cb5095ceedee6c
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Oct 15 11:52:31 2015 +0000
+
+    check run_prerequisite before removing temp_dir
+
+commit 9f3a4a632bc01c9d178a23c477867991faf45c8a
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Oct 15 11:00:16 2015 +0000
+
+    class PreCheckVariables: set run_prerequite true and create temp_dir if /usr/lib/anon-shared-helper-scripts/te_pe_tb_check exists
+
+commit b15a38b2878808c7469f400c9665657ee6a1f234
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Oct 14 20:45:22 2015 +0000
+
+    Revert "create temp dir for te_pe_tb_check in sdwdate.__init__"
+    
+    This reverts commit 2378b2e9f4274c90186214078a5a697933ddb1f2.
+
+commit 2378b2e9f4274c90186214078a5a697933ddb1f2
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Oct 14 20:07:12 2015 +0000
+
+    create temp dir for te_pe_tb_check in sdwdate.__init__
+
+commit 9e42a51c9a2da19041858f290bde54a4a9ccc103
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Oct 14 19:55:08 2015 +0000
+
+    run prerequisite_check if /usr/lib/anon-shared-helper-scripts/te_pe_tb_check exists
+
+commit 9daf3d60e359529e585e7434af8f380c894f5f53
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Oct 11 20:33:41 2015 +0000
+
+    proxy settings passed from sdwdate_loop to remote times
+
+commit 9fc7092ce3ff52cb626a17a0899ac91862346b57
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Oct 11 20:28:12 2015 +0000
+
+    etc/sdwdate.d/30_default.conf -> proxy settings for non anonymous distributions
+
+commit f0884c91cddd065337e0edd97581f2f62584aa72
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Oct 11 20:25:59 2015 +0000
+
+    new file:   usr/lib/python2.7/dist-packages/sdwdate/proxy_settings.py
+
+commit d2420410156af54b9ad92a0eb2df983c7e7164b3
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Oct 11 20:23:52 2015 +0000
+
+    sdwdate.yaml typo
+
+commit c5d9144caf698c619b374183f20d8f4cd84dff42
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Oct 11 18:33:18 2015 +0000
+
+    new comments in "no valid time returned from pool", most likely
+    happening if tor or internet fails during a sdwdate cycle
+
+commit 81e9e6b9a00b120b88f4aba3870ef2c70e77f9c8
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Oct 11 18:16:41 2015 +0000
+
+    check for general errors only on first fetching iteration (three urls returned)
+
+commit ac5df6dacaf061458358abf75c74a1f122196ca8
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Oct 11 17:58:22 2015 +0000
+
+    remove debugging print statements
+
+commit 07317969d82c08a67f6415b12a899df7a35f8c0d
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Oct 10 22:22:08 2015 +0000
+
+    prerequisite_check: one shot logging
+
+commit 013e273c0fe84512c3f40fbde1172fc5e46483b7
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Oct 10 21:50:03 2015 +0000
+
+    renamed:    etc/sdwdate.d/30_sdwdate_default.conf -> etc/sdwdate.d/30_default.conf
+
+commit 956bcd78a96e9cd0e3d32422babc106ea5cc1cf9
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Oct 10 21:37:43 2015 +0000
+
+    comment in etc/sdwdate.d/30_sdwdate_default.conf
+
+commit 061da44790f42f50fe1d2d504e4d16eb23e644c7
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Oct 10 17:05:49 2015 +0000
+
+    prerequisite_check: strip message
+
+commit cd5a79813d9ec8bdff5c0a14773b3687fa41a83c
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Oct 9 20:39:25 2015 +0000
+
+    cleanup etc/sdwdate.d/30_sdwdate_default.conf
+
+commit 37db6bed72e4ffcb47336ad23e6168fe32e00e10
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Oct 9 20:10:42 2015 +0000
+
+    etc/sdwdate-python.d -> etc/sdwdate.d
+
+commit c406471c3e32ed15ec3ba2a7756025d948937d2a
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Oct 9 18:44:45 2015 +0000
+
+    prerequisite_check: time sleep 10
+
+commit 8f3077c9da2184cf3bf92df4048d5397410bdbff
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Oct 9 18:42:52 2015 +0000
+
+    prerequisite_check: write error to sdwdate-gui
+
+commit 92f1101fbb7ff8d65bf1a48a5e81f6b7b2479837
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Oct 9 18:14:57 2015 +0000
+
+    prerequisite_check: strip new line in returned values
+
+commit 345f861fc3ee061a5b3ec6b3cd2d4d8519945403
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Oct 9 18:10:35 2015 +0000
+
+    prerequisite_check: stdout instead of stdin, use value instead of error
+
+commit 19503b03984370c040877a5b576e3d0a5a44e01c
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Oct 8 19:24:32 2015 +0000
+
+    + prerequisite check
+
 commit f8a705f3dcab93321e05e92fec0f897b28dddcf0
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Oct 8 11:41:39 2015 +0000
@@ -37,6 +574,25 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Oct 8 11:39:50 2015 +0000
 
     terminate sclockadj before every cycle, not just after successfully obtaining a new time stamp - https://www.whonix.org/forum/index.php/topic,1301.msg10758.html#msg10758
+
+commit c896c2f527844a70e43f5c0b130c65a326a63141
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Oct 6 19:06:32 2015 +0000
+
+    stream isolation settings
+      On branch python
+
+commit 9bf8b5057edd94acdce7575f7c372bbfeeabec04
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Oct 5 20:37:30 2015 +0000
+
+    fix bug in pool append loop -> set url_index = -1 as picked url index might be zero
+
+commit 8280a228eea523ff3f43dc98b64de769f5d5994d
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Oct 4 18:42:00 2015 +0000
+
+    debian/control Depends: python-guimessages
 
 commit 85ae84bef5dc5896e844b032f5277a32b036667d
 Merge: 8377e85 1a214bd
@@ -54,11 +610,59 @@ Date:   Sun Oct 4 12:44:00 2015 +0200
     
     Add Qubes-Os Site to Pool
 
+commit cd74072afb1932a0ce1b01e884d8b4ca4db3a93c
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Oct 3 20:56:19 2015 +0000
+
+    log slow or fast if pool timesanitycheck fails
+
+commit c331bef0e360b70646857385fd4575932db7f167
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Oct 3 20:26:11 2015 +0000
+
+    timesanitycheck each pool after fetching times
+
 commit 9fdc8ebd3fe028c1b491d5755f56de4812e1f482
 Author: cle4r <cle4r@maili2p.org>
 Date:   Fri Oct 2 18:59:30 2015 +0200
 
     Add Qubes-Os Site to Pool
+
+commit 75f20cb991344f5ba86abc0dd756d8d70be43002
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Oct 1 21:07:17 2015 +0000
+
+    use external yaml file for logging / sdwdate-gui messages
+
+commit f9a735a26d2a872a105e7d599d1a89e5f55d0e62
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Oct 1 21:03:31 2015 +0000
+
+    new file sdwdate.yaml
+
+commit 7ba7bb6dd31bf723562c0f4347e258e1af1a8be7
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Sep 30 16:30:10 2015 +0000
+
+    comments in general_proxy_error, general_timeout_error
+
+commit ff9d6d911a7c7a4d903a762fdb85a563ea3fe89e
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Sep 25 19:42:35 2015 +0000
+
+    log own pid at start
+
+commit 7cf09224d45274932ec8d3ad8588d012735b5c58
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Sep 25 19:39:50 2015 +0000
+
+    logger name sdwdate_log -> sdwdate.log
+
+commit f2f6e7187455d7ce3c625222fcebc9f7b895d689
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Sep 25 19:33:38 2015 +0000
+
+    cleanup remove "retrying_loop = False"
 
 commit 8377e85f6e857a8af7ba21761c4b727090e507fe
 Author: Patrick Schleizer <adrelanos@riseup.net>
@@ -84,6 +688,24 @@ Date:   Thu Sep 24 18:39:26 2015 +0000
 
     removed broken duplicate pool member
 
+commit 40701d13b317be8afef300649b4351d346ba3662
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Sep 22 15:32:52 2015 +0000
+
+    reinstate while loop in url append code block
+
+commit b371d65a83b490fed22666a9b37f0ea3783b0df4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Sep 22 11:54:58 2015 +0000
+
+    use cleaner solution 'Conflicts: systemd-timesyncd' rather than 'service systemd-timesyncd stop'
+
+commit e10f5ad86a16794e94f248f9b7b548c9bacecf71
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Sep 21 23:57:07 2015 +0000
+
+    Make sure /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service really gets really deleted even if timedatectl does not work.
+
 commit 50fd9eb567da5128c53d0592ee99a75334c6efa9
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Sep 22 11:54:58 2015 +0000
@@ -95,6 +717,200 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Sep 21 23:57:07 2015 +0000
 
     Make sure /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service really gets really deleted even if timedatectl does not work.
+
+commit f93bddb2bad0102f3ba2ca1041327f061c39718e
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Sep 21 20:30:00 2015 +0000
+
+    remove retrying loop
+
+commit 6aab0de9020959d06ae60c3adcd5e68088495ce2
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Sep 21 19:51:30 2015 +0000
+
+    general_timeout_error
+
+commit 01b97dff39768bca8d3130499d56b1eb5d748d6b
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Sep 21 19:08:47 2015 +0000
+
+    general_prosy_error -> modifief message from url_to_unixtime
+    own if block
+
+commit 61c60229f2e593ca42bcb8f6c9d05380069578b1
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Sep 21 18:22:18 2015 +0000
+
+    logging pool nmber in "no valid time returned from pool"
+
+commit 1d77e524b97890cacf767df5271039d02ea66376
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Sep 20 18:19:06 2015 +0000
+
+    logging pool number
+
+commit 1d08e7fb7c3f474664923cf762408d736aa1cd78
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Sep 20 16:19:23 2015 +0000
+
+    for url_random in pool.url_random: -> for url in pool.url_random:
+
+commit fff4ba0df392713f9855706769cc2c5e72003d0c
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Sep 20 15:06:45 2015 +0000
+
+    get_comment callong blocks -> [for url in self.valid_urls]
+
+commit 1f25d0d37d2f2d7705c6863df6e8b7893f2d17e1
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Sep 20 14:59:25 2015 +0000
+
+    Pool.pool_url -> Pool.url
+
+commit ec9576064a4e1c25e2f054e3cda4c2b8adbab5f4
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Sep 20 14:53:32 2015 +0000
+
+    modify get_comment() function [for url in self.pools]
+
+commit 4dc67e350953382c3ba7425af0dff5656aa1780e
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Sep 20 14:17:18 2015 +0000
+
+    get pool diff -> single code block [for pool in self.pools]
+
+commit 5708ddf429b96156271da528177d1ea4b7d8a6b2
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Sep 20 12:31:43 2015 +0000
+
+    url append -> single code block [for pool in self.pools]
+
+commit 6f81099b00e5548e8418c1438dfde434bad78859
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Sep 20 12:15:10 2015 +0000
+
+    modify Sdwdate __init__ with new Pool class
+
+commit 34a5b970b1199d801f6fc7313efa2c9805bf59ac
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Sep 20 12:11:42 2015 +0000
+
+    create Pool class
+
+commit 4211395262ac163d4cc90ddb12628b82856399d9
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Sep 20 12:01:47 2015 +0000
+
+    modify config.py to return data per pool (not all pools at once)
+
+commit a1be36291c2372eb0e067d0816195576cec57faa
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Sep 19 20:18:56 2015 +0000
+
+    remove while loop in pool append block
+
+commit bcdd11cfaf0df472769721c9df04edfa2c593bbb
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Sep 17 20:34:47 2015 +0000
+
+    reachable unreachable url
+
+commit a886f971dc497062669a83a1ee7316270779d1ec
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Sep 17 20:23:01 2015 +0000
+
+    typo
+
+commit f24cdf57c29525b327e1ff7ee8b5830e6202ddd4
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Sep 16 19:10:34 2015 +0000
+
+    logging: more verbose when stting time with date or sclockadj
+
+commit 82e989090b5edaa646a0b0fa0ac76e965497c4be
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Sep 16 18:41:18 2015 +0000
+
+    readable date in "Fetching remote times start/end"
+
+commit 7fcf959452a35e909e595791683bac4fd5122dfa
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Sep 16 18:20:32 2015 +0000
+
+    logging: readable date beside unixtime and webtime-oldtime difference in pools
+
+commit d55196a1ed85c7f88e4b94d7d2a5b99c0895dc8e
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Sep 16 15:25:16 2015 +0000
+
+    strip HTML in sdwdate_loop time sanity check
+
+commit 608f9c06d60b0c8d0e91ae13ceaa9bf5e0111bf1
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Sep 15 14:52:05 2015 +0000
+
+    url_to_unixtime AppArmor profile
+
+commit 2d738b987274a48e1e0e8e16305005d33fd58641
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Sep 15 12:29:13 2015 +0000
+
+    replace doulble-quotes by squares brackets in messages:
+    double-quotes mess up argument parsing in dwdate-gui popup
+
+commit becab9fc52676fa274509f39c7aa269dd926e18d
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Sep 14 20:28:31 2015 +0000
+
+    reorganize logging and icon/message in main loop
+
+commit c34494ecdbba5a0dd8c71a9460d9393034ece91e
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Sep 14 14:55:10 2015 +0000
+
+    detach url_to_unixtime (executable), new remote_times.py to get sever times asynchronously
+
+commit 8212c70133fbb306696e903116204791cfaf472f
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Sep 12 17:16:54 2015 +0000
+
+    parsed_unixtime string length too short in unixtime_sanity_check
+
+commit 888b3bea48c87ce2722576c77dcf3cfbf2cf3020
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Sep 9 17:26:17 2015 +0000
+
+    comment
+
+commit 3e6afc9c236fddf5adb23fbbd6185a33c2505d56
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Sep 9 17:16:40 2015 +0000
+
+    timedatectl set-ntp false >/dev/null 2>&1 || true
+
+commit d4e6b015cd4c59d87747f781b9ac867e40bbd86b
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Sep 12 15:23:36 2015 +0000
+
+    url_to_unixtime returns all errors
+
+commit a05aa05cc56557919a284ee93e6228381c747f89
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Sep 10 20:30:08 2015 +0000
+
+    calculations -> calcuations
+
+commit 64b86856b3af22480f497b31fbbc5c7f8e1b7dd9
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Sep 10 19:37:59 2015 +0000
+
+    url comments in log
+
+commit a1a6af5a53371fe65c2ec5f5638d5d8cfa490c0a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Sep 8 14:48:29 2015 +0000
+
+    disable systemd-timesyncd by default as it conflicts with sdwdate - https://phabricator.whonix.org/T336
 
 commit a39e5780b39a1d3d317337b2e05994c0c1000455
 Author: Patrick Schleizer <adrelanos@riseup.net>
@@ -114,6 +930,91 @@ Date:   Tue Sep 8 14:48:29 2015 +0000
 
     disable systemd-timesyncd by default as it conflicts with sdwdate - https://phabricator.whonix.org/T336
 
+commit 1173ed1812188b8e60b88163a0bd39d933c035b0
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Sep 5 18:48:10 2015 +0000
+
+    remove usr/share/icons/anon-icon-pack/
+
+commit c0cfee6efd55cada8187b3327899cba6795e1f58
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Sep 5 15:25:58 2015 +0000
+
+    HTNL
+
+commit 2a5eb50b2ae144a9cd4a74ad2cf9929939d1094f
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Sep 5 15:00:06 2015 +0000
+
+    timesanitycheck expiration time
+
+commit 98f59c77f0b3bc528c60a25a1f5b9a0ad6d439e9
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Sep 5 09:28:35 2015 +0000
+
+    improve logic in sdwdate main loop
+
+commit aab921241a020b3b122e523540aa858abe1c3058
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Sep 5 09:05:49 2015 +0000
+
+    typos
+
+commit 6386ed14cc0b04b9571de79ed83cc39071acb6ba
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Sep 5 09:03:57 2015 +0000
+
+    HTML
+
+commit 6c233f822760ca8b16bc61e6b8fcabda83094071
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Sep 3 19:48:03 2015 +0000
+
+    sleep 0.2 second before start to allow sufficient time betwwen status changes.
+
+commit 05bfa5f28dc372b9c5237f6d44937f955b5da1d4
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Aug 30 18:24:35 2015 +0000
+
+    fix: error if tor stops during an acquisition cycle.
+
+commit 9ec3d298543bc93634d0176bc8a37a065352d056
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Aug 30 15:58:10 2015 +0000
+
+    fix: sdwdate_loop started upon receiving SIGTERM.
+    replace gevent signal with standard library signal.
+
+commit 2018294a1eb053381ca2c42875dcd4feff9608e4
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Aug 30 14:04:49 2015 +0000
+
+    if __name__ == "__main__": in config.py
+
+commit 79b3c4040c611b9bf499a71413ba6c0bd12ab85f
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Aug 29 20:33:33 2015 +0000
+
+    methods ordering
+
+commit 8bf60e130fa487674c779a197acc562d87f0e5ee
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Aug 29 20:29:30 2015 +0000
+
+    import sys. Cleanup
+
+commit f2fd1c1dbd6586f154b1a348f5d8fb2a290d99cf
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Aug 29 08:55:39 2015 +0000
+
+    if clock is fast, currnt time greater than expiration time
+
+commit 41bb96e9ccffaf82ae7aa8db0cafab68ec8aec39
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Aug 28 18:53:24 2015 +0000
+
+    timesanitycheck
+
 commit 5b92a2444e7f0c42c4b998cfcffdd6e656b4767b
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Aug 25 14:08:19 2015 +0000
@@ -126,11 +1027,443 @@ Date:   Mon Aug 24 17:47:24 2015 +0000
 
     bumped changelog version
 
+commit f786a5a89ff8dd54d770c38a0c14f86f0f12a83f
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Aug 24 16:15:20 2015 +0000
+
+    indentation error
+
+commit 685d7ca99f41be48ea8bfd5a51bc72a56094d9df
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Aug 24 16:13:18 2015 +0000
+
+    write_status, "Sleeping for"
+
+commit 63d8acdb0ab86cd56c05129c7d341f44f3ce8e0f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Aug 19 23:37:06 2015 +0000
+
+    workaround for 'dh_installinit should run systemd-tmpfiles if a /usr/lib/tmpfiles.d/ snippet gets shipped for systemd-only packages also' - http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=795519
+
+commit 3735df61d4a2c9eb9335857f5068dc6cfd37b356
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Aug 23 11:02:08 2015 +0000
+
+    success file in order to display busy icon - no internet only if not first_success
+
+commit d6f8dd608d072388ce4a326742ae54026f697772
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Aug 20 20:00:09 2015 +0000
+
+    - print pools
+
 commit b66ca854ea1d2be60b738582723acc849921c830
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Aug 19 23:37:06 2015 +0000
 
     workaround for 'dh_installinit should run systemd-tmpfiles if a /usr/lib/tmpfiles.d/ snippet gets shipped for systemd-only packages also' - http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=795519
+
+commit 76833466f25220552421e00beb58d792294d5b91
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Aug 19 20:57:25 2015 +0000
+
+    configuration file -> .conf
+
+commit 2648e71a19f0fc97432813fffa407d99b076e2a0
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Aug 12 19:50:18 2015 +0000
+
+    debian/control python-gevent
+
+commit 1d283590013829ada2b9e3b3952fc6b0e2875ec7
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Aug 12 18:59:22 2015 +0000
+
+    logger setLevel INFO
+
+commit 5810f4d7e36b4abbfb66f2280955fc8930a6b7d2
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Aug 12 18:54:39 2015 +0000
+
+    sigterm handler -> logger.debug
+
+commit 8d4d623f9863f5a5f4a6a5ee75345ca19f12672e
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Aug 12 18:51:46 2015 +0000
+
+    if len(self.already_picked_index_pool) >= len(self.pool):
+
+commit 09255f18212ad3f5d2e189614c8616cf655179b9
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Aug 12 18:45:44 2015 +0000
+
+    icons path /usr/share/icons/sdwdate
+
+commit 154a368372deb631767d0f2d9340e71945ff6463
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Aug 11 19:38:21 2015 +0000
+
+    retry on error "No values returned from url_to_unixtime". sleep times.
+
+commit 2ae378620550a1f4c965ec7c8be1a57fc5289cc1
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Aug 11 19:31:19 2015 +0000
+
+    kill remaining threads on exit
+
+commit 16b07a6274cb0fb1e5383d7741dc0a0ca31deafe
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Aug 11 19:23:49 2015 +0000
+
+    new success icon
+
+commit 2e1b322f6be086605ed7984fdf98b85e3efa40ae
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Aug 10 19:34:26 2015 +0000
+
+    sdwdate_ <-> sdwdate
+
+commit b8532e270716d174df228641024310164504cb13
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Aug 10 19:21:26 2015 +0000
+
+    swdate_loop return status only, message written in sdwdate message
+
+commit d00d16202f593e67d0739f5c82c47c9f6ed2c232
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Aug 10 17:59:12 2015 +0000
+
+    if success / if [set_new_time] logic (should have been ddaf31dfaa)
+
+commit e42ebfb5d111cbd9a782d7cfeb374e6a750c23de
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Aug 10 16:31:05 2015 +0000
+
+    if not pool_done -> modify loop to get rid of "break"
+
+commit 67a2407fe02eb63485e148deaa5922a0a3e49c8c
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Aug 10 15:46:46 2015 +0000
+
+    remove pool_invalid, return in the while loop
+
+commit ddaf31dfaa90098081550ea4cfe3b486bf7d8eb1
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Aug 10 11:47:04 2015 +0000
+
+    if success / if [set_new_time] logic
+
+commit 1be71004ba8993aa21ca03f3f2b3c0097a9b0d89
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Aug 9 20:30:09 2015 +0000
+
+    busy icon only if not first_success, green icon in normal cycle
+
+commit 30c4f153c896d3158943cca8aff712ff7ff8d655
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Aug 9 18:20:30 2015 +0000
+
+    write status -> SIGTERM
+
+commit 82e7ea2bd5713811cacaadc7bc572d9628e8526c
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Aug 7 20:49:02 2015 +0000
+
+    pickle -> wrting to status file
+
+commit 2e8bf67e3d5d48db13f259f5703e3f02a3097fd7
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Aug 3 21:31:38 2015 +0000
+
+    move test .f files to /usr/share
+
+commit 986f87c1601c944da7c2902e6d8529104ca9e1c5
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Aug 3 21:05:33 2015 +0000
+
+    test configuration files
+
+commit bce15048509c8f40cb280fcb2c69fca18eb9b917
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Jul 31 21:40:50 2015 +0000
+
+    error handling, logging only. cleanup.
+
+commit b7a7ef5b8ae3b4068e17abe8556c605867c6f2e2
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Jul 31 18:23:34 2015 +0000
+
+    remove logging from config.py
+
+commit 9bf3499b273222cdb9a099a856a7fdf5acb4c550
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Jul 30 21:20:47 2015 +0000
+
+    bad input check / resilience
+
+commit 5067b606e6207afe333813b4f0f79856d368729f
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Jul 30 19:37:09 2015 +0000
+
+    config.py, changes in /etc/sdwdate-python.d/30_sdwdate_default
+
+commit a5c6801ee5229b8a92a2fbb8f7fa3dab07fe7907
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Jul 30 19:26:04 2015 +0000
+
+    etc/sdwdate-python.d/30_sdwdate_default square brackets, missing quotes
+
+commit daaa521490c9a1fbe73bd3a22d4eeaa905b472b5
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Jul 30 18:19:35 2015 +0000
+
+    etc/sdwdate-python.d/30_sdwdate_default
+
+commit 9fd86a920950ea3f5bd5903710893406c658ba7f
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Jul 29 20:36:43 2015 +0000
+
+    config reads multi-line entries, append random url to pool
+
+commit 2142fd9a22cf4e857090d13c617465b205d083f6
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Jul 29 20:28:59 2015 +0000
+
+    usr/sbin/sdwdate -> usr/bin/sdwdate
+
+commit a7a7889709dbdb7cd512527cf25960197cb96bee
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Jul 29 19:58:25 2015 +0000
+
+    debian/sdwdate.postinst, debian/sdwdate.postrm
+
+commit 907cd7cd561c6046de3d80d5b4c5da218c9b4ceb
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Jul 29 11:01:51 2015 +0000
+
+    missing files
+
+commit 09ec978cdfe487d1203da1e7f29b2ad5a3ca5aa8
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Jul 28 19:49:31 2015 +0000
+
+    log file
+
+commit cc44be7b7983a24c67a82fabfd549f9f6f03f277
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Jul 28 19:47:39 2015 +0000
+
+    usr/lib/tmpfiles.d/sdwdate.conf
+
+commit 103bc74240632d1c4c0e4c42bf11db3cab7570a2
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Jul 28 19:46:40 2015 +0000
+
+    /usr/sbin/sdwdate in lib/systemd/system/sdwdate.service
+
+commit c0dff2b9e9967f69ac4fb5e71762c41f7532a18b
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Jul 27 19:20:50 2015 +0000
+
+    __init__.py
+
+commit c8ebd54bd8a0348d726fb6cfa63ec4a864c3affe
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Jul 26 22:08:56 2015 +0000
+
+    /usr/sbin/sdwdate. logging.
+
+commit 1bf950d4acaba71c966580b87f46ca6091e3e391
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Jul 24 19:51:36 2015 +0000
+
+    [sudo /bin/date --set] in set_time_using_date
+
+commit 61a2db97e5632b8205d19cac36c2839d9dbde839
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Jul 24 19:36:52 2015 +0000
+
+    import signal
+
+commit ad0af53f504e21165d302b2d489c32b4030c66de
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Jul 24 19:25:20 2015 +0000
+
+    catch SIGTERM -> kill sclockadj, exit 143
+
+commit 359c4621298618165a031e98f0ecde4ec2b9a70b
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Jul 24 18:39:02 2015 +0000
+
+    first_success in /tmp/sdwdate
+
+commit d51b96639ea26212e381860d3d3f1936ff07e230
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Jul 24 15:04:42 2015 +0000
+
+    check sclockadf pid. docstrings. confog cleanup.
+
+commit 2bc715d5ba16ef0876c3d6d77f2d26e33c881ed2
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Jul 24 12:43:50 2015 +0000
+
+    after gevent.kill, only three possible valid urls (one per pool) -> simplified buil_median
+
+commit 5dd8997583aa0219cbebfa8bb00c7140604b2d05
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Jul 24 12:31:33 2015 +0000
+
+    kill timed out threads
+
+commit ea8766a15bdd6312b09db8e6387bc5901d7c2dac
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Jul 24 09:02:41 2015 +0000
+
+    debugging, minor
+
+commit 560d3a115f76b378ef39629d4e2120017e9a2b3c
+Author: troubadoour <trobador@riseup.net>
+Date:   Fri Jul 24 08:46:03 2015 +0000
+
+    main loop, debugging sdwate_loop / url_to_unixtime
+
+commit eb899d3a509b3cbbec6e0fbdda5fa37ad69d7808
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Jul 22 16:25:34 2015 +0000
+
+    + set_time_using_date()
+
+commit 166fcd9f9f5137a53e3f7899d4d09c9b13e0505c
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Jul 20 19:28:29 2015 +0000
+
+    run_sclockadj, kill_sclockadj functions
+
+commit 513f69e885ed7e9103012acb94e2f862ae220935
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Jul 16 22:14:47 2015 +0000
+
+    build_median called from main
+
+commit dbe3a4ed2d559f9dfe482af7518e1af143a8df92
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Jul 16 22:07:02 2015 +0000
+
+    add_subtract_nanoseconds
+
+commit 77f4b1d37a2d2b748593aeddad2f7bee889a295f
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Jul 16 11:35:20 2015 +0000
+
+    no url returned -> no internet connection
+
+commit d8d12b4dedc91c26dcaf14d5ec1a106844658d43
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Jul 16 07:22:14 2015 +0000
+
+    remove duplicate pool members
+
+commit 0cfdb32bf4736350821f0743e7f80a15d6803ad4
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Jul 15 20:04:20 2015 +0000
+
+    build_median
+
+commit 92c52e247b8a24e04665f228aadb0edef4a6c32d
+Author: troubadoour <trobador@riseup.net>
+Date:   Wed Jul 15 18:11:54 2015 +0000
+
+    pools time difference
+
+commit ac521d7db97df8ea0ce5e11ab30d5c1ed5e2ce6f
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Jul 14 19:35:00 2015 +0000
+
+    temporary: create etc/sdwdate-python.d/30_sdwdate_default, leave original 30_sdwdate_default untouched
+
+commit b3520602181e368ae563182b8b1c7032dc044d08
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Jul 13 18:53:59 2015 +0000
+
+    simplified 30_sdwdate_default
+
+commit 3a91e982105dfbecccc037db3c5dc4b02fc9b67e
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Jun 28 18:55:34 2015 +0000
+
+    select multi-line in pool randomly, pick a random member in it.
+
+commit cb69ced8ef084b723eace651a3db04b080c4fab6
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Jun 27 22:51:55 2015 +0000
+
+    fix: development bug
+
+commit fb3106de1e329d98ef75ba68c5b10b4984c11719
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Jun 27 20:06:21 2015 +0000
+
+    pick_single_link_from_maybe_multi_lined_mirror_list (2)
+
+commit e481ecc1ca7d7d27333eaf2939b28ac2a2e6121d
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Jun 27 20:03:37 2015 +0000
+
+    pick_single_link_from_maybe_multi_lined_mirror_list
+
+commit 48bb58ca5b283b82688f4c04cef495192edb45a5
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Jun 27 16:02:11 2015 +0000
+
+    read pools configuration
+
+commit 8da613e53408f07af2e4a4fe3e2f40fc433ad3bc
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Jun 25 21:23:27 2015 +0000
+
+    if NOT self.general_proxy_error
+
+commit 85e3aeb643bd576ef93925ea3389217a6a8325b5
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Jun 25 20:43:08 2015 +0000
+
+    IO errors handling in sdwdate_loop
+
+commit ebd72e07d8ba2ca170cdd670537bb960e0297db3
+Author: troubadoour <trobador@riseup.net>
+Date:   Thu Jun 25 20:38:19 2015 +0000
+
+    cleaning
+
+commit e262416825096cb318a494b23663a896fc8d5360
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Jun 23 20:34:32 2015 +0000
+
+    sdwdate class, check_tor() function
+
+commit 2c280089c141116fdd7fd50000e9e2e55e398074
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Jun 23 18:41:28 2015 +0000
+
+    + usr/lib/python2.7/dist-packages/sdwdate
+
+commit aa95418cfd3bf3b4ea71dd33bec91ddcf60c3fee
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Jun 23 18:37:24 2015 +0000
+
+    - bash files
+
+commit f9f71b59bfc45c9abf20a56b8646195d989c6a3a
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Jun 23 18:27:42 2015 +0000
+
+    - sdwdate-python
+
+commit 0e8fcd59cc3140cb31eb83ccec6d9425ebdddebf
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Jun 22 16:02:28 2015 +0000
+
+    initial commit, exit if tor is not running.
 
 commit 9abcf123f57cc9412b5e3552246223b242f732b3
 Author: Patrick Schleizer <adrelanos@riseup.net>
