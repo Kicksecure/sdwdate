@@ -37,11 +37,6 @@
 
     /run/sdwdate/done rwcx,
 
-    ## TODO: Remove /run/... and add ~/.timesync/*
-    /run/timesync/timesync_pid rix,
-    /run/timesync/timesync_done rwix,
-    /run/timesync/timesync_running rwcix,
-
     /sys/fs/cgroup/systemd/system.slice/bootclockrandomization.service/ r,
     /sys/fs/cgroup/systemd/system.slice/bootclockrandomization.service/* r,
     /sys/fs/cgroup/systemd/system.slice/timesanitycheck.service/ r,
@@ -51,11 +46,6 @@
 
     /usr/bin/sudo rix,
 
-    /usr/lib/timesync/timesync_pre rix,
-    /usr/lib/timesync/timesync_post_error rix,
-    /usr/lib/timesync/timesync_post_success rix,
-    /usr/lib/timesync/timesync_post_failure rix,
-    /usr/lib/timesync/timesync_progress rix,
     /usr/lib/msgcollector/msgcollector rix,
     /usr/lib/msgcollector/msgprogress rix,
     /usr/lib/*-linux-gnu/ruby/2.1.0/** mr,

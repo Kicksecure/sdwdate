@@ -88,8 +88,6 @@
     /run/sdwdate/ rw,
     /run/sdwdate/* rw,
     /run/timesanitycheck/success rw,
-    /run/timesync/* mrwcx,
-    /run/timesync/timesync_pid r,
     /run/tor/control.authcookie r,
     /run/utmp rk,
     /run/log/journal/ rw,
