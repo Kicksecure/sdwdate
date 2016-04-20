@@ -21,7 +21,7 @@ Depends: sudo, logrotate, bc,
  python-pysocks | python-socksipy, python-guimessages, python, tor,
  ${misc:Depends}
 Recommends: vbox-disable-timesync, timesanitycheck, bootclockrandomization,
- timesync
+ sdwdate-gui
 Replaces: apparmor-profile-sdwdate
 Description: Secure Distributed Network Time Synchronization
  Time keeping is crucial for security, privacy, and anonymity. Sdwdate is a Tor
@@ -35,7 +35,7 @@ Description: Secure Distributed Network Time Synchronization
  .
  Plugins are supported via hooks. These hooks include pre-connect, pre-fetch,
  post-fetch, post-success, post-failure, and progress. Sdwdate comes without a
- GUI, but is available as a plugin called timesync.
+ GUI, but is available called sdwdate-gui.
  .
  This package contains the sdwdate time fetcher and daemon. No
  installation on remote servers required. To avoid conflicts, this daemon
