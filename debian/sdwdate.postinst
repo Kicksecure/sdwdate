@@ -25,6 +25,11 @@ case "$1" in
        ## Not using --no-create-home, so sdwdate can write into /home/sdwdate.
        adduser --quiet --system --group sdwdate || true
 
+       ## Add sdwdate to group debian-tor so it can read
+       ## /var/run/tor/control.authcookie which is required to check if Tor has
+       ## already successfully established a circuit before fetching time.
+       addgroup sdwdate debian-tor
+
        mkdir --parents "/var/cache/sdwdate/sclockadj"
        chown --recursive root:root "/var/cache/sdwdate/sclockadj"
        chmod --recursive 700 "/var/cache/sdwdate/sclockadj"
