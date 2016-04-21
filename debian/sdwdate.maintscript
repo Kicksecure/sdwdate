@@ -1,3 +1,4 @@
+## Was renamed to include file extension .conf.
 rm_conffile /etc/sdwdate.d/30_default
 
 ## Deleting because it has been replaced by
