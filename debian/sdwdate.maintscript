@@ -1,1 +1,7 @@
 rm_conffile /etc/sdwdate.d/30_default
+
+## Deleting because it has been replaced by
+## /etc/apparmor.d/usr.lib.sdwdate.url_to_unixtime since sdwdate-gui.
+rm_conffile /etc/apparmor.d/abstractions/sdwdate
+rm_conffile /etc/apparmor.d/local/usr.bin.sdwdate
+rm_conffile /etc/apparmor.d/usr.bin.sdwdate
