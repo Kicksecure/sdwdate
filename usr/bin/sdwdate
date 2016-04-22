@@ -514,7 +514,7 @@ def prerequisite_check():
                 stripped_message = sdwdate.strip_html(message)
                 print stripped_message
                 logger.warning(stripped_message)
-                icon = sdwdate.error_icon
+                icon = sdwdate.busy_icon
                 sdwdate.write_status(icon, message)
             time.sleep(10)
 
