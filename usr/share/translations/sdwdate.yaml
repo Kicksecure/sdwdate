@@ -14,19 +14,19 @@ sdwdate:
         fast_clock: ' is greater than<br> the expiration timestamp '
         cause: '<br><br>Possible causes:<br>
                 - the host clock is wrong -> shut down the VM, fix the clock in the host and restart the VM.<br>
-                - the VM clok is wrong -> manually fix the clock. Restart tor if necessary.<br>
+                - the VM clok is wrong -> manually fix the clock. Restart Tor if necessary.<br>
                 - a host clock attack succeeded.<br>
                 - a bios clock failure.<br>'
 
         no_valid_time: 'Time is not set:<b> no valid time returned from pool </b><br>
                         Possible causes:<br>- internet connection is down
-                        <br>- tor is not running'
+                        <br>- Tor is not running'
         no_value_returned: '<b>No values returned from servers.</b>'
         list_not_built: '<b>Something is wrong. sdwdate could not build a list or urls.</b>'
         restart: '<br> Restart sdwdate. If the problem persists, please report this bug.<br>'
 
         general_proxy_error: '<b>General Proxy Error.</b> Is Tor running?'
-        general_timeout_error: '<b>General Timeout Error.</b> Internet connection might be down'
+        general_timeout_error: '<b>General Timeout Error.</b> Internet connection might be down.'
 
         max_pool_failures_1: '<b>Maximum allowed number of failures</b> reached in pool '
         max_pool_failures_2: '. Giving up.<br> If the problem occurs too frequently, please report it.'
