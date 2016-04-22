@@ -280,7 +280,7 @@ class Sdwdate:
         logger.info(message)
 
         new_unixtime = float('%.9f' % (old_unixtime + self.new_diff))
-        message = 'New unixtime %s' % (str(new_unixtime))
+        message = 'New unixtime : %s' % (str(new_unixtime))
         print(message)
         logger.info(message)
 
