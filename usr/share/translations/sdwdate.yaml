@@ -1,7 +1,7 @@
 sdwdate:
     en:
         fetching: 'Fetching remote times...'
-        restricted: '<br>Outgoing internet access is still restricted because initial time fetching is not done yet'
+        restricted: '<br>For better security and anonymity, ideally please do not use the internet until initial time fetching succeeded.'
         user_kill: 'Signal SIGTERM received. sdwdate stopped by user. '
         sleeping: '<br> Sleeping for '
         minutes: ' minutes.'
