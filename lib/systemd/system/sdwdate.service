@@ -5,6 +5,7 @@
 [Unit]
 Description=Secure Distribiuted Web Date
 Documentation=https://www.whonix.org/wiki/Dev/TimeSync
+ConditionPathExists=!/var/run/qubes/this-is-templatevm
 After=network.target
 Wants=rinetd.service
 Wants=bootclockrandomization.service
