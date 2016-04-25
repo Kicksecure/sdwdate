@@ -1,3 +1,81 @@
+commit 2ee0c31e044bf16f5e43857e7fd75fba59e6fdf8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Apr 22 01:46:37 2016 +0000
+
+    modified message 'restricted' since that feature is not yet implemented
+
+commit 19389bb764db1ab2848dd9a458d273ae82108cdd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Apr 22 01:41:40 2016 +0000
+
+    do not run inside Qubes TemplateVMs since these will be non-networked in future
+
+commit 56eb4b4a67085c0fe8734ff270a4ef63af8862b4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Apr 22 01:20:27 2016 +0000
+
+    minor output
+
+commit 4b210cf4905d7a227e2badd10cf857a3ddddf057
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Apr 22 01:16:36 2016 +0000
+
+    minor log output
+
+commit 3c2b84bf47b0e1b29630ceab45cc9c1940acec63
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Apr 22 00:52:03 2016 +0000
+
+    use more appropriate busy icon rather than error icon during prerequisite check
+
+commit 9149d6b2fcc5e6112bf3d3cd0281009341c39530
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 21 17:55:24 2016 +0000
+
+    Add sdwdate to group debian-tor.
+    S so it can read
+    /var/run/tor/control.authcookie which is required to check if Tor has
+    already successfully established a circuit before fetching time.
+
+commit 22e4d5450c6222b4d4e214d60f6c379c797fb474
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 21 17:32:12 2016 +0000
+
+    comments
+
+commit 2fe7519bff22c3cae5337b8efcfc73afda1553f6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 21 14:27:17 2016 +0000
+
+    delete sdwdate apparmor profile leftovers from previous profile
+
+commit 7cbd2034e351956e93f1e6871db55b7784d36edc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 21 14:19:58 2016 +0000
+
+    deleted etc/apparmor.d/usr.bin.sdwdate
+    
+    because it has been replaced by
+    etc/apparmor.d/usr.lib.sdwdate.url_to_unixtime since sdwdate-gui
+
+commit 87945560cbd33eed23b4149a3218a963b2f1dc80
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 20 04:33:03 2016 +0000
+
+    removed timesync
+
+commit 3a2aa5ae04ae7160d3a9fc5e8faf72526253f7f8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 20 04:09:08 2016 +0000
+
+    timesync -> sdwdate-gui
+
+commit 191cf735e39ee1cd71cc32829cfbb361d0765bb4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 7 22:54:43 2016 +0000
+
+    bumped changelog version
+
 commit 95850f6c985d9fa3d15cec97f0aa366686ffdf6c
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Mar 18 23:52:10 2016 +0000
