@@ -1,3 +1,15 @@
+commit f7f726296fe49c87c29f4758428776650386f9b3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 27 18:42:06 2016 +0000
+
+    TOR_CONTROL_HOST -> GATEWAY_IP
+
+commit a6a07aae9bc0e1ca6c5ea55b38784c128ea809b4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Apr 25 23:27:56 2016 +0000
+
+    bumped changelog version
+
 commit 2ee0c31e044bf16f5e43857e7fd75fba59e6fdf8
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Apr 22 01:46:37 2016 +0000
