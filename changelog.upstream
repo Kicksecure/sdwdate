@@ -1,3 +1,17 @@
+commit 11bad33cf1d40472754f7c4478e07f3aa6908d32
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue May 10 04:22:32 2016 +0200
+
+    Compatibility with anon-ws-disable-stacked-tor.
+    
+    addgroup debian-tor
+
+commit d401dbc22abfd0d7e79a0a6218820eb9987bcab0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed May 4 22:06:31 2016 +0000
+
+    bumped changelog version
+
 commit 0a0436b2de152ca13445c368fbd7cb95d339c75a
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Apr 29 03:51:13 2016 +0000
