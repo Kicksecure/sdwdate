@@ -151,7 +151,7 @@
     /usr/lib/sdwdate/restart_fresh rix,
     /usr/lib/anon-shared-helper-scripts/settings_echo rix,
     /usr/lib/sudo/sudoers.so mr,
-    usr/lib/python2.7/dist-packages/sdwdate/* rix,
+    /usr/lib/python2.7/dist-packages/sdwdate/* rix,
 
     /usr/sbin/service rix,
 
