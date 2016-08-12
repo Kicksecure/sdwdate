@@ -6,10 +6,14 @@
 Description=Secure Distribiuted Web Date
 Documentation=https://www.whonix.org/wiki/Dev/TimeSync
 ConditionPathExists=!/var/run/qubes/this-is-templatevm
+
 After=network.target
-Wants=rinetd.service
-Wants=bootclockrandomization.service
-Wants=tor.service
+Wants=network.target
+
+After=rinetd.service
+After=bootclockrandomization.service
+After=tor.service
+
 Conflicts=systemd-timesyncd.service
 
 [Service]
