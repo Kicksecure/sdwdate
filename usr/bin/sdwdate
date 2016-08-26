@@ -304,9 +304,11 @@ class Sdwdate:
         self.status['message'] = args[1]
         with open(self.status_path, 'wb') as f:
             pickle.dump(self.status, f)
+            f.close()
 
         with open(self.msg_path, 'wb') as msgf:
             msgf.write(args[1])
+            msgf.close()
 
     def sdwdate_loop(self):
         '''
