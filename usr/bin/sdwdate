@@ -92,6 +92,7 @@ class Sdwdate:
         self.first_success_path = '/var/run/sdwdate/first_success'
         self.success_path = '/var/run/sdwdate/success'
         self.status_path = '/var/run/sdwdate/status'
+        self.msg_path = '/var/run/sdwdate/msg'
 
         self.success_icon = '/usr/share/icons/sdwdate-gui/Ambox_currentevent.svg.png'
         self.busy_icon = '/usr/share/icons/sdwdate-gui/620px-Ambox_outdated.svg.png'
@@ -303,6 +304,9 @@ class Sdwdate:
         self.status['message'] = args[1]
         with open(self.status_path, 'wb') as f:
             pickle.dump(self.status, f)
+
+        with open(self.msg_path, 'wb') as msgf:
+            msgf.write(args[1])
 
     def sdwdate_loop(self):
         '''
