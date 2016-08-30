@@ -239,6 +239,7 @@ class Sdwdate:
             add_subtract = "--subtract"
         cmd = [
             "sudo",
+            "--non-interactive",
             "INLINEDIR=/var/cache/sdwdate/sclockadj",
             "/usr/lib/sdwdate/sclockadj",
             "--no-debug",
@@ -261,7 +262,7 @@ class Sdwdate:
 
         ## Running sclockadj_debug_helper, in case...
         ## May be read the last line to ensure sclockadj is running.
-        # cmd = ["sudo", "/usr/lib/sdwdate/sclockadj_debug_helper"]
+        # cmd = ["sudo", "--non-interactive", "/usr/lib/sdwdate/sclockadj_debug_helper"]
         ### Pipe stdout in subprocess.
         # helper = Popen(cmd, stdout=PIPE)
         ### Read the output.
@@ -271,7 +272,7 @@ class Sdwdate:
     def kill_sclockadj(self):
         '''
         '''
-        cmd = 'sudo /usr/lib/sdwdate/sclockadj_kill_helper ' + str(self.sclockadj_pid)
+        cmd = 'sudo --non-interactive /usr/lib/sdwdate/sclockadj_kill_helper ' + str(self.sclockadj_pid)
         call(cmd, shell=True)
 
     def set_time_using_date(self):
@@ -286,7 +287,7 @@ class Sdwdate:
         logger.info(message)
 
         ## Set new time.
-        cmd = 'sudo /bin/date --set @' + str(new_unixtime)
+        cmd = 'sudo --non-interactive /bin/date --set @' + str(new_unixtime)
         call(cmd, shell=True)
 
         message = 'Instantly setting the time by using command "%s"' % cmd
