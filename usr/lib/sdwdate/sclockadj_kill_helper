@@ -16,9 +16,9 @@ fi
 ps_output="$(ps h --format command "$pid")"
 
 ## Example ps_output:
-## sudo INLINEDIR=/var/cache/sdwdate/sclockadj /usr/lib/sdwdate/sclockadj --no-verbose --no-debug --no-first-wait --move-min 500000 --move-max 500000 --wait-min 1000000000 --wait-max 1000000000 --add 172807620812
+## sudo --non-interactive INLINEDIR=/var/cache/sdwdate/sclockadj /usr/lib/sdwdate/sclockadj --no-verbose --no-debug --no-first-wait --move-min 500000 --move-max 500000 --wait-min 1000000000 --wait-max 1000000000 --add 172807620812
 
-read -t 2 first second third _ <<< "$ps_output"
+read -t 2 first second third fourth _ <<< "$ps_output"
 
 ## Example first:
 ## sudo
@@ -27,7 +27,7 @@ read -t 2 first second third _ <<< "$ps_output"
 ## /usr/lib/sdwdate/sclockadj
 
 if [ "$first" = "sudo" ]; then
-   if [ "$third" = "/usr/lib/sdwdate/sclockadj" ]; then
+   if [ "$fourth" = "/usr/lib/sdwdate/sclockadj" ]; then
       echo "kill -sigterm $pid"
       kill -sigterm "$pid"
       exit 0
