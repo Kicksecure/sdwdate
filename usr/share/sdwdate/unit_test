@@ -37,4 +37,3 @@ class CheckRemotes:
 if __name__ == '__main__':
     remotes = CheckRemotes()
     remotes.loop()
-
