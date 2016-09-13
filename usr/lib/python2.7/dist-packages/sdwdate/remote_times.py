@@ -28,8 +28,10 @@ def get_time_from_servers(remotes, ip_address, port_number):
                               '80',
                               '0'], stdout=PIPE))
 
-    for i in range(len(threads)):
-        gevent.wait([threads[i]], timeout=seconds)
+    try:
+       gevent.wait(timeout=seconds)
+    except:
+        pass
 
     for i in range(len(threads)):
         if threads[i].poll() is not None:
@@ -39,6 +41,10 @@ def get_time_from_servers(remotes, ip_address, port_number):
         else:
             urls.append(remotes[i])
             unix_times.append('Timeout')
+        try:
+           threads[i].terminate()
+        except:
+           pass
 
     return urls, unix_times
 
