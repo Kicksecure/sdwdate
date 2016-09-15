@@ -3,19 +3,94 @@
 set -x
 set -e
 
+if [ -f /var/run/qubes/this-is-templatevm ]; then
+   echo "$0 INFO: Skipping, because run in TemplateVM."
+   exit 0
+fi
+
 if [ ! "$(id -u)" = "0" ]; then
    echo "$0 ERROR: Must run as root!" >> /var/log/sdwdate.log
    exit 2
 fi
 
-## Do not interfere with the clock if the service was stopped.
-if test -f /var/run/sdwdate/was_running.status ; then
-   echo "$0 INFO: Deleting /var/run/sdwdate/was_running.status..." >> /var/log/sdwdate.log
-   rm -f /var/run/sdwdate/was_running.status
-   echo "$0 INFO: Done, deleted /var/run/sdwdate/was_running.status." >> /var/log/sdwdate.log
-   echo "$0 INFO: Running /usr/lib/sdwdate/clock-fix..."
-   /usr/lib/sdwdate/clock-fix || true
-   echo "$0 INFO: Done with /usr/lib/sdwdate/clock-fix."
+if [ -d "/usr/lib/qubes" ]; then
+   true
 else
-   echo "$0 INFO: File /var/run/sdwdate/was_running.status did not exist, meaning we previously did not stop sdwdate so not starting it now." >> /var/log/sdwdate.log
+   echo "$0 INFO: Clock fix after resume not implemented in Non-Qubes-Whonix. See: https://www.whonix.org/wiki/Troubleshooting#Clock_Fix" >> /var/log/sdwdate.log
+   exit 3
 fi
+
+## Defensive measure to not mess up file permissions.
+mkdir --parents /var/run/sdwdate
+chown --recursive sdwdate:sdwdate /var/run/sdwdate
+
+tor_restart_maybe() {
+   if test -f /var/run/sdwdate/tor_was_running.status ; then
+      echo "$0 INFO: Deleting /var/run/sdwdate/tor_was_running.status..." >> /var/log/sdwdate.log
+      rm -f /var/run/sdwdate/sdwdate_was_running.status
+      echo "$0 INFO: Done, deleted /var/run/sdwdate/tor_was_running.status." >> /var/log/sdwdate.log
+
+      echo "$0 INFO: Restarting Tor..." >> /var/log/sdwdate.log
+      service tor@default restart
+      echo "$0 INFO: Done, restarted Tor." >> /var/log/sdwdate.log
+   else
+      echo "$0 INFO: File /var/run/sdwdate/tor_was_running.status did not exist, meaning we previously did not stop Tor so not starting it now." >> /var/log/sdwdate.log
+   fi
+}
+
+## Previously in suspend-pre sdwdate
+## - Tor was stopped.
+## - sdwdate was stopped.
+## - Whonix firewall entered timesync-fail-closed mode.
+##
+## Now in this script:
+## - 1. roughly fix the time using `date`
+## - 2. restart Tor
+## - 3. restart sdwdate fresh so it also sets the time using `date`
+## - 4. (outside of this script) Once sdwdate succeeded,
+##      whonix-firewall-sdwdate-watcher.service should enter Whonxi firewall in
+##      full mode.
+##
+## For an ISP level observer this should look like a reboot.
+
+## Do not interfere with the clock if the service was stopped.
+if test -f /var/run/sdwdate/sdwdate_was_running.status ; then
+   echo "$0 INFO: Deleting /var/run/sdwdate/sdwdate_was_running.status..." >> /var/log/sdwdate.log
+   rm -f /var/run/sdwdate/sdwdate_was_running.status
+   echo "$0 INFO: Done, deleted /var/run/sdwdate/sdwdate_was_running.status." >> /var/log/sdwdate.log
+
+   randomized_unix_time="$(timeout --kill-after="5" "5" /usr/lib/qubes/qrexec-client-vm dom0 qubes.GetRandomizedTime)"
+
+   echo "$0 INFO: date before roughly fixing it: $(date -u)" >> /var/log/sdwdate.log
+
+   date --set "@$randomized_unix_time" >/dev/null
+
+   echo "$0 INFO: date after roughly fixing it : $(date -u)" >> /var/log/sdwdate.log
+
+   tor_restart_maybe
+
+   echo "$0 INFO: Running /usr/lib/sdwdate/restart_fresh..." >> /var/log/sdwdate.log
+   ## Deletes '/var/run/sdwdate/first_success'.
+   /usr/lib/sdwdate/restart_fresh
+   echo "$0 INFO: Done, with /usr/lib/sdwdate/restart_fresh." >> /var/log/sdwdate.log
+
+   echo "$0 INFO: Restarting sdwdate..." >> /var/log/sdwdate.log
+   service sdwdate restart
+   echo "$0 INFO: Done, restarted sdwdate." >> /var/log/sdwdate.log
+
+   ## Whonix firewall full mode
+   ##
+   ## After sdwdate restart, sdwdate will on success recreate the status file
+   ## '/var/run/sdwdate/first_success'.
+   ##
+   ## ( whonix-[gw|ws]-firewall ) /lib/systemd/system/whonix-firewall-sdwdate-watcher.service /
+   ## ( anon-shared-helper-scripts ) /usr/lib/anon-shared-helper-scripts/firewall-restarter
+   ## will notice this, and restart Whonix firewall in full mode.
+
+   exit 0
+else
+   echo "$0 INFO: File /var/run/sdwdate/sdwdate_was_running.status did not exist, meaning we previously did not stop sdwdate so not starting it now." >> /var/log/sdwdate.log
+fi
+
+## Make sure Tor is restarted even if sdwdate was not running during suspend-pre.
+tor_restart_maybe
