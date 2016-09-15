@@ -21,6 +21,20 @@ date --set "@$randomized_unix_time" >/dev/null
 
 echo "$0 INFO: date after roughly fixing it : $(date -u)" >> /var/log/sdwdate.log
 
+echo "$0 INFO: Running /usr/lib/sdwdate/restart_fresh..." >> /var/log/sdwdate.log
+## Deletes '/var/run/sdwdate/first_success'.
+/usr/lib/sdwdate/restart_fresh
+echo "$0 INFO: Done, with /usr/lib/sdwdate/restart_fresh." >> /var/log/sdwdate.log
+
 echo "$0 INFO: Restarting sdwdate..." >> /var/log/sdwdate.log
 service sdwdate restart
 echo "$0 INFO: Done, restarted sdwdate." >> /var/log/sdwdate.log
+
+## Whonix firewall full mode
+##
+## After sdwdate restart, sdwdate will on success recreate the status file
+## '/var/run/sdwdate/first_success'.
+##
+## ( whonix-[gw|ws]-firewall ) /lib/systemd/system/whonix-firewall-sdwdate-watcher.service /
+## ( anon-shared-helper-scripts ) /usr/lib/anon-shared-helper-scripts/firewall-restarter
+## will notice this, and restart Whonix firewall in full mode.
