@@ -11,7 +11,7 @@ jumps that could confuse logs, servers, Tor, i2p, etc.
 
 Plugins are supported via hooks. These hooks include pre-connect, pre-fetch,
 post-fetch, post-success, post-failure, and progress. Sdwdate comes without a
-GUI, but is available as a plugin called timesync.
+GUI, but is available called sdwdate-gui.
 
 This package contains the sdwdate time fetcher and daemon. No
 installation on remote servers required. To avoid conflicts, this daemon
@@ -68,7 +68,7 @@ gpg --export 916B8D99C38EAF5E8ADC7A2A8D66066A2EEACCDA | sudo apt-key add -
 3\. Add Whonix's APT repository.
 
 ```
-echo "deb http://sourceforge.net/projects/whonixdevelopermetafiles/files/internal/ wheezy main" > /etc/apt/sources.list.d/whonix.list
+echo "deb http://deb.whonix.org jessie main" > /etc/apt/sources.list.d/whonix.list
 ```
 
 4\. Update your package lists.
