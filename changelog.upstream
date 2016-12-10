@@ -1,3 +1,212 @@
+commit f677c5f6323ecfaceea5276214012a636c8b5b3e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Nov 21 17:42:42 2016 +0000
+
+    readme
+
+commit 12679acc8d47880336ca389b44aa58a0f6e4e2b1
+Merge: 9406474 770ac29
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Oct 21 22:31:16 2016 +0200
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 770ac29dcfc3203ff90738d9cfc5856d24aaf479
+Merge: 9406474 6a6e7d3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Oct 21 22:30:52 2016 +0200
+
+    Merge pull request #16 from HulaHoopWhonix/patch-11
+    
+    add zcashph5mxqjjby2.onion ( https://z.cash ) to SDWDATE_POOL_THREE
+
+commit 6a6e7d3969ace09502503e9b5a75474c89bba2cc
+Author: HulaHoopWhonix <bancfc@openmailbox.org>
+Date:   Fri Oct 21 19:58:06 2016 +0000
+
+    Update 30_default.conf
+
+commit 94064740bbf838d4d01f878fb96381424d7a87de
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 15 22:24:24 2016 +0000
+
+    - make suspend / resume look like a reboot
+    - stop Tor on suspend and restart on resume
+    - do not run suspend-pre/post scripts in TemplateVM
+    - refactoring
+
+commit 5262c9d956c55d7579ca3a8406f7ff70fd7f0cef
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 15 13:24:01 2016 +0000
+
+    enter Whonix firewall timesync-fail-closed mode before suspend / enter Whonix firewall full mode after resume and clock-fix
+    
+    https://phabricator.whonix.org/T551
+
+commit 6ad5c7bd6bc2cd667ff443b69f151770ed9e4754
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Sep 13 20:08:33 2016 +0000
+
+    minor
+
+commit a79f622dbf35d7c574550c9984cf1ccd77853c41
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Sep 13 20:05:00 2016 +0000
+
+    fix, actually kill url to unixtime threads that timed out
+    
+    fix, async wait only seconds (10) only once rather than wait for all pool
+    
+    add test usr/share/sdwdate/get_time_from_servers_test
+
+commit 36111e21f28edb3bd1aba8bb13388fbde00c1016
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Sep 11 18:12:21 2016 +0200
+
+    add newline at the end
+
+commit b8c4e9cca6487a54ba5a638576e7da4c2f18084e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 30 21:25:30 2016 +0000
+
+    sdwdate/sclockadj_kill_helper: update for sudo --non-interactive
+
+commit 31eb1ead7d4fb78b06a100e4e226a7764fae3453
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 30 21:13:24 2016 +0000
+
+    sudo --non-interactive
+    
+    https://phabricator.whonix.org/T549
+
+commit 4dcaad09c71b22bf27849e505818a507f277ca22
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Aug 26 21:08:46 2016 +0000
+
+    fix, close files
+
+commit 302caed0efd1a8be068f846d76f89c0d12ba120f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Aug 26 21:05:53 2016 +0000
+
+    write msg to /var/run/sdwdate/msg so whonixcheck can read it
+    
+    https://phabricator.whonix.org/T533
+
+commit 9ed587055361ed846c5e7dd5734bb705b91906ea
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Aug 26 20:48:02 2016 +0000
+
+    output
+
+commit 043c86624a7860989ad5c6ec97b99e4d7aca735f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Aug 26 20:47:10 2016 +0000
+
+    Revert "modified message 'restricted' since that feature is not yet implemented"
+    
+    This reverts commit 2ee0c31e044bf16f5e43857e7fd75fba59e6fdf8.
+
+commit 3c55b5e4150e33b0dcf279b2da239a3a7ba1c03f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Aug 13 01:18:08 2016 +0200
+
+    improve systemd unit file
+
+commit 05ee31dd1ed1d9d5babe7a17c0893553f8f4da5b
+Merge: 78631be 9f6b28d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Aug 3 18:02:02 2016 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 9f6b28de91a1f3726e45eb5aa1b6e9f461d64d3f
+Merge: 78631be f8b6af7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Aug 3 18:01:41 2016 +0000
+
+    Merge pull request #15 from HulaHoopWhonix/patch-10
+    
+    Update 30_default.conf
+
+commit f8b6af7f7e6d16dded2c03ba6d87e1f89a013841
+Author: HulaHoopWhonix <bancfc@openmailbox.org>
+Date:   Mon Aug 1 22:29:40 2016 +0000
+
+    Update 30_default.conf
+
+commit 78631becf88cc4e9d3d2d8f2fdbf1b92112c7589
+Merge: b3f8450 7bb827f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Aug 1 19:11:14 2016 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 7bb827f5897707efffe2c428297dec640470c009
+Merge: b3f8450 c6b2153
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Aug 1 19:10:36 2016 +0000
+
+    Merge pull request #14 from HulaHoopWhonix/patch-9
+    
+    Update 30_default.conf
+
+commit c6b2153dfb11ebe28b4838439dac8ba73bb772fa
+Author: HulaHoopWhonix <bancfc@openmailbox.org>
+Date:   Mon Aug 1 13:20:36 2016 +0000
+
+    Update 30_default.conf
+
+commit b3f8450077c9fb3b285abb67f520bb9936b48ccd
+Merge: edf536e beb71aa
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jun 3 14:26:24 2016 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit beb71aa689aaec18136c068c03c1edd9cdf63fdc
+Merge: edf536e 6064ec1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jun 3 14:25:58 2016 +0000
+
+    Merge pull request #13 from ciaby/master
+    
+    Fixed typo (missing /) in /etc/apparmor.d/abstractions/sdwdate
+
+commit 6064ec172b0015385205e8bf157bf407d10cbe15
+Author: Ciaby <ciaby@autistici.org>
+Date:   Fri Jun 3 10:19:45 2016 +0200
+
+    Fixed typo (missing /) in /etc/apparmor.d/abstractions/sdwdate
+
+commit edf536edb8496273710c49dfa968239ce70e4a4d
+Merge: 49225ef 642fe61
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed May 18 17:52:56 2016 +0200
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 642fe616b9a01c93556b22d0b2c503f8f0d7510c
+Merge: 49225ef 13f11d2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed May 18 17:52:16 2016 +0200
+
+    Merge pull request #12 from HulaHoopWhonix/patch-7
+    
+    Update 30_default.conf
+
+commit 13f11d246cb4ee30f936996805ec26211094228e
+Author: HulaHoopWhonix <bancfc@openmailbox.org>
+Date:   Wed May 11 23:17:50 2016 +0000
+
+    Update 30_default.conf
+
+commit 49225ef9f0a09a7c8c379b74ad5e3010f1d675e4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue May 10 02:24:14 2016 +0000
+
+    bumped changelog version
+
 commit 11bad33cf1d40472754f7c4478e07f3aa6908d32
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue May 10 04:22:32 2016 +0200
