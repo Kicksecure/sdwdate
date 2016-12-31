@@ -21,7 +21,7 @@ class CheckRemotes:
 
     def loop(self):
         time_stamp = str(int(time.time()))
-        file_name = 'sdwate_remotes_check-%s' % (time_stamp)
+        file_name = 'sdwdate_remotes_check-%s' % (time_stamp)
         f = open(file_name, 'a')
         print 'Starting remotes check...'
         for pool in self.pools:
