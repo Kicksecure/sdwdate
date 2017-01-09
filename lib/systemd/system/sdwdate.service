@@ -4,7 +4,7 @@
 
 [Unit]
 Description=Secure Distribiuted Web Date
-Documentation=https://www.whonix.org/wiki/Dev/TimeSync
+Documentation=https://www.whonix.org/wiki/sdwdate
 ConditionPathExists=!/var/run/qubes/this-is-templatevm
 
 After=network.target
