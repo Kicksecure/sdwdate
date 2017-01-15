@@ -26,7 +26,7 @@ case "$1" in
        addgroup debian-tor 2>/dev/null || true
 
        ## Not using --no-create-home, so sdwdate can write into /home/sdwdate.
-       adduser --quiet --system --group sdwdate || true
+       adduser --quiet --system --group sdwdate --home /nonexistent || true
 
        ## Add sdwdate to group debian-tor so it can read
        ## /var/run/tor/control.authcookie which is required to check if Tor has
