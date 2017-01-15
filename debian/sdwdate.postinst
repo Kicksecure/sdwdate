@@ -25,7 +25,6 @@ case "$1" in
        ## Compatibility with anon-ws-disable-stacked-tor.
        addgroup debian-tor 2>/dev/null || true
 
-       ## Not using --no-create-home, so sdwdate can write into /home/sdwdate.
        adduser --home /nonexistent --quiet --system --group sdwdate || true
 
        ## Add sdwdate to group debian-tor so it can read
