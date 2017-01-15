@@ -1,3 +1,33 @@
+commit ca2b755f73281d1e81a82106390d94ed15192cfd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 15 07:51:07 2017 +0000
+
+    remove obsolete comment
+
+commit 19abeed69c8622176c4f7eaabfa33476418387ec
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 15 07:50:45 2017 +0000
+
+    refactoring
+
+commit 6d732410e98c467101a4e06d24b491bc9348a01e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 15 07:46:17 2017 +0000
+
+    use --home /nonexistent to fix lintian warning
+
+commit 6c59f970996a852bb7373f06fab67afeadf67eb8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 15 08:35:40 2017 +0100
+
+    packaging, bumped Standards-Version from 3.9.6 to 3.9.8 for jessie support
+
+commit d9f914797f4f866ef08ccbec35b90ceb1f43f636
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 12 02:56:43 2017 +0000
+
+    bumped changelog version
+
 commit ab3a02857a1c76838611abffe6fd1395fc62a1a0
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Jan 9 04:56:02 2017 +0000
@@ -580,8 +610,8 @@ Date:   Fri Nov 20 17:19:12 2015 +0000
     Merge remote-tracking branch 'troubadoour/python'
     
     Conflicts:
-    	usr/lib/sdwdate/modules.d/sdwdate
-    	usr/share/test_d_files/40_pool_one_invalid
+            usr/lib/sdwdate/modules.d/sdwdate
+            usr/share/test_d_files/40_pool_one_invalid
 
 commit fa1d3178d1a71f0e1a01c558f187765fb0e7ace7
 Author: troubadoour <trobador@riseup.net>
@@ -2436,7 +2466,7 @@ Date:   Wed Feb 4 22:23:56 2015 +0000
     Merge branch 'master' into development
     
     Conflicts:
-    	usr/lib/sdwdate/url_to_unixtime
+            usr/lib/sdwdate/url_to_unixtime
 
 commit 13736580ca53c351724e87ded276eb3230f23e5e
 Author: Patrick Schleizer <adrelanos@riseup.net>
