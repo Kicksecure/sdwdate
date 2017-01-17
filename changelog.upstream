@@ -1,3 +1,29 @@
+commit e9624a8ac31706fbfa4ceec7abfcf3ca43199fd9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 17 10:25:06 2017 +0100
+
+    fix dependencies for stretch
+
+commit 90b06e349ec9b39aec3d0443e66178037590b5a3
+Merge: 1170377 be5ba49
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 17 08:46:06 2017 +0100
+
+    Merge remote-tracking branch 'joysn/master'
+
+commit be5ba4964866986ff908d8e8a0d6d42cfe22e57a
+Author: joysn <joysn1980@yahoo.com>
+Date:   Tue Jan 17 07:17:17 2017 +0000
+
+    Use -u option with pythong interpreter
+    https://phabricator.whonix.org/T608
+
+commit 1170377c5b605e08f2b21e53c89ac62f646a3afe
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 15 15:35:11 2017 +0000
+
+    bumped changelog version
+
 commit ca2b755f73281d1e81a82106390d94ed15192cfd
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Jan 15 07:51:07 2017 +0000
