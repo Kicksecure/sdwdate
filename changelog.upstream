@@ -1,3 +1,15 @@
+commit 4cca154d13a0e59279b48aa14374e1caaac756e9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 18 10:15:05 2017 +0000
+
+    back to default systemd kill mode jsut in case
+
+commit 9afb5a2ea01af9147463e73b8ef098a253ed7ffb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 17 10:26:24 2017 +0100
+
+    bumped changelog version
+
 commit e9624a8ac31706fbfa4ceec7abfcf3ca43199fd9
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jan 17 10:25:06 2017 +0100
