@@ -1,3 +1,37 @@
+commit 61dc1876f739115eabfed2e81f2d024da02250ce
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 27 12:12:35 2017 +0000
+
+    add signed commit
+
+commit c93db491234ed0277a9aa7cacec89fabbc992999
+Merge: d3f4d1f 6c3efac
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 27 10:54:29 2017 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 6c3efac488952c8e16caf682c31a3beec5c8ec42
+Merge: d3f4d1f b03400d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 27 09:53:50 2017 +0000
+
+    Merge pull request #17 from HulaHoopWhonix/patch-12
+    
+    Update 30_default.conf
+
+commit b03400db4396f6f9494cf51afe6adb9c84f6fb3d
+Author: HulaHoopWhonix <bancfc@openmailbox.org>
+Date:   Thu Jan 26 01:34:10 2017 +0000
+
+    Update 30_default.conf
+
+commit d3f4d1fa45967e80792b2e2de42656f63d243432
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 18 14:32:23 2017 +0000
+
+    bumped changelog version
+
 commit 4cca154d13a0e59279b48aa14374e1caaac756e9
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Jan 18 10:15:05 2017 +0000
@@ -71,7 +105,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Jan 9 04:56:02 2017 +0000
 
     updated sdwdate time sources / removed broken time sources
-
+    
     https://forums.whonix.org/t/suggest-trustworthy-tor-hidden-services-as-time-sources-for-sdwdate
 
 commit 6f0f2633e3996185aae4592bd55771699ce13079
@@ -123,7 +157,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Oct 21 22:30:52 2016 +0200
 
     Merge pull request #16 from HulaHoopWhonix/patch-11
-
+    
     add zcashph5mxqjjby2.onion ( https://z.cash ) to SDWDATE_POOL_THREE
 
 commit 6a6e7d3969ace09502503e9b5a75474c89bba2cc
@@ -146,7 +180,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Sep 15 13:24:01 2016 +0000
 
     enter Whonix firewall timesync-fail-closed mode before suspend / enter Whonix firewall full mode after resume and clock-fix
-
+    
     https://phabricator.whonix.org/T551
 
 commit 6ad5c7bd6bc2cd667ff443b69f151770ed9e4754
@@ -160,9 +194,9 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Sep 13 20:05:00 2016 +0000
 
     fix, actually kill url to unixtime threads that timed out
-
+    
     fix, async wait only seconds (10) only once rather than wait for all pool
-
+    
     add test usr/share/sdwdate/get_time_from_servers_test
 
 commit 36111e21f28edb3bd1aba8bb13388fbde00c1016
@@ -182,7 +216,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Aug 30 21:13:24 2016 +0000
 
     sudo --non-interactive
-
+    
     https://phabricator.whonix.org/T549
 
 commit 4dcaad09c71b22bf27849e505818a507f277ca22
@@ -196,7 +230,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Aug 26 21:05:53 2016 +0000
 
     write msg to /var/run/sdwdate/msg so whonixcheck can read it
-
+    
     https://phabricator.whonix.org/T533
 
 commit 9ed587055361ed846c5e7dd5734bb705b91906ea
@@ -210,7 +244,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Aug 26 20:47:10 2016 +0000
 
     Revert "modified message 'restricted' since that feature is not yet implemented"
-
+    
     This reverts commit 2ee0c31e044bf16f5e43857e7fd75fba59e6fdf8.
 
 commit 3c55b5e4150e33b0dcf279b2da239a3a7ba1c03f
@@ -232,7 +266,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Aug 3 18:01:41 2016 +0000
 
     Merge pull request #15 from HulaHoopWhonix/patch-10
-
+    
     Update 30_default.conf
 
 commit f8b6af7f7e6d16dded2c03ba6d87e1f89a013841
@@ -254,7 +288,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Aug 1 19:10:36 2016 +0000
 
     Merge pull request #14 from HulaHoopWhonix/patch-9
-
+    
     Update 30_default.conf
 
 commit c6b2153dfb11ebe28b4838439dac8ba73bb772fa
@@ -276,7 +310,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Jun 3 14:25:58 2016 +0000
 
     Merge pull request #13 from ciaby/master
-
+    
     Fixed typo (missing /) in /etc/apparmor.d/abstractions/sdwdate
 
 commit 6064ec172b0015385205e8bf157bf407d10cbe15
@@ -298,7 +332,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed May 18 17:52:16 2016 +0200
 
     Merge pull request #12 from HulaHoopWhonix/patch-7
-
+    
     Update 30_default.conf
 
 commit 13f11d246cb4ee30f936996805ec26211094228e
@@ -318,7 +352,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue May 10 04:22:32 2016 +0200
 
     Compatibility with anon-ws-disable-stacked-tor.
-
+    
     addgroup debian-tor
 
 commit d401dbc22abfd0d7e79a0a6218820eb9987bcab0
@@ -332,7 +366,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Apr 29 03:51:13 2016 +0000
 
     cleanup old config files
-
+    
     https://phabricator.whonix.org/T286
 
 commit bc4d0391961cbc35c22c16f231fe5d99917b6945
@@ -409,7 +443,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Apr 21 14:19:58 2016 +0000
 
     deleted etc/apparmor.d/usr.bin.sdwdate
-
+    
     because it has been replaced by
     etc/apparmor.d/usr.lib.sdwdate.url_to_unixtime since sdwdate-gui
 
@@ -436,7 +470,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Mar 18 23:52:10 2016 +0000
 
     suspend pre / post logging
-
+    
     https://github.com/QubesOS/qubes-issues/issues/1764
 
 commit 89de9713d23dbec669d98ffd7c8bb1e020ccb743
@@ -450,7 +484,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Mar 18 23:15:20 2016 +0000
 
     added Qubes suspend pre / post hooks
-
+    
     https://github.com/QubesOS/qubes-issues/issues/1779
 
 commit e29863e1238384845a1b441216cccf343c049eee
@@ -464,7 +498,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Mar 15 14:47:13 2016 +0000
 
     added suspend-pre, suspend-post and clock-fix handler scripts
-
+    
     https://github.com/QubesOS/qubes-issues/issues/1764
 
 commit 0e3de197a1875bd3db80e2128e3df1f6117a551c
@@ -500,7 +534,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Jan 29 14:18:53 2016 +0100
 
     Merge pull request #11 from HulaHoopWhonix/patch-6
-
+    
     Update 30_default.conf
 
 commit eda8b3d458fbd674fb11474cea28718f4ff96d5c
@@ -528,7 +562,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jan 26 23:12:45 2016 +0100
 
     Merge pull request #10 from HulaHoopWhonix/patch-5
-
+    
     Update 30_default.conf
 
 commit 2ab77b294efb1b180df580f9af055d5d262dcfbf
@@ -550,7 +584,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Jan 23 23:31:25 2016 +0100
 
     Merge pull request #9 from HulaHoopWhonix/patch-4
-
+    
     added lqdnwwwmaouokzmg.onion
     https://twitter.com/torproject/status/689958927044317185
     https://www.laquadrature.net
@@ -572,7 +606,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Jan 20 17:34:30 2016 +0000
 
     removed no longer needed Suggests:
-
+    
     sdwdate-plugin-anon-shared-con-check, sdwdate-plugin-anon-shared-streamiso,
     because these plugins no longer exists (integrated into sdwdate)
 
@@ -595,7 +629,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Dec 7 15:03:13 2015 +0000
 
     Merge pull request #8 from HulaHoopWhonix/patch-3
-
+    
     Added Debian mirrors
 
 commit 6183f97a0ad5fc641e7a6bcefebb8dc6fd3f165d
@@ -615,9 +649,9 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Nov 30 19:47:48 2015 +0000
 
     Only source configuration files that end with the '.conf' extension.
-
+    
     Thanks to @nrgaway for the suggestion!
-
+    
     https://phabricator.whonix.org/T286
 
 commit 3068b649a57433f6edb1ae5f714674ad0ae33b6d
@@ -625,9 +659,9 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Nov 20 18:08:52 2015 +0100
 
     backported improvements to sdwdate pool configuration
-
+    
     from sdwdate master branch (bash) /etc/sdwdate/30_sdwdate_default to python branch
-
+    
     https://github.com/Whonix/sdwdate/blob/5e12a990b04ba13f46ef3ec7ec0299b56a2440b0/etc/sdwdate.d/30_sdwdate_default
 
 commit 811a053f0b18d4b355685d9fe441b8a4312c5b75
@@ -644,9 +678,9 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Nov 20 17:19:12 2015 +0000
 
     replaced sdwdate bash with sdwdate python rewrite by @troubadoour
-
+    
     Merge remote-tracking branch 'troubadoour/python'
-
+    
     Conflicts:
             usr/lib/sdwdate/modules.d/sdwdate
             usr/share/test_d_files/40_pool_one_invalid
@@ -804,7 +838,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Oct 17 16:49:56 2015 +0000
 
     Merge pull request #7 from HulaHoopWhonix/patch-2
-
+    
     Update 30_sdwdate_default
 
 commit 5e12a990b04ba13f46ef3ec7ec0299b56a2440b0
@@ -872,7 +906,7 @@ Author: troubadoour <trobador@riseup.net>
 Date:   Wed Oct 14 20:45:22 2015 +0000
 
     Revert "create temp dir for te_pe_tb_check in sdwdate.__init__"
-
+    
     This reverts commit 2378b2e9f4274c90186214078a5a697933ddb1f2.
 
 commit 2378b2e9f4274c90186214078a5a697933ddb1f2
@@ -1040,7 +1074,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Oct 4 12:44:00 2015 +0200
 
     Merge pull request #5 from cle4r/master
-
+    
     Add Qubes-Os Site to Pool
 
 commit cd74072afb1932a0ce1b01e884d8b4ca4db3a93c
@@ -2502,7 +2536,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Feb 4 22:23:56 2015 +0000
 
     Merge branch 'master' into development
-
+    
     Conflicts:
             usr/lib/sdwdate/url_to_unixtime
 
@@ -2980,7 +3014,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Nov 13 21:22:08 2014 +0000
 
     Revert "Look for SDW_CACHE_DIR and set INLINEDIR"
-
+    
     This reverts commit 0e094890cb5af8680f696f868ddb418d211ee088.
 
 commit 12ff7f4afc022ad36aec13ebb942b237627b6feb
@@ -2988,7 +3022,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Nov 13 21:21:52 2014 +0000
 
     Revert "Set INLINEDIR"
-
+    
     This reverts commit 00740529edc537ed1db89426b554965a70977b8a.
 
 commit 00740529edc537ed1db89426b554965a70977b8a
@@ -3692,42 +3726,42 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Sep 18 16:18:30 2014 +0000
 
     Squashed commit of the following:
-
+    
     commit e61ec90bd5477d1eba693e96e99524ec9a582220
     Merge: 0d5a543 550badc
     Author: Patrick Schleizer <adrelanos@riseup.net>
     Date:   Fri Sep 12 17:29:15 2014 +0000
-
+    
         .
-
+    
     commit 550badcf3c1c8637753e07ec4327283d6844aa9a
     Author: Patrick Schleizer <adrelanos@riseup.net>
     Date:   Thu Sep 11 22:55:14 2014 +0000
-
+    
         sdwdate: no longer using pal/neutral/foe pool design. Using three pools instead, that only contain servers of the type "pal". As per https://github.com/Whonix/Whonix/issues/310. Thanks to https://github.com/HulaHoopWhonix for suggesting it.
-
+    
     commit 76f402526ac46be75a2d72683d2616669c72fc90
     Author: Patrick Schleizer <adrelanos@riseup.net>
     Date:   Thu Sep 11 15:30:14 2014 +0000
-
+    
         fix, also show error notifications in case timesync restarted sdwdate
-
+    
     commit 3e99ce2d69c7d30989329e8c7f1e934beba93486
     Author: Patrick Schleizer <adrelanos@riseup.net>
     Date:   Thu Sep 11 15:21:41 2014 +0000
-
+    
         refactoring
-
+    
     commit 4b8286ffbaf8bf607c409c50e9fc751929c9d675
     Author: Patrick Schleizer <adrelanos@riseup.net>
     Date:   Thu Sep 11 15:20:49 2014 +0000
-
+    
         package description
-
+    
     commit 5d8a586d761a3584b3c5e9adb6150278a79fff9a
     Author: Patrick Schleizer <adrelanos@riseup.net>
     Date:   Thu Sep 11 15:02:35 2014 +0000
-
+    
         fix
 
 commit e61ec90bd5477d1eba693e96e99524ec9a582220
