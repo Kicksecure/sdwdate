@@ -13,6 +13,7 @@ Wants=network.target
 After=rinetd.service
 After=bootclockrandomization.service
 After=tor.service
+After=tor@default.service
 
 Conflicts=systemd-timesyncd.service
 
