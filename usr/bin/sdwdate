@@ -536,7 +536,7 @@ if __name__ == "__main__":
 
     logger = logging.getLogger('sdwdate')
     logger.setLevel(logging.INFO)
-    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s",datefmt='%Y-%m-%d %H:%M:%S')
     handler = logging.FileHandler('/var/log/sdwdate.log')
     handler.setFormatter(formatter)
     logger.addHandler(handler)
