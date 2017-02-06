@@ -534,7 +534,7 @@ if __name__ == "__main__":
     pre_check = PreCheckVariables()
     signal.signal(signal.SIGTERM, signal_sigterm_handler)
 
-    logger = logging.getLogger('sdwdate.log')
+    logger = logging.getLogger('sdwdate')
     logger.setLevel(logging.INFO)
     formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     handler = logging.FileHandler('/var/log/sdwdate.log')
