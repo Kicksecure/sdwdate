@@ -14,7 +14,7 @@ sdwdate:
         fast_clock: ' is greater than<br> the expiration timestamp '
         cause: '<br><br>Possible causes:<br>
                 - the host clock is wrong -> shut down the VM, fix the clock in the host and restart the VM.<br>
-                - the VM clok is wrong -> manually fix the clock. Restart Tor if necessary.<br>
+                - the VM clock is wrong -> manually fix the clock. Restart Tor if necessary.<br>
                 - a host clock attack succeeded.<br>
                 - a bios clock failure.<br>'
 
