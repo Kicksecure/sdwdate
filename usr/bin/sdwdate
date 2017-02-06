@@ -231,7 +231,6 @@ class Sdwdate:
     def run_sclockadj(self):
         '''
         Set time with sneaky_clock_adjuster.
-        Should we use sclockadj_debug_helper?
         '''
         if self.newdiff_nanoseconds > 0:
             add_subtract = "--add"
