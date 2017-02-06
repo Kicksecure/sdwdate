@@ -513,9 +513,12 @@ def prerequisite_check():
                                     stderr=PIPE)
         value, error = prerequisite_status.communicate()
         if value == '':
+            message = 'Prerequisite check: ok.'
+            print message
+            logger.info(message)
             tor_status = True
         else:
-            message = 'Prerequsite check:<br> %s' % value.strip()
+            message = 'Prerequisite check:<br> %s' % value.strip()
             if message != previous_messsage:
                 previous_messsage = message
                 stripped_message = sdwdate.strip_html(message)
