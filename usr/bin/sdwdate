@@ -152,7 +152,7 @@ class Sdwdate:
             return False
 
     def get_comment(self, remote):
-        ''' For logging the commnents, get the index of the url
+        ''' For logging the comments, get the index of the url
             to get it from pool.comment.
         '''
         url_comment = ''
@@ -297,7 +297,7 @@ class Sdwdate:
     def strip_html(self, message):
         ## New line for log.
         tmp_message = re.sub('<br>', '\n', message)
-        ## Strip rmaining HTML.
+        ## Strip remaining HTML.
         return re.sub('<[^<]+?>', '', tmp_message)
 
     def write_status(self, *args):
