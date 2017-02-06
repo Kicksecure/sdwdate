@@ -269,8 +269,6 @@ class Sdwdate:
         # print line
 
     def kill_sclockadj(self):
-        '''
-        '''
         cmd = 'sudo --non-interactive /usr/lib/sdwdate/sclockadj_kill_helper ' + str(self.sclockadj_pid)
         call(cmd, shell=True)
 
