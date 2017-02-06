@@ -3,20 +3,24 @@
 set -x
 set -e
 
+date_cmd(){
+   date -u +"%Y-%m-%d %T"
+}
+
 if [ -f /var/run/qubes/this-is-templatevm ]; then
-   echo "$0 INFO: Skipping, because run in TemplateVM."
+   echo "$(date_cmd) - $0 - INFO - Skipping, because run in TemplateVM."
    exit 0
 fi
 
 if [ ! "$(id -u)" = "0" ]; then
-   echo "$0 ERROR: Must run as root!" >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - ERROR - Must run as root!" >> /var/log/sdwdate.log
    exit 2
 fi
 
 if [ -d "/usr/lib/qubes" ]; then
    true
 else
-   echo "$0 INFO: Clock fix after resume not implemented in Non-Qubes-Whonix. See: https://www.whonix.org/wiki/Troubleshooting#Clock_Fix" >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Clock fix after resume not implemented in Non-Qubes-Whonix. See: https://www.whonix.org/wiki/Troubleshooting#Clock_Fix" >> /var/log/sdwdate.log
    exit 3
 fi
 
@@ -29,42 +33,42 @@ chown --recursive sdwdate:sdwdate /var/run/sdwdate
 ## unnecessary fetching errors to /var/log/sdwdate.log.
 
 if service sdwdate status >/dev/null ; then
-   echo "$0 INFO: Creating /var/run/sdwdate/sdwdate_was_running.status..." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Creating /var/run/sdwdate/sdwdate_was_running.status..." >> /var/log/sdwdate.log
    touch /var/run/sdwdate/sdwdate_was_running.status
-   echo "$0 INFO: Done, created /var/run/sdwdate/sdwdate_was_running.status." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Done, created /var/run/sdwdate/sdwdate_was_running.status." >> /var/log/sdwdate.log
 
-   echo "$0 INFO: Stopping sdwdate..." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Stopping sdwdate..." >> /var/log/sdwdate.log
    service sdwdate stop
-   echo "$0 INFO: Done, stopped sdwdate." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Done, stopped sdwdate." >> /var/log/sdwdate.log
 
-   echo "$0 INFO: Deleting /var/run/sdwdate/first_success..." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Deleting /var/run/sdwdate/first_success..." >> /var/log/sdwdate.log
    rm -f /var/run/sdwdate/first_success
-   echo "$0 INFO: Done, deleted /var/run/sdwdate/first_success." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Done, deleted /var/run/sdwdate/first_success." >> /var/log/sdwdate.log
 
-   echo "$0 INFO: Deleting /var/run/sdwdate/success..." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Deleting /var/run/sdwdate/success..." >> /var/log/sdwdate.log
    rm -f /var/run/sdwdate/success
-   echo "$0 INFO: Done, deleted /var/run/sdwdate/success." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Done, deleted /var/run/sdwdate/success." >> /var/log/sdwdate.log
 
    if command -v whonix_firewall >/dev/null 2>&1 ; then
       ## Whonix firewall timesync-fail-closed mode
-      echo "$0 INFO: Entering Whonix firewall timesync-fail-closed mode." >> /var/log/sdwdate.log
+      echo "$(date_cmd) - $0 - INFO - Entering Whonix firewall timesync-fail-closed mode." >> /var/log/sdwdate.log
       firewall_mode="timesync-fail-closed" whonix_firewall
-      echo "$0 INFO: Done, entered Whonix firewall timesync-fail-closed mode." >> /var/log/sdwdate.log
+      echo "$(date_cmd) - $0 - INFO - Done, entered Whonix firewall timesync-fail-closed mode." >> /var/log/sdwdate.log
    else
       true "$0 INFO: Whonix firewall not installed, probably running outside of Whonix." >> /var/log/sdwdate.log
    fi
 else
-   echo "$0 INFO: sdwdate was not running, no need to stop it." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - sdwdate was not running, no need to stop it." >> /var/log/sdwdate.log
 fi
 
 if service tor@default status >/dev/null ; then
-   echo "$0 INFO: Creating /var/run/sdwdate/tor_was_running.status..." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Creating /var/run/sdwdate/tor_was_running.status..." >> /var/log/sdwdate.log
    touch /var/run/sdwdate/tor_was_running.status
-   echo "$0 INFO: Done, created /var/run/sdwdate/tor_was_running.status." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Done, created /var/run/sdwdate/tor_was_running.status." >> /var/log/sdwdate.log
 
-   echo "$0 INFO: Stopping Tor..." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Stopping Tor..." >> /var/log/sdwdate.log
    service tor@default stop
-   echo "$0 INFO: Done, stopped Tor." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Done, stopped Tor." >> /var/log/sdwdate.log
 else
-   echo "$0 INFO: Tor was not running, no need to stop it." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Tor was not running, no need to stop it." >> /var/log/sdwdate.log
 fi
