@@ -1,3 +1,77 @@
+commit 7ae1f12f11110f41d96b2a20d21466d56e98d7fb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 6 01:31:30 2017 +0000
+
+    suspend-(pre|post): use same log format with timestamps as sdwdate
+
+commit 53c71332e0c39f3c6c370d16cb90bcd7684fdb7c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 6 01:19:28 2017 +0000
+
+    minor
+
+commit 39d8e28ed467398bde9e205b4d47e119b3b0a058
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 6 01:18:16 2017 +0000
+
+    no longer log with millisecond precision
+    
+    so published logs will reveal less about systemd speed
+
+commit 249217426f43909f3da72819b6730b80d8d4bbcc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 6 01:04:44 2017 +0000
+
+    improve log output (sdwdate.log -> sdwdate)
+
+commit 291d486c07d4ab9d3fdeeb59835a05d36bb891ed
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 6 00:56:26 2017 +0000
+
+    typo
+
+commit f562aeab95a0ca867657a634007c9fcc457df215
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 6 00:54:25 2017 +0000
+
+    output
+    
+    Signal SIGTERM received. sdwdate stopped by user.
+    ->
+    Signal SIGTERM received. sdwdate stopped by user or system.
+
+commit 3a0649280cff2364313894803f7bffe7c32a0428
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 6 00:48:53 2017 +0000
+
+    minor
+
+commit 60af6738ee324110791423be2897ffd30745b91c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 6 00:47:42 2017 +0000
+
+    remove obsolete comment
+
+commit f9646dd549cecdde70fa6d614f68da091acdd8b6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 6 00:46:57 2017 +0000
+
+    fix typo
+
+commit 0b9b2baed787ad933f89971d28562e269b89c899
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 6 00:38:52 2017 +0000
+
+    add 'Prerequisite check: ok.' if so
+    
+    fix typo
+
+commit 383f413f3b61e7ddfdb594dc6ad395cea1497f69
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 27 12:12:59 2017 +0000
+
+    bumped changelog version
+
 commit 61dc1876f739115eabfed2e81f2d024da02250ce
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Jan 27 12:12:35 2017 +0000
