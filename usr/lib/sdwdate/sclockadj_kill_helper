@@ -18,7 +18,7 @@ ps_output="$(ps h --format command "$pid")"
 ## Example ps_output:
 ## sudo --non-interactive INLINEDIR=/var/cache/sdwdate/sclockadj /usr/lib/sdwdate/sclockadj --no-verbose --no-debug --no-first-wait --move-min 500000 --move-max 500000 --wait-min 1000000000 --wait-max 1000000000 --add 172807620812
 
-read -t 2 first second third fourth _ <<< "$ps_output"
+read -r -t 2 first second third fourth _ <<< "$ps_output"
 
 ## Example first:
 ## sudo
