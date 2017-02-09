@@ -29,7 +29,7 @@ class PreCheckVariables:
     run_prerequisite = False
     prerequisite_path = '/usr/lib/anon-shared-helper-scripts/te_pe_tb_check'
     if os.access(prerequisite_path, os.X_OK):
-        ## Create tenp dir for te_pe_tb_check.
+        ## Create TEMP_DIR for te_pe_tb_check.
         temp_dir = check_output(["mktemp", "--directory"]).strip()
         os.environ["TEMP_DIR"] = str(temp_dir)
         run_prerequisite = True
