@@ -1,8 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/python3 -u
 
 import sys
 from sdwdate.remote_times import get_time_from_servers
 
 urls, unix_times = get_time_from_servers(["sejnfjrq6szgca7v.onion", "vtjkwwcq5osuo6uq.onion", "vtjkwwcq5osuo6uq.onion", "vtjkwwcq5osuo6uq.onion"], "127.0.0.1", "9050")
 
-print urls, unix_times
+print(urls, unix_times)
