@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3 -u
 
 ## Copyright (C) 2015 troubadour <trobador@riseup.net>
 ## Copyright (C) 2015 Patrick Schleizer <adrelanos@riseup.net>
@@ -18,7 +18,7 @@ def data_to_date_string_start_position(data):
     ## Test ########################
     #data = re.sub('Date', 'Rate', data)
     ################################
-    date_string_start_position = data.find('Date:')
+    date_string_start_position = data.find(b'Date:')
 
     if date_string_start_position == -1:
         ## not found, check if lowercase.
@@ -26,8 +26,8 @@ def data_to_date_string_start_position(data):
 
     if date_string_start_position == -1:
         ## "Date:" not found.
-        print 'Parsing HTTP header date failed.'
-        print 'HTTP header data:\n%s' % (data)
+        print('Parsing HTTP header date failed.')
+        print('HTTP header data:\n{}'.format(data.decode()))
         sys.exit()
 
     date_string_start_position = date_string_start_position + 6
@@ -44,10 +44,10 @@ def data_to_http_time(data, date_string_start_position):
 
     ## min string length = max string length.
     if http_time_string_length < 29:
-        print 'HTTP header date string too short.'
-        print 'HTTP header date length: %s' % http_time_string_length
-        print 'HTTP header data:\n%s' % (data)
-        print 'HTTP header date value: "%s"' % (http_time)
+        print('HTTP header date string too short.')
+        print('HTTP header date length: {}'.format(http_time_string_length))
+        print('HTTP header data:\n{}'.format(data.decode()))
+        print('HTTP header date value: "{}"'.format(http_time))
         sys.exit()
 
     ## Test, replace current hour with 30 #######
@@ -60,24 +60,24 @@ def unixtime_sanity_check(data, http_time, parsed_unixtime):
         unixtime_digit = int(parsed_unixtime)
 
     except ValueError as e:
-        print 'parsed_unixtime conversion failed!'
-        print 'data: %s' % (data)
-        print 'http_time: %s' % (http_time)
-        print 'parsed_unixtime: %s' % (parsed_unixtime)
-        print 'parsed_unixtime not numeric!'
+        print('parsed_unixtime conversion failed!')
+        print('data: {}'.format(data.decode()))
+        print('http_time: {}'.format(http_time))
+        print('parsed_unixtime: {}'.format(parsed_unixtime))
+        print('parsed_unixtime not numeric!')
         sys.exit()
 
     unixtime_string_length_is = len(parsed_unixtime)
     unixtime_string_length_max = 10
 
     if unixtime_string_length_is > unixtime_string_length_max:
-        print 'parsed_unixtime conversion failed!'
-        print 'data: %s' % (data)
-        print 'http_time: %s' % (http_time)
-        print 'parsed_unixtime: %s' % (parsed_unixtime)
-        print 'unixtime_string_length_is: %s' % (unixtime_string_length_is)
-        print 'unixtime_string_length_max: %s' % (unixtime_string_length_max)
-        print 'parsed_unixtime has excessive string length!'
+        print('parsed_unixtime conversion failed!')
+        print('data: {}'.format(data.decode()))
+        print('http_time: {}'.fomrat(http_time))
+        print('parsed_unixtime: {}'.format(parsed_unixtime))
+        print('unixtime_string_length_is: {}'.format(unixtime_string_length_is))
+        print('unixtime_string_length_max: {}'.format(unixtime_string_length_max))
+        print('parsed_unixtime has excessive string length!')
         sys.exit()
 
     #print >> sys.stderr, parsed_unixtime
@@ -91,12 +91,12 @@ def request_data_from_remote_server(socket_ip, socket_port, url, remote_port):
         s.connect((url, remote_port))
 
     except Exception as e:
-        print 'connect error: %s' % (e)
+        print('connect error: {}'.format(e))
         sys.exit()
 
-    s.send('HEAD / HTTP/1.0\r\n\r\n')
+    s.send('HEAD / HTTP/1.0\r\n\r\n'.encode())
 
-    data = ''
+    data = b''
     buf = s.recv(1024)
     while len(buf):
         data += buf
@@ -113,10 +113,10 @@ def http_time_to_parsed_unixtime(data, http_time):
         parsed_unixtime = parse(http_time).strftime('%s')
 
     except ValueError as e:
-        print 'Parsing http_time from server failed!'
-        print 'HTTP header data:\n%s' % (data)
-        print 'http_time: %s' % (http_time)
-        print 'dateutil ValueError: %s' % (e)
+        print('Parsing http_time from server failed!')
+        print('HTTP header data:\n{}'.format(data.decode()))
+        print('http_time: {}'.format(http_time))
+        print('dateutil ValueError: {}'.format(e))
         sys.exit()
 
     ## Tests #################################
@@ -134,17 +134,17 @@ def parse_command_line_parameters():
         verbosity = sys.argv[5]
 
     except (IndexError) as e:
-        print "Parsing command line parameter failed. | e: %s" % (e)
+        print("Parsing command line parameter failed. | e: %s".format(e))
         sys.exit()
 
     return(socket_ip, socket_port, url, remote_port, verbosity)
 
 def output_unixtime(data, http_time, parsed_unixtime, unixtime, verbosity):
     if verbosity == "true":
-        print 'data: %s' % (data)
-        print 'http_time: %s' % (http_time)
-        print 'parsed_unixtime: %s' % (parsed_unixtime)
-    print '%s' % unixtime
+        print('data: {}'.format(data.decode()))
+        print('http_time: {}'.format(http_time))
+        print('parsed_unixtime: {}'.format(parsed_unixtime))
+    print('%s'.format(unixtime))
 
 def main():
    socket_ip, socket_port, url, remote_port, verbosity = parse_command_line_parameters()
