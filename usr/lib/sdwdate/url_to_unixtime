@@ -50,7 +50,7 @@ def data_to_http_time(data, date_string_start_position):
         print('HTTP header date value: "{}"'.format(http_time))
         sys.exit()
 
-    ## Test, replace current hour with 30 #######
+    ## Test - replace current hour with 30 ######
     #http_time = re.sub(b'11', b'30', http_time)
     #############################################
     return http_time
@@ -119,8 +119,10 @@ def http_time_to_parsed_unixtime(data, http_time):
         print('dateutil ValueError: {}'.format(e))
         sys.exit()
 
-    ## Tests #################################
+    ## Test ##################################
     #parsed_unixtime = '%sA' % parsed_unixtime
+    ##########################################
+    ## Test ##################################
     #parsed_unixtime = '%s1' % parsed_unixtime
     ##########################################
     return(parsed_unixtime)
