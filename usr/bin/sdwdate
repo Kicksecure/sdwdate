@@ -1,4 +1,4 @@
-#!/usr/bin/python -u
+#!/usr/bin/python3 -u
 
 import sys
 import logging
@@ -152,7 +152,7 @@ class Sdwdate:
             return False
 
     def get_comment(self, remote):
-        ''' For logging the comments, get the index of the url
+        ''' For logging the commnents, get the index of the url
             to get it from pool.comment.
         '''
         url_comment = ''
@@ -231,6 +231,7 @@ class Sdwdate:
     def run_sclockadj(self):
         '''
         Set time with sneaky_clock_adjuster.
+        Should we use sclockadj_debug_helper?
         '''
         if self.newdiff_nanoseconds > 0:
             add_subtract = "--add"
@@ -269,6 +270,8 @@ class Sdwdate:
         # print line
 
     def kill_sclockadj(self):
+        '''
+        '''
         cmd = 'sudo --non-interactive /usr/lib/sdwdate/sclockadj_kill_helper ' + str(self.sclockadj_pid)
         call(cmd, shell=True)
 
@@ -294,7 +297,7 @@ class Sdwdate:
     def strip_html(self, message):
         ## New line for log.
         tmp_message = re.sub('<br>', '\n', message)
-        ## Strip remaining HTML.
+        ## Strip rmaining HTML.
         return re.sub('<[^<]+?>', '', tmp_message)
 
     def write_status(self, *args):
@@ -449,7 +452,7 @@ class Sdwdate:
                                 self.invalid_urls.append(url)
                                 message = ('%s: time sanity check failed, server time is %s'
                                            % (url, sanitycheck_status))
-                                print message
+                                print(message)
                                 logger.warning(message)
 
         message = 'Reachable urls:\n'
@@ -510,16 +513,13 @@ def prerequisite_check():
                                     stderr=PIPE)
         value, error = prerequisite_status.communicate()
         if value == '':
-            message = 'Prerequisite check: ok.'
-            print message
-            logger.info(message)
             tor_status = True
         else:
-            message = 'Prerequisite check:<br> %s' % value.strip()
+            message = 'Prerequsite check:<br> %s' % value.strip()
             if message != previous_messsage:
                 previous_messsage = message
                 stripped_message = sdwdate.strip_html(message)
-                print stripped_message
+                print(stripped_message)
                 logger.warning(stripped_message)
                 icon = sdwdate.busy_icon
                 sdwdate.write_status(icon, message)
@@ -534,21 +534,21 @@ if __name__ == "__main__":
     pre_check = PreCheckVariables()
     signal.signal(signal.SIGTERM, signal_sigterm_handler)
 
-    logger = logging.getLogger('sdwdate')
+    logger = logging.getLogger('sdwdate.log')
     logger.setLevel(logging.INFO)
-    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s", datefmt='%Y-%m-%d %H:%M:%S')
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     handler = logging.FileHandler('/var/log/sdwdate.log')
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
     self_pid = os.getpid()
     pid_message = 'sdwdate started. PID %s' % self_pid
-    print pid_message
+    print(pid_message)
     logger.info(pid_message)
     sdwdate = Sdwdate()
     proxy_message = ('Tor socks host: %s  Tor socks port: %s'
                      % (sdwdate.proxy_ip, sdwdate.proxy_port))
-    print proxy_message
+    print(proxy_message)
     logger.info(proxy_message)
 
     if pre_check.run_prerequisite:
