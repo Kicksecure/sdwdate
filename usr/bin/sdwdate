@@ -186,7 +186,7 @@ class Sdwdate:
         message = 'Pool differences, sorted: %s' % diffs
         print(message)
         logger.info(message)
-        self.median = diffs[(len(diffs) / 2)]
+        self.median = diffs[(len(diffs) // 2)]
 
     def set_new_time(self):
         '''
@@ -300,12 +300,13 @@ class Sdwdate:
     def write_status(self, *args):
         self.status['icon'] = args[0]
         self.status['message'] = args[1]
+        msg = bytes(args[1], encoding = 'utf-8')
         with open(self.status_path, 'wb') as f:
             pickle.dump(self.status, f)
             f.close()
 
         with open(self.msg_path, 'wb') as msgf:
-            msgf.write(args[1])
+            msgf.write(msg)
             msgf.close()
 
     def sdwdate_loop(self):
@@ -475,7 +476,7 @@ class Sdwdate:
         logger.info(message)
 
         last_shell_date = check_output('date').strip()
-        self.message = self._('success_1') + last_shell_date + self._('success_2')
+        self.message = self._('success_1') + str(last_shell_date) + self._('success_2')
         retrying_loop = False
         return self.success_icon, 'success'
 
@@ -509,6 +510,7 @@ def prerequisite_check():
                                     stdout=PIPE,
                                     stderr=PIPE)
         value, error = prerequisite_status.communicate()
+        value = value.decode('UTF-8')
         if value == '':
             message = 'Prerequisite check: ok.'
             print(message)
