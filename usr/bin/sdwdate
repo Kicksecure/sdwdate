@@ -31,7 +31,7 @@ class PreCheckVariables:
     if os.access(prerequisite_path, os.X_OK):
         ## Create tenp dir for te_pe_tb_check.
         temp_dir = check_output(["mktemp", "--directory"]).strip()
-        os.environ["TEMP_DIR"] = temp_dir
+        os.environ["TEMP_DIR"] = str(temp_dir)
         run_prerequisite = True
 
 
