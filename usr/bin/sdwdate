@@ -152,7 +152,7 @@ class Sdwdate:
             return False
 
     def get_comment(self, remote):
-        ''' For logging the commnents, get the index of the url
+        ''' For logging the comments, get the index of the url
             to get it from pool.comment.
         '''
         url_comment = ''
@@ -297,7 +297,7 @@ class Sdwdate:
     def strip_html(self, message):
         ## New line for log.
         tmp_message = re.sub('<br>', '\n', message)
-        ## Strip rmaining HTML.
+        ## Strip remaining HTML.
         return re.sub('<[^<]+?>', '', tmp_message)
 
     def write_status(self, *args):
@@ -515,7 +515,7 @@ def prerequisite_check():
         if value == '':
             tor_status = True
         else:
-            message = 'Prerequsite check:<br> %s' % value.strip()
+            message = 'Prerequisite check:<br> %s' % value.strip()
             if message != previous_messsage:
                 previous_messsage = message
                 stripped_message = sdwdate.strip_html(message)
@@ -534,9 +534,9 @@ if __name__ == "__main__":
     pre_check = PreCheckVariables()
     signal.signal(signal.SIGTERM, signal_sigterm_handler)
 
-    logger = logging.getLogger('sdwdate.log')
+    logger = logging.getLogger('sdwdate')
     logger.setLevel(logging.INFO)
-    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s", datefmt='%Y-%m-%d %H:%M:%S')
     handler = logging.FileHandler('/var/log/sdwdate.log')
     handler.setFormatter(formatter)
     logger.addHandler(handler)
