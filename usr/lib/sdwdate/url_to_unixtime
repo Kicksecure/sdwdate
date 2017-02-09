@@ -16,13 +16,13 @@ import re # Test
 
 def data_to_date_string_start_position(data):
     ## Test ########################
-    #data = re.sub('Date', 'Rate', data)
+    #data = re.sub(b'Date', b'Rate', data)
     ################################
     date_string_start_position = data.find(b'Date:')
 
     if date_string_start_position == -1:
         ## not found, check if lowercase.
-        date_string_start_position = data.find('date:')
+        date_string_start_position = data.find(b'date:')
 
     if date_string_start_position == -1:
         ## "Date:" not found.
@@ -51,7 +51,7 @@ def data_to_http_time(data, date_string_start_position):
         sys.exit()
 
     ## Test, replace current hour with 30 #######
-    #http_time = re.sub('11', '30', http_time)
+    #http_time = re.sub(b'11', b'30', http_time)
     #############################################
     return http_time
 
@@ -134,7 +134,7 @@ def parse_command_line_parameters():
         verbosity = sys.argv[5]
 
     except (IndexError) as e:
-        print("Parsing command line parameter failed. | e: %s".format(e))
+        print("Parsing command line parameter failed. | e: {}".format(e))
         sys.exit()
 
     return(socket_ip, socket_port, url, remote_port, verbosity)
@@ -144,7 +144,7 @@ def output_unixtime(data, http_time, parsed_unixtime, unixtime, verbosity):
         print('data: {}'.format(data.decode()))
         print('http_time: {}'.format(http_time))
         print('parsed_unixtime: {}'.format(parsed_unixtime))
-    print('%s'.format(unixtime))
+    print('{}'.format(unixtime))
 
 def main():
    socket_ip, socket_port, url, remote_port, verbosity = parse_command_line_parameters()
