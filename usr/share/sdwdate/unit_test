@@ -25,7 +25,7 @@ class CheckRemotes:
                                                                     self.proxy_ip,
                                                                     self.proxy_port)
             for url in range(len(self.urls)):
-                msg = 'pool {} url {}: {}'.format((self.pools.index(pool) + 1, self.urls[url], self.returned_values[url]))
+                msg = 'pool {} url {}: {}'.format(self.pools.index(pool) + 1, self.urls[url], self.returned_values[url])
                 print(msg)
 
 if __name__ == '__main__':
