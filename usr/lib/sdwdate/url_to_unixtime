@@ -62,7 +62,7 @@ def unixtime_sanity_check(data, http_time, parsed_unixtime):
     except ValueError as e:
         print('parsed_unixtime conversion failed!')
         print('data: {}'.format(data.decode()))
-        print('http_time: {}'.format(http_time))
+        print('http_time: {}'.format(http_time.decode()))
         print('parsed_unixtime: {}'.format(parsed_unixtime))
         print('parsed_unixtime not numeric!')
         sys.exit()
@@ -73,7 +73,7 @@ def unixtime_sanity_check(data, http_time, parsed_unixtime):
     if unixtime_string_length_is > unixtime_string_length_max:
         print('parsed_unixtime conversion failed!')
         print('data: {}'.format(data.decode()))
-        print('http_time: {}'.format(http_time))
+        print('http_time: {}'.format(http_time.decode()))
         print('parsed_unixtime: {}'.format(parsed_unixtime))
         print('unixtime_string_length_is: {}'.format(unixtime_string_length_is))
         print('unixtime_string_length_max: {}'.format(unixtime_string_length_max))
@@ -115,7 +115,7 @@ def http_time_to_parsed_unixtime(data, http_time):
     except ValueError as e:
         print('Parsing http_time from server failed!')
         print('HTTP header data:\n{}'.format(data.decode()))
-        print('http_time: {}'.format(http_time))
+        print('http_time: {}'.format(http_time.decode()))
         print('dateutil ValueError: {}'.format(e))
         sys.exit()
 
@@ -144,7 +144,7 @@ def parse_command_line_parameters():
 def output_unixtime(data, http_time, parsed_unixtime, unixtime, verbosity):
     if verbosity == "true":
         print('data: {}'.format(data.decode()))
-        print('http_time: {}'.format(http_time))
+        print('http_time: {}'.format(http_time.decode()))
         print('parsed_unixtime: {}'.format(parsed_unixtime))
     print('{}'.format(unixtime))
 
