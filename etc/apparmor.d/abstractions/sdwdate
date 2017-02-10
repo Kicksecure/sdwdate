@@ -55,7 +55,7 @@
     /etc/nsswitch.conf r,
     /etc/pam.d/* r,
     /etc/passwd r,
-    /etc/python2.7/sitecustomize.py r,
+    /etc/python*/sitecustomize.py r,
     /etc/resolv.conf.anondist r,
     /etc/resolv.conf r,
     /etc/sdwdate.d/ r,
@@ -117,7 +117,7 @@
     /usr/bin/od rix,
     /usr/bin/printf rix,
     /usr/bin/pstree rix,
-    /usr/bin/python2.7 rix,
+    /usr/bin/python* rix,
     /usr/bin/ruby* rix,
     /usr/bin/sdwdate rix,
     /usr/bin/service rix,
@@ -151,7 +151,7 @@
     /usr/lib/sdwdate/restart_fresh rix,
     /usr/lib/anon-shared-helper-scripts/settings_echo rix,
     /usr/lib/sudo/sudoers.so mr,
-    /usr/lib/python2.7/dist-packages/sdwdate/* rix,
+    /usr/lib/python*/dist-packages/sdwdate/* rix,
 
     /usr/sbin/service rix,
 
