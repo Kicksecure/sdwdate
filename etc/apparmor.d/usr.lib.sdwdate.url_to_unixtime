@@ -6,5 +6,4 @@
   #include <abstractions/python>
 
   /usr/lib/sdwdate/url_to_unixtime r,
-
 }
