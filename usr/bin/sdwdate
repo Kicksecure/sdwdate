@@ -472,7 +472,7 @@ class Sdwdate:
         print(message)
         logger.info(message)
 
-        last_shell_date = check_output('date').strip()
+        last_shell_date = check_output('date').strip().decode()
         self.message = self._('success_1') + str(last_shell_date) + self._('success_2')
         retrying_loop = False
         return self.success_icon, 'success'
