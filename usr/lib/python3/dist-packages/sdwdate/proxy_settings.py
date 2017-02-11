@@ -13,7 +13,7 @@ def proxy_settings():
     if (os.path.exists('/usr/share/whonix') and
         os.access(settings_path, os.X_OK)):
             proxy_settings = check_output(settings_path)
-            ip_address = re.search(b'GATEWAY_IP="(.*)"', proxy_settings).group(1)
+            ip_address = re.search(b'GATEWAY_IP="(.*)"', proxy_settings).group(1).decode()
     elif ip_address != '':
         ## ip_address = PROXY_IP
         pass
