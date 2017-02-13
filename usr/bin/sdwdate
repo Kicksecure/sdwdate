@@ -146,6 +146,8 @@ class Sdwdate:
             message = 'Remote status "%s", False: %s' % (remote, value)
             print(message)
             logger.info(message)
+            if value == "sigterm":
+               exit_handler()
             return False
 
     def get_comment(self, remote):
@@ -478,7 +480,7 @@ class Sdwdate:
         return self.success_icon, 'success'
 
 
-def signal_sigterm_handler(signum, frame):
+def exit_handler():
     # Inform sdwdate-gui
     icon = sdwdate.error_icon
     message = sdwdate._('user_kill')
@@ -497,6 +499,10 @@ def signal_sigterm_handler(signum, frame):
 
     logger.info(stripped_message)
     sys.exit(143)
+
+
+def signal_sigterm_handler(signum, frame):
+    exit_handler()
 
 
 def prerequisite_check():

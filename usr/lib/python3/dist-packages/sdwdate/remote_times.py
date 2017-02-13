@@ -15,6 +15,7 @@ def get_time_from_servers(remotes, ip_address, port_number):
     urls = []
     unix_times = []
     seconds = 10
+    do_exit = False
 
     ### Clear lists.
     del threads[:]
@@ -32,9 +33,24 @@ def get_time_from_servers(remotes, ip_address, port_number):
     try:
        gevent.wait(timeout=seconds)
     except KeyboardInterrupt:
-        sys.exit()
+       do_exit = True
+       print("remotes.py: KeyboardInterrupt received.")
+    except SystemExit:
+       do_exit = True
+       print("remotes.py: sigterm received.")
     except:
-        pass
+       print("Unexpected error:", sys.exc_info()[0])
+       pass
+
+    if do_exit == True:
+       for i in range(len(threads)):
+           try:
+               threads[i].terminate()
+           except:
+               pass
+       urls.append(remotes[i])
+       unix_times.append('sigterm')
+       return urls, unix_times
 
     for i in range(len(threads)):
         if threads[i].poll() is not None:
