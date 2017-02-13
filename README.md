@@ -9,10 +9,6 @@ extracts the time stamps from http headers (RFC 2616).
 Using sclockadj option, time is gradually adjusted preventing bigger clock
 jumps that could confuse logs, servers, Tor, i2p, etc.
 
-Plugins are supported via hooks. These hooks include pre-connect, pre-fetch,
-post-fetch, post-success, post-failure, and progress. Sdwdate comes without a
-GUI, but is available called sdwdate-gui.
-
 This package contains the sdwdate time fetcher and daemon. No
 installation on remote servers required. To avoid conflicts, this daemon
 should be not be enabled together with ntp or tlsdated.
