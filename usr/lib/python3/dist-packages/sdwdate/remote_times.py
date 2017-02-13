@@ -4,6 +4,7 @@
 ## Copyright (C) 2015 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
+import sys
 import gevent
 from gevent.subprocess import Popen, PIPE
 
@@ -30,6 +31,8 @@ def get_time_from_servers(remotes, ip_address, port_number):
 
     try:
        gevent.wait(timeout=seconds)
+    except KeyboardInterrupt:
+        sys.exit()
     except:
         pass
 
