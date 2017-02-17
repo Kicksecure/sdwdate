@@ -1,3 +1,281 @@
+commit e7a5d7a162e0b0823eae96c8c00d001f75be5dfe
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 13 17:26:46 2017 +0000
+
+    readme
+
+commit 66341d6b3232f3f812b0ac3ebd6f49a7928c543f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 13 14:18:42 2017 +0000
+
+    fix sdwdate sigterm handling during remote_times.py get_time_from_servers
+    
+    https://phabricator.whonix.org/T629
+
+commit 2ae2a8d66d6d22ef35b7765587a21958ac931ba3
+Merge: 8d507a6 429b015
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 13 13:22:19 2017 +0000
+
+    Merge remote-tracking branch 'joysn/master'
+
+commit 429b0156c8242e2353f5c1d64406f829f90c4168
+Author: Joy SN <joysn1980@yahoo.com>
+Date:   Mon Feb 13 08:29:38 2017 +0000
+
+    ctrl+c not terminating when remote_times while wait
+
+commit 8d507a6a5bcc6482aacf326e8da580a2c557e696
+Merge: 68f0e65 b2c9433
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 11 15:28:29 2017 +0000
+
+    Merge remote-tracking branch 'joysn/master'
+
+commit b2c94337e6aa01e1bcb73b0893117de1f13e0740
+Author: Joy SN <joysn1980@yahoo.com>
+Date:   Sat Feb 11 14:31:01 2017 +0000
+
+    Type - str appearing as byte in /var/log/sdwdate.log
+    Last run (on b'Sat Feb 11 14:30:05 UTC 2017') was successful.
+
+commit 68f0e65ed52c35a87d120baff2359095a01c4404
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 11 14:26:08 2017 +0000
+
+    python-guimessages -> python3-guimessages
+
+commit 56230f8e0e529c49feeacac27c0fe972919c5eba
+Merge: d1abb17 f36eccb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 11 14:21:37 2017 +0000
+
+    Merge remote-tracking branch 'joysn/master'
+
+commit f36eccbc87e960e83dc3cc1dce8941b33ddb3d49
+Author: Joy SN <joysn1980@yahoo.com>
+Date:   Sat Feb 11 13:32:24 2017 +0000
+
+    Convert byte to string
+
+commit d1abb17ba754d5d935ceedaaf5a56624970d411f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 10 15:47:52 2017 +0000
+
+    remove faketime from Build-Depends:
+    
+    since no longer used for reproducible builds
+
+commit 7763177352dd45d3d34c736e758a0f89b97c90bf
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 10 15:35:25 2017 +0000
+
+    remove debian/gain-root-command workaround
+
+commit 588346498436ea0dfe729bd73e769aad523174ad
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 10 15:26:17 2017 +0000
+
+    packaging simplification ruby-ronn (>= 0.7.3) -> ruby-ronn
+
+commit 11d27c7264f86a926798a64e0722ee57dbfe8bd2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 10 14:59:24 2017 +0000
+
+    minor
+
+commit 09bc7c8876de6eb5aea4d05aca17348a46f14d02
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 10 14:58:58 2017 +0000
+
+    apparmor profile python3 support
+
+commit 4adb201c20d4f67d32eb3e6bf3ea0e7cb12e2380
+Merge: cf42b35 e124e38
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 10 03:20:04 2017 +0000
+
+    Merge remote-tracking branch 'joysn/master'
+
+commit e124e387ad3b2ce3ee91c5a518ae96c7b7ed7483
+Author: joysn <joysn1980@yahoo.com>
+Date:   Fri Feb 10 03:01:18 2017 +0000
+
+    Fix b in front of http_time: b'Thu, 09 Feb 2017 18:00:00 GMT'
+    https://phabricator.whonix.org/T624
+
+commit cf42b351115679e85cc69a481aa885292f843e6f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 23:18:38 2017 +0000
+
+    minor
+
+commit 27df9770a3807381473c3cd7ce45d56356457e89
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 23:17:50 2017 +0000
+
+    comments
+
+commit 8d033151e2eb313dd5389a1e466400d782746217
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 23:11:09 2017 +0000
+
+    protect rmtree(temp_dir_bytes) with try/except
+    
+    can fail if sigterm trap is invoked multiple times
+
+commit d27cc31e72b7b88e6e329e1bed2af0faec1b338b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 23:01:08 2017 +0000
+
+    fix and simplify TEMP_DIR creation and deletion code
+
+commit b5a064e3cc197c440b74fa52a73c14e36ba8a7ec
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 22:36:52 2017 +0000
+
+    typo
+
+commit 44857a5a39f4cfa82e93eec7f125c8ea60c06aff
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 22:33:31 2017 +0000
+
+    fix type errors
+
+commit c82049222d80f0c15abea83242180a58b78c9d73
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 17:58:19 2017 +0000
+
+    fix type error
+
+commit 4c0325327947b57be12596fec492e0b9871b00d3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 17:49:25 2017 +0000
+
+    port url_to_unixtime tests to python3
+    
+    fix lower case date detection
+    
+    %s -> {}
+
+commit 10dc49b940faf3c9ad7cdd669736a4f16d4b7d3c
+Merge: 66a5ecb 27c547c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 16:56:13 2017 +0000
+
+    Merge remote-tracking branch 'joysn/master'
+
+commit 27c547c2e84616feb25cc0f0de65f8442e0a83c7
+Author: joysn <joysn1980@yahoo.com>
+Date:   Thu Feb 9 16:48:17 2017 +0000
+
+    One more typo
+
+commit a25819834c8ed813696f52f003297ec04c40892c
+Author: joysn <joysn1980@yahoo.com>
+Date:   Thu Feb 9 16:37:00 2017 +0000
+
+    Port to Python3
+    https://phabricator.whonix.org/T624
+
+commit 66a5ecba2ae01a126da3f3ce9ca9b2b4c2c480a7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 15:39:26 2017 +0000
+
+    port usr/share/sdwdate/get_time_from_servers_test and usr/share/sdwdate/unit_test to python3
+
+commit 7bc3c359cc5b473dc356f084e2779a709c27ac26
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 15:30:37 2017 +0000
+
+    readd to output 'Prerequisite check: ok.'
+
+commit 850b2d0317a8c53aa7677bea6ec41873be47695f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 15:29:30 2017 +0000
+
+    remove obsolete comments
+
+commit 842bf8a563e88aabe31837f828e92fa5917c82a5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 15:25:28 2017 +0000
+
+    fix typo
+
+commit b6baa2f544ccc5f0edd3404ce79ebcde151cc09c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 15:24:00 2017 +0000
+
+    delete python2.7 version
+
+commit 991c54f41a98b522df9b76c9699abb4d72dcb5fb
+Merge: f69d5af 446feb8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 15:23:17 2017 +0000
+
+    Merge remote-tracking branch 'joysn/master'
+
+commit 446feb8a70f189ed89b5c6cf1f00ba05d957c5c5
+Author: joysn <joysn1980@yahoo.com>
+Date:   Thu Feb 9 15:05:50 2017 +0000
+
+    Fix typos merged with last commit
+    https://phabricator.whonix.org/T624
+
+commit 2d27985b302fab6c0e76097eab8e037f020a52fa
+Author: joysn <joysn1980@yahoo.com>
+Date:   Thu Feb 9 14:59:42 2017 +0000
+
+    port to python3
+    https://phabricator.whonix.org/T624
+
+commit f69d5afb0c0c7b901ac8834e29c9e55f87f595b1
+Merge: c735652 1ad1f22
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 13:43:45 2017 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 1ad1f222b79843fdfbc7fdfaad3f9542a4760a57
+Merge: c735652 3145f92
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 13:43:22 2017 +0000
+
+    Merge pull request #18 from HulaHoopWhonix/patch-13
+    
+    Update 30_default.conf
+
+commit c735652569531b3f6443ae57357612b6ccccca66
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 9 13:41:10 2017 +0000
+
+    update dependencies to python3
+
+commit c39f61ed8fec9cc6a6f26d40e7ec644443a05d3f
+Author: joysn <joysn1980@yahoo.com>
+Date:   Thu Feb 9 11:41:30 2017 +0000
+
+    porting to python3
+    https://phabricator.whonix.org/T624
+
+commit 3145f9201250fe98ccbd9dd1df19173a5a1c9733
+Author: HulaHoopWhonix <bancfc@openmailbox.org>
+Date:   Wed Feb 8 23:34:09 2017 +0000
+
+    Update 30_default.conf
+
+commit 20317f92c4cf0fa1e8c1742af6d9d4fa420bf853
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 8 13:58:10 2017 +0000
+
+    read -r
+
+commit b47420cf789a6101e872d45a8f9d1a0be7f686d8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 6 18:00:41 2017 +0000
+
+    bumped changelog version
+
 commit d049e98703a3074a11c2f5977dec67997314fddf
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Feb 6 17:23:03 2017 +0000
