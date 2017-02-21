@@ -35,7 +35,7 @@ tor_restart_maybe() {
       echo "$(date_cmd) - $0 - INFO - Done, deleted /var/run/sdwdate/tor_was_running.status." >> /var/log/sdwdate.log
 
       echo "$(date_cmd) - $0 - INFO - Restarting Tor..." >> /var/log/sdwdate.log
-      systemctl --no-pager tor@default restart
+      systemctl --no-pager restart tor@default
       echo "$(date_cmd) - $0 - INFO - Done, restarted Tor." >> /var/log/sdwdate.log
    else
       echo "$(date_cmd) - $0 - INFO - File /var/run/sdwdate/tor_was_running.status did not exist, meaning we previously did not stop Tor so not starting it now." >> /var/log/sdwdate.log
@@ -79,7 +79,7 @@ if test -f /var/run/sdwdate/sdwdate_was_running.status ; then
    echo "$(date_cmd) - $0 - INFO - Done, with /usr/lib/sdwdate/restart_fresh." >> /var/log/sdwdate.log
 
    echo "$(date_cmd) - $0 - INFO - Restarting sdwdate..." >> /var/log/sdwdate.log
-   systemctl --no-pager sdwdate restart
+   systemctl --no-pager restart sdwdate
    echo "$(date_cmd) - $0 - INFO - Done, restarted sdwdate." >> /var/log/sdwdate.log
 
    ## Whonix firewall full mode
