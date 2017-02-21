@@ -32,13 +32,13 @@ chown --recursive sdwdate:sdwdate /var/run/sdwdate
 ## Should sdwdate fetch time during run of this script, it would add
 ## unnecessary fetching errors to /var/log/sdwdate.log.
 
-if service sdwdate status >/dev/null ; then
+if systemctl --no-pager sdwdate status >/dev/null ; then
    echo "$(date_cmd) - $0 - INFO - Creating /var/run/sdwdate/sdwdate_was_running.status..." >> /var/log/sdwdate.log
    touch /var/run/sdwdate/sdwdate_was_running.status
    echo "$(date_cmd) - $0 - INFO - Done, created /var/run/sdwdate/sdwdate_was_running.status." >> /var/log/sdwdate.log
 
    echo "$(date_cmd) - $0 - INFO - Stopping sdwdate..." >> /var/log/sdwdate.log
-   service sdwdate stop
+   systemctl --no-pager sdwdate stop
    echo "$(date_cmd) - $0 - INFO - Done, stopped sdwdate." >> /var/log/sdwdate.log
 
    echo "$(date_cmd) - $0 - INFO - Deleting /var/run/sdwdate/first_success..." >> /var/log/sdwdate.log
@@ -61,13 +61,13 @@ else
    echo "$(date_cmd) - $0 - INFO - sdwdate was not running, no need to stop it." >> /var/log/sdwdate.log
 fi
 
-if service tor@default status >/dev/null ; then
+if systemctl --no-pager tor@default status >/dev/null ; then
    echo "$(date_cmd) - $0 - INFO - Creating /var/run/sdwdate/tor_was_running.status..." >> /var/log/sdwdate.log
    touch /var/run/sdwdate/tor_was_running.status
    echo "$(date_cmd) - $0 - INFO - Done, created /var/run/sdwdate/tor_was_running.status." >> /var/log/sdwdate.log
 
    echo "$(date_cmd) - $0 - INFO - Stopping Tor..." >> /var/log/sdwdate.log
-   service tor@default stop
+   systemctl --no-pager tor@default stop
    echo "$(date_cmd) - $0 - INFO - Done, stopped Tor." >> /var/log/sdwdate.log
 else
    echo "$(date_cmd) - $0 - INFO - Tor was not running, no need to stop it." >> /var/log/sdwdate.log

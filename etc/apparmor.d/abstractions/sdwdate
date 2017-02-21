@@ -120,7 +120,7 @@
     /usr/bin/python* rix,
     /usr/bin/ruby* rix,
     /usr/bin/sdwdate rix,
-    /usr/bin/service rix,
+    /bin/systemctl rix,
     /usr/bin/shuf rix,
     /usr/bin/sort rix,
     /usr/bin/sudo ix,
@@ -152,8 +152,6 @@
     /usr/lib/anon-shared-helper-scripts/settings_echo rix,
     /usr/lib/sudo/sudoers.so mr,
     /usr/lib/python*/dist-packages/sdwdate/* rix,
-
-    /usr/sbin/service rix,
 
     /usr/share/ca-certificates/** r,
     /usr/share/misc/pci.ids r,
