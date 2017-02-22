@@ -18,12 +18,13 @@ After=tor@default.service
 Conflicts=systemd-timesyncd.service
 
 [Service]
-Type=simple
+Type=notify
 User=sdwdate
 Group=sdwdate
 ExecStart=/usr/bin/sdwdate
 SuccessExitStatus=143
 TimeoutSec=30
+WatchdogSec=200m
 Restart=always
 
 [Install]

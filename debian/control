@@ -18,7 +18,7 @@ Architecture: all
 Depends: sudo, logrotate, bc,
  ruby | ruby-interpreter, ruby-inline, ruby-dev,
  ruby-all-dev, gcc, libc6-dev, python3-dateutil, python3-gevent,
- python3-socks, python3-guimessages, python3, tor,
+ python3-socks, python3-guimessages, python3-sdnotify, python3, tor,
  ${misc:Depends}
 Recommends: vbox-disable-timesync, timesanitycheck, bootclockrandomization,
  sdwdate-gui

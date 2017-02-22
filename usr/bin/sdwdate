@@ -21,6 +21,12 @@ from sdwdate.proxy_settings import proxy_settings
 
 from guimessages.translations import _translations
 
+import sdnotify
+
+n = sdnotify.SystemdNotifier()
+n.notify("READY=1")
+n.notify("STATUS=Starting...")
+
 
 class PreCheckVariables:
     def __init__(self):
@@ -481,6 +487,10 @@ class Sdwdate:
 
 
 def exit_handler():
+    n.notify("STATUS=Shutting down...")
+    n.notify("WATCHDOG=1")
+    n.notify("STOPPING=1")
+
     # Inform sdwdate-gui
     icon = sdwdate.error_icon
     message = sdwdate._('user_kill')
@@ -512,6 +522,7 @@ def prerequisite_check():
     previous_messsage = ''
     sdwdate = Sdwdate()
     while not tor_status:
+        n.notify("WATCHDOG=1")
         prerequisite_status = Popen(pre_check.prerequisite_path,
                                     stdout=PIPE,
                                     stderr=PIPE)
@@ -565,12 +576,23 @@ if __name__ == "__main__":
     print(proxy_message)
     logger.info(proxy_message)
 
+    loop_counter = 0
+    loop_max = 10000
+
     if pre_check.run_prerequisite:
         prerequisite_check()
 
     while True:
+        if loop_counter >= loop_max:
+            loop_counter = 0
+        loop_counter += 1
+        msg = "STATUS=loop count: " + str(loop_counter) + " / " + str(loop_max)
+        n.notify(msg)
+        n.notify("WATCHDOG=1")
+
         sdwdate = Sdwdate()
         icon, status = sdwdate.sdwdate_loop()
+        n.notify("WATCHDOG=1")
 
         if status == 'success':
             sdwdate.build_median()
@@ -586,6 +608,9 @@ if __name__ == "__main__":
 
             f = open(sdwdate.success_path, 'w')
             f.close()
+            ## If we make the sleep period configurable one day, we need to
+            ## advice the user to also adjust WatchdogSec= in sdwdate's systemd
+            ## unit file.
             sleep_time = randint(60, 180)
             log_level = 'info'
 
@@ -605,6 +630,7 @@ if __name__ == "__main__":
             logger.warning(stripped_message)
 
         print(stripped_message)
+        n.notify("WATCHDOG=1")
 
         seconds_to_sleep = sleep_time * 60
         ## Using sh sleep in place of python's time.sleep().
