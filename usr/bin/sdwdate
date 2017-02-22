@@ -266,6 +266,7 @@ class Sdwdate:
     def kill_sclockadj(self):
         cmd = 'sudo --non-interactive /usr/lib/sdwdate/sclockadj_kill_helper ' + str(self.sclockadj_pid)
         call(cmd, shell=True)
+        self.sclockadj_pid = 0
 
     def set_time_using_date(self):
         old_unixtime = float('%.9f' % (time.time()))
