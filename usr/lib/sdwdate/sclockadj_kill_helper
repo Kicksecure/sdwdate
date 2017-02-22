@@ -4,36 +4,6 @@
 ## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-pid="$1"
+kill -sigkill $(pgrep -f "ruby /usr/lib/sdwdate/sclockadj")
 
-if [[ "$pid" != *[!0-9]* ]]; then
-   true "$0: pid '$pid' is strictly numeric."
-else
-   echo "$0: pid '$pid' is NOT strictly numeric!"
-   exit 1
-fi
-
-ps_output="$(ps h --format command "$pid")"
-
-## Example ps_output:
-## sudo --non-interactive INLINEDIR=/var/cache/sdwdate/sclockadj /usr/lib/sdwdate/sclockadj --no-verbose --no-debug --no-first-wait --move-min 500000 --move-max 500000 --wait-min 1000000000 --wait-max 1000000000 --add 172807620812
-
-read -r -t 2 first second third fourth _ <<< "$ps_output"
-
-## Example first:
-## sudo
-
-## Example third:
-## /usr/lib/sdwdate/sclockadj
-
-if [ "$first" = "sudo" ]; then
-   if [ "$fourth" = "/usr/lib/sdwdate/sclockadj" ]; then
-      echo "$0: kill -sigterm $pid"
-      kill -sigterm "$pid"
-      echo "$0: \$?: $?"
-      exit 0
-   fi
-fi
-
-echo "$0: Nothing killed. ps_output: $ps_output"
 exit 0
