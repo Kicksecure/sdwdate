@@ -28,16 +28,6 @@ n.notify("READY=1")
 n.notify("STATUS=Starting...")
 
 
-class PreCheckVariables:
-    def __init__(self):
-        pass
-
-    run_prerequisite = False
-    prerequisite_path = '/usr/lib/anon-shared-helper-scripts/te_pe_tb_check'
-    if os.access(prerequisite_path, os.X_OK):
-        run_prerequisite = True
-
-
 class Pool:
     def __init__(self, pool):
         self.url, self.comment = read_pools(pool, 'production')
@@ -516,7 +506,6 @@ def signal_sigterm_handler(signum, frame):
 
 
 def prerequisite_check():
-    pre_check = PreCheckVariables()
     message = ''
     previous_messsage = ''
     sdwdate = Sdwdate()
@@ -530,7 +519,7 @@ def prerequisite_check():
         prerequisite_check_sleep_seconds += 1
         if prerequisite_check_sleep_seconds >= 10:
             prerequisite_check_sleep_seconds = 10
-        prerequisite_status = Popen(pre_check.prerequisite_path,
+        prerequisite_status = Popen(prerequisite_path,
                                     stdout=PIPE,
                                     stderr=PIPE)
         value, error = prerequisite_status.communicate()
@@ -559,7 +548,11 @@ if __name__ == "__main__":
     print("create temp_dir: {}".format(temp_dir_str))
     os.environ["TEMP_DIR"] = temp_dir_str
 
-    pre_check = PreCheckVariables()
+    run_prerequisite = False
+    prerequisite_path = '/usr/lib/anon-shared-helper-scripts/te_pe_tb_check'
+    if os.access(prerequisite_path, os.X_OK):
+        run_prerequisite = True
+
     signal.signal(signal.SIGTERM, signal_sigterm_handler)
 
     logger = logging.getLogger('sdwdate')
@@ -590,7 +583,7 @@ if __name__ == "__main__":
         n.notify(msg)
         n.notify("WATCHDOG=1")
 
-        if pre_check.run_prerequisite:
+        if run_prerequisite:
             prerequisite_check()
 
         sdwdate = Sdwdate()
