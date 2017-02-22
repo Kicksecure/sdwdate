@@ -250,7 +250,7 @@ class Sdwdate:
         sclockadj = Popen(cmd)
         self.sclockadj_pid = sclockadj.pid
 
-        message = 'Gradually adjusting the time by running sclockadj, PID=%s' % self.sclockadj_pid
+        message = 'Gradually adjusting the time by running sclockadj. PID: %s' % self.sclockadj_pid
         print(message)
         logger.info(message)
 
@@ -565,7 +565,7 @@ if __name__ == "__main__":
     logger.addHandler(handler)
 
     self_pid = os.getpid()
-    pid_message = 'sdwdate started. PID %s' % self_pid
+    pid_message = 'sdwdate started. PID: %s' % self_pid
     print(pid_message)
     logger.info(pid_message)
     sdwdate = Sdwdate()
