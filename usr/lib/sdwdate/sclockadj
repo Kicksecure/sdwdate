@@ -86,13 +86,13 @@ module SneakyClockAdjuster
 
   def self.execute add_or_substract, amount, move_min, move_max, wait_min, wait_max, first_wait = false, verbose = true, debug = false, systohc = false
 
-    puts "Running with PID: #{Process.pid}" if verbose
+    puts "sclockadj Running with PID: #{Process.pid}" if verbose
     Kernel.trap("TERM") do
-      puts "Exiting..."
+      puts "sclockadj Exiting..."
       exit 143
     end
     Kernel.trap("INT") do
-      puts "Exiting..."
+      puts "sclockadj Exiting..."
       exit 130
     end
 
@@ -101,8 +101,8 @@ module SneakyClockAdjuster
     intervals = make_intervals jumps_c, wait_min, wait_max
     if not first_wait then intervals[0] = 0 end
     if debug
-      puts "DEBUG: Using these sleep intervals: #{intervals}"
-      puts "DEBUG: with these time jumps: #{jumps}"
+      puts "sclockadj DEBUG: Using these sleep intervals: #{intervals}"
+      puts "sclockadj DEBUG: with these time jumps: #{jumps}"
     end
 
     c = Cinline.new
@@ -111,7 +111,7 @@ module SneakyClockAdjuster
 
       if verbose
         puts "---"
-        puts "Iteration: #{index+1} of #{jumps_c}"
+        puts "sclockadj Iteration: #{index+1} of #{jumps_c}"
       end
 
       wait_ns = intervals[index]
@@ -120,34 +120,34 @@ module SneakyClockAdjuster
       jump_s  = jump_ns.to_f / 1000000000
 
       if wait_ns > 0 then
-        puts "Waiting #{wait_ns} nanoseconds [#{wait_s} seconds]" if verbose
+        puts "sclockadj Waiting #{wait_ns} nanoseconds [#{wait_s} seconds]" if verbose
         sleep(wait_s)
       end
 
       if verbose
-        print "Aproximate system date with nanoseconds: "
+        print "sclockadj Aproximate system date with nanoseconds: "
         puts  %x[echo "$(date) | $(date +%N)"]
       end
 
       if add_or_substract == :add then
-        puts "Adding #{jump_ns} nanoseconds [#{jump_s} seconds]" if verbose
+        puts "sclockadj Adding #{jump_ns} nanoseconds [#{jump_s} seconds]" if verbose
       else
-        puts "Subtracting #{jump_ns} nanoseconds [#{jump_s} seconds]" if verbose
+        puts "sclockadj Subtracting #{jump_ns} nanoseconds [#{jump_s} seconds]" if verbose
         jump_ns = -jump_ns
       end
 
       if not debug
         c_return_code = c.getAndSet(jump_ns)
-        puts "c_return_code: #{c_return_code}" if verbose
+        puts "sclockadj c_return_code: #{c_return_code}" if verbose
         if c_return_code != 0 then
-          warn "ERROR: c_return_code was: #{c_return_code}"
+          warn "sclockadj ERROR: c_return_code was: #{c_return_code}"
           exit c_return_code
         end
       end
 
       if systohc then
         cmd = "hwclock --systohc"
-        puts "Set hwclock with: #{cmd}" if verbose
+        puts "sclockadj Set hwclock with: #{cmd}" if verbose
         system cmd unless debug
       end
 
@@ -160,7 +160,7 @@ module SneakyClockAdjuster
 
     if verbose
       puts "---"
-      puts "Done! Exiting..."
+      puts "sclockadj Done! Exiting..."
     end
   end
 
