@@ -517,12 +517,11 @@ def signal_sigterm_handler(signum, frame):
 
 def prerequisite_check():
     pre_check = PreCheckVariables()
-    tor_status = False
     message = ''
     previous_messsage = ''
     sdwdate = Sdwdate()
     prerequisite_check_sleep_seconds = 0
-    while not tor_status:
+    while True:
         n.notify("WATCHDOG=1")
         ## Wait one second after first failure. Two at second failure etc.
         ## Up to a maximum of ten seconds wait between attempts.
@@ -540,7 +539,7 @@ def prerequisite_check():
             message = 'Prerequisite check: ok.'
             print(message)
             logger.info(message)
-            tor_status = True
+            return True
         else:
             message = 'Prerequisite check:<br> %s' % value.strip()
             if message != previous_messsage:
