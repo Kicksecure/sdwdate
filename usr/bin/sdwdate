@@ -485,7 +485,7 @@ def exit_handler():
     # Inform sdwdate-gui
     icon = sdwdate.error_icon
     message = sdwdate._('user_kill')
-    stripped_message = re.sub('<[^<]+?>', '', message)
+    stripped_message = sdwdate.strip_html(message)
     sdwdate.write_status(icon, message)
 
     if sdwdate.sclockadj_pid != 0:
@@ -498,6 +498,7 @@ def exit_handler():
     except:
        print("deleting temp_dir failed: {}".format(temp_dir_str))
 
+    print(stripped_message)
     logger.info(stripped_message)
     sys.exit(143)
 
