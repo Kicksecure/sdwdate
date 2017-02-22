@@ -254,15 +254,6 @@ class Sdwdate:
         print(message)
         logger.info(message)
 
-        ## Running sclockadj_debug_helper, in case...
-        ## May be read the last line to ensure sclockadj is running.
-        # cmd = ["sudo", "--non-interactive", "/usr/lib/sdwdate/sclockadj_debug_helper"]
-        ### Pipe stdout in subprocess.
-        # helper = Popen(cmd, stdout=PIPE)
-        ### Read the output.
-        # line = helper.stdout.read()
-        # print line
-
     def kill_sclockadj(self):
         cmd = 'sudo --non-interactive /usr/lib/sdwdate/sclockadj_kill_helper ' + str(self.sclockadj_pid)
         call(cmd, shell=True)
