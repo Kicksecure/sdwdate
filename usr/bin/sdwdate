@@ -622,11 +622,11 @@ if __name__ == "__main__":
         n.notify("WATCHDOG=1")
 
         seconds_to_sleep = sleep_time * 60
-        ## Using sh sleep in place of python's time.sleep().
+        ## Using sh sleep in place of python's time.sleep(seconds_to_sleep).
         ## The latter uses the system clock for its inactive state time.
         ## It becomes utterly confused when sclockadj is running.
         cmd = 'sleep %s' % seconds_to_sleep
         call(cmd, shell=True)
-        #time.sleep(seconds_to_sleep)
+
         if sdwdate.sclockadj_pid != 0:
             sdwdate.kill_sclockadj()
