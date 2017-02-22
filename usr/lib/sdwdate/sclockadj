@@ -152,7 +152,7 @@ module SneakyClockAdjuster
       end
 
       if verbose
-        print "Approximate system date with nanoseconds: "
+        print "sclockadj Approximate system date with nanoseconds: "
         puts  %x[echo "$(date) | $(date +%N)"]
       end
 
