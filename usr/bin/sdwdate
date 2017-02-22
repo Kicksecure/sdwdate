@@ -527,10 +527,6 @@ def prerequisite_check():
         prerequisite_check_sleep_seconds += 1
         if prerequisite_check_sleep_seconds >= 10:
             prerequisite_check_sleep_seconds = 10
-        message = "prerequisite_check_sleep_seconds: " + str(prerequisite_check_sleep_seconds)
-        print(message)
-        logger.info(message)
-
         prerequisite_status = Popen(pre_check.prerequisite_path,
                                     stdout=PIPE,
                                     stderr=PIPE)
