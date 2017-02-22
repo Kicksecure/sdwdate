@@ -579,9 +579,6 @@ if __name__ == "__main__":
     loop_counter = 0
     loop_max = 10000
 
-    if pre_check.run_prerequisite:
-        prerequisite_check()
-
     while True:
         if loop_counter >= loop_max:
             loop_counter = 0
@@ -589,6 +586,9 @@ if __name__ == "__main__":
         msg = "STATUS=loop count: " + str(loop_counter) + " / " + str(loop_max)
         n.notify(msg)
         n.notify("WATCHDOG=1")
+
+        if pre_check.run_prerequisite:
+            prerequisite_check()
 
         sdwdate = Sdwdate()
         icon, status = sdwdate.sdwdate_loop()
