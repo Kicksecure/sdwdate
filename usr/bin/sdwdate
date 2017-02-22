@@ -553,10 +553,6 @@ def prerequisite_check():
 
 
 if __name__ == "__main__":
-    ## When restarted from sdwdate-gui, allow sufficient time between
-    ## status changes. See related comment in sdwdate-gui.
-    time.sleep(0.2)
-
     ## Create TEMP_DIR for te_pe_tb_check.
     temp_dir_bytes = check_output(["mktemp", "--directory"]).strip()
     temp_dir_str = temp_dir_bytes.decode("utf-8")
