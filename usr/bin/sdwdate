@@ -524,6 +524,10 @@ def prerequisite_check():
     prerequisite_check_sleep_seconds = 0
     while not tor_status:
         n.notify("WATCHDOG=1")
+        ## Wait one second after first failure. Two at second failure etc.
+        ## Up to a maximum of ten seconds wait between attempts.
+        ## The rationale behind this is to be quick at boot time while not
+        ## stressing the system.
         prerequisite_check_sleep_seconds += 1
         if prerequisite_check_sleep_seconds >= 10:
             prerequisite_check_sleep_seconds = 10
