@@ -521,8 +521,16 @@ def prerequisite_check():
     message = ''
     previous_messsage = ''
     sdwdate = Sdwdate()
+    prerequisite_check_sleep_seconds = 0
     while not tor_status:
         n.notify("WATCHDOG=1")
+        prerequisite_check_sleep_seconds += 1
+        if prerequisite_check_sleep_seconds >= 10:
+            prerequisite_check_sleep_seconds = 10
+        message = "prerequisite_check_sleep_seconds: " + str(prerequisite_check_sleep_seconds)
+        print(message)
+        logger.info(message)
+
         prerequisite_status = Popen(pre_check.prerequisite_path,
                                     stdout=PIPE,
                                     stderr=PIPE)
@@ -542,7 +550,7 @@ def prerequisite_check():
                 logger.warning(stripped_message)
                 icon = sdwdate.busy_icon
                 sdwdate.write_status(icon, message)
-            time.sleep(10)
+            time.sleep(prerequisite_check_sleep_seconds)
 
 
 if __name__ == "__main__":
