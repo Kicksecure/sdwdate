@@ -188,7 +188,7 @@ class Sdwdate:
         Do not set time if diff = 0.
         '''
         if self.median == 0:
-            message = 'Time difference = 0. Not setting time'
+            message = 'Time difference = 0. Not setting time.'
             print(message)
             logger.info(message)
             return False
@@ -335,7 +335,7 @@ class Sdwdate:
 
         while len(self.valid_urls) < self.number_of_pools:
             self.iteration += 1
-            message = 'Running sdwdate loop, iteration %s' % self.iteration
+            message = 'Running sdwdate loop. iteration: %s' % self.iteration
             print(message)
             logger.info(message)
 
