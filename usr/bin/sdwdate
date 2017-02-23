@@ -483,7 +483,7 @@ def exit_handler():
         sdwdate.kill_sclockadj()
 
     print("delete temp_dir: {}".format(temp_dir_str))
-    ## rmtree can fail if signal_sigterm_handler is invoked multiple times.
+    ## rmtree can fail if exit_handler is invoked multiple times.
     try:
        rmtree(temp_dir_bytes)
     except:
