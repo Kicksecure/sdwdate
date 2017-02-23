@@ -581,14 +581,16 @@ if __name__ == "__main__":
         if loop_counter >= loop_max:
             loop_counter = 0
         loop_counter += 1
-        msg = "STATUS=Running sdwdate main loop. iteration: " + str(loop_counter) + " / " + str(loop_max)
-        n.notify(msg)
-        n.notify("WATCHDOG=1")
+
         msg = "Running sdwdate main loop. iteration: " + str(loop_counter) + " / " + str(loop_max)
         logger.info(msg)
 
         if run_prerequisite:
             prerequisite_check()
+
+        msg = "STATUS=Running sdwdate main loop. iteration: " + str(loop_counter) + " / " + str(loop_max)
+        n.notify(msg)
+        n.notify("WATCHDOG=1")
 
         sdwdate = Sdwdate()
         icon, status = sdwdate.sdwdate_loop()
