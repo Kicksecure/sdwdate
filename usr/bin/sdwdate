@@ -390,14 +390,14 @@ class Sdwdate:
             for i in range(len(self.urls)):
                for pool in self.pools:
                   if self.urls[i] in pool.url_random:
-                        pool.invalid_urls += 1
-                        if pool.invalid_urls >= pool.allowed_failures:
-                           self.message = (self._('max_pool_failures_1') +
-                                          str(self.pools.index(pool) + 1) +
-                                          ' (' + str(pool.invalid_urls) + ' of ' +
-                                          str(len(pool.url)) + ')' +
-                                          self._('max_pool_failures_2') + '<br>')
-                           return self.error_icon, 'error'
+                     pool.invalid_urls += 1
+                     if pool.invalid_urls >= pool.allowed_failures:
+                        self.message = (self._('max_pool_failures_1') +
+                                       str(self.pools.index(pool) + 1) +
+                                       ' (' + str(pool.invalid_urls) + ' of ' +
+                                       str(len(pool.url)) + ')' +
+                                       self._('max_pool_failures_2') + '<br>')
+                        return self.error_icon, 'error'
 
             old_unixtime = (time.time())
 
