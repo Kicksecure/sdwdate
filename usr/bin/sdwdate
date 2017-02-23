@@ -382,14 +382,15 @@ class Sdwdate:
                 self.message = self._('list_not_built') + self._('restart')
                 return self.error_icon, 'error'
 
-            if len(self.returned_values) > 2:
-                if self.general_proxy_error(self.returned_values):
-                    self.message = self._('general_proxy_error')
-                    print(message)
-                    return self.error_icon, 'error'
-                if self.general_timeout_error(self.returned_values):
-                    self.message = self._('general_timeout_error')
-                    return self.error_icon, 'error'
+            if self.iteration > 2:
+               if len(self.returned_values) > 2:
+                  if self.general_proxy_error(self.returned_values):
+                     self.message = self._('general_proxy_error')
+                     print(message)
+                     return self.error_icon, 'error'
+                  if self.general_timeout_error(self.returned_values):
+                     self.message = self._('general_timeout_error')
+                     return self.error_icon, 'error'
 
             for i in range(len(self.urls)):
                 if self.check_remote(self.urls[i], self.returned_values[i]):
