@@ -509,7 +509,8 @@ def prerequisite_check():
         if loop_counter >= loop_max:
             loop_counter = 0
         loop_counter += 1
-        msg = "STATUS=Running sdwdate prerequisite_check loop. iteration: " + str(loop_counter) + " / " + str(loop_max)
+        msg = "STATUS=Running sdwdate prerequisite_check loop. prerequisite_check_sleep_seconds: " + \
+str(prerequisite_check_sleep_seconds) + " iteration: " + str(loop_counter) + " / " + str(loop_max)
         n.notify(msg)
 
         ## Wait one second after first failure. Two at second failure etc.
