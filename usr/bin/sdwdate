@@ -351,7 +351,6 @@ class Sdwdate:
                     pool.url_random.append(pool.url[url_index])
                     self.url_random.append(pool.url[url_index])
 
-            ## Fetch remotes.
             if len(self.url_random) > 0:
                 message = 'Requested urls %s' % self.url_random
                 logger.info(message)
