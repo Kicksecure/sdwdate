@@ -14,7 +14,7 @@ def get_time_from_servers(remotes, ip_address, port_number):
     threads = []
     urls = []
     unix_times = []
-    seconds = 10
+    seconds = 50
     do_exit = False
 
     ### Clear lists.
