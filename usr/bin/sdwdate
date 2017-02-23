@@ -134,11 +134,15 @@ class Sdwdate:
         '''
         try:
             n = int(value)
-            message = "Remote status " + remote + " True (" + comment + ")"
+            message = "remote: " + remote + " status: True"
+            logger.info(message)
+            message = "remote: " + remote + " comment: " + comment
             logger.info(message)
             return True
         except ValueError:
-            message = "Remote status " + remote + " False: " + value + " (" + comment + ")"
+            message = "remote: " + remote + " status: False: " + value
+            logger.info(message)
+            message = "remote: " + remote + " comment: " + comment
             logger.info(message)
             if value == "sigterm":
                exit_handler()
