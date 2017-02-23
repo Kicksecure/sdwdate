@@ -539,6 +539,7 @@ str(prerequisite_check_sleep_seconds) + " iteration: " + str(loop_counter) + " /
                 logger.warning(stripped_message)
                 icon = sdwdate.busy_icon
                 sdwdate.write_status(icon, message)
+                prerequisite_check_sleep_seconds = 0
             time.sleep(prerequisite_check_sleep_seconds)
 
 
