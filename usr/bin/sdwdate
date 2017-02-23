@@ -128,18 +128,18 @@ class Sdwdate:
         return False
 
     @staticmethod
-    def check_remote(remote, value):
+    def check_remote(remote, value, comment):
         '''
         Check returned value. True if numeric.
         '''
         try:
             n = int(value)
-            message = 'Remote status "%s", True' % remote
+            message = "Remote status " + remote + " True (" + comment + ")"
             print(message)
             logger.info(message)
             return True
         except ValueError:
-            message = 'Remote status "%s", False: %s' % (remote, value)
+            message = "Remote status " + remote + " False: " + value + " (" + comment + ")"
             print(message)
             logger.info(message)
             if value == "sigterm":
@@ -393,7 +393,7 @@ class Sdwdate:
                      return self.error_icon, 'error'
 
             for i in range(len(self.urls)):
-                if self.check_remote(self.urls[i], self.returned_values[i]):
+                if self.check_remote(self.urls[i], self.returned_values[i], self.get_comment(self.urls[i])):
                     self.valid_urls.append(self.urls[i])
                     self.unixtimes.append(self.returned_values[i])
                 else:
@@ -440,20 +440,6 @@ class Sdwdate:
                                            % (url, sanitycheck_status))
                                 print(message)
                                 logger.warning(message)
-
-        message = 'Reachable urls:\n'
-        for url in self.valid_urls:
-            url_comment = self.get_comment(url)
-            message += '%s: "%s"\n' % (url, url_comment)
-        print(message.strip())
-        logger.info(message.strip())
-
-        message = 'Unreachable urls:\n'
-        for url in self.invalid_urls:
-            url_comment = self.get_comment(url)
-            message += '%s: "%s"\n' % (url, url_comment)
-        print(message.strip())
-        logger.info(message.strip())
 
         end_unixtime = time.time()
         end_time = (datetime.strftime(datetime.fromtimestamp(end_unixtime),
