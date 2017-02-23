@@ -473,7 +473,6 @@ def exit_handler():
     n.notify("WATCHDOG=1")
     n.notify("STOPPING=1")
 
-    # Inform sdwdate-gui
     icon = sdwdate.error_icon
     message = sdwdate._('user_kill')
     stripped_message = sdwdate.strip_html(message)
