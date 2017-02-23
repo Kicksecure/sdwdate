@@ -378,8 +378,8 @@ class Sdwdate:
                     self.invalid_urls.append(self.urls[i])
                     self.url_errors.append(self.returned_values[i])
 
-            if self.iteration > 2:
-               if len(self.returned_values) > 2:
+            if self.iteration >= 3:
+               if len(self.returned_values) >= 3:
                      if self.general_proxy_error(self.returned_values):
                         self.message = self._('general_proxy_error')
                         return self.error_icon, 'error'
