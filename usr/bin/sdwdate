@@ -501,9 +501,17 @@ def prerequisite_check():
     message = ''
     previous_messsage = ''
     sdwdate = Sdwdate()
+    loop_counter = 0
+    loop_max = 10000
     prerequisite_check_sleep_seconds = 0
     while True:
         n.notify("WATCHDOG=1")
+        if loop_counter >= loop_max:
+            loop_counter = 0
+        loop_counter += 1
+        msg = "STATUS=Running sdwdate prerequisite_check loop. iteration: " + str(loop_counter) + " / " + str(loop_max)
+        n.notify(msg)
+
         ## Wait one second after first failure. Two at second failure etc.
         ## Up to a maximum of ten seconds wait between attempts.
         ## The rationale behind this is to be quick at boot time while not
