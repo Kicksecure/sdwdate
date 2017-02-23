@@ -335,7 +335,7 @@ class Sdwdate:
 
         while len(self.valid_urls) < self.number_of_pools:
             self.iteration += 1
-            message = 'Running sdwdate loop. iteration: %s' % self.iteration
+            message = 'Running sdwdate fetch loop. iteration: %s' % self.iteration
             print(message)
             logger.info(message)
 
@@ -572,9 +572,11 @@ if __name__ == "__main__":
         if loop_counter >= loop_max:
             loop_counter = 0
         loop_counter += 1
-        msg = "STATUS=loop count: " + str(loop_counter) + " / " + str(loop_max)
+        msg = "STATUS=Running sdwdate main loop. iteration: " + str(loop_counter) + " / " + str(loop_max)
         n.notify(msg)
         n.notify("WATCHDOG=1")
+        msg = "Running sdwdate main loop. iteration: " + str(loop_counter) + " / " + str(loop_max)
+        logger.info(msg)
 
         if run_prerequisite:
             prerequisite_check()
