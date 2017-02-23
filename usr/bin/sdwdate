@@ -371,15 +371,6 @@ class Sdwdate:
                 self.message = self._('list_not_built') + self._('restart')
                 return self.error_icon, 'error'
 
-            if self.iteration > 2:
-               if len(self.returned_values) > 2:
-                  if self.general_proxy_error(self.returned_values):
-                     self.message = self._('general_proxy_error')
-                     return self.error_icon, 'error'
-                  if self.general_timeout_error(self.returned_values):
-                     self.message = self._('general_timeout_error')
-                     return self.error_icon, 'error'
-
             for i in range(len(self.urls)):
                 if self.check_remote(self.urls[i], self.returned_values[i], self.get_comment(self.urls[i])):
                     self.valid_urls.append(self.urls[i])
@@ -387,16 +378,27 @@ class Sdwdate:
                 else:
                     self.invalid_urls.append(self.urls[i])
                     self.url_errors.append(self.returned_values[i])
-                    for pool in self.pools:
-                        if self.urls[i] in pool.url_random:
-                            pool.invalid_urls += 1
-                            if pool.invalid_urls >= pool.allowed_failures:
-                                self.message = (self._('max_pool_failures_1') +
-                                                str(self.pools.index(pool) + 1) +
-                                                ' (' + str(pool.invalid_urls) + ' of ' +
-                                                str(len(pool.url)) + ')' +
-                                                self._('max_pool_failures_2') + '<br>')
-                                return self.error_icon, 'error'
+
+            if self.iteration > 2:
+               if len(self.returned_values) > 2:
+                     if self.general_proxy_error(self.returned_values):
+                        self.message = self._('general_proxy_error')
+                        return self.error_icon, 'error'
+                     if self.general_timeout_error(self.returned_values):
+                        self.message = self._('general_timeout_error')
+                        return self.error_icon, 'error'
+
+            for i in range(len(self.urls)):
+               for pool in self.pools:
+                  if self.urls[i] in pool.url_random:
+                        pool.invalid_urls += 1
+                        if pool.invalid_urls >= pool.allowed_failures:
+                           self.message = (self._('max_pool_failures_1') +
+                                          str(self.pools.index(pool) + 1) +
+                                          ' (' + str(pool.invalid_urls) + ' of ' +
+                                          str(len(pool.url)) + ')' +
+                                          self._('max_pool_failures_2') + '<br>')
+                           return self.error_icon, 'error'
 
             old_unixtime = (time.time())
 
