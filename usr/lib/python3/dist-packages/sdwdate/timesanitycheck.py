@@ -30,7 +30,7 @@ def timesanitycheck(unixtime):
         status = "insane"
         time_one = ""
         time_two = expiration_time
-        error = sys.exc_info()[0]
+        error = str(sys.exc_info()[0])
         return status, time_one, time_two, error
 
     if current_unixtime < build_unixtime:

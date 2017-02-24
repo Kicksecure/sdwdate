@@ -130,12 +130,7 @@ class Sdwdate:
         Check returned value. True if numeric.
         '''
         try:
-            n = int(value)
-            message = "remote: " + remote + " status: True"
-            logger.info(message)
-            message = "remote: " + remote + " comment: " + comment
-            logger.info(message)
-            return True
+            unixtime = int(value)
         except ValueError:
             message = "remote: " + remote + " status: False: " + str(value)
             logger.info(message)
@@ -144,6 +139,34 @@ class Sdwdate:
             if value == "sigterm":
                exit_handler()
             return False
+
+        status, time_one, time_two, error = timesanitycheck(unixtime)
+
+        if status == 'sane':
+            message = "remote: " + remote + " status: True"
+            logger.info(message)
+            message = "remote: " + remote + " comment: " + comment
+            logger.info(message)
+            return True
+        elif status == 'slow':
+            message = "remote: " + remote + " status: True"
+            logger.info(message)
+            message = "remote: " + remote + " status: False, timesanitycheck: slow, value: " + str(value)
+            logger.info(message)
+            return False
+        elif status == 'fast':
+            message = "remote: " + remote + " status: False, timesanitycheck: fast, value: " + str(value)
+            logger.info(message)
+            message = "remote: " + remote + " comment: " + comment
+            logger.info(message)
+            return False
+        elif status == 'insane':
+            message = "remote: " + remote + " status: False, timesanitycheck: insane, value: " + str(value) + " error: " + error
+            logger.info(message)
+            message = "remote: " + remote + " comment: " + comment
+            logger.info(message)
+            return False
+
 
     def get_comment(self, remote):
         ''' For logging the comments, get the index of the url
@@ -171,7 +194,7 @@ class Sdwdate:
             message = (self._('tsc_1') + status + self._('tsc_2') + time_one
                             + self._('fast_clock') + time_two) + self._('cause')
         elif status == 'insane':
-            message = "insane. error: " + str(error)
+            message = "insane. error: " + error
 
         return status, message
 
@@ -406,23 +429,15 @@ class Sdwdate:
                             index = self.valid_urls.index(url)
                             ## Pool matching web time.
                             web_unixtime = int(self.unixtimes[index])
-                            sanitycheck_status, sanitycheck_message = self.time_sanity_check(web_unixtime)
-                            if sanitycheck_status == 'sane':
-                                web_time = (datetime.strftime(datetime.fromtimestamp(web_unixtime),
+
+                            web_time = (datetime.strftime(datetime.fromtimestamp(web_unixtime),
                                                               '%a %b %d %H:%M:%S UTC %Y'))
-                                pool_diff = int(web_unixtime) - int(old_unixtime)
-                                self.pools_diff.append(pool_diff)
-                                pool_number = self.pools.index(pool) + 1
-                                message = ('Pool %s last url: %s, web unixtime: %s, web time: %s, diff: %s seconds'
-                                           % (pool_number, url, web_unixtime, web_time, pool_diff))
-                                logger.info(message)
-                            else:
-                                pool.done = False
-                                del self.valid_urls[index]
-                                self.invalid_urls.append(url)
-                                message = ('%s: time sanity check failed, server time is %s'
-                                           % (url, sanitycheck_status))
-                                logger.warning(message)
+                            pool_diff = int(web_unixtime) - int(old_unixtime)
+                            self.pools_diff.append(pool_diff)
+                            pool_number = self.pools.index(pool) + 1
+                            message = ('Pool %s last url: %s, web unixtime: %s, web time: %s, diff: %s seconds'
+                                        % (pool_number, url, web_unixtime, web_time, pool_diff))
+                            logger.info(message)
 
         message = "End fetching remote times."
         logger.info(message)
