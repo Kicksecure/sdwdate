@@ -80,8 +80,6 @@ class Sdwdate:
 
         self.sclockadj_pid = 0
 
-        self.last_shell_date = ''
-
         self.first_success_path = '/var/run/sdwdate/first_success'
         self.success_path = '/var/run/sdwdate/success'
         self.status_path = '/var/run/sdwdate/status'
@@ -95,7 +93,6 @@ class Sdwdate:
         self.success = os.path.exists(self.success_path)
 
         self.status = {'icon': '', 'message': ''}
-        self.message = ''
 
         translations_path = '/usr/share/translations/sdwdate.yaml'
         translation = _translations(translations_path, 'sdwdate')
@@ -165,15 +162,15 @@ class Sdwdate:
         status, time_one, time_two = timesanitycheck(unixtime)
 
         if status == 'sane':
-            self.message = (self._('tsc_1') + status + self._('tsc_2') + time_one)
+            message = (self._('tsc_1') + status + self._('tsc_2') + time_one)
             # 'The clock is %s. Current time "%s".' % (status, time_one)
         elif status == 'slow':
-            self.message = (self._('tsc_1') + status + self._('tsc_2') + time_one
+            message = (self._('tsc_1') + status + self._('tsc_2') + time_one
                             + self._('slow_clock') + time_two) + self._('cause')
         elif status == 'fast':
-            self.message = (self._('tsc_1') + status + self._('tsc_2') + time_one
+            message = (self._('tsc_1') + status + self._('tsc_2') + time_one
                             + self._('fast_clock') + time_two) + self._('cause')
-        return status
+        return status, message
 
     def build_median(self):
         '''
@@ -300,13 +297,13 @@ class Sdwdate:
         logger.info(message)
 
         current_unixtime = time.time()
-        time_sanity_check = self.time_sanity_check(current_unixtime)
-        stripped_message = self.strip_html(self.message)
+        time_sanity_check_status, message = self.time_sanity_check(current_unixtime)
+        stripped_message = self.strip_html(message)
 
-        if time_sanity_check == 'sane':
+        if time_sanity_check_status == 'sane':
             logger.info(stripped_message)
         else:
-            return self.error_icon, 'error'
+            return self.error_icon, 'error', message
 
         fetching_msg = self._('fetching')
         restricted_msg = self._('restricted')
@@ -340,9 +337,9 @@ class Sdwdate:
                     pool.already_picked_index.append(url_index)
                     if len(pool.already_picked_index) >= pool_range:
                         pool_number = self.pools.index(pool) + 1
-                        self.message = self._('no_valid_time') + str(pool_number) + self._('restart')
-                        logger.warning(self.message)
-                        return self.error_icon, 'error'
+                        message = self._('no_valid_time') + str(pool_number) + self._('restart')
+                        logger.warning(message)
+                        return self.error_icon, 'error', message
 
                     pool.url_random.append(pool.url[url_index])
                     self.url_random.append(pool.url[url_index])
@@ -356,15 +353,15 @@ class Sdwdate:
                                                                         self.proxy_port)
 
                 if len(self.urls) == 0:
-                    self.message = self._('no_value_returned') + self._('restart')
-                    return self.error_icon, 'error'
+                    message = self._('no_value_returned') + self._('restart')
+                    return self.error_icon, 'error', message
 
                 message = 'Returned urls "%s"' % self.urls
                 logger.info(message)
 
             else:
-                self.message = self._('list_not_built') + self._('restart')
-                return self.error_icon, 'error'
+                message = self._('list_not_built') + self._('restart')
+                return self.error_icon, 'error', message
 
             for i in range(len(self.urls)):
                 if self.check_remote(self.urls[i], self.returned_values[i], self.get_comment(self.urls[i])):
@@ -377,23 +374,23 @@ class Sdwdate:
             if self.iteration >= 3:
                if len(self.returned_values) >= 3:
                      if self.general_proxy_error(self.returned_values):
-                        self.message = self._('general_proxy_error')
-                        return self.error_icon, 'error'
+                        message = self._('general_proxy_error')
+                        return self.error_icon, 'error', message
                      if self.general_timeout_error(self.returned_values):
-                        self.message = self._('general_timeout_error')
-                        return self.error_icon, 'error'
+                        message = self._('general_timeout_error')
+                        return self.error_icon, 'error', message
 
             for i in range(len(self.urls)):
                for pool in self.pools:
                   if self.urls[i] in pool.url_random:
                      pool.invalid_urls += 1
                      if pool.invalid_urls >= pool.allowed_failures:
-                        self.message = (self._('max_pool_failures_1') +
+                        message = (self._('max_pool_failures_1') +
                                        str(self.pools.index(pool) + 1) +
                                        ' (' + str(pool.invalid_urls) + ' of ' +
                                        str(len(pool.url)) + ')' +
                                        self._('max_pool_failures_2') + '<br>')
-                        return self.error_icon, 'error'
+                        return self.error_icon, 'error', message
 
             old_unixtime = (time.time())
 
@@ -406,7 +403,7 @@ class Sdwdate:
                             index = self.valid_urls.index(url)
                             ## Pool matching web time.
                             web_unixtime = int(self.unixtimes[index])
-                            sanitycheck_status = self.time_sanity_check(web_unixtime)
+                            sanitycheck_status, sanitycheck_message = self.time_sanity_check(web_unixtime)
                             if sanitycheck_status == 'sane':
                                 web_time = (datetime.strftime(datetime.fromtimestamp(web_unixtime),
                                                               '%a %b %d %H:%M:%S UTC %Y'))
@@ -427,10 +424,8 @@ class Sdwdate:
         message = "End fetching remote times."
         logger.info(message)
 
-        last_shell_date = check_output('date').strip().decode()
-        self.message = self._('success_1') + str(last_shell_date) + self._('success_2')
-        retrying_loop = False
-        return self.success_icon, 'success'
+        message = self._('success')
+        return self.success_icon, 'success', message
 
 
 def exit_handler():
@@ -557,7 +552,7 @@ if __name__ == "__main__":
         n.notify("WATCHDOG=1")
 
         sdwdate = Sdwdate()
-        icon, status = sdwdate.sdwdate_loop()
+        icon, status, sdwdate_message_from_loop = sdwdate.sdwdate_loop()
         n.notify("WATCHDOG=1")
 
         if status == 'success':
@@ -584,7 +579,7 @@ if __name__ == "__main__":
             sleep_time = 10
             log_level = 'warning'
 
-        message = (sdwdate.message + sdwdate._('sleeping') +
+        message = (sdwdate_message_from_loop + " " + sdwdate._('sleeping') +
                    str(sleep_time) + sdwdate._('minutes'))
         stripped_message = sdwdate.strip_html(message)
 

@@ -3,10 +3,9 @@ sdwdate:
         fetching: 'Fetching remote times...'
         restricted: '<br>Outgoing internet access is still restricted because initial time fetching is not done yet.'
         user_kill: 'Signal SIGTERM received. sdwdate stopped by user or system. '
-        sleeping: '<br> Sleeping for '
+        sleeping: 'Sleeping for '
         minutes: ' minutes.'
-        success_1: 'Last run (on '
-        success_2: ') was successful.<br> '
+        success: 'Success.'
 
         tsc_1: '<b>The clock is '
         tsc_2: '</b><br> Current time '
