@@ -22,6 +22,7 @@ def timesanitycheck(unixtime):
     build_time = time.strftime('%a %b %d %H:%M:%S UTC %Y', time.gmtime(os.path.getmtime(build_timestamp_file)))
     build_unixtime = time.mktime(datetime.strptime(build_time, '%a %b %d %H:%M:%S UTC %Y').timetuple())
 
+    ## Tue, 17 May 2033 10:00:00 GMT
     expiration_unixtime = 1999936800
     expiration_time = datetime.strftime(datetime.fromtimestamp(expiration_unixtime), '%a %b %d %H:%M:%S UTC %Y')
 
