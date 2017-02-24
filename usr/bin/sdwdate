@@ -159,7 +159,7 @@ class Sdwdate:
         return url_comment
 
     def time_sanity_check(self, unixtime):
-        status, time_one, time_two = timesanitycheck(unixtime)
+        status, time_one, time_two, error = timesanitycheck(unixtime)
 
         if status == 'sane':
             message = (self._('tsc_1') + status + self._('tsc_2') + time_one)
@@ -171,7 +171,7 @@ class Sdwdate:
             message = (self._('tsc_1') + status + self._('tsc_2') + time_one
                             + self._('fast_clock') + time_two) + self._('cause')
         elif status == 'insane':
-            message = "insane"
+            message = "insane. error: " + str(error)
 
         return status, message
 
