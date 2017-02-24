@@ -610,13 +610,34 @@ if __name__ == "__main__":
         range_nanoseconds = 999999999
         nanoseconds = randint(0, range_nanoseconds)
 
+        unixtime_before_sleep = int(time.time())
+
         seconds_to_sleep = sleep_time * 60
         ## Using sh sleep in place of python's time.sleep(seconds_to_sleep).
         ## The latter uses the system clock for its inactive state time.
         ## It becomes utterly confused when sclockadj is running.
         cmd = "sleep" + " " + str(seconds_to_sleep) + "." + str(nanoseconds)
-        logger.info(cmd)
+        message = "Running command: " + cmd
+        logger.info(message)
         call(cmd, shell=True)
 
         if sdwdate.sclockadj_pid != 0:
             sdwdate.kill_sclockadj()
+
+        unixtime_after_sleep = int(time.time())
+        time_delta = unixtime_after_sleep - unixtime_before_sleep
+        time_passed = seconds_to_sleep - time_delta
+
+        if time_passed > 2:
+           time_no_unexpected_change = False
+        elif time_passed < 2:
+           time_no_unexpected_change = False
+        else:
+           time_no_unexpected_change = True
+
+        if time_no_unexpected_change == True:
+           message = "Slept for about " + time_delta + "seconds."
+           logger.warning(message)
+        else:
+           message = "Clock got changed by something other than sdwdate. seconds_to_sleep: " + str(seconds_to_sleep) + " time_delta: " + str(time_delta)
+           logger.warning(message)
