@@ -296,11 +296,7 @@ class Sdwdate:
         Append valid urls if time is returned, otherwise restart a cycle
         with a new random url, until every pool has a time value.
         '''
-        start_unixtime = time.time()
-        start_time = (datetime.strftime(datetime.fromtimestamp(start_unixtime),
-                                        '%a %b %d %H:%M:%S UTC %Y'))
-        message = ('Fetching remote times, start %s (unixtime %s)'
-                   % (start_time, start_unixtime))
+        message = "Start fetching remote times."
         logger.info(message)
 
         current_unixtime = time.time()
@@ -428,11 +424,7 @@ class Sdwdate:
                                            % (url, sanitycheck_status))
                                 logger.warning(message)
 
-        end_unixtime = time.time()
-        end_time = (datetime.strftime(datetime.fromtimestamp(end_unixtime),
-                                      '%a %b %d %H:%M:%S UTC %Y'))
-        message = ('Fetching remote times, end %s (unixtime %s)'
-                   % (end_time, end_unixtime))
+        message = "End fetching remote times."
         logger.info(message)
 
         last_shell_date = check_output('date').strip().decode()
