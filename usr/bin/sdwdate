@@ -125,17 +125,20 @@ class Sdwdate:
         return False
 
     @staticmethod
-    def check_remote(remote, value, comment):
+    def check_remote(remote, value, comment, i):
         '''
         Check returned value. True if numeric.
         '''
-        message = "remote: " + remote + " comment: " + comment
+        pool_number = str(i)
+        remote_msg = "remote " + pool_number + ": "
+
+        message = remote_msg + remote + " comment: " + comment
         logger.info(message)
 
         try:
             unixtime = int(value)
         except ValueError:
-            message = "remote: " + remote + " status: False: " + str(value)
+            message = remote_msg + remote + " status: False: " + str(value)
             logger.info(message)
             if value == "sigterm":
                exit_handler()
@@ -144,21 +147,21 @@ class Sdwdate:
         status, time_one, time_two, error = timesanitycheck(unixtime)
 
         if status == 'sane':
-            message = "remote: " + remote + " status: True"
+            message = remote_msg + remote + " status: True"
             logger.info(message)
             return True
         elif status == 'slow':
-            message = "remote: " + remote + " status: True"
+            message = remote_msg + remote + " status: True"
             logger.info(message)
-            message = "remote: " + remote + " status: False, timesanitycheck: slow, value: " + str(value)
+            message = remote_msg + remote + " status: False, timesanitycheck: slow, value: " + str(value)
             logger.info(message)
             return False
         elif status == 'fast':
-            message = "remote: " + remote + " status: False, timesanitycheck: fast, value: " + str(value)
+            message = remote_msg + remote + " status: False, timesanitycheck: fast, value: " + str(value)
             logger.info(message)
             return False
         elif status == 'insane':
-            message = "remote: " + remote + " status: False, timesanitycheck: insane, value: " + str(value) + " error: " + error
+            message = remote_msg + remote + " status: False, timesanitycheck: insane, value: " + str(value) + " error: " + error
             logger.info(message)
             return False
 
@@ -385,7 +388,7 @@ class Sdwdate:
                 return self.error_icon, 'error', message
 
             for i in range(len(self.urls)):
-                if self.check_remote(self.urls[i], self.returned_values[i], self.get_comment(self.urls[i])):
+                if self.check_remote(self.urls[i], self.returned_values[i], self.get_comment(self.urls[i]), i):
                     self.valid_urls.append(self.urls[i])
                     self.unixtimes.append(self.returned_values[i])
                 else:
@@ -430,7 +433,7 @@ class Sdwdate:
                             pool_diff = int(web_unixtime) - int(old_unixtime)
                             self.pools_diff.append(pool_diff)
                             pool_number = self.pools.index(pool) + 1
-                            message = ('Pool %s last url: %s, web unixtime: %s, web time: %s, diff: %s seconds'
+                            message = ('Pool %s: %s, web unixtime: %s, web time: %s, diff: %s seconds'
                                         % (pool_number, url, web_unixtime, web_time, pool_diff))
                             logger.info(message)
 
@@ -542,7 +545,7 @@ if __name__ == "__main__":
     signal.signal(signal.SIGTERM, signal_sigterm_handler)
 
     sdwdate = Sdwdate()
-    proxy_message = ('Tor socks host: %s  Tor socks port: %s'
+    proxy_message = ('Tor socks host: %s Tor socks port: %s'
                      % (sdwdate.proxy_ip, sdwdate.proxy_port))
     logger.info(proxy_message)
 
