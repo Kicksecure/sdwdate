@@ -17,6 +17,7 @@ from shutil import rmtree
 from sdwdate.remote_times import get_time_from_servers
 from sdwdate.config import read_pools
 from sdwdate.timesanitycheck import timesanitycheck
+from sdwdate.timesanitycheck import time_consensus_sanity_check
 from sdwdate.proxy_settings import proxy_settings
 
 from guimessages.translations import _translations
@@ -130,39 +131,86 @@ class Sdwdate:
         Check returned value. True if numeric.
         '''
         pool_number = str(i)
-        remote_msg = "remote " + pool_number + ": "
+        message = "remote " + pool_number + ": " + remote
+        logger.info(message)
 
-        message = remote_msg + remote + " comment: " + comment
+        message = "* comment: " + comment
         logger.info(message)
 
         try:
-            unixtime = int(value)
-        except ValueError:
-            message = remote_msg + remote + " status: False: " + str(value)
+            remote_unixtime = int(value)
+            old_unixtime = (time.time())
+            remote_time = (datetime.strftime(datetime.fromtimestamp(remote_unixtime),
+                                                   '%Y-%m-%d %H:%M:%S'))
+            time_diff = int(remote_unixtime) - int(old_unixtime)
+            time_diff = str(time_diff)
+        except:
+            message = "* status: False"
+            logger.info(message)
+            message = "* value: " + str(value)
             logger.info(message)
             if value == "sigterm":
                exit_handler()
             return False
 
-        status, time_one, time_two, error = timesanitycheck(unixtime)
+        timesanitycheck_status, time_one, time_two, timesanitycheck_error = timesanitycheck(remote_unixtime)
 
-        if status == 'sane':
-            message = remote_msg + remote + " status: True"
+        consensus_status, consensus_error, consensus_valid_after_str, consensus_valid_until_str = time_consensus_sanity_check(remote_unixtime)
+
+        message = "* remote_unixtime: " + str(remote_unixtime)
+        logger.info(message)
+        message = "* consensus/valid-after: " + consensus_valid_after_str
+        logger.info(message)
+        message = "* remote_time          : " + remote_time
+        logger.info(message)
+        message = "* consensus/valid-until: " + consensus_valid_until_str
+        logger.info(message)
+        message = "* time_diff: " + time_diff + " second(s)"
+        logger.info(message)
+
+        ## Fallback.
+        remote_status = "fallback"
+
+        if timesanitycheck_status == 'sane':
+            message = "* timesanitycheck: sane"
             logger.info(message)
+        elif timesanitycheck_status == 'slow':
+            message = "* timesanitycheck: slow"
+            logger.info(message)
+            remote_status = "False"
+        elif timesanitycheck_status == 'fast':
+            message = "* timesanitycheck: fast"
+            logger.info(message)
+            remote_status = "False"
+        elif timesanitycheck_status == 'error':
+            message = "* timesanitycheck: error: " + timesanitycheck_error
+            logger.info(message)
+            remote_status = "False"
+
+        if consensus_status == 'ok':
+            message = "* time_consensus_sanity_check: sane"
+            logger.info(message)
+            if not remote_status == "False":
+                remote_status = "True"
+        elif consensus_status == 'slow':
+            message = "* time_consensus_sanity_check: slow"
+            logger.info(message)
+            remote_status = "False"
+        elif consensus_status == 'fast':
+            message = "* time_consensus_sanity_check: fast"
+            logger.info(message)
+            remote_status = "False"
+        elif consensus_status == 'error':
+            message = "* time_consensus_sanity_check: error: " + consensus_error
+            logger.info(message)
+            remote_status = "False"
+
+        message = "* remote_status: " + str(remote_status)
+        logger.info(message)
+
+        if remote_status == "True":
             return True
-        elif status == 'slow':
-            message = remote_msg + remote + " status: True"
-            logger.info(message)
-            message = remote_msg + remote + " status: False, timesanitycheck: slow, value: " + str(value)
-            logger.info(message)
-            return False
-        elif status == 'fast':
-            message = remote_msg + remote + " status: False, timesanitycheck: fast, value: " + str(value)
-            logger.info(message)
-            return False
-        elif status == 'insane':
-            message = remote_msg + remote + " status: False, timesanitycheck: insane, value: " + str(value) + " error: " + error
-            logger.info(message)
+        else:
             return False
 
 
@@ -191,8 +239,26 @@ class Sdwdate:
         elif status == 'fast':
             message = (self._('tsc_1') + status + self._('tsc_2') + time_one
                             + self._('fast_clock') + time_two) + self._('cause')
-        elif status == 'insane':
-            message = "insane. error: " + error
+        elif status == 'error':
+            message = "time_sanity_check failed. error: " + error
+
+        return status, message
+
+    def consensus_comparision(self, unixtime):
+        status, error, consensus_valid_after_str, consensus_valid_until_str = time_consensus_sanity_check(unixtime)
+
+        if status == 'ok':
+           message = "Clock within consensus parameters consensus_valid_after_str " + consensus_valid_after_str + " and " + consensus_valid_until_str + "."
+           status = "sane"
+        elif status == 'slow':
+           message = "Clock is slow. Before consensus_valid_after_str " + consensus_valid_after_str + "."
+           status = "insane"
+        elif status == 'fast':
+           message = "Clock is fast. After consensus_valid_until_str " + consensus_valid_until_str + "."
+           status = "insane"
+        elif status == 'error':
+           message = "Consensus error: " + error
+           status = "insane"
 
         return status, message
 
@@ -327,6 +393,13 @@ class Sdwdate:
             logger.info(stripped_message)
         else:
             return self.error_icon, 'error', message
+
+        status, message = self.consensus_comparision(current_unixtime)
+        if status == 'sane':
+            logger.info(message)
+        else:
+            ## TODO: consider aborting sdwdate_loop
+            logger.warning(message)
 
         fetching_msg = self._('fetching')
         restricted_msg = self._('restricted')

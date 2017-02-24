@@ -3,6 +3,46 @@
 import sys
 import os, time
 from datetime import datetime
+from stem.connection import connect
+from datetime import datetime
+from dateutil.parser import parse
+
+
+def time_consensus_sanity_check(unixtime):
+   error = ""
+   status = "ok"
+   consensus_time_after_or_until = ""
+   consensus_valid_after_str = ""
+   consensus_valid_until_str = ""
+   try:
+      controller = connect()
+
+      consensus_valid_after_str = controller.get_info("consensus/valid-after")
+      consensus_valid_until_str = controller.get_info("consensus/valid-until")
+      controller.close()
+
+      consensus_valid_after_unixtime = parse(consensus_valid_after_str).strftime('%s')
+      consensus_valid_until_unixtime = parse(consensus_valid_until_str).strftime('%s')
+
+      if int(unixtime) > int(consensus_valid_after_unixtime):
+         pass
+      else:
+         status = "slow"
+
+      if int(unixtime) > int(consensus_valid_until_unixtime):
+         status = "fast"
+      else:
+         pass
+   except:
+      try:
+         controller.close()
+      except:
+         pass
+      error = str(sys.exc_info()[0])
+      status = "error"
+
+   return status, error, consensus_valid_after_str, consensus_valid_until_str
+
 
 def timesanitycheck(unixtime):
     whonix_build_file = '/usr/share/whonix/build_timestamp'
@@ -22,12 +62,12 @@ def timesanitycheck(unixtime):
     ## Tue, 17 May 2033 10:00:00 GMT
     expiration_unixtime = 1999936800
     expiration_time = datetime.strftime(datetime.fromtimestamp(expiration_unixtime), '%a %b %d %H:%M:%S UTC %Y')
-
     current_unixtime = unixtime
+
     try:
         current_time = datetime.strftime(datetime.fromtimestamp(unixtime), '%a %b %d %H:%M:%S UTC %Y')
     except:
-        status = "insane"
+        status = "error"
         time_one = ""
         time_two = expiration_time
         error = str(sys.exc_info()[0])
