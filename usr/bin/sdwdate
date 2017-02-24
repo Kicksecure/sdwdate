@@ -129,12 +129,13 @@ class Sdwdate:
         '''
         Check returned value. True if numeric.
         '''
+        message = "remote: " + remote + " comment: " + comment
+        logger.info(message)
+
         try:
             unixtime = int(value)
         except ValueError:
             message = "remote: " + remote + " status: False: " + str(value)
-            logger.info(message)
-            message = "remote: " + remote + " comment: " + comment
             logger.info(message)
             if value == "sigterm":
                exit_handler()
@@ -144,8 +145,6 @@ class Sdwdate:
 
         if status == 'sane':
             message = "remote: " + remote + " status: True"
-            logger.info(message)
-            message = "remote: " + remote + " comment: " + comment
             logger.info(message)
             return True
         elif status == 'slow':
@@ -157,13 +156,9 @@ class Sdwdate:
         elif status == 'fast':
             message = "remote: " + remote + " status: False, timesanitycheck: fast, value: " + str(value)
             logger.info(message)
-            message = "remote: " + remote + " comment: " + comment
-            logger.info(message)
             return False
         elif status == 'insane':
             message = "remote: " + remote + " status: False, timesanitycheck: insane, value: " + str(value) + " error: " + error
-            logger.info(message)
-            message = "remote: " + remote + " comment: " + comment
             logger.info(message)
             return False
 
