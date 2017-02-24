@@ -170,6 +170,9 @@ class Sdwdate:
         elif status == 'fast':
             message = (self._('tsc_1') + status + self._('tsc_2') + time_one
                             + self._('fast_clock') + time_two) + self._('cause')
+        elif status == 'insane':
+            message = "insane"
+
         return status, message
 
     def build_median(self):

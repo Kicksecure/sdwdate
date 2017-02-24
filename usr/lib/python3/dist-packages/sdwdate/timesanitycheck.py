@@ -16,15 +16,21 @@ def timesanitycheck(unixtime):
     else:
         build_timestamp_file = spare_file
 
-    current_unixtime = unixtime
-    current_time = datetime.strftime(datetime.fromtimestamp(unixtime), '%a %b %d %H:%M:%S UTC %Y')
-
     build_time = time.strftime('%a %b %d %H:%M:%S UTC %Y', time.gmtime(os.path.getmtime(build_timestamp_file)))
     build_unixtime = time.mktime(datetime.strptime(build_time, '%a %b %d %H:%M:%S UTC %Y').timetuple())
 
     ## Tue, 17 May 2033 10:00:00 GMT
     expiration_unixtime = 1999936800
     expiration_time = datetime.strftime(datetime.fromtimestamp(expiration_unixtime), '%a %b %d %H:%M:%S UTC %Y')
+
+    current_unixtime = unixtime
+    try:
+        current_time = datetime.strftime(datetime.fromtimestamp(unixtime), '%a %b %d %H:%M:%S UTC %Y')
+    except:
+        status = "insane"
+        time_one = ""
+        time_two = expiration_time
+        return status, time_one, time_two
 
     if current_unixtime < build_unixtime:
         status = 'slow'
