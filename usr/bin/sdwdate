@@ -233,7 +233,6 @@ class Sdwdate:
 
         self.newdiff_nanoseconds = int(self.new_diff * 1000000000)
 
-        # print 'nanoseconds %s' % nanoseconds
         message = 'Median time difference: %s' % self.median
         logger.info(message)
         message = 'Seconds to add: %s %s' % (signs[sign], seconds)
