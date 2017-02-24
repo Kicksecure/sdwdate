@@ -36,7 +36,7 @@ def timesanitycheck(unixtime):
     if current_unixtime < build_unixtime:
         status = 'slow'
         time_one = current_time
-        time_two =  build_time
+        time_two = build_time
     elif current_unixtime > expiration_unixtime:
         status = 'fast'
         time_one = current_time
