@@ -137,7 +137,7 @@ class Sdwdate:
             logger.info(message)
             return True
         except ValueError:
-            message = "remote: " + remote + " status: False: " + value
+            message = "remote: " + remote + " status: False: " + str(value)
             logger.info(message)
             message = "remote: " + remote + " comment: " + comment
             logger.info(message)
