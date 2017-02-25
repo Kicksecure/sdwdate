@@ -16,7 +16,11 @@ def time_consensus_sanity_check(unixtime):
    consensus_valid_until_str = ""
    try:
       controller = connect()
-
+   except:
+      status = "error"
+      error = "Could not open Tor control connection. error: " + str(sys.exc_info()[0])
+      return status, error, consensus_valid_after_str, consensus_valid_until_str
+   try:
       consensus_valid_after_str = controller.get_info("consensus/valid-after")
       consensus_valid_until_str = controller.get_info("consensus/valid-until")
       controller.close()
@@ -38,7 +42,7 @@ def time_consensus_sanity_check(unixtime):
          controller.close()
       except:
          pass
-      error = str(sys.exc_info()[0])
+      error = "Unexpected error: " + str(sys.exc_info()[0])
       status = "error"
 
    return status, error, consensus_valid_after_str, consensus_valid_until_str

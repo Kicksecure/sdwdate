@@ -7,16 +7,6 @@ sdwdate:
         minutes: ' minutes.'
         success: 'Success.'
 
-        tsc_1: '<b>The clock is '
-        tsc_2: '</b><br> Current time '
-        slow_clock: ' is less than<br> the build timestamp '
-        fast_clock: ' is greater than<br> the expiration timestamp '
-        cause: '<br><br>Possible causes:<br>
-                - the host clock is wrong -> shut down the VM, fix the clock in the host and restart the VM.<br>
-                - the VM clock is wrong -> manually fix the clock. Restart Tor if necessary.<br>
-                - a host clock attack succeeded.<br>
-                - a bios clock failure.<br>'
-
         no_valid_time: 'Time is not set:<b> no valid time returned from pool </b><br>
                         Possible causes:<br>- internet connection is down
                         <br>- Tor is not running'

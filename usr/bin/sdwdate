@@ -10,6 +10,7 @@ from datetime import datetime
 import random
 from random import randint
 from subprocess import Popen, call, PIPE, check_output
+import subprocess
 import pickle
 import re
 from shutil import rmtree
@@ -227,41 +228,6 @@ class Sdwdate:
                 pass
         return url_comment
 
-    def time_sanity_check(self, unixtime):
-        status, time_one, time_two, error = timesanitycheck(unixtime)
-
-        if status == 'sane':
-            message = (self._('tsc_1') + status + self._('tsc_2') + time_one)
-            # 'The clock is %s. Current time "%s".' % (status, time_one)
-        elif status == 'slow':
-            message = (self._('tsc_1') + status + self._('tsc_2') + time_one
-                            + self._('slow_clock') + time_two) + self._('cause')
-        elif status == 'fast':
-            message = (self._('tsc_1') + status + self._('tsc_2') + time_one
-                            + self._('fast_clock') + time_two) + self._('cause')
-        elif status == 'error':
-            message = "time_sanity_check failed. error: " + error
-
-        return status, message
-
-    def consensus_comparision(self, unixtime):
-        status, error, consensus_valid_after_str, consensus_valid_until_str = time_consensus_sanity_check(unixtime)
-
-        if status == 'ok':
-           message = "Clock within consensus parameters consensus_valid_after_str " + consensus_valid_after_str + " and " + consensus_valid_until_str + "."
-           status = "sane"
-        elif status == 'slow':
-           message = "Clock is slow. Before consensus_valid_after_str " + consensus_valid_after_str + "."
-           status = "insane"
-        elif status == 'fast':
-           message = "Clock is fast. After consensus_valid_until_str " + consensus_valid_until_str + "."
-           status = "insane"
-        elif status == 'error':
-           message = "Consensus error: " + error
-           status = "insane"
-
-        return status, message
-
     def build_median(self):
         '''
         Get the median (not average) from the list of values.
@@ -357,24 +323,6 @@ class Sdwdate:
         message = 'Instantly setting the time by using command "%s"' % cmd
         logger.info(message)
 
-    def strip_html(self, message):
-        ## New line for log.
-        tmp_message = re.sub('<br>', '\n', message)
-        ## Strip remaining HTML.
-        return re.sub('<[^<]+?>', '', tmp_message)
-
-    def write_status(self, *args):
-        self.status['icon'] = args[0]
-        self.status['message'] = args[1]
-        msg = bytes(args[1], encoding = 'utf-8')
-        with open(self.status_path, 'wb') as f:
-            pickle.dump(self.status, f)
-            f.close()
-
-        with open(self.msg_path, 'wb') as msgf:
-            msgf.write(msg)
-            msgf.close()
-
     def sdwdate_loop(self):
         '''
         Check remotes.
@@ -385,33 +333,17 @@ class Sdwdate:
         message = "Start fetching remote times."
         logger.info(message)
 
-        current_unixtime = time.time()
-        time_sanity_check_status, message = self.time_sanity_check(current_unixtime)
-        stripped_message = self.strip_html(message)
-
-        if time_sanity_check_status == 'sane':
-            logger.info(stripped_message)
-        else:
-            return self.error_icon, 'error', message
-
-        status, message = self.consensus_comparision(current_unixtime)
-        if status == 'sane':
-            logger.info(message)
-        else:
-            ## TODO: consider aborting sdwdate_loop
-            logger.warning(message)
-
         fetching_msg = self._('fetching')
         restricted_msg = self._('restricted')
         if self.success:
-            self.write_status(self.success_icon, fetching_msg)
+            write_status(self.success_icon, fetching_msg)
             logger.info(fetching_msg)
         else:
             if not self.first_success:
-                self.write_status(self.busy_icon, (fetching_msg + restricted_msg))
+                write_status(self.busy_icon, (fetching_msg + restricted_msg))
                 logger.info(fetching_msg + restricted_msg)
             else:
-                self.write_status(self.success_icon, fetching_msg)
+                write_status(self.success_icon, fetching_msg)
                 logger.info(fetching_msg)
 
         while len(self.valid_urls) < self.number_of_pools:
@@ -523,8 +455,8 @@ def exit_handler():
 
     icon = sdwdate.error_icon
     message = sdwdate._('user_kill')
-    stripped_message = sdwdate.strip_html(message)
-    sdwdate.write_status(icon, message)
+    stripped_message = strip_html(message)
+    write_status(icon, message)
 
     if sdwdate.sclockadj_pid != 0:
         sdwdate.kill_sclockadj()
@@ -542,6 +474,26 @@ def exit_handler():
 
 def signal_sigterm_handler(signum, frame):
     exit_handler()
+
+
+def strip_html(message):
+   ## New line for log.
+   tmp_message = re.sub('<br>', '\n', message)
+   ## Strip remaining HTML.
+   return re.sub('<[^<]+?>', '', tmp_message)
+
+
+def write_status(*args):
+   sdwdate.status['icon'] = args[0]
+   sdwdate.status['message'] = args[1]
+   msg = bytes(args[1], encoding = 'utf-8')
+   with open(sdwdate.status_path, 'wb') as f:
+      pickle.dump(sdwdate.status, f)
+      f.close()
+
+   with open(sdwdate.msg_path, 'wb') as msgf:
+      msgf.write(msg)
+      msgf.close()
 
 
 def prerequisite_check():
@@ -567,23 +519,39 @@ str(prerequisite_check_sleep_seconds) + " iteration: " + str(loop_counter) + " /
         prerequisite_check_sleep_seconds += 1
         if prerequisite_check_sleep_seconds >= 10:
             prerequisite_check_sleep_seconds = 10
-        prerequisite_status = Popen(prerequisite_path,
-                                    stdout=PIPE,
-                                    stderr=PIPE)
-        value, error = prerequisite_status.communicate()
-        value = value.decode('UTF-8')
-        if value == '':
-            message = 'Prerequisite check: ok.'
-            logger.info(message)
+
+        prerequisite_status = subprocess.Popen(prerequisite_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = prerequisite_status.communicate()
+        prerequisite_status.kill()
+        main_message = stdout.decode('UTF-8')
+        extra_message = stderr.decode('UTF-8')
+        joint_message = main_message + " " + extra_message
+
+        if prerequisite_status.returncode == 0:
+            if not extra_message == "":
+               message = 'Prerequisite check: %s' % extra_message.strip()
+               logger.info(strip_html(message))
+            message = "Prerequisite check: " + main_message.strip()
+            logger.info(strip_html(message))
             return True
         else:
-            message = 'Prerequisite check:<br> %s' % value.strip()
-            if message != previous_messsage:
-                previous_messsage = message
-                stripped_message = sdwdate.strip_html(message)
-                logger.warning(stripped_message)
-                icon = sdwdate.busy_icon
-                sdwdate.write_status(icon, message)
+
+            if joint_message != previous_messsage:
+                previous_messsage = joint_message
+
+                if not extra_message == "":
+                    message = 'Prerequisite check: %s' % extra_message.strip()
+                    logger.info(strip_html(extra_message))
+
+                message = 'Prerequisite check: %s' % main_message.strip()
+                logger.warning(strip_html(main_message))
+
+                if prerequisite_status.returncode == 1:
+                    icon = sdwdate.error_icon
+                else:
+                    icon = sdwdate.busy_icon
+
+                write_status(icon, main_message)
                 prerequisite_check_sleep_seconds = 0
             time.sleep(prerequisite_check_sleep_seconds)
 
@@ -669,9 +637,9 @@ if __name__ == "__main__":
 
         message = (sdwdate_message_from_loop + " " + sdwdate._('sleeping') +
                    str(sleep_time) + sdwdate._('minutes'))
-        stripped_message = sdwdate.strip_html(message)
+        stripped_message = strip_html(message)
 
-        sdwdate.write_status(icon, message)
+        write_status(icon, message)
 
         if log_level == 'info':
             logger.info(stripped_message)
