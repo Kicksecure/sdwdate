@@ -1,3 +1,371 @@
+commit 29f7360642be4119522c32dc9c03c94d4a6dce2a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 25 16:58:54 2017 +0000
+
+    Make sure /var/run/sdwdate/status always exists so sdwdate-gui can watch it.
+
+commit 46118bba0096a2691c016f7a2f69ac60c7ece21d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 25 04:21:47 2017 +0000
+
+    sdwdate Tor Consensus Time Sanity Check;
+    
+    refactoring
+    
+    https://phabricator.whonix.org/T151
+
+commit c626798651f263b06190cd7d9f03d3976f99c68a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 24 22:51:40 2017 +0000
+
+    WIP sdwdate Tor Consensus Time Sanity Check
+    
+    https://phabricator.whonix.org/T151
+
+commit 709306e4a3f67423dd97618399aa615d49c2b74d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 24 03:19:45 2017 +0000
+
+    check if clock got changed behind sdwdate's back
+    
+    https://phabricator.whonix.org/T481
+
+commit 0c1c8d1ab8a9e049835bbffc769f419f07b4bc1b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 24 02:24:33 2017 +0000
+
+    randomize sleep time on failure
+
+commit 0d288d399d15e265e849c095dffd6f655dc490df
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 24 02:23:00 2017 +0000
+
+    randomize sleep nanoseconds
+
+commit 63a05116a68710b039b5798fe27030357fa06952
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 24 02:16:20 2017 +0000
+
+    cleanup
+
+commit 5c71b418dba2b23dfb3c273d3da6e02cc275b06f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 24 02:08:14 2017 +0000
+
+    output
+
+commit 63719ebcc3d969b4167b36a1702839121bcbc6ea
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 24 01:58:11 2017 +0000
+
+    refactoring
+
+commit 3bd829d07a3cbc45b6ba3fd026eca406a90c0ccb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 24 01:56:00 2017 +0000
+
+    refactoring
+
+commit 7ac34ad1d32a23a849991421bb2cf302ecf041b3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 24 01:34:16 2017 +0000
+
+    minor
+
+commit a2c2909d4ea33a398b308d11f3f4779e52379a6a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 24 01:33:38 2017 +0000
+
+    pass time sanity check exception message
+
+commit b64be6be4921366634be65a780abb7a6e4d58887
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 24 01:22:25 2017 +0000
+
+    make timesanitycheck more robust against insane inputs
+
+commit 8d2fe88156db573e7c9008d223f27ee58943dc9f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 24 01:16:02 2017 +0000
+
+    comment
+
+commit a46502f9bd400327cdfb9d4d44ee794c1f485541
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 24 01:04:15 2017 +0000
+
+    fix, avoid exception if url to unixtime returns string rather than digit
+
+commit 34270a73bee8d66ed89a7716d837e918ab198fb9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 24 00:46:37 2017 +0000
+
+    simplify success message for better usability
+    
+    refactoring
+
+commit e632747afcbdb6fd8088c5ff972dc56882c6ed1f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 24 00:08:38 2017 +0000
+
+    no need to add start / end times to time fetching since logger adds this anyhow
+    
+    code simplification
+
+commit f80f39dad6da3829b01f1b5e3c668f5d26e47a3e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 23 22:50:53 2017 +0000
+
+    increase timeout from 10 to 50
+    
+    took up to 40 seconds for me on a slow connection
+
+commit 9c99fe36a7d3bd1f98048504c0264591db1ed642
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 23 22:10:17 2017 +0000
+
+    refactoring
+
+commit 44608a7741e9e4812319fedadf5a7ba1cebc10ae
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 23 21:28:42 2017 +0000
+
+    intent
+
+commit 379ab98e3cbd2d9fe9c4d888c9f6854b478f8b2c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 23 21:27:38 2017 +0000
+
+    cleanup
+
+commit 89142275a2dceedb8e0ace64509c6145486eb005
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 23 21:26:36 2017 +0000
+
+    always show url comments even if general timeout gets hit
+
+commit e598f2aee48bcda83c8eab1e3a4c1586ba0d148f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 23 21:12:45 2017 +0000
+
+    output
+
+commit 27d8014e63f9a58207ab6d267386eb4021d8cb47
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 23 21:06:11 2017 +0000
+
+    use logger rather than print to write to stdout
+
+commit 35599231b24e2319f6a1a93d68bd32f174bfde5c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 23 20:54:24 2017 +0000
+
+    always show url comments even if general timeout gets hit
+
+commit a217e4470b0b98b74fb4161c0ca2fac6511e8e55
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 23 20:01:34 2017 +0000
+
+    relax general timeout check
+
+commit 35adad65f84fb721e996b7be38eb57f6c1be8e9c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 23 19:53:33 2017 +0000
+
+    improve sd_notify
+
+commit b0ec7cf86dc573417c4bd356db40f01974fbac03
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 23 19:45:12 2017 +0000
+
+    reset prerequisite_check_sleep_seconds if prerequisite check output changed
+
+commit b6df48b0e098acf76c8842614cf112247595b260
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 23 19:42:53 2017 +0000
+
+    add prerequisite_check_sleep_seconds to sd_notify
+
+commit 8fc0e76449f9fb0df5e40ce18d67915d79bc4c05
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 23 19:39:49 2017 +0000
+
+    add prerequisite_loop iteration counter to sd_notify
+
+commit c3b2205ccce4e8542c859d8409c01e16a71096f6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 23 19:33:25 2017 +0000
+
+    cleanup
+
+commit 0751c97fe189cbc0076ce93c0d72de4c377f6cbe
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 23 19:32:42 2017 +0000
+
+    comment
+
+commit d504104942326c8e9fd68172bca31c496bf6e400
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 23 19:31:53 2017 +0000
+
+    output
+
+commit fd9292cbc8173f713269a20de6714f7883349db3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 07:36:15 2017 +0000
+
+    output
+
+commit 7239aa4258094a011a1a1642d4c02c2ffccf1a3a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 07:32:34 2017 +0000
+
+    fix killing sclockadj on Debian stretch
+    
+    kill sclockadj with sigkill rather than sigterm
+    
+    since sigterm is ignored for some reason when called from sdwdate
+    
+    code simplification
+
+commit 3e265f0c07ceda5c35d3373a15a44069b7890e6b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 06:59:02 2017 +0000
+
+    comment
+
+commit e6e6fc51d0de235a7fe21e433768be3f96063b39
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 06:55:23 2017 +0000
+
+    remove obsolete comment on running sclockadj_debug_helper
+
+commit a9a988f65abcfd91e34d8131bb7232a72de47427
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 06:52:13 2017 +0000
+
+    output
+
+commit a1cb395ee60a3a54a5d683aa363580dd4228cfb5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 06:29:07 2017 +0000
+
+    output, refactoring
+
+commit 0f5ef655314da5bd7a8b2364776bbeb2e17e407e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 06:02:05 2017 +0000
+
+    fix, remove deprecated /etc/apparmor.d/abstractions/sdwdate
+
+commit 66bdcec7553c879af258d1af481be7ffe4658f6d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 05:51:56 2017 +0000
+
+    output
+
+commit 490fed3e3c65e3a18848dcf525498f99682f70f9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 05:51:32 2017 +0000
+
+    typo
+
+commit e319196c62f1cb25aaa129a5fdb08046215a6e77
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 05:50:08 2017 +0000
+
+    output
+
+commit 1c6e7f771e89b35e3e896a35d004bc41d2425a4d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 05:45:41 2017 +0000
+
+    output
+
+commit d561e614e25f7b0c4f141dacbe04a6d9861d2ad2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 05:41:58 2017 +0000
+
+    fix, reset self.sclockadj_pid = 0 after killing sclockadj
+
+commit ccbe14188fccdfb2d6d835dc13a2c10d7ec2a572
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 05:30:49 2017 +0000
+
+    fix
+
+commit 6d83038bb7943192df8de22ce078de5c5c0936e5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 05:26:52 2017 +0000
+
+    refactoring
+
+commit 3f2ce21636a618b981e8a193189d6cc0b3456a4e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 05:21:13 2017 +0000
+
+    remove legacy time.sleep(0.2) for sdwdate-gui
+    
+    since sdwdate-gui was fixed
+
+commit 583d61e0a5e2c6706f8937274dfdd1630598c918
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 05:18:00 2017 +0000
+
+    refactoring
+
+commit 7d6d9cae28339d7b7250f330ae9c04082c365edb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 05:03:41 2017 +0000
+
+    comment
+
+commit 79c9e59c6bfdd6221fd335035af248c8cab914ca
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 05:01:36 2017 +0000
+
+    lower debugging
+
+commit 0f212cdc347fbd00efb88a56819ee119cfa422ea
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 05:00:32 2017 +0000
+
+    improve wait intervals during prerequisite_check
+
+commit 1897b91bcb8e72dfcd2b6bbaf561340e99da3d6d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 04:51:59 2017 +0000
+
+    fix, always run prerequisite_check, not just at first run
+
+commit 94cbff3d987894143e7f61a18e186012e431d641
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 22 04:49:08 2017 +0000
+
+    implement sdwdate sd_notify systemd watchdog
+    
+    https://phabricator.whonix.org/T639
+
+commit 9a4439b3a124404cd176e99fd757fc9f6b8ad12b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Feb 21 22:02:23 2017 +0000
+
+    fix
+
+commit be7e02b5f387eed88d72904600c70e35b8133846
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Feb 21 21:59:41 2017 +0000
+
+    use systemctl --no-pager to prevent blocking due to systemctl interactivity
+    
+    https://phabricator.whonix.org/T637
+
+commit cd51d979c27203005c889416e1de720ea4b2bcbf
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 17 14:07:00 2017 +0000
+
+    bumped changelog version
+
 commit e7a5d7a162e0b0823eae96c8c00d001f75be5dfe
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Feb 13 17:26:46 2017 +0000
