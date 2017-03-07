@@ -267,9 +267,9 @@ class Sdwdate:
 
         self.newdiff_nanoseconds = int(self.new_diff * 1000000000)
 
-        message = 'randomize          : %s%s' % (signs[sign], seconds)
+        message = 'randomize             : %s%s' % (signs[sign], seconds)
         logger.info(message)
-        message = 'New time difference:  %s' % self.new_diff
+        message = 'New time difference   :  %s' % self.new_diff
         logger.info(message)
 
     def run_sclockadj(self):
