@@ -267,9 +267,9 @@ class Sdwdate:
 
         message = 'Median time difference: %s' % self.median
         logger.info(message)
-        message = 'Seconds to add: %s %s' % (signs[sign], seconds)
+        message = 'randomize          : %s%s' % (signs[sign], seconds)
         logger.info(message)
-        message = 'New time difference: %s' % self.new_diff
+        message = 'New time difference:  %s' % self.new_diff
         logger.info(message)
 
     def run_sclockadj(self):
