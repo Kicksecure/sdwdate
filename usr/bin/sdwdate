@@ -337,14 +337,17 @@ class Sdwdate:
         restricted_msg = self._('restricted')
         if self.success:
             write_status(self.success_icon, fetching_msg)
-            logger.info(fetching_msg)
+            message = strip_html(fetching_msg)
+            logger.info(message)
         else:
             if not self.first_success:
                 write_status(self.busy_icon, (fetching_msg + restricted_msg))
-                logger.info(fetching_msg + restricted_msg)
+                message = strip_html(fetching_msg + restricted_msg)
+                logger.info(message)
             else:
                 write_status(self.success_icon, fetching_msg)
-                logger.info(fetching_msg)
+                message = strip_html(fetching_msg)
+                logger.info(message)
 
         while len(self.valid_urls) < self.number_of_pools:
             self.iteration += 1
