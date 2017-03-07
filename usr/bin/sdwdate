@@ -236,6 +236,8 @@ class Sdwdate:
         message = 'Pool differences, sorted: %s' % diffs
         logger.info(message)
         self.median = diffs[(len(diffs) // 2)]
+        message = 'Median time difference: %s' % self.median
+        logger.info(message)
 
     def set_new_time(self):
         '''
@@ -265,8 +267,6 @@ class Sdwdate:
 
         self.newdiff_nanoseconds = int(self.new_diff * 1000000000)
 
-        message = 'Median time difference: %s' % self.median
-        logger.info(message)
         message = 'randomize          : %s%s' % (signs[sign], seconds)
         logger.info(message)
         message = 'New time difference:  %s' % self.new_diff
