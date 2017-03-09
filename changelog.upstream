@@ -1,3 +1,45 @@
+commit 032b14bf2f502d7eb807c8bb6a4fee9a42407143
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Mar 7 20:22:01 2017 +0000
+
+    cleanup
+
+commit 6bdcf0fd77c2ff3aafeda0a74b07a4cc94e68619
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Mar 7 20:21:07 2017 +0000
+
+    improve output of median time difference, vs randomize vs new time difference
+
+commit b5b32f26155c5f174a89fbcb5a95675e6cc42279
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Mar 7 20:01:51 2017 +0000
+
+    output
+
+commit 6b94de9c0981a355cebbf378206c33ba41cd6904
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Mar 7 20:00:00 2017 +0000
+
+    refactoring
+
+commit 3c969e8f4130ca36ddce1cc918a2fc2037b7896a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Mar 7 19:56:29 2017 +0000
+
+    output
+
+commit d775d1664c242d967a87f417224ab1d180dc025e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Mar 7 19:50:49 2017 +0000
+
+    output
+
+commit 117ea1e72757c032b90a57e2a8a29654ac2c8764
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Mar 6 16:16:07 2017 +0000
+
+    bumped changelog version
+
 commit 51b2e8bac4bc453ec5353ba9f4c553c528716344
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Mar 6 15:00:49 2017 +0000
