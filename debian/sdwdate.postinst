@@ -32,12 +32,10 @@ case "$1" in
        ## already successfully established a circuit before fetching time.
        addgroup sdwdate debian-tor
 
+       gcc -nostartfiles -fpic -shared /usr/lib/sdwdate/sclockadj.c -o /usr/lib/sdwdate/sclockadj -ldl -D_GNU_SOURCE -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wl,-z,relro -Wl,-z,now
        mkdir --parents "/var/cache/sdwdate/sclockadj"
        chown --recursive root:root "/var/cache/sdwdate/sclockadj"
        chmod --recursive 700 "/var/cache/sdwdate/sclockadj"
-
-       ## Clean up from previous version.
-       rm -f -r "/var/cache/sdwdate/.ruby_inline"
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
