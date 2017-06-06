@@ -1,3 +1,0 @@
-#!/bin/sh
-
-gcc -nostartfiles -fpic -shared /usr/lib/sdwdate/sclockadj.c -o /usr/lib/sdwdate/sclockadj -ldl -D_GNU_SOURCE -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wl,-z,relro -Wl,-z,now
