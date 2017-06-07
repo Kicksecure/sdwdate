@@ -41,6 +41,7 @@ void change_time_by_nanoseconds(long long add_ns)
 /* intended to be used only by sdwdate with sane inputs */
 int main(int argc, char *argv[])
 {
+    if (argc < 2) exit(EXIT_FAILURE);
     long long ns_time_change = atoll(argv[1]); /* convert argv string into long long */
     if (ns_time_change == 0) 
     {
