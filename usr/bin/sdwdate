@@ -267,27 +267,11 @@ class Sdwdate:
         logger.info(message)
 
     def run_sclockadj(self):
-        '''
-        Set time with sneaky_clock_adjuster.
-        '''
-        if self.newdiff_nanoseconds > 0:
-            add_subtract = "--add"
-        else:
-            add_subtract = "--subtract"
         cmd = [
             "sudo",
             "--non-interactive",
-            "INLINEDIR=/var/cache/sdwdate/sclockadj",
             "/usr/lib/sdwdate/sclockadj",
-            "--no-debug",
-            "--no-verbose",
-            "--no-systohc",
-            "--no-first-wait",
-            "--move-min", "5000000",
-            "--move-max", "5000000",
-            "--wait-min", "1000000000",
-            "--wait-max", "1000000000",
-            add_subtract, str(abs(self.newdiff_nanoseconds))]
+            str(self.newdiff_nanoseconds)]
 
         ## Run sclockadj in a subshell.
         sclockadj = Popen(cmd)
