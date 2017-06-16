@@ -5,6 +5,15 @@ from sdwdate.remote_times import get_time_from_servers
 from sdwdate.config import read_pools
 from sdwdate.proxy_settings import proxy_settings
 
+# Helpers for a cludge to check only 3 urls at once
+from itertools import zip_longest
+def zip_discard(*iterables, sentinel=object()):
+    return [[entry for entry in iterable if entry is not sentinel]
+            for iterable in zip_longest(*iterables, fillvalue=sentinel)]
+
+def grouper(iterable, n):
+    args = [iter(iterable)] * n
+    return zip_discard(*args)
 
 class Pool:
     def __init__(self, pool):
@@ -21,12 +30,13 @@ class CheckRemotes:
 
     def loop(self):
         for pool in self.pools:
-            self.urls, self.returned_values = get_time_from_servers(pool.urls,
-                                                                    self.proxy_ip,
-                                                                    self.proxy_port)
-            for url in range(len(self.urls)):
-                msg = 'pool {} url {}: {}'.format(self.pools.index(pool) + 1, self.urls[url], self.returned_values[url])
-                print(msg)
+            for url_chunk in grouper(pool.urls, 3):
+                self.urls, self.returned_values = get_time_from_servers(url_chunk,
+                                                                        self.proxy_ip,
+                                                                        self.proxy_port)
+                for url in range(len(self.urls)):
+                    msg = 'pool {} url {}: {}'.format(self.pools.index(pool) + 1, self.urls[url], self.returned_values[url])
+                    print(msg)
 
 if __name__ == '__main__':
     remotes = CheckRemotes()
