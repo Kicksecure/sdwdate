@@ -56,9 +56,9 @@ def get_time_from_servers(remotes, ip_address, port_number):
     for i in range(len(threads)):
         if threads[i].poll() is not None:
             urls.append(remotes[i])
-            timestamp = threads[i].stdout.read().strip().decode("utf-8")
+            timestamp = threads[i].stdout.read().strip()
             time_format = datetime.datetime.utcfromtimestamp(int(timestamp)).strftime('%Y-%m-%d %H:%M:%S')
-            unix_times.append(time_format + " / " + timestamp)
+            unix_times.append(time_format + " / " + timestamp.decode("utf-8"))
         else:
             urls.append(remotes[i])
             unix_times.append('Timeout')
