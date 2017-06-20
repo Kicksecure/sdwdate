@@ -60,12 +60,13 @@ def get_time_from_servers(remotes, ip_address, port_number):
             msg = threads[i].stdout.read().strip().decode('utf-8')
             if msg.isdecimal():
                 timestamp = int(msg)
-                diff      = int(time.time() - timestamp)
+                now       = int(time.time())
+                diff      = timestamp - now
                 date      = datetime.datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
-                output    = date + " / " + str(timestamp) + " / " + str(diff) + " difference"
+                output    = date + " / " + str(timestamp) + " difference: " + str(diff)
                 unix_times.append(output)
             else:
-                unix_times.append(msg)
+                unix_times.append("Error: " + msg)
         else:
             urls.append(remotes[i])
             unix_times.append('Timeout')
