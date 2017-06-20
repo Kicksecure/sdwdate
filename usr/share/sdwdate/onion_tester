@@ -33,7 +33,7 @@ class CheckRemotes:
         errors = []
         for idx, pool in enumerate(self.pools):
             pool_number = idx + 1
-            print("--- Examining Pool " + str(pool_number))
+            print("--- Pool " + str(pool_number))
             deduped_urls = set(pool.urls)
             deduped_comments = set(pool.comments)
             duplicates = [item for item in deduped_urls if pool.urls.count(item) > 1]
@@ -52,7 +52,7 @@ class CheckRemotes:
                     url = self.urls[i]
                     comment = self.comments[i]
                     output = self.returned_values[i]
-                    msg = 'pool {} url {}: {} comment: {}'.format(pool_number, url, output, comment)
+                    msg = "{}: {} comment: {}".format(url, output, comment)
                     print(msg)
                     if output.startswith('Error') or output.startswith('Timeout'):
                         errors.append(url + " " + output)
