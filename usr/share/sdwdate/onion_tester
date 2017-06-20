@@ -33,13 +33,14 @@ class CheckRemotes:
         for pool in self.pools:
             print("--- Examining Pool " + str(self.pools.index(pool)+1))
             deduped_urls = set(pool.urls)
+            deduped_comments = set(pool.comments)
             duplicates = [item for item in deduped_urls if pool.urls.count(item) > 1]
             if len(duplicates) > 0:
                 print("!!! Found duplicates in pool:")
                 for dup in duplicates:
                     print(dup)
             else: print("--- No duplicates in pool")
-            urls_with_comments = zip(deduped_urls, pool.comments)
+            urls_with_comments = zip(deduped_urls, deduped_comments)
             for chunk in grouper(urls_with_comments, 3):
                 self.urls, self.returned_values = get_time_from_servers([item[0] for item in chunk],
                                                                         self.proxy_ip,
