@@ -8,6 +8,7 @@ import sys
 import gevent
 from gevent.subprocess import Popen, PIPE
 import datetime
+import time
 
 def get_time_from_servers(remotes, ip_address, port_number):
     url_to_unixtime_path = '/usr/lib/sdwdate/url_to_unixtime'
@@ -56,9 +57,16 @@ def get_time_from_servers(remotes, ip_address, port_number):
     for i in range(len(threads)):
         if threads[i].poll() is not None:
             urls.append(remotes[i])
-            timestamp = threads[i].stdout.read().strip().decode("utf-8")
-            time_format = datetime.datetime.utcfromtimestamp(int(timestamp).strftime('%Y-%m-%d %H:%M:%S')
-            unix_times.append(time_format + " / " + timestamp)
+            msg = threads[i].stdout.read().strip().decode('utf-8')
+            if msg.isdecimal():
+                timestamp = int(msg)
+                now       = int(time.time())
+                diff      = timestamp - now
+                date      = datetime.datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+                output    = date + " / " + str(timestamp) + " difference: " + str(diff)
+                unix_times.append(output)
+            else:
+                unix_times.append("Error: " + msg)
         else:
             urls.append(remotes[i])
             unix_times.append('Timeout')

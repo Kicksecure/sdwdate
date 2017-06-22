@@ -1,0 +1,66 @@
+#!/usr/bin/python3 -u
+
+import time
+from sdwdate.remote_times import get_time_from_servers
+from sdwdate.config import read_pools
+from sdwdate.proxy_settings import proxy_settings
+
+# Helpers for a cludge to check only 3 urls at once
+from itertools import zip_longest
+def zip_discard(*iterables, sentinel=object()):
+    return [[entry for entry in iterable if entry is not sentinel]
+            for iterable in zip_longest(*iterables, fillvalue=sentinel)]
+
+def grouper(iterable, n):
+    args = [iter(iterable)] * n
+    return zip_discard(*args)
+
+class Pool:
+    def __init__(self, pool):
+        self.urls, self.comments = read_pools(pool, 'test')
+
+
+class CheckRemotes:
+    def __init__(self):
+        self.number_of_pools = 3
+        self.pools = [Pool(pool) for pool in range(self.number_of_pools)]
+        self.urls = []
+        self.comments = []
+        self.returned_values = []
+        self.proxy_ip, self.proxy_port = proxy_settings()
+
+    def loop(self):
+        errors = []
+        for idx, pool in enumerate(self.pools):
+            pool_number = idx + 1
+            print("--- Pool " + str(pool_number))
+            deduped_urls = set(pool.urls)
+            deduped_comments = set(pool.comments)
+            duplicates = [item for item in deduped_urls if pool.urls.count(item) > 1]
+            if len(duplicates) > 0:
+                print('!!! Found duplicates in pool:')
+                for dup in duplicates:
+                    print(dup)
+                    errors.append("Duplicate: " + dup)
+            urls_with_comments = zip(deduped_urls, deduped_comments)
+            for chunk in grouper(urls_with_comments, 3):
+                self.urls, self.returned_values = get_time_from_servers([item[0] for item in chunk],
+                                                                        self.proxy_ip,
+                                                                        self.proxy_port)
+                self.comments = [item[1] for item in chunk]
+                for i in range(len(self.urls)):
+                    url = self.urls[i]
+                    comment = self.comments[i]
+                    output = self.returned_values[i]
+                    msg = "{}: {} comment: {}".format(url, output, comment)
+                    print(msg)
+                    if output.startswith('Error') or output.startswith('Timeout'):
+                        errors.append(url + " " + output)
+        if errors
+            print('!!! Errors found:')
+            for err in errors:
+                print(err)
+
+if __name__ == '__main__':
+    remotes = CheckRemotes()
+    remotes.loop()
