@@ -56,7 +56,7 @@ class CheckRemotes:
                     print(msg)
                     if output.startswith('Error') or output.startswith('Timeout'):
                         errors.append(url + " " + output)
-        if errors
+        if errors:
             print('!!! Errors found:')
             for err in errors:
                 print(err)
