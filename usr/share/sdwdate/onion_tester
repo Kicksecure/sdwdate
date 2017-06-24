@@ -1,6 +1,7 @@
 #!/usr/bin/python3 -u
 
 import time
+import datetime
 from sdwdate.remote_times import get_time_from_servers
 from sdwdate.config import read_pools
 from sdwdate.proxy_settings import proxy_settings
@@ -52,6 +53,14 @@ class CheckRemotes:
                     url = self.urls[i]
                     comment = self.comments[i]
                     output = self.returned_values[i]
+                    if isinstance(output, bytes):
+                        output = output.decode('utf-8')
+                    if output.isdecimal():
+                        timestamp = int(output)
+                        now       = int(time.time())
+                        diff      = timestamp - now
+                        date      = datetime.datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+                        output    = date + " / " + str(timestamp) + " difference: " + str(diff)
                     msg = "{}: {} comment: {}".format(url, output, comment)
                     print(msg)
                     if output.startswith('Error') or output.startswith('Timeout'):
