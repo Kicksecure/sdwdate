@@ -1,3 +1,6 @@
+## Copyright (C) 2017 - 2017 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
 ## Was renamed to include file extension .conf.
 rm_conffile /etc/sdwdate.d/30_default
 rm_conffile /etc/sdwdate.d/30_sdwdate_default

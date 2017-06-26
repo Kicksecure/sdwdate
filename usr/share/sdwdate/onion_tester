@@ -1,5 +1,8 @@
 #!/usr/bin/python3 -u
 
+## Copyright (C) 2017 - 2017 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
 import time
 from sdwdate.remote_times import get_time_from_servers
 from sdwdate.config import read_pools

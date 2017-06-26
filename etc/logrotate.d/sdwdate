@@ -1,3 +1,6 @@
+## Copyright (C) 2017 - 2017 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
 /var/log/sdwdate.log {
     rotate 1
     weekly

@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2016 Patrick Schleizer <adrelanos@riseup.net>
+Copyright (C) 2016 - 2017 Patrick Schleizer <adrelanos@riseup.net>
 See the file COPYING for copying conditions.
 */
 
@@ -43,12 +43,12 @@ int main(int argc, char *argv[])
 {
     if (argc < 2) exit(EXIT_FAILURE);
     long long ns_time_change = atoll(argv[1]); /* convert argv string into long long */
-    if (ns_time_change == 0) 
+    if (ns_time_change == 0)
     {
         perror("Failed to get nanosecond argument!");
         exit(EXIT_FAILURE); /* exit if atoll fails */
     }
-    
+
     /* since nanosecond jump is fixed, we can count the number of complete jumps. */
     /* llabs for negative numbers */
     static int const full_jump = 5000000;
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 
     if (ns_time_change > 0) /* positive nanosecond change */
     {
-        for (unsigned i = 0; i < number_of_full_jumps; ++i) 
+        for (unsigned i = 0; i < number_of_full_jumps; ++i)
         {
             sleep(1);  /* a 1 second wait imitates ntpdate */
             change_time_by_nanoseconds(full_jump); /* 5,000,000 ns imitates ntpdate */
@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
     }
     else  /* negative nanosecond change */
     {
-        for (unsigned i = 0; i < number_of_full_jumps; ++i) 
+        for (unsigned i = 0; i < number_of_full_jumps; ++i)
         {
             sleep(1);
             change_time_by_nanoseconds(-full_jump);

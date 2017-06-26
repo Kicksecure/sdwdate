@@ -1,5 +1,8 @@
 #!/usr/bin/python3 -u
 
+## Copyright (C) 2017 - 2017 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
 import sys
 import os, time
 from datetime import datetime
