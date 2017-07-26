@@ -3,7 +3,7 @@
 ## See the file COPYING for copying conditions.
 
 [Unit]
-Description=Secure Distribiuted Web Date
+Description=Secure Distributed Web Date
 Documentation=https://www.whonix.org/wiki/sdwdate
 ConditionPathExists=!/var/run/qubes/this-is-templatevm
 
