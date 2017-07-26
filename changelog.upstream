@@ -1,3 +1,236 @@
+commit 34666ccaedebad1fd619e1822a515beb3fa98ab7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jul 26 14:13:09 2017 +0000
+
+    signed commit
+
+commit 12f866a252984fba42e302085e0580fd618b8a66
+Merge: 6bd645c f5e4e6d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jun 26 13:57:45 2017 +0200
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 6bd645c2e791d68bf8aa645390033247143fe2d2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jun 26 13:56:46 2017 +0200
+
+    license
+
+commit f5e4e6d1eeac61a0bde5e348737ee3bbcd9f0030
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Sat Jun 24 16:38:01 2017 -0500
+
+    moved formatting to onion_tester
+
+commit 607465f2f97cf7dc121f30bfbeb30ea0241e07cd
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Sat Jun 24 14:40:55 2017 -0500
+
+    sanitization
+
+commit f307309d70f3475d668a70663b5c8aadd33ad750
+Author: Jason J. Ayala P <JasonJAyalaP+Github@Gmail.com>
+Date:   Thu Jun 22 11:14:39 2017 -0500
+
+    Update onion_tester
+
+commit c4eb10cafd2f186f5fb9675f0bad738c823ce3a1
+Merge: f22ddfa e9733e1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jun 22 10:38:30 2017 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit e9733e1d0f0257c4e2ddab05fd16f856419ecfb1
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Mon Jun 19 23:53:29 2017 -0500
+
+    simpler output
+
+commit cad2c1b7d1b5476a55619865b4f25bb588875a2e
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Mon Jun 19 23:39:06 2017 -0500
+
+    error reporting
+
+commit 534e6b66f4576543eb360ac45c19ba933d49f9a6
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Mon Jun 19 23:38:38 2017 -0500
+
+    better output
+
+commit 17712e38cbc724802ed37036e736304e313d69f8
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Mon Jun 19 21:41:40 2017 -0500
+
+    dupe comment bug
+
+commit d10132e63432e98d7029626e6e526454a8967f9f
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Mon Jun 19 21:17:16 2017 -0500
+
+    check for dupes and don't use them
+
+commit f099c069e12618422622d49a5a7ba05f9959e91d
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Mon Jun 19 20:35:26 2017 -0500
+
+    renamed to onion_tester
+
+commit e04099d76af709900983d09e7097809846d86603
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Mon Jun 19 20:16:05 2017 -0500
+
+    Added second difference to output
+
+commit 5f0ca92f7a0bb6d2d15fbba7644278c010e450b0
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Fri Jun 16 18:10:47 2017 -0500
+
+    handle bad responses
+
+commit cd2234332234a33a396afcb81a264124acd521ad
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Fri Jun 16 16:06:35 2017 -0500
+
+    stripping bytes error
+
+commit e4cfe95497110a895a8fe4555114164cb1fe96bb
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Fri Jun 16 15:56:50 2017 -0500
+
+    show comments
+
+commit 8604a441f7bdae8b3af9a575658f35c1066449b8
+Author: Jason J. Ayala P <JasonJAyalaP+Github@Gmail.com>
+Date:   Fri Jun 16 14:48:28 2017 -0500
+
+    typo
+
+commit f22ddfa6cebd1dd7e41f83ef5f1bcf37a4bce6ea
+Merge: b68e3d9 c34a220
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jun 16 15:15:08 2017 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit c34a220752576e47d7757e6658fd253f6db4f26a
+Author: Jason J. Ayala P <JasonJAyalaP+Github@Gmail.com>
+Date:   Thu Jun 15 20:45:56 2017 -0500
+
+    Accidental copy and paste and commit
+
+commit b550678a02c000c936db61ef3746f95d525d3f2e
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Thu Jun 15 20:35:31 2017 -0500
+
+    Fixed limitation
+
+commit d454f786c0f3490e6f9815515362ad9c15407cd8
+Author: Jason J. Ayala P <JasonJAyalaP+Github@Gmail.com>
+Date:   Thu Jun 15 19:48:04 2017 -0500
+
+    typo
+
+commit d76d95ecf8713be09ee68753c47b9529fe45a56d
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Thu Jun 15 19:40:49 2017 -0500
+
+    only check 3 addresses at a time
+
+commit b52e260187829480cc8c317785ac9c6bfab10347
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Thu Jun 15 19:40:34 2017 -0500
+
+    added utc time format
+
+commit b68e3d995bbe8a0e67e4dd3c5906951d4e9cb008
+Merge: aeae9b3 966cd56
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 7 19:16:35 2017 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 966cd56308c5ea157dc9bccca996c7911aa685c7
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Wed Jun 7 14:11:59 2017 -0500
+
+    Argument check, reverts mistaken change
+
+commit a4103d5725aacc655be03cf7e6d8a324954c4ef8
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Wed Jun 7 14:08:21 2017 -0500
+
+    fixed compiler flags; removed cache mkdir
+
+commit aeae9b3d81735f6828e145204a9bf7c15d914d20
+Merge: 6922900 0bc61dc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 7 18:19:22 2017 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 0bc61dc8275277fadd93936ad01d159e6e2a80b6
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Wed Jun 7 13:15:15 2017 -0500
+
+    removed worthless argument check (segfaulting)
+
+commit 692290096a9481d0f9f18430ed69553005df1be1
+Merge: d3cca04 77ddf00
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 7 17:09:40 2017 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 77ddf00e1efd4dfd295379a7c2caf422faa8a50d
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Tue Jun 6 15:45:22 2017 -0500
+
+    fixed
+
+commit d89dc014f9a1518eb093e6a0bddf3c18dea176fb
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Tue Jun 6 15:31:00 2017 -0500
+
+    missed a ruby dep
+
+commit 46c00276c964840be3a585176eb1b71f8f06b481
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Tue Jun 6 11:56:25 2017 -0500
+
+    moved postinst
+
+commit c89905285b899582c9396977f76c607cd9694e25
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Tue Jun 6 11:56:07 2017 -0500
+
+    postinst compile instructions
+
+commit 1213b8d36b178ff1bd53d7909b7276332e98ee8f
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Tue Jun 6 11:55:36 2017 -0500
+
+    removed ruby dependencies
+
+commit ca3ffa3d8559bcfaf35f5d294bd933cea20ecaef
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Tue Jun 6 11:41:03 2017 -0500
+
+    Replacement of old sclockadj
+
+commit 23810f31db0493e36a82b68190711f94181be0d4
+Author: JasonJAyalaP <JasonJAyalaP+Github@Gmail.com>
+Date:   Mon Jun 5 13:57:03 2017 -0500
+
+    Rewritten sclockadj in C with simpler interface
+
+commit d3cca046c282909a9125b9b9d938a343bb35d4d9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Mar 9 00:36:02 2017 +0000
+
+    bumped changelog version
 
 commit 032b14bf2f502d7eb807c8bb6a4fee9a42407143
 Author: Patrick Schleizer <adrelanos@riseup.net>
