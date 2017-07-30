@@ -34,4 +34,4 @@ Description: Secure Distributed Network Time Synchronization
  .
  This package contains the sdwdate time fetcher and daemon. No
  installation on remote servers required. To avoid conflicts, this daemon
- should be not be enabled together with ntp or tlsdated.
+ should not be enabled together with ntp or tlsdated.

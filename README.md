@@ -11,7 +11,7 @@ jumps that could confuse logs, servers, Tor, i2p, etc.
 
 This package contains the sdwdate time fetcher and daemon. No
 installation on remote servers required. To avoid conflicts, this daemon
-should be not be enabled together with ntp or tlsdated.
+should not be enabled together with ntp or tlsdated.
 
 (This package description has been [automatically](https://github.com/Whonix/whonix-developer-meta-files/blob/master/debug-steps/packaging-helper-script) extracted and mirrored from `debian/control`.)
 
