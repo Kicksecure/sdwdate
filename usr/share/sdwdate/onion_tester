@@ -3,6 +3,7 @@
 ## Copyright (C) 2017 - 2017 Patrick Schleizer <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
+import os
 import time
 import datetime
 from sdwdate.remote_times import get_time_from_servers
@@ -10,19 +11,22 @@ from sdwdate.config import read_pools
 from sdwdate.proxy_settings import proxy_settings
 
 # Helpers for a cludge to check only 3 urls at once
-from itertools import zip_longest
-def zip_discard(*iterables, sentinel=object()):
-    return [[entry for entry in iterable if entry is not sentinel]
-            for iterable in zip_longest(*iterables, fillvalue=sentinel)]
+def chunks(my_list, n):
+    """Yield successive n-sized chunks from my_list."""
+    for i in range(0, len(my_list), n):
+        yield my_list[i:i + n]
 
-def grouper(iterable, n):
-    args = [iter(iterable)] * n
-    return zip_discard(*args)
+def exec_curl(c_url):
+    cmd = 'curl --head '+c_url+'> /dev/null 2>&1'
+    c_out = os.system(cmd)
+    if '0' in str(c_out) :
+        return ' (Curl --head is OK)'
+    else:
+        return ' (Curl --head also Not OK)'
 
 class Pool:
     def __init__(self, pool):
         self.urls, self.comments = read_pools(pool, 'test')
-
 
 class CheckRemotes:
     def __init__(self):
@@ -34,44 +38,56 @@ class CheckRemotes:
         self.proxy_ip, self.proxy_port = proxy_settings()
 
     def loop(self):
-        errors = []
-        for idx, pool in enumerate(self.pools):
-            pool_number = idx + 1
-            print("--- Pool " + str(pool_number))
-            deduped_urls = set(pool.urls)
-            deduped_comments = set(pool.comments)
-            duplicates = [item for item in deduped_urls if pool.urls.count(item) > 1]
-            if len(duplicates) > 0:
-                print('!!! Found duplicates in pool:')
-                for dup in duplicates:
-                    print(dup)
-                    errors.append("Duplicate: " + dup)
-            urls_with_comments = zip(deduped_urls, deduped_comments)
-            for chunk in grouper(urls_with_comments, 3):
-                self.urls, self.returned_values = get_time_from_servers([item[0] for item in chunk],
-                                                                        self.proxy_ip,
-                                                                        self.proxy_port)
-                self.comments = [item[1] for item in chunk]
-                for i in range(len(self.urls)):
-                    url = self.urls[i]
-                    comment = self.comments[i]
-                    output = self.returned_values[i]
-                    if isinstance(output, bytes):
-                        output = output.decode('utf-8')
-                    if output.isdecimal():
-                        timestamp = int(output)
-                        now       = int(time.time())
-                        diff      = timestamp - now
-                        date      = datetime.datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
-                        output    = date + " / " + str(timestamp) + " difference: " + str(diff)
-                    msg = "{}: {} comment: {}".format(url, output, comment)
+        time_stamp_ts = int(time.time())
+        print ('Current Time: '+str(time_stamp_ts))
+
+        file_name = 'sdwate_remotes_check-%s' % str(time_stamp_ts)
+        f = open(file_name, 'a')
+
+        print('Starting remotes check...')
+        for pool in self.pools:
+            #orig_list = pool.urls[:]
+            #print ('Debug:'+str(type(pool.urls))+str(len(pool.urls)))
+            #print('Debug:'+str(type(orig_list))+str(len(orig_list)))
+
+            ## For avg
+            tot_diff = 0
+
+
+            ##print(pool.urls)
+            ##print(list(chunks(pool.urls,3)))
+            ##exit()
+            url_chunk_list = list(chunks(pool.urls,3))
+            for url_chunk in url_chunk_list:
+                print("Testing the URL Chunk: ")
+                print(url_chunk)
+                self.urls, self.returned_values = get_time_from_servers(url_chunk,
+                                                                    self.proxy_ip,
+                                                                    self.proxy_port)
+                for url in range(len(self.urls)):
+                    #print('Debug:'+self.returned_values[url])
+                    if 'Timeout' in str(self.returned_values[url]):
+                        msg = 'pool %s url %s: %s' % (self.pools.index(pool) + 1, self.urls[url], self.returned_values[url])
+                        msg += exec_curl(self.urls[url])
+                    elif 'error' in str(self.returned_values[url]):
+                        msg = 'pool %s url %s: %s' % (self.pools.index(pool) + 1, self.urls[url], (self.returned_values[url]).decode())
+                        msg += exec_curl(self.urls[url])
+                    elif 'Parsing' in str(self.returned_values[url]):
+                        msg = 'pool %s url %s: %s' % (self.pools.index(pool) + 1, self.urls[url], self.returned_values[url])
+                        msg += exec_curl(self.urls[url])
+                    else:
+                       msg = 'pool %s url %s: Time: %s Difference: %d' % (self.pools.index(pool) + 1, self.urls[url], (self.returned_values[url]).decode(), int(time.time()) - int(self.returned_values[url]))
+                       tot_diff += abs(int(time.time()) - int(self.returned_values[url]))
                     print(msg)
-                    if output.startswith('Error') or output.startswith('Timeout'):
-                        errors.append(url + " " + output)
-        if errors:
-            print('!!! Errors found:')
-            for err in errors:
-                print(err)
+                    f.write('%s\n' % msg)
+                ## End For url in self.urls 
+            ## End For each URL Chunk 
+            avg = tot_diff/len(pool.urls)
+            print("##############################")
+            print("Avg of Pool :"+str(self.pools.index(pool)+1) +" having URLs #:"+ str(len(pool.urls)) +" is "+str(avg))
+            print("##############################")
+        ## End for each URL Pool (there are 3 such pools)
+        f.close()
 
 if __name__ == '__main__':
     remotes = CheckRemotes()
