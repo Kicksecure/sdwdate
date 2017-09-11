@@ -1,3 +1,14 @@
+commit a7882cbdd7a1d9883913bffe60a76963e28f25ac
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Sep 11 14:42:39 2017 +0200
+
+    .
+
+commit 9e62d50ed412802588d8726baab95343e86e3a38
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Sep 11 14:35:42 2017 +0200
+
+    bumped version number
 
 commit feda4501e07813b6ae13d9d2b76ee617f180d211
 Merge: 869b934 d6f9492
