@@ -1,3 +1,26 @@
+commit feda4501e07813b6ae13d9d2b76ee617f180d211
+Merge: 869b934 d6f9492
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Sep 2 17:05:58 2017 +0200
+
+    Merge remote-tracking branch 'joysn/master'
+
+commit d6f9492bef7dbdf8bda237c0669de2c0b86b76a7
+Author: Joy SN <joysn1980@yahoo.com>
+Date:   Fri Sep 1 17:20:10 2017 +0000
+
+    Modify /usr/share/sdwdate/unit_test
+    
+    Make it simpler (to split urls into chunks of 3)
+    Generate average, total etc for each pool
+    add curl command for the failures (timeouts)
+
+commit 869b934be840c092e09cb098efe6ef67076c7c2f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Aug 30 20:58:05 2017 +0000
+
+    bumped changelog version
+
 commit f944b526b1270560b9b6291ecb909ac452c4a219
 Merge: ffa0172 ffc03b1
 Author: Patrick Schleizer <adrelanos@riseup.net>
