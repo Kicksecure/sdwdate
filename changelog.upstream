@@ -1,3 +1,15 @@
+commit 8498d491ba21209f4dfa48147ab63c6bec11946b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Dec 16 21:37:53 2017 +0000
+
+    fix, remove non-ASCII characters to avoid python error
+
+commit c5a05360f16de9fa065b3158cd96285842c11230
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Sep 11 14:42:50 2017 +0200
+
+    bumped changelog version
+
 commit a7882cbdd7a1d9883913bffe60a76963e28f25ac
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Sep 11 14:42:39 2017 +0200
