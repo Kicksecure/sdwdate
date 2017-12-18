@@ -1,8 +1,36 @@
+commit 1a94ce2f5cdf1495754172a6a0291f04b47c3a66
+Merge: 6593b30 eb14fb5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Dec 18 12:44:04 2017 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 6593b3095914072f3117f30c2f149294fa6ba5f9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Dec 16 21:38:40 2017 +0000
+
+    bumped changelog version
+
 commit 8498d491ba21209f4dfa48147ab63c6bec11946b
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Dec 16 21:37:53 2017 +0000
 
     fix, remove non-ASCII characters to avoid python error
+
+commit eb14fb5d83bed694c873f17d88fb35cd740266ab
+Merge: c5a0536 bae54e2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 30 22:18:06 2017 +0100
+
+    Merge pull request #20 from Algernon-01/master
+    
+    Patches for Whonix live
+
+commit bae54e28fcbe3f21fbce4d4723b4a294290e4631
+Author: user <33966997+Algernon-01@users.noreply.github.com>
+Date:   Mon Nov 27 15:30:43 2017 -0500
+
+    Patches for Whonix live
 
 commit c5a05360f16de9fa065b3158cd96285842c11230
 Author: Patrick Schleizer <adrelanos@riseup.net>
