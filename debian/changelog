@@ -1,3 +1,9 @@
+sdwdate (3:5.6-1) unstable; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Tue, 02 Jan 2018 15:05:44 +0000
+
 sdwdate (3:5.5-1) unstable; urgency=medium
 
   * New upstream version (local package).
