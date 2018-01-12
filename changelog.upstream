@@ -1,3 +1,21 @@
+commit 3e6bb9d19f1e61f23519733e1b2eecbe7f5b7f65
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 12 18:15:37 2018 +0000
+
+    remove INLINEDIR leftovers from ruby based sclockadj
+
+commit e735badce96fb4d93b94be723c882d7f0e477f85
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 12 17:59:13 2018 +0000
+
+    sudoers asterix hardening
+
+commit 8244ada34accebb47de0fc985797ca72f3a9a5db
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 2 15:05:44 2018 +0000
+
+    bumped changelog version
+
 commit 912159c291a84e62484f5dbe67ebb975bef0c3d7
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jan 2 13:28:43 2018 +0000
