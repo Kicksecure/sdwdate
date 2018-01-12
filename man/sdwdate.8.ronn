@@ -138,7 +138,7 @@ Builds mediate time by asking three https servers from three different pools.
 
     Use sclockadj when in daemon mode. Do not directly use /bin/date. Will
     result in slow clock adjustments.
-    
+
   * -n --noconfig
 
     ignore /etc/sdwdate.d/ config folder
@@ -260,8 +260,6 @@ Here is an example for user `user`. If the following is your
 
 `sdwdate ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj_kill_helper *`
 
-`Defaults:sdwdate env_keep += "INLINEDIR"`
-
 And you want to allow user `user`, you should add.
 
 `user ALL=NOPASSWD: /bin/date *`
@@ -271,8 +269,6 @@ And you want to allow user `user`, you should add.
 `user ALL=NOPASSWD: /sbin/hwclock *`
 
 `user ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj_kill_helper *`
-
-`Defaults:user env_keep += "INLINEDIR"`
 
 ## EXAMPLES
 If you installed `sdwdate` from your distribution's repository, it should be
