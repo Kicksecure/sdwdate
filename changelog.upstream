@@ -1,3 +1,30 @@
+commit acd0be3046eb596006136bbde663ac9cd81e5e44
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 21 13:22:38 2018 +0100
+
+    fix, copy etc/sdwdate.d/50_default.conf to etc/sdwdate.d/30_default.conf
+    
+    fix, delete etc/sdwdate.d/50_default.conf
+
+commit 198ab07fe4070883f35db98ef1b2052de452eb8f
+Merge: 0ae2cf9 3c4365b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 21 13:22:03 2018 +0100
+
+    Merge remote-tracking branch 'troubadoour/master'
+
+commit 3c4365b7f218aeaecd694007f7d987fe5cb27d51
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Jan 20 20:00:33 2018 +0000
+
+    + etc/sdwdate.d/50_default.conf remove some "bad" onions
+
+commit 0ae2cf9f171dc85c85549202abc5daa24c533949
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 12 20:11:17 2018 +0000
+
+    bumped changelog version
+
 commit 3e6bb9d19f1e61f23519733e1b2eecbe7f5b7f65
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Jan 12 18:15:37 2018 +0000
