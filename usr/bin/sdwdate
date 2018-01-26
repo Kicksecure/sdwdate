@@ -14,7 +14,6 @@ import random
 from random import randint
 from subprocess import Popen, call, PIPE, check_output
 import subprocess
-import pickle
 import re
 from shutil import rmtree
 
@@ -90,9 +89,9 @@ class Sdwdate:
         self.status_path = '/var/run/sdwdate/status'
         self.msg_path = '/var/run/sdwdate/msg'
 
-        self.success_icon = '/usr/share/icons/sdwdate-gui/Ambox_currentevent.svg.png'
-        self.busy_icon = '/usr/share/icons/sdwdate-gui/620px-Ambox_outdated.svg.png'
-        self.error_icon = '/usr/share/icons/sdwdate-gui/212px-Timeblock.svg.png'
+        self.success_icon = 'success'
+        self.busy_icon = 'busy'
+        self.error_icon = 'error'
 
         self.first_success = os.path.exists(self.first_success_path)
         self.success = os.path.exists(self.success_path)
@@ -471,8 +470,9 @@ def write_status(*args):
    sdwdate.status['icon'] = args[0]
    sdwdate.status['message'] = args[1]
    msg = bytes(args[1], encoding = 'utf-8')
+   icon = bytes(args[0], encoding = 'utf-8')
    with open(sdwdate.status_path, 'wb') as f:
-      pickle.dump(sdwdate.status, f)
+      f.write(icon)
       f.close()
 
    with open(sdwdate.msg_path, 'wb') as msgf:
