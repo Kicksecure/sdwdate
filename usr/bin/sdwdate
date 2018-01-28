@@ -322,7 +322,7 @@ class Sdwdate:
             logger.info(message)
         else:
             if not self.first_success:
-                write_status(self.busy_icon, (restricted_msg))
+                write_status(self.busy_icon, restricted_msg)
                 message = strip_html(restricted_msg)
                 logger.info(message)
             else:
@@ -467,9 +467,9 @@ def strip_html(message):
     return re.sub('<[^<]+?>', '', tmp_message)
 
 
-def write_status(*args):
-    sdwdate.status['icon'] = args[0]
-    sdwdate.status['message'] = args[1]
+def write_status(icon, msg):
+    sdwdate.status['icon'] = icon
+    sdwdate.status['message'] = msg
     try:
         with open(sdwdate.status_path, 'w') as f:
             json.dump(sdwdate.status, f)
