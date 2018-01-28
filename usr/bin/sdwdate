@@ -14,6 +14,7 @@ import random
 from random import randint
 from subprocess import Popen, call, PIPE, check_output
 import subprocess
+import json
 import re
 from shutil import rmtree
 
@@ -460,24 +461,27 @@ def signal_sigterm_handler(signum, frame):
 
 
 def strip_html(message):
-   ## New line for log.
-   tmp_message = re.sub('<br>', '\n', message)
-   ## Strip remaining HTML.
-   return re.sub('<[^<]+?>', '', tmp_message)
+    ## New line for log.
+    tmp_message = re.sub('<br>', '\n', message)
+    ## Strip remaining HTML.
+    return re.sub('<[^<]+?>', '', tmp_message)
 
 
 def write_status(*args):
-   sdwdate.status['icon'] = args[0]
-   sdwdate.status['message'] = args[1]
-   msg = bytes(args[1], encoding = 'utf-8')
-   icon = bytes(args[0], encoding = 'utf-8')
-   with open(sdwdate.status_path, 'wb') as f:
-      f.write(icon)
-      f.close()
+    sdwdate.status['icon'] = args[0]
+    sdwdate.status['message'] = args[1]
+    try:
+        with open(sdwdate.status_path, 'w') as f:
+            json.dump(sdwdate.status, f)
+            f.close()
+    except:
+        error_msg = "Unexpected error: " + str(sys.exc_info()[0])
+        print(error_msg)
+        return
 
-   with open(sdwdate.msg_path, 'wb') as msgf:
-      msgf.write(msg)
-      msgf.close()
+    with open(sdwdate.msg_path, 'w') as msgf:
+        msgf.write(msg)
+        msgf.close()
 
 
 def prerequisite_check():
