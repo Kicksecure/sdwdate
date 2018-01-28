@@ -88,6 +88,7 @@ class Sdwdate:
         self.first_success_path = '/var/run/sdwdate/first_success'
         self.success_path = '/var/run/sdwdate/success'
         self.status_path = '/var/run/sdwdate/status'
+        ## Read by whonixcheck.
         self.msg_path = '/var/run/sdwdate/msg'
 
         self.success_icon = 'success'
