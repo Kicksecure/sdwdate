@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2016 - 2017 Patrick Schleizer <adrelanos@riseup.net>
+Copyright (C) 2016 - 2018 Patrick Schleizer <adrelanos@riseup.net>
 See the file COPYING for copying conditions.
 */
 
