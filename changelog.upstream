@@ -1,3 +1,78 @@
+commit 6ca21bf5f7e922973f24d301e31fdac3dcdbefce
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 30 13:41:32 2018 +0000
+
+    don't write untrusted information to write_status
+
+commit 49be47f9764d267e44186b87748955f4754b447a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 29 15:50:35 2018 +0000
+
+    readme
+
+commit e16acc5b6bb3e3690258236d13e6dee4e6eb8049
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 29 15:38:56 2018 +0000
+
+    update copyright
+
+commit e8d204e334d35d54ef4de1e083330b22c572dc7c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 29 15:22:05 2018 +0000
+
+    update copyright
+
+commit e9f1810e7927ea61ef62fc35a7c45b0eac8599ee
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 29 15:15:16 2018 +0000
+
+    update copyright
+
+commit a5a659fc91f580f9436c78eab1e10a367c6d7c56
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 29 15:09:42 2018 +0000
+
+    update copyright
+
+commit 6b996264b2689ac1bb959a06c65012fc895ee7ed
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 28 21:55:40 2018 +0000
+
+    comment
+
+commit 2c839d30a7186106a910e3a1f4e9725120b00783
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 28 21:54:44 2018 +0000
+
+    fix
+    
+    https://forums.whonix.org/t/sdwdate-development-thread/1137/290
+
+commit d6ba376a3f4e0a3c58a24b15c6ba94b960279514
+Merge: d79f1c7 88d7e40
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 28 22:27:54 2018 +0100
+
+    Merge remote-tracking branch 'troubadoour/master'
+
+commit 88d7e40d593e98b662fe407eefb1ed66cd169146
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Jan 28 21:06:11 2018 +0000
+
+    Replace pickle with json. Indent.
+
+commit d79f1c71044edc7814520f2e2cbbd47c158764af
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 26 23:30:45 2018 +0000
+
+    get rid of pickle
+
+commit 494897d9f0d8437a17470b7ec7b0b7f164ed7fac
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 21 13:36:08 2018 +0000
+
+    bumped changelog version
+
 commit acd0be3046eb596006136bbde663ac9cd81e5e44
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Jan 21 13:22:38 2018 +0100
