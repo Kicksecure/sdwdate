@@ -3,6 +3,6 @@
 ## Copyright (C) 2012 - 2018 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-kill -sigkill $(pgrep -f "ruby /usr/lib/sdwdate/sclockadj")
+kill -sigkill $(pgrep -f "/usr/lib/sdwdate/sclockadj")
 
 exit 0
