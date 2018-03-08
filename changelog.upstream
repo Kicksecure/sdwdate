@@ -1,3 +1,15 @@
+commit 5023dcd2e044612cadc9f296d54e83320fd18221
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Mar 7 01:04:07 2018 +0100
+
+    fix sclockadj_kill_helper
+
+commit bc113c7bce49240ecee5b037bdf74b5b9a18f406
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 1 15:17:00 2018 +0000
+
+    bumped changelog version
+
 commit 6ca21bf5f7e922973f24d301e31fdac3dcdbefce
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jan 30 13:41:32 2018 +0000
