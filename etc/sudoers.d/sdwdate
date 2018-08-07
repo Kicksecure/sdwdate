@@ -3,6 +3,5 @@
 
 sdwdate ALL=NOPASSWD: /bin/date *
 sdwdate ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj *
-sdwdate ALL=NOPASSWD: /sbin/hwclock *
 sdwdate ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj_kill_helper *
 ALL ALL=NOPASSWD: /usr/lib/sdwdate/restart_fresh

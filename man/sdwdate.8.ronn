@@ -256,8 +256,6 @@ Here is an example for user `user`. If the following is your
 
 `sdwdate ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj *`
 
-`sdwdate ALL=NOPASSWD: /sbin/hwclock *`
-
 `sdwdate ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj_kill_helper *`
 
 And you want to allow user `user`, you should add.
@@ -265,8 +263,6 @@ And you want to allow user `user`, you should add.
 `user ALL=NOPASSWD: /bin/date *`
 
 `user ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj *`
-
-`user ALL=NOPASSWD: /sbin/hwclock *`
 
 `user ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj_kill_helper *`
 
