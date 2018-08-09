@@ -85,18 +85,16 @@ class Sdwdate:
 
         self.sclockadj_pid = 0
 
-        self.first_success_path = '/var/run/sdwdate/first_success'
-        self.success_path = '/var/run/sdwdate/success'
-        self.status_path = '/var/run/sdwdate/status'
+        self.status_first_success_path = '/var/run/sdwdate/first_success'
+        self.status_success_path = '/var/run/sdwdate/success'
+        self.status_file_path = '/var/run/sdwdate/status'
+        self.clock_jump_do_once_file = '/var/run/sdwdate/clock_jump_do_once'
         ## Read by whonixcheck.
         self.msg_path = '/var/run/sdwdate/msg'
 
         self.success_icon = 'success'
         self.busy_icon = 'busy'
         self.error_icon = 'error'
-
-        self.first_success = os.path.exists(self.first_success_path)
-        self.success = os.path.exists(self.success_path)
 
         self.status = {'icon': '', 'message': ''}
 
@@ -317,19 +315,19 @@ class Sdwdate:
 
         fetching_msg = self._('fetching')
         restricted_msg = self._('restricted')
-        if self.success:
+
+        status_success = os.path.exists(self.status_success_path)
+        status_first_success = os.path.exists(self.status_first_success_path)
+        clock_jump_do = os.path.exists(self.clock_jump_do_once_file)
+
+        if not status_first_success:
+            write_status(self.busy_icon, restricted_msg)
+            message = strip_html(restricted_msg)
+            logger.info(message)
+        else:
             write_status(self.success_icon, fetching_msg)
             message = strip_html(fetching_msg)
             logger.info(message)
-        else:
-            if not self.first_success:
-                write_status(self.busy_icon, restricted_msg)
-                message = strip_html(restricted_msg)
-                logger.info(message)
-            else:
-                write_status(self.success_icon, fetching_msg)
-                message = strip_html(fetching_msg)
-                logger.info(message)
 
         while len(self.valid_urls) < self.number_of_pools:
             self.iteration += 1
@@ -472,7 +470,7 @@ def write_status(icon, msg):
     sdwdate.status['icon'] = icon
     sdwdate.status['message'] = msg
     try:
-        with open(sdwdate.status_path, 'w') as f:
+        with open(sdwdate.status_file_path, 'w') as f:
             json.dump(sdwdate.status, f)
             f.close()
     except:
@@ -605,20 +603,29 @@ if __name__ == "__main__":
         icon, status, sdwdate_message_from_loop = sdwdate.sdwdate_loop()
         n.notify("WATCHDOG=1")
 
+        status_success = os.path.exists(sdwdate.status_success_path)
+        status_first_success = os.path.exists(sdwdate.status_first_success_path)
+        clock_jump_do = os.path.exists(sdwdate.clock_jump_do_once_file)
+
         if status == 'success':
             sdwdate.build_median()
             sdwdate.add_subtract_nanoseconds()
             if sdwdate.set_new_time():
-                if sdwdate.success:
-                    sdwdate.run_sclockadj()
-                else:
+                if not status_first_success:
                     sdwdate.set_time_using_date()
-            if not sdwdate.first_success:
-                f = open(sdwdate.first_success_path, 'w')
-                f.close()
+                    f = open(sdwdate.status_first_success_path, 'w')
+                    f.close()
+                elif clock_jump_do:
+                    sdwdate.set_time_using_date()
+                    f = open(sdwdate.status_first_success_path, 'w')
+                    f.close()
+                    os.remove(sdwdate.clock_jump_do_once_file)
+                else:
+                    sdwdate.run_sclockadj()
 
-            f = open(sdwdate.success_path, 'w')
+            f = open(sdwdate.status_success_path, 'w')
             f.close()
+
             ## If we make the sleep period configurable one day, we need to
             ## advice the user to also adjust WatchdogSec= in sdwdate's systemd
             ## unit file.

@@ -5,4 +5,5 @@
 
 set -e
 
-rm --force /var/run/sdwdate/first_success
+sudo --non-interactive rm -f /var/run/sdwdate/first_success
+sudo --non-interactive -u sdwdate touch /var/run/sdwdate/clock_jump_do_once

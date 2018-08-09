@@ -77,7 +77,6 @@ if test -f /var/run/sdwdate/sdwdate_was_running.status ; then
    tor_restart_maybe
 
    echo "$(date_cmd) - $0 - INFO - Running /usr/lib/sdwdate/restart_fresh..." >> /var/log/sdwdate.log
-   ## Deletes '/var/run/sdwdate/first_success'.
    /usr/lib/sdwdate/restart_fresh
    echo "$(date_cmd) - $0 - INFO - Done, with /usr/lib/sdwdate/restart_fresh." >> /var/log/sdwdate.log
 
