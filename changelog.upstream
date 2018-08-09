@@ -1,3 +1,67 @@
+commit 9c7b110127048f03c99b3073f579b551086fcb85
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Aug 9 15:01:41 2018 +0000
+
+    fix
+
+commit efb67b1b81d1a3cfac011a21e80abeb7c6514241
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Aug 9 15:01:03 2018 +0000
+
+    gradually increase waiting time after 3 failures
+
+commit dd6040c0b2d4a17e46f5012536b026178aa0c374
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Aug 9 14:14:12 2018 +0000
+
+    sleep less than 1 second on error
+
+commit ff46ca6b886ef9c8274ed2008c2acb97cf443517
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Aug 9 14:12:09 2018 +0000
+
+    sleep between 1 and 2 seconds on error
+
+commit b47e1b3d5bc1cc786c67d4e27bb404cf851e90d7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Aug 9 13:50:52 2018 +0000
+
+    reduce sleep time on error to 1 minute; refactoring
+
+commit b78b2cfdcaf3a8efdd734db33180034fad2f309b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Aug 9 13:15:33 2018 +0000
+
+    refactoring
+
+commit d2a6626ce4c6b030f42ddd3c6396bad634a09895
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Aug 8 12:13:30 2018 +0000
+
+    sudoers.d asterix hardening
+    
+    https://github.com/QubesOS/qubes-issues/issues/2852
+
+commit bd91ac258fed548ee128b340872b191688062c9e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Aug 8 02:37:59 2018 +0800
+
+    sudoers.d asterix hardening
+    
+    https://github.com/QubesOS/qubes-issues/issues/2852
+
+commit cc09f3072ce30df7c354bb26a2a4037a0e540c71
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Aug 8 02:32:56 2018 +0800
+
+    remove outdated references to hwclock
+
+commit e8974972e480a8696b11f48e76ad1565b5378898
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Mar 8 14:58:49 2018 +0000
+
+    bumped changelog version
+
 commit 5023dcd2e044612cadc9f296d54e83320fd18221
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Mar 7 01:04:07 2018 +0100
