@@ -633,8 +633,8 @@ if __name__ == "__main__":
             sleep_time_maximum_seconds = 180 * 60
 
         elif status == 'error':
-            sleep_time_minimum_seconds = 1
-            sleep_time_maximum_seconds = 2
+            sleep_time_minimum_seconds = 0
+            sleep_time_maximum_seconds = 0
             log_level = 'warning'
 
         sleep_time_seconds = randint(sleep_time_minimum_seconds, sleep_time_maximum_seconds)
