@@ -583,6 +583,7 @@ if __name__ == "__main__":
 
     loop_counter = 0
     loop_max = 10000
+    retry_on_error_counter = 0
 
     while True:
         if loop_counter >= loop_max:
@@ -626,6 +627,7 @@ if __name__ == "__main__":
             f = open(sdwdate.status_success_path, 'w')
             f.close()
 
+            retry_on_error_counter = 0
             ## If we make the sleep period configurable one day, we need to
             ## advice the user to also adjust WatchdogSec= in sdwdate's systemd
             ## unit file.
@@ -633,8 +635,20 @@ if __name__ == "__main__":
             sleep_time_maximum_seconds = 180 * 60
 
         elif status == 'error':
-            sleep_time_minimum_seconds = 0
-            sleep_time_maximum_seconds = 0
+            message = "retry_on_error_counter: " + str(retry_on_error_counter)
+            logger.info(message)
+
+            retry_on_error_counter += 1
+
+            if retry_on_error_counter >= 3:
+               sleep_time_minimum_seconds = 1 * retry_on_error_counter
+               sleep_time_maximum_seconds = 5 * retry_on_error_counter
+               if sleep_time_maximum_seconds >= 180 * 60:
+                  sleep_time_maximum_seconds = sleep_time_maximum_seconds
+            else:
+               sleep_time_minimum_seconds = 0
+               sleep_time_maximum_seconds = 0
+
             log_level = 'warning'
 
         sleep_time_seconds = randint(sleep_time_minimum_seconds, sleep_time_maximum_seconds)
