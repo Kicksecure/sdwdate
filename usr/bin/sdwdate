@@ -629,12 +629,16 @@ if __name__ == "__main__":
             ## If we make the sleep period configurable one day, we need to
             ## advice the user to also adjust WatchdogSec= in sdwdate's systemd
             ## unit file.
-            sleep_time = randint(60, 180)
+            sleep_time_minimum = 60
+            sleep_time_maximum = 180
             log_level = 'info'
 
         elif status == 'error':
-            sleep_time = randint(5, 15)
+            sleep_time_minimum = 1
+            sleep_time_maximum = 1
             log_level = 'warning'
+
+        sleep_time = randint(sleep_time_minimum, sleep_time_maximum)
 
         message = (sdwdate_message_from_loop + " " + sdwdate._('sleeping') +
                    str(sleep_time) + sdwdate._('minutes'))
