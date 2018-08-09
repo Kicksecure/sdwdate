@@ -13,7 +13,7 @@
 import sys, socks
 from dateutil.parser import parse
 import re ## Test
-
+sys.exit()
 def data_to_date_string_start_position(data):
     ## Test ########################
     #data = re.sub(b'Date', b'Rate', data)
