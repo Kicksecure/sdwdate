@@ -286,19 +286,20 @@ class Sdwdate:
         self.sclockadj_pid = 0
 
     def set_time_using_date(self):
-        old_unixtime = float('%.9f' % (time.time()))
-        message = 'Old unixttime: %s' % (str(old_unixtime))
+        old_unixtime = format(time.time(), '.9f')
+        message = 'Old unixttime: ' + old_unixtime
         logger.info(message)
 
-        new_unixtime = float('%.9f' % (old_unixtime + self.new_diff))
-        message = 'New unixtime : %s' % (str(new_unixtime))
-        logger.info(message)
+        new_unixtime = float(old_unixtime) + float(self.new_diff)
+        new_unixtime_str = format(new_unixtime, '.9f')
 
-        message = 'Instantly setting the time by using command: %s' % cmd
+        message = 'New unixtime : ' + new_unixtime_str
         logger.info(message)
 
         ## Set new time.
-        cmd = 'sudo --non-interactive /bin/date --set "@' + str(new_unixtime) + '"'
+        cmd = 'sudo --non-interactive /bin/date --set "@' + str(new_unixtime_str) + '"'
+        message = 'Instantly setting the time by using command: %s' % cmd
+        logger.info(message)
         call(cmd, shell=True)
 
     def sdwdate_loop(self):
