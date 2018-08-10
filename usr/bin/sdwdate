@@ -294,12 +294,12 @@ class Sdwdate:
         message = 'New unixtime : %s' % (str(new_unixtime))
         logger.info(message)
 
+        message = 'Instantly setting the time by using command: %s' % cmd
+        logger.info(message)
+
         ## Set new time.
         cmd = 'sudo --non-interactive /bin/date --set "@' + str(new_unixtime) + '"'
         call(cmd, shell=True)
-
-        message = 'Instantly setting the time by using command: %s' % cmd
-        logger.info(message)
 
     def sdwdate_loop(self):
         '''
