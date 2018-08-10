@@ -2,6 +2,6 @@
 ## See the file COPYING for copying conditions.
 
 sdwdate ALL=NOPASSWD: /bin/date --set *
-sdwdate ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj *
+sdwdate ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj --set *
 sdwdate ALL=NOPASSWD: /usr/lib/sdwdate/sclockadj_kill_helper
 ALL ALL=NOPASSWD: /usr/lib/sdwdate/restart_fresh

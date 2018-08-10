@@ -300,7 +300,20 @@ class Sdwdate:
         cmd = 'sudo --non-interactive /bin/date --set "@' + str(new_unixtime_str) + '"'
         message = 'Instantly setting the time by using command: %s' % cmd
         logger.info(message)
-        call(cmd, shell=True)
+
+        bin_date_status = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = bin_date_status.communicate()
+        bin_date_status.kill()
+        main_message = stdout.decode('UTF-8')
+        extra_message = stderr.decode('UTF-8')
+        joint_message = main_message + " " + extra_message
+        message = '/bin/date output: %s' % joint_message
+        logger.info(message)
+
+        if not bin_date_status.returncode == 0:
+            message = '/bin/date returncode: %s' % str(bin_date_status.returncode)
+            logger.error(message)
+            exit_handler()
 
     def sdwdate_loop(self):
         '''
