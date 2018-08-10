@@ -269,17 +269,15 @@ class Sdwdate:
         logger.info(message)
 
     def run_sclockadj(self):
-        cmd = [
-            "sudo",
-            "--non-interactive",
-            "/usr/lib/sdwdate/sclockadj",
-            str(self.newdiff_nanoseconds)]
+        cmd = 'sudo --non-interactive /usr/lib/sdwdate/sclockadj "' + str(self.newdiff_nanoseconds) + '"'
+        message = 'Gradually adjusting the time by running sclockadj using command: %s' % cmd
+        logger.info(message)
 
         ## Run sclockadj in a subshell.
-        sclockadj = Popen(cmd)
+        sclockadj = Popen(cmd, shell=True)
         self.sclockadj_pid = sclockadj.pid
 
-        message = 'Gradually adjusting the time by running sclockadj. PID: %s' % self.sclockadj_pid
+        message = 'Launched sclockadj into the background. PID: %s' % self.sclockadj_pid
         logger.info(message)
 
     def kill_sclockadj(self):
@@ -297,7 +295,7 @@ class Sdwdate:
         logger.info(message)
 
         ## Set new time.
-        cmd = 'sudo --non-interactive /bin/date --set @' + str(new_unixtime)
+        cmd = 'sudo --non-interactive /bin/date --set "@' + str(new_unixtime) + '"'
         call(cmd, shell=True)
 
         message = 'Instantly setting the time by using command: %s' % cmd
