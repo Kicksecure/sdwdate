@@ -1,3 +1,51 @@
+commit b533840d12b9be061575acb2a532ad7271cf77cb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Aug 10 17:55:53 2018 +0000
+
+    sudoers.d wildcard hardening
+    
+    improve sclockadj parameter parsing
+    
+    check output and exit code of /bin/date in case it fails due to sudoers.d hardening
+    
+    https://github.com/QubesOS/qubes-issues/issues/2852
+
+commit bb22e6e7e4f1b5e0500ab97300246a2d7296f38b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Aug 10 12:29:50 2018 +0000
+
+    /bin/date --set nanoseconds precision fix
+
+commit 487f744e183c3f50c0022ca195e31e8aadefe85a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Aug 10 11:37:12 2018 +0000
+
+    output
+
+commit e007784490f5d14ef414c7246b3ae515afb9d781
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Aug 10 11:31:14 2018 +0000
+
+    sudoers.d hardening
+    
+    - quote sclockadj shell command
+    - quote /bin/date shell command
+    - output sclockadj command in log
+    
+    https://github.com/QubesOS/qubes-issues/issues/2852
+
+commit 2b0feb39dffbc826238f42ddf9483f8ffc188288
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Aug 10 18:58:24 2018 +0800
+
+    output
+
+commit 6a1dcad428e8b76ff4023d2c56573f38eb2710bf
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Aug 9 16:00:21 2018 +0000
+
+    bumped changelog version
+
 commit 9c7b110127048f03c99b3073f579b551086fcb85
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Aug 9 15:01:41 2018 +0000
