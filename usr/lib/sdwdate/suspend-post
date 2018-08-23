@@ -20,7 +20,7 @@ if [ ! "$(id -u)" = "0" ]; then
    exit 2
 fi
 
-if [ -d "/usr/lib/qubes" ]; then
+if command -v "qubesdb-read" >/dev/null 2>&1 ; then
    true
 else
    echo "$(date_cmd) - $0 - INFO - Clock fix after resume not implemented in Non-Qubes-Whonix. See: https://www.whonix.org/wiki/Troubleshooting#Clock_Fix" >> /var/log/sdwdate.log
