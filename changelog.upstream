@@ -1,3 +1,23 @@
+commit c405879185429b23b00b1c1552ddf4c459ca5037
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Aug 23 06:28:21 2018 -0400
+
+    improve Qubes detection
+    
+    if command -v "qubesdb-read" >/dev/null 2>&1 ; then
+
+commit 47080719bd338f29762a3838fcb099e55683ca50
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 21 05:18:37 2018 +0800
+
+    readme
+
+commit 53b288781390582b8b54e354b5359d456090119b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Aug 17 19:09:26 2018 +0000
+
+    bumped changelog version
+
 commit b533840d12b9be061575acb2a532ad7271cf77cb
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Aug 10 17:55:53 2018 +0000
