@@ -25,6 +25,7 @@ SuccessExitStatus=143
 TimeoutSec=30
 WatchdogSec=200m
 Restart=always
+AmbientCapabilities=CAP_SYS_TIME
 
 [Install]
 WantedBy=multi-user.target

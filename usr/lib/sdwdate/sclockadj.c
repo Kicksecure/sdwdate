@@ -41,15 +41,15 @@ void change_time_by_nanoseconds(long long add_ns)
 /* intended to be used only by sdwdate with sane inputs */
 int main(int argc, char *argv[])
 {
-    if (argc < 3) {
+    if (argc < 2) {
        perror("Too few args!");
        exit(EXIT_FAILURE);
     }
-    if (argc > 3) {
+    if (argc > 2) {
        perror("Too many args!");
        exit(EXIT_FAILURE);
     }
-    long long ns_time_change = atoll(argv[2]); /* convert argv string into long long */
+    long long ns_time_change = atoll(argv[1]); /* convert argv string into long long */
     if (ns_time_change == 0)
     {
         perror("Failed to get nanosecond argument!");
@@ -82,5 +82,5 @@ int main(int argc, char *argv[])
         sleep(1);
         change_time_by_nanoseconds(-last_jump_nanoseconds); /* negative of absolute value imitates Euclidean modulo */
     }
-    exit(EXIT_SUCCESS);
+    return EXIT_SUCCESS;
 }
