@@ -1,3 +1,17 @@
+commit 962b81188027a2cf77b0702484fc3541369a94cd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Sep 9 20:48:24 2018 +0000
+
+    sudoers.d hardening
+    
+    https://github.com/QubesOS/qubes-issues/issues/2852#issuecomment-417337506
+
+commit f7cab6d2eb007c1737201bc34eee4f59419d29ce
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Aug 27 16:48:26 2018 +0000
+
+    bumped changelog version
+
 commit c405879185429b23b00b1c1552ddf4c459ca5037
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Aug 23 06:28:21 2018 -0400
