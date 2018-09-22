@@ -15,7 +15,7 @@ Standards-Version: 3.9.8
 Package: sdwdate
 Architecture: all
 Depends: sudo, logrotate, bc,
- gcc, libc6-dev, python3-dateutil, python3-gevent,
+ gcc, libc6-dev, python3-stem, python3-dateutil, python3-gevent,
  python3-socks, python3-guimessages, python3-sdnotify, python3, tor,
  ${misc:Depends}
 Recommends: vbox-disable-timesync, timesanitycheck, bootclockrandomization,
