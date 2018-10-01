@@ -1,3 +1,21 @@
+commit 2fd78b1c9cb9e4716a08b21b475c4e2fac12b897
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Sep 22 10:31:48 2018 +0000
+
+    depends anon-shared-helper-scripts
+
+commit 003050d7d9917934849fe71350dda8aeeb45da22
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Sep 22 10:30:54 2018 +0000
+
+    add dependency python3-stem
+
+commit 9e2b3af1c2f377f8af5f28379498f0731f3902d9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Sep 10 07:36:38 2018 +0000
+
+    bumped changelog version
+
 commit 962b81188027a2cf77b0702484fc3541369a94cd
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Sep 9 20:48:24 2018 +0000
