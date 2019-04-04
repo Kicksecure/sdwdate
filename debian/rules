@@ -6,7 +6,7 @@
 #export DH_VERBOSE=1
 
 %:
-	dh $@ --with systemd
+	dh $@
 
 APPARMOR_PROFILE_NAME=$(shell basename $$(echo ./debian/$(shell dh_listpackages)/etc/apparmor.d/*.*))
 
