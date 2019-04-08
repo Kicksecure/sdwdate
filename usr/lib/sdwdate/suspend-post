@@ -16,14 +16,14 @@ if [ -f /var/run/qubes/this-is-templatevm ]; then
 fi
 
 if [ ! "$(id -u)" = "0" ]; then
-   echo "$(date_cmd) - $0 - ERROR - Must run as root!" >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - ERROR - Must run as root!" | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
    exit 2
 fi
 
 if command -v "qubesdb-read" >/dev/null 2>&1 ; then
    true
 else
-   echo "$(date_cmd) - $0 - INFO - Clock fix after resume not implemented in Non-Qubes-Whonix. See: https://www.whonix.org/wiki/Troubleshooting#Clock_Fix" >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Clock fix after resume not implemented in Non-Qubes-Whonix. See: https://www.whonix.org/wiki/Troubleshooting#Clock_Fix" | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
    exit 3
 fi
 
@@ -33,15 +33,15 @@ chown --recursive sdwdate:sdwdate /var/run/sdwdate
 
 tor_restart_maybe() {
    if test -f /var/run/sdwdate/tor_was_running.status ; then
-      echo "$(date_cmd) - $0 - INFO - Deleting /var/run/sdwdate/tor_was_running.status..." >> /var/log/sdwdate.log
+      echo "$(date_cmd) - $0 - INFO - Deleting /var/run/sdwdate/tor_was_running.status..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
       rm -f /var/run/sdwdate/sdwdate_was_running.status
-      echo "$(date_cmd) - $0 - INFO - Done, deleted /var/run/sdwdate/tor_was_running.status." >> /var/log/sdwdate.log
+      echo "$(date_cmd) - $0 - INFO - Done, deleted /var/run/sdwdate/tor_was_running.status." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
 
-      echo "$(date_cmd) - $0 - INFO - Restarting Tor..." >> /var/log/sdwdate.log
+      echo "$(date_cmd) - $0 - INFO - Restarting Tor..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
       systemctl --no-pager restart tor@default
-      echo "$(date_cmd) - $0 - INFO - Done, restarted Tor." >> /var/log/sdwdate.log
+      echo "$(date_cmd) - $0 - INFO - Done, restarted Tor." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
    else
-      echo "$(date_cmd) - $0 - INFO - File /var/run/sdwdate/tor_was_running.status did not exist, meaning we previously did not stop Tor so not starting it now." >> /var/log/sdwdate.log
+      echo "$(date_cmd) - $0 - INFO - File /var/run/sdwdate/tor_was_running.status did not exist, meaning we previously did not stop Tor so not starting it now." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
    fi
 }
 
@@ -62,27 +62,27 @@ tor_restart_maybe() {
 
 ## Do not interfere with the clock if the service was stopped.
 if test -f /var/run/sdwdate/sdwdate_was_running.status ; then
-   echo "$(date_cmd) - $0 - INFO - Deleting /var/run/sdwdate/sdwdate_was_running.status..." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Deleting /var/run/sdwdate/sdwdate_was_running.status..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
    rm -f /var/run/sdwdate/sdwdate_was_running.status
-   echo "$(date_cmd) - $0 - INFO - Done, deleted /var/run/sdwdate/sdwdate_was_running.status." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Done, deleted /var/run/sdwdate/sdwdate_was_running.status." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
 
    randomized_unix_time="$(timeout --kill-after="5" "5" /usr/lib/qubes/qrexec-client-vm dom0 qubes.GetRandomizedTime)"
 
-   echo "$(date_cmd) - $0 - INFO - date before roughly fixing it: $(date -u)" >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - date before roughly fixing it: $(date -u)" | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
 
    date --set "@$randomized_unix_time" >/dev/null
 
-   echo "$(date_cmd) - $0 - INFO - date after roughly fixing it : $(date -u)" >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - date after roughly fixing it : $(date -u)" | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
 
    tor_restart_maybe
 
-   echo "$(date_cmd) - $0 - INFO - Running /usr/lib/sdwdate/restart_fresh..." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Running /usr/lib/sdwdate/restart_fresh..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
    /usr/lib/sdwdate/restart_fresh
-   echo "$(date_cmd) - $0 - INFO - Done, with /usr/lib/sdwdate/restart_fresh." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Done, with /usr/lib/sdwdate/restart_fresh." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
 
-   echo "$(date_cmd) - $0 - INFO - Restarting sdwdate..." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Restarting sdwdate..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
    systemctl --no-pager restart sdwdate
-   echo "$(date_cmd) - $0 - INFO - Done, restarted sdwdate." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - Done, restarted sdwdate." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
 
    ## Whonix firewall full mode
    ##
@@ -95,7 +95,7 @@ if test -f /var/run/sdwdate/sdwdate_was_running.status ; then
 
    exit 0
 else
-   echo "$(date_cmd) - $0 - INFO - File /var/run/sdwdate/sdwdate_was_running.status did not exist, meaning we previously did not stop sdwdate so not starting it now." >> /var/log/sdwdate.log
+   echo "$(date_cmd) - $0 - INFO - File /var/run/sdwdate/sdwdate_was_running.status did not exist, meaning we previously did not stop sdwdate so not starting it now." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
 fi
 
 ## Make sure Tor is restarted even if sdwdate was not running during suspend-pre.
