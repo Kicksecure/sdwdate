@@ -34,7 +34,7 @@ chown --recursive sdwdate:sdwdate /var/run/sdwdate
 tor_restart_maybe() {
    if test -f /var/run/sdwdate/tor_was_running.status ; then
       echo "$(date_cmd) - $0 - INFO - Deleting /var/run/sdwdate/tor_was_running.status..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
-      rm -f /var/run/sdwdate/sdwdate_was_running.status
+      rm --force /var/run/sdwdate/sdwdate_was_running.status
       echo "$(date_cmd) - $0 - INFO - Done, deleted /var/run/sdwdate/tor_was_running.status." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
 
       echo "$(date_cmd) - $0 - INFO - Restarting Tor..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
@@ -63,7 +63,7 @@ tor_restart_maybe() {
 ## Do not interfere with the clock if the service was stopped.
 if test -f /var/run/sdwdate/sdwdate_was_running.status ; then
    echo "$(date_cmd) - $0 - INFO - Deleting /var/run/sdwdate/sdwdate_was_running.status..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
-   rm -f /var/run/sdwdate/sdwdate_was_running.status
+   rm --force /var/run/sdwdate/sdwdate_was_running.status
    echo "$(date_cmd) - $0 - INFO - Done, deleted /var/run/sdwdate/sdwdate_was_running.status." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
 
    randomized_unix_time="$(timeout --kill-after="5" "5" /usr/lib/qubes/qrexec-client-vm dom0 qubes.GetRandomizedTime)"
