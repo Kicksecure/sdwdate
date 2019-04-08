@@ -80,10 +80,6 @@ if test -f /var/run/sdwdate/sdwdate_was_running.status ; then
    /usr/lib/sdwdate/restart_fresh
    echo "$(date_cmd) - $0 - INFO - Done, with /usr/lib/sdwdate/restart_fresh." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
 
-   echo "$(date_cmd) - $0 - INFO - Restarting sdwdate..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
-   systemctl --no-pager restart sdwdate
-   echo "$(date_cmd) - $0 - INFO - Done, restarted sdwdate." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
-
    ## Whonix firewall full mode
    ##
    ## After sdwdate restart, sdwdate will on success recreate the status file
