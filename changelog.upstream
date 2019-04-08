@@ -1,3 +1,57 @@
+commit 6e484035404c63b89d3ab8aebf7897d1bf4f70aa
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Apr 8 12:32:45 2019 +0000
+
+    leave restarting to /usr/lib/sdwdate/restart_fresh
+
+commit 6d4e4a45990e63c3923d802e9d72d27cacebe121
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Apr 8 12:27:34 2019 +0000
+
+    rm -f -> rm --force
+
+commit 10933e3f379d02c752a9352cf110f920477f9686
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Apr 8 11:59:50 2019 +0000
+
+    comment
+
+commit 98543fb58c77dcc96517cbfba9a119c41fe71588
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Apr 8 11:57:34 2019 +0000
+
+    fix
+
+commit 028f6794848640c121ef323ff2b9ebc1295f53ae
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Apr 8 11:56:37 2019 +0000
+
+    fix
+
+commit e8fbe6b218e6eeeeb2471c5042ecb98d5b487e15
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Apr 8 11:47:00 2019 +0000
+
+    fix
+
+commit 80581ad74163da8836a0af51a0a5cc2544c45c1a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Apr 8 06:54:37 2019 -0400
+
+    fix; comment
+
+commit 1a8c38e1e5369f3c2408953f3441db82ddbb0e20
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Apr 8 06:49:08 2019 -0400
+
+    safer sdwdate.log permissions
+
+commit 542de539cf5bda3163d5e109e4774203bf04ef16
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Apr 6 12:12:37 2019 +0000
+
+    bumped changelog version
+
 commit ea4a303b2b430b6f370f691ef80a6ad7babb64f0
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Apr 5 14:05:51 2019 -0400
