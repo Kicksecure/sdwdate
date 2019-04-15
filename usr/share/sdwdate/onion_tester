@@ -41,7 +41,7 @@ class CheckRemotes:
         time_stamp_ts = int(time.time())
         print ('Current Time: '+str(time_stamp_ts))
 
-        file_name = 'sdwate_remotes_check-%s' % str(time_stamp_ts)
+        file_name = 'sdwdate_remotes_check-%s' % str(time_stamp_ts)
         f = open(file_name, 'a')
 
         print('Starting remotes check...')
@@ -80,8 +80,8 @@ class CheckRemotes:
                        tot_diff += abs(int(time.time()) - int(self.returned_values[url]))
                     print(msg)
                     f.write('%s\n' % msg)
-                ## End For url in self.urls 
-            ## End For each URL Chunk 
+                ## End For url in self.urls
+            ## End For each URL Chunk
             avg = tot_diff/len(pool.urls)
             print("##############################")
             print("Avg of Pool :"+str(self.pools.index(pool)+1) +" having URLs #:"+ str(len(pool.urls)) +" is "+str(avg))
