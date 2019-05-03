@@ -1,3 +1,66 @@
+commit 1fb6cf027240208595260d469505d786b009569d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri May 3 11:27:23 2019 +0000
+
+    fix
+
+commit 6f69bcc98a3fed5e3b609c24f6d9571e9fad4834
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri May 3 11:21:41 2019 +0000
+
+    fix
+
+commit f10c285ed3c8818284e589d0a9a632c15ac29d2e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri May 3 11:21:09 2019 +0000
+
+    fix
+
+commit 1f21062e528e58efe3bc9861b05d342aed0860a9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri May 3 11:20:27 2019 +0000
+
+    fix
+
+commit f226f2a5ac5a86aa6635f64e69154917de95868f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri May 3 11:20:02 2019 +0000
+
+    belongs to tor project as well
+
+commit 7c1b07b5aca91039beccd576792fdc9d563e3769
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri May 3 11:19:44 2019 +0000
+
+    fix
+
+commit cb602b320e67cdf20074cf3a10cf1eb4e74434ec
+Merge: 1df0816 2985fc7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri May 3 11:19:03 2019 +0000
+
+    Merge remote-tracking branch 'tnt/patch-2'
+
+commit 1df08164f09ccea8747f69b169f6e592d0ae454c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri May 3 10:56:56 2019 +0000
+
+    update
+
+commit 2985fc70625ae13aed45225b8c83592575c21a78
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Mon Apr 15 18:07:06 2019 +0000
+
+    whonix15 sdwdate updating list
+    
+    fixing the offline and unwanted onions
+
+commit 2681de158ba29795871c71edb24bed4e0e6095c4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Apr 15 12:09:26 2019 +0000
+
+    bumped changelog version
+
 commit 3237e299c8cd7f251310c0cf9ecff6b2344cb7e7
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Apr 15 10:58:45 2019 +0000
