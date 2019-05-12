@@ -1,3 +1,21 @@
+commit c8aba1a8750a421179a1a8f5b7fa8e9eb91e9073
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun May 12 02:58:44 2019 -0400
+
+    update path to pre.bsh
+
+commit b99ee1783f74dfe803d405954e5c40eaa868d318
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun May 12 02:50:15 2019 -0400
+
+    anon-shared-helper-scripts -> helper-scripts
+
+commit 172f3851bcb81296145932284899f1a180667de3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri May 3 11:33:14 2019 +0000
+
+    bumped changelog version
+
 commit 1fb6cf027240208595260d469505d786b009569d
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri May 3 11:27:23 2019 +0000
@@ -199,7 +217,7 @@ commit 2fd78b1c9cb9e4716a08b21b475c4e2fac12b897
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Sep 22 10:31:48 2018 +0000
 
-    depends helper-scripts
+    depends anon-shared-helper-scripts
 
 commit 003050d7d9917934849fe71350dda8aeeb45da22
 Author: Patrick Schleizer <adrelanos@riseup.net>
@@ -2513,7 +2531,7 @@ commit 064f27675ff44396d2911ae3c265f5a7cc9ed445
 Author: troubadoour <trobador@riseup.net>
 Date:   Sat Oct 17 20:40:57 2015 +0000
 
-    get proxy settings from /usr/lib/helper-scripts/settings_echo
+    get proxy settings from /usr/lib/anon-shared-helper-scripts/settings_echo
 
 commit bebb7ccd983e57c3fd2bff7668ac1041a15d8cdd
 Merge: f8a705f 80a003e
@@ -2589,7 +2607,7 @@ commit 9f3a4a632bc01c9d178a23c477867991faf45c8a
 Author: troubadoour <trobador@riseup.net>
 Date:   Thu Oct 15 11:00:16 2015 +0000
 
-    class PreCheckVariables: set run_prerequite true and create temp_dir if /usr/lib/helper-scripts/te_pe_tb_check exists
+    class PreCheckVariables: set run_prerequite true and create temp_dir if /usr/lib/anon-shared-helper-scripts/te_pe_tb_check exists
 
 commit b15a38b2878808c7469f400c9665657ee6a1f234
 Author: troubadoour <trobador@riseup.net>
@@ -2609,7 +2627,7 @@ commit 9e42a51c9a2da19041858f290bde54a4a9ccc103
 Author: troubadoour <trobador@riseup.net>
 Date:   Wed Oct 14 19:55:08 2015 +0000
 
-    run prerequisite_check if /usr/lib/helper-scripts/te_pe_tb_check exists
+    run prerequisite_check if /usr/lib/anon-shared-helper-scripts/te_pe_tb_check exists
 
 commit 9daf3d60e359529e585e7434af8f380c894f5f53
 Author: troubadoour <trobador@riseup.net>
@@ -5713,7 +5731,7 @@ commit 4502c11925cced4d581cbbdff7ac812dd4d31f63
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Jul 24 14:12:25 2014 +0000
 
-    init script: added "Should-Start: rinetd" to aid /usr/lib/helper-scripts/tor_bootstrap_check.py 127.0.0.1 9151 0
+    init script: added "Should-Start: rinetd" to aid /usr/lib/anon-shared-helper-scripts/tor_bootstrap_check.py 127.0.0.1 9151 0
 
 commit 377b390481e373970c63dd37acd0952d25eea13a
 Author: Patrick Schleizer <adrelanos@riseup.net>
