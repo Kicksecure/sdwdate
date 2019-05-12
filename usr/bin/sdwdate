@@ -582,7 +582,7 @@ if __name__ == "__main__":
     os.environ["TEMP_DIR"] = temp_dir_str
 
     run_prerequisite = False
-    prerequisite_path = '/usr/lib/anon-shared-helper-scripts/te_pe_tb_check'
+    prerequisite_path = '/usr/lib/helper-scripts/te_pe_tb_check'
     if os.access(prerequisite_path, os.X_OK):
         run_prerequisite = True
 

@@ -15,8 +15,8 @@ true "
 #####################################################################
 "
 
-if [ -x /usr/lib/anon-shared-helper-scripts/torsocks-remove-ld-preload ]; then
-   source /usr/lib/anon-shared-helper-scripts/torsocks-remove-ld-preload
+if [ -x /usr/lib/helper-scripts/torsocks-remove-ld-preload ]; then
+   source /usr/lib/helper-scripts/torsocks-remove-ld-preload
 fi
 
 case "$1" in

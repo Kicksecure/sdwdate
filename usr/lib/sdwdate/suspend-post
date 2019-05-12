@@ -86,7 +86,7 @@ if test -f /var/run/sdwdate/sdwdate_was_running.status ; then
    ## '/var/run/sdwdate/first_success'.
    ##
    ## ( whonix-[gw|ws]-firewall ) /lib/systemd/system/whonix-firewall-sdwdate-watcher.service /
-   ## ( anon-shared-helper-scripts ) /usr/lib/anon-shared-helper-scripts/firewall-restarter
+   ## ( helper-scripts ) /usr/lib/helper-scripts/firewall-restarter
    ## will notice this, and restart Whonix firewall in full mode.
 
    exit 0

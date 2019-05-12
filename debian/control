@@ -14,7 +14,7 @@ Standards-Version: 4.3.0
 
 Package: sdwdate
 Architecture: all
-Depends: sudo, logrotate, bc, anon-shared-helper-scripts,
+Depends: sudo, logrotate, bc, helper-scripts,
  gcc, libc6-dev, python3-stem, python3-dateutil, python3-gevent,
  python3-socks, python3-guimessages, python3-sdnotify, python3, tor,
  ${misc:Depends}
