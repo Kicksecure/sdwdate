@@ -24,7 +24,7 @@ case "$1" in
        ## Compatibility with anon-ws-disable-stacked-tor.
        addgroup debian-tor 2>/dev/null || true
 
-       adduser --home /nonexistent --quiet --system --group sdwdate || true
+       adduser --no-create-home --home /nonexistent --quiet --system --group sdwdate || true
 
        ## Add sdwdate to group debian-tor so it can read
        ## /var/run/tor/control.authcookie which is required to check if Tor has
