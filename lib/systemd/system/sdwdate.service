@@ -25,7 +25,32 @@ SuccessExitStatus=143
 TimeoutSec=30
 WatchdogSec=200m
 Restart=always
+
+# Hardening.
 AmbientCapabilities=CAP_SYS_TIME
+CapabilityBoundingSet=CAP_SYS_TIME
+ProtectSystem=strict
+ReadWriteDirectories=/var/run/sdwdate/
+ReadWritePaths=/var/log/sdwdate.log
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+PrivateTmp=true
+PrivateMounts=true
+PrivateDevices=true
+MemoryDenyWriteExecute=true
+NoNewPrivileges=true
+RestrictRealtime=true
+SystemCallArchitectures=native
+RestrictNamespaces=true
+RestrictAddressFamilies=AF_UNIX AF_INET
+
+# Broken. Need list of syscalls. Alternative below.
+#SystemCallFilter=@clock @ipc @signal
+
+# Blacklist certain syscalls. A whitelist would be stronger.
+SystemCallFilter=~@mount @cpu-emulation @debug @keyring @module @obsolete @raw-io
 
 [Install]
 WantedBy=multi-user.target
