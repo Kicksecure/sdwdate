@@ -1,3 +1,34 @@
+commit 580a8df763a3c35a1120e60b55a28c9613317ce0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jul 16 19:52:37 2019 +0000
+
+    re-add
+    
+             "secrdrop5wyphb5x.onion#https://securedrop.org https://web.archive.org/web/20170403043247/https://securedrop.org"
+    
+             "33y6fjyhs3phzfjj.onion#The Guardian   https://securedrop.theguardian.com      https://web.archive.org/web/20170408213324/https://securedrop.theguardian.com"
+
+commit 7005e3bb7fceab88e955661eea9e7cbf8e2e21db
+Merge: 7488eee ac64e67
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jul 16 19:49:24 2019 +0000
+
+    Merge remote-tracking branch 'troubadoour/master'
+
+commit ac64e6783f340c87cdf045672c50781edfe295ec
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Jul 15 19:47:47 2019 +0000
+
+    Update sdwdate onions.
+    Many sites consistently down on a week period,
+    mostly securedrop onions (pool 1)
+
+commit 7488eee1f4f7f8a854dd33106b9a08026a9ff202
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jun 30 08:22:44 2019 +0000
+
+    bumped changelog version
+
 commit b197c8958d254d19ba33233e2e52c27485997cee
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Jun 29 13:45:40 2019 +0000
