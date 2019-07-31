@@ -1,3 +1,15 @@
+commit 2e2cf10d05a5b0ac03574b78c1013739c42eea81
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jul 31 03:11:14 2019 -0400
+
+    /var/run -> /run
+
+commit 9cd1967c7bc855eda9f8e94318a20939fd9a8d96
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jul 16 19:52:56 2019 +0000
+
+    bumped changelog version
+
 commit 580a8df763a3c35a1120e60b55a28c9613317ce0
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jul 16 19:52:37 2019 +0000
@@ -1091,7 +1103,7 @@ commit 29f7360642be4119522c32dc9c03c94d4a6dce2a
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Feb 25 16:58:54 2017 +0000
 
-    Make sure /run/sdwdate/status always exists so sdwdate-gui can watch it.
+    Make sure /var/run/sdwdate/status always exists so sdwdate-gui can watch it.
 
 commit 46118bba0096a2691c016f7a2f69ac60c7ece21d
 Author: Patrick Schleizer <adrelanos@riseup.net>
@@ -2050,7 +2062,7 @@ commit 302caed0efd1a8be068f846d76f89c0d12ba120f
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Aug 26 21:05:53 2016 +0000
 
-    write msg to /run/sdwdate/msg so whonixcheck can read it
+    write msg to /var/run/sdwdate/msg so whonixcheck can read it
     
     https://phabricator.whonix.org/T533
 
@@ -2244,7 +2256,7 @@ Date:   Thu Apr 21 17:55:24 2016 +0000
 
     Add sdwdate to group debian-tor.
     S so it can read
-    /run/tor/control.authcookie which is required to check if Tor has
+    /var/run/tor/control.authcookie which is required to check if Tor has
     already successfully established a circuit before fetching time.
 
 commit 22e4d5450c6222b4d4e214d60f6c379c797fb474
@@ -3895,7 +3907,7 @@ commit f1f8d4c41a55241b46aa4a847aab168c09a132c0
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu May 14 23:14:33 2015 +0000
 
-    write own pid to /run/sdwdate/pid
+    write own pid to /var/run/sdwdate/pid
 
 commit 61eebbaa7037f02ec36dff4d34d3ec4899eba1e5
 Author: Patrick Schleizer <adrelanos@riseup.net>
@@ -5257,7 +5269,7 @@ commit 28dd5e8c54723148aeb3534bd70b8fee8d2215c3
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Oct 8 12:56:49 2014 +0000
 
-    create first success file /run/sdwdate/first_success
+    create first success file /var/run/sdwdate/first_success
 
 commit 8e63f4cf1fe3e4a1ccbe06714cc605d5ddb181e0
 Author: Patrick Schleizer <adrelanos@riseup.net>
