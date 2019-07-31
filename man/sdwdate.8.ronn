@@ -229,11 +229,11 @@ creating an empty file /var/lib/sdw_error. ("sudo touch
 
 Examples:
 
-`sudo kill -s sigint "$(cat "/var/run/sdwdate/pid")"`
+`sudo kill -s sigint "$(cat "/run/sdwdate/pid")"`
 
-`sudo kill -s sigterm "$(cat "/var/run/sdwdate/pid")"`
+`sudo kill -s sigterm "$(cat "/run/sdwdate/pid")"`
 
-`sudo kill -s sigusr1 "$(cat "/var/run/sdwdate/pid")"`
+`sudo kill -s sigusr1 "$(cat "/run/sdwdate/pid")"`
 
 ## RUNNING SDWDATE AS NON-ROOT USER
 The `sdwdate` `.deb` package configures `sdwdate` as a daemon that starts as

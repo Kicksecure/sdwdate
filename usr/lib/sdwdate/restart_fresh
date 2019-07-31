@@ -5,6 +5,6 @@
 
 set -e
 
-sudo --non-interactive rm --force /var/run/sdwdate/first_success
-sudo --non-interactive -u sdwdate touch /var/run/sdwdate/clock_jump_do_once
+sudo --non-interactive rm --force /run/sdwdate/first_success
+sudo --non-interactive -u sdwdate touch /run/sdwdate/clock_jump_do_once
 sudo --non-interactive systemctl --no-pager --no-block restart sdwdate

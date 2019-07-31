@@ -27,7 +27,7 @@ case "$1" in
        adduser --no-create-home --home /nonexistent --quiet --system --group sdwdate || true
 
        ## Add sdwdate to group debian-tor so it can read
-       ## /var/run/tor/control.authcookie which is required to check if Tor has
+       ## /run/tor/control.authcookie which is required to check if Tor has
        ## already successfully established a circuit before fetching time.
        addgroup sdwdate debian-tor
 

@@ -85,12 +85,12 @@ class Sdwdate:
 
         self.sclockadj_pid = 0
 
-        self.status_first_success_path = '/var/run/sdwdate/first_success'
-        self.status_success_path = '/var/run/sdwdate/success'
-        self.status_file_path = '/var/run/sdwdate/status'
-        self.clock_jump_do_once_file = '/var/run/sdwdate/clock_jump_do_once'
+        self.status_first_success_path = '/run/sdwdate/first_success'
+        self.status_success_path = '/run/sdwdate/success'
+        self.status_file_path = '/run/sdwdate/status'
+        self.clock_jump_do_once_file = '/run/sdwdate/clock_jump_do_once'
         ## Read by whonixcheck.
-        self.msg_path = '/var/run/sdwdate/msg'
+        self.msg_path = '/run/sdwdate/msg'
 
         self.success_icon = 'success'
         self.busy_icon = 'busy'

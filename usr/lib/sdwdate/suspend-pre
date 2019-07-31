@@ -10,7 +10,7 @@ date_cmd(){
    date -u +"%Y-%m-%d %T"
 }
 
-if [ -f /var/run/qubes/this-is-templatevm ]; then
+if [ -f /run/qubes/this-is-templatevm ]; then
    echo "$(date_cmd) - $0 - INFO - Skipping, because run in TemplateVM."
    exit 0
 fi
@@ -28,29 +28,29 @@ else
 fi
 
 ## Defensive measure to not mess up file permissions.
-mkdir --parents /var/run/sdwdate
-chown --recursive sdwdate:sdwdate /var/run/sdwdate
+mkdir --parents /run/sdwdate
+chown --recursive sdwdate:sdwdate /run/sdwdate
 
 ## First stop sdwdate, then stop Tor.
 ## Should sdwdate fetch time during run of this script, it would add
 ## unnecessary fetching errors to /var/log/sdwdate.log.
 
 if systemctl --no-pager status sdwdate >/dev/null ; then
-   echo "$(date_cmd) - $0 - INFO - Creating /var/run/sdwdate/sdwdate_was_running.status..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
-   touch /var/run/sdwdate/sdwdate_was_running.status
-   echo "$(date_cmd) - $0 - INFO - Done, created /var/run/sdwdate/sdwdate_was_running.status." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   echo "$(date_cmd) - $0 - INFO - Creating /run/sdwdate/sdwdate_was_running.status..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   touch /run/sdwdate/sdwdate_was_running.status
+   echo "$(date_cmd) - $0 - INFO - Done, created /run/sdwdate/sdwdate_was_running.status." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
 
    echo "$(date_cmd) - $0 - INFO - Stopping sdwdate..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
    systemctl --no-pager stop sdwdate
    echo "$(date_cmd) - $0 - INFO - Done, stopped sdwdate." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
 
-   echo "$(date_cmd) - $0 - INFO - Deleting /var/run/sdwdate/first_success..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
-   rm --force /var/run/sdwdate/first_success
-   echo "$(date_cmd) - $0 - INFO - Done, deleted /var/run/sdwdate/first_success." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   echo "$(date_cmd) - $0 - INFO - Deleting /run/sdwdate/first_success..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   rm --force /run/sdwdate/first_success
+   echo "$(date_cmd) - $0 - INFO - Done, deleted /run/sdwdate/first_success." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
 
-   echo "$(date_cmd) - $0 - INFO - Deleting /var/run/sdwdate/success..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
-   rm --force /var/run/sdwdate/success
-   echo "$(date_cmd) - $0 - INFO - Done, deleted /var/run/sdwdate/success." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   echo "$(date_cmd) - $0 - INFO - Deleting /run/sdwdate/success..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   rm --force /run/sdwdate/success
+   echo "$(date_cmd) - $0 - INFO - Done, deleted /run/sdwdate/success." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
 
    if command -v whonix_firewall >/dev/null 2>&1 ; then
       ## Whonix firewall timesync-fail-closed mode
@@ -65,9 +65,9 @@ else
 fi
 
 if systemctl --no-pager status tor@default >/dev/null ; then
-   echo "$(date_cmd) - $0 - INFO - Creating /var/run/sdwdate/tor_was_running.status..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
-   touch /var/run/sdwdate/tor_was_running.status
-   echo "$(date_cmd) - $0 - INFO - Done, created /var/run/sdwdate/tor_was_running.status." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   echo "$(date_cmd) - $0 - INFO - Creating /run/sdwdate/tor_was_running.status..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   touch /run/sdwdate/tor_was_running.status
+   echo "$(date_cmd) - $0 - INFO - Done, created /run/sdwdate/tor_was_running.status." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
 
    echo "$(date_cmd) - $0 - INFO - Stopping Tor..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
    systemctl --no-pager stop tor@default

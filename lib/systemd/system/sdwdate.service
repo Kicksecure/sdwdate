@@ -4,7 +4,7 @@
 [Unit]
 Description=Secure Distributed Web Date
 Documentation=https://www.whonix.org/wiki/sdwdate
-ConditionPathExists=!/var/run/qubes/this-is-templatevm
+ConditionPathExists=!/run/qubes/this-is-templatevm
 
 After=network.target
 Wants=network.target
@@ -30,7 +30,7 @@ Restart=always
 AmbientCapabilities=CAP_SYS_TIME
 CapabilityBoundingSet=CAP_SYS_TIME
 ProtectSystem=strict
-ReadWriteDirectories=/var/run/sdwdate/
+ReadWriteDirectories=/run/sdwdate/
 ReadWritePaths=/var/log/sdwdate.log
 ProtectHome=true
 ProtectKernelTunables=true
