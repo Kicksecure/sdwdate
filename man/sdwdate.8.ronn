@@ -47,8 +47,7 @@ https://www.whonix.org/wiki/sdwdate
 
 ## CREDITS
 * sdwdate is a rewrite of tails_htp in python
-* defaults taken from tails_htp
-* options inspired by tails_htp
+* options and defaults inspired by tails_htp
 * log file layout inspired by tails_htp
 
 ## AUTHOR
