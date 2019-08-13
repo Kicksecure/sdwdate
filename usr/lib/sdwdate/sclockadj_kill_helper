@@ -7,8 +7,9 @@ set -e
 
 pgrep_result="$(pgrep -f "/usr/lib/sdwdate/sclockadj")"
 
-## Only spaces and numbers allowed.
-if [[ ! "$pgrep_result" == *[!0-9' ']* ]]; then
+## Only newlines and numbers allowed.
+if [[ ! "$pgrep_result" == *[!0-9"
+"]* ]]; then
    true "pgrep_result is strictly numeric, ok"
 else
    true "pgrep_result is not strictly numeric, exit."
