@@ -7,246 +7,43 @@ sdwdate(8) -- Secure Distributed Web Date
 </span>
 
 ## SYNOPSIS
-`sdwdate` [option]
+`sdwdate`
 
 ## DESCRIPTION
-Builds mediate time by asking three https servers from three different pools.
+Builds mediate time by asking three onion servers from three different pools.
 
 ## OPTIONS
-  * -d --debug
-
-    debug
-
-  * --help
-
-    print usage message and exit
-
-  * -q --quiet
-
-    quiet
-
-  * -x --dont_set_date
-
-    do not set the time (only show)
-
-  * --no-move-forward
-
-    do not move the time forward
-
-  * --no-move-backwards
-
-    do not move the time backwards
-
-  * --systohc
-
-    update hardware clock
-
-  * -a --user_agent user_agent
-
-    http user agent to use
-
-  * -l --log_file file
-
-    log to this file rather than to STDOUT
-
-  * -D --done_file file
-
-    create this file after one cycle of sdwdate
-
-  * -T --success_file file
-
-    create this file after setting time successfully
-
-  * --first_success_file
-
-    create this file after setting time successfully for the first time
-
-  * --pool_one hostnames
-
-    Distrusted hostnames.
-
-  * --pool_two hostnames
-
-    Distrusted hostnames.
-
-  * --pool_three hostnames
-
-    Distrusted hostnames.
-
-  * --allowed_per_pool_failure_ratio ratio
-
-    ratio (0.0-1.0) of allowed per-pool failure
-
-  * --cache-dir
-
-    cache directory
-
-  * --temp-dir
-
-    temporary directory
-
-  * -p --proxy-ip
-
-    proxy IP
-
-  * -o --port-port
-
-    proxy port
-
-  * -i --interval minutes
-
-    Continuously run every x minutes. (Daemon mode.) When not set or when set
-    to 0, just do one shot, then exit.
-
-  * --mininterval minutes
-
-    Wait minimum minutes between intervals.
-
-  * -r --randomize
-
-    randomize interval
-
-  * --timewarp-on-startup
-
-    Do not use sclockadj when starting up. Directly use /bin/date instead. Will
-    result in clock jumps.
-
-  * --timewarp-on-restartup
-
-    Do not use sclockadj when restarting when sdwdate succeeded once after boot.
-    Directly use /bin/date instead. Will result in clock jumps.
-
-  * --timewarp-on-daemon
-
-    Do not use sclockadj when in daemon mode. Directly use /bin/date instead.
-    Will result in clock jumps.
-
-  * --sclockadj-on-startup
-
-    Use sclockadj when starting up. Do not directly use /bin/date. Will
-    result in slow clock adjustments.
-
-  * --sclockadj-on-daemon
-
-    Use sclockadj when in daemon mode. Do not directly use /bin/date. Will
-    result in slow clock adjustments.
-
-  * -n --noconfig
-
-    ignore /etc/sdwdate.d/ config folder
-
-  * --parsecmd_only_on_startup
-
-    Parse command line arguments only on startup.
-
-  * --echo-unixtime
-
-    Echo remote unix time even when using --quiet.
-
-  * -w --dispatchpre command
-
-    exec before run
-
-  * -y --dispatchprerequisite command
-
-    Check before run. See default config for which exit codes are expected
-    in which situations.
-
-  * -x --dispatchpostsuccess command
-
-    exec after successful run
-
-  * -z --dispatchpostfailure command
-
-    exec after unsuccessful run
-
-  * -m --dispatchposterror command
-
-    exec when an error is caught
-
-  * --dispatch_pre_one command
-
-    exec before run of url to unixtime tool
-
-  * --dispatch_post_one command
-
-    exec after run of url to unixtime tool
-
-  * --dispatch_pre_two command
-
-    exec before run of url to unixtime tool
-
-  * --dispatch_post_two command
-
-    exec after run of url to unixtime tool
-
-  * --dispatch_pre_three command
-
-    exec before first run of url to unixtime tool
-
-  * --dispatch_post_three command
-
-    exec after run of url to unixtime tool"
-
-## DISPATCHER
-Can be commands or scripts.
+None.
 
 ## ENVIRONMENT VARIABLES
-Many. All options that can be given by command line can also be given by
-environment variables. See /etc/sdwdate.d/30_sdwdate_default to learn about
-the names of the environment variables and their possible values.
+None.
 
 ## CONFIG FILE
-Read the comments in `/etc/sdwdate.d/30_sdwdate_default`.
-
-## ERROR TEST FILE
-For testing sdwdate's error handling, you can test-wise cause an error by
-creating an empty file /var/lib/sdw_error. ("sudo touch
-/var/lib/sdw_error" should be enough.)
+Read the comments in `/etc/sdwdate.d/30_default.conf`.
 
 ## EXIT CODES
 0 Success.
 
-1 Error.
-
-130 Signal sigint received.
-
 143 Signal sigterm received.
+
+Other Error.
 
 ## SIGNALS
 
-  * sigint
+  * sigterm
 
     Clean up and exit.
 
-  * sigterm
-
-    Same as sigint.
-
-  * sigusr1
-
-    Enable extensive debugging.
-
 Examples:
 
-`sudo kill -s sigint "$(cat "/run/sdwdate/pid")"`
-
 `sudo kill -s sigterm "$(cat "/run/sdwdate/pid")"`
-
-`sudo kill -s sigusr1 "$(cat "/run/sdwdate/pid")"`
 
 ## EXAMPLES
 If you installed `sdwdate` from your distribution's repository, it should be
 already pre-configured to automatically run as daemon with sane defaults.
 
-`sdwdate --echo-unixtime --dont_set_date --quiet --done_file ./done --first_success_file ./first_success --success_file ./success --log_file ./log --interval 0`
-
-Should show something like this.
-
-`1413204987`
-
 ## WWW
-https://www.whonix.org/wiki/Dev/TimeSync
+https://www.whonix.org/wiki/sdwdate
 
 ## CREDITS
 * sdwdate is a rewrite of tails_htp in python
