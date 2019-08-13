@@ -249,7 +249,7 @@ Should show something like this.
 https://www.whonix.org/wiki/Dev/TimeSync
 
 ## CREDITS
-* sdwdate is a rewrite of tails_htp in bash
+* sdwdate is a rewrite of tails_htp in python
 * defaults taken from tails_htp
 * options inspired by tails_htp
 * log file layout inspired by tails_htp
