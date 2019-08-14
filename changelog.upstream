@@ -1,3 +1,58 @@
+commit c2989d3cf2d0031b48472095e1550e33c7e1d4a1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Aug 14 00:10:09 2019 +0000
+
+    simplify terminating sclockadj;
+    abolish /usr/lib/sdwdate/sclockadj_kill_helper
+
+commit 1e08ad30ec4cfe9c8fcd7710b1ccea230c13e982
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 13 23:40:30 2019 +0000
+
+    update
+
+commit ed7e218969405f39dbde0b67e7234c2ba848c10c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 13 23:39:57 2019 +0000
+
+    update
+
+commit 79d3a9aed95d575c7d7075ae98c237bac1f2449d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 13 23:35:27 2019 +0000
+
+    update
+
+commit d5e81e487d229de4998d1ba330133a4db3732ccf
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 13 23:34:54 2019 +0000
+
+    cleanup
+
+commit f50853020083792f6de8a9167133c1be8530854f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 13 13:38:02 2019 +0000
+
+    fix
+
+commit 2d5217185923c95d8c5af0549064e5df72d97854
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 13 13:37:28 2019 +0000
+
+    fix
+
+commit f31fa5a32cc5daeefea0271ba084145ad8c6cea6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 13 13:32:28 2019 +0000
+
+    sanity test
+
+commit 9cedc07f4ae39c5962b8e9e2d5d685cb9aee8213
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Aug 1 12:01:31 2019 +0000
+
+    bumped changelog version
+
 commit 8df2a5c1275c50ea5496f6fd366f4de2b1fca1e3
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Aug 1 11:13:42 2019 +0000
