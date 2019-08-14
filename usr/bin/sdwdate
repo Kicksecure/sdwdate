@@ -83,8 +83,6 @@ class Sdwdate:
         self.new_diff = 0
         self.newdiff_nanoseconds = 0
 
-        self.sclockadj_pid = 0
-
         self.status_first_success_path = '/run/sdwdate/first_success'
         self.status_success_path = '/run/sdwdate/success'
         self.status_file_path = '/run/sdwdate/status'
@@ -272,18 +270,19 @@ class Sdwdate:
         cmd = '/usr/lib/sdwdate/sclockadj "' + str(self.newdiff_nanoseconds) + '"'
         message = 'Gradually adjusting the time by running sclockadj using command: %s' % cmd
         logger.info(message)
-
         ## Run sclockadj in a subshell.
-        sclockadj = Popen(cmd, shell=True)
-        self.sclockadj_pid = sclockadj.pid
-
-        message = 'Launched sclockadj into the background. PID: %s' % self.sclockadj_pid
+        self.sclockadj = Popen(cmd, shell=True)
+        message = 'Launched sclockadj into the background. PID: %s' % self.sclockadj.pid
         logger.info(message)
 
     def kill_sclockadj(self):
-        cmd = '/usr/lib/sdwdate/sclockadj_kill_helper'
-        call(cmd, shell=True)
-        self.sclockadj_pid = 0
+        try:
+            self.sclockadj.kill()
+            message = 'Terminated sclockadj.'
+            logger.info(message)
+        except:
+            message = 'sclockadj not running, ok.'
+            logger.info(message)
 
     def set_time_using_date(self):
         old_unixtime = format(time.time(), '.9f')
@@ -453,8 +452,7 @@ def exit_handler():
     stripped_message = strip_html(message)
     write_status(icon, message)
 
-    if sdwdate.sclockadj_pid != 0:
-        sdwdate.kill_sclockadj()
+    sdwdate.kill_sclockadj()
 
     logger.info("delete temp_dir: {}".format(temp_dir_str))
     ## rmtree can fail if exit_handler is invoked multiple times.
@@ -693,8 +691,7 @@ if __name__ == "__main__":
         logger.info(message)
         call(cmd, shell=True)
 
-        if sdwdate.sclockadj_pid != 0:
-            sdwdate.kill_sclockadj()
+        sdwdate.kill_sclockadj()
 
         unixtime_after_sleep = int(time.time())
         time_delta = unixtime_after_sleep - unixtime_before_sleep
