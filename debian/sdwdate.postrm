@@ -9,6 +9,8 @@ fi
 
 set -e
 
+rm --force /usr/lib/sdwdate/sclockadj
+
 if [ "$1" = "purge" ]; then
    rm --force "/var/log/sdwdate.log"
    rm -r --force "/var/cache/sdwdate"
