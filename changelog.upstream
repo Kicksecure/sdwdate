@@ -1,3 +1,15 @@
+commit 6e52c321dac023288514bc210c07ca108d5a520f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Sep 9 12:11:46 2019 +0000
+
+    delete /usr/lib/sdwdate/sclockadj on uninstallation
+
+commit bf4ce9ae1b0a3441d1643832f601b3c9077c48e3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Aug 31 13:43:22 2019 +0000
+
+    bumped changelog version
+
 commit aa08c5cf495c96abdf075112bd7d599754e599f2
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Aug 31 08:42:44 2019 -0400
