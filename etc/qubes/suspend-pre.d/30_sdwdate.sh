@@ -6,7 +6,8 @@
 #### meta start
 #### project Whonix
 #### category networking and time
-#### description hook to run <code>/usr/lib/sdwdate/suspend-pre</code>
+#### description
+## hook to run <code>/usr/lib/sdwdate/suspend-pre</code>
 ## in Qubes-Whonix.
 #### meta end
 
