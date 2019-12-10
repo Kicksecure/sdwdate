@@ -1,3 +1,15 @@
+commit 65eb5b0c0704369dab574b092f300e13c108679c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 10 09:46:12 2019 -0500
+
+    remove vbox-disable-timesync and sdwdate-gui from Recommends:
+
+commit 871eb500a84aa306456a5ad13e0d2409afb73ea3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 14 10:22:07 2019 +0000
+
+    bumped changelog version
+
 commit a6f9c45342dbbfdec101ef3e6124a2b2ce81cefb
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Oct 8 11:53:47 2019 +0000
