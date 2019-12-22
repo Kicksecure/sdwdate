@@ -1,0 +1,57 @@
+## Copyright (C) 2012 - 2019 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+#include <tunables/global>
+
+/usr/bin/sdwdate flags=(attach_disconnected) {
+  #include <abstractions/base>
+  #include <abstractions/bash>
+  #include <abstractions/python>
+
+  signal receive set=cont,
+  signal receive set=term,
+  signal send set=term peer=/usr/bin/sdwdate//null-/usr/lib/sdwdate/url_to_unixtime,
+
+  /bin/bash ix,
+  /bin/cat mrix,
+  /bin/dash mrix,
+  /bin/date mrix,
+  /bin/mktemp mrix,
+  /bin/rm mrix,
+
+  /usr/bin/ r,
+  /usr/bin/python3.7 rix,
+  /usr/bin/sdwdate r,
+  /usr/bin/timeout mrix,
+  /usr/lib/helper-scripts/settings_echo mrix,
+  /usr/lib/helper-scripts/tor_consensus_valid-after.py mrix,
+  /usr/lib/helper-scripts/tor_consensus_valid-until.py mrix,
+  /usr/lib/sdwdate/url_to_unixtime mrix,
+
+  /etc/nsswitch.conf r,
+  /etc/passwd r,
+  /etc/sdwdate.d/ r,
+  /etc/sdwdate.d/*.conf r,
+  /etc/tor/torrc.anondist r,
+  /{,usr/local/}etc/torrc.d/ r,
+  /{,usr/local/}etc/torrc.d/*.conf r,
+
+  /usr/share/timesanitycheck/shared r,
+  /usr/share/tor/tor-service-defaults-torrc.anondist r,
+  /usr/share/translations/sdwdate.yaml r,
+
+  owner /proc/*/fd/ r,
+  owner /proc/*/mounts r,
+  owner /proc/*/status r,
+
+  /run/tor/control.authcookie r,
+  owner /run/sdwdate/{,msg,status} w,
+
+  owner /tmp/tmp.*/ rw,
+  owner /tmp/tmp.*/* rw,
+
+  owner /usr/lib/python3/dist-packages/sdwdate/__pycache__/ rw,
+  owner /usr/lib/python3/dist-packages/sdwdate/__pycache__/** rw,
+
+  owner /var/log/sdwdate.log w,
+}
