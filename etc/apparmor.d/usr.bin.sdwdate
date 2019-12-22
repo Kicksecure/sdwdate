@@ -3,8 +3,8 @@
 
 #include <tunables/global>
 
-## TODO: disable ,complain
-/usr/bin/sdwdate flags=(attach_disconnected) {
+## TODO: disable complain
+/usr/bin/sdwdate flags=(attach_disconnected,complain) {
   #include <abstractions/base>
   #include <abstractions/bash>
   #include <abstractions/python>
