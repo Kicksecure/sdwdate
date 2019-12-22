@@ -3,10 +3,13 @@
 
 #include <tunables/global>
 
+## TODO: disable ,complain
 /usr/bin/sdwdate flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/bash>
   #include <abstractions/python>
+
+  capability sys_time,
 
   signal receive set=cont,
   signal receive set=term,
@@ -22,6 +25,7 @@
   /usr/bin/qubesdb-cmd rix,
   /bin/ps rix,
   /bin/uname rix,
+  /bin/sleep rix,
 
   /usr/bin/ r,
   /usr/bin/python3.7 rix,
@@ -32,6 +36,7 @@
   /usr/lib/helper-scripts/tor_consensus_valid-until.py mrix,
   /usr/lib/sdwdate/url_to_unixtime mrix,
   /usr/lib/helper-scripts/tor_bootstrap_check.bsh rix,
+  /usr/lib/sdwdate/sclockadj rix,
 
   /etc/nsswitch.conf r,
   /etc/passwd r,
@@ -55,10 +60,13 @@
   /proc/uptime r,
 
   /run/tor/control.authcookie r,
-  owner /run/sdwdate/{,msg,status} w,
+  owner /run/sdwdate/* w,
 
-  owner /tmp/* rwm,
-  owner /tmp/** rwm,
+  ## Started with systemd PrivateTmp anyhow.
+  ## BUG:
+  ## 2019-12-22 17:52:51 - sdwdate - INFO - deleting temp_dir failed: /tmp/tmp.QDAqzDpjqq
+  /tmp/* rwm,
+  /tmp/** rwm,
 
   owner /usr/lib/python3/dist-packages/sdwdate/__pycache__/ rw,
   owner /usr/lib/python3/dist-packages/sdwdate/__pycache__/** rw,
