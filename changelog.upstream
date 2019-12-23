@@ -1,3 +1,27 @@
+commit b7b3feaa23db00c0e0f9134501cae7fdec90dd79
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Dec 23 07:28:41 2019 -0500
+
+    Revert "/usr/lib/sdwdate/url_to_unixtime mrPx,"
+    
+    This reverts commit 36569e9417bd55c26d8ae9fec28083ed3414d749.
+
+commit 36569e9417bd55c26d8ae9fec28083ed3414d749
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Dec 23 07:25:49 2019 -0500
+
+    /usr/lib/sdwdate/url_to_unixtime mrPx,
+    
+    http://forums.whonix.org/t/sdwdate-and-sdwdate-gui-development-thread/1137/365
+    
+    Thanks to @madaidan!
+
+commit cb9c537ee8f32ae54bbb1d0510bca6bacdae2ee6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Dec 23 02:12:24 2019 -0500
+
+    bumped changelog version
+
 commit 3ee77fd878cf051b7eec3a13a6bdee4e2850ec19
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Dec 22 18:25:05 2019 -0500
