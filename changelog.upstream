@@ -1,3 +1,90 @@
+commit 3ee77fd878cf051b7eec3a13a6bdee4e2850ec19
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Dec 22 18:25:05 2019 -0500
+
+    enable apparmor complain mode
+    
+    https://forums.whonix.org/t/apparmor-for-complete-system-including-init-pid1-systemd-everything-full-system-mac-policy/8339/295
+
+commit 01511dff4db620e2b0206db10f66b8e7635b27a3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Dec 22 18:22:56 2019 -0500
+
+    fix apparmor debian/rules
+
+commit 27c16e78f66854936a7300318f31d61b03e6bb07
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Dec 22 17:58:23 2019 -0500
+
+    fix apparmor issues
+    
+    AVC apparmor="DENIED" operation="capable" profile="/usr/bin/sdwdate" pid=9965 comm="date" capability=25  capname="sys_time"
+    audit: type=1400 audit(1577036830.547:907): apparmor="DENIED" operation="capable" profile="/usr/bin/sdwdate" pid=9965 comm="date" capability=25  capname="sys_time"
+    
+    AVC apparmor="DENIED" operation="mknod" profile="/usr/bin/sdwdate" name="/run/sdwdate/first_success" pid=10752 comm="sdwdate" requested_mask="c" denied_mask="c" fsuid=107 ouid=107
+    Traceback (most recent call last):
+      File "/usr/bin/sdwdate", line 627, in <module>
+        f = open(sdwdate.status_first_success_path, 'w')
+    PermissionError: [Errno 13] Permission denied: '/run/sdwdate/first_success'
+    
+    AVC apparmor="DENIED" operation="exec" profile="/usr/bin/sdwdate" name="/usr/lib/sdwdate/sclockadj" pid=12012 comm="sh" requested_mask="x" denied_mask="x" fsuid=107 ouid=0
+
+commit 842b5e770fe9a132cedd83f1c83a90873bc8a0e9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Dec 22 12:46:37 2019 -0500
+
+    fix apparmor denied messages
+    AVC apparmor="DENIED" operation="open" profile="/usr/bin/sdwdate" name="/tmp/#525942" pid=5068 comm="sdwdate" requested_mask="wr" denied_mask="wr" fsuid=107 ouid=107
+    AVC apparmor="DENIED" operation="open" profile="/usr/bin/sdwdate" name="/var/tmp/#784853" pid=5068 comm="sdwdate" requested_mask="wr" denied_mask="wr" fsuid=107 ouid=107
+    AVC apparmor="DENIED" operation="open" profile="/usr/bin/sdwdate" name="/dev/shm/#161143" pid=5068 comm="sdwdate" requested_mask="wr" denied_mask="wr" fsuid=107 ouid=107
+    AVC apparmor="DENIED" operation="mknod" profile="/usr/bin/sdwdate" name="/dev/mqueue/ffiyJ5U2G" pid=5068 comm="sdwdate" requested_mask="c" denied_mask="c" fsuid=107 ouid=107
+    AVC apparmor="DENIED" operation="open" profile="/usr/bin/sdwdate" name="/proc/" pid=9051 comm="ps" requested_mask="r" denied_mask="r" fsuid=107 ouid=0
+    AVC apparmor="DENIED" operation="open" profile="/usr/bin/sdwdate" name="/proc/sys/kernel/osrelease" pid=8546 comm="ps" requested_mask="r" denied_mask="r" fsuid=107 ouid=0
+    AVC apparmor="DENIED" operation="open" profile="/usr/bin/sdwdate" name="/proc/8546/stat" pid=8546 comm="ps" requested_mask="r" denied_mask="r" fsuid=107 ouid=107
+    AVC apparmor="DENIED" operation="exec" profile="/usr/bin/sdwdate" name="/usr/bin/qubesdb-cmd" pid=8539 comm="te_pe_tb_check" requested_mask="x" denied_mask="x" fsuid=107 ouid=0
+
+commit 5bd087dda6a2cd170a8a4946d8cd3fdba57c3948
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Dec 22 12:29:03 2019 -0500
+
+    Revert "Delete usr.lib.sdwdate.url_to_unixtime"
+    
+    This reverts commit 8a4be720e242c0abfb2657dc4cb9b462175a559c.
+
+commit 324fe7a84c8d49bc7dc4a62a6cde37233c434031
+Merge: de0bf2f 3ea0945
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Dec 22 12:28:52 2019 -0500
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 3ea094565021c656ad5882de915f3273cac31637
+Merge: de0bf2f 8a4be72
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Dec 22 17:28:32 2019 +0000
+
+    Merge pull request #22 from madaidan/apparmor-profile
+    
+    Sdwdate apparmor profile
+
+commit 8a4be720e242c0abfb2657dc4cb9b462175a559c
+Author: madaidan <50278627+madaidan@users.noreply.github.com>
+Date:   Sun Dec 22 14:33:21 2019 +0000
+
+    Delete usr.lib.sdwdate.url_to_unixtime
+
+commit 58c0a758b1fdd575ac13e63d9bf7a4e6b74e66a4
+Author: madaidan <50278627+madaidan@users.noreply.github.com>
+Date:   Sun Dec 22 14:32:53 2019 +0000
+
+    Create usr.bin.sdwdate
+
+commit de0bf2fddd0c27b176520d623e4bd7d4596e5f09
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 10 11:43:10 2019 -0500
+
+    bumped changelog version
+
 commit 65eb5b0c0704369dab574b092f300e13c108679c
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Dec 10 09:46:12 2019 -0500
