@@ -9,4 +9,7 @@
   #include <abstractions/python>
 
   /usr/lib/sdwdate/url_to_unixtime r,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.lib.sdwdate.url_to_unixtime>
 }

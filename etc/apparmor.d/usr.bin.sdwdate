@@ -72,4 +72,7 @@
   owner /usr/lib/python3/dist-packages/sdwdate/__pycache__/** rw,
 
   owner /var/log/sdwdate.log w,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.bin.sdwdate>
 }
