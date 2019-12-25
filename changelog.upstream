@@ -1,3 +1,15 @@
+commit 0f926404f0cd0194088d0601b8ffe811c80d02d3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 24 18:52:03 2019 -0500
+
+    local apparmor profile
+
+commit d065a3c294cfab8032bd1f5ce0643ae7b0563be3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Dec 23 08:47:18 2019 -0500
+
+    bumped changelog version
+
 commit b7b3feaa23db00c0e0f9134501cae7fdec90dd79
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Dec 23 07:28:41 2019 -0500
