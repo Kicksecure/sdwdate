@@ -1,3 +1,17 @@
+commit b50ddcf7a7a85bf5494eaec81ee97f19fac0d823
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Dec 25 06:59:47 2019 -0500
+
+    /etc/apparmor.d/local/usr.bin.sdwdate and /etc/apparmor.d/usr.bin.sdwdate was reintroduced
+    
+    remove form maintscript
+
+commit e4f2b9edd5c7324e84e66365323bbf8409418a37
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Dec 25 06:03:10 2019 -0500
+
+    bumped changelog version
+
 commit 0f926404f0cd0194088d0601b8ffe811c80d02d3
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Dec 24 18:52:03 2019 -0500
