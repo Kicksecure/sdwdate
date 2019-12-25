@@ -9,8 +9,4 @@ rm_conffile /etc/sdwdate.d/30_sdwdate_default
 rm_conffile /etc/sdwdate.d/31_anon_dist_con_check_plugin
 rm_conffile /etc/sdwdate.d/31_anon_dist_stream_isolation_plugin
 
-## Deleting because it has been replaced by
-## /etc/apparmor.d/usr.lib.sdwdate.url_to_unixtime since sdwdate-gui.
 rm_conffile /etc/apparmor.d/abstractions/sdwdate
-rm_conffile /etc/apparmor.d/local/usr.bin.sdwdate
-rm_conffile /etc/apparmor.d/usr.bin.sdwdate
