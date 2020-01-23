@@ -66,13 +66,18 @@ if test -f /run/sdwdate/sdwdate_was_running.status ; then
    rm --force /run/sdwdate/sdwdate_was_running.status
    echo "$(date_cmd) - $0 - INFO - Done, deleted /run/sdwdate/sdwdate_was_running.status." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
 
-   randomized_unix_time="$(timeout --kill-after="5" "5" /usr/lib/qubes/qrexec-client-vm dom0 qubes.GetRandomizedTime)"
+   ## Workaround for a Qubes bug.
+   ## https://github.com/Whonix/updates-status/issues/1
+   randomized_unix_time="$(timeout --kill-after="5" "5" /usr/lib/qubes/qrexec-client-vm dom0 qubes.GetRandomizedTime)" || \
+      echo "$(date_cmd) - $0 - ERROR - /usr/lib/qubes/qrexec-client-vm had non-zero exit code." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
 
-   echo "$(date_cmd) - $0 - INFO - date before roughly fixing it: $(date -u)" | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
-
-   date --set "@$randomized_unix_time" >/dev/null
-
-   echo "$(date_cmd) - $0 - INFO - date after roughly fixing it : $(date -u)" | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   if [[ "$randomized_unix_time" =~ ^[+-]?[0-9]+\.?[0-9]*$ ]]; then
+      echo "$(date_cmd) - $0 - INFO - date before roughly fixing it: $(date -u)" | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+      date --set "@$randomized_unix_time" >/dev/null
+      echo "$(date_cmd) - $0 - INFO - date after roughly fixing it : $(date -u)" | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   else
+      echo "$(date_cmd) - $0 - ERROR - randomized_unix_time: '$randomized_unix_time'" | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   fi
 
    tor_restart_maybe
 
