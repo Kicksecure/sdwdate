@@ -1,3 +1,15 @@
+commit 226debcb516ba854f3f093fca4d063cff257db65
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Mar 27 07:30:38 2020 -0400
+
+    fix adduser home
+
+commit 4ae961afcaca2d62cf6c10461a6f5bc2828afebb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 23 08:50:18 2020 -0500
+
+    bumped changelog version
+
 commit 36ee50d31729b99202652d85a88329a26c103549
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Jan 23 08:26:21 2020 -0500
