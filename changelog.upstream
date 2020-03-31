@@ -1,3 +1,25 @@
+commit 6eb5298271c349c781667745fe7d6359565108f0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Mar 31 07:26:32 2020 -0400
+
+    skip starting inside systemd-nspawn container
+    
+    systemd-nspawn does not allow clock to be changed inside the container.
+    
+    Quote https://www.freedesktop.org/software/systemd/man/systemd-nspawn.html
+    
+    The host’s network interfaces and the system clock may not be changed from within the container.
+    
+    https://forums.whonix.org/t/bootclockrandomization-always-moving-clock-plus-or-5-seconds/2200/10
+    
+    ConditionVirtualization=!systemd-nspawn
+
+commit e4404cd444d6d867c1fc17d20a5d38af4902188b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Mar 27 07:35:55 2020 -0400
+
+    bumped changelog version
+
 commit 226debcb516ba854f3f093fca4d063cff257db65
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Mar 27 07:30:38 2020 -0400
