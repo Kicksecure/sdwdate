@@ -1,0 +1,46 @@
+.\" generated with Ronn-NG/v0.8.0
+.\" http://github.com/apjanke/ronn-ng/tree/0.8.0
+.TH "SDWDATE" "8" "April 2020" "sdwdate" "sdwdate Manual"
+.SH "NAME"
+\fBsdwdate\fR \- Secure Distributed Web Date
+.P
+.SH "SYNOPSIS"
+\fBsdwdate\fR
+.SH "DESCRIPTION"
+Builds mediate time by asking three onion servers from three different pools\.
+.SH "OPTIONS"
+None\.
+.SH "ENVIRONMENT VARIABLES"
+None\.
+.SH "CONFIG FILE"
+Read the comments in \fB/etc/sdwdate\.d/30_default\.conf\fR\.
+.SH "EXIT CODES"
+0 Success\.
+.P
+143 Signal sigterm received\.
+.P
+Other Error\.
+.SH "SIGNALS"
+.IP "\[ci]" 4
+sigterm
+.IP
+Clean up and exit\.
+.IP "" 0
+.P
+Examples:
+.P
+\fBsudo kill \-s sigterm "$(cat "/run/sdwdate/pid")"\fR
+.SH "EXAMPLES"
+If you installed \fBsdwdate\fR from your distribution\'s repository, it should be already pre\-configured to automatically run as daemon with sane defaults\.
+.SH "WWW"
+https://www\.whonix\.org/wiki/sdwdate
+.SH "CREDITS"
+.IP "\[ci]" 4
+sdwdate is a rewrite of tails_htp in python
+.IP "\[ci]" 4
+options and defaults inspired by tails_htp
+.IP "\[ci]" 4
+log file layout inspired by tails_htp
+.IP "" 0
+.SH "AUTHOR"
+This man page has been written by Patrick Schleizer (adrelanos@riseup\.net)\.
