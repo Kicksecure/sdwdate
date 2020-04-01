@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2016 - 2018 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
+Copyright (C) 2016 - 2020 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
 See the file COPYING for copying conditions.
 */
 

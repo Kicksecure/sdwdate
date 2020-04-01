@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Copyright (C) 2017 - 2018 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
+## Copyright (C) 2017 - 2020 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
 #### meta start
