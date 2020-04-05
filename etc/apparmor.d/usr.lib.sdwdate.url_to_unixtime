@@ -1,7 +1,6 @@
 ## Copyright (C) 2017 - 2020 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-# Last Modified: Mon Sep 14 11:33:39 2015
 #include <tunables/global>
 
 /usr/lib/sdwdate/url_to_unixtime flags=(attach_disconnected) {
