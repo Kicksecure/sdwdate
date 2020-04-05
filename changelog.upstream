@@ -1,3 +1,15 @@
+commit 10d689a57a67d0c9c192af38b125fde973b629a1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Apr 5 13:22:55 2020 -0400
+
+    remove obsolete comment
+
+commit 3a163b6473893e51c40b30fe4d8c84a94913815a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 2 07:57:45 2020 -0400
+
+    bumped changelog version
+
 commit 55faf9c0c1a6ade1e25f5715f040526388f20cd7
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Apr 2 07:22:45 2020 -0400
