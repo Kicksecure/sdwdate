@@ -1,3 +1,23 @@
+commit 28ba0e408342d53f3975ef763cd9ae406024ca11
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 9 12:03:43 2020 +0000
+
+    apparmor
+
+commit d4964a588af615176843135d9a308ba64ed32404
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 9 12:03:28 2020 +0000
+
+    use systemd for logs
+    no more /var/log/sdwdate.log
+    therefore no longer depend on logrotate
+
+commit 93c88acdc711598824a9bfedcc51d1ecaef91144
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Apr 5 13:28:49 2020 -0400
+
+    bumped changelog version
+
 commit 10d689a57a67d0c9c192af38b125fde973b629a1
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Apr 5 13:22:55 2020 -0400
