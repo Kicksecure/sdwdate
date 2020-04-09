@@ -10,20 +10,26 @@ date_cmd(){
    date -u +"%Y-%m-%d %T"
 }
 
+output_cmd() {
+   msg="$(date_cmd) - $0 - $@"
+   echo "$msg"
+   echo "$msg" | systemd-cat --identifier="suspend-pre" || true
+}
+
 if [ -f /run/qubes/this-is-templatevm ]; then
-   echo "$(date_cmd) - $0 - INFO - Skipping, because run in TemplateVM."
+   output_cmd "INFO - Skipping, because run in TemplateVM."
    exit 0
 fi
 
 if [ ! "$(id -u)" = "0" ]; then
-   echo "$(date_cmd) - $0 - ERROR - Must run as root!" | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   output_cmd "ERROR - Must run as root!"
    exit 2
 fi
 
 if command -v "qubesdb-read" >/dev/null 2>&1 ; then
    true
 else
-   echo "$(date_cmd) - $0 - INFO - Clock fix after resume not implemented in Non-Qubes-Whonix. See: https://www.whonix.org/wiki/Troubleshooting#Clock_Fix" | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   output_cmd "INFO - Clock fix after resume not implemented in Non-Qubes-Whonix. See: https://www.whonix.org/wiki/Troubleshooting#Clock_Fix"
    exit 3
 fi
 
@@ -32,46 +38,46 @@ mkdir --parents /run/sdwdate
 chown --recursive sdwdate:sdwdate /run/sdwdate
 
 ## First stop sdwdate, then stop Tor.
-## Should sdwdate fetch time during run of this script, it would add
-## unnecessary fetching errors to /var/log/sdwdate.log.
+## Should sdwdate fetch time during run of this script, it would log
+## unnecessary fetching errors.
 
 if systemctl --no-pager status sdwdate >/dev/null ; then
-   echo "$(date_cmd) - $0 - INFO - Creating /run/sdwdate/sdwdate_was_running.status..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   output_cmd "INFO - Creating /run/sdwdate/sdwdate_was_running.status..."
    touch /run/sdwdate/sdwdate_was_running.status
-   echo "$(date_cmd) - $0 - INFO - Done, created /run/sdwdate/sdwdate_was_running.status." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   output_cmd "INFO - Done, created /run/sdwdate/sdwdate_was_running.status."
 
-   echo "$(date_cmd) - $0 - INFO - Stopping sdwdate..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   output_cmd "INFO - Stopping sdwdate..."
    systemctl --no-pager stop sdwdate
-   echo "$(date_cmd) - $0 - INFO - Done, stopped sdwdate." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   output_cmd "INFO - Done, stopped sdwdate."
 
-   echo "$(date_cmd) - $0 - INFO - Deleting /run/sdwdate/first_success..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   output_cmd "INFO - Deleting /run/sdwdate/first_success..."
    rm --force /run/sdwdate/first_success
-   echo "$(date_cmd) - $0 - INFO - Done, deleted /run/sdwdate/first_success." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   output_cmd "INFO - Done, deleted /run/sdwdate/first_success."
 
-   echo "$(date_cmd) - $0 - INFO - Deleting /run/sdwdate/success..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   output_cmd "INFO - Deleting /run/sdwdate/success..."
    rm --force /run/sdwdate/success
-   echo "$(date_cmd) - $0 - INFO - Done, deleted /run/sdwdate/success." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   output_cmd "INFO - Done, deleted /run/sdwdate/success."
 
    if command -v whonix_firewall >/dev/null 2>&1 ; then
       ## Whonix firewall timesync-fail-closed mode
-      echo "$(date_cmd) - $0 - INFO - Entering Whonix firewall timesync-fail-closed mode." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+      output_cmd "INFO - Entering Whonix firewall timesync-fail-closed mode."
       firewall_mode="timesync-fail-closed" whonix_firewall
-      echo "$(date_cmd) - $0 - INFO - Done, entered Whonix firewall timesync-fail-closed mode." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+      output_cmd "INFO - Done, entered Whonix firewall timesync-fail-closed mode."
    else
-      true "$0 INFO: Whonix firewall not installed, probably running outside of Whonix." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+      true "$0 INFO: Whonix firewall not installed, probably running outside of Whonix."
    fi
 else
-   echo "$(date_cmd) - $0 - INFO - sdwdate was not running, no need to stop it." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   output_cmd "INFO - sdwdate was not running, no need to stop it."
 fi
 
 if systemctl --no-pager status tor@default >/dev/null ; then
-   echo "$(date_cmd) - $0 - INFO - Creating /run/sdwdate/tor_was_running.status..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   output_cmd "INFO - Creating /run/sdwdate/tor_was_running.status..."
    touch /run/sdwdate/tor_was_running.status
-   echo "$(date_cmd) - $0 - INFO - Done, created /run/sdwdate/tor_was_running.status." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   output_cmd "INFO - Done, created /run/sdwdate/tor_was_running.status."
 
-   echo "$(date_cmd) - $0 - INFO - Stopping Tor..." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   output_cmd "INFO - Stopping Tor..."
    systemctl --no-pager stop tor@default
-   echo "$(date_cmd) - $0 - INFO - Done, stopped Tor." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   output_cmd "INFO - Done, stopped Tor."
 else
-   echo "$(date_cmd) - $0 - INFO - Tor was not running, no need to stop it." | sudo -u sdwdate tee -a /var/log/sdwdate.log || true
+   output_cmd "INFO - Tor was not running, no need to stop it."
 fi

@@ -37,7 +37,6 @@ AmbientCapabilities=CAP_SYS_TIME
 CapabilityBoundingSet=CAP_SYS_TIME
 ProtectSystem=strict
 ReadWriteDirectories=/run/sdwdate/
-ReadWritePaths=/var/log/sdwdate.log
 ProtectHome=true
 ProtectKernelTunables=true
 ProtectKernelModules=true
