@@ -48,6 +48,7 @@
 
   /usr/share/timesanitycheck/shared r,
   /usr/lib/python3/dist-packages/sdwdate/timesanitycheck.py rix,
+  /usr/share/tor/tor-service-defaults-torrc r,
   /usr/share/tor/tor-service-defaults-torrc.anondist r,
   /usr/share/translations/sdwdate.yaml r,
 
