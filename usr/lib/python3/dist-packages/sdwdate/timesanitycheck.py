@@ -54,12 +54,15 @@ def time_consensus_sanity_check(unixtime):
 def timesanitycheck(unixtime):
     whonix_build_file = '/usr/share/whonix/build_timestamp'
     anondist_build_file = '/var/lib/anon-dist/build_version'
+    dist_build_file = '/var/lib/anon-dist/build_version'
     spare_file = '/usr/share/zoneinfo/UTC'
 
     if os.path.exists(whonix_build_file):
         build_timestamp_file = whonix_build_file
     elif os.path.exists(anondist_build_file):
         build_timestamp_file = anondist_build_file
+    elif os.path.exists(dist_build_file):
+        build_timestamp_file = dist_build_file
     else:
         build_timestamp_file = spare_file
 
