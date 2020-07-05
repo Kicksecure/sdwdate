@@ -12,7 +12,9 @@
 
 import os, time, sys, socks
 from dateutil.parser import parse
-import re ## Test
+
+## Test
+#import re
 
 os.environ['TZ'] = 'UTC'
 time.tzset()
