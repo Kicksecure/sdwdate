@@ -10,9 +10,12 @@
 ## Example:
 ## /usr/lib/sdwdate/url_to_unixtime 127.0.0.1 9050 check.torproject.org 80 true
 
-import sys, socks
+import os, time, sys, socks
 from dateutil.parser import parse
 import re ## Test
+
+os.environ['TZ'] = 'UTC'
+time.tzset()
 
 def data_to_date_string_start_position(data):
     ## Test ########################
