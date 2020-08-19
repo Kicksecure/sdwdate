@@ -1,3 +1,27 @@
+commit 5077ce225548e03368eea082e09f158ba224deb0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Aug 9 09:26:49 2020 -0400
+
+    remove onions which are down
+    
+                "rkphrici4u5ffhhm.onion#https://espenandersen.no/contact    https://web.archive.org/web/20161231003357/https://espenandersen.no/contact/"
+             "ms5qd5es5qltiqsf.onion#SecuriLeaks    2015    Investigative Journalism        https://www.securileaks.org     Norway  https://archive.fo/rWBKv"
+             "bqs3dobnazs7h4u4.onion#ExtremeLeaks   2014    Investigative Journalism        https://www.extremeleaks.org    Norway"
+             "bvhfrslkkdbncdhv.onion#Canal Etico            http://denuncias.bufetecarrasco.net"
+             "xmrto2bturnore26.onion#https://xmr.to https://web.archive.org/web/20170421214114/https://xmr.to"
+                "ai3dvhjytrgice5h.onion#https://sks.daylightpirates.org     https://sks-keyservers.net/status/info/sks.daylightpirates.org"
+                "47hbff4rtpwfpwlr.onion#http://keyserver.siccegge.de        https://sks-keyservers.net/status/info/keyserver.siccegge.de"
+             "earthqfvaeuv5bla.onion#http://richardhartmann.de/blog/posts/2015/08/25-Tor-enabled_Debian_mirror_part_2/      https://web.archive.org/web/20160905234518/http://richardhartmann.de/blog/posts/2015/08/25-Tor-enabled_Debian_mirror_part_2/"
+             "deepdot35wvmeyd5.onion#https://www.deepdotweb.com     https://web.archive.org/web/20170421232739/https://www.deepdotweb.com"
+             "yuxv6qujajqvmypv.onion#https://anonguide.cyberguerrilla.org   https://web.archive.org/web/20170421233304/https://anonguide.cyberguerrilla.org"
+                "fz474h2o46o2u7xj.onion#https://heads.dyne.org      https://archive.fo/0olhB"
+
+commit fc35ae351f61066d34ab5864e2b9a807e43e128e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jul 5 14:45:02 2020 -0400
+
+    bumped changelog version
+
 commit 374e569466cd345782a501c3381b7dd5949ea73f
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Jul 5 10:36:39 2020 -0400
