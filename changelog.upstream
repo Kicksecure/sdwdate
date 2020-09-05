@@ -1,3 +1,39 @@
+commit 1c7a9dd47b9d020b7117f29c9e817b23a6c68814
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Sep 5 05:23:33 2020 -0400
+
+    comment
+    
+    https://github.com/Whonix/sdwdate/pull/24#issuecomment-687577400
+
+commit c8b1029a5005fe048d524563702d1dfdba824ba1
+Merge: 08cdb59 b335898
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Sep 5 05:20:40 2020 -0400
+
+    Merge remote-tracking branch 'github/master'
+
+commit b335898b62f689fbad1f34cbb1d4f5a2ad871b8e
+Merge: 08cdb59 0b7d4d2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Sep 5 09:19:34 2020 +0000
+
+    Merge pull request #24 from herypt/patch-1
+    
+    Switch to v3 onions where possible
+
+commit 0b7d4d2cf9529b7cb079b0f7ae12262e9ac42aed
+Author: herypt <70331266+herypt@users.noreply.github.com>
+Date:   Fri Sep 4 18:02:39 2020 +0200
+
+    Switch to v3 onions where possible
+
+commit 08cdb59a5181926ca8d7db8f23245e36655bb6fe
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Aug 19 05:58:45 2020 -0400
+
+    bumped changelog version
+
 commit 5077ce225548e03368eea082e09f158ba224deb0
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Aug 9 09:26:49 2020 -0400
