@@ -26,8 +26,6 @@
   /{,usr/}bin/ps rix,
   /{,usr/}bin/uname rix,
   /{,usr/}bin/sleep rix,
-  /{,usr/}bin/id rix,
-  /{,usr/}bin/whoami rix,
 
   /usr/bin/ r,
   /usr/bin/python3.7 rix,
@@ -40,8 +38,8 @@
   /usr/lib/helper-scripts/tor_bootstrap_check.bsh rix,
   /usr/lib/sdwdate/sclockadj rix,
 
-  /usr/sbin/anondate-get rix,
-  /usr/sbin/anondate-set rix,
+  /usr/sbin/anondate-get rUx,
+  /usr/sbin/anondate-set rUx,
 
   /etc/nsswitch.conf r,
   /etc/passwd r,
