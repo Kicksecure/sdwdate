@@ -32,7 +32,7 @@ case "$1" in
        addgroup sdwdate debian-tor
 
        ## required for anondate
-       #addgroup sdwdate systemd-journal
+       addgroup sdwdate systemd-journal
 
        gcc /usr/lib/sdwdate/sclockadj.c -o /usr/lib/sdwdate/sclockadj -ldl -D_GNU_SOURCE -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wl,-z,relro -Wl,-z,now
     ;;
