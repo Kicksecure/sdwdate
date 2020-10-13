@@ -38,6 +38,7 @@
   /usr/lib/helper-scripts/tor_bootstrap_check.bsh rix,
   /usr/lib/sdwdate/sclockadj rix,
 
+  ## TODO
   /usr/sbin/anondate-get rUx,
   /usr/sbin/anondate-set rUx,
 
