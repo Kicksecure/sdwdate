@@ -1,3 +1,109 @@
+commit 5d52e55bd97a2928ea3a48fc9a3a62d8177bfb73
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 1 16:11:10 2021 -0500
+
+    readme
+
+commit 763f181b536cbf8e92f2d310a1cc3cde27af0792
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 1 16:08:06 2021 -0500
+
+    comment
+
+commit 0509392fa501ee84543d81a76b445f97c47f0142
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 1 15:53:11 2021 -0500
+
+    comment
+
+commit 409584d0fcc5f211241a443ef30dfdab202ed90c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 1 15:42:23 2021 -0500
+
+    comment
+
+commit 0f4eb8074b6f60d420e5f999035c78e0528d5f58
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 1 15:40:02 2021 -0500
+
+    comments
+
+commit 3ea9c87345c574630c20ce4fcd99141da045ecf8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 1 15:03:49 2021 -0500
+
+    remove grouping if only one member
+
+commit 0d8c1bd26c167d3eb6726f2009228f78189e6755
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 1 15:00:05 2021 -0500
+
+    add onion v3, https://danwin1210.me and https://ctemplar.com
+
+commit 89d0da7173568e591464f22f1d65bcd9b6d9db29
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 1 14:26:17 2021 -0500
+
+    update intercept link to onion v3
+
+commit d635ce7499a8a82477afdfe86c04bf9bf6a53d04
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 1 14:24:48 2021 -0500
+
+    update comment
+
+commit 8d1aadc0d8f7a586a0cec8d6cebb3e31ef460e74
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 1 14:22:51 2021 -0500
+
+    update securedrop link to onion v3
+
+commit 627829f56fbd2fba0042d8168b06150064a12d0f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 1 14:21:06 2021 -0500
+
+    update comment
+    
+    https://github.com/Whonix/sdwdate/pull/25/files#r550795612
+
+commit 9eb6b381e8b83cb7c31ce6fcd2d5d9d166a9af8f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 1 13:30:04 2021 -0500
+
+    comment
+    
+    https://github.com/Whonix/sdwdate/pull/26
+
+commit ffcdcb3aa2a7542c41b54d22e936b8e49e5bbe1f
+Merge: 1975411 f5e32f5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 1 12:53:05 2021 -0500
+
+    Merge remote-tracking branch 'github/master'
+
+commit f5e32f52b57e82115a36bd98ad419a2b6514d1a1
+Merge: 1975411 0db046c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 1 17:51:15 2021 +0000
+
+    Merge pull request #26 from TNTBOMBOM/patch-2
+    
+    Update 30_default.conf
+
+commit 0db046cf25d90c4e0f2c3a71d8e31948c1e2e1fb
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Thu Dec 31 19:14:53 2020 +0000
+
+    Update 30_default.conf
+    
+    removed non-working links, fixed some other links.
+
+commit 1975411f760788c991f9ba12eff9ed1e6ae8b4c1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Sep 5 05:25:12 2020 -0400
+
+    bumped changelog version
+
 commit 1c7a9dd47b9d020b7117f29c9e817b23a6c68814
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Sep 5 05:23:33 2020 -0400
