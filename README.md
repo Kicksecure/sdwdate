@@ -14,7 +14,7 @@ installation on remote servers required. To avoid conflicts, this daemon
 should not be enabled together with ntp or tlsdated.
 ## How to install `sdwdate` using apt-get ##
 
-1\. Download [Whonix's Signing Key]().
+1\. Download Whonix's Signing Key.
 
 ```
 wget https://www.whonix.org/patrick.asc
