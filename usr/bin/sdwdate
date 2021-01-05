@@ -28,6 +28,9 @@ from guimessages.translations import _translations
 
 import sdnotify
 
+os.environ['TZ'] = 'UTC'
+time.tzset()
+
 n = sdnotify.SystemdNotifier()
 n.notify("READY=1")
 n.notify("STATUS=Starting...")
