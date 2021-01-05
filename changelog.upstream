@@ -1,3 +1,15 @@
+commit 204d1c34c2277dba6b24a5f72d772d1b2abeefc6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 5 10:50:01 2021 -0500
+
+    python 3.7 fix if host timezone is set to something other than UTC
+
+commit 5c72747699a67af7d214701cbefc5659b4d592e3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 1 16:11:10 2021 -0500
+
+    bumped changelog version
+
 commit 5d52e55bd97a2928ea3a48fc9a3a62d8177bfb73
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Jan 1 16:11:10 2021 -0500
