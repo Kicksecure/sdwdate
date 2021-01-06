@@ -1,3 +1,41 @@
+commit 03dc1c9f3bed061ab71903a0c3f0c52d1ef3bf42
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 6 05:54:56 2021 -0500
+
+    set /etc/apparmor.d/usr.bin.url_to_unixtime to complain mode
+    
+    recent changes require profile additions
+
+commit 0c3c61d6ea55e7e08e3a161ef111ea6071728e75
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 6 05:52:35 2021 -0500
+
+    update path
+
+commit e1c5d87ee9e7d32d676008a90f3d20719f24f910
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 6 05:51:56 2021 -0500
+
+    rm_conffile /etc/apparmor.d/usr.lib.sdwdate.url_to_unixtime
+
+commit e8f55fbc19e6c9fa29382f9a89ddc7da9c7f46ab
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 6 05:50:59 2021 -0500
+
+    renamed:    etc/apparmor.d/usr.lib.sdwdate.url_to_unixtime -> etc/apparmor.d/usr.bin.url_to_unixtime
+
+commit 80d9815ecf8c9c095c4a3ad13586e61e0addf30e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 6 05:50:26 2021 -0500
+
+    update path
+
+commit a2ed799be00831a345f34c702eda380e6d8b4155
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 6 05:32:14 2021 -0500
+
+    bumped changelog version
+
 commit f3096076f908a726822ca0214c83b2ad49d07db4
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Jan 6 05:23:25 2021 -0500
