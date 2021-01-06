@@ -10,7 +10,7 @@
 
 override_dh_install:
 	dh_apparmor --profile-name=usr.bin.sdwdate
-	dh_apparmor --profile-name=usr.lib.sdwdate.url_to_unixtime
+	dh_apparmor --profile-name=usr.bin.url_to_unixtime
 	dh_install
 
 override_dh_installman:
