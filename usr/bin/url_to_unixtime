@@ -5,10 +5,10 @@
 ## See the file COPYING for copying conditions.
 
 ## Usage:
-## /usr/lib/sdwdate/url_to_unixtime socket_ip socket_port url remote_port verbosity
+## url_to_unixtime socket_ip socket_port url remote_port verbosity
 
 ## Example:
-## /usr/lib/sdwdate/url_to_unixtime 127.0.0.1 9050 check.torproject.org 80 true
+## url_to_unixtime 127.0.0.1 9050 check.torproject.org 80 true
 
 import os, time, sys, socks, requests
 from dateutil.parser import parse

@@ -3,12 +3,12 @@
 
 #include <tunables/global>
 
-/usr/lib/sdwdate/url_to_unixtime flags=(attach_disconnected) {
+/usr/bin/url_to_unixtime flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/python>
 
-  /usr/lib/sdwdate/url_to_unixtime r,
+  /usr/bin/url_to_unixtime r,
 
   # Site-specific additions and overrides. See local/README for details.
-  #include <local/usr.lib.sdwdate.url_to_unixtime>
+  #include <local/usr.bin.url_to_unixtime>
 }

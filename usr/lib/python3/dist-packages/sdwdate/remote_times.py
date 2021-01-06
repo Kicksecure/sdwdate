@@ -9,7 +9,7 @@ import gevent
 from gevent.subprocess import Popen, PIPE
 
 def get_time_from_servers(remotes, ip_address, port_number):
-    url_to_unixtime_path = '/usr/lib/sdwdate/url_to_unixtime'
+    url_to_unixtime_path = 'url_to_unixtime'
 
     threads = []
     urls = []
