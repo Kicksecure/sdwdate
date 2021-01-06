@@ -3,7 +3,7 @@
 
 #include <tunables/global>
 
-/usr/bin/url_to_unixtime flags=(attach_disconnected) {
+/usr/bin/url_to_unixtime flags=(attach_disconnected,complain) {
   #include <abstractions/base>
   #include <abstractions/python>
 
