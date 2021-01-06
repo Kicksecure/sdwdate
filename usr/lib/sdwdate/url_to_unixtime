@@ -10,54 +10,30 @@
 ## Example:
 ## /usr/lib/sdwdate/url_to_unixtime 127.0.0.1 9050 check.torproject.org 80 true
 
-import os, time, sys, socks
+import os, time, sys, socks, requests
 from dateutil.parser import parse
-
-## Test
-#import re
 
 os.environ['TZ'] = 'UTC'
 time.tzset()
 
-def data_to_date_string_start_position(data):
-    ## Test ########################
-    #data = re.sub(b'Date', b'Rate', data)
-    ################################
-    date_string_start_position = data.find(b'Date:')
 
-    if date_string_start_position == -1:
-        ## not found, check if lowercase.
-        date_string_start_position = data.find(b'date:')
+def data_to_http_time(data):
+    http_time = data.headers["Date"]
 
-    if date_string_start_position == -1:
-        ## "Date:" not found.
-        print('Parsing HTTP header date failed.')
-        print('HTTP header data:\n{}'.format(data.decode()))
-        sys.exit()
-
-    date_string_start_position = date_string_start_position + 6
-    return date_string_start_position
-
-def data_to_http_time(data, date_string_start_position):
-    http_time = ''
-    ## max accepted string length.
-    http_time = data[date_string_start_position:date_string_start_position + 29].strip()
     ## Test ###################
     #http_time = http_time[:28]
     ###########################
+
     http_time_string_length = len(http_time)
 
     ## min string length = max string length.
     if http_time_string_length < 29:
         print('HTTP header date string too short.')
         print('HTTP header date length: {}'.format(http_time_string_length))
-        print('HTTP header data:\n{}'.format(data.decode()))
+        print('HTTP header data:\n{}'.format(data))
         print('HTTP header date value: "{}"'.format(http_time))
-        sys.exit()
+        sys.exit(2)
 
-    ## Test - replace current hour with 30 ######
-    #http_time = re.sub(b'11', b'30', http_time)
-    #############################################
     return http_time
 
 def unixtime_sanity_check(data, http_time, parsed_unixtime):
@@ -66,51 +42,57 @@ def unixtime_sanity_check(data, http_time, parsed_unixtime):
 
     except ValueError as e:
         print('parsed_unixtime conversion failed!')
-        print('data: {}'.format(data.decode()))
-        print('http_time: {}'.format(http_time.decode()))
+        print('data: {}'.format(data))
+        print('http_time: {}'.format(http_time))
         print('parsed_unixtime: {}'.format(parsed_unixtime))
         print('parsed_unixtime not numeric!')
-        sys.exit()
+        sys.exit(3)
 
     unixtime_string_length_is = len(parsed_unixtime)
     unixtime_string_length_max = 10
 
     if unixtime_string_length_is > unixtime_string_length_max:
         print('parsed_unixtime conversion failed!')
-        print('data: {}'.format(data.decode()))
-        print('http_time: {}'.format(http_time.decode()))
+        print('data: {}'.format(data))
+        print('http_time: {}'.format(http_time))
         print('parsed_unixtime: {}'.format(parsed_unixtime))
         print('unixtime_string_length_is: {}'.format(unixtime_string_length_is))
         print('unixtime_string_length_max: {}'.format(unixtime_string_length_max))
         print('parsed_unixtime has excessive string length!')
-        sys.exit()
+        sys.exit(4)
 
     #print >> sys.stderr, parsed_unixtime
     return parsed_unixtime
 
 def request_data_from_remote_server(socket_ip, socket_port, url, remote_port):
-    s = socks.socksocket()
-    s.setproxy(socks.PROXY_TYPE_SOCKS5, socket_ip, socket_port)
+    ## https://gist.github.com/jefftriplett/9748036
+    ## https://github.com/psf/requests/blob/e3f89bf23c53b98593e4248054661472aacac820/requests/packages/urllib3/contrib/socks.py#L158
+
+    proxy = 'socks5h://' + str(socket_ip) + ':' + str(socket_port)
+
+    proxies = {
+       'http': proxy,
+       'https': proxy
+    }
+
+    ## TODO: add http / https to sdwdate config
+    url_request = "http://" + url
 
     try:
-        s.connect((url, remote_port))
+        data = requests.get(url_request, proxies=proxies)
 
+    ## TODO: test
     except Exception as e:
         print('connect error: {}'.format(e))
-        sys.exit()
-
-    s.send('HEAD / HTTP/1.0\r\n\r\n'.encode())
-
-    data = b''
-    buf = s.recv(1024)
-    while len(buf):
-        data += buf
-        buf = s.recv(1024)
-    s.close()
+        sys.exit(5)
 
     return data
 
 def http_time_to_parsed_unixtime(data, http_time):
+    ## Test ##################################
+    #http_time = "something"
+    ##########################################
+
     try:
         ## Thanks to:
         ## eumiro
@@ -119,10 +101,10 @@ def http_time_to_parsed_unixtime(data, http_time):
 
     except ValueError as e:
         print('Parsing http_time from server failed!')
-        print('HTTP header data:\n{}'.format(data.decode()))
-        print('http_time: {}'.format(http_time.decode()))
+        print('HTTP header data:\n{}'.format(data))
+        print('http_time: {}'.format(http_time))
         print('dateutil ValueError: {}'.format(e))
-        sys.exit()
+        sys.exit(6)
 
     ## Test ##################################
     #parsed_unixtime = '%sA' % parsed_unixtime
@@ -142,22 +124,21 @@ def parse_command_line_parameters():
 
     except (IndexError) as e:
         print("Parsing command line parameter failed. | e: {}".format(e))
-        sys.exit()
+        sys.exit(7)
 
     return(socket_ip, socket_port, url, remote_port, verbosity)
 
 def output_unixtime(data, http_time, parsed_unixtime, unixtime, verbosity):
     if verbosity == "true":
-        print('data: {}'.format(data.decode()))
-        print('http_time: {}'.format(http_time.decode()))
+        print('data: {}'.format(data))
+        print('http_time: {}'.format(http_time))
         print('parsed_unixtime: {}'.format(parsed_unixtime))
     print('{}'.format(unixtime))
 
 def main():
    socket_ip, socket_port, url, remote_port, verbosity = parse_command_line_parameters()
    data = request_data_from_remote_server(socket_ip, socket_port, url, remote_port)
-   date_string_start_position = data_to_date_string_start_position(data)
-   http_time = data_to_http_time(data, date_string_start_position)
+   http_time = data_to_http_time(data)
    parsed_unixtime = http_time_to_parsed_unixtime(data, http_time)
    unixtime = unixtime_sanity_check(data, http_time, parsed_unixtime)
    output_unixtime(data, http_time, parsed_unixtime, unixtime, verbosity)
