@@ -1,3 +1,15 @@
+commit f3096076f908a726822ca0214c83b2ad49d07db4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 6 05:23:25 2021 -0500
+
+    restore proxy settings support
+
+commit 0792e79f81f07f60e2d26b470600954ff1f8dec3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 5 08:29:40 2021 -0500
+
+    bumped changelog version
+
 commit 204d1c34c2277dba6b24a5f72d772d1b2abeefc6
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jan 5 10:50:01 2021 -0500
