@@ -4,11 +4,14 @@
 ## Copyright (C) 2015 - 2020 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
-## Usage:
+## Sxntax:
 ## url_to_unixtime socket_ip socket_port url remote_port verbosity
 
-## Example:
-## url_to_unixtime 127.0.0.1 9050 check.torproject.org 80 true
+## Examples:
+## url_to_unixtime 127.0.0.1 9050 http://check.torproject.org 80 true
+## url_to_unixtime 127.0.0.1 9050 http://expyuzz4wqqyqhjn.onion 80 true
+## url_to_unixtime 127.0.0.1 9050 https://usatodayw7vu5egc.onion 80 true
+
 
 import os, time, sys, socks, requests
 from dateutil.parser import parse
