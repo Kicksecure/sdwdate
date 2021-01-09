@@ -5,6 +5,11 @@
 
 set -e
 
+## run as root
+sudo --non-interactive rm --force /run/anondate/tor_certificate_lifetime_set
+## run as user sdwdate
+sudo --non-interactive rm --force /run/sdwdate/tor_certificate_lifetime_set
+
 sudo --non-interactive rm --force /run/sdwdate/first_success
 sudo --non-interactive rm --force /run/sdwdate/clock_jump_do_once
 
