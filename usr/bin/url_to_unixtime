@@ -75,11 +75,8 @@ def request_data_from_remote_server(socket_ip, socket_port, url, remote_port):
        'https': proxy
     }
 
-    ## TODO: add http / https to sdwdate config
-    url_request = "http://" + url
-
     try:
-        data = requests.get(url_request, proxies=proxies)
+        data = requests.get(url, proxies=proxies)
 
     ## TODO: test
     except Exception as e:
