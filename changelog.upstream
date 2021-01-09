@@ -1,3 +1,61 @@
+commit 8a5e6c9bf667bf249e166fd66edd660c30e5de61
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 07:50:11 2021 -0500
+
+    add usr/share/sdwdate/onion_test_https_manual
+
+commit ec6a3242575628ecd625197670f92c6b3912310d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 07:45:18 2021 -0500
+
+    add /usr/share/sdwdate/onion_list_all
+
+commit 7e8fa328b45eab40387a3b27e2d19914b352b2c4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 07:33:43 2021 -0500
+
+    comments
+
+commit 3d5807f90548e7b6c9428ea3e5c7ac7cc87bdd1b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 07:33:14 2021 -0500
+
+    comments
+
+commit fb0c588d049d47e801a21bd4d06ebb5b47a173a3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 9 02:54:08 2000 -0500
+
+    remove onions with invalid TLS certificates
+    
+    "http://ltcpool5brio2gaj.onion#https://www.litecoinpool.org/help        https://web.archive.org/web/20161114095946/https://www.litecoinpool.org/help"
+    
+    "http://cyphdbyhiddenbhs.onion#Cyph - Encrypted Messenger       https://www.cyph.com    https://web.archive.org/web/20160827040234/https://www.cyph.com/"
+
+commit bffe0bec46891a74285c35d3e0604a915c582154
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 9 02:53:10 2000 -0500
+
+    usatoday onion https
+
+commit abf40e468b375ef0a47701ab996803ff2db82252
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 9 02:48:35 2000 -0500
+
+    fix
+
+commit 60a2aacceb097d61a8565fe31b99c64fe1bff3c2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 9 02:43:04 2000 -0500
+
+    minor
+
+commit 6d13779c922a0cc965d8a978634d915779f71003
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 06:32:50 2021 -0500
+
+    bumped changelog version
+
 commit 7af0e136ba893bd79677d06d20d67c9eba675561
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Jan 9 06:30:45 2021 -0500
