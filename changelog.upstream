@@ -1,3 +1,65 @@
+commit 7af0e136ba893bd79677d06d20d67c9eba675561
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 06:30:45 2021 -0500
+
+    add http:// prefix to onions
+
+commit 8bef5c9922df9c2a437912c88e4fd840845c21d6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 06:31:23 2021 -0500
+
+    temporary folder creation no longer required
+
+commit fbad8dcdd26f571f39036ff868cec68e3608baa4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 06:31:05 2021 -0500
+
+    refactoring; output
+
+commit e9803fd8a79fe4f61b3f203062a5e999df14b52b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 12 20:13:40 2020 -0400
+
+    comment
+
+commit b3580855d9b5b239dead49de63a17c195f2fed66
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 12 20:12:14 2020 -0400
+
+    "addgroup sdwdate systemd-journal" still required
+    
+    even if apparmor confined
+
+commit ad624501bb19946cd97cd6de616b8cfffd4a138b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 12 20:11:38 2020 -0400
+
+    undo "addgroup sdwdate systemd-journal"
+    
+    better use separate apparmor profiles instead
+
+commit 66014ec271d371e995cb3e5fba0eee5eb6266216
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 05:49:10 2021 -0500
+
+    allow sdwdate access to systemd journal (required for anondate)
+    
+    anondate
+    
+    code simplification
+
+commit 05cf098acfefa72172522ab1dee3302986b44deb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 04:30:48 2021 -0500
+
+    fix time using anondate
+
+commit 8262f9a502de742f51b78c94b4d637a04c3254d0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 6 05:57:32 2021 -0500
+
+    bumped changelog version
+
 commit 03dc1c9f3bed061ab71903a0c3f0c52d1ef3bf42
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Jan 6 05:54:56 2021 -0500
