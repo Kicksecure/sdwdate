@@ -306,9 +306,9 @@ class Sdwdate:
         bin_date_status = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = bin_date_status.communicate()
         bin_date_status.kill()
-        main_message = stdout.decode('UTF-8')
-        extra_message = stderr.decode('UTF-8')
-        joint_message = main_message + " " + extra_message
+        output_stdout = stdout.decode('UTF-8')
+        output_stderr = stderr.decode('UTF-8')
+        joint_message = output_stdout + " " + output_stderr
         message = '/bin/date output: %s' % joint_message
         logger.info(message)
 
@@ -521,23 +521,30 @@ str(prerequisite_check_sleep_seconds) + " iteration: " + str(loop_counter) + " /
             prerequisite_check_sleep_seconds = 10
 
         prerequisite_status = subprocess.Popen(prerequisite_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
         stdout, stderr = prerequisite_status.communicate()
         prerequisite_status.kill()
-        main_message = stdout.decode('UTF-8')
-        extra_message = stderr.decode('UTF-8')
-        joint_message = main_message + " " + extra_message
+        output_stdout = stdout.decode('UTF-8')
+        output_stderr = stderr.decode('UTF-8')
+        joint_message = output_stderr + "\n" + output_stdout
 
         if prerequisite_status.returncode == 0:
-            message = "Prerequisite check: " + joint_message.strip()
+            logger.info("PREREQUISITE CHECK:")
+            message = joint_message.strip()
             logger.info(strip_html(message))
+            logger.info("PREREQUISITE CHECK RESULT: SUCCESS.")
+            logger.info("\n")
             return True
         else:
 
             if joint_message != previous_messsage:
                 previous_messsage = joint_message
 
-                message = 'Prerequisite check: %s' % joint_message.strip()
+                logger.info("PREREQUISITE CHECK:")
+                message = joint_message.strip()
                 logger.info(strip_html(joint_message))
+                logger.info("PREREQUISITE CHECK RESULT: WAIT.")
+                logger.info("\n")
 
                 if prerequisite_status.returncode == 1:
                     icon = sdwdate.error_icon
