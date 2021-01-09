@@ -457,13 +457,6 @@ def exit_handler():
 
     sdwdate.kill_sclockadj()
 
-    logger.info("delete temp_dir: {}".format(temp_dir_str))
-    ## rmtree can fail if exit_handler is invoked multiple times.
-    try:
-       rmtree(temp_dir_bytes)
-    except:
-       logger.info("deleting temp_dir failed: {}".format(temp_dir_str))
-
     logger.info(stripped_message)
     sys.exit(143)
 
@@ -572,12 +565,6 @@ if __name__ == "__main__":
     self_pid = os.getpid()
     pid_message = 'sdwdate started. PID: %s' % self_pid
     logger.info(pid_message)
-
-    ## Create TEMP_DIR for te_pe_tb_check.
-    temp_dir_bytes = check_output(["mktemp", "--directory"]).strip()
-    temp_dir_str = temp_dir_bytes.decode("utf-8")
-    logger.info("create temp_dir: {}".format(temp_dir_str))
-    os.environ["TEMP_DIR"] = temp_dir_str
 
     run_prerequisite = False
     prerequisite_path = '/usr/lib/helper-scripts/te_pe_tb_check'
