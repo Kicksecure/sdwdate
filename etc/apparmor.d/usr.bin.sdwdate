@@ -38,6 +38,9 @@
   /usr/lib/helper-scripts/tor_bootstrap_check.bsh rix,
   /usr/lib/sdwdate/sclockadj rix,
 
+  /usr/sbin/anondate-get rix,
+  /usr/sbin/anondate-set rix,
+
   /etc/nsswitch.conf r,
   /etc/passwd r,
   /etc/sdwdate.d/ r,
