@@ -5,5 +5,5 @@
 
 for url in $(/usr/share/sdwdate/onion_list_all) ; do
    url_https="$(echo "$url" | str_replace "http://" "https://")"
-   torbrowser "$url_https"
+   curl --head "$url_https"
 done
