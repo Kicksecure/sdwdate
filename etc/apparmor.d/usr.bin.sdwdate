@@ -26,6 +26,8 @@
   /{,usr/}bin/ps rix,
   /{,usr/}bin/uname rix,
   /{,usr/}bin/sleep rix,
+  /{,usr/}bin/id rix,
+  /{,usr/}bin/whoami rix,
 
   /usr/bin/ r,
   /usr/bin/python3.7 rix,

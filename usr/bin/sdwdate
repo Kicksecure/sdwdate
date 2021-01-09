@@ -528,10 +528,7 @@ str(prerequisite_check_sleep_seconds) + " iteration: " + str(loop_counter) + " /
         joint_message = main_message + " " + extra_message
 
         if prerequisite_status.returncode == 0:
-            if not extra_message == "":
-               message = 'Prerequisite check: %s' % extra_message.strip()
-               logger.info(strip_html(message))
-            message = "Prerequisite check: " + main_message.strip()
+            message = "Prerequisite check: " + joint_message.strip()
             logger.info(strip_html(message))
             return True
         else:
@@ -539,12 +536,8 @@ str(prerequisite_check_sleep_seconds) + " iteration: " + str(loop_counter) + " /
             if joint_message != previous_messsage:
                 previous_messsage = joint_message
 
-                if not extra_message == "":
-                    message = 'Prerequisite check: %s' % extra_message.strip()
-                    logger.info(strip_html(extra_message))
-
-                message = 'Prerequisite check: %s' % main_message.strip()
-                logger.warning(strip_html(main_message))
+                message = 'Prerequisite check: %s' % joint_message.strip()
+                logger.info(strip_html(joint_message))
 
                 if prerequisite_status.returncode == 1:
                     icon = sdwdate.error_icon
