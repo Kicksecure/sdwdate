@@ -63,6 +63,16 @@ class Pool:
             return int(len(self.url) * 0.34)
         return int(len(self.url) * 0.34)
 
+    def randomize_time(self):
+        if os.path.exists('/etc/sdwdate.d/'):
+            files = sorted(glob.glob('/etc/sdwdate.d/*.conf'))
+            for f in files:
+                with open(f) as conf:
+                    lines = conf.readlines()
+                for line in lines:
+                    if line.startswith('RANDOMIZE_TIME=true'):
+                        return True
+        return False
 
 
 class Sdwdate:
@@ -81,10 +91,10 @@ class Sdwdate:
         self.invalid_urls = []
         self.url_errors = []
 
-        self.median = 0
+        self.median_diff_in_seconds = 0
         self.range_nanoseconds = 999999999
-        self.new_diff = 0
-        self.newdiff_nanoseconds = 0
+        self.new_diff_in_seconds = 0
+        self.new_diff_in_nanoseconds = 0
 
         self.status_first_success_path = '/run/sdwdate/first_success'
         self.status_success_path = '/run/sdwdate/success'
@@ -176,36 +186,36 @@ class Sdwdate:
         remote_status = "fallback"
 
         if timesanitycheck_status == 'sane':
-            message = "* timesanitycheck: sane"
+            message = "* Static Time Sanity Check: sane"
             logger.info(message)
         elif timesanitycheck_status == 'slow':
-            message = "* timesanitycheck: slow"
+            message = "* Static Time Sanity Check: slow"
             logger.info(message)
             remote_status = "False"
         elif timesanitycheck_status == 'fast':
-            message = "* timesanitycheck: fast"
+            message = "* Static Time Sanity Check: fast"
             logger.info(message)
             remote_status = "False"
         elif timesanitycheck_status == 'error':
-            message = "* timesanitycheck: error: " + timesanitycheck_error
+            message = "* Static Time Sanity Check: error: " + timesanitycheck_error
             logger.info(message)
             remote_status = "False"
 
         if consensus_status == 'ok':
-            message = "* time_consensus_sanity_check: sane"
+            message = "* Tor Consensus Time Sanity Check: sane"
             logger.info(message)
             if not remote_status == "False":
                 remote_status = "True"
         elif consensus_status == 'slow':
-            message = "* time_consensus_sanity_check: slow"
+            message = "* Tor Consensus Time Sanity Check: slow"
             logger.info(message)
             remote_status = "False"
         elif consensus_status == 'fast':
-            message = "* time_consensus_sanity_check: fast"
+            message = "* Tor Consensus Time Sanity Check: fast"
             logger.info(message)
             remote_status = "False"
         elif consensus_status == 'error':
-            message = "* time_consensus_sanity_check: error: " + consensus_error
+            message = "* Tor Consensus Time Sanity Check: error: " + consensus_error
             logger.info(message)
             remote_status = "False"
 
@@ -238,39 +248,48 @@ class Sdwdate:
         diffs = sorted(self.pools_diff)
         message = 'Pool differences, sorted: %s' % diffs
         logger.info(message)
-        self.median = diffs[(len(diffs) // 2)]
-        message = 'Median time difference: %+.9f' % self.median
+        self.median_diff_in_seconds = diffs[(len(diffs) // 2)]
+        message = 'Median time difference: %+.9f' % self.median_diff_in_seconds
         logger.info(message)
 
     def set_new_time(self):
         '''
         Do not set time if diff = 0.
         '''
-        if self.median == 0:
+        if self.median_diff_in_seconds == 0:
             message = 'Time difference = 0. Not setting time.'
             logger.info(message)
             return False
         else:
             return True
 
-    def add_subtract_nanoseconds(self):
-        signs = ['+', '-']
-        sign = randint(0, 1)
-        nanoseconds = randint(0, self.range_nanoseconds)
-        seconds = float(nanoseconds) / 1000000000
-        if sign == 1:
-            seconds = seconds * -1
+    def add_or_subtract_nanoseconds(self):
+        if Pool.randomize_time == True:
+            logger.info("Randomizing nanoseconds.")
+            nanoseconds_to_add_or_subtract = randint(0, self.range_nanoseconds)
+            signs = ['+', '-']
+            sign = randint(0, 1)
+            seconds_to_add_or_subtract = float(nanoseconds_to_add_or_subtract) / 1000000000
+            if sign == 1:
+               seconds_to_add_or_subtract = seconds_to_add_or_subtract * -1
+            message = 'randomize             : %+.9f' % seconds_to_add_or_subtract
+            logger.info(message)
+        else:
+            logger.info("Not randomizing nanoseconds.")
+            #nanoseconds_to_add_or_subtract = 0
+            seconds_to_add_or_subtract = 0
 
-        self.new_diff = self.median + seconds
-        self.newdiff_nanoseconds = int(self.new_diff * 1000000000)
+        ## Consumed by set_time_using_date.
+        self.new_diff_in_seconds = self.median_diff_in_seconds + seconds_to_add_or_subtract
 
-        message = 'randomize             : %+.9f' % seconds
-        logger.info(message)
-        message = 'New time difference   : %+.9f' % self.new_diff
+        ## Consumed by run_sclockadj.
+        self.new_diff_in_nanoseconds = int(self.new_diff_in_seconds * 1000000000)
+
+        message = 'New time difference   : %+.9f' % self.new_diff_in_seconds
         logger.info(message)
 
     def run_sclockadj(self):
-        cmd = '/usr/lib/sdwdate/sclockadj "' + str(self.newdiff_nanoseconds) + '"'
+        cmd = '/usr/lib/sdwdate/sclockadj "' + str(self.new_diff_in_nanoseconds) + '"'
         message = 'Gradually adjusting the time by running sclockadj using command: %s' % cmd
         logger.info(message)
         ## Run sclockadj in a subshell.
@@ -292,14 +311,14 @@ class Sdwdate:
         message = 'Old unixttime: ' + old_unixtime
         logger.info(message)
 
-        new_unixtime = float(old_unixtime) + float(self.new_diff)
+        new_unixtime = float(old_unixtime) + float(self.new_diff_in_seconds)
         new_unixtime_str = format(new_unixtime, '.9f')
 
         message = 'New unixtime : ' + new_unixtime_str
         logger.info(message)
 
         ## Set new time.
-        cmd = '/bin/date --set "@' + str(new_unixtime_str) + '"'
+        cmd = '/bin/date --utc "+%Y-%m-%d %H:%M:%S" --set "@' + str(new_unixtime_str) + '"'
         message = 'Instantly setting the time by using command: %s' % cmd
         logger.info(message)
 
@@ -536,14 +555,15 @@ str(prerequisite_check_sleep_seconds) + " iteration: " + str(loop_counter) + " /
                 logger.info("PREREQUISITE CHECK:")
                 message = joint_message.strip()
                 logger.info(strip_html(joint_message))
-                logger.info("PREREQUISITE CHECK RESULT: WAIT.")
-                logger.info("\n")
 
                 if prerequisite_status.returncode == 1:
                     icon = sdwdate.error_icon
+                    logger.info("PREREQUISITE CHECK RESULT: ERROR.")
                 else:
                     icon = sdwdate.busy_icon
+                    logger.info("PREREQUISITE CHECK RESULT: WAIT.")
 
+                logger.info("\n")
                 ## TODO: remove this once security implications are sorted.
                 ## https://phabricator.whonix.org/T534#15429
                 main_message = "Prerequisite check not done yet. More more information, see: sdwdate-gui -> right click -> Open sdwdate's log"
@@ -607,7 +627,7 @@ if __name__ == "__main__":
 
         if status == 'success':
             sdwdate.build_median()
-            sdwdate.add_subtract_nanoseconds()
+            sdwdate.add_or_subtract_nanoseconds()
             if sdwdate.set_new_time():
                 if not status_first_success:
                     sdwdate.set_time_using_date()
