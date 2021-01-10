@@ -6,7 +6,7 @@ Section: misc
 Priority: optional
 Maintainer: Patrick Schleizer <adrelanos@riseup.net>
 Build-Depends: debhelper (>= 12),
- dh-apparmor
+ dh-apparmor, dh-python, python3
 Homepage: https://github.com/Whonix/sdwdate
 Vcs-Browser: https://github.com/Whonix/sdwdate
 Vcs-Git: https://github.com/Whonix/sdwdate.git
@@ -17,7 +17,7 @@ Architecture: all
 Depends: sudo, bc, helper-scripts, adduser,
  gcc, libc6-dev, python3-stem, python3-dateutil, python3-gevent,
  python3-socks, python3-sdnotify, python3, tor,
- ${misc:Depends}
+ ${python3:Depends}, ${misc:Depends}
 Recommends: timesanitycheck, bootclockrandomization
 Replaces: apparmor-profile-sdwdate
 Description: Secure Distributed Network Time Synchronization
