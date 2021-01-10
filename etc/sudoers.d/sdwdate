@@ -2,5 +2,3 @@
 ## See the file COPYING for copying conditions.
 
 ALL ALL=NOPASSWD: /usr/lib/sdwdate/restart_fresh
-sdwdate ALL=NOPASSWD: /usr/sbin/anondate-get
-sdwdate ALL=NOPASSWD: /usr/sbin/anondate-set
