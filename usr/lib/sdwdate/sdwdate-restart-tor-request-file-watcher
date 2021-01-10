@@ -8,7 +8,13 @@
 #### category time and Tor
 #### description
 ## restart tor@default if running when sdwdate creates file
-## /run/sdwdate/request_tor_restart
+## `/run/sdwdate/request_tor_restart`.
+##
+## This script allows sdwdate to request restart of Tor through creation of
+## file `/run/sdwdate/request_tor_restart`.
+##
+## This is an alternative to avoid having to weaken sdwdate hardening (systemd,
+## apparmor) while permitting sdwdate to restart of Tor.
 #### meta end
 
 set -x
