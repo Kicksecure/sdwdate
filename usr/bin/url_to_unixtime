@@ -9,6 +9,7 @@
 
 ## Examples:
 ## url_to_unixtime 127.0.0.1 9050 http://check.torproject.org 80 true
+## url_to_unixtime 127.0.0.1 9050 https://check.torproject.org 80 true
 ## url_to_unixtime 127.0.0.1 9050 http://expyuzz4wqqyqhjn.onion 80 false
 ## url_to_unixtime 127.0.0.1 9050 https://usatodayw7vu5egc.onion 80 false
 
