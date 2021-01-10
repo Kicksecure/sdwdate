@@ -3,13 +3,23 @@
 
 #include <tunables/global>
 
-/usr/bin/url_to_unixtime flags=(attach_disconnected,complain) {
+/usr/bin/url_to_unixtime flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/python>
   #include <abstractions/ssl_certs>
   #include <abstractions/openssl>
 
+  /usr/bin/ r,
   /usr/bin/url_to_unixtime r,
+
+  ## https://forums.whonix.org/t/sdwdate-and-sdwdate-gui-development-thread/1137/372
+  deny @{HOME}/** rwm,
+  #deny /home/** rwm,
+  deny /tmp/** rwm,
+  deny /var/tmp/** rwm,
+  #deny /usr/bin/** rwx,
+  deny /sbin/** rwx,
+  deny @{PROC}/** r,
 
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.bin.url_to_unixtime>
