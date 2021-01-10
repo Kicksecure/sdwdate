@@ -455,10 +455,7 @@ class Sdwdate:
 
 def randomize_time():
    status = False
-   xxxxxxxxxxxxx
-   logger.info("0000")
    if os.path.exists('/etc/sdwdate.d/'):
-      logger.info("11111")
       files = sorted(glob.glob('/etc/sdwdate.d/*.conf'))
       for f in files:
             with open(f) as conf:
