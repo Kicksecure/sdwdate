@@ -63,17 +63,6 @@ class Pool:
             return int(len(self.url) * 0.34)
         return int(len(self.url) * 0.34)
 
-    def randomize_time(self):
-        if os.path.exists('/etc/sdwdate.d/'):
-            files = sorted(glob.glob('/etc/sdwdate.d/*.conf'))
-            for f in files:
-                with open(f) as conf:
-                    lines = conf.readlines()
-                for line in lines:
-                    if line.startswith('RANDOMIZE_TIME=true'):
-                        return True
-        return False
-
 
 class Sdwdate:
     def __init__(self):
@@ -264,7 +253,7 @@ class Sdwdate:
             return True
 
     def add_or_subtract_nanoseconds(self):
-        if Pool.randomize_time == True:
+        if randomize_time:
             logger.info("Randomizing nanoseconds.")
             nanoseconds_to_add_or_subtract = randint(0, self.range_nanoseconds)
             signs = ['+', '-']
@@ -462,6 +451,24 @@ class Sdwdate:
 
         message = self._('success')
         return self.success_icon, 'success', message
+
+
+def randomize_time():
+   status = False
+   xxxxxxxxxxxxx
+   logger.info("0000")
+   if os.path.exists('/etc/sdwdate.d/'):
+      logger.info("11111")
+      files = sorted(glob.glob('/etc/sdwdate.d/*.conf'))
+      for f in files:
+            with open(f) as conf:
+               lines = conf.readlines()
+            for line in lines:
+               if line.startswith('RANDOMIZE_TIME=true'):
+                  status = True
+               if line.startswith('RANDOMIZE_TIME=false'):
+                  status = False
+   return status
 
 
 def exit_handler():
