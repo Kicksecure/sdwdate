@@ -6,6 +6,7 @@
 /usr/bin/url_to_unixtime flags=(attach_disconnected,complain) {
   #include <abstractions/base>
   #include <abstractions/python>
+  #include <abstractions/abstractions/ssl_certs>
 
   /usr/bin/url_to_unixtime r,
 
