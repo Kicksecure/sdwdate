@@ -1,0 +1,36 @@
+## Copyright (C) 2012 - 2020 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+[Unit]
+Description=Secure Distributed Web Date - Tor Restart Request File Watcher
+Documentation=https://www.whonix.org/wiki/sdwdate
+ConditionPathExists=!/run/qubes/this-is-templatevm
+
+## systemd-nspawn does not allow clock to be changed inside the container.
+## Quote https://www.freedesktop.org/software/systemd/man/systemd-nspawn.html
+## The host’s network interfaces and the system clock may not be changed from within the container.
+## https://forums.whonix.org/t/bootclockrandomization-always-moving-clock-plus-or-5-seconds/2200/10
+ConditionVirtualization=!systemd-nspawn
+
+After=network.target
+Wants=network.target
+
+After=rinetd.service
+After=bootclockrandomization.service
+After=tor.service
+After=tor@default.service
+
+Conflicts=systemd-timesyncd.service
+
+[Service]
+#Type=notify
+#User=sdwdate
+#Group=sdwdate
+ExecStart=/usr/lib/sdwdate/sdwdate-restart-tor-request-file-watcher
+#SuccessExitStatus=143
+#TimeoutSec=30
+#WatchdogSec=200m
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,54 @@
+#!/bin/bash
+
+## Copyright (C) 2012 - 2020 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+#### meta start
+#### project Whonix and Kicksecure
+#### category time and Tor
+#### description
+## restart tor@default if running when sdwdate creates file
+## /run/sdwdate/request_tor_restart
+#### meta end
+
+set -x
+set -e
+
+restart_tor_if_running() {
+   if systemctl --no-pager --no-block status tor@default ; then
+      true "$: INFO: tor@default running, restarting..."
+      systemctl --no-pager --no-block restart tor@default || true
+   else
+      true "$: INFO: tor@default not running, not restarting."
+   fi
+}
+
+## inotifywait requires the folder to already exist.
+mkdir --parents /run/sdwdate
+chown --recursive sdwdate:sdwdate /run/sdwdate
+
+inotifywait_subshell_fifo="$(mktemp)"
+rm --force "$inotifywait_subshell_fifo"
+mkfifo "$inotifywait_subshell_fifo"
+
+{
+   inotifywait --quiet --recursive --monitor --event create --format "%w%f" "/run/sdwdate/" &
+   wait "$!"
+
+} > "$inotifywait_subshell_fifo" &
+
+inotifywait_subshell_pid="$!"
+
+if [ -f "/run/sdwdate/request_tor_restart" ]; then
+   restart_tor_if_running
+   rm -f /run/sdwdate/request_tor_restart
+fi
+
+while read file_name; do
+   if [ "$file_name" = "/run/sdwdate/request_tor_restart" ] ; then
+      restart_tor_if_running
+      rm -f /run/sdwdate/request_tor_restart
+   fi
+done < "$inotifywait_subshell_fifo"
+
+wait "$inotifywait_subshell_pid"
