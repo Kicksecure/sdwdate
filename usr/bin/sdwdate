@@ -590,7 +590,7 @@ if __name__ == "__main__":
     logger.info(pid_message)
 
     run_prerequisite = False
-    prerequisite_path = '/usr/lib/helper-scripts/te_pe_tb_check'
+    prerequisite_path = '/usr/lib/helper-scripts/onion-time-pre-script'
     if os.access(prerequisite_path, os.X_OK):
         run_prerequisite = True
 
