@@ -7,6 +7,7 @@
   #include <abstractions/base>
   #include <abstractions/python>
   #include <abstractions/ssl_certs>
+  #include <abstractions/openssl>
 
   /usr/bin/url_to_unixtime r,
 
