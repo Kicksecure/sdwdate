@@ -434,7 +434,7 @@ class Sdwdate:
                         if pool.done:
                             ## Values are returned randomly. Get the index of the url.
                             index = self.valid_urls.index(url)
-                            ## Pool matching web time.
+                            ## pool matching web time
                             web_unixtime = int(self.unixtimes[index])
 
                             web_time = (datetime.strftime(datetime.fromtimestamp(web_unixtime),
