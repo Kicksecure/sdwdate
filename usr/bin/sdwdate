@@ -92,11 +92,11 @@ class Sdwdate:
         Path(sdwdate_status_files_folder).mkdir(parents=True, exist_ok=True)
 
         self.status_first_success_path = sdwdate_status_files_folder + '/first_success'
-        self.status_success_path = sdwdate_status_files_folder + '/sdwdate/success'
-        self.status_file_path = sdwdate_status_files_folder + '/sdwdate/status'
-        self.clock_jump_do_once_file = sdwdate_status_files_folder + '/sdwdate/clock_jump_do_once'
+        self.status_success_path = sdwdate_status_files_folder + '/success'
+        self.status_file_path = sdwdate_status_files_folder + '/status'
+        self.clock_jump_do_once_file = sdwdate_status_files_folder + '/clock_jump_do_once'
         ## Read by whonixcheck.
-        self.msg_path = sdwdate_status_files_folder + '/sdwdate/msg'
+        self.msg_path = sdwdate_status_files_folder + '/msg'
 
         self.status = {'icon': '', 'message': ''}
 
