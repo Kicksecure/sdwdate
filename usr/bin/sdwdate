@@ -289,8 +289,23 @@ class Sdwdate:
         else:
             return True
 
+    def randomize_time_config():
+        status = False
+        if not os.path.exists('/etc/sdwdate.d/'):
+            return status
+        files = sorted(glob.glob('/etc/sdwdate.d/*.conf'))
+        for f in files:
+            with open(f) as conf:
+                lines = conf.readlines()
+                for line in lines:
+                    if line.startswith('RANDOMIZE_TIME=true'):
+                        status = True
+                    if line.startswith('RANDOMIZE_TIME=false'):
+                        status = False
+        return status
+
     def add_or_subtract_nanoseconds(self):
-        if randomize_time:
+        if sdwdate.randomize_time_config:
             logger.info("Randomizing nanoseconds.")
             nanoseconds_to_add_or_subtract = randint(0, self.range_nanoseconds)
             signs = ['+', '-']
@@ -493,19 +508,7 @@ class Sdwdate:
         return "success", 'success', message
 
 
-def randomize_time():
-   status = False
-   if os.path.exists('/etc/sdwdate.d/'):
-      files = sorted(glob.glob('/etc/sdwdate.d/*.conf'))
-      for f in files:
-            with open(f) as conf:
-               lines = conf.readlines()
-            for line in lines:
-               if line.startswith('RANDOMIZE_TIME=true'):
-                  status = True
-               if line.startswith('RANDOMIZE_TIME=false'):
-                  status = False
-   return status
+
 
 
 def prerequisite_check():
