@@ -87,7 +87,8 @@ class Sdwdate:
         self.new_diff_in_nanoseconds = 0
 
         home_folder = str(Path.home())
-        sdwdate_status_files_folder = home_folder + "/sdwdate"
+        #sdwdate_status_files_folder = home_folder + "/sdwdate" = home_folder + "/sdwdate"
+        sdwdate_status_files_folder = home_folder
         print("sdwdate_status_files_folder: " + sdwdate_status_files_folder)
         Path(sdwdate_status_files_folder).mkdir(parents=True, exist_ok=True)
 
@@ -385,7 +386,7 @@ class Sdwdate:
         f = open(sdwdate.status_success_path, 'w')
         f.close()
 
-    def randomize_time_config():
+    def randomize_time_config(self):
         status = False
         if not os.path.exists('/etc/sdwdate.d/'):
             return status
@@ -401,7 +402,7 @@ class Sdwdate:
         return status
 
     def add_or_subtract_nanoseconds(self):
-        if sdwdate.randomize_time_config:
+        if sdwdate.randomize_time_config():
             logger.info("Randomizing nanoseconds.")
             nanoseconds_to_add_or_subtract = randint(0, self.range_nanoseconds)
             signs = ['+', '-']
