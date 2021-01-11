@@ -182,7 +182,7 @@ class Sdwdate:
                 logger.info("\n")
                 return True
 
-            if joint_message != previous_messsage:
+            if joint_message == previous_messsage:
                 ## No new message. No status changes. Therefore do not reset wait
                 ## counter and wait prerequisite_check_sleep_seconds.
                 logger.info("PREREQUISITE CHECK RESULT: Skip showing same message.")
@@ -602,7 +602,6 @@ class Sdwdate:
         sleep_time_seconds = randint(sleep_time_minimum_seconds, sleep_time_maximum_seconds)
         sleep_time_minutes = sleep_time_seconds / 60
 
-        log_level = 'info'
         message = (sdwdate_message_from_loop + " " + sdwdate._('sleeping') +
                   str(sleep_time_minutes) + sdwdate._('minutes'))
 
@@ -705,6 +704,8 @@ if __name__ == "__main__":
             ## unit file.
             sleep_time_minimum_seconds = 60 * 60
             sleep_time_maximum_seconds = 180 * 60
+
+            log_level = 'info'
 
         elif status == 'error':
             message = "retry_on_error_counter: " + str(retry_on_error_counter)
