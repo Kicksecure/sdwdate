@@ -1,3 +1,162 @@
+commit 0208705800643a3b30cc88cb1daedfbdca8663bf
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 22:50:05 2021 -0500
+
+    refactoring
+
+commit 69749b8ec0c5f89d84b2dd6e98bba6d1ee03ee37
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 22:48:07 2021 -0500
+
+    comment
+
+commit bb7d77572f56c065dd2353e0c3c3020dd85f81af
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 22:47:24 2021 -0500
+
+    output
+
+commit ec53d44c6f23354a86d3d78b62eb55f578fcc1a1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 22:47:01 2021 -0500
+
+    output
+
+commit 64218929b819e117899811fea18cd3fcb538c41f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 11:38:59 2021 +0000
+
+    cleanup
+
+commit 3d1fc6178403f0f2673cd191db637b0ab06e6f4c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 10:52:22 2021 +0000
+
+    apparmor
+
+commit af3ea15500b103d7a0eb0140160f054ad6f128fe
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 10:22:32 2021 +0000
+
+    dh $@ --with python3
+
+commit a0fe217317c58af1d7417edff63121fc1bb89c58
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 09:32:25 2021 +0000
+
+    comment
+
+commit 7654845457c3d96848a350123723aa8ba58b99a9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 09:31:49 2021 +0000
+
+    apparmor
+
+commit ab5056811f1341301e66368ad71f7c2878c75be3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 09:23:00 2021 +0000
+
+    apparmor
+
+commit 0697492aef0db597f8771af86b9b9f07357d7ff7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 09:21:39 2021 +0000
+
+    fix
+
+commit 74f2bc9d0c9db4388afcc3f8b01c2de155e5d0d0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 09:21:26 2021 +0000
+
+    apparmor
+
+commit 8cc52bd18e7d970a09e7a4d686be787dd2c75ca4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 04:00:10 2021 -0500
+
+    comment
+
+commit 206cf77c5ee593abe891d4c08018a46267d431b4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 03:34:09 2021 -0500
+
+    avoiding sudoers exception
+
+commit 2d591b5862f724c09b7e63718ea68fdad0dea67d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 03:32:26 2021 -0500
+
+    update path
+
+commit ce1fb4b5ea2e5865ddf741a54c6553aee2989a6b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 03:22:45 2021 -0500
+
+    comment
+
+commit 08dd16ef7ad4e5ec251fa669913cf95188cad341
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 03:20:22 2021 -0500
+
+    allow sdwdate to request restart of Tor through creation of file `/run/sdwdate/request_tor_restart`
+    
+    this is an alternative to avoid having to weaken sdwdate systemd hardening to allow restart of Tor
+
+commit 8dd7729c428b3f7420e1a7977a2cb8622e9eb1b5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 18:32:15 2021 -0500
+
+    anodate
+
+commit 35a26243daee3103d348209f9182fef74e346688
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 18:30:35 2021 -0500
+
+    anondate
+
+commit 32c90c2fee3502df2121e65c67e15a203b2226eb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 8 21:47:31 2050 -0500
+
+    refactoring
+
+commit e976342fddd67d3d5e9e153b1fb72012db50329e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 8 21:46:57 2050 -0500
+
+    new file:   usr/share/sdwdate/test-clock-fast
+    new file:   usr/share/sdwdate/test-clock-slow
+
+commit fa20a4ecffb7d544be20c4902d92bb2f8af51ef1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 17:36:38 2021 -0500
+
+    no longer randomize time by default
+    
+    add `RANDOMIZE_TIME=true` feature
+    
+    output
+    
+    refactoring
+
+commit b205398b74718bdd018f9d24546bbf82fdb8616e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 10:11:55 2021 -0500
+
+    https: propublica / privacy international
+
+commit 878ad3a0cbdef2590e10533f69a4332f00d49b4e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 10:01:07 2021 -0500
+
+    modified:   usr/share/sdwdate/onion_test_https_manual
+
+commit 9402105e341b044917b404a663291a49829f9300
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 08:05:49 2021 -0500
+
+    bumped changelog version
+
 commit 8a5e6c9bf667bf249e166fd66edd660c30e5de61
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Jan 9 07:50:11 2021 -0500
