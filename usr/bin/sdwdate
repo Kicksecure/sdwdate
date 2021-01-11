@@ -636,18 +636,19 @@ if __name__ == "__main__":
             if sdwdate.set_new_time():
                 if not status_first_success:
                     sdwdate.set_time_using_date()
-                    f = open(sdwdate.status_first_success_path, 'w')
-                    f.close()
                 elif clock_jump_do:
                     sdwdate.set_time_using_date()
-                    f = open(sdwdate.status_first_success_path, 'w')
-                    f.close()
-                    os.remove(sdwdate.clock_jump_do_once_file)
                 else:
                     sdwdate.run_sclockadj()
 
-            f = open(sdwdate.status_success_path, 'w')
-            f.close()
+                if not status_first_success:
+                    f = open(sdwdate.status_first_success_path, 'w')
+                    f.close()
+                if clock_jump_do:
+                    os.remove(sdwdate.clock_jump_do_once_file)
+
+                f = open(sdwdate.status_success_path, 'w')
+                f.close()
 
             retry_on_error_counter = 0
             ## If we make the sleep period configurable one day, we need to
