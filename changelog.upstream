@@ -1,3 +1,27 @@
+commit a7efcec723c64ea86d829b48909d25db919e6fb8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 11 04:42:17 2021 -0500
+
+    comment
+
+commit 70a2cad7263bf375ec6bba90ca225810d8525756
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 11 04:22:45 2021 -0500
+
+    intentd
+
+commit ac326db2ef4ecaec2b38476956d7669aa6bd9f88
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 11 04:21:47 2021 -0500
+
+    add new sdwdate time sources from securedrop list
+
+commit e28868623fef3a2c5493d3afc3e92f21de335629
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 11 03:11:54 2021 -0500
+
+    bumped changelog version
+
 commit 649e21dad55064a2111472e0b64f3b8e0be49254
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Jan 11 03:10:27 2021 -0500
