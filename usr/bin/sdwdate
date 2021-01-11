@@ -489,11 +489,13 @@ class Sdwdate:
         clock_jump_do = os.path.exists(self.clock_jump_do_once_file)
 
         if not status_first_success:
-            sdwdate.write_status("busy", restricted_msg)
+            icon = "busy"
+            sdwdate.write_status(icon, restricted_msg)
             message = sdwdate.strip_html(restricted_msg)
             logger.info(message)
         else:
-            sdwdate.write_status("success", fetching_msg)
+            icon = "success"
+            sdwdate.write_status(icon, fetching_msg)
             message = sdwdate.strip_html(fetching_msg)
             logger.info(message)
 
@@ -705,8 +707,6 @@ if __name__ == "__main__":
             sleep_time_minimum_seconds = 60 * 60
             sleep_time_maximum_seconds = 180 * 60
 
-            log_level = 'info'
-
         elif status == 'error':
             message = "retry_on_error_counter: " + str(retry_on_error_counter)
             logger.info(message)
@@ -721,8 +721,6 @@ if __name__ == "__main__":
             else:
                sleep_time_minimum_seconds = 0
                sleep_time_maximum_seconds = 0
-
-            log_level = 'warning'
 
         sdwdate.wait_sleep()
         sdwdate.check_clock_skew
