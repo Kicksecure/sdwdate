@@ -5,16 +5,21 @@
 
 set -e
 
-## run as root
-sudo --non-interactive rm --force /run/anondate/tor_certificate_lifetime_set
-## run as user sdwdate
-sudo --non-interactive rm --force /run/sdwdate/tor_certificate_lifetime_set
+if [ ! "$(id -u)" = "0" ]; then
+    true "$0: ERROR: Must be run as root!"
+    exit 1
+fi
 
-sudo --non-interactive rm --force /run/sdwdate/first_success
-sudo --non-interactive rm --force /run/sdwdate/clock_jump_do_once
+## run as root
+rm --force /run/anondate/tor_certificate_lifetime_set
+## run as user sdwdate
+rm --force /run/sdwdate/tor_certificate_lifetime_set
+
+rm --force /run/sdwdate/first_success
+rm --force /run/sdwdate/clock_jump_do_once
 
 sudo --non-interactive -u sdwdate touch /run/sdwdate/clock_jump_do_once
 
-sudo --non-interactive systemctl --no-pager --no-block restart sdwdate
+systemctl --no-pager --no-block restart sdwdate
 
 true "$0: OK"
