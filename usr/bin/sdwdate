@@ -92,10 +92,6 @@ class Sdwdate:
         ## Read by whonixcheck.
         self.msg_path = '/run/sdwdate/msg'
 
-        self.success_icon = 'success'
-        self.busy_icon = 'busy'
-        self.error_icon = 'error'
-
         self.status = {'icon': '', 'message': ''}
 
         translations_path = '/usr/share/translations/sdwdate.yaml'
@@ -103,6 +99,28 @@ class Sdwdate:
         self._ = translation.gettext
 
         self.proxy_ip, self.proxy_port = proxy_settings()
+
+    def strip_html(self, message):
+        ## New line for log.
+        tmp_message = re.sub('<br>', '\n', message)
+        ## Strip remaining HTML.
+        return re.sub('<[^<]+?>', '', tmp_message)
+
+    def write_status(self, icon, msg):
+        sdwdate.status['icon'] = icon
+        sdwdate.status['message'] = msg
+        try:
+            with open(sdwdate.status_file_path, 'w') as f:
+                json.dump(sdwdate.status, f)
+                f.close()
+        except:
+            error_msg = "Unexpected error: " + str(sys.exc_info()[0])
+            print(error_msg)
+            return
+
+        with open(sdwdate.msg_path, 'w') as msgf:
+            msgf.write(msg)
+            msgf.close()
 
     @staticmethod
     def general_proxy_error(pools):
@@ -338,17 +356,20 @@ class Sdwdate:
         fetching_msg = self._('fetching')
         restricted_msg = self._('restricted')
 
+        message = "restricted_msg: " + restricted_msg
+        logger.info(message)
+
         status_success = os.path.exists(self.status_success_path)
         status_first_success = os.path.exists(self.status_first_success_path)
         clock_jump_do = os.path.exists(self.clock_jump_do_once_file)
 
         if not status_first_success:
-            write_status(self.busy_icon, restricted_msg)
-            message = strip_html(restricted_msg)
+            sdwdate.write_status("busy", restricted_msg)
+            message = sdwdate.strip_html(restricted_msg)
             logger.info(message)
         else:
-            write_status(self.success_icon, fetching_msg)
-            message = strip_html(fetching_msg)
+            sdwdate.write_status("success", fetching_msg)
+            message = sdwdate.strip_html(fetching_msg)
             logger.info(message)
 
         while len(self.valid_urls) < self.number_of_pools:
@@ -372,7 +393,7 @@ class Sdwdate:
                         pool_number = self.pools.index(pool) + 1
                         message = self._('no_valid_time') + str(pool_number) + self._('restart')
                         logger.warning(message)
-                        return self.error_icon, 'error', message
+                        return "error", 'error', message
 
                     pool.url_random.append(pool.url[url_index])
                     self.url_random.append(pool.url[url_index])
@@ -387,14 +408,14 @@ class Sdwdate:
 
                 if len(self.urls) == 0:
                     message = self._('no_value_returned') + self._('restart')
-                    return self.error_icon, 'error', message
+                    return "error", 'error', message
 
                 message = 'returned urls "%s"' % self.urls
                 logger.info(message)
 
             else:
                 message = self._('list_not_built') + self._('restart')
-                return self.error_icon, 'error', message
+                return "error", 'error', message
 
             for i in range(len(self.urls)):
                 if self.check_remote(self.urls[i], self.returned_values[i], self.get_comment(self.urls[i]), i):
@@ -408,10 +429,10 @@ class Sdwdate:
                if len(self.returned_values) >= 3:
                      if self.general_proxy_error(self.returned_values):
                         message = self._('general_proxy_error')
-                        return self.error_icon, 'error', message
+                        return "error", 'error', message
                      if self.general_timeout_error(self.returned_values):
                         message = self._('general_timeout_error')
-                        return self.error_icon, 'error', message
+                        return "error", 'error', message
 
             for i in range(len(self.urls)):
                for pool in self.pools:
@@ -423,7 +444,7 @@ class Sdwdate:
                                        ' (' + str(pool.invalid_urls) + ' of ' +
                                        str(len(pool.url)) + ')' +
                                        self._('max_pool_failures_2') + '<br>')
-                        return self.error_icon, 'error', message
+                        return "error", 'error', message
 
             old_unixtime = (time.time())
 
@@ -450,7 +471,7 @@ class Sdwdate:
         logger.info(message)
 
         message = self._('success')
-        return self.success_icon, 'success', message
+        return "success", 'success', message
 
 
 def randomize_time():
@@ -473,10 +494,10 @@ def exit_handler():
     n.notify("WATCHDOG=1")
     n.notify("STOPPING=1")
 
-    icon = sdwdate.error_icon
+    icon = "error"
     message = sdwdate._('user_kill')
-    stripped_message = strip_html(message)
-    write_status(icon, message)
+    stripped_message = sdwdate.strip_html(message)
+    sdwdate.write_status(icon, message)
 
     sdwdate.kill_sclockadj()
 
@@ -488,28 +509,10 @@ def signal_sigterm_handler(signum, frame):
     exit_handler()
 
 
-def strip_html(message):
-    ## New line for log.
-    tmp_message = re.sub('<br>', '\n', message)
-    ## Strip remaining HTML.
-    return re.sub('<[^<]+?>', '', tmp_message)
 
 
-def write_status(icon, msg):
-    sdwdate.status['icon'] = icon
-    sdwdate.status['message'] = msg
-    try:
-        with open(sdwdate.status_file_path, 'w') as f:
-            json.dump(sdwdate.status, f)
-            f.close()
-    except:
-        error_msg = "Unexpected error: " + str(sys.exc_info()[0])
-        print(error_msg)
-        return
 
-    with open(sdwdate.msg_path, 'w') as msgf:
-        msgf.write(msg)
-        msgf.close()
+
 
 
 def prerequisite_check():
@@ -547,7 +550,7 @@ str(prerequisite_check_sleep_seconds) + " iteration: " + str(loop_counter) + " /
         if prerequisite_status.returncode == 0:
             logger.info("PREREQUISITE CHECK:")
             message = joint_message.strip()
-            logger.info(strip_html(message))
+            logger.info(sdwdate.strip_html(message))
             logger.info("PREREQUISITE CHECK RESULT: SUCCESS.")
             logger.info("\n")
             return True
@@ -558,16 +561,16 @@ str(prerequisite_check_sleep_seconds) + " iteration: " + str(loop_counter) + " /
 
                 logger.info("PREREQUISITE CHECK:")
                 message = joint_message.strip()
-                logger.info(strip_html(joint_message))
+                logger.info(sdwdate.strip_html(joint_message))
 
                 if prerequisite_status.returncode == 1:
-                    icon = sdwdate.error_icon
+                    icon = "error"
                     logger.info("PREREQUISITE CHECK RESULT: ERROR (expected).")
                 elif prerequisite_status.returncode == 2:
-                    icon = sdwdate.busy_icon
+                    icon = "busy"
                     logger.info("PREREQUISITE CHECK RESULT: WAIT.")
                 else:
-                    icon = sdwdate.busy_icon
+                    icon = "busy"
                     logger.info("PREREQUISITE CHECK RESULT: ERROR (unexpected).")
 
                 logger.info("\n")
@@ -575,7 +578,7 @@ str(prerequisite_check_sleep_seconds) + " iteration: " + str(loop_counter) + " /
                 ## https://phabricator.whonix.org/T534#15429
                 main_message = "Prerequisite check not done yet. More more information, see: sdwdate-gui -> right click -> Open sdwdate's log"
 
-                write_status(icon, main_message)
+                sdwdate.write_status(icon, main_message)
 
                 prerequisite_check_sleep_seconds = 0
             time.sleep(prerequisite_check_sleep_seconds)
@@ -681,9 +684,9 @@ if __name__ == "__main__":
         log_level = 'info'
         message = (sdwdate_message_from_loop + " " + sdwdate._('sleeping') +
                   str(sleep_time_minutes) + sdwdate._('minutes'))
-        stripped_message = strip_html(message)
+        stripped_message = sdwdate.strip_html(message)
 
-        write_status(icon, message)
+        sdwdate.write_status(icon, message)
 
         if log_level == 'info':
             logger.info(stripped_message)
