@@ -100,6 +100,25 @@ class Sdwdate:
 
         self.proxy_ip, self.proxy_port = proxy_settings()
 
+    def signal_sigterm_handler(self, signum, frame):
+        print("signal_sigterm_handler reached. calling sdwdate.exit_handler.")
+        sdwdate.exit_handler()
+
+    def exit_handler(self):
+        n.notify("STATUS=Shutting down...")
+        n.notify("WATCHDOG=1")
+        n.notify("STOPPING=1")
+
+        icon = "error"
+        message = sdwdate._('user_kill')
+        stripped_message = sdwdate.strip_html(message)
+        sdwdate.write_status(icon, message)
+
+        sdwdate.kill_sclockadj()
+
+        logger.info(stripped_message)
+        sys.exit(143)
+
     def strip_html(self, message):
         ## New line for log.
         tmp_message = re.sub('<br>', '\n', message)
@@ -171,7 +190,7 @@ class Sdwdate:
             message = "* value: " + str(value)
             logger.info(message)
             if value == "sigterm":
-               exit_handler()
+               sdwdate.exit_handler()
             return False
 
         timesanitycheck_status, time_one, time_two, timesanitycheck_error = timesanitycheck(remote_unixtime)
@@ -341,7 +360,7 @@ class Sdwdate:
         if not bin_date_status.returncode == 0:
             message = '/bin/date returncode: %s' % str(bin_date_status.returncode)
             logger.error(message)
-            exit_handler()
+            sdwdate.exit_handler()
 
     def sdwdate_loop(self):
         '''
@@ -489,32 +508,6 @@ def randomize_time():
    return status
 
 
-def exit_handler():
-    n.notify("STATUS=Shutting down...")
-    n.notify("WATCHDOG=1")
-    n.notify("STOPPING=1")
-
-    icon = "error"
-    message = sdwdate._('user_kill')
-    stripped_message = sdwdate.strip_html(message)
-    sdwdate.write_status(icon, message)
-
-    sdwdate.kill_sclockadj()
-
-    logger.info(stripped_message)
-    sys.exit(143)
-
-
-def signal_sigterm_handler(signum, frame):
-    exit_handler()
-
-
-
-
-
-
-
-
 def prerequisite_check():
     message = ''
     previous_messsage = ''
@@ -605,9 +598,9 @@ if __name__ == "__main__":
     pid_message = 'sdwdate started. PID: %s' % self_pid
     logger.info(pid_message)
 
-    signal.signal(signal.SIGTERM, signal_sigterm_handler)
-
     sdwdate = Sdwdate()
+    signal.signal(signal.SIGTERM, sdwdate.signal_sigterm_handler)
+
     proxy_message = ('Tor socks host: %s Tor socks port: %s'
                      % (sdwdate.proxy_ip, sdwdate.proxy_port))
     logger.info(proxy_message)
