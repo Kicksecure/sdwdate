@@ -17,6 +17,7 @@ import subprocess
 import json
 import re
 from shutil import rmtree
+from pathlib import Path
 
 from sdwdate.remote_times import get_time_from_servers
 from sdwdate.config import read_pools
@@ -85,12 +86,17 @@ class Sdwdate:
         self.new_diff_in_seconds = 0
         self.new_diff_in_nanoseconds = 0
 
-        self.status_first_success_path = '/run/sdwdate/first_success'
-        self.status_success_path = '/run/sdwdate/success'
-        self.status_file_path = '/run/sdwdate/status'
-        self.clock_jump_do_once_file = '/run/sdwdate/clock_jump_do_once'
+        home_folder = str(Path.home())
+        sdwdate_status_files_folder = home_folder + "/sdwdate"
+
+        self.status_first_success_path = sdwdate_status_files_folder + '/first_success'
+        self.status_success_path = sdwdate_status_files_folder + '/sdwdate/success'
+        self.status_file_path = sdwdate_status_files_folder + '/sdwdate/status'
+        self.clock_jump_do_once_file = sdwdate_status_files_folder + '/sdwdate/clock_jump_do_once'
         ## Read by whonixcheck.
-        self.msg_path = '/run/sdwdate/msg'
+        self.msg_path = sdwdate_status_files_folder + '/sdwdate/msg'
+
+        print("sdwdate_status_files_folder: " + sdwdate_status_files_folder)
 
         self.status = {'icon': '', 'message': ''}
 
