@@ -107,7 +107,6 @@ class Sdwdate:
         self.proxy_ip, self.proxy_port = proxy_settings()
 
     def signal_sigterm_handler(self, signum, frame):
-        print("signal_sigterm_handler reached. calling sdwdate.exit_handler.")
         sdwdate.exit_handler()
 
     def exit_handler(self):
