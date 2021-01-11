@@ -584,6 +584,56 @@ class Sdwdate:
         message = self._('success')
         return "success", 'success', message
 
+    def wait_sleep(self):
+        sleep_time_seconds = randint(sleep_time_minimum_seconds, sleep_time_maximum_seconds)
+        sleep_time_minutes = sleep_time_seconds / 60
+
+        log_level = 'info'
+        message = (sdwdate_message_from_loop + " " + sdwdate._('sleeping') +
+                  str(sleep_time_minutes) + sdwdate._('minutes'))
+        stripped_message = sdwdate.strip_html(message)
+
+        sdwdate.write_status(icon, message)
+
+        if log_level == 'info':
+            logger.info(stripped_message)
+        elif log_level == 'warning':
+            logger.warning(stripped_message)
+
+        n.notify("WATCHDOG=1")
+
+        range_nanoseconds = 999999999
+        nanoseconds = randint(0, range_nanoseconds)
+
+        unixtime_before_sleep = int(time.time())
+
+        ## Using sh sleep in place of python's time.sleep(sleep_time_seconds).
+        ## The latter uses the system clock for its inactive state time.
+        ## It becomes utterly confused when sclockadj is running.
+        cmd = "sleep" + " " + str(sleep_time_seconds) + "." + str(nanoseconds)
+        message = "running command: " + cmd
+        logger.info(message)
+        call(cmd, shell=True)
+
+    def check_clock_skew(self):
+        unixtime_after_sleep = int(time.time())
+        time_delta = unixtime_after_sleep - unixtime_before_sleep
+        time_passed = sleep_time_seconds - time_delta
+
+        if time_passed > 2:
+           time_no_unexpected_change = False
+        elif time_passed < 2:
+           time_no_unexpected_change = False
+        else:
+           time_no_unexpected_change = True
+
+        if time_no_unexpected_change == True:
+           message = "Slept for about " + time_delta + "seconds."
+           logger.warning(message)
+        else:
+           message = "Clock got changed by something other than sdwdate. sleep_time_seconds: " + str(sleep_time_seconds) + " time_delta: " + str(time_delta)
+           logger.warning(message)
+
 
 if __name__ == "__main__":
     logger = logging.getLogger('sdwdate')
@@ -674,52 +724,6 @@ if __name__ == "__main__":
 
             log_level = 'warning'
 
-        sleep_time_seconds = randint(sleep_time_minimum_seconds, sleep_time_maximum_seconds)
-        sleep_time_minutes = sleep_time_seconds / 60
-
-        log_level = 'info'
-        message = (sdwdate_message_from_loop + " " + sdwdate._('sleeping') +
-                  str(sleep_time_minutes) + sdwdate._('minutes'))
-        stripped_message = sdwdate.strip_html(message)
-
-        sdwdate.write_status(icon, message)
-
-        if log_level == 'info':
-            logger.info(stripped_message)
-        elif log_level == 'warning':
-            logger.warning(stripped_message)
-
-        n.notify("WATCHDOG=1")
-
-        range_nanoseconds = 999999999
-        nanoseconds = randint(0, range_nanoseconds)
-
-        unixtime_before_sleep = int(time.time())
-
-        ## Using sh sleep in place of python's time.sleep(sleep_time_seconds).
-        ## The latter uses the system clock for its inactive state time.
-        ## It becomes utterly confused when sclockadj is running.
-        cmd = "sleep" + " " + str(sleep_time_seconds) + "." + str(nanoseconds)
-        message = "running command: " + cmd
-        logger.info(message)
-        call(cmd, shell=True)
-
+        sdwdate.wait_sleep()
+        sdwdate.check_clock_skew
         sdwdate.kill_sclockadj()
-
-        unixtime_after_sleep = int(time.time())
-        time_delta = unixtime_after_sleep - unixtime_before_sleep
-        time_passed = sleep_time_seconds - time_delta
-
-        if time_passed > 2:
-           time_no_unexpected_change = False
-        elif time_passed < 2:
-           time_no_unexpected_change = False
-        else:
-           time_no_unexpected_change = True
-
-        if time_no_unexpected_change == True:
-           message = "Slept for about " + time_delta + "seconds."
-           logger.warning(message)
-        else:
-           message = "Clock got changed by something other than sdwdate. sleep_time_seconds: " + str(sleep_time_seconds) + " time_delta: " + str(time_delta)
-           logger.warning(message)
