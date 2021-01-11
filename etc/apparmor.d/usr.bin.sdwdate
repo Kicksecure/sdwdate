@@ -36,6 +36,7 @@
   /usr/lib/helper-scripts/tor_consensus_valid-until.py mrix,
   /usr/bin/url_to_unixtime mrix,
   /usr/lib/helper-scripts/tor_bootstrap_check.bsh rix,
+  /usr/lib/helper-scripts/onion-time-pre-script rix,
   /usr/lib/sdwdate/sclockadj rix,
 
   ## TODO
