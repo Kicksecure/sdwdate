@@ -362,9 +362,23 @@ class Sdwdate:
         if self.median_diff_in_seconds == 0:
             message = 'Time difference = 0. Not setting time.'
             logger.info(message)
-            return False
-        else:
             return True
+
+        if not status_first_success:
+            sdwdate.set_time_using_date()
+        elif clock_jump_do:
+            sdwdate.set_time_using_date()
+        else:
+            sdwdate.run_sclockadj()
+
+        if not status_first_success:
+            f = open(sdwdate.status_first_success_path, 'w')
+            f.close()
+        if clock_jump_do:
+            os.remove(sdwdate.clock_jump_do_once_file)
+
+        f = open(sdwdate.status_success_path, 'w')
+        f.close()
 
     def randomize_time_config():
         status = False
@@ -683,22 +697,7 @@ if __name__ == "__main__":
         if status == 'success':
             sdwdate.build_median()
             sdwdate.add_or_subtract_nanoseconds()
-            if sdwdate.set_new_time():
-                if not status_first_success:
-                    sdwdate.set_time_using_date()
-                elif clock_jump_do:
-                    sdwdate.set_time_using_date()
-                else:
-                    sdwdate.run_sclockadj()
-
-                if not status_first_success:
-                    f = open(sdwdate.status_first_success_path, 'w')
-                    f.close()
-                if clock_jump_do:
-                    os.remove(sdwdate.clock_jump_do_once_file)
-
-                f = open(sdwdate.status_success_path, 'w')
-                f.close()
+            sdwdate.set_new_time()
 
             retry_on_error_counter = 0
             ## If we make the sleep period configurable one day, we need to
