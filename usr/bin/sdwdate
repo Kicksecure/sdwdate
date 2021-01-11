@@ -87,7 +87,9 @@ class Sdwdate:
         self.new_diff_in_nanoseconds = 0
 
         home_folder = str(Path.home())
+        ## This would be required for support of running as users other than sdwdate.
         #sdwdate_status_files_folder = home_folder + "/sdwdate" = home_folder + "/sdwdate"
+        ## home folder for user sdwdate is set to /run/sdwdate
         sdwdate_status_files_folder = home_folder
         print("sdwdate_status_files_folder: " + sdwdate_status_files_folder)
         Path(sdwdate_status_files_folder).mkdir(parents=True, exist_ok=True)
