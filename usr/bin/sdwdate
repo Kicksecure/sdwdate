@@ -170,16 +170,16 @@ class Sdwdate:
             if preparation_sleep_seconds >= 10:
                 preparation_sleep_seconds = 10
 
-            prerequisite_path = '/usr/lib/helper-scripts/onion-time-pre-script'
-            prerequisite_status = subprocess.Popen(prerequisite_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            preparation_path = '/usr/lib/helper-scripts/onion-time-pre-script'
+            preparation_status = subprocess.Popen(preparation_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-            stdout, stderr = prerequisite_status.communicate()
-            prerequisite_status.kill()
+            stdout, stderr = preparation_status.communicate()
+            preparation_status.kill()
             output_stdout = stdout.decode('UTF-8')
             output_stderr = stderr.decode('UTF-8')
             joint_message = output_stderr + "\n" + output_stdout
 
-            if prerequisite_status.returncode == 0:
+            if preparation_status.returncode == 0:
                 logger.info("PREPARATION:")
                 message = joint_message.strip()
                 logger.info(sdwdate.strip_html(message))
@@ -200,10 +200,10 @@ class Sdwdate:
             message = joint_message.strip()
             logger.info(sdwdate.strip_html(joint_message))
 
-            if prerequisite_status.returncode == 1:
+            if preparation_status.returncode == 1:
                 icon = "error"
                 logger.info("PREPARATION RESULT: ERROR (expected).")
-            elif prerequisite_status.returncode == 2:
+            elif preparation_status.returncode == 2:
                 icon = "busy"
                 logger.info("PREPARATION RESULT: WAIT.")
             else:
