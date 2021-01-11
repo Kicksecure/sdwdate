@@ -670,6 +670,11 @@ if __name__ == "__main__":
     pid_message = 'sdwdate started. PID: %s' % self_pid
     logger.info(pid_message)
 
+    if os.geteuid() == 0:
+        do_not_run_as_root_message = "Exit error... sdwdate should not be run as root!"
+        logger.error(do_not_run_as_root_message)
+        sys.exit(1)
+
     sdwdate = Sdwdate()
     signal.signal(signal.SIGTERM, sdwdate.signal_sigterm_handler)
 
