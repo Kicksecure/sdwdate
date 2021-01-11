@@ -6,6 +6,11 @@
 set -x
 set -e
 
+if [ ! "$(id -u)" = "0" ]; then
+    true "$0: ERROR: Must be run as root!"
+    exit 1
+fi
+
 systemctl stop tor@default
 
 date --set "Sat 09 Jan 2050 02:33:24 AM UTC"
