@@ -14,6 +14,6 @@ rm -rf /var/lib/tor/*
 
 systemctl restart tor@default
 
-/usr/lib/sdwdate/restart_fresh
+sdwdate-clock-jump
 
 true "$0: OK"

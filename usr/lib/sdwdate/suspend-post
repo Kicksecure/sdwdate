@@ -59,7 +59,7 @@ tor_restart_maybe() {
 ## Now in this script:
 ## - 1. roughly fix the time using `date`
 ## - 2. restart Tor
-## - 3. restart sdwdate fresh so it also sets the time using `date`
+## - 3. sdwdate-clock-jump so it also sets the time using `date`
 ## - 4. (outside of this script) Once sdwdate succeeded,
 ##      whonix-firewall-sdwdate-watcher.service should enter Whonxi firewall in
 ##      full mode.
@@ -87,9 +87,9 @@ if test -f /run/sdwdate/sdwdate_was_running.status ; then
 
    tor_restart_maybe
 
-   output_cmd "INFO - Running /usr/lib/sdwdate/restart_fresh..."
-   /usr/lib/sdwdate/restart_fresh
-   output_cmd "INFO - Done, with /usr/lib/sdwdate/restart_fresh."
+   output_cmd "INFO - Running sdwdate-clock-jump..."
+   sdwdate-clock-jump
+   output_cmd "INFO - Done, with sdwdate-clock-jump."
 
    ## Whonix firewall full mode
    ##
