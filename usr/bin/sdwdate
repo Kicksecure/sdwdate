@@ -207,7 +207,7 @@ class Sdwdate:
                 icon = "busy"
                 logger.info("PREPARATION RESULT: WAIT.")
             else:
-                icon = "busy"
+                icon = "error"
                 logger.info("PREPARATION RESULT: ERROR (unexpected).")
 
             logger.info("\n")
