@@ -36,7 +36,7 @@ n.notify("READY=1")
 n.notify("STATUS=Starting...")
 
 
-class Pool:
+class Time_Source_Pool:
     def __init__(self, pool):
         self.url, self.comment = read_pools(pool, 'production')
         self.url_random = []
@@ -69,9 +69,9 @@ class Sdwdate:
         self.iteration = 0
         self.number_of_pools = 3
 
-        self.pools = [Pool(pool) for pool in range(self.number_of_pools)]
+        self.pools = [Time_Source_Pool(pool) for pool in range(self.number_of_pools)]
         ## Could get it here to prevent reading the file in sdwdate_loop for each Unreachable url.
-        #self.allowed_failures = [Pool(pool).allowed_failures for pool in range(self.number_of_pools)]
+        #self.allowed_failures = [Time_Source_Pool(pool).allowed_failures for pool in range(self.number_of_pools)]
         self.urls = []
         self.url_random = []
         self.valid_urls = []
