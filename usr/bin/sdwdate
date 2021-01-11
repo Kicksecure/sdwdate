@@ -185,7 +185,7 @@ class Sdwdate:
             if joint_message == previous_messsage:
                 ## No new message. No status changes. Therefore do not reset wait
                 ## counter and wait prerequisite_check_sleep_seconds.
-                logger.info("PREREQUISITE CHECK RESULT: Skip showing same message.")
+                #logger.info("PREREQUISITE CHECK RESULT: Skip showing same message.")
                 time.sleep(prerequisite_check_sleep_seconds)
                 continue
 
