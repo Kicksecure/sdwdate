@@ -539,6 +539,7 @@ str(prerequisite_check_sleep_seconds) + " iteration: " + str(loop_counter) + " /
         if prerequisite_check_sleep_seconds >= 10:
             prerequisite_check_sleep_seconds = 10
 
+        prerequisite_path = '/usr/lib/helper-scripts/onion-time-pre-script'
         prerequisite_status = subprocess.Popen(prerequisite_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         stdout, stderr = prerequisite_status.communicate()
@@ -603,8 +604,6 @@ if __name__ == "__main__":
     self_pid = os.getpid()
     pid_message = 'sdwdate started. PID: %s' % self_pid
     logger.info(pid_message)
-
-    prerequisite_path = '/usr/lib/helper-scripts/onion-time-pre-script'
 
     signal.signal(signal.SIGTERM, signal_sigterm_handler)
 
