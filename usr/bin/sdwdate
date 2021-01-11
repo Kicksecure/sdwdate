@@ -141,29 +141,29 @@ class Sdwdate:
             msgf.write(msg)
             msgf.close()
 
-    def prerequisite_check(self):
+    def preparation(self):
         message = ''
         previous_messsage = ''
         sdwdate = Sdwdate()
         loop_counter = 0
         loop_max = 10000
-        prerequisite_check_sleep_seconds = 0
+        preparation_sleep_seconds = 0
         while True:
             n.notify("WATCHDOG=1")
             if loop_counter >= loop_max:
                 loop_counter = 0
             loop_counter += 1
-            msg = "STATUS=Running sdwdate prerequisite_check loop. prerequisite_check_sleep_seconds: " + \
-    str(prerequisite_check_sleep_seconds) + " iteration: " + str(loop_counter) + " / " + str(loop_max)
+            msg = "STATUS=Running sdwdate preparation loop. preparation_sleep_seconds: " + \
+    str(preparation_sleep_seconds) + " iteration: " + str(loop_counter) + " / " + str(loop_max)
             n.notify(msg)
 
             ## Wait one second after first failure. Two at second failure etc.
             ## Up to a maximum of ten seconds wait between attempts.
             ## The rationale behind this is to be quick at boot time while not
             ## stressing the system.
-            prerequisite_check_sleep_seconds += 1
-            if prerequisite_check_sleep_seconds >= 10:
-                prerequisite_check_sleep_seconds = 10
+            preparation_sleep_seconds += 1
+            if preparation_sleep_seconds >= 10:
+                preparation_sleep_seconds = 10
 
             prerequisite_path = '/usr/lib/helper-scripts/onion-time-pre-script'
             prerequisite_status = subprocess.Popen(prerequisite_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -184,9 +184,9 @@ class Sdwdate:
 
             if joint_message == previous_messsage:
                 ## No new message. No status changes. Therefore do not reset wait
-                ## counter and wait prerequisite_check_sleep_seconds.
+                ## counter and wait preparation_sleep_seconds.
                 #logger.info("PREPARATION RESULT: Skip showing same message.")
-                time.sleep(prerequisite_check_sleep_seconds)
+                time.sleep(preparation_sleep_seconds)
                 continue
 
             previous_messsage = joint_message
@@ -215,8 +215,8 @@ class Sdwdate:
             ## Different message. Probably progress was made.
             ## More progress to be expected. Therefore reset wait counter to just
             ## wait a short time.
-            prerequisite_check_sleep_seconds = 1
-            time.sleep(prerequisite_check_sleep_seconds)
+            preparation_sleep_seconds = 1
+            time.sleep(preparation_sleep_seconds)
 
     @staticmethod
     def general_proxy_error(pools):
@@ -683,7 +683,7 @@ if __name__ == "__main__":
         msg = "Running sdwdate main loop. iteration: " + str(loop_counter) + " / " + str(loop_max)
         logger.info(msg)
 
-        sdwdate.prerequisite_check()
+        sdwdate.preparation()
 
         msg = "STATUS=Running sdwdate main loop. iteration: " + str(loop_counter) + " / " + str(loop_max)
         n.notify(msg)
