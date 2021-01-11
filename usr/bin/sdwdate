@@ -554,34 +554,42 @@ str(prerequisite_check_sleep_seconds) + " iteration: " + str(loop_counter) + " /
             logger.info("PREREQUISITE CHECK RESULT: SUCCESS.")
             logger.info("\n")
             return True
-        else:
 
-            if joint_message != previous_messsage:
-                previous_messsage = joint_message
-
-                logger.info("PREREQUISITE CHECK:")
-                message = joint_message.strip()
-                logger.info(sdwdate.strip_html(joint_message))
-
-                if prerequisite_status.returncode == 1:
-                    icon = "error"
-                    logger.info("PREREQUISITE CHECK RESULT: ERROR (expected).")
-                elif prerequisite_status.returncode == 2:
-                    icon = "busy"
-                    logger.info("PREREQUISITE CHECK RESULT: WAIT.")
-                else:
-                    icon = "busy"
-                    logger.info("PREREQUISITE CHECK RESULT: ERROR (unexpected).")
-
-                logger.info("\n")
-                ## TODO: remove this once security implications are sorted.
-                ## https://phabricator.whonix.org/T534#15429
-                main_message = "Prerequisite check not done yet. More more information, see: sdwdate-gui -> right click -> Open sdwdate's log"
-
-                sdwdate.write_status(icon, main_message)
-
-                prerequisite_check_sleep_seconds = 0
+        if joint_message != previous_messsage:
+            ## No new message. No status changes. Therefore do not reset wait
+            ## counter and wait prerequisite_check_sleep_seconds.
+            logger.info("PREREQUISITE CHECK RESULT: Skip showing same message.")
             time.sleep(prerequisite_check_sleep_seconds)
+            continue
+
+        previous_messsage = joint_message
+
+        logger.info("PREREQUISITE CHECK:")
+        message = joint_message.strip()
+        logger.info(sdwdate.strip_html(joint_message))
+
+        if prerequisite_status.returncode == 1:
+            icon = "error"
+            logger.info("PREREQUISITE CHECK RESULT: ERROR (expected).")
+        elif prerequisite_status.returncode == 2:
+            icon = "busy"
+            logger.info("PREREQUISITE CHECK RESULT: WAIT.")
+        else:
+            icon = "busy"
+            logger.info("PREREQUISITE CHECK RESULT: ERROR (unexpected).")
+
+        logger.info("\n")
+        ## TODO: remove this once security implications are sorted.
+        ## https://phabricator.whonix.org/T534#15429
+        main_message = "Prerequisite check not done yet. More more information, see: sdwdate-gui -> right click -> Open sdwdate's log"
+
+        sdwdate.write_status(icon, main_message)
+
+        ## Different message. Probably progress was made.
+        ## More progress to be expected. Therefore reset wait counter to just
+        ## wait a short time.
+        prerequisite_check_sleep_seconds = 1
+        time.sleep(prerequisite_check_sleep_seconds)
 
 
 if __name__ == "__main__":
