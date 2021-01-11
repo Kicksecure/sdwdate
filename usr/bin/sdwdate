@@ -482,6 +482,8 @@ class Sdwdate:
         Pick a random url in each pool, check the returned value.
         Append valid urls if time is returned, otherwise restart a cycle
         with a new random url, until every pool has a time value.
+        returns:
+        icon, status, sdwdate_message_from_loop
         '''
         message = "Start fetching remote times."
         logger.info(message)
@@ -528,7 +530,9 @@ class Sdwdate:
                         pool_number = self.pools.index(pool) + 1
                         message = self._('no_valid_time') + str(pool_number) + self._('restart')
                         logger.warning(message)
-                        return "error", 'error', message
+                        icon = "error"
+                        status = "error"
+                        return icon, status, message
 
                     pool.url_random.append(pool.url[url_index])
                     self.url_random.append(pool.url[url_index])
@@ -543,14 +547,18 @@ class Sdwdate:
 
                 if len(self.urls) == 0:
                     message = self._('no_value_returned') + self._('restart')
-                    return "error", 'error', message
+                    icon = "error"
+                    status = "error"
+                    return icon, status, message
 
                 message = 'returned urls "%s"' % self.urls
                 logger.info(message)
 
             else:
                 message = self._('list_not_built') + self._('restart')
-                return "error", 'error', message
+                icon = "error"
+                status = "error"
+                return icon, status, message
 
             for i in range(len(self.urls)):
                 if self.check_remote(self.urls[i], self.returned_values[i], self.get_comment(self.urls[i]), i):
@@ -564,10 +572,14 @@ class Sdwdate:
                if len(self.returned_values) >= 3:
                      if self.general_proxy_error(self.returned_values):
                         message = self._('general_proxy_error')
-                        return "error", 'error', message
+                        icon = "error"
+                        status = "error"
+                        return icon, status, message
                      if self.general_timeout_error(self.returned_values):
                         message = self._('general_timeout_error')
-                        return "error", 'error', message
+                        icon = "error"
+                        status = "error"
+                        return icon, status, message
 
             for i in range(len(self.urls)):
                for pool in self.pools:
@@ -579,7 +591,9 @@ class Sdwdate:
                                        ' (' + str(pool.invalid_urls) + ' of ' +
                                        str(len(pool.url)) + ')' +
                                        self._('max_pool_failures_2') + '<br>')
-                        return "error", 'error', message
+                        icon = "error"
+                        status = "error"
+                        return icon, status, message
 
             old_unixtime = (time.time())
 
@@ -606,7 +620,9 @@ class Sdwdate:
         logger.info(message)
 
         message = self._('success')
-        return "success", 'success', message
+        icon = "success"
+        status = "success"
+        return icon, status, message
 
     def wait_sleep(self):
         sleep_time_seconds = randint(sleep_time_minimum_seconds, sleep_time_maximum_seconds)
@@ -619,10 +635,16 @@ class Sdwdate:
         sdwdate.write_status(icon, message)
 
         if icon == 'success':
+            #logger.info("wait_sleep: icon == success")
             logger.info(stripped_message)
+        elif icon == 'busy':
+            logger.error("wait_sleep: icon == busy")
+            logger.error(stripped_message)
         elif icon == 'error':
-            logger.warning(stripped_message)
+            #logger.info("wait_sleep: icon == error")
+            logger.error(stripped_message)
         else:
+            logger.error("wait_sleep: icon == else")
             logger.error(stripped_message)
 
         n.notify("WATCHDOG=1")
