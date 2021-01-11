@@ -141,6 +141,83 @@ class Sdwdate:
             msgf.write(msg)
             msgf.close()
 
+    def prerequisite_check(self):
+        message = ''
+        previous_messsage = ''
+        sdwdate = Sdwdate()
+        loop_counter = 0
+        loop_max = 10000
+        prerequisite_check_sleep_seconds = 0
+        while True:
+            n.notify("WATCHDOG=1")
+            if loop_counter >= loop_max:
+                loop_counter = 0
+            loop_counter += 1
+            msg = "STATUS=Running sdwdate prerequisite_check loop. prerequisite_check_sleep_seconds: " + \
+    str(prerequisite_check_sleep_seconds) + " iteration: " + str(loop_counter) + " / " + str(loop_max)
+            n.notify(msg)
+
+            ## Wait one second after first failure. Two at second failure etc.
+            ## Up to a maximum of ten seconds wait between attempts.
+            ## The rationale behind this is to be quick at boot time while not
+            ## stressing the system.
+            prerequisite_check_sleep_seconds += 1
+            if prerequisite_check_sleep_seconds >= 10:
+                prerequisite_check_sleep_seconds = 10
+
+            prerequisite_path = '/usr/lib/helper-scripts/onion-time-pre-script'
+            prerequisite_status = subprocess.Popen(prerequisite_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+            stdout, stderr = prerequisite_status.communicate()
+            prerequisite_status.kill()
+            output_stdout = stdout.decode('UTF-8')
+            output_stderr = stderr.decode('UTF-8')
+            joint_message = output_stderr + "\n" + output_stdout
+
+            if prerequisite_status.returncode == 0:
+                logger.info("PREREQUISITE CHECK:")
+                message = joint_message.strip()
+                logger.info(sdwdate.strip_html(message))
+                logger.info("PREREQUISITE CHECK RESULT: SUCCESS.")
+                logger.info("\n")
+                return True
+
+            if joint_message != previous_messsage:
+                ## No new message. No status changes. Therefore do not reset wait
+                ## counter and wait prerequisite_check_sleep_seconds.
+                logger.info("PREREQUISITE CHECK RESULT: Skip showing same message.")
+                time.sleep(prerequisite_check_sleep_seconds)
+                continue
+
+            previous_messsage = joint_message
+
+            logger.info("PREREQUISITE CHECK:")
+            message = joint_message.strip()
+            logger.info(sdwdate.strip_html(joint_message))
+
+            if prerequisite_status.returncode == 1:
+                icon = "error"
+                logger.info("PREREQUISITE CHECK RESULT: ERROR (expected).")
+            elif prerequisite_status.returncode == 2:
+                icon = "busy"
+                logger.info("PREREQUISITE CHECK RESULT: WAIT.")
+            else:
+                icon = "busy"
+                logger.info("PREREQUISITE CHECK RESULT: ERROR (unexpected).")
+
+            logger.info("\n")
+            ## TODO: remove this once security implications are sorted.
+            ## https://phabricator.whonix.org/T534#15429
+            main_message = "Prerequisite check not done yet. More more information, see: sdwdate-gui -> right click -> Open sdwdate's log"
+
+            sdwdate.write_status(icon, main_message)
+
+            ## Different message. Probably progress was made.
+            ## More progress to be expected. Therefore reset wait counter to just
+            ## wait a short time.
+            prerequisite_check_sleep_seconds = 1
+            time.sleep(prerequisite_check_sleep_seconds)
+
     @staticmethod
     def general_proxy_error(pools):
         '''
@@ -508,87 +585,6 @@ class Sdwdate:
         return "success", 'success', message
 
 
-
-
-
-def prerequisite_check():
-    message = ''
-    previous_messsage = ''
-    sdwdate = Sdwdate()
-    loop_counter = 0
-    loop_max = 10000
-    prerequisite_check_sleep_seconds = 0
-    while True:
-        n.notify("WATCHDOG=1")
-        if loop_counter >= loop_max:
-            loop_counter = 0
-        loop_counter += 1
-        msg = "STATUS=Running sdwdate prerequisite_check loop. prerequisite_check_sleep_seconds: " + \
-str(prerequisite_check_sleep_seconds) + " iteration: " + str(loop_counter) + " / " + str(loop_max)
-        n.notify(msg)
-
-        ## Wait one second after first failure. Two at second failure etc.
-        ## Up to a maximum of ten seconds wait between attempts.
-        ## The rationale behind this is to be quick at boot time while not
-        ## stressing the system.
-        prerequisite_check_sleep_seconds += 1
-        if prerequisite_check_sleep_seconds >= 10:
-            prerequisite_check_sleep_seconds = 10
-
-        prerequisite_path = '/usr/lib/helper-scripts/onion-time-pre-script'
-        prerequisite_status = subprocess.Popen(prerequisite_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-        stdout, stderr = prerequisite_status.communicate()
-        prerequisite_status.kill()
-        output_stdout = stdout.decode('UTF-8')
-        output_stderr = stderr.decode('UTF-8')
-        joint_message = output_stderr + "\n" + output_stdout
-
-        if prerequisite_status.returncode == 0:
-            logger.info("PREREQUISITE CHECK:")
-            message = joint_message.strip()
-            logger.info(sdwdate.strip_html(message))
-            logger.info("PREREQUISITE CHECK RESULT: SUCCESS.")
-            logger.info("\n")
-            return True
-
-        if joint_message != previous_messsage:
-            ## No new message. No status changes. Therefore do not reset wait
-            ## counter and wait prerequisite_check_sleep_seconds.
-            logger.info("PREREQUISITE CHECK RESULT: Skip showing same message.")
-            time.sleep(prerequisite_check_sleep_seconds)
-            continue
-
-        previous_messsage = joint_message
-
-        logger.info("PREREQUISITE CHECK:")
-        message = joint_message.strip()
-        logger.info(sdwdate.strip_html(joint_message))
-
-        if prerequisite_status.returncode == 1:
-            icon = "error"
-            logger.info("PREREQUISITE CHECK RESULT: ERROR (expected).")
-        elif prerequisite_status.returncode == 2:
-            icon = "busy"
-            logger.info("PREREQUISITE CHECK RESULT: WAIT.")
-        else:
-            icon = "busy"
-            logger.info("PREREQUISITE CHECK RESULT: ERROR (unexpected).")
-
-        logger.info("\n")
-        ## TODO: remove this once security implications are sorted.
-        ## https://phabricator.whonix.org/T534#15429
-        main_message = "Prerequisite check not done yet. More more information, see: sdwdate-gui -> right click -> Open sdwdate's log"
-
-        sdwdate.write_status(icon, main_message)
-
-        ## Different message. Probably progress was made.
-        ## More progress to be expected. Therefore reset wait counter to just
-        ## wait a short time.
-        prerequisite_check_sleep_seconds = 1
-        time.sleep(prerequisite_check_sleep_seconds)
-
-
 if __name__ == "__main__":
     logger = logging.getLogger('sdwdate')
     logger.setLevel(logging.INFO)
@@ -620,7 +616,7 @@ if __name__ == "__main__":
         msg = "Running sdwdate main loop. iteration: " + str(loop_counter) + " / " + str(loop_max)
         logger.info(msg)
 
-        prerequisite_check()
+        sdwdate.prerequisite_check()
 
         msg = "STATUS=Running sdwdate main loop. iteration: " + str(loop_counter) + " / " + str(loop_max)
         n.notify(msg)
