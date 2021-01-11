@@ -235,10 +235,10 @@ class Sdwdate:
         Get the median (not average) from the list of values.
         '''
         diffs = sorted(self.pools_diff)
-        message = 'Pool differences, sorted: %s' % diffs
+        message = 'pool differences, sorted: %s' % diffs
         logger.info(message)
         self.median_diff_in_seconds = diffs[(len(diffs) // 2)]
-        message = 'Median time difference: %+.9f' % self.median_diff_in_seconds
+        message = 'median time difference: %+.9f' % self.median_diff_in_seconds
         logger.info(message)
 
     def set_new_time(self):
@@ -274,7 +274,7 @@ class Sdwdate:
         ## Consumed by run_sclockadj.
         self.new_diff_in_nanoseconds = int(self.new_diff_in_seconds * 1000000000)
 
-        message = 'New time difference   : %+.9f' % self.new_diff_in_seconds
+        message = 'new time difference   : %+.9f' % self.new_diff_in_seconds
         logger.info(message)
 
     def run_sclockadj(self):
@@ -297,13 +297,13 @@ class Sdwdate:
 
     def set_time_using_date(self):
         old_unixtime = format(time.time(), '.9f')
-        message = 'Old unixttime: ' + old_unixtime
+        message = 'old unixttime: ' + old_unixtime
         logger.info(message)
 
         new_unixtime = float(old_unixtime) + float(self.new_diff_in_seconds)
         new_unixtime_str = format(new_unixtime, '.9f')
 
-        message = 'New unixtime : ' + new_unixtime_str
+        message = 'new unixtime : ' + new_unixtime_str
         logger.info(message)
 
         ## Set new time.
@@ -378,7 +378,7 @@ class Sdwdate:
                     self.url_random.append(pool.url[url_index])
 
             if len(self.url_random) > 0:
-                message = 'Requested urls %s' % self.url_random
+                message = 'requested urls %s' % self.url_random
                 logger.info(message)
 
                 self.urls, self.returned_values = get_time_from_servers(self.url_random,
@@ -389,7 +389,7 @@ class Sdwdate:
                     message = self._('no_value_returned') + self._('restart')
                     return self.error_icon, 'error', message
 
-                message = 'Returned urls "%s"' % self.urls
+                message = 'returned urls "%s"' % self.urls
                 logger.info(message)
 
             else:
@@ -701,7 +701,7 @@ if __name__ == "__main__":
         ## The latter uses the system clock for its inactive state time.
         ## It becomes utterly confused when sclockadj is running.
         cmd = "sleep" + " " + str(sleep_time_seconds) + "." + str(nanoseconds)
-        message = "Running command: " + cmd
+        message = "running command: " + cmd
         logger.info(message)
         call(cmd, shell=True)
 
