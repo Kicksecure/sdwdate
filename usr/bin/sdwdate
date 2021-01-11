@@ -442,7 +442,7 @@ class Sdwdate:
                             pool_diff = int(web_unixtime) - int(old_unixtime)
                             self.pools_diff.append(pool_diff)
                             pool_number = self.pools.index(pool) + 1
-                            message = ('Pool %s: %s, web unixtime: %s, web time: %s, diff: %s seconds'
+                            message = ('pool %s: %s, web unixtime: %s, web time: %s, diff: %s seconds'
                                         % (pool_number, url, web_unixtime, web_time, pool_diff))
                             logger.info(message)
 
