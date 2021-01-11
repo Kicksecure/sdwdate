@@ -605,8 +605,8 @@ class Sdwdate:
         log_level = 'info'
         message = (sdwdate_message_from_loop + " " + sdwdate._('sleeping') +
                   str(sleep_time_minutes) + sdwdate._('minutes'))
-        stripped_message = sdwdate.strip_html(message)
 
+        stripped_message = sdwdate.strip_html(message)
         sdwdate.write_status(icon, message)
 
         if log_level == 'info':
