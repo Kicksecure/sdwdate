@@ -34,7 +34,7 @@
   /usr/lib/helper-scripts/settings_echo mrix,
   /usr/lib/helper-scripts/tor_consensus_valid-after.py mrix,
   /usr/lib/helper-scripts/tor_consensus_valid-until.py mrix,
-  /usr/bin/url_to_unixtime mrix,
+  /usr/bin/url_to_unixtime Pix,
   /usr/lib/helper-scripts/tor_bootstrap_check.bsh rix,
   /usr/lib/helper-scripts/onion-time-pre-script rix,
   /usr/lib/sdwdate/sclockadj rix,

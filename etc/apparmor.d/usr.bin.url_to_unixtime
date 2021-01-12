@@ -20,6 +20,7 @@
   #deny /usr/bin/** rwx,
   deny /sbin/** rwx,
   deny @{PROC}/** r,
+  deny /usr/bin/python3.7 r,
 
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.bin.url_to_unixtime>

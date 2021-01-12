@@ -4,6 +4,8 @@
 ## See the file COPYING for copying conditions.
 
 import sys
+sys.dont_write_bytecode = True
+
 import logging
 import signal
 import os
