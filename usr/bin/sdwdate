@@ -104,8 +104,8 @@ class Sdwdate:
         sdwdate_status_files_folder_split = os.path.split(sdwdate_status_files_folder)
         if not sdwdate_status_files_folder_split[-1] == "sdwdate":
             print("ERROR: home folder does not end with /sdwdate")
-            print("home_folder_split: " + str(home_folder_split))
-            print("sdwdate_status_files_folder: " + sdwdate_status_files_folder)
+            print("ERROR: home_folder_split: " + str(home_folder_split))
+            print("ERROR: sdwdate_status_files_folder: " + sdwdate_status_files_folder)
             sys.exit(1)
 
         Path(sdwdate_status_files_folder).mkdir(parents=True, exist_ok=True)
