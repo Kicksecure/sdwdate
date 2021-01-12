@@ -87,11 +87,29 @@ class Sdwdate:
         self.new_diff_in_nanoseconds = 0
 
         home_folder = str(Path.home())
-        ## This would be required for support of running as users other than sdwdate.
-        #sdwdate_status_files_folder = home_folder + "/sdwdate" = home_folder + "/sdwdate"
-        ## home folder for user sdwdate is set to /run/sdwdate
-        sdwdate_status_files_folder = home_folder
-        print("sdwdate_status_files_folder: " + sdwdate_status_files_folder)
+        home_folder_split = os.path.split(Path.home())
+
+        if home_folder_split[0] == "/home":
+            ## Required for support of running as users other than sdwdate.
+            print("11111111")
+            sdwdate_status_files_folder = home_folder + "/sdwdate"
+            ## example sdwdate_status_files_folder:
+            ## /home/user/sdwdate
+        else:
+            ## home folder for user sdwdate is set to /run/sdwdate
+            print("22222222")
+            sdwdate_status_files_folder = home_folder
+            ## example sdwdate_status_files_folder:
+            ## /run/sdwdate
+
+        ## Sanity test.
+        sdwdate_status_files_folder_split = os.path.split(Path.home())
+        if not sdwdate_status_files_folder_split[-1] == "/sdwdate"
+            print("ERROR: home folder does not end with /sdwdate")
+            print("home_folder_split: " + str(home_folder_split))
+            print("sdwdate_status_files_folder: " + sdwdate_status_files_folder)
+            sys.exit(1)
+
         Path(sdwdate_status_files_folder).mkdir(parents=True, exist_ok=True)
 
         self.status_first_success_path = sdwdate_status_files_folder + '/first_success'
