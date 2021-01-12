@@ -102,7 +102,7 @@ class Sdwdate:
 
         ## Sanity test.
         sdwdate_status_files_folder_split = os.path.split(Path.home())
-        if not sdwdate_status_files_folder_split[-1] == "/sdwdate"
+        if not sdwdate_status_files_folder_split[-1] == "/sdwdate":
             print("ERROR: home folder does not end with /sdwdate")
             print("home_folder_split: " + str(home_folder_split))
             print("sdwdate_status_files_folder: " + sdwdate_status_files_folder)
