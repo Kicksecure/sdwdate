@@ -32,30 +32,33 @@ TimeoutSec=30
 WatchdogSec=200m
 Restart=always
 
-# Hardening.
+## Hardening.
 AmbientCapabilities=CAP_SYS_TIME
 CapabilityBoundingSet=CAP_SYS_TIME
-ProtectSystem=strict
-ReadWriteDirectories=/run/sdwdate/
-ProtectHome=true
-ProtectKernelTunables=true
-ProtectKernelModules=true
-ProtectControlGroups=true
-PrivateTmp=true
-PrivateMounts=true
-PrivateDevices=true
-MemoryDenyWriteExecute=true
-NoNewPrivileges=true
-RestrictRealtime=true
-SystemCallArchitectures=native
-RestrictNamespaces=true
-RestrictAddressFamilies=AF_UNIX AF_INET
 
-# Broken. Need list of syscalls. Alternative below.
-#SystemCallFilter=@clock @ipc @signal
+## Broken!
+## AVC apparmor="DENIED" operation="exec" info="no new privs" error=-1 profile="/usr/bin/sdwdate" name="/usr/bin/url_to_unixtime" pid=17091 comm="sdwdate" requested_mask="x" denied_mask="x" fsuid=125 ouid=0 target="/usr/bin/url_to_unixtime"
+#ProtectSystem=strict
+#ReadWriteDirectories=/run/sdwdate/
+#ProtectHome=true
+#ProtectKernelTunables=true
+#ProtectKernelModules=true
+#ProtectControlGroups=true
+#PrivateTmp=true
+#PrivateMounts=true
+#PrivateDevices=true
+#MemoryDenyWriteExecute=true
+#NoNewPrivileges=true
+#RestrictRealtime=true
+#SystemCallArchitectures=native
+#RestrictNamespaces=true
+#RestrictAddressFamilies=AF_UNIX AF_INET
 
-# Blacklist certain syscalls. A whitelist would be stronger.
-SystemCallFilter=~@mount @cpu-emulation @debug @keyring @module @obsolete @raw-io
+## Broken! Need list of syscalls. Alternative below.
+## SystemCallFilter=@clock @ipc @signal
+
+## Blacklist certain syscalls. A whitelist would be stronger.
+#SystemCallFilter=~@mount @cpu-emulation @debug @keyring @module @obsolete @raw-io
 
 [Install]
 WantedBy=multi-user.target
