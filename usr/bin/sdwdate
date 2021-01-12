@@ -91,13 +91,11 @@ class Sdwdate:
 
         if home_folder_split[0] == "/home":
             ## Required for support of running as users other than sdwdate.
-            print("11111111")
             sdwdate_status_files_folder = home_folder + "/sdwdate"
             ## example sdwdate_status_files_folder:
             ## /home/user/sdwdate
         else:
             ## home folder for user sdwdate is set to /run/sdwdate
-            print("22222222")
             sdwdate_status_files_folder = home_folder
             ## example sdwdate_status_files_folder:
             ## /run/sdwdate
