@@ -1,3 +1,73 @@
+commit b5f0ea11cfc91613490135213b999dee917455a1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 12 00:51:48 2021 -0500
+
+    disable systemd hardening
+    
+    incompatible with apparmor profile
+    
+    AVC apparmor="DENIED" operation="exec" info="no new privs" error=-1 profile="/usr/bin/sdwdate" name="/usr/bin/url_to_unixtime" pid=17091 comm="sdwdate" requested_mask="x" denied_mask="x" fsuid=125 ouid=0 target="/usr/bin/url_to_unixtime"
+
+commit 71a180cb53071364d1879628c19ff8528ef91a8b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 12 00:43:22 2021 -0500
+
+    apparmor
+
+commit c842150b39c192771e2f6cb179dab49346795e6d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 12 00:15:55 2021 -0500
+
+    output
+
+commit 9b6c3a6b7a655468dc9e9d27a930cd0624b78a80
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 12 00:14:05 2021 -0500
+
+    output
+
+commit 1cb7fdb0e2b335bdb89833199732db21b3d82470
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 12 00:06:57 2021 -0500
+
+    fix
+
+commit 23adb501a4c5e2ed3106ddebecfb5b3301a14e75
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 12 00:05:34 2021 -0500
+
+    fix
+
+commit 7b6aa4e1edd541cae8be71d4906e04c8df19d7a9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 12 00:04:48 2021 -0500
+
+    fix
+
+commit b0fb04fedc6f7a0b509e46a71ed529fa4aa34680
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 12 00:00:26 2021 -0500
+
+    cleanup
+
+commit 228b061b5aeacc30f2abc91b3f843a9d23df70f9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 11 23:59:50 2021 -0500
+
+    home folder /home/user/sdwdate vs /run/sdwdate when run under user vs sdwdate
+
+commit ad524ed986d0fef0d6b2216def5e91d7deac25d5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 11 23:46:53 2021 -0500
+
+    apparmor
+
+commit e7fe550ed1a0257c6dc0fef36da276553ae51533
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 11 11:40:00 2021 -0500
+
+    bumped changelog version
+
 commit 176eb794b1c3ea43e7f1a3ee5ec5d5a6cfdd248d
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Jan 11 10:34:23 2021 -0500
