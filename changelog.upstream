@@ -1,3 +1,15 @@
+commit a4807f408d081d17dc01b121bf11a17cc53e0ba4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 15 02:12:57 2021 -0500
+
+    apparmor
+
+commit 6394d5c8c9bde33f6c2d9c9a1602741bd7cf3010
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 14 02:36:00 2021 -0500
+
+    bumped changelog version
+
 commit b5f0ea11cfc91613490135213b999dee917455a1
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jan 12 00:51:48 2021 -0500
