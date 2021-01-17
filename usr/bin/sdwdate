@@ -233,13 +233,13 @@ class Sdwdate:
 
             if preparation_status.returncode == 1:
                 icon = "error"
-                logger.info("PREPARATION RESULT: ERROR (expected).")
+                logger.info("PREPARATION RESULT: (known) ERROR.")
             elif preparation_status.returncode == 2:
                 icon = "busy"
                 logger.info("PREPARATION RESULT: WAIT.")
             else:
                 icon = "error"
-                logger.info("PREPARATION RESULT: ERROR (unexpected).")
+                logger.info("PREPARATION RESULT: (unknown) ERROR.")
 
             logger.info("\n")
             ## TODO: remove this once security implications are sorted.
