@@ -13,6 +13,9 @@
 ## url_to_unixtime 127.0.0.1 9050 http://expyuzz4wqqyqhjn.onion 80 false
 ## url_to_unixtime 127.0.0.1 9050 https://usatodayw7vu5egc.onion 80 false
 
+## prints debug and errors to stderr
+## prints unixtime to stdout
+
 import sys
 #sys.dont_write_bytecode = True
 
