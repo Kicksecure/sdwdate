@@ -32,6 +32,13 @@ def get_time_from_servers(remotes, ip_address, port_number):
                               str(remote_port),
                               str(url_to_unixtime_debug)], stdout=PIPE))
 
+    print(url_to_unixtime_path,
+                              ip_address,
+                              port_number,
+                              remotes[i],
+                              str(remote_port),
+                              str(url_to_unixtime_debug))
+
     try:
        gevent.wait(timeout=seconds)
     except KeyboardInterrupt:
@@ -62,6 +69,7 @@ def get_time_from_servers(remotes, ip_address, port_number):
             ## This can be placed in a separate file/process.
             try:
                 msg = msg.strip()
+                print(msg)
                 unix_times.append(msg)
             except:
                 ## Log
