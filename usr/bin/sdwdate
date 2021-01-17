@@ -130,6 +130,9 @@ class Sdwdate:
         self.proxy_ip, self.proxy_port = proxy_settings()
 
     def signal_sigterm_handler(self, signum, frame):
+        message = sdwdate._('sigterm')
+        stripped_message = sdwdate.strip_html(message)
+        logger.info(stripped_message)
         sdwdate.exit_handler()
 
     def exit_handler(self):
@@ -138,7 +141,8 @@ class Sdwdate:
         n.notify("STOPPING=1")
 
         icon = "error"
-        message = sdwdate._('user_kill')
+
+        message = "sdwdate stopped by user or system."
         stripped_message = sdwdate.strip_html(message)
         sdwdate.write_status(icon, message)
 

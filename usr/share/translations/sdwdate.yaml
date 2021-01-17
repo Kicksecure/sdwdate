@@ -6,7 +6,7 @@ sdwdate:
     en:
         fetching: 'Time fetching in progress...'
         restricted: 'Initial time fetching in progress...'
-        user_kill: 'Signal SIGTERM received. sdwdate stopped by user or system. '
+        sigterm: 'Signal SIGTERM received.'
         sleeping: 'Sleeping for '
         minutes: ' minutes.'
         success: 'Success.'
