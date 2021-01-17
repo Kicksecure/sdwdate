@@ -40,7 +40,8 @@
   /usr/lib/helper-scripts/onion-time-pre-script rix,
   /usr/lib/sdwdate/sclockadj rix,
 
-  /usr/bin/url_to_unixtime Pix,
+  ## Cannot use Pix yet due to apparmor no new privs issue.
+  /usr/bin/url_to_unixtime rix,
 
   ## TODO
   /usr/sbin/anondate-set rUx,
