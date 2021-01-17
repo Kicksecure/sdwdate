@@ -58,12 +58,13 @@ def get_time_from_servers(remotes, ip_address, port_number):
         if threads[i].poll() is not None:
             urls.append(remotes[i])
             msg = threads[i].stdout.read()
-            # Sanitize response. Log if response causes error. This can be placed in a separate file/process
+            ## Sanitize response. Log if response causes error.
+            ## This can be placed in a separate file/process.
             try:
                 msg = msg.strip()
                 unix_times.append(msg)
             except:
-                #Log
+                ## Log
                 unix_times.append('Error sanitizing output!')
         else:
             urls.append(remotes[i])
