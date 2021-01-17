@@ -29,8 +29,8 @@ def get_time_from_servers(remotes, ip_address, port_number):
                               ip_address,
                               port_number,
                               remotes[i],
-                              remote_port,
-                              url_to_unixtime_debug], stdout=PIPE))
+                              str(remote_port),
+                              str(url_to_unixtime_debug)], stdout=PIPE))
 
     try:
        gevent.wait(timeout=seconds)
