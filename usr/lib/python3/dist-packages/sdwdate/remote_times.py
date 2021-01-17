@@ -9,11 +9,10 @@ import gevent
 from gevent.subprocess import Popen, PIPE
 
 def get_time_from_servers(remotes, ip_address, port_number):
-    url_to_unixtime_path = 'url_to_unixtime'
-
     threads = []
     urls = []
     unix_times = []
+    stderr_list = []
     seconds = 50
     do_exit = False
     remote_port = "80"
@@ -24,32 +23,26 @@ def get_time_from_servers(remotes, ip_address, port_number):
     del threads[:]
     del urls[:]
     del unix_times[:]
+    del stderr_list[:]
 
     for i in range(len(remotes)):
-        threads.append(Popen([url_to_unixtime_path,
-                              ip_address,
-                              port_number,
-                              remotes[i],
-                              remote_port,
-                              url_to_unixtime_debug], stdout=PIPE))
+      url_to_unixtime_command = "url_to_unixtime" + " " + ip_address + " " + port_number + " " + remotes[i] + " " + remote_port + " " + url_to_unixtime_debug
 
-    print(url_to_unixtime_path,
-                              ip_address,
-                              port_number,
-                              remotes[i],
-                              remote_port,
-                              url_to_unixtime_debug)
+      print("remote_times.py: url_to_unixtime_command: ", url_to_unixtime_command)
+
+      ## TODO: split url_to_unixtime_command instead of shell=True?
+      threads.append(Popen([url_to_unixtime_command], shell=True, stdout=PIPE, stderr=PIPE))
 
     try:
        gevent.wait(timeout=seconds)
     except KeyboardInterrupt:
        do_exit = True
-       print("remotes.py: KeyboardInterrupt received.")
+       print("remote_times.py: KeyboardInterrupt received.")
     except SystemExit:
        do_exit = True
-       print("remotes.py: sigterm received.")
+       print("remote_times.py: sigterm received.")
     except:
-       print("remotes.py: unexpected error:", sys.exc_info()[0])
+       print("remote_times.py: unexpected error:", sys.exc_info()[0])
        pass
 
     if do_exit == True:
@@ -60,30 +53,37 @@ def get_time_from_servers(remotes, ip_address, port_number):
                pass
        urls.append(remotes[i])
        unix_times.append('sigterm')
-       return urls, unix_times
+       stderr_list.append('sigterm')
+       return urls, unix_times, stderr_list
 
     for i in range(len(threads)):
         if threads[i].poll() is not None:
             urls.append(remotes[i])
-            msg = threads[i].stdout.read()
+            stdout = threads[i].stdout.read()
+            stderr = threads[i].stderr.read()
             ## Sanitize response. Log if response causes error.
             ## This can be placed in a separate file/process.
             try:
-                msg = msg.strip()
-                print(msg)
-                unix_times.append(msg)
+                stdout = stdout.strip()
+                stderr = stderr.strip()
+                #print("remote_times.py: url_to_unixtime: stdout: ", stdout)
+                #print("remote_times.py: url_to_unixtime: stderr: ", stderr)
+                unix_times.append(stdout)
+                stderr_list.append(stderr)
             except:
                 ## Log
                 unix_times.append('Error sanitizing output!')
+                stderr_list.append('Error sanitizing output!')
         else:
             urls.append(remotes[i])
             unix_times.append('Timeout')
+            stderr_list.append('Timeout')
         try:
            threads[i].terminate()
         except:
            pass
 
-    return urls, unix_times
+    return urls, unix_times, stderr_list
 
 if __name__ == "__main__":
     get_time_from_servers(remotes)

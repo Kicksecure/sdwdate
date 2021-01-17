@@ -271,7 +271,7 @@ class Sdwdate:
         return False
 
     @staticmethod
-    def check_remote(remote, value, comment, i):
+    def check_remote(remote, value, stderr, comment, i):
         '''
         Check returned value. True if numeric.
         '''
@@ -294,6 +294,8 @@ class Sdwdate:
             logger.info(message)
             message = "* value: " + str(value)
             logger.info(message)
+            message = "* stderr: " + str(stderr)
+            logger.info(message)
             if value == "sigterm":
                sdwdate.exit_handler()
             return False
@@ -302,6 +304,8 @@ class Sdwdate:
 
         consensus_status, consensus_error, consensus_valid_after_str, consensus_valid_until_str = time_consensus_sanity_check(remote_unixtime)
 
+        message = "* stderr: " + str(stderr)
+        logger.info(message)
         message = "* remote_unixtime: " + str(remote_unixtime)
         logger.info(message)
         message = "* consensus/valid-after: " + consensus_valid_after_str
@@ -562,7 +566,7 @@ class Sdwdate:
                 message = 'requested urls %s' % self.url_random
                 logger.info(message)
 
-                self.urls, self.returned_values = get_time_from_servers(self.url_random,
+                self.urls, self.returned_values, self.list_of_stderr = get_time_from_servers(self.url_random,
                                                                         self.proxy_ip,
                                                                         self.proxy_port)
 
@@ -582,7 +586,7 @@ class Sdwdate:
                 return icon, status, message
 
             for i in range(len(self.urls)):
-                if self.check_remote(self.urls[i], self.returned_values[i], self.get_comment(self.urls[i]), i):
+                if self.check_remote(self.urls[i], self.returned_values[i], self.list_of_stderr[i], self.get_comment(self.urls[i]), i):
                     self.valid_urls.append(self.urls[i])
                     self.unixtimes.append(self.returned_values[i])
                 else:
