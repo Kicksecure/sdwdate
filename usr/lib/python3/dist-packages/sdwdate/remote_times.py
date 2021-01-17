@@ -29,10 +29,10 @@ def get_time_from_servers(remotes, ip_address, port_number):
     for i in range(len(remotes)):
       url_to_unixtime_command = "url_to_unixtime" + " " + ip_address + " " + port_number + " " + remotes[i] + " " + remote_port + " " + url_to_unixtime_debug
 
+      print("remote_times.py: url_to_unixtime_command:", str(url_to_unixtime_command))
+
       ## Avoid Popen shell=True.
       url_to_unixtime_command = shlex.split(url_to_unixtime_command)
-
-      print("remote_times.py: url_to_unixtime_command: ", str(url_to_unixtime_command))
 
       threads.append(Popen(url_to_unixtime_command, stdout=PIPE, stderr=PIPE))
 
