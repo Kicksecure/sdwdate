@@ -26,6 +26,7 @@
   /{,usr/}bin/ps rix,
   /{,usr/}bin/uname rix,
   /{,usr/}bin/sleep rix,
+  /{,usr/}bin/timesanitycheck rix,
 
   /usr/bin/ r,
   /usr/bin/python3.7 rix,
@@ -50,7 +51,6 @@
   /{,usr/local/}etc/torrc.d/ r,
   /{,usr/local/}etc/torrc.d/*.conf r,
 
-  /usr/share/timesanitycheck/shared r,
   /usr/lib/python3/dist-packages/sdwdate/timesanitycheck.py rix,
   /usr/share/tor/tor-service-defaults-torrc r,
   /usr/share/tor/tor-service-defaults-torrc.anondist r,
