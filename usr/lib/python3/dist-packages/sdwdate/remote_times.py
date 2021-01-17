@@ -16,7 +16,7 @@ def get_time_from_servers(remotes, ip_address, port_number):
     unix_times = []
     seconds = 50
     do_exit = False
-    remote_port = 80
+    remote_port = "80"
     ## TODO: set to "false"
     url_to_unixtime_debug = "true"
 
@@ -30,15 +30,15 @@ def get_time_from_servers(remotes, ip_address, port_number):
                               ip_address,
                               port_number,
                               remotes[i],
-                              str(remote_port),
-                              str(url_to_unixtime_debug)], stdout=PIPE))
+                              remote_port,
+                              url_to_unixtime_debug], stdout=PIPE))
 
     print(url_to_unixtime_path,
                               ip_address,
                               port_number,
                               remotes[i],
-                              str(remote_port),
-                              str(url_to_unixtime_debug))
+                              remote_port,
+                              url_to_unixtime_debug)
 
     try:
        gevent.wait(timeout=seconds)
