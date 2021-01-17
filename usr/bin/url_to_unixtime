@@ -130,6 +130,7 @@ def parse_command_line_parameters():
 
     except (IndexError) as e:
         print("Parsing command line parameter failed. | e: {}".format(e), file=sys.stderr)
+        print("sys.argv:", str(sys.argv), file=sys.stderr)
         sys.exit(7)
 
     return(socket_ip, socket_port, url, remote_port, verbosity)
