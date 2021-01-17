@@ -19,6 +19,7 @@ import sys
 import os, time, socks, requests
 from dateutil.parser import parse
 
+os.environ['LC_TIME'] = 'C'
 os.environ['TZ'] = 'UTC'
 time.tzset()
 
