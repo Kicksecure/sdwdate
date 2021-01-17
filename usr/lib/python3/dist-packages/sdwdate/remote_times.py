@@ -6,6 +6,7 @@
 
 import sys
 import gevent
+import shlex
 from gevent.subprocess import Popen, PIPE
 
 def get_time_from_servers(remotes, ip_address, port_number):
@@ -28,10 +29,11 @@ def get_time_from_servers(remotes, ip_address, port_number):
     for i in range(len(remotes)):
       url_to_unixtime_command = "url_to_unixtime" + " " + ip_address + " " + port_number + " " + remotes[i] + " " + remote_port + " " + url_to_unixtime_debug
 
-      print("remote_times.py: url_to_unixtime_command: ", url_to_unixtime_command)
+      url_to_unixtime_command = shlex.split(url_to_unixtime_command)
 
-      ## TODO: split url_to_unixtime_command instead of shell=True?
-      threads.append(Popen([url_to_unixtime_command], shell=True, stdout=PIPE, stderr=PIPE))
+      print("remote_times.py: url_to_unixtime_command: ", str(url_to_unixtime_command))
+
+      threads.append(Popen(url_to_unixtime_command, stdout=PIPE, stderr=PIPE))
 
     try:
        gevent.wait(timeout=seconds)
