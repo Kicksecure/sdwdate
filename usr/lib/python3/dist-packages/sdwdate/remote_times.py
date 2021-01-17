@@ -16,6 +16,8 @@ def get_time_from_servers(remotes, ip_address, port_number):
     unix_times = []
     seconds = 50
     do_exit = False
+    remote_port = 80
+    url_to_unixtime_debug = 0
 
     ### Clear lists.
     del threads[:]
@@ -27,8 +29,8 @@ def get_time_from_servers(remotes, ip_address, port_number):
                               ip_address,
                               port_number,
                               remotes[i],
-                              '80',
-                              '0'], stdout=PIPE))
+                              remote_port,
+                              url_to_unixtime_debug], stdout=PIPE))
 
     try:
        gevent.wait(timeout=seconds)
