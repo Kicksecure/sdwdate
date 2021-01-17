@@ -56,6 +56,8 @@
   /usr/share/tor/tor-service-defaults-torrc r,
   /usr/share/tor/tor-service-defaults-torrc.anondist r,
   /usr/share/translations/sdwdate.yaml r,
+
+  ## No longer required as soon timesanitycheck runs with appamor `Px`
   /usr/share/timesanitycheck/minimum_unixtime r,
 
   owner @{PROC}/*/fd/ r,
