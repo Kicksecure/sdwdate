@@ -511,8 +511,9 @@ class Sdwdate:
         fetching_msg = self._('fetching')
         restricted_msg = self._('restricted')
 
-        message = "restricted_msg: " + restricted_msg
-        logger.info(message)
+        #message = "restricted_msg: " + restricted_msg
+        #logger.info(message)
+        ## restricted_msg: Initial time fetching in progress...
 
         status_success = os.path.exists(self.status_success_path)
         status_first_success = os.path.exists(self.status_first_success_path)
