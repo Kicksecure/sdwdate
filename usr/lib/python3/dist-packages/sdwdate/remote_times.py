@@ -39,7 +39,7 @@ def get_time_from_servers(remotes, ip_address, port_number):
        do_exit = True
        print("remotes.py: sigterm received.")
     except:
-       print("Unexpected error:", sys.exc_info()[0])
+       print("remotes.py: unexpected error:", sys.exc_info()[0])
        pass
 
     if do_exit == True:
