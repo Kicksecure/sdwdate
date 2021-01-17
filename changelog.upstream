@@ -1,3 +1,171 @@
+commit 12b7e98966d43db185f172e07ffa6d32f97cbe01
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 02:14:10 2021 -0500
+
+    output
+
+commit 7699819a5bba46af6bddf759fa6eeae1d64f9654
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 02:01:18 2021 -0500
+
+    output
+
+commit bd60471a22e16e07f940416183d74f42d5e5032b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 01:59:33 2021 -0500
+
+    improve exit handler
+
+commit c9ad5968fabb830a0c79db7d0175a505c3950fa5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 01:51:28 2021 -0500
+
+    improve exit handler
+
+commit eef51941e9e726ef86cdeca486bbd549822820d0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 01:46:56 2021 -0500
+
+    apparmor
+
+commit 15b818f417c3ce389b9598726d71f12696fbea54
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 01:43:13 2021 -0500
+
+    refactoring
+
+commit 248c4f709dc435da6f553197b2da07b99371439f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 01:42:27 2021 -0500
+
+    comment
+
+commit bc3839d74f514c73d43c7e438ecfeb16f61854eb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 01:40:26 2021 -0500
+
+    avoid python3 shell=True in remote_times.py
+
+commit c57bbfe7a8c8d6d16be198e986c21fa9514cfe47
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 01:39:28 2021 -0500
+
+    output
+
+commit e7cb427f2596e541dac1df381453a13b34ea3532
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 01:34:33 2021 -0500
+
+    comment
+
+commit 6f7de3ad3bbfb85979d5232a6af07ede684535a4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 01:32:13 2021 -0500
+
+    print debug and errors to stderr
+
+commit 36b5d249dcf5ee81586674450bf7e989e2baee93
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 01:19:36 2021 -0500
+
+    collect stderr from url_to_unixtime to allow debugging
+
+commit 27a9e4b8fd360de082c3a38bf9d305f9bf48339f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 00:44:30 2021 -0500
+
+    fix
+
+commit 0a99f081a5c9894b3b7ad53bdc6bd4a7ae32eabd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 00:43:38 2021 -0500
+
+    fix
+
+commit afef3a263b2c2b1b327b396b0ce4b5087887e3e2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 00:43:09 2021 -0500
+
+    fix
+
+commit 0e1d84cab7cdb307ca5a5dab3e566979e1485ce6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 00:41:49 2021 -0500
+
+    comment
+
+commit d04ff11ffc2875f269c745353cc5ace7c97984be
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 00:41:28 2021 -0500
+
+    debugging
+
+commit 959d6b7e90341f66ffb506ea2dee0d42ed083b1a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 00:37:05 2021 -0500
+
+    comment
+
+commit b7bc1beafabc770a7eacee4d3cccd4f453e29f26
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 00:35:59 2021 -0500
+
+    fix
+
+commit c6a6bcc3ed13f8cc499a4d284421b5a4a3966602
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 00:35:53 2021 -0500
+
+    fix
+
+commit 04e59d1393ae7e9b68771272fa9f8498e957a2f8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 00:31:32 2021 -0500
+
+    refactoring
+
+commit 2fc4df8cdb5e90dde2f049559b5bcb99c7947215
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 00:30:33 2021 -0500
+
+    output
+
+commit fad96ddce62c18a7b82c89923b2a79ec280cc294
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 00:27:38 2021 -0500
+
+    output
+
+commit d8e763183e1a38908e3f1d30346204724e310aab
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 16 23:10:17 2021 -0500
+
+    comment
+
+commit 0905da741636fa5bf9be1dd79e10c50c42fad324
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 16 23:08:31 2021 -0500
+
+    apparmor
+
+commit b5f01abcf0e80593d9f000f0e7ef816cbab46c2a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 16 22:23:57 2021 -0500
+
+    os.environ['LC_TIME'] = 'C'
+
+commit 5afa47aedbd4ca8858194673e0e96cbb69adb4f4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 16 22:17:01 2021 -0500
+
+    apparmor
+
+commit 0e8d4d87cbc0402742769fbe72903f239825a2d1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 15 07:29:16 2021 -0500
+
+    bumped changelog version
+
 commit a4807f408d081d17dc01b121bf11a17cc53e0ba4
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Jan 15 02:12:57 2021 -0500
