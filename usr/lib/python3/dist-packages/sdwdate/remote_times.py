@@ -17,8 +17,8 @@ def get_time_from_servers(remotes, ip_address, port_number):
     seconds = 50
     do_exit = False
     remote_port = 80
-    ## TODO: set to 0
-    url_to_unixtime_debug = 1
+    ## TODO: set to false
+    url_to_unixtime_debug = true
 
     ### Clear lists.
     del threads[:]
