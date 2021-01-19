@@ -509,6 +509,7 @@ class Sdwdate:
 
         ## Consumed by set_time_using_date.
         self.new_diff_in_seconds = self.median_diff_raw_in_seconds + seconds_to_add_or_subtract
+        #self.new_diff_in_seconds = self.median_diff_lag_cleaned_in_seconds + seconds_to_add_or_subtract
 
         ## Consumed by run_sclockadj.
         self.new_diff_in_nanoseconds = int(self.new_diff_in_seconds * 1000000000)
