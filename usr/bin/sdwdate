@@ -775,7 +775,9 @@ if __name__ == "__main__":
             ## If we make the sleep period configurable one day, we need to
             ## advice the user to also adjust WatchdogSec= in sdwdate's systemd
             ## unit file.
+            ## minimum sleep time: 60 minutes
             sleep_time_minimum_seconds = 60 * 60
+            ## maximum sleep time: 180 minutes
             sleep_time_maximum_seconds = 180 * 60
 
         elif status == 'error':
@@ -785,7 +787,9 @@ if __name__ == "__main__":
             retry_on_error_counter += 1
 
             if retry_on_error_counter >= 3:
+               ## minimum sleep time: 1 second multiplied with retry_on_error_counter
                sleep_time_minimum_seconds = 1 * retry_on_error_counter
+               ## maximum sleep time: 5 seconds multiplied with retry_on_error_counter
                sleep_time_maximum_seconds = 5 * retry_on_error_counter
                if sleep_time_maximum_seconds >= 180 * 60:
                   sleep_time_maximum_seconds = sleep_time_maximum_seconds
