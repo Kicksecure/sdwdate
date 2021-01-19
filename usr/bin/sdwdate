@@ -323,6 +323,11 @@ class Sdwdate:
                                                    '%Y-%m-%d %H:%M:%S'))
             time_diff_raw_int = int(remote_unixtime) - int(old_unixtime)
 
+            ## 1. User's sdwdate sends request to remote time source.
+            ## 2. Server creates reply (HTTP DATE header).
+            ## 3. Server sends reply back to user's sdwdate.
+            ## Therefore assume that half of the time required to get the time
+            ## reply has to be deducted from the raw time diff.
             time_diff_lag_cleaned_float = float(time_diff_raw_int) - half_took_time_float
         except:
             message = "* status: False"
