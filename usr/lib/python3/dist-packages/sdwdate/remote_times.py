@@ -65,8 +65,6 @@ def get_time_from_servers(remotes, ip_address, port_number):
             stdout = threads[i].stdout.read()
             stderr = threads[i].stderr.read()
             returncode = threads[i].returncode
-            ## Sanitize response. Log if response causes error.
-            ## This can be placed in a separate file/process.
             try:
                 stdout = stdout.strip()
                 stderr = stderr.strip()
