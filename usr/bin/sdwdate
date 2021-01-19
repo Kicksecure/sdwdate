@@ -88,6 +88,7 @@ class Sdwdate:
         self.url_random = []
         self.valid_urls = []
         self.unixtimes = []
+        self.request_took_times = []
         self.pools_diff = []
         self.failed_urls = []
         self.url_errors = []
@@ -647,9 +648,11 @@ class Sdwdate:
                 if self.check_remote(self.urls[i], self.list_of_stdout[i], self.list_of_stderr[i], self.took_time[i], self.get_comment(self.urls[i]), i):
                     self.valid_urls.append(self.urls[i])
                     self.unixtimes.append(self.list_of_stdout[i])
+                    self.request_took_times.append(self.took_time[i])
                 else:
                     self.failed_urls.append(self.urls[i])
                     self.url_errors.append(self.list_of_stdout[i])
+                    self.request_took_times.append(self.took_time[i])
 
             if self.iteration >= 3:
                if len(self.list_of_stdout) >= 3:
@@ -688,6 +691,7 @@ class Sdwdate:
                             index = self.valid_urls.index(url)
                             ## pool matching web time
                             web_unixtime = int(self.unixtimes[index])
+                            request_took_time_item = int(self.request_took_times[index])
 
                             web_time = (datetime.strftime(datetime.fromtimestamp(web_unixtime),
                                                               '%a %b %d %H:%M:%S UTC %Y'))
@@ -695,7 +699,7 @@ class Sdwdate:
                             self.pools_diff.append(pool_diff)
                             pool_number = self.pools.index(pool)
                             message = ('pool %s: %s, web unixtime: %s, web time: %s, diff: %s seconds, took_time: %s seconds'
-                                        % (pool_number, url, web_unixtime, web_time, pool_diff, self.took_time[i]))
+                                        % (pool_number, url, web_unixtime, web_time, pool_diff, request_took_time_item))
                             logger.info(message)
 
             message = "len(self.valid_urls): " + str(len(self.valid_urls))
