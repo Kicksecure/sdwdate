@@ -720,16 +720,16 @@ class Sdwdate:
 
         if time_passed > 2:
            time_no_unexpected_change = False
-        elif time_passed < 2:
+        elif time_passed < -2:
            time_no_unexpected_change = False
         else:
            time_no_unexpected_change = True
 
         if time_no_unexpected_change == True:
-           message = "Slept for about " + time_delta + "seconds."
-           logger.warning(message)
+           message = "Slept for about " + str(time_delta) + " seconds."
+           logger.info(message)
         else:
-           message = "Clock got changed by something other than sdwdate. sleep_time_seconds: " + str(self.sleep_time_seconds) + " time_delta: " + str(time_delta)
+           message = "Clock got changed by something other than sdwdate. sleep_time_seconds: " + str(self.sleep_time_seconds) + " time_delta: " + str(time_delta) + " time_passed: " + str(time_passed)
            logger.warning(message)
 
 
