@@ -406,6 +406,9 @@ class Sdwdate:
             logger.info(message)
             return True
 
+        status_first_success = os.path.exists(self.status_first_success_path)
+        clock_jump_do = os.path.exists(self.clock_jump_do_once_file)
+
         if not status_first_success:
             sdwdate.set_time_using_date()
         elif clock_jump_do:
@@ -531,9 +534,7 @@ class Sdwdate:
         #logger.info(message)
         ## restricted_msg: Initial time fetching in progress...
 
-        status_success = os.path.exists(self.status_success_path)
         status_first_success = os.path.exists(self.status_first_success_path)
-        clock_jump_do = os.path.exists(self.clock_jump_do_once_file)
 
         if not status_first_success:
             icon = "busy"
@@ -764,10 +765,6 @@ if __name__ == "__main__":
         sdwdate = Sdwdate()
         icon, status, sdwdate_message_from_loop = sdwdate.sdwdate_loop()
         n.notify("WATCHDOG=1")
-
-        status_success = os.path.exists(sdwdate.status_success_path)
-        status_first_success = os.path.exists(sdwdate.status_first_success_path)
-        clock_jump_do = os.path.exists(sdwdate.clock_jump_do_once_file)
 
         if status == 'success':
             sdwdate.build_median()
