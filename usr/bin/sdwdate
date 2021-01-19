@@ -312,8 +312,9 @@ class Sdwdate:
             old_unixtime = (time.time())
             remote_time = (datetime.strftime(datetime.fromtimestamp(remote_unixtime),
                                                    '%Y-%m-%d %H:%M:%S'))
-            time_diff = int(remote_unixtime) - int(old_unixtime)
-            time_diff = str(time_diff)
+            time_diff_raw_int = int(remote_unixtime) - int(old_unixtime)
+            time_diff_raw_str = str(time_diff_raw_int)
+
         except:
             message = "* status: False"
             logger.info(message)
@@ -323,17 +324,24 @@ class Sdwdate:
             logger.info(message)
             message = "* stderr: " + str(stderr)
             logger.info(message)
+            print("\n")
             if stdout == "sigterm":
                reason = "remote_times.py returned stdout 'sigterm'"
                exit_code = 143
                sdwdate.exit_handler(exit_code, reason)
             return False
 
+        half_took_time_float = float(took_time) / 2
+        time_diff_lag_cleaned_float = float(time_diff_raw_int) - half_took_time_float
+        time_diff_lag_cleaned_str = str(time_diff_lag_cleaned_float)
+
         timesanitycheck_status, time_one, time_two, timesanitycheck_error = timesanitycheck(remote_unixtime)
 
         consensus_status, consensus_error, consensus_valid_after_str, consensus_valid_until_str = time_consensus_sanity_check(remote_unixtime)
 
         message = "* took_time: " + str(took_time)
+        logger.info(message)
+        message = "* half_took_time: " + str(half_took_time_float)
         logger.info(message)
         message = "* stderr: " + str(stderr)
         logger.info(message)
@@ -345,7 +353,9 @@ class Sdwdate:
         logger.info(message)
         message = "* consensus/valid-until: " + consensus_valid_until_str
         logger.info(message)
-        message = "* time_diff: " + time_diff + " second(s)"
+        message = "* time_diff_raw: " + time_diff_raw_str + " second(s)"
+        logger.info(message)
+        message = "* time_diff_lag_cleaned: " + time_diff_lag_cleaned_str + " second(s)"
         logger.info(message)
 
         ## Fallback.
@@ -387,6 +397,7 @@ class Sdwdate:
 
         message = "* remote_status: " + str(remote_status)
         logger.info(message)
+        print("\n")
 
         if remote_status == "True":
             return True
@@ -645,7 +656,8 @@ class Sdwdate:
             logger.info(message)
 
             for i in range(len(self.urls)):
-                if self.check_remote(self.urls[i], self.list_of_stdout[i], self.list_of_stderr[i], self.took_time[i], self.get_comment(self.urls[i]), i):
+                status_from_check_remote = self.check_remote(self.urls[i], self.list_of_stdout[i], self.list_of_stderr[i], self.took_time[i], self.get_comment(self.urls[i]), i)
+                if status_from_check_remote:
                     self.valid_urls.append(self.urls[i])
                     self.unixtimes.append(self.list_of_stdout[i])
                     self.request_took_times.append(self.took_time[i])
@@ -695,11 +707,17 @@ class Sdwdate:
 
                             web_time = (datetime.strftime(datetime.fromtimestamp(web_unixtime),
                                                               '%a %b %d %H:%M:%S UTC %Y'))
+
                             pool_diff = int(web_unixtime) - int(old_unixtime)
                             self.pools_diff.append(pool_diff)
+
+                            ## TODO:
+                            time_diff_lag_cleaned = 0
+
                             pool_number = self.pools.index(pool)
-                            message = ('pool %s: %s, web unixtime: %s, web time: %s, time_diff: %s seconds, took_time: %s seconds'
-                                        % (pool_number, url, web_unixtime, web_time, pool_diff, request_took_time_item))
+                            message = ('pool %s: %s, web unixtime: %s, web time: %s, took_time: %s seconds, time_diff_raw: %s seconds, time_diff_lag_cleaned: %s'
+
+                                        % (pool_number, url, web_unixtime, web_time, request_took_time_item, pool_diff, time_diff_lag_cleaned))
                             logger.info(message)
 
             #message = "len(self.valid_urls): " + str(len(self.valid_urls))
@@ -709,6 +727,7 @@ class Sdwdate:
 
         message = "End fetching remote times."
         logger.info(message)
+        print("\n")
 
         message = self._('success')
         icon = "success"
