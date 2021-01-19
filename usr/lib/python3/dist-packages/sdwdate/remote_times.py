@@ -7,6 +7,7 @@
 import sys
 import gevent
 import shlex
+import time
 from gevent.subprocess import Popen, PIPE
 
 def get_time_from_servers(remotes, ip_address, port_number):
@@ -34,6 +35,7 @@ def get_time_from_servers(remotes, ip_address, port_number):
       ## Avoid Popen shell=True.
       url_to_unixtime_command = shlex.split(url_to_unixtime_command)
 
+      start_unixtime = time.time()
       threads.append(Popen(url_to_unixtime_command, stdout=PIPE, stderr=PIPE))
 
     try:
@@ -61,6 +63,8 @@ def get_time_from_servers(remotes, ip_address, port_number):
 
     for i in range(len(threads)):
         if threads[i].poll() is not None:
+            end_unixtime = time.time()
+            took_time = end_unixtime - start_unixtime
             urls.append(remotes[i])
             stdout = threads[i].stdout.read()
             stderr = threads[i].stderr.read()
@@ -92,7 +96,7 @@ def get_time_from_servers(remotes, ip_address, port_number):
         except:
            pass
 
-    return urls, stdout_list, stderr_list
+    return urls, stdout_list, stderr_list, took_time
 
 if __name__ == "__main__":
     get_time_from_servers(remotes)

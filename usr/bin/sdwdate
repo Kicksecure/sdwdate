@@ -295,7 +295,7 @@ class Sdwdate:
         return False
 
     @staticmethod
-    def check_remote(remote, stdout, stderr, comment, i):
+    def check_remote(remote, stdout, stderr, took_time, comment, i):
         '''
         Check returned stdout. True if numeric.
         '''
@@ -316,6 +316,8 @@ class Sdwdate:
         except:
             message = "* status: False"
             logger.info(message)
+            message = "* took_time: " + str(took_time)
+            logger.info(message)
             message = "* stdout: " + str(stdout)
             logger.info(message)
             message = "* stderr: " + str(stderr)
@@ -330,6 +332,8 @@ class Sdwdate:
 
         consensus_status, consensus_error, consensus_valid_after_str, consensus_valid_until_str = time_consensus_sanity_check(remote_unixtime)
 
+        message = "* took_time: " + str(took_time)
+        logger.info(message)
         message = "* stderr: " + str(stderr)
         logger.info(message)
         message = "* remote_unixtime: " + str(remote_unixtime)
@@ -621,7 +625,8 @@ class Sdwdate:
 
             self.urls, \
             self.list_of_stdout, \
-            self.list_of_stderr \
+            self.list_of_stderr, \
+            self.took_time \
                = \
                    get_time_from_servers(
                       self.url_random,
@@ -639,7 +644,7 @@ class Sdwdate:
             logger.info(message)
 
             for i in range(len(self.urls)):
-                if self.check_remote(self.urls[i], self.list_of_stdout[i], self.list_of_stderr[i], self.get_comment(self.urls[i]), i):
+                if self.check_remote(self.urls[i], self.list_of_stdout[i], self.list_of_stderr[i], self.took_time, self.get_comment(self.urls[i]), i):
                     self.valid_urls.append(self.urls[i])
                     self.unixtimes.append(self.list_of_stdout[i])
                 else:
@@ -689,8 +694,8 @@ class Sdwdate:
                             pool_diff = int(web_unixtime) - int(old_unixtime)
                             self.pools_diff.append(pool_diff)
                             pool_number = self.pools.index(pool)
-                            message = ('pool %s: %s, web unixtime: %s, web time: %s, diff: %s seconds'
-                                        % (pool_number, url, web_unixtime, web_time, pool_diff))
+                            message = ('pool %s: %s, web unixtime: %s, web time: %s, diff: %s seconds, took_time: %s seconds'
+                                        % (pool_number, url, web_unixtime, web_time, pool_diff, self.took_time))
                             logger.info(message)
 
             message = "len(self.valid_urls): " + str(len(self.valid_urls))
