@@ -427,7 +427,7 @@ class Sdwdate:
         Get the median (not average) from the list of values.
         '''
         diffs = sorted(self.pools_diff)
-        message = 'pool differences, sorted: %s' % diffs
+        message = 'pool time_diff_raw, sorted: %s' % diffs
         logger.info(message)
         self.median_diff_in_seconds = diffs[(len(diffs) // 2)]
         message = 'median time difference: %+.9f' % self.median_diff_in_seconds
