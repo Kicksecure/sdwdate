@@ -619,9 +619,15 @@ class Sdwdate:
             message = 'requested urls %s' % self.url_random
             logger.info(message)
 
-            self.urls, self.list_of_stdout, self.list_of_stderr = get_time_from_servers(self.url_random,
-                                                                  self.proxy_ip,
-                                                                  self.proxy_port)
+            self.urls, \
+            self.list_of_stdout, \
+            self.list_of_stderr \
+               = \
+                   get_time_from_servers(
+                      self.url_random,
+                      self.proxy_ip,
+                      self.proxy_port
+                   )
 
             if len(self.urls) == 0:
                message = self._('no_value_returned') + self._('restart')
