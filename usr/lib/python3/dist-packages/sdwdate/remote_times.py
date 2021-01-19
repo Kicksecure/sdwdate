@@ -75,7 +75,7 @@ def get_time_from_servers(remotes, ip_address, port_number):
             stdout = threads[i].stdout.read()
             stderr = threads[i].stderr.read()
 
-            print("remote_times.py: stdout: " + str(stdout))
+            #print("remote_times.py: stdout: " + str(stdout))
 
             if not returncode == 0:
                ## str
