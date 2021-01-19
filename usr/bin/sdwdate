@@ -702,8 +702,8 @@ class Sdwdate:
                                         % (pool_number, url, web_unixtime, web_time, pool_diff, request_took_time_item))
                             logger.info(message)
 
-            message = "len(self.valid_urls): " + str(len(self.valid_urls))
-            logger.info(message)
+            #message = "len(self.valid_urls): " + str(len(self.valid_urls))
+            #logger.info(message)
             if len(self.valid_urls) >= self.number_of_pools:
                 break
 
