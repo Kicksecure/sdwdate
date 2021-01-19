@@ -574,7 +574,7 @@ class Sdwdate:
             message = sdwdate.strip_html(fetching_msg)
             logger.info(message)
 
-        while len(self.valid_urls) < self.number_of_pools:
+        while True:
             self.iteration += 1
             message = 'Running sdwdate fetch loop. iteration: %s' % self.iteration
             logger.info(message)
@@ -586,20 +586,26 @@ class Sdwdate:
             for pool in self.pools:
                 if not pool.done:
                     pool_range = pool.url_range
-                    url_index = random.randrange(0, pool_range)
-                    while url_index in pool.already_picked_index:
-                        url_index = random.randrange(0, pool_range)
-                    message = "pool: " + str(self.pools.index(pool)) + " " + "url_index: " + str(url_index)
-                    logger.info(message)
+                    while True:
+                       url_index = random.randrange(0, pool_range)
+                       #print("pool_range: " + str(pool_range))
+                       if not url_index in pool.already_picked_index:
+                          #print("AAA str(len(pool.already_picked_index)): " + str(len(pool.already_picked_index)))
+                          pool.already_picked_index.append(url_index)
+                          break
+                       if len(pool.already_picked_index) >= pool_range:
+                          #print("BBB str(len(pool.already_picked_index)): " + str(len(pool.already_picked_index)))
+                          pool_number = self.pools.index(pool)
+                          message = self._('no_valid_time') + str(pool_number) + self._('restart')
+                          logger.warning(message)
+                          icon = "error"
+                          status = "error"
+                          return icon, status, message
+                       #if url_index in pool.already_picked_index:
+                          #print("CCC str(len(pool.already_picked_index)): " + str(len(pool.already_picked_index)))
 
-                    pool.already_picked_index.append(url_index)
-                    if len(pool.already_picked_index) > pool_range:
-                        pool_number = self.pools.index(pool) + 1
-                        message = self._('no_valid_time') + str(pool_number) + self._('restart')
-                        logger.warning(message)
-                        icon = "error"
-                        status = "error"
-                        return icon, status, message
+                    message = "pool " + str(self.pools.index(pool)) + ": pool_range: " + str(pool_range) + " url_index: " + str(url_index) + " len(pool.already_picked_index): " + str(len(pool.already_picked_index)) + " pool.already_picked_index: " + str(pool.already_picked_index)
+                    logger.info(message)
 
                     pool.url_random.append(pool.url[url_index])
                     self.url_random.append(pool.url[url_index])
