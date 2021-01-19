@@ -64,6 +64,7 @@ def get_time_from_servers(remotes, ip_address, port_number):
             urls.append(remotes[i])
             stdout = threads[i].stdout.read()
             stderr = threads[i].stderr.read()
+            returncode = threads[i].returncode
             ## Sanitize response. Log if response causes error.
             ## This can be placed in a separate file/process.
             try:
@@ -71,8 +72,15 @@ def get_time_from_servers(remotes, ip_address, port_number):
                 stderr = stderr.strip()
                 #print("remote_times.py: url_to_unixtime: stdout: ", stdout)
                 #print("remote_times.py: url_to_unixtime: stderr: ", stderr)
-                stdout_list.append(stdout)
-                stderr_list.append(stderr)
+                stdout_to_append = ""
+                stderr_to_append = ""
+                stdout_to_append += str(stdout)
+                stderr_to_append += str(stderr)
+                if not returncode == 0:
+                    stdout_to_append += " | non-zero exit code: " + str(returncode)
+                    stderr_to_append += " | non-zero exit code: " + str(returncode)
+                stdout_list.append(stdout_to_append)
+                stderr_list.append(stderr_to_append)
             except:
                 ## Log
                 stdout_list.append('Error sanitizing output!')
