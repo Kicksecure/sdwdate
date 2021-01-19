@@ -117,6 +117,7 @@ class Sdwdate:
         self.status_first_success_path = sdwdate_status_files_folder + '/first_success'
         self.status_success_path = sdwdate_status_files_folder + '/success'
         self.status_file_path = sdwdate_status_files_folder + '/status'
+        self.sleep_long_file_path = sdwdate_status_files_folder + '/sleep_long'
         self.clock_jump_do_once_file = sdwdate_status_files_folder + '/clock_jump_do_once'
         ## Read by whonixcheck.
         self.msg_path = sdwdate_status_files_folder + '/msg'
@@ -690,6 +691,10 @@ class Sdwdate:
         range_nanoseconds = 999999999
         nanoseconds = randint(0, range_nanoseconds)
 
+        if sleep_time_seconds >= 10:
+            f = open(sdwdate.sleep_long_file_path, 'w')
+            f.close()
+
         unixtime_before_sleep = int(time.time())
 
         ## Using sh sleep in place of python's time.sleep(sleep_time_seconds).
@@ -761,6 +766,10 @@ if __name__ == "__main__":
         msg = "STATUS=Running sdwdate main loop. iteration: " + str(loop_counter) + " / " + str(loop_max)
         n.notify(msg)
         n.notify("WATCHDOG=1")
+
+        ## use missing_ok=True in python 3.8
+        if os.path.isfile(sdwdate.sleep_long_file_path):
+            os.remove(sdwdate.sleep_long_file_path)
 
         sdwdate = Sdwdate()
         icon, status, sdwdate_message_from_loop = sdwdate.sdwdate_loop()
