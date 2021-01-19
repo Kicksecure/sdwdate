@@ -15,6 +15,7 @@ def get_time_from_servers(remotes, ip_address, port_number):
     urls = []
     stdout_list = []
     stderr_list = []
+    took_time_list = []
     seconds = 50
     do_exit = False
     remote_port = "80"
@@ -26,6 +27,7 @@ def get_time_from_servers(remotes, ip_address, port_number):
     del urls[:]
     del stdout_list[:]
     del stderr_list[:]
+    del took_time_list[:]
 
     for i in range(len(remotes)):
       url_to_unixtime_command = "url_to_unixtime" + " " + ip_address + " " + port_number + " " + remotes[i] + " " + remote_port + " " + url_to_unixtime_debug
@@ -65,38 +67,52 @@ def get_time_from_servers(remotes, ip_address, port_number):
         if threads[i].poll() is not None:
             end_unixtime = time.time()
             took_time = end_unixtime - start_unixtime
+            took_time_list.append(took_time)
             urls.append(remotes[i])
+            returncode = threads[i].returncode
+
+            ## bytes
             stdout = threads[i].stdout.read()
             stderr = threads[i].stderr.read()
-            returncode = threads[i].returncode
-            try:
-                stdout = stdout.strip()
-                stderr = stderr.strip()
-                #print("remote_times.py: url_to_unixtime: stdout: ", stdout)
-                #print("remote_times.py: url_to_unixtime: stderr: ", stderr)
-                stdout_to_append = ""
-                stderr_to_append = ""
-                stdout_to_append += str(stdout)
-                stderr_to_append += str(stderr)
-                if not returncode == 0:
-                    stdout_to_append += " | non-zero exit code: " + str(returncode)
-                    stderr_to_append += " | non-zero exit code: " + str(returncode)
-                stdout_list.append(stdout_to_append)
-                stderr_list.append(stderr_to_append)
-            except:
-                ## Log
-                stdout_list.append('Error sanitizing output!')
-                stderr_list.append('Error sanitizing output!')
+
+            print("remote_times.py: stdout: " + str(stdout))
+
+            if not returncode == 0:
+               ## str
+               stdout_to_append = ""
+               stdout_to_append += str(stdout)
+               stdout_to_append += " | non-zero exit code: " + str(returncode)
+               stdout_list.append(stdout_to_append)
+               stderr_to_append = ""
+               stdout_to_append += str(stderr)
+               stderr_to_append += " | non-zero exit code: " + str(returncode)
+               stderr_list.append(stderr_to_append)
+            else:
+               stdout_list.append(stdout)
+               stderr_list.append(stderr)
         else:
             urls.append(remotes[i])
             stdout_list.append('Timeout')
             stderr_list.append('Timeout')
+            end_unixtime = time.time()
+            took_time = end_unixtime - start_unixtime
+            took_time_list.append(took_time)
+            took_time_list.append(took_time)
         try:
            threads[i].terminate()
         except:
            pass
 
-    return urls, stdout_list, stderr_list, took_time
+    print("urls:")
+    print(str(urls))
+    print("stdout_list:")
+    print(str(stdout_list))
+    print("stderr_list:")
+    print(str(stderr_list))
+    print("took_time_list:")
+    print(str(took_time_list))
+
+    return urls, stdout_list, stderr_list, took_time_list
 
 if __name__ == "__main__":
     get_time_from_servers(remotes)

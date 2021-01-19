@@ -644,7 +644,7 @@ class Sdwdate:
             logger.info(message)
 
             for i in range(len(self.urls)):
-                if self.check_remote(self.urls[i], self.list_of_stdout[i], self.list_of_stderr[i], self.took_time, self.get_comment(self.urls[i]), i):
+                if self.check_remote(self.urls[i], self.list_of_stdout[i], self.list_of_stderr[i], self.took_time[i], self.get_comment(self.urls[i]), i):
                     self.valid_urls.append(self.urls[i])
                     self.unixtimes.append(self.list_of_stdout[i])
                 else:
@@ -695,7 +695,7 @@ class Sdwdate:
                             self.pools_diff.append(pool_diff)
                             pool_number = self.pools.index(pool)
                             message = ('pool %s: %s, web unixtime: %s, web time: %s, diff: %s seconds, took_time: %s seconds'
-                                        % (pool_number, url, web_unixtime, web_time, pool_diff, self.took_time))
+                                        % (pool_number, url, web_unixtime, web_time, pool_diff, self.took_time[i]))
                             logger.info(message)
 
             message = "len(self.valid_urls): " + str(len(self.valid_urls))
