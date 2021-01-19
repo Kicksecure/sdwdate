@@ -654,24 +654,18 @@ class Sdwdate:
                         status = "error"
                         return icon, status, message
 
-            for i in range(len(self.urls)):
-               for pool in self.pools:
-                  if self.urls[i] in pool.url_random:
-                     failures_allowed_per_pool = pool.allowed_failures()
-                     message  = ''
-                     message += "pool "
-                     message += str(self.pools.index(pool))
-                     message += ":"
-                     message += " failed_urls: "
-                     message += str(len(self.failed_urls))
-                     message += " allowed_failures: "
-                     message += str(failures_allowed_per_pool)
-                     logger.info(message)
-                     if len(self.failed_urls) > failures_allowed_per_pool:
-                        message = "Maximum allowed number of failures. Giving up."
-                        icon = "error"
-                        status = "error"
-                        return icon, status, message
+            failures_allowed_per_pool = pool.allowed_failures()
+            message  = ""
+            message += "failed_urls: "
+            message += str(len(self.failed_urls))
+            message += " allowed_failures: "
+            message += str(failures_allowed_per_pool)
+            logger.info(message)
+            if len(self.failed_urls) > failures_allowed_per_pool:
+               message = "Maximum allowed number of failures. Giving up."
+               icon = "error"
+               status = "error"
+               return icon, status, message
 
             old_unixtime = (time.time())
 
