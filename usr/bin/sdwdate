@@ -94,11 +94,13 @@ class Sdwdate:
 
         self.unixtimes = []
         self.request_took_times = []
-        self.pools_diff = []
+        self.pools_raw_diff = []
+        self.pools_lag_cleaned_diff = []
         self.failed_urls = []
         self.url_errors = []
 
         self.median_diff_raw_in_seconds = 0
+        self.median_diff_lag_cleaned_in_seconds = 0
         self.range_nanoseconds = 999999999
         self.new_diff_in_seconds = 0
         self.new_diff_in_nanoseconds = 0
@@ -426,11 +428,17 @@ class Sdwdate:
         '''
         Get the median (not average) from the list of values.
         '''
-        diffs = sorted(self.pools_diff)
-        message = 'pool time_diff_raw, sorted: %s' % diffs
+        diffs_raw = sorted(self.pools_raw_diff)
+        diffs_lag_cleaned = sorted(self.pools_lag_cleaned_diff)
+        message = 'pool     time_diff_raw, sorted: %s' % diffs_raw
         logger.info(message)
-        self.median_diff_raw_in_seconds = diffs[(len(diffs) // 2)]
-        message = 'median time difference: %+.9f' % self.median_diff_raw_in_seconds
+        message = 'pool diffs_lag_cleaned, sorted: %s' % diffs_lag_cleaned
+        logger.info(message)
+        self.median_diff_raw_in_seconds = diffs_raw[(len(diffs_raw) // 2)]
+        self.median_diff_lag_cleaned_in_seconds = diffs_lag_cleaned[(len(diffs_lag_cleaned) // 2)]
+        message = 'median         raw time difference: %+.9f' % self.median_diff_raw_in_seconds
+        logger.info(message)
+        message = 'median lag_cleaned time difference: %+.9f' % self.median_diff_lag_cleaned_in_seconds
         logger.info(message)
 
     def set_new_time(self):
@@ -719,11 +727,17 @@ class Sdwdate:
                                                               '%a %b %d %H:%M:%S UTC %Y'))
 
                             pool_diff = int(web_unixtime) - int(old_unixtime)
-                            self.pools_diff.append(pool_diff)
+                            self.pools_raw_diff.append(pool_diff)
+
+                            ## Rounding. Nanoseconds accuracy is impossible.
+                            ## It is unknown if the time (seconds) reported by remote servers was a
+                            ## "early second" (0.000000000) or "late second" (0.999999999).
+                            time_diff_lag_cleaned_int = int(self.time_diff_lag_cleaned_float[i])
+                            self.pools_lag_cleaned_diff.append(time_diff_lag_cleaned_int)
 
                             pool_number = self.pools.index(pool)
                             message = ('pool %s: %s, web unixtime: %s, web time: %s, took_time: %s seconds, time_diff_raw: %s seconds, time_diff_lag_cleaned: %s'
-                                        % (pool_number, url, web_unixtime, web_time, request_took_time_item, pool_diff, self.time_diff_lag_cleaned_float[i])
+                                        % (pool_number, url, web_unixtime, web_time, request_took_time_item, pool_diff, time_diff_lag_cleaned_int)
                                       )
                             logger.info(message)
 
