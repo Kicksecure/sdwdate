@@ -288,7 +288,7 @@ class Sdwdate:
     @staticmethod
     def check_remote(remote, stdout, stderr, comment, i):
         '''
-        Check returned value. True if numeric.
+        Check returned stdout. True if numeric.
         '''
         pool_number = str(i)
         message = "remote " + pool_number + ": " + remote
@@ -527,7 +527,7 @@ class Sdwdate:
     def sdwdate_loop(self):
         '''
         Check remotes.
-        Pick a random url in each pool, check the returned value.
+        Pick a random url in each pool, check the returned stdout.
         Append valid urls if time is returned, otherwise restart a cycle
         with a new random url, until every pool has a time value.
         returns:
