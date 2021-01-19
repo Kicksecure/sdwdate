@@ -589,7 +589,7 @@ class Sdwdate:
                     url_index = random.randrange(0, pool_range)
                     while url_index in pool.already_picked_index:
                         url_index = random.randrange(0, pool_range)
-                    message = "url_index: " + str(url_index)
+                    message = "pool: " + str(self.pools.index(pool)) + " " + "url_index: " + str(url_index)
                     logger.info(message)
 
                     pool.already_picked_index.append(url_index)
