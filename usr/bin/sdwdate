@@ -791,6 +791,8 @@ if __name__ == "__main__":
                sleep_time_minimum_seconds = 1 * retry_on_error_counter
                ## maximum sleep time: 5 seconds multiplied with retry_on_error_counter
                sleep_time_maximum_seconds = 5 * retry_on_error_counter
+               if sleep_time_minimum_seconds >= 60 * 60:
+                  sleep_time_minimum_seconds = 60 * 60
                if sleep_time_maximum_seconds >= 180 * 60:
                   sleep_time_maximum_seconds = 180 * 60
             else:
