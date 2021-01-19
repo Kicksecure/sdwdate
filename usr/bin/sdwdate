@@ -286,7 +286,7 @@ class Sdwdate:
         return False
 
     @staticmethod
-    def check_remote(remote, value, stderr, comment, i):
+    def check_remote(remote, stdout, stderr, comment, i):
         '''
         Check returned value. True if numeric.
         '''
@@ -298,7 +298,7 @@ class Sdwdate:
         logger.info(message)
 
         try:
-            remote_unixtime = int(value)
+            remote_unixtime = int(stdout)
             old_unixtime = (time.time())
             remote_time = (datetime.strftime(datetime.fromtimestamp(remote_unixtime),
                                                    '%Y-%m-%d %H:%M:%S'))
@@ -307,12 +307,12 @@ class Sdwdate:
         except:
             message = "* status: False"
             logger.info(message)
-            message = "* value: " + str(value)
+            message = "* stdout: " + str(stdout)
             logger.info(message)
             message = "* stderr: " + str(stderr)
             logger.info(message)
-            if value == "sigterm":
-               reason = "remote_times.py returned value 'sigterm'"
+            if stdout == "sigterm":
+               reason = "remote_times.py returned stdout 'sigterm'"
                exit_code = 143
                sdwdate.exit_handler(exit_code, reason)
             return False
@@ -588,7 +588,7 @@ class Sdwdate:
                 message = 'requested urls %s' % self.url_random
                 logger.info(message)
 
-                self.urls, self.returned_values, self.list_of_stderr = get_time_from_servers(self.url_random,
+                self.urls, self.list_of_stdout, self.list_of_stderr = get_time_from_servers(self.url_random,
                                                                         self.proxy_ip,
                                                                         self.proxy_port)
 
@@ -608,21 +608,21 @@ class Sdwdate:
                 return icon, status, message
 
             for i in range(len(self.urls)):
-                if self.check_remote(self.urls[i], self.returned_values[i], self.list_of_stderr[i], self.get_comment(self.urls[i]), i):
+                if self.check_remote(self.urls[i], self.list_of_stdout[i], self.list_of_stderr[i], self.get_comment(self.urls[i]), i):
                     self.valid_urls.append(self.urls[i])
-                    self.unixtimes.append(self.returned_values[i])
+                    self.unixtimes.append(self.list_of_stdout[i])
                 else:
                     self.invalid_urls.append(self.urls[i])
-                    self.url_errors.append(self.returned_values[i])
+                    self.url_errors.append(self.list_of_stdout[i])
 
             if self.iteration >= 3:
-               if len(self.returned_values) >= 3:
-                     if self.general_proxy_error(self.returned_values):
+               if len(self.list_of_stdout) >= 3:
+                     if self.general_proxy_error(self.list_of_stdout):
                         message = self._('general_proxy_error')
                         icon = "error"
                         status = "error"
                         return icon, status, message
-                     if self.general_timeout_error(self.returned_values):
+                     if self.general_timeout_error(self.list_of_stdout):
                         message = self._('general_timeout_error')
                         icon = "error"
                         status = "error"
