@@ -87,6 +87,11 @@ class Sdwdate:
         self.urls = []
         self.url_random = []
         self.valid_urls = []
+
+        self.status_from_check_remote = [None] * self.number_of_pools
+        self.half_took_time_float = [None] * self.number_of_pools
+        self.time_diff_lag_cleaned_float = [None] * self.number_of_pools
+
         self.unixtimes = []
         self.request_took_times = []
         self.pools_diff = []
@@ -307,14 +312,16 @@ class Sdwdate:
         message = "* comment: " + comment
         logger.info(message)
 
+        half_took_time_float = float(took_time) / 2
+
         try:
             remote_unixtime = int(stdout)
             old_unixtime = (time.time())
             remote_time = (datetime.strftime(datetime.fromtimestamp(remote_unixtime),
                                                    '%Y-%m-%d %H:%M:%S'))
             time_diff_raw_int = int(remote_unixtime) - int(old_unixtime)
-            time_diff_raw_str = str(time_diff_raw_int)
 
+            time_diff_lag_cleaned_float = float(time_diff_raw_int) - half_took_time_float
         except:
             message = "* status: False"
             logger.info(message)
@@ -329,11 +336,8 @@ class Sdwdate:
                reason = "remote_times.py returned stdout 'sigterm'"
                exit_code = 143
                sdwdate.exit_handler(exit_code, reason)
-            return False
-
-        half_took_time_float = float(took_time) / 2
-        time_diff_lag_cleaned_float = float(time_diff_raw_int) - half_took_time_float
-        time_diff_lag_cleaned_str = str(time_diff_lag_cleaned_float)
+            time_diff_lag_cleaned_float = 0.0
+            return False, half_took_time_float, time_diff_lag_cleaned_float
 
         timesanitycheck_status, time_one, time_two, timesanitycheck_error = timesanitycheck(remote_unixtime)
 
@@ -353,9 +357,9 @@ class Sdwdate:
         logger.info(message)
         message = "* consensus/valid-until: " + consensus_valid_until_str
         logger.info(message)
-        message = "* time_diff_raw: " + time_diff_raw_str + " second(s)"
+        message = "* time_diff_raw: " + str(time_diff_raw_int) + " second(s)"
         logger.info(message)
-        message = "* time_diff_lag_cleaned: " + time_diff_lag_cleaned_str + " second(s)"
+        message = "* time_diff_lag_cleaned: " + str(time_diff_lag_cleaned_float) + " second(s)"
         logger.info(message)
 
         ## Fallback.
@@ -400,9 +404,9 @@ class Sdwdate:
         logger.info("")
 
         if remote_status == "True":
-            return True
+            return True, half_took_time_float, time_diff_lag_cleaned_float
         else:
-            return False
+            return False, half_took_time_float, time_diff_lag_cleaned_float
 
 
     def get_comment(self, remote):
@@ -657,8 +661,13 @@ class Sdwdate:
             logger.info("")
 
             for i in range(len(self.urls)):
-                status_from_check_remote = self.check_remote(self.urls[i], self.list_of_stdout[i], self.list_of_stderr[i], self.took_time[i], self.get_comment(self.urls[i]), i)
-                if status_from_check_remote:
+                a, b, c = self.check_remote(self.urls[i], self.list_of_stdout[i], self.list_of_stderr[i], self.took_time[i], self.get_comment(self.urls[i]), i)
+
+                self.status_from_check_remote[i] = a
+                self.half_took_time_float[i] = b
+                self.time_diff_lag_cleaned_float[i] = c
+
+                if self.status_from_check_remote[i]:
                     self.valid_urls.append(self.urls[i])
                     self.unixtimes.append(self.list_of_stdout[i])
                     self.request_took_times.append(self.took_time[i])
@@ -712,12 +721,9 @@ class Sdwdate:
                             pool_diff = int(web_unixtime) - int(old_unixtime)
                             self.pools_diff.append(pool_diff)
 
-                            ## TODO:
-                            time_diff_lag_cleaned = 0
-
                             pool_number = self.pools.index(pool)
                             message = ('pool %s: %s, web unixtime: %s, web time: %s, took_time: %s seconds, time_diff_raw: %s seconds, time_diff_lag_cleaned: %s'
-                                        % (pool_number, url, web_unixtime, web_time, request_took_time_item, pool_diff, time_diff_lag_cleaned)
+                                        % (pool_number, url, web_unixtime, web_time, request_took_time_item, pool_diff, self.time_diff_lag_cleaned_float[i])
                                       )
                             logger.info(message)
 
