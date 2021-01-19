@@ -711,16 +711,16 @@ class Sdwdate:
         sdwdate.write_status(icon, message)
 
         if icon == 'success':
-            #logger.info("wait_sleep: icon == success")
+            #logger.info("wait_sleep: icon: success")
             logger.info(stripped_message)
         elif icon == 'busy':
-            logger.error("wait_sleep: icon == busy")
+            logger.error("wait_sleep: icon: busy")
             logger.error(stripped_message)
         elif icon == 'error':
-            #logger.info("wait_sleep: icon == error")
+            #logger.info("wait_sleep: icon: error")
             logger.error(stripped_message)
         else:
-            logger.error("wait_sleep: icon == else")
+            logger.error("wait_sleep: icon:else")
             logger.error(stripped_message)
 
         n.notify("WATCHDOG=1")
