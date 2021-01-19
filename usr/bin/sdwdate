@@ -674,7 +674,7 @@ class Sdwdate:
                 self.status_from_check_remote[i] = a
                 self.half_took_time_float[i] = b
                 self.time_diff_lag_cleaned_float[i] = c
-                print("AAA: self.time_diff_lag_cleaned_float[i]: " + str(self.time_diff_lag_cleaned_float[i]))
+                #print("AAA: self.time_diff_lag_cleaned_float[i]: " + str(self.time_diff_lag_cleaned_float[i]))
 
                 if self.status_from_check_remote[i]:
                     self.valid_urls.append(self.urls[i])
@@ -737,9 +737,9 @@ class Sdwdate:
                             time_diff_lag_cleaned_int = round(self.time_diff_lag_cleaned_float[index])
                             self.pools_lag_cleaned_diff.append(time_diff_lag_cleaned_int)
 
-                            print("XXX: pool_number: " + str(pool_number))
-                            print("XXX: index: " + str(index))
-                            print("XXX: self.time_diff_lag_cleaned_float[index]: " + str(self.time_diff_lag_cleaned_float[index]))
+                            #print("XXX: pool_number: " + str(pool_number))
+                            #print("XXX: index: " + str(index))
+                            #print("XXX: self.time_diff_lag_cleaned_float[index]: " + str(self.time_diff_lag_cleaned_float[index]))
 
                             message = ('pool %s: %s, web unixtime: %s, web time: %s, took_time: %s seconds, time_diff_raw: %s seconds, time_diff_lag_cleaned: %s'
                                         % (pool_number, url, web_unixtime, web_time, request_took_time_item, pool_diff, time_diff_lag_cleaned_int)
