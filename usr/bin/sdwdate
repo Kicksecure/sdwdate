@@ -160,7 +160,7 @@ class Sdwdate:
             os.remove(sdwdate.sleep_long_file_path)
 
         logger.info(stripped_message)
-        sys.exit(143)
+        sys.exit(exit_code)
 
     def strip_html(self, message):
         ## New line for log.
