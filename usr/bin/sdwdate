@@ -153,6 +153,10 @@ class Sdwdate:
 
         sdwdate.kill_sclockadj()
 
+        ## use missing_ok=True in python 3.8
+        if os.path.isfile(sdwdate.sleep_long_file_path):
+            os.remove(sdwdate.sleep_long_file_path)
+
         logger.info(stripped_message)
         sys.exit(143)
 
