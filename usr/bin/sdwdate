@@ -809,5 +809,5 @@ if __name__ == "__main__":
                sleep_time_maximum_seconds = 0
 
         sdwdate.wait_sleep()
-        sdwdate.check_clock_skew
+        sdwdate.check_clock_skew()
         sdwdate.kill_sclockadj()
