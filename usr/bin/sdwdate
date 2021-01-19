@@ -324,7 +324,7 @@ class Sdwdate:
             logger.info(message)
             message = "* stderr: " + str(stderr)
             logger.info(message)
-            print("\n")
+            logger.info("")
             if stdout == "sigterm":
                reason = "remote_times.py returned stdout 'sigterm'"
                exit_code = 143
@@ -397,7 +397,7 @@ class Sdwdate:
 
         message = "* remote_status: " + str(remote_status)
         logger.info(message)
-        print("\n")
+        logger.info("")
 
         if remote_status == "True":
             return True
@@ -654,6 +654,7 @@ class Sdwdate:
 
             message = 'returned urls "%s"' % self.urls
             logger.info(message)
+            logger.info("")
 
             for i in range(len(self.urls)):
                 status_from_check_remote = self.check_remote(self.urls[i], self.list_of_stdout[i], self.list_of_stderr[i], self.took_time[i], self.get_comment(self.urls[i]), i)
@@ -716,8 +717,8 @@ class Sdwdate:
 
                             pool_number = self.pools.index(pool)
                             message = ('pool %s: %s, web unixtime: %s, web time: %s, took_time: %s seconds, time_diff_raw: %s seconds, time_diff_lag_cleaned: %s'
-
-                                        % (pool_number, url, web_unixtime, web_time, request_took_time_item, pool_diff, time_diff_lag_cleaned))
+                                        % (pool_number, url, web_unixtime, web_time, request_took_time_item, pool_diff, time_diff_lag_cleaned)
+                                      )
                             logger.info(message)
 
             #message = "len(self.valid_urls): " + str(len(self.valid_urls))
@@ -727,7 +728,7 @@ class Sdwdate:
 
         message = "End fetching remote times."
         logger.info(message)
-        print("\n")
+        logger.info("")
 
         message = self._('success')
         icon = "success"
