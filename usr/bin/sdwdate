@@ -98,7 +98,7 @@ class Sdwdate:
         self.failed_urls = []
         self.url_errors = []
 
-        self.median_diff_in_seconds = 0
+        self.median_diff_raw_in_seconds = 0
         self.range_nanoseconds = 999999999
         self.new_diff_in_seconds = 0
         self.new_diff_in_nanoseconds = 0
@@ -429,15 +429,15 @@ class Sdwdate:
         diffs = sorted(self.pools_diff)
         message = 'pool time_diff_raw, sorted: %s' % diffs
         logger.info(message)
-        self.median_diff_in_seconds = diffs[(len(diffs) // 2)]
-        message = 'median time difference: %+.9f' % self.median_diff_in_seconds
+        self.median_diff_raw_in_seconds = diffs[(len(diffs) // 2)]
+        message = 'median time difference: %+.9f' % self.median_diff_raw_in_seconds
         logger.info(message)
 
     def set_new_time(self):
         '''
         Do not set time if diff = 0.
         '''
-        if self.median_diff_in_seconds == 0:
+        if self.median_diff_raw_in_seconds == 0:
             message = 'Time difference = 0. Not setting time.'
             logger.info(message)
             return True
@@ -495,7 +495,7 @@ class Sdwdate:
             seconds_to_add_or_subtract = 0
 
         ## Consumed by set_time_using_date.
-        self.new_diff_in_seconds = self.median_diff_in_seconds + seconds_to_add_or_subtract
+        self.new_diff_in_seconds = self.median_diff_raw_in_seconds + seconds_to_add_or_subtract
 
         ## Consumed by run_sclockadj.
         self.new_diff_in_nanoseconds = int(self.new_diff_in_seconds * 1000000000)
