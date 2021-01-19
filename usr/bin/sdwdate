@@ -73,9 +73,6 @@ class Time_Source_Pool:
         #print("y: " + str(y))
         #print("z: " + str(z))
         #print("allowed_failures_value: " + str(allowed_failures_value))
-        if allowed_failures_value < 1:
-            allowed_failures_value = 1
-        #print("allowed_failures_value: " + str(allowed_failures_value))
         return allowed_failures_value
 
 
