@@ -421,7 +421,9 @@ class Sdwdate:
             f = open(sdwdate.status_first_success_path, 'w')
             f.close()
         if clock_jump_do:
-            os.remove(sdwdate.clock_jump_do_once_file)
+            ## use missing_ok=True in python 3.8
+            if os.path.isfile(sdwdate.clock_jump_do_once_file):
+                os.remove(sdwdate.clock_jump_do_once_file)
 
         f = open(sdwdate.status_success_path, 'w')
         f.close()
