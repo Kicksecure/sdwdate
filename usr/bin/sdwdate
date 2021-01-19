@@ -110,7 +110,9 @@ class Sdwdate:
             print("ERROR: home_folder_split: " + str(home_folder_split))
             print("ERROR: sdwdate_status_files_folder_split: " + str(sdwdate_status_files_folder_split))
             print("ERROR: sdwdate_status_files_folder: " + sdwdate_status_files_folder)
-            sys.exit(1)
+            reason = "home folder does not end with /sdwdate"
+            exit_code = 1
+            sdwdate.exit_handler(exit_code, reason)
 
         Path(sdwdate_status_files_folder).mkdir(parents=True, exist_ok=True)
 
@@ -746,7 +748,9 @@ if __name__ == "__main__":
     if os.geteuid() == 0:
         do_not_run_as_root_message = "Exit error... sdwdate should not be run as root!"
         logger.error(do_not_run_as_root_message)
-        sys.exit(1)
+        reason = "sdwdate should not be run as root."
+        exit_code = 1
+        sdwdate.exit_handler(exit_code, reason)
 
     sdwdate = Sdwdate()
     signal.signal(signal.SIGTERM, sdwdate.signal_sigterm_handler)
