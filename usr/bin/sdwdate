@@ -111,11 +111,13 @@ class Sdwdate:
         if home_folder_split[0] == "/home":
             ## Required for support of running as users other than sdwdate.
             sdwdate_status_files_folder = home_folder + "/sdwdate"
+            sdwdate_persistent_files_folder = sdwdate_status_files_folder
             ## example sdwdate_status_files_folder:
             ## /home/user/sdwdate
         else:
-            ## home folder for user sdwdate is set to /run/sdwdate
+            ## home folder for user "sdwdate" is set to /run/sdwdate
             sdwdate_status_files_folder = home_folder
+            sdwdate_persistent_files_folder = "/var/lib/sdwdate"
             ## example sdwdate_status_files_folder:
             ## /run/sdwdate
 
@@ -131,6 +133,8 @@ class Sdwdate:
             sdwdate.exit_handler(exit_code, reason)
 
         Path(sdwdate_status_files_folder).mkdir(parents=True, exist_ok=True)
+        ## Sanity test. Should be already created by systemd-tmpfiles.
+        Path(sdwdate_persistent_files_folder).mkdir(parents=True, exist_ok=True)
 
         self.status_first_success_path = sdwdate_status_files_folder + '/first_success'
         self.status_success_path = sdwdate_status_files_folder + '/success'
@@ -139,6 +143,9 @@ class Sdwdate:
         self.clock_jump_do_once_file = sdwdate_status_files_folder + '/clock_jump_do_once'
         ## Read by whonixcheck.
         self.msg_path = sdwdate_status_files_folder + '/msg'
+
+        self.sdwdate_time_replay_protection_utc_unixtime = sdwdate_persistent_files_folder + "/time-replay-protection-utc-unixtime"
+        self.sdwdate_time_replay_protection_utc_humanreadable = sdwdate_persistent_files_folder + "/time-replay-protection-utc-humanreadable"
 
         self.status = {'icon': '', 'message': ''}
 
@@ -200,6 +207,10 @@ class Sdwdate:
         with open(sdwdate.msg_path, 'w') as msgf:
             msgf.write(msg)
             msgf.close()
+
+    def time_human_readable(self, unixtime):
+         human_readable_unixtime = datetime.strftime(datetime.fromtimestamp(unixtime), '%Y-%m-%d %H:%M:%S')
+         return human_readable_unixtime
 
     def preparation(self):
         message = ''
@@ -318,9 +329,8 @@ class Sdwdate:
 
         try:
             remote_unixtime = int(stdout)
-            old_unixtime = (time.time())
-            remote_time = (datetime.strftime(datetime.fromtimestamp(remote_unixtime),
-                                                   '%Y-%m-%d %H:%M:%S'))
+            old_unixtime = time.time()
+            remote_time = sdwdate.time_human_readable(remote_unixtime)
             time_diff_raw_int = int(remote_unixtime) - int(old_unixtime)
 
             ## 1. User's sdwdate sends request to remote time source.
@@ -446,22 +456,91 @@ class Sdwdate:
         message = 'median lag_cleaned time difference: %+.9f' % self.median_diff_lag_cleaned_in_seconds
         logger.info(message)
 
-    def set_new_time(self):
-        '''
-        Do not set time if diff = 0.
-        '''
-        if self.median_diff_raw_in_seconds == 0:
-            message = 'Time difference = 0. Not setting time.'
-            logger.info(message)
-            return True
+    def time_replay_protection_file_read(self):
+        time_replay_protection_unixtime = 0
+        time_replay_protection_files_list = [ sdwdate.sdwdate_time_replay_protection_utc_unixtime, "/usr/share/timesanitycheck/minimum_unixtime" ]
+        for file_name in time_replay_protection_files_list:
+            if not os.path.exists(file_name):
+                continue
+            with open(file_name) as time_replay_protection_file_object:
+                try:
+                    time_replay_protection_file_contents = time_replay_protection_file_object.read()
+                    time_replay_protection_file_contents = int(time_replay_protection_file_contents)
+                    if time_replay_protection_file_contents < time_replay_protection_unixtime:
+                        continue
+                    time_replay_protection_unixtime = time_replay_protection_file_contents
+                    message = 'Time Replay Protection: read ' + str(time_replay_protection_unixtime) + " from file: " + file_name
+                    logger.info(message)
+                    time_replay_protection_utc_human_readable = sdwdate.time_human_readable(time_replay_protection_unixtime)
+                    message = 'Time Replay Protection: ' + str(time_replay_protection_utc_human_readable)
+                    logger.info(message)
+                except:
+                    print("time_replay_protection_file_read: sys.exc_info:", sys.exc_info()[0])
+        ## Relay check to avoid false-positives due to sdwdate inaccuracy.
+        time_replay_protection_unixtime = time_replay_protection_unixtime - 100
+        return time_replay_protection_unixtime
 
+    def time_replay_protection_file_write(self):
+        time_now_utc_unixtime = time.time()
+        ## Example time_now_utc_unixtime:
+        ## 1611095028.9596722
+        ## This is more difficult to work with.
+        ## Hence rounding and converting to integer.
+        time_now_utc_unixtime = round(time_now_utc_unixtime)
+        time_now_utc_unixtime = int(time_now_utc_unixtime)
+        ## Example time_now_utc_unixtime:
+        ## 1611095028
+        with open(sdwdate.sdwdate_time_replay_protection_utc_unixtime, 'w') as trpuu:
+            message = 'Time Replay Protection: write ' + str(time_now_utc_unixtime) + " to file: " + sdwdate.sdwdate_time_replay_protection_utc_unixtime
+            logger.info(message)
+            trpuu.write(str(time_now_utc_unixtime))
+            trpuu.close()
+        with open(sdwdate.sdwdate_time_replay_protection_utc_humanreadable, 'w') as trpuh:
+            time_now_utc_human_readable = sdwdate.time_human_readable(time_now_utc_unixtime)
+            message = 'Time Replay Protection: write ' + str(time_now_utc_human_readable) + " to file: " + sdwdate.sdwdate_time_replay_protection_utc_humanreadable
+            logger.info(message)
+            trpuh.write(str(time_now_utc_human_readable))
+            trpuh.close()
+
+    def set_new_time(self):
         status_first_success = os.path.exists(self.status_first_success_path)
         clock_jump_do = os.path.exists(self.clock_jump_do_once_file)
 
+        old_unixtime_float = time.time()
+        old_unixtime_int = round(old_unixtime_float)
+        old_unixtime_int = int(old_unixtime_int)
+        old_unixtime_str = format(old_unixtime_float, '.9f')
+
+        new_unixtime_float = float(old_unixtime_float) + float(self.new_diff_in_seconds)
+        new_unixtime_int = round(new_unixtime_float)
+        new_unixtime_int = int(new_unixtime_int)
+        new_unixtime_str = format(new_unixtime_float, '.9f')
+
+        old_unixtime_human_readable = sdwdate.time_human_readable(old_unixtime_int)
+        new_unixtime_human_readable = sdwdate.time_human_readable(new_unixtime_int)
+
+        message = "replay_protection_unixtime: " + time_replay_protection_minium_unixtime_str
+        logger.info(message)
+        message = "old_unixtime              : " + old_unixtime_str
+        logger.info(message)
+        message = "new_unixtime              : " + new_unixtime_str
+        logger.info(message)
+        message = "replay_protection_human_readable: " + time_replay_protection_minium_unixtime_human_readable
+        logger.info(message)
+        message = "old_unixtime_human_readable     : " + old_unixtime_human_readable
+        logger.info(message)
+        message = "new_unixtime_human_readable     : " + new_unixtime_human_readable
+        logger.info(message)
+
+        if new_unixtime_int < time_replay_protection_minium_unixtime_int:
+            message = "Time Replay Protection: ERROR. See above. new_unixtime earlier than time_replay_protection_minium_unixtime_int."
+            logger.error(message)
+            return False
+
         if not status_first_success:
-            sdwdate.set_time_using_date()
+            sdwdate.set_time_using_date(new_unixtime_str)
         elif clock_jump_do:
-            sdwdate.set_time_using_date()
+            sdwdate.set_time_using_date(new_unixtime_str)
         else:
             sdwdate.run_sclockadj()
 
@@ -475,6 +554,7 @@ class Sdwdate:
 
         f = open(sdwdate.status_success_path, 'w')
         f.close()
+        return True
 
     def randomize_time_config(self):
         status = False
@@ -514,10 +594,14 @@ class Sdwdate:
         ## Consumed by run_sclockadj.
         self.new_diff_in_nanoseconds = int(self.new_diff_in_seconds * 1000000000)
 
-        message = 'new time difference   : %+.9f' % self.new_diff_in_seconds
+        message = 'new time difference               : %+.9f' % self.new_diff_in_seconds
         logger.info(message)
 
     def run_sclockadj(self):
+        if self.new_diff_in_seconds == 0:
+            message = 'Time difference = 0. Not setting time.'
+            logger.info(message)
+            return True
         sclockad_cmd = '/usr/lib/sdwdate/sclockadj "' + str(self.new_diff_in_nanoseconds) + '"'
         message = 'Gradually adjusting the time by running sclockadj using command: %s' % sclockad_cmd
         logger.info(message)
@@ -544,16 +628,11 @@ class Sdwdate:
             message = 'sleep process not running, ok.'
             logger.info(message)
 
-    def set_time_using_date(self):
-        old_unixtime = format(time.time(), '.9f')
-        message = 'old unixttime: ' + old_unixtime
-        logger.info(message)
-
-        new_unixtime = float(old_unixtime) + float(self.new_diff_in_seconds)
-        new_unixtime_str = format(new_unixtime, '.9f')
-
-        message = 'new unixtime : ' + new_unixtime_str
-        logger.info(message)
+    def set_time_using_date(self, new_unixtime_str):
+        if self.new_diff_in_seconds == 0:
+            message = 'Time difference = 0. Not setting time.'
+            logger.info(message)
+            return True
 
         ## Set new time.
         cmd = '/bin/date --utc "+%Y-%m-%d %H:%M:%S" --set "@' + str(new_unixtime_str) + '"'
@@ -717,7 +796,7 @@ class Sdwdate:
                status = "error"
                return icon, status, message
 
-            old_unixtime = (time.time())
+            old_unixtime = time.time()
 
             for pool in self.pools:
                 if not pool.done:
@@ -731,8 +810,7 @@ class Sdwdate:
                             web_unixtime = int(self.unixtimes[index])
                             request_took_time_item = int(self.request_took_times[index])
 
-                            web_time = (datetime.strftime(datetime.fromtimestamp(web_unixtime),
-                                                              '%a %b %d %H:%M:%S UTC %Y'))
+                            web_time = sdwdate.time_human_readable(web_unixtime)
 
                             pool_diff = int(web_unixtime) - int(old_unixtime)
                             self.pools_raw_diff.append(pool_diff)
@@ -767,6 +845,13 @@ class Sdwdate:
         return icon, status, message
 
     def wait_sleep(self):
+        ## If we make the sleep period configurable one day, we need to
+        ## advice the user to also adjust WatchdogSec= in sdwdate's systemd
+        ## unit file.
+        ## minimum sleep time: 60 minutes
+        sleep_time_minimum_seconds = 60 * 60
+        ## maximum sleep time: 180 minutes
+        sleep_time_maximum_seconds = 180 * 60
         self.sleep_time_seconds = randint(sleep_time_minimum_seconds, sleep_time_maximum_seconds)
         sleep_time_minutes = self.sleep_time_seconds / 60
 
@@ -867,6 +952,7 @@ if __name__ == "__main__":
         msg = "Running sdwdate main loop. iteration: " + str(loop_counter) + " / " + str(loop_max)
         logger.info(msg)
 
+
         sdwdate.preparation()
 
         msg = "STATUS=Running sdwdate main loop. iteration: " + str(loop_counter) + " / " + str(loop_max)
@@ -885,41 +971,18 @@ if __name__ == "__main__":
         #print("main allowed_failures: " + str(x))
         #sys.exit(0)
 
+        time_replay_protection_minium_unixtime_int = sdwdate.time_replay_protection_file_read()
+        time_replay_protection_minium_unixtime_str = str(time_replay_protection_minium_unixtime_int)
+        time_replay_protection_minium_unixtime_human_readable = sdwdate.time_human_readable(time_replay_protection_minium_unixtime_int)
+
         icon, status, sdwdate_message_from_loop = sdwdate.sdwdate_loop()
         n.notify("WATCHDOG=1")
 
         if status == 'success':
             sdwdate.build_median()
             sdwdate.add_or_subtract_nanoseconds()
-            sdwdate.set_new_time()
-
-            retry_on_error_counter = 0
-            ## If we make the sleep period configurable one day, we need to
-            ## advice the user to also adjust WatchdogSec= in sdwdate's systemd
-            ## unit file.
-            ## minimum sleep time: 60 minutes
-            sleep_time_minimum_seconds = 60 * 60
-            ## maximum sleep time: 180 minutes
-            sleep_time_maximum_seconds = 180 * 60
-
-        elif status == 'error':
-            message = "retry_on_error_counter: " + str(retry_on_error_counter)
-            logger.info(message)
-
-            retry_on_error_counter += 1
-
-            if retry_on_error_counter >= 3:
-               ## minimum sleep time: 1 second multiplied with retry_on_error_counter
-               sleep_time_minimum_seconds = 1 * retry_on_error_counter
-               ## maximum sleep time: 5 seconds multiplied with retry_on_error_counter
-               sleep_time_maximum_seconds = 5 * retry_on_error_counter
-               if sleep_time_minimum_seconds >= 60 * 60:
-                  sleep_time_minimum_seconds = 60 * 60
-               if sleep_time_maximum_seconds >= 180 * 60:
-                  sleep_time_maximum_seconds = 180 * 60
-            else:
-               sleep_time_minimum_seconds = 0
-               sleep_time_maximum_seconds = 0
+            if sdwdate.set_new_time():
+               sdwdate.time_replay_protection_file_write()
 
         sdwdate.wait_sleep()
         sdwdate.check_clock_skew()
