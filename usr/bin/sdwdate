@@ -610,28 +610,27 @@ class Sdwdate:
                     pool.url_random.append(pool.url[url_index])
                     self.url_random.append(pool.url[url_index])
 
-            if len(self.url_random) > 0:
-                message = 'requested urls %s' % self.url_random
-                logger.info(message)
-
-                self.urls, self.list_of_stdout, self.list_of_stderr = get_time_from_servers(self.url_random,
-                                                                        self.proxy_ip,
-                                                                        self.proxy_port)
-
-                if len(self.urls) == 0:
-                    message = self._('no_value_returned') + self._('restart')
-                    icon = "error"
-                    status = "error"
-                    return icon, status, message
-
-                message = 'returned urls "%s"' % self.urls
-                logger.info(message)
-
-            else:
+            if len(self.url_random) <= 0:
                 message = self._('list_not_built') + self._('restart')
                 icon = "error"
                 status = "error"
                 return icon, status, message
+
+            message = 'requested urls %s' % self.url_random
+            logger.info(message)
+
+            self.urls, self.list_of_stdout, self.list_of_stderr = get_time_from_servers(self.url_random,
+                                                                  self.proxy_ip,
+                                                                  self.proxy_port)
+
+            if len(self.urls) == 0:
+               message = self._('no_value_returned') + self._('restart')
+               icon = "error"
+               status = "error"
+               return icon, status, message
+
+            message = 'returned urls "%s"' % self.urls
+            logger.info(message)
 
             for i in range(len(self.urls)):
                 if self.check_remote(self.urls[i], self.list_of_stdout[i], self.list_of_stderr[i], self.get_comment(self.urls[i]), i):
