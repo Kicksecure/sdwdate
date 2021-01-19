@@ -45,15 +45,15 @@ class Time_Source_Pool:
         self.url, self.comment = read_pools(pool, 'production')
         self.url_random = []
         self.already_picked_index = []
-        self.invalid_urls = 0
+        self.failed_urls = 0
         self.done = False
 
     @property
     def url_range(self):
         return len(self.url)
 
-    @property
     def allowed_failures(self):
+        failure_ratio = None
         if os.path.exists('/etc/sdwdate.d/'):
             files = sorted(glob.glob('/etc/sdwdate.d/*.conf'))
             for f in files:
@@ -62,10 +62,21 @@ class Time_Source_Pool:
                 for line in lines:
                     if line.startswith('MAX_FAILURE_RATIO'):
                         failure_ratio = re.search(r'=(.*)', line).group(1)
-            return int(len(self.url) * float(failure_ratio))
-        else:
-            return int(len(self.url) * 0.34)
-        return int(len(self.url) * 0.34)
+        if failure_ratio == None:
+           failure_ratio = 0.34
+        x = float(len(self.url))
+        y = float(failure_ratio)
+        z = x * y
+        allowed_failures_value = int(z)
+        #print("failure_ratio: " + str(failure_ratio))
+        #print("x: " + str(x))
+        #print("y: " + str(y))
+        #print("z: " + str(z))
+        #print("allowed_failures_value: " + str(allowed_failures_value))
+        if allowed_failures_value < 1:
+            allowed_failures_value = 1
+        #print("allowed_failures_value: " + str(allowed_failures_value))
+        return allowed_failures_value
 
 
 class Sdwdate:
@@ -81,7 +92,7 @@ class Sdwdate:
         self.valid_urls = []
         self.unixtimes = []
         self.pools_diff = []
-        self.invalid_urls = []
+        self.failed_urls = []
         self.url_errors = []
 
         self.median_diff_in_seconds = 0
@@ -154,6 +165,7 @@ class Sdwdate:
         sdwdate.write_status(icon, message)
 
         sdwdate.kill_sclockadj()
+        sdwdate.kill_sleep_process()
 
         ## use missing_ok=True in python 3.8
         if os.path.isfile(sdwdate.sleep_long_file_path):
@@ -475,21 +487,30 @@ class Sdwdate:
         logger.info(message)
 
     def run_sclockadj(self):
-        cmd = '/usr/lib/sdwdate/sclockadj "' + str(self.new_diff_in_nanoseconds) + '"'
-        message = 'Gradually adjusting the time by running sclockadj using command: %s' % cmd
+        sclockad_cmd = '/usr/lib/sdwdate/sclockadj "' + str(self.new_diff_in_nanoseconds) + '"'
+        message = 'Gradually adjusting the time by running sclockadj using command: %s' % sclockad_cmd
         logger.info(message)
         ## Run sclockadj in a subshell.
-        self.sclockadj = Popen(cmd, shell=True)
-        message = 'Launched sclockadj into the background. PID: %s' % self.sclockadj.pid
+        self.sclockadj_process = Popen(sclockad_cmd, shell=True)
+        message = 'Launched sclockadj into the background. PID: %s' % self.sclockadj_process.pid
         logger.info(message)
 
     def kill_sclockadj(self):
         try:
-            self.sclockadj.kill()
-            message = 'Terminated sclockadj.'
+            self.sclockadj_process.kill()
+            message = 'Terminated sclockadj process.'
             logger.info(message)
         except:
-            message = 'sclockadj not running, ok.'
+            message = 'sclockadj process not running, ok.'
+            logger.info(message)
+
+    def kill_sleep_process(self):
+        try:
+            self.sleep_process.kill()
+            message = 'Terminated sleep process.'
+            logger.info(message)
+        except:
+            message = 'sleep process not running, ok.'
             logger.info(message)
 
     def set_time_using_date(self):
@@ -571,9 +592,11 @@ class Sdwdate:
                     url_index = random.randrange(0, pool_range)
                     while url_index in pool.already_picked_index:
                         url_index = random.randrange(0, pool_range)
+                    message = "url_index: " + str(url_index)
+                    logger.info(message)
 
                     pool.already_picked_index.append(url_index)
-                    if len(pool.already_picked_index) >= pool_range:
+                    if len(pool.already_picked_index) > pool_range:
                         pool_number = self.pools.index(pool) + 1
                         message = self._('no_valid_time') + str(pool_number) + self._('restart')
                         logger.warning(message)
@@ -612,7 +635,7 @@ class Sdwdate:
                     self.valid_urls.append(self.urls[i])
                     self.unixtimes.append(self.list_of_stdout[i])
                 else:
-                    self.invalid_urls.append(self.urls[i])
+                    self.failed_urls.append(self.urls[i])
                     self.url_errors.append(self.list_of_stdout[i])
 
             if self.iteration >= 3:
@@ -631,13 +654,18 @@ class Sdwdate:
             for i in range(len(self.urls)):
                for pool in self.pools:
                   if self.urls[i] in pool.url_random:
-                     pool.invalid_urls += 1
-                     if pool.invalid_urls >= pool.allowed_failures:
-                        message = (self._('max_pool_failures_1') +
-                                       str(self.pools.index(pool) + 1) +
-                                       ' (' + str(pool.invalid_urls) + ' of ' +
-                                       str(len(pool.url)) + ')' +
-                                       self._('max_pool_failures_2') + '<br>')
+                     failures_allowed_per_pool = pool.allowed_failures()
+                     message  = ''
+                     message += "pool "
+                     message += str(self.pools.index(pool))
+                     message += ":"
+                     message += " failed_urls: "
+                     message += str(len(self.failed_urls))
+                     message += " allowed_failures: "
+                     message += str(failures_allowed_per_pool)
+                     logger.info(message)
+                     if len(self.failed_urls) > failures_allowed_per_pool:
+                        message = "Maximum allowed number of failures. Giving up."
                         icon = "error"
                         status = "error"
                         return icon, status, message
@@ -658,7 +686,7 @@ class Sdwdate:
                                                               '%a %b %d %H:%M:%S UTC %Y'))
                             pool_diff = int(web_unixtime) - int(old_unixtime)
                             self.pools_diff.append(pool_diff)
-                            pool_number = self.pools.index(pool) + 1
+                            pool_number = self.pools.index(pool)
                             message = ('pool %s: %s, web unixtime: %s, web time: %s, diff: %s seconds'
                                         % (pool_number, url, web_unixtime, web_time, pool_diff))
                             logger.info(message)
@@ -708,10 +736,11 @@ class Sdwdate:
         ## Using sh sleep in place of python's time.sleep(self.sleep_time_seconds).
         ## The latter uses the system clock for its inactive state time.
         ## It becomes utterly confused when sclockadj is running.
-        cmd = "sleep" + " " + str(self.sleep_time_seconds) + "." + str(nanoseconds)
-        message = "running command: " + cmd
+        sleep_cmd = "sleep" + " " + str(self.sleep_time_seconds) + "." + str(nanoseconds)
+        message = "running command: " + sleep_cmd
         logger.info(message)
-        call(cmd, shell=True)
+        self.sleep_process = Popen(sleep_cmd, shell=True)
+        self.sleep_process.wait()
 
     def check_clock_skew(self):
         unixtime_after_sleep = int(time.time())
@@ -782,6 +811,13 @@ if __name__ == "__main__":
             os.remove(sdwdate.sleep_long_file_path)
 
         sdwdate = Sdwdate()
+
+        ## Debugging.
+        #pool = Time_Source_Pool(0)
+        #x = pool.allowed_failures()
+        #print("main allowed_failures: " + str(x))
+        #sys.exit(0)
+
         icon, status, sdwdate_message_from_loop = sdwdate.sdwdate_loop()
         n.notify("WATCHDOG=1")
 
