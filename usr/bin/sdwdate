@@ -82,7 +82,7 @@ class Sdwdate:
         self.number_of_pools = 3
 
         self.pools = [Time_Source_Pool(pool) for pool in range(self.number_of_pools)]
-        ## Could get it here to prevent reading the file in sdwdate_loop for each Unreachable url.
+        ## Could get it here to prevent reading the file in sdwdate_fetch_loop for each Unreachable url.
         #self.allowed_failures = [Time_Source_Pool(pool).allowed_failures for pool in range(self.number_of_pools)]
         self.urls = []
         self.url_random = []
@@ -655,7 +655,7 @@ class Sdwdate:
             exit_code = 1
             sdwdate.exit_handler(exit_code, reason)
 
-    def sdwdate_loop(self):
+    def sdwdate_fetch_loop(self):
         '''
         Check remotes.
         Pick a random url in each pool, check the returned stdout.
@@ -975,7 +975,7 @@ if __name__ == "__main__":
         time_replay_protection_minium_unixtime_str = str(time_replay_protection_minium_unixtime_int)
         time_replay_protection_minium_unixtime_human_readable = sdwdate.time_human_readable(time_replay_protection_minium_unixtime_int)
 
-        icon, status, sdwdate_message_from_loop = sdwdate.sdwdate_loop()
+        icon, status, sdwdate_message_from_loop = sdwdate.sdwdate_fetch_loop()
         n.notify("WATCHDOG=1")
 
         if status == 'success':
