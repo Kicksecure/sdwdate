@@ -1,3 +1,294 @@
+commit ae1124e3e29ed8d5fb691df65fee1685f13a2af0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 19:22:57 2021 -0500
+
+    output; refactoring
+
+commit b8d4d020a7efdaf87240929099aa79a5b07be72f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 19:01:43 2021 -0500
+
+    refactoring
+
+commit f06793620dfbb8fbcfc37633675969e88a4d2010
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 18:53:07 2021 -0500
+
+    implement time replay protection
+    
+    abolish shorter sleep on error counters below 3
+    because preparation() now takes care of that
+    
+    output
+    
+    refactoring
+
+commit 5cac6cc48586138ea896417cf1130b5269ae3c7c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 14:50:29 2021 -0500
+
+    comment
+
+commit abc206514b536e241afd0fa5e4a8f127a98a6067
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 14:27:08 2021 -0500
+
+    comment
+
+commit 45dbc403de1f6ecf12906e207c9fd265aae8d572
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 14:19:47 2021 -0500
+
+    output
+
+commit 3ca018703635132426f58e169384c31bd8251774
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 14:19:26 2021 -0500
+
+    fix
+
+commit 5a8f7cd392bd6fc54f69784148f30f5b0214ec0b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 14:00:21 2021 -0500
+
+    show median pool lag cleaned diff
+
+commit bed908ed4ff44d529721d049a5b88a5b3f35c96d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 13:39:16 2021 -0500
+
+    refactoring
+
+commit 279f8a044f79c05ceec19df9be12307d6b7d5a96
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 13:38:28 2021 -0500
+
+    output
+
+commit 90afeb2a5305a2f93950638c1c4cac9da7540062
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 13:36:57 2021 -0500
+
+    show lag cleaned time diff in fetch summary
+
+commit c2c78c4dde6cd226d49e81a7f99726fcf6e348e7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 13:10:01 2021 -0500
+
+    output, refactoring
+
+commit dc0afdc73bcbb2113b5f86b46eb49480ef8b2a74
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 13:06:32 2021 -0500
+
+    show lag cleaned time diff
+
+commit bd20535e0dbad50d149a83021e6dbba211bd8e4b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 12:03:15 2021 -0500
+
+    output
+
+commit 961f531778a132683d302cfb8c4a73bcf3cfd9db
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 12:02:17 2021 -0500
+
+    output
+
+commit 17e985c00909c7d8b674195d8e66746455a4e167
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 12:01:33 2021 -0500
+
+    correctly calculate took time
+
+commit 15801f1b421e0f5c2073ac5b62d10da27fdf6639
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 07:58:09 2021 -0500
+
+    fix
+
+commit 26b2af8a9a221a863ec4e5b8e00730f508a885bb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 07:50:39 2021 -0500
+
+    output
+
+commit 343f5ab6d4eddfd18c3f32106be73cd1756e0879
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 07:47:46 2021 -0500
+
+    fix
+
+commit 4c4ae46044ffde43551d7de66e0ca687a04b2bb8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 06:59:34 2021 -0500
+
+    show how much time a request took time
+
+commit 8b0e3cd555e9acf55724290fc24387d9cfd559e6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 06:43:56 2021 -0500
+
+    refactoring
+
+commit 90f7164991e98f144770d26af53616c8941b5ccb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 06:33:03 2021 -0500
+
+    output
+
+commit 034f3c7683b6f223179248a2cba000b0d9a48da6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 06:26:32 2021 -0500
+
+    cleanup
+
+commit 1de97350c4d4352bed00fbfc0c10697c91d5e033
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 06:26:04 2021 -0500
+
+    also check and show exit code of url_to_unixtime
+
+commit db98959c624115e3f00893d0cf9ae4636b4840c6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 05:45:45 2021 -0500
+
+    fix
+
+commit b5ab2d3b70b14a0fcdd24eb003462e0169b2350e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 05:32:04 2021 -0500
+
+    refactoring
+
+commit 53a7b226dc0143f893d8e56fcd954db605dcc710
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 05:26:18 2021 -0500
+
+    refactoring
+
+commit 108c2240e3521ba9538af2b83c9032f72951d657
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 05:19:40 2021 -0500
+
+    make sure to not test same failed URL twice
+    
+    refactoring
+
+commit 4ba267275614a033f37b910d2e632c75d0cc56a3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 04:14:21 2021 -0500
+
+    output
+
+commit ba7784dbaa8b8079a86ac052e3b98429693c8904
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 03:38:19 2021 -0500
+
+    allow allowed failures to be 0
+
+commit 7030d6c5cc6d2fc81e1f1f5c7c7e71141f8cf40b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 03:34:29 2021 -0500
+
+    allow running sdwdate with only 1 pool member per pool
+    
+    prevent python exception when sdwdate gets stopped while sleep process is running
+    
+    output
+    
+    refactoring
+
+commit 4d64f7a5ca7b86b5ab1f99a2f98cd5bc62bc75c7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 01:44:06 2021 -0500
+
+    fix check_clock_skew
+
+commit 4dc19f7e2cd6d139a892a09f7baf12acc522df62
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 01:33:54 2021 -0500
+
+    fix
+
+commit c98043fee20776f6ab871b03c1cbae2172eb38db
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 01:27:13 2021 -0500
+
+    comments
+
+commit cc4d74d05e798fa9d9750fc01d84463dbc2fcd53
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 01:26:52 2021 -0500
+
+    refactoring
+
+commit 242d2ada1b1a5c22949035d865e28588f4b398a7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 01:09:14 2021 -0500
+
+    fix
+
+commit 27bbf25f511e39c8538e3073791af04a23b45b02
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 01:08:58 2021 -0500
+
+    always use exit_handler
+
+commit be18fd9a5ad6a3db3bcbfcdc18b484ae3411f7b6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 01:06:54 2021 -0500
+
+    fix
+
+commit d86d3532c8958fb9a10dd11c5131eec036fe9337
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 01:05:21 2021 -0500
+
+    fix
+
+commit ab3e58daa783d0dfc1a39639040065dc026f8f42
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 01:04:05 2021 -0500
+
+    fix
+
+commit f9596776704a351884081d448d873afdf3215522
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 01:03:47 2021 -0500
+
+    create file /run/sdwdate/sleep_long when sleeping longer than 10 seconds
+
+commit 734136d3fe0efa7fa2b2f3a3174a50a9a88a79a6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 00:47:19 2021 -0500
+
+    fix minimum sleep time in case of repeated error
+
+commit 7735adb36916966d7ece448b8873f9c97859bb46
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 00:42:41 2021 -0500
+
+    fix maximum sleep time in case of repeated error
+
+commit 6174e489173a239f06dceed467b5aceba816783a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 00:40:43 2021 -0500
+
+    comments
+
+commit 8e294fb18743e7dee509bc0118e6a8671ad9ca8a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 00:37:41 2021 -0500
+
+    refactoring
+
+commit ec877bb06592ef032087c03bfe014a03924e122b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 02:15:53 2021 -0500
+
+    bumped changelog version
+
 commit 12b7e98966d43db185f172e07ffa6d32f97cbe01
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Jan 17 02:14:10 2021 -0500
