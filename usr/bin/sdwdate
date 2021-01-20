@@ -535,7 +535,9 @@ class Sdwdate:
         if new_unixtime_int < time_replay_protection_minium_unixtime_int:
             message = "Time Replay Protection: ERROR. See above. new_unixtime earlier than time_replay_protection_minium_unixtime_int."
             logger.error(message)
-            return False
+            icon = "error"
+            message = "Time Replay Protection: ERROR. More more information, see: sdwdate-gui -> right click -> Open sdwdate's log"
+            return False, message
 
         if not status_first_success:
             sdwdate.set_time_using_date(new_unixtime_str)
@@ -554,7 +556,8 @@ class Sdwdate:
 
         f = open(sdwdate.status_success_path, 'w')
         f.close()
-        return True
+        message = "ok"
+        return True, message
 
     def randomize_time_config(self):
         status = False
@@ -662,7 +665,7 @@ class Sdwdate:
         Append valid urls if time is returned, otherwise restart a cycle
         with a new random url, until every pool has a time value.
         returns:
-        icon, status, sdwdate_message_from_loop
+        icon, status, message
         '''
         message = "Start fetching remote times."
         logger.info(message)
@@ -844,7 +847,7 @@ class Sdwdate:
         status = "success"
         return icon, status, message
 
-    def wait_sleep(self):
+    def wait_sleep(self, icon, status, message):
         ## If we make the sleep period configurable one day, we need to
         ## advice the user to also adjust WatchdogSec= in sdwdate's systemd
         ## unit file.
@@ -855,7 +858,7 @@ class Sdwdate:
         self.sleep_time_seconds = randint(sleep_time_minimum_seconds, sleep_time_maximum_seconds)
         sleep_time_minutes = self.sleep_time_seconds / 60
 
-        message = (sdwdate_message_from_loop + " " + sdwdate._('sleeping') +
+        message = (message + " " + sdwdate._('sleeping') +
                   str(sleep_time_minutes) + sdwdate._('minutes'))
 
         stripped_message = sdwdate.strip_html(message)
@@ -975,15 +978,23 @@ if __name__ == "__main__":
         time_replay_protection_minium_unixtime_str = str(time_replay_protection_minium_unixtime_int)
         time_replay_protection_minium_unixtime_human_readable = sdwdate.time_human_readable(time_replay_protection_minium_unixtime_int)
 
-        icon, status, sdwdate_message_from_loop = sdwdate.sdwdate_fetch_loop()
+        sdwdate_icon_fl, sdwdate_status_fl, sdwdate_message_fl = sdwdate.sdwdate_fetch_loop()
+        icon = sdwdate_icon_fl
+        status = sdwdate_status_fl
+        message = sdwdate_message_fl
+
         n.notify("WATCHDOG=1")
 
-        if status == 'success':
+        if sdwdate_status_fl == 'success':
             sdwdate.build_median()
             sdwdate.add_or_subtract_nanoseconds()
-            if sdwdate.set_new_time():
+            status_set_net_time, message_set_new_time = sdwdate.set_new_time()
+            if status_set_net_time == True:
                sdwdate.time_replay_protection_file_write()
+            else:
+               icon = "error"
+               message = message_set_new_time
 
-        sdwdate.wait_sleep()
+        sdwdate.wait_sleep(icon, status, message)
         sdwdate.check_clock_skew()
         sdwdate.kill_sclockadj()
