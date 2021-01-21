@@ -9,6 +9,7 @@ import gevent
 import shlex
 import time
 from gevent.subprocess import Popen, PIPE
+import subprocess
 
 from subprocess import Popen
 from threading import Thread
