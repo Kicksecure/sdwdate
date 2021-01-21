@@ -77,10 +77,13 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
          print("remote_times.py: i:" + str(i) + " | SystemExit received.")
          break
       except subprocess.TimeoutExpired:
-         print("remote_times.py: i:" + str(i) + " | TimeoutExpired received.")
+         print("remote_times.py: i:" + str(i) + " | timeout")
+         handle[i].kill()
+         ## Results in invoking get_time_from_servers_callback.
+         handle[i].wait()
       except:
          error_message = str(sys.exc_info()[0])
-         print("remote_times.py: i:" + str(i) + " | sys.exc_info: " + error_message)
+         print("remote_times.py: i:" + str(i) + " | unknown error. sys.exc_info: " + error_message)
          handle[i].kill()
          ## Results in invoking get_time_from_servers_callback.
          handle[i].wait()
