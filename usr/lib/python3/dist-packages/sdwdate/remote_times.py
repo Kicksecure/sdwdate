@@ -66,15 +66,15 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
     for i in range(len(list_of_remote_servers)):
       try:
          handle[i].wait(timeout=timeout_seconds)
-         print("remote_times.py: wait_ok i:", str(i))
+         print("remote_times.py: i:" + str(i) + " | wait_ok")
       except KeyboardInterrupt:
          do_exit = True
-         print("remote_times.py: KeyboardInterrupt received.")
+         print("remote_times.py: i:" + str(i) + " | KeyboardInterrupt received.")
       except SystemExit:
          do_exit = True
-         print("remote_times.py: SystemExit received.")
+         print("remote_times.py: i:" + str(i) + " | SystemExit received.")
       except:
-         print("remote_times.py: wait sys.exc_info:", sys.exc_info()[0])
+         print("remote_times.py: i:" + str(i) + " | sys.exc_info: " + sys.exc_info()[0]))
          handle[i].kill()
          ## Results in invoking get_time_from_servers_callback.
          handle[i].wait()
