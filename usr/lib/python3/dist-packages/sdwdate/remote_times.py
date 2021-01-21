@@ -46,6 +46,7 @@ def run_command(i, url_to_unixtime_command):
     except:
       error_message = str(sys.exc_info()[0])
       print("remote_times.py: i: " + str(i) + " | unknown error. sys.exc_info: " + error_message)
+      p.kill()
 
     ## Do not return from this function until killing of the process is complete.
     p.wait()
