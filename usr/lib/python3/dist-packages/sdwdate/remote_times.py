@@ -74,7 +74,8 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
          do_exit = True
          print("remote_times.py: i:" + str(i) + " | SystemExit received.")
       except:
-         print("remote_times.py: i:" + str(i) + " | sys.exc_info: " + sys.exc_info()[0]))
+         error_message = str(sys.exc_info()[0])
+         print("remote_times.py: i:" + str(i) + " | sys.exc_info: " + error_message)
          handle[i].kill()
          ## Results in invoking get_time_from_servers_callback.
          handle[i].wait()
