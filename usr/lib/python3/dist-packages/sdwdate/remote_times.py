@@ -37,14 +37,17 @@ def run_command(i, url_to_unixtime_command):
 
     try:
       p.wait(timeout_seconds)
+      ## Process already terminated before timeout.
       print("remote_times.py: i: " + str(i) + " | wait_ok")
     except subprocess.TimeoutExpired:
       print("remote_times.py: i: " + str(i) + " | timeout")
+      ## Timeout hit. Kill process.
       p.kill()
     except:
       error_message = str(sys.exc_info()[0])
       print("remote_times.py: i: " + str(i) + " | unknown error. sys.exc_info: " + error_message)
 
+    ## Do not return from this function until killing of the process is complete.
     p.wait()
     end_unixtime = time.time()
     took_time[i] = end_unixtime - start_unixtime[i]
