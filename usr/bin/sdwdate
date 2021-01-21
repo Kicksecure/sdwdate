@@ -701,15 +701,15 @@ class Sdwdate:
 
             for pool in self.pools:
                 if not pool.done:
-                    pool_range = pool.url_range
+                    pool_size = pool.url_range
                     while True:
-                       url_index = random.randrange(0, pool_range)
-                       #print("pool_range: " + str(pool_range))
+                       url_index = random.randrange(0, pool_size)
+                       #print("pool_size: " + str(pool_size))
                        if not url_index in pool.already_picked_index:
                           #print("AAA str(len(pool.already_picked_index)): " + str(len(pool.already_picked_index)))
                           pool.already_picked_index.append(url_index)
                           break
-                       if len(pool.already_picked_index) >= pool_range:
+                       if len(pool.already_picked_index) >= pool_size:
                           #print("BBB str(len(pool.already_picked_index)): " + str(len(pool.already_picked_index)))
                           pool_number = self.pools.index(pool)
                           message = self._('no_valid_time') + str(pool_number) + self._('restart')
@@ -720,7 +720,7 @@ class Sdwdate:
                        #if url_index in pool.already_picked_index:
                           #print("CCC str(len(pool.already_picked_index)): " + str(len(pool.already_picked_index)))
 
-                    message = "pool " + str(self.pools.index(pool)) + ": pool_range: " + str(pool_range) + " url_index: " + str(url_index) + " len(pool.already_picked_index): " + str(len(pool.already_picked_index)) + " pool.already_picked_index: " + str(pool.already_picked_index)
+                    message = "pool " + str(self.pools.index(pool)) + ": pool_size: " + str(pool_size) + " url_index: " + str(url_index) + " len(pool.already_picked_index): " + str(len(pool.already_picked_index)) + " pool.already_picked_index: " + str(pool.already_picked_index)
                     logger.info(message)
 
                     pool.url_random.append(pool.url[url_index])
