@@ -719,7 +719,7 @@ class Sdwdate:
                           return icon, status, message
                        #if url_index in pool.already_picked_index:
                           #print("CCC str(len(pool.already_picked_index)): " + str(len(pool.already_picked_index)))
-                     already_picked_number = len(pool.already_picked_index)
+                    already_picked_number = len(pool.already_picked_index)
 
                     message = "pool " + str(self.pools.index(pool)) + ": pool_size: " + str(pool_size) + " url_index: " + str(url_index) + " already_picked_number: " + str(already_picked_number) + " already_picked_index: " + str(pool.already_picked_index)
                     logger.info(message)
