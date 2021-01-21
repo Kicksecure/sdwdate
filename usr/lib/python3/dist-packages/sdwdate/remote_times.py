@@ -70,15 +70,19 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
       except KeyboardInterrupt:
          do_exit = True
          print("remote_times.py: i:" + str(i) + " | KeyboardInterrupt received.")
+         break
       except SystemExit:
          do_exit = True
          print("remote_times.py: i:" + str(i) + " | SystemExit received.")
+         break
       except:
          error_message = str(sys.exc_info()[0])
          print("remote_times.py: i:" + str(i) + " | sys.exc_info: " + error_message)
          handle[i].kill()
          ## Results in invoking get_time_from_servers_callback.
          handle[i].wait()
+         ## Wait for other (i).
+         #break
 
     if do_exit == True:
        for i in range(len(list_of_remote_servers)):
