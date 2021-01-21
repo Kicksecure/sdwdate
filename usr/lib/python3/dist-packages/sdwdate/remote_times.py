@@ -75,6 +75,8 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
          do_exit = True
          print("remote_times.py: i:" + str(i) + " | SystemExit received.")
          break
+      except subprocess.TimeoutExpired:
+         print("remote_times.py: i:" + str(i) + " | TimeoutExpired received.")
       except:
          error_message = str(sys.exc_info()[0])
          print("remote_times.py: i:" + str(i) + " | sys.exc_info: " + error_message)
