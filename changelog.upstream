@@ -1,3 +1,111 @@
+commit a4c25a75189ca65c8eaab77ceedf2d2b64ccb5ac
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 23 03:21:39 2021 -0500
+
+    apparmor
+
+commit a782b6ff2411499b82426836711cb86632514b11
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 23 03:21:04 2021 -0500
+
+    fix
+
+commit fc2665f58957b92cfe3a0235d33ce6d890c60722
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 23 01:40:03 2021 -0500
+
+    apparmor
+
+commit d48f40b8f688e5b3d18d3b5313021dd7ae73a66a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 23 01:39:36 2021 -0500
+
+    apparmor
+
+commit ad453e840db2cf8a60f48bd7fc869835575320fc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 23 01:35:31 2021 -0500
+
+    apparmor
+
+commit d03becd9a234d87bb5d36ecbdc81e9fbfadb237f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 21 15:18:31 2021 -0500
+
+    minor
+
+commit 2a1fd32d836b38ada3c8e1acca546557e4fa9070
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 21 15:17:47 2021 -0500
+
+    comments
+
+commit 769dc3f0b1b3154a728804464f0c87817352698e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 21 15:07:19 2021 -0500
+
+    fix parallel execution
+
+commit ce6aeff5697d516668f527d4e8d21ddde80b1761
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 21 11:13:44 2021 -0500
+
+    improve error handling
+
+commit c183190f8a88a26ea3119400e6bfbc1b3c4103c6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 21 11:08:53 2021 -0500
+
+    fix
+
+commit 2d9cb145f5fd4428f23cfde92fd8d62e9c693900
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 21 11:07:22 2021 -0500
+
+    minor
+
+commit f858747e191ba905579a8125c5c9a0a738daa47a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 21 11:06:02 2021 -0500
+
+    minor
+
+commit 4dca8bdd8fed1627367c0cfd98498aa1fde71ed2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 21 10:20:26 2021 -0500
+
+    refactoring
+
+commit 86bac4ecab04b21aa7aab428da9335bcc7edbb85
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 21 10:18:51 2021 -0500
+
+    output
+
+commit fb0a0b83b2737d547c8742d213a959d95c980ff7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 21 10:17:08 2021 -0500
+
+    indent
+
+commit 52767f658b8182e51ed66c7c063fe9edd2e1f9a4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 21 10:05:40 2021 -0500
+
+    refactoring; output
+
+commit 4980dfffc7abb4911a7ccdccaf5f7290fc5044c1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 21 06:37:01 2021 -0500
+
+    refactoring
+
+commit 03a4c6add26a33b7351153c6cb4492cebc2ae076
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 19 19:40:53 2021 -0500
+
+    bumped changelog version
+
 commit ae1124e3e29ed8d5fb691df65fee1685f13a2af0
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jan 19 19:22:57 2021 -0500
