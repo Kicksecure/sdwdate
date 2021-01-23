@@ -59,6 +59,9 @@
   /usr/share/tor/tor-service-defaults-torrc.anondist r,
   /usr/share/translations/sdwdate.yaml r,
 
+  /var/lib/sdwdate/ rw,
+  /var/lib/sdwdate/time-replay-protection-utc-unixtime rw,
+
   ## No longer required as soon timesanitycheck runs with appamor `Px`
   /usr/share/timesanitycheck/minimum_unixtime r,
 
