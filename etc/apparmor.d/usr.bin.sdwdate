@@ -60,7 +60,8 @@
   /usr/share/translations/sdwdate.yaml r,
 
   /var/lib/sdwdate/ rw,
-  /var/lib/sdwdate/time-replay-protection-utc-unixtime rw,
+  /var/lib/sdwdate/time-replay-protection-utc-unixtime rw
+  /var/lib/sdwdate/time-replay-protection-utc-humanreadable rw,
 
   ## No longer required as soon timesanitycheck runs with appamor `Px`
   /usr/share/timesanitycheck/minimum_unixtime r,
