@@ -44,7 +44,9 @@
   /usr/bin/url_to_unixtime rix,
 
   ## TODO
-  /usr/sbin/anondate-set rUx,
+  /usr/sbin/anondate-get rUx,
+  ## Not implemented.
+  #/usr/sbin/anondate-set rUx,
 
   /etc/nsswitch.conf r,
   /etc/passwd r,
