@@ -86,8 +86,7 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
         returncode = handle[i].returncode
 
         ## bytes
-        stdout = handle[i].stdout.read()
-        stderr = handle[i].stderr.read()
+        stdout, stderr = handle[i].communicate()
 
         #print("remote_times.py: i: " + str(i))
         #print("remote_times.py: stdout: " + str(stdout))
