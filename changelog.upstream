@@ -1,3 +1,52 @@
+commit 920f80b559aa5027813f9232d751b363dbd465be
+Merge: dda49e0 4f88e05
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 24 00:38:28 2021 -0500
+
+    Merge remote-tracking branch 'github/master'
+
+commit 4f88e0530d56fb876267bc97948ea0badb26a84e
+Merge: dda49e0 bf8dafc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 24 05:36:22 2021 +0000
+
+    Merge pull request #27 from TNTBOMBOM/patch-3
+    
+    Update 30_default.conf
+
+commit bf8dafc667ff832f456fc4f3072814a9dbb9eda9
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Sat Jan 23 17:38:09 2021 +0000
+
+    Update 30_default.conf
+    
+    changed the archived links according to patrick request:
+    
+    https://forums.whonix.org/t/suggest-trustworthy-tor-hidden-services-as-time-sources-for-sdwdate/856/173
+
+commit fe448bc5eb1695779b1cbd07d5ef16e0aa121833
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Sat Jan 23 10:23:14 2021 +0000
+
+    Update 30_default.conf
+
+commit f87fcb977718ae026a809e442f42b4f1b7cd5f9d
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Sat Jan 23 10:20:05 2021 +0000
+
+    Update 30_default.conf
+    
+    I have added:
+    
+    - systemli main website
+    - security in a box website
+
+commit dda49e05693baad278463584675634d5e808b2df
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 23 04:42:51 2021 -0500
+
+    bumped changelog version
+
 commit a4c25a75189ca65c8eaab77ceedf2d2b64ccb5ac
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Jan 23 03:21:39 2021 -0500
