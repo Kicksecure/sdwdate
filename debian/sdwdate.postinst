@@ -26,6 +26,14 @@ case "$1" in
 
        adduser --home /run/sdwdate --no-create-home --quiet --system --group sdwdate || true
 
+       ## Change user home of user sdwdate to /run/sdwdate.
+       ## Legacy because previously was created using folder /nonexistent.
+       ## Folder /run/sdwdate gets created by /usr/lib/tmpfiles.d/sdwdate.conf.
+       usermod -m -d /run/sdwdate sdwdate || true
+       mkdir -p /run/sdwdate || true
+       ## Fix bug since /run/sdwdate might be owned by onion-grater.
+       chown sdwdate:sdwdate /run/sdwdate || true
+
        ## Add sdwdate to group debian-tor so it can read
        ## /run/tor/control.authcookie which is required to check if Tor has
        ## already successfully established a circuit before fetching time.
