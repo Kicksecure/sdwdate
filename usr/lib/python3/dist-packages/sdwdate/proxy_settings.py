@@ -46,6 +46,5 @@ def proxy_settings():
     return ip_address, port_number
 
 if __name__ == "__main__":
-    proxy_settings()
-
-
+    ip_address, port_number = proxy_settings()
+    print(ip_address + " " + port_number)
