@@ -99,3 +99,9 @@ def timesanitycheck(unixtime):
     error = "none"
 
     return status, time_one, time_two, error
+
+if __name__ == "__main__":
+    unixtime = int(sys.argv[1])
+    time_consensus_sanity_check(unixtime)
+    timesanitycheck(unixtime)
+
