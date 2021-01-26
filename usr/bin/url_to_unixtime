@@ -150,4 +150,5 @@ def main():
    unixtime = unixtime_sanity_check(data, http_time, parsed_unixtime)
    output_unixtime(data, http_time, parsed_unixtime, unixtime, verbosity)
 
-main()
+if __name__ == "__main__":
+    main()
