@@ -51,7 +51,7 @@ def time_consensus_sanity_check(unixtime):
    return status, error, consensus_valid_after_str, consensus_valid_until_str
 
 
-def timesanitycheck(unixtime):
+def static_time_sanity_check(unixtime):
     whonix_build_file = '/usr/share/whonix/build_timestamp'
     anondist_build_file = '/var/lib/anon-dist/build_version'
     dist_build_file = '/var/lib/anon-dist/build_version'
@@ -103,5 +103,5 @@ def timesanitycheck(unixtime):
 if __name__ == "__main__":
     unixtime = int(sys.argv[1])
     time_consensus_sanity_check(unixtime)
-    timesanitycheck(unixtime)
+    static_time_sanity_check(unixtime)
 

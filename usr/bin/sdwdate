@@ -23,7 +23,7 @@ from pathlib import Path
 
 from sdwdate.remote_times import get_time_from_servers
 from sdwdate.config import read_pools
-from sdwdate.timesanitycheck import timesanitycheck
+from sdwdate.timesanitycheck import static_time_sanity_check
 from sdwdate.timesanitycheck import time_consensus_sanity_check
 from sdwdate.proxy_settings import proxy_settings
 
@@ -356,7 +356,7 @@ class Sdwdate:
             time_diff_lag_cleaned_float = 0.0
             return False, half_took_time_float, time_diff_lag_cleaned_float
 
-        timesanitycheck_status, time_one, time_two, timesanitycheck_error = timesanitycheck(remote_unixtime)
+        timesanitycheck_status_static, time_one, time_two, timesanitycheck_error_static = static_time_sanity_check(remote_unixtime)
 
         consensus_status, consensus_error, consensus_valid_after_str, consensus_valid_until_str = time_consensus_sanity_check(remote_unixtime)
 
@@ -382,19 +382,19 @@ class Sdwdate:
         ## Fallback.
         remote_status = "fallback"
 
-        if timesanitycheck_status == 'sane':
+        if timesanitycheck_status_static == 'sane':
             message = "* Static Time Sanity Check: sane"
             logger.info(message)
-        elif timesanitycheck_status == 'slow':
+        elif timesanitycheck_status_static == 'slow':
             message = "* Static Time Sanity Check: slow"
             logger.info(message)
             remote_status = "False"
-        elif timesanitycheck_status == 'fast':
+        elif timesanitycheck_status_static == 'fast':
             message = "* Static Time Sanity Check: fast"
             logger.info(message)
             remote_status = "False"
-        elif timesanitycheck_status == 'error':
-            message = "* Static Time Sanity Check: error: " + timesanitycheck_error
+        elif timesanitycheck_status_static == 'error':
+            message = "* Static Time Sanity Check: error: " + timesanitycheck_error_static
             logger.info(message)
             remote_status = "False"
 
