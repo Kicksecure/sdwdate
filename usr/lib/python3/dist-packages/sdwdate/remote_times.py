@@ -57,8 +57,9 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
     stderr_list = []
     took_time_list = []
     remote_port = "80"
-    ## TODO: set to "false"
-    url_to_unixtime_debug = "true"
+
+    url_to_unixtime_debug = "false"
+    #url_to_unixtime_debug = "true"
 
     ## Clear lists.
     del urls[:]
