@@ -4,6 +4,7 @@
 ## See the file COPYING for copying conditions.
 
 import os
+import sys
 import glob
 import re
 import random
@@ -127,9 +128,15 @@ def read_pools(pool, mode):
     pool_url = [pool_one_url, pool_two_url, pool_three_url]
     pool_comment = [pool_one_comment, pool_two_comment, pool_three_comment]
 
+    print("pool: " + str(pool))
+    print("pool_url: " + str(pool_url[pool]))
+    print("pool_comment: " + str(pool_comment[pool]))
+
     return(pool_url[pool],
            pool_comment[pool])
 
 
 if __name__ == "__main__":
-    read_pools()
+    pool = int(sys.argv[1])
+    mode = sys.argv[2]
+    read_pools(pool, mode)
