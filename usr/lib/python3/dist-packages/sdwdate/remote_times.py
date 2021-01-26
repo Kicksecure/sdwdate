@@ -52,24 +52,18 @@ def run_command(i, url_to_unixtime_command):
     return p, took_time
 
 def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_number):
-    urls = []
-    stdout_list = []
-    stderr_list = []
-    took_time_list = []
     remote_port = "80"
 
     url_to_unixtime_debug = "false"
     #url_to_unixtime_debug = "true"
 
-    ## Clear lists.
-    del urls[:]
-    del stdout_list[:]
-    del stderr_list[:]
-    del took_time_list[:]
-
-    handle = [None] * 5
-    future = [None] * 5
-    took_time = [None] * 5
+    urls_list = [None] * len(list_of_remote_servers)
+    stdout_list = [None] * len(list_of_remote_servers)
+    stderr_list = [None] * len(list_of_remote_servers)
+    took_time_list = [None] * len(list_of_remote_servers)
+    handle = [None] * len(list_of_remote_servers)
+    future = [None] * len(list_of_remote_servers)
+    took_time = [None] * len(list_of_remote_servers)
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         for i in range(len(list_of_remote_servers)):
@@ -80,8 +74,8 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
         handle[i], took_time[i] = future[i].result()
 
     for i in range(len(list_of_remote_servers)):
-        took_time_list.append(took_time[i])
-        urls.append(list_of_remote_servers[i])
+        took_time_list[i] = took_time[i]
+        urls_list[i] = list_of_remote_servers[i]
         returncode = handle[i].returncode
 
         ## bytes
@@ -106,8 +100,8 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
             stdout_list.append(stdout)
             stderr_list.append(stderr)
 
-    print("remote_times.py: urls:")
-    print(str(urls))
+    print("remote_times.py: urls_list:")
+    print(str(urls_list))
     print("remote_times.py: stdout_list:")
     print(str(stdout_list))
     print("remote_times.py: stderr_list:")
@@ -115,7 +109,7 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
     print("remote_times.py: took_time_list:")
     print(str(took_time_list))
 
-    return urls, stdout_list, stderr_list, took_time_list
+    return urls_list, stdout_list, stderr_list, took_time_list
 
 def remote_times_signal_handler(signum, frame):
     print("remote_times_signal_handler OK")
@@ -124,8 +118,8 @@ def remote_times_signal_handler(signum, frame):
 if __name__ == "__main__":
     signal.signal(signal.SIGTERM, remote_times_signal_handler)
     signal.signal(signal.SIGINT, remote_times_signal_handler)
-    #list_of_remote_servers = [ "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/a", "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/b", "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/c" ]
-    list_of_remote_servers = [ "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/a" ]
+    list_of_remote_servers = [ "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/a", "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/b", "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/c" ]
+    #list_of_remote_servers = [ "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/a" ]
     proxy_ip_address = "127.0.0.1"
     proxy_port_number = "9050"
     get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_number)
