@@ -4,6 +4,10 @@
 ## Copyright (C) 2015 - 2020 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
+## Example:
+## /usr/lib/python3/dist-packages/sdwdate/remote_times.py '"http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/a", "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/b", "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/c"' "127.0.0.1" "9050"
+
+import sys
 import signal
 import sys
 import shlex
@@ -118,8 +122,7 @@ def remote_times_signal_handler(signum, frame):
 if __name__ == "__main__":
     signal.signal(signal.SIGTERM, remote_times_signal_handler)
     signal.signal(signal.SIGINT, remote_times_signal_handler)
-    list_of_remote_servers = [ "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/a", "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/b", "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/c" ]
-    #list_of_remote_servers = [ "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/a" ]
-    proxy_ip_address = "127.0.0.1"
-    proxy_port_number = "9050"
+    list_of_remote_servers = sys.argv[1]
+    proxy_ip_address = sys.argv[2]
+    proxy_port_number = sys.argv[3]
     get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_number)
