@@ -955,7 +955,6 @@ if __name__ == "__main__":
         msg = "Running sdwdate main loop. iteration: " + str(loop_counter) + " / " + str(loop_max)
         logger.info(msg)
 
-
         sdwdate.preparation()
 
         msg = "STATUS=Running sdwdate main loop. iteration: " + str(loop_counter) + " / " + str(loop_max)
