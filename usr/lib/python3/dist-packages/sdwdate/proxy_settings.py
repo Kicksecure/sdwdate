@@ -9,27 +9,17 @@ import re
 from subprocess import check_output
 
 def proxy_settings():
-    ip_address = ''
-    port_number = ''
+    ip_address = '127.0.0.1'
+    port_number = '9050'
     settings_path = '/usr/lib/helper-scripts/settings_echo'
 
     if (os.path.exists('/usr/share/whonix') and
         os.access(settings_path, os.X_OK)):
             proxy_settings = check_output(settings_path)
             ip_address = re.search(b'GATEWAY_IP="(.*)"', proxy_settings).group(1).decode()
-    elif ip_address != '':
-        ## ip_address = PROXY_IP
-        pass
-    else:
-        ip_address = '127.0.0.1'
 
     if os.path.exists('/usr/share/whonix'):
         port_number = '9108'
-    elif port_number != '':
-        ## port_number = PROXY_PORT
-        pass
-    else:
-        port_number = '9050'
 
     if os.path.exists('/etc/sdwdate.d/'):
         files = sorted(glob.glob('/etc/sdwdate.d/*.conf'))
@@ -42,7 +32,6 @@ def proxy_settings():
                 if line.startswith('PROXY_PORT'):
                     port_number = re.search(r'=(.*)', line).group(1)
 
-    #print('ip {} port {}'.format(ip_address, port_number))
     return ip_address, port_number
 
 if __name__ == "__main__":
