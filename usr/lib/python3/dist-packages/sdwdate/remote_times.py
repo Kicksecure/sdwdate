@@ -20,9 +20,6 @@ import concurrent.futures
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
 
-start_unixtime = [None] * 5
-took_time = [None] * 5
-
 def run_command(i, url_to_unixtime_command):
     timeout_seconds = 50
     do_exit = False
@@ -31,7 +28,7 @@ def run_command(i, url_to_unixtime_command):
     ## Avoid Popen shell=True.
     url_to_unixtime_command = shlex.split(url_to_unixtime_command)
 
-    start_unixtime[i] = time.time()
+    start_unixtime = time.time()
 
     p = subprocess.Popen(url_to_unixtime_command, stdout=PIPE, stderr=PIPE)
 
@@ -51,8 +48,8 @@ def run_command(i, url_to_unixtime_command):
     ## Do not return from this function until killing of the process is complete.
     p.wait()
     end_unixtime = time.time()
-    took_time[i] = end_unixtime - start_unixtime[i]
-    return p
+    took_time = end_unixtime - start_unixtime
+    return p, took_time
 
 def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_number):
     urls = []
@@ -71,6 +68,7 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
 
     handle = [None] * 5
     future = [None] * 5
+    took_time = [None] * 5
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         for i in range(len(list_of_remote_servers)):
@@ -78,7 +76,7 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
             future[i] = executor.submit(run_command, i, url_to_unixtime_command)
 
     for i in range(len(list_of_remote_servers)):
-        handle[i] = future[i].result()
+        handle[i], took_time[i] = future[i].result()
 
     for i in range(len(list_of_remote_servers)):
         took_time_list.append(took_time[i])
@@ -126,7 +124,7 @@ if __name__ == "__main__":
     signal.signal(signal.SIGTERM, remote_times_signal_handler)
     signal.signal(signal.SIGINT, remote_times_signal_handler)
     #list_of_remote_servers = [ "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/a", "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/b", "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/c" ]
-    #list_of_remote_servers = [ "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/a" ]
+    list_of_remote_servers = [ "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/a" ]
     proxy_ip_address = "127.0.0.1"
     proxy_port_number = "9050"
     get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_number)
