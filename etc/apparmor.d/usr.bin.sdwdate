@@ -43,8 +43,8 @@
   ## Cannot use Pix yet due to apparmor no new privs issue.
   #/usr/bin/url_to_unixtime rix,
   #include <abstractions/url_to_unixtime>
-
-  ## apparmor="DENIED" operation="mknod" profile="/usr/bin/sdwdate" name="/bcbj_osn" pid=28988 comm="url_to_unixtime" requested_mask="c" denied_mask="c" fsuid=125 ouid=125
+  ## https://forums.whonix.org/t/sdwdate-and-sdwdate-gui-development-thread/1137/372
+  ## apparmor="DENIED" operation="open" profile="/usr/bin/sdwdate" name="/run/sdwdate/forbidden-temp/xb2e9wyl" pid=2707 comm="url_to_unixtime" requested_mask="r" denied_mask="r" fsuid=125 ouid=125
   ## sdwdate
   ## /usr/lib/python3/dist-packages/sdwdate/remote_times.py
   ## url_to_unixtime
@@ -53,6 +53,11 @@
   ## /usr/lib/python3/dist-packages/requests/utils.py
   ## extract_zipped_paths
   ## tmp = tempfile.gettempdir()
+  ##
+  ## But if permitting, more permissions are requested.
+  ## apparmor="DENIED" operation="exec" profile="/usr/bin/sdwdate" name="/usr/bin/x86_64-linux-gnu-gcc-8" pid=3003 comm="url_to_unixtime" requested_mask="x" denied_mask="x" fsuid=125 ouid=0
+  deny /run/sdwdate/forbidden-temp/** rwmkl,
+  ## This might get better once apparmor no new privs issue is resolved.
 
   ## TODO
   /usr/sbin/anondate-get rUx,

@@ -138,6 +138,16 @@ class Sdwdate:
         ## Sanity test. Should be already created by systemd-tmpfiles.
         Path(sdwdate_persistent_files_folder).mkdir(parents=True, exist_ok=True)
 
+        ## Workaround for an apparmor issue. See /etc/apparmor.d/usr.bin.sdwdate
+        ## for /run/sdwdate/forbidden-temp
+        sdwdate_forbidden_temp_files_folder = sdwdate_status_files_folder + "/forbidden-temp"
+        ## Sanity test. Should be already created by systemd-tmpfiles.
+        Path(sdwdate_forbidden_temp_files_folder).mkdir(parents=True, exist_ok=True)
+        ## Without this python-requests (url_to_unixtime) would try to write to
+        ## for example "/xb2e9wyl" instead of "/run/sdwdate/forbidden-temp/xb2e9wyl"
+        ## which looks even worse in logs and cannot be deny'd in the apparmor profile.
+        os.chdir(sdwdate_forbidden_temp_files_folder)
+
         self.status_first_success_path = sdwdate_status_files_folder + '/first_success'
         self.status_success_path = sdwdate_status_files_folder + '/success'
         self.status_file_path = sdwdate_status_files_folder + '/status'
