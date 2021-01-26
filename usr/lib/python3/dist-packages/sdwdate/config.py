@@ -3,6 +3,14 @@
 ## Copyright (C) 2017 - 2020 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
+## /usr/lib/python3/dist-packages/sdwdate/config.py 0 test
+## /usr/lib/python3/dist-packages/sdwdate/config.py 1 test
+## /usr/lib/python3/dist-packages/sdwdate/config.py 2 test
+##
+## /usr/lib/python3/dist-packages/sdwdate/config.py 0 production
+## /usr/lib/python3/dist-packages/sdwdate/config.py 1 production
+## /usr/lib/python3/dist-packages/sdwdate/config.py 2 production
+
 import os
 import sys
 import glob
