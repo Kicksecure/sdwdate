@@ -44,6 +44,16 @@
   #/usr/bin/url_to_unixtime rix,
   #include <abstractions/url_to_unixtime>
 
+  ## apparmor="DENIED" operation="mknod" profile="/usr/bin/sdwdate" name="/bcbj_osn" pid=28988 comm="url_to_unixtime" requested_mask="c" denied_mask="c" fsuid=125 ouid=125
+  ## sdwdate
+  ## /usr/lib/python3/dist-packages/sdwdate/remote_times.py
+  ## url_to_unixtime
+  ## /usr/lib/python3/dist-packages/requests/adapters.py
+  ## cert_loc = extract_zipped_paths(DEFAULT_CA_BUNDLE_PATH)
+  ## /usr/lib/python3/dist-packages/requests/utils.py
+  ## extract_zipped_paths
+  ## tmp = tempfile.gettempdir()
+
   ## TODO
   /usr/sbin/anondate-get rUx,
   ## Not implemented.
