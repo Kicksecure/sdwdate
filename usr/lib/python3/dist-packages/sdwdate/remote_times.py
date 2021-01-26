@@ -6,18 +6,11 @@
 
 import signal
 import sys
-import gevent
 import shlex
 import time
-from gevent.subprocess import Popen, PIPE
 import subprocess
-
-from subprocess import Popen
-from threading import Thread
-import time
-
+from subprocess import Popen, PIPE
 import concurrent.futures
-import subprocess
 from concurrent.futures import ThreadPoolExecutor
 
 def run_command(i, url_to_unixtime_command):
