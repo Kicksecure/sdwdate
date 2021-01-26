@@ -5,7 +5,7 @@
 ## See the file COPYING for copying conditions.
 
 ## Example:
-## /usr/lib/python3/dist-packages/sdwdate/remote_times.py '"http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/a", "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/b", "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/c"' "127.0.0.1" "9050"
+## /usr/lib/python3/dist-packages/sdwdate/remote_times.py "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/a http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/b http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/c" "127.0.0.1" "9050"
 
 import sys
 import signal
@@ -21,7 +21,8 @@ def run_command(i, url_to_unixtime_command):
     timeout_seconds = 50
     do_exit = False
 
-    print("remote_times.py: url_to_unixtime_command: " + str(url_to_unixtime_command))
+    print(url_to_unixtime_command)
+    sys.stdout.flush()
     ## Avoid Popen shell=True.
     url_to_unixtime_command = shlex.split(url_to_unixtime_command)
 
@@ -33,13 +34,16 @@ def run_command(i, url_to_unixtime_command):
         p.wait(timeout_seconds)
         ## Process already terminated before timeout.
         print("remote_times.py: i: " + str(i) + " | wait_ok")
+        sys.stdout.flush()
     except subprocess.TimeoutExpired:
         print("remote_times.py: i: " + str(i) + " | timeout")
+        sys.stdout.flush()
         ## Timeout hit. Kill process.
         p.kill()
     except:
         error_message = str(sys.exc_info()[0])
         print("remote_times.py: i: " + str(i) + " | unknown error. sys.exc_info: " + error_message)
+        sys.stdout.flush()
         p.kill()
 
     ## Do not return from this function until killing of the process is complete.
@@ -72,6 +76,7 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
     future = [None] * number_of_remote_servers
     took_time = [None] * number_of_remote_servers
 
+    print("remote_times.py: url_to_unixtime_command (s):")
     with concurrent.futures.ThreadPoolExecutor() as executor:
         for i in range_of_remote_servers:
             url_to_unixtime_command = "url_to_unixtime" + " " + proxy_ip_address + " " + proxy_port_number + " " + list_of_remote_servers[i] + " " + remote_port + " " + url_to_unixtime_debug
@@ -126,6 +131,7 @@ if __name__ == "__main__":
     signal.signal(signal.SIGTERM, remote_times_signal_handler)
     signal.signal(signal.SIGINT, remote_times_signal_handler)
     list_of_remote_servers = sys.argv[1]
+    list_of_remote_servers = list_of_remote_servers.split()
     proxy_ip_address = sys.argv[2]
     proxy_port_number = sys.argv[3]
     get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_number)
