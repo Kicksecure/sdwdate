@@ -1,3 +1,251 @@
+commit 180d1cf3d05cae4a96a9a3b8d57aac1da4bfc666
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 09:36:16 2021 -0500
+
+    add privacytools.io
+
+commit 0f46696a63c308b8c9fa5b626e78b591f3e96d04
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 09:33:50 2021 -0500
+
+    add duckduckgo
+
+commit 1f88d82a97b4a7242135d45a439d514b77e7e961
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 09:29:56 2021 -0500
+
+    apparmor
+
+commit bf575dcacba6293cd6bfcdbf76df6d14fd7ec2d2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 09:24:17 2021 -0500
+
+    cleanup
+
+commit aab68a9a676aa6a2274c618039b6a61c348d8137
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 09:00:35 2021 -0500
+
+    intentd
+
+commit 4090f09ae4db40461b76cde350337f757f723ec9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 09:00:13 2021 -0500
+
+    minor
+
+commit dbc2e5f7f22864b15bdea0a2dce419919086bccb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 08:57:32 2021 -0500
+
+    apparmor
+
+commit 28a5b192a8fffc55cf9702151542130b0a50ffc9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 08:43:09 2021 -0500
+
+    apparmor
+
+commit 8a7a20b04d8937bc0e90aa48a85525268783ff13
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 08:42:32 2021 -0500
+
+    apparmor
+
+commit d4ed2f1f3d3aaca83802e7befbe0ee5f61a32e5f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 08:41:45 2021 -0500
+
+    improve log output
+
+commit a9387d96c3ee7fbc22b22e1f5bf04c6f42baff4b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 08:07:24 2021 -0500
+
+    improve log output
+
+commit ee143cc58845c7cc5c670f83ca41d3ae0ecd4aef
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 08:02:29 2021 -0500
+
+    output
+
+commit 4e978a02ee234d5a80834631f945885d312386c3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 07:58:39 2021 -0500
+
+    comment
+
+commit df98d6de27e3a74185141ae5f4b2efef7f64b292
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 07:57:30 2021 -0500
+
+    round took_time to two digits for better readability
+
+commit 1d745645e18ba661cb4a4693abe6777c855edb2f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 07:51:48 2021 -0500
+
+    debugging
+
+commit 7ccc9e4c99a43dd718a5dc6eb5d53dcbbec190c1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 07:47:34 2021 -0500
+
+    intentd
+
+commit 6b15d16950a2b0b7504cb2af343f427f086d9225
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 07:43:07 2021 -0500
+
+    cleanup
+
+commit 133ab9b1d31c6283e8c2148881cbf08c4a4e3e26
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 07:35:24 2021 -0500
+
+    refactoring
+
+commit c6490c2b4548cb4eb54de90000a10c4fbe90bb6a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 07:26:18 2021 -0500
+
+    refactoring
+
+commit dee92fbab7726f19ef700c0e11569ec991f9e952
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 07:21:04 2021 -0500
+
+    lower debugging
+
+commit 9766b501928e8c482ebcd0fb371a4022b970b3f6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 07:19:19 2021 -0500
+
+    refactoring
+
+commit 1395a07a2346337e5dbbf5e46b7eae14943ec825
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 07:10:21 2021 -0500
+
+    comment
+
+commit 8d4ba716b02f2c1eacb754d0f052dda267ebe8b3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 06:13:16 2021 -0500
+
+    apparmor
+
+commit 13c9dd05f99f9bc8fc864f837114b1e15075abc8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 06:08:55 2021 -0500
+
+    apparmor
+
+commit 3b2b733035551e1f820c093df43d2b5f794c4be0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 02:07:13 2021 -0500
+
+    comment
+
+commit 5883fa6246f1f90c8b9cb2dd5a94e89e44dc442a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 02:05:48 2021 -0500
+
+    debugging
+
+commit 7f8a6aa90876dca69aa6cafdd94d6d99c5ffde0e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 02:00:11 2021 -0500
+
+    rename SDWDATE_POOL_ONE, SDWDATE_POOL_TWO, SDWDATE_POOL_THREE to SDWDATE_POOL_ZERO, SDWDATE_POOL_ONE, SDWDATE_POOL_TWO
+    
+    this helps with code simplification since python starts counting at arrays at zero
+
+commit 844708b70026c05d045b90116805e55e6ca5d7b3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 01:18:27 2021 -0500
+
+    refactoring
+
+commit 87bcf5813b8f65af0b41510da8a54958008ca848
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 01:05:13 2021 -0500
+
+    static time sanity test: check minimum-unixtime-show
+
+commit 0b4fd8eba28a6c73328c25577fc84a5ddd50d212
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 00:11:34 2021 -0500
+
+    debugging
+
+commit 4f2e2779c54c6496c3d26d4eb96b37befb497afe
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 00:06:27 2021 -0500
+
+    minor
+
+commit 3253f167072f6ba4c0b9846be5310d1839d7a3e6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 00:04:02 2021 -0500
+
+    sanity test
+
+commit 87bb5dad046f7a5004b673f0620951555a911937
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 00:03:08 2021 -0500
+
+    cleanup
+
+commit 580609e003a613dfb33f650c6959aa7193d5e030
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 00:02:16 2021 -0500
+
+    refactoring
+
+commit 265c5839fa94a7fa0b87eba1682930a1f4707723
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 25 23:55:47 2021 -0500
+
+    debugging
+
+commit 8f00a710570700a97b3499bb2bcd3145f08b11b4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 25 23:34:00 2021 -0500
+
+    code simplification
+
+commit 536834584b7e3a8985f24472fa4d2b6283812d30
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 25 23:25:38 2021 -0500
+
+    debugging
+
+commit b62c90ff0ef37f0ce03a8bfce399df3a03ee0a2d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 25 23:24:03 2021 -0500
+
+    debugging
+
+commit 5f1d84f473b750ea65435f1fce3d9145e01262cd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 25 23:15:36 2021 -0500
+
+    debugging
+
+commit 5fd7a2aef37f760d86b8b19044e4a7aaab790a13
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 25 06:48:53 2021 -0500
+
+    sdwdate home folder migration
+
+commit 2fc59b0d19816891bce98c112a5ad21511d69214
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 24 00:38:53 2021 -0500
+
+    bumped changelog version
+
 commit 920f80b559aa5027813f9232d751b363dbd465be
 Merge: dda49e0 4f88e05
 Author: Patrick Schleizer <adrelanos@riseup.net>
