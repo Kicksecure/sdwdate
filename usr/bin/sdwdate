@@ -455,28 +455,13 @@ class Sdwdate:
         logger.info(message)
 
     def time_replay_protection_file_read(self):
-        time_replay_protection_unixtime = 0
-        time_replay_protection_files_list = [ sdwdate.sdwdate_time_replay_protection_utc_unixtime, "/usr/share/timesanitycheck/minimum_unixtime" ]
-        for file_name in time_replay_protection_files_list:
-            if not os.path.exists(file_name):
-                continue
-            with open(file_name) as time_replay_protection_file_object:
-                try:
-                    time_replay_protection_file_contents = time_replay_protection_file_object.read()
-                    time_replay_protection_file_contents = int(time_replay_protection_file_contents)
-                    if time_replay_protection_file_contents < time_replay_protection_unixtime:
-                        continue
-                    time_replay_protection_unixtime = time_replay_protection_file_contents
-                    message = 'Time Replay Protection: read ' + str(time_replay_protection_unixtime) + " from file: " + file_name
-                    logger.info(message)
-                    time_replay_protection_utc_human_readable = sdwdate.time_human_readable(time_replay_protection_unixtime)
-                    message = 'Time Replay Protection: ' + str(time_replay_protection_utc_human_readable)
-                    logger.info(message)
-                except:
-                    print("time_replay_protection_file_read: sys.exc_info:", sys.exc_info()[0])
+        p = subprocess.Popen("/usr/bin/minimum-unixtime-show", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = p.communicate()
+        unixtime = int(stdout)
+        time_human_readable = stderr.decode('utf-8')
         ## Relay check to avoid false-positives due to sdwdate inaccuracy.
-        time_replay_protection_unixtime = time_replay_protection_unixtime - 100
-        return time_replay_protection_unixtime
+        unixtime = unixtime - 100
+        return unixtime, time_human_readable
 
     def time_replay_protection_file_write(self):
         time_now_utc_unixtime = time.time()
@@ -973,9 +958,8 @@ if __name__ == "__main__":
         #print("main allowed_failures: " + str(x))
         #sys.exit(0)
 
-        time_replay_protection_minium_unixtime_int = sdwdate.time_replay_protection_file_read()
+        time_replay_protection_minium_unixtime_int, time_replay_protection_minium_unixtime_human_readable = sdwdate.time_replay_protection_file_read()
         time_replay_protection_minium_unixtime_str = str(time_replay_protection_minium_unixtime_int)
-        time_replay_protection_minium_unixtime_human_readable = sdwdate.time_human_readable(time_replay_protection_minium_unixtime_int)
 
         sdwdate_icon_fl, sdwdate_status_fl, sdwdate_message_fl = sdwdate.sdwdate_fetch_loop()
         icon = sdwdate_icon_fl
