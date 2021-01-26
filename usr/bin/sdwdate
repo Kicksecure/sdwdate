@@ -99,6 +99,8 @@ class Sdwdate:
         self.failed_urls = []
         self.url_errors = []
 
+        self.median_took_times = 0
+        self.median_half_took_times = 0
         self.median_diff_raw_in_seconds = 0
         self.median_diff_lag_cleaned_in_seconds = 0
         self.range_nanoseconds = 999999999
@@ -454,14 +456,26 @@ class Sdwdate:
         '''
         Get the median (not average) from the list of values.
         '''
+        sorted_request_took_times = sorted(self.request_took_times)
+        sorted_request_half_took_times = sorted(self.half_took_time_float)
         diffs_raw = sorted(self.pools_raw_diff)
         diffs_lag_cleaned = sorted(self.pools_lag_cleaned_diff)
-        message = 'pool     time_diff_raw, sorted: %s' % diffs_raw
+        message = '     request_took_times, sorted: %s' % sorted_request_took_times
         logger.info(message)
-        message = 'pool diffs_lag_cleaned, sorted: %s' % diffs_lag_cleaned
+        message = 'request_half_took_times, sorted: %s' % sorted_request_half_took_times
         logger.info(message)
+        message = '          time_diff_raw, sorted: %s' % diffs_raw
+        logger.info(message)
+        message = '      diffs_lag_cleaned, sorted: %s' % diffs_lag_cleaned
+        logger.info(message)
+        self.median_took_times = sorted_request_took_times[(len(sorted_request_took_times) // 2)]
+        self.median_half_took_times = sorted_request_half_took_times[(len(sorted_request_half_took_times) // 2)]
         self.median_diff_raw_in_seconds = diffs_raw[(len(diffs_raw) // 2)]
         self.median_diff_lag_cleaned_in_seconds = diffs_lag_cleaned[(len(diffs_lag_cleaned) // 2)]
+        message = 'median          request_took_times: %+.9f' % self.median_took_times
+        logger.info(message)
+        message = 'median     half_request_took_times: %+.9f' % self.median_half_took_times
+        logger.info(message)
         message = 'median         raw time difference: %+.9f' % self.median_diff_raw_in_seconds
         logger.info(message)
         message = 'median lag_cleaned time difference: %+.9f' % self.median_diff_lag_cleaned_in_seconds
