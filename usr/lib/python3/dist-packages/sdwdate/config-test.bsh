@@ -4,6 +4,11 @@
 ## See the file COPYING for copying conditions.
 
 echo "" > ./config-test.txt
-./config.py "0" "production" >> ./config-test.txt
-./config.py "1" "production" >> ./config-test.txt
-./config.py "2" "production" >> ./config-test.txt
+
+./config.py "0" "test" >> ./config-test.txt
+./config.py "1" "test" >> ./config-test.txt
+./config.py "2" "test" >> ./config-test.txt
+
+# ./config.py "0" "production" >> ./config-test.txt
+# ./config.py "1" "production" >> ./config-test.txt
+# ./config.py "2" "production" >> ./config-test.txt
