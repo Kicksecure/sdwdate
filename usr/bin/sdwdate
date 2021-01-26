@@ -130,7 +130,9 @@ class Sdwdate:
             print("ERROR: sdwdate_status_files_folder: " + sdwdate_status_files_folder)
             reason = "home folder does not end with /sdwdate"
             exit_code = 1
-            sdwdate.exit_handler(exit_code, reason)
+            ## Not available at this point.
+            #sdwdate.exit_handler(exit_code, reason)
+            sys.exit(exit_code)
 
         Path(sdwdate_status_files_folder).mkdir(parents=True, exist_ok=True)
         ## Sanity test. Should be already created by systemd-tmpfiles.
