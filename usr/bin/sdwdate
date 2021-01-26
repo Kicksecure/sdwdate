@@ -143,7 +143,7 @@ class Sdwdate:
         self.status_file_path = sdwdate_status_files_folder + '/status'
         self.sleep_long_file_path = sdwdate_status_files_folder + '/sleep_long'
         self.clock_jump_do_once_file = sdwdate_status_files_folder + '/clock_jump_do_once'
-        ## Read by whonixcheck.
+        ## Read by systemcheck.
         self.msg_path = sdwdate_status_files_folder + '/msg'
 
         self.sdwdate_time_replay_protection_utc_unixtime = sdwdate_persistent_files_folder + "/time-replay-protection-utc-unixtime"
