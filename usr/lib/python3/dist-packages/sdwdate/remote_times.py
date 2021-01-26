@@ -46,6 +46,8 @@ def run_command(i, url_to_unixtime_command):
     p.wait()
     end_unixtime = time.time()
     took_time = end_unixtime - start_unixtime
+    ## Round took_time to two digits for better readability.
+    ## No other reason for rounding.
     took_time = round(took_time, 2)
     return p, took_time
 
