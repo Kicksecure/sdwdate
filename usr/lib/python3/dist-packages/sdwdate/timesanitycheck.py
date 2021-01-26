@@ -3,12 +3,15 @@
 ## Copyright (C) 2017 - 2020 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
 ## See the file COPYING for copying conditions.
 
+## sudo -u sdwdate /usr/lib/python3/dist-packages/sdwdate/timesanitycheck.py 1611640486
+
 import sys
 import os, time
 from datetime import datetime
 from stem.connection import connect
 from datetime import datetime
 from dateutil.parser import parse
+import subprocess
 
 
 def time_consensus_sanity_check(unixtime):
@@ -51,57 +54,51 @@ def time_consensus_sanity_check(unixtime):
    return status, error, consensus_valid_after_str, consensus_valid_until_str
 
 
-def static_time_sanity_check(unixtime):
-    whonix_build_file = '/usr/share/whonix/build_timestamp'
-    anondist_build_file = '/var/lib/anon-dist/build_version'
-    dist_build_file = '/var/lib/anon-dist/build_version'
-    spare_file = '/usr/share/zoneinfo/UTC'
-
-    if os.path.exists(whonix_build_file):
-        build_timestamp_file = whonix_build_file
-    elif os.path.exists(anondist_build_file):
-        build_timestamp_file = anondist_build_file
-    elif os.path.exists(dist_build_file):
-        build_timestamp_file = dist_build_file
-    else:
-        build_timestamp_file = spare_file
-
-    build_time = time.strftime('%a %b %d %H:%M:%S UTC %Y', time.gmtime(os.path.getmtime(build_timestamp_file)))
-    build_unixtime = time.mktime(datetime.strptime(build_time, '%a %b %d %H:%M:%S UTC %Y').timetuple())
-
+def static_time_sanity_check(unixtime_to_validate):
     ## Tue, 17 May 2033 10:00:00 GMT
     expiration_unixtime = 1999936800
     expiration_time = datetime.strftime(datetime.fromtimestamp(expiration_unixtime), '%a %b %d %H:%M:%S UTC %Y')
-    current_unixtime = unixtime
 
     try:
-        current_time = datetime.strftime(datetime.fromtimestamp(unixtime), '%a %b %d %H:%M:%S UTC %Y')
+        time_to_validate_human_readable = datetime.strftime(datetime.fromtimestamp(unixtime_to_validate), '%a %b %d %H:%M:%S UTC %Y')
+
+        p = subprocess.Popen("/usr/bin/minimum-unixtime-show", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = p.communicate()
+
+        minimum_unixtime = stdout
+        minimum_unixtime = int(minimum_unixtime)
+        minimum_time_human_readable = stderr
+
+        if unixtime_to_validate < minimum_unixtime:
+            status = 'slow'
+            time_one = str(time_to_validate_human_readable)
+            time_two = str(minimum_time_human_readable)
+        elif unixtime_to_validate > expiration_unixtime:
+            status = 'fast'
+            time_one = str(time_to_validate_human_readable)
+            time_two = str(expiration_time)
+        else:
+            status = 'sane'
+            time_one = str(time_to_validate_human_readable)
+            time_two = ''
+
+        error = "none"
+
+        return status, time_one, time_two, error
     except:
         status = "error"
         time_one = ""
-        time_two = expiration_time
+        time_two = str(expiration_time)
         error = str(sys.exc_info()[0])
         return status, time_one, time_two, error
 
-    if current_unixtime < build_unixtime:
-        status = 'slow'
-        time_one = current_time
-        time_two = build_time
-    elif current_unixtime > expiration_unixtime:
-        status = 'fast'
-        time_one = current_time
-        time_two = expiration_time
-    else:
-        status = 'sane'
-        time_one = current_time
-        time_two = ''
 
-    error = "none"
-
-    return status, time_one, time_two, error
 
 if __name__ == "__main__":
     unixtime = int(sys.argv[1])
     time_consensus_sanity_check(unixtime)
-    static_time_sanity_check(unixtime)
-
+    status, time_one, time_two, error = static_time_sanity_check(unixtime)
+    print("status: " + status)
+    print("time_one: " + time_one)
+    print("time_two: " + time_two)
+    print("error: " + error)
