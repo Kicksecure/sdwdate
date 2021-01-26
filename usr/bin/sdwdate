@@ -344,7 +344,7 @@ class Sdwdate:
         except:
             message = "* status: False"
             logger.info(message)
-            message = "* took_time: " + str(took_time)
+            message = "* took_time: " + str(took_time) + " second(s)"
             logger.info(message)
             message = "* stdout: " + str(stdout)
             logger.info(message)
@@ -358,9 +358,9 @@ class Sdwdate:
 
         consensus_status, consensus_error, consensus_valid_after_str, consensus_valid_until_str = time_consensus_sanity_check(remote_unixtime)
 
-        message = "* took_time: " + str(took_time)
+        message = "* took_time: " + str(took_time) + " second(s)"
         logger.info(message)
-        message = "* half_took_time: " + str(half_took_time_float)
+        message = "* half_took_time: " + str(half_took_time_float) + " second(s)"
         logger.info(message)
         message = "* stderr: " + str(stderr)
         logger.info(message)
