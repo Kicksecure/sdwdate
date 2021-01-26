@@ -1,0 +1,9 @@
+#!/bin/bash
+
+## Copyright (C) 2021 - 2021 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+echo "" > ./config-test.txt
+./config.py "0" "production" >> ./config-test.txt
+./config.py "1" "production" >> ./config-test.txt
+./config.py "2" "production" >> ./config-test.txt
