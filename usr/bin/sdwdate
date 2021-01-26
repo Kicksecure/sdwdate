@@ -328,6 +328,9 @@ class Sdwdate:
         logger.info(message)
 
         half_took_time_float = float(took_time) / 2
+        ## Round took_time to two digits for better readability.
+        ## No other reason for rounding.
+        half_took_time_float = round(half_took_time_float, 2)
 
         try:
             remote_unixtime = int(stdout)
@@ -344,7 +347,7 @@ class Sdwdate:
         except:
             message = "* status: False"
             logger.info(message)
-            message = "* took_time: " + str(took_time) + " second(s)"
+            message = "* took_time     : " + str(took_time) + " second(s)"
             logger.info(message)
             message = "* stdout: " + str(stdout)
             logger.info(message)
@@ -358,7 +361,7 @@ class Sdwdate:
 
         consensus_status, consensus_error, consensus_valid_after_str, consensus_valid_until_str = time_consensus_sanity_check(remote_unixtime)
 
-        message = "* took_time: " + str(took_time) + " second(s)"
+        message = "* took_time     : " + str(took_time) + " second(s)"
         logger.info(message)
         message = "* half_took_time: " + str(half_took_time_float) + " second(s)"
         logger.info(message)
@@ -372,7 +375,7 @@ class Sdwdate:
         logger.info(message)
         message = "* consensus/valid-until: " + consensus_valid_until_str
         logger.info(message)
-        message = "* time_diff_raw: " + str(time_diff_raw_int) + " second(s)"
+        message = "* time_diff_raw        : " + str(time_diff_raw_int) + " second(s)"
         logger.info(message)
         message = "* time_diff_lag_cleaned: " + str(time_diff_lag_cleaned_float) + " second(s)"
         logger.info(message)
