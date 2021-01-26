@@ -349,10 +349,6 @@ class Sdwdate:
             message = "* stderr: " + str(stderr)
             logger.info(message)
             logger.info("")
-            if stdout == "sigterm":
-               reason = "remote_times.py returned stdout 'sigterm'"
-               exit_code = 143
-               sdwdate.exit_handler(exit_code, reason)
             time_diff_lag_cleaned_float = 0.0
             return False, half_took_time_float, time_diff_lag_cleaned_float
 
