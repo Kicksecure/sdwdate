@@ -143,12 +143,12 @@ def output_unixtime(data, http_time, parsed_unixtime, unixtime, verbosity):
     print('{}'.format(unixtime))
 
 def main():
-   socket_ip, socket_port, url, remote_port, verbosity = parse_command_line_parameters()
-   data = request_data_from_remote_server(socket_ip, socket_port, url, remote_port)
-   http_time = data_to_http_time(data)
-   parsed_unixtime = http_time_to_parsed_unixtime(data, http_time)
-   unixtime = unixtime_sanity_check(data, http_time, parsed_unixtime)
-   output_unixtime(data, http_time, parsed_unixtime, unixtime, verbosity)
+    socket_ip, socket_port, url, remote_port, verbosity = parse_command_line_parameters()
+    data = request_data_from_remote_server(socket_ip, socket_port, url, remote_port)
+    http_time = data_to_http_time(data)
+    parsed_unixtime = http_time_to_parsed_unixtime(data, http_time)
+    unixtime = unixtime_sanity_check(data, http_time, parsed_unixtime)
+    output_unixtime(data, http_time, parsed_unixtime, unixtime, verbosity)
 
 if __name__ == "__main__":
     main()
