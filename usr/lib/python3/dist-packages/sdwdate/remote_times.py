@@ -54,26 +54,33 @@ def run_command(i, url_to_unixtime_command):
 def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_number):
     remote_port = "80"
 
+    number_of_remote_servers = len(list_of_remote_servers)
+    ## Example number_of_remote_servers:
+    ## 3
+    range_of_remote_servers = range(number_of_remote_servers)
+    ## Example range_of_remote_servers:
+    ## range(0, 3)
+
     url_to_unixtime_debug = "false"
     #url_to_unixtime_debug = "true"
 
-    urls_list = [None] * len(list_of_remote_servers)
-    stdout_list = [None] * len(list_of_remote_servers)
-    stderr_list = [None] * len(list_of_remote_servers)
-    took_time_list = [None] * len(list_of_remote_servers)
-    handle = [None] * len(list_of_remote_servers)
-    future = [None] * len(list_of_remote_servers)
-    took_time = [None] * len(list_of_remote_servers)
+    urls_list = [None] * number_of_remote_servers
+    stdout_list = [None] * number_of_remote_servers
+    stderr_list = [None] * number_of_remote_servers
+    took_time_list = [None] * number_of_remote_servers
+    handle = [None] * number_of_remote_servers
+    future = [None] * number_of_remote_servers
+    took_time = [None] * number_of_remote_servers
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        for i in range(len(list_of_remote_servers)):
+        for i in range_of_remote_servers:
             url_to_unixtime_command = "url_to_unixtime" + " " + proxy_ip_address + " " + proxy_port_number + " " + list_of_remote_servers[i] + " " + remote_port + " " + url_to_unixtime_debug
             future[i] = executor.submit(run_command, i, url_to_unixtime_command)
 
-    for i in range(len(list_of_remote_servers)):
+    for i in range_of_remote_servers:
         handle[i], took_time[i] = future[i].result()
 
-    for i in range(len(list_of_remote_servers)):
+    for i in range_of_remote_servers:
         took_time_list[i] = took_time[i]
         urls_list[i] = list_of_remote_servers[i]
         returncode = handle[i].returncode
@@ -91,14 +98,14 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
             stdout_to_append = ""
             stdout_to_append += str(stdout)
             stdout_to_append += " | non-zero exit code: " + str(returncode)
-            stdout_list.append(stdout_to_append)
+            stdout_list[i] = stdout_to_append
             stderr_to_append = ""
             stdout_to_append += str(stderr)
             stderr_to_append += " | non-zero exit code: " + str(returncode)
-            stderr_list.append(stderr_to_append)
+            stderr_list[i] = stderr_to_append
         else:
-            stdout_list.append(stdout)
-            stderr_list.append(stderr)
+            stdout_list[i] = stdout
+            stderr_list[i] = stderr
 
     print("remote_times.py: urls_list:")
     print(str(urls_list))
