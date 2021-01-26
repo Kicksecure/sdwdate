@@ -28,6 +28,7 @@
   /{,usr/}bin/sleep rix,
   /{,usr/}bin/timesanitycheck rix,
   /{,usr/}bin/tor-circuit-established-check rix,
+  /{,usr/}bin/minimum-unixtime-show rix,
 
   /usr/bin/ r,
   /usr/bin/python3.7 rix,
