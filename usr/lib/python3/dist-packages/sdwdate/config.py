@@ -69,9 +69,9 @@ def sort_pool(pool, mode):
     return(pool_single_url, pool_single_comment)
 
 def read_pools(pool, mode):
+    SDWDATE_POOL_ZERO = False
     SDWDATE_POOL_ONE = False
     SDWDATE_POOL_TWO = False
-    SDWDATE_POOL_THREE = False
 
     pool_one = []
     pool_two = []
@@ -91,25 +91,25 @@ def read_pools(pool, mode):
                 with open(conf) as c:
                     for line in c:
                         line = line.strip()
-                        if line.startswith('SDWDATE_POOL_ONE'):
+                        if line.startswith('SDWDATE_POOL_ZERO'):
+                            SDWDATE_POOL_ZERO = True
+
+                        elif line.startswith('SDWDATE_POOL_ONE'):
+                            SDWDATE_POOL_ZERO = False
                             SDWDATE_POOL_ONE = True
 
                         elif line.startswith('SDWDATE_POOL_TWO'):
+                            SDWDATE_POOL_ZERO = False
                             SDWDATE_POOL_ONE = False
                             SDWDATE_POOL_TWO = True
 
-                        elif line.startswith('SDWDATE_POOL_THREE'):
-                            SDWDATE_POOL_ONE = False
-                            SDWDATE_POOL_TWO = False
-                            SDWDATE_POOL_THREE = True
-
-                        elif SDWDATE_POOL_ONE and not line.startswith('##'):
+                        elif SDWDATE_POOL_ZERO and not line.startswith('##'):
                             pool_one.append(line)
 
-                        elif SDWDATE_POOL_TWO and not line.startswith('##'):
+                        elif SDWDATE_POOL_ONE and not line.startswith('##'):
                             pool_two.append(line)
 
-                        elif SDWDATE_POOL_THREE and not line.startswith('##'):
+                        elif SDWDATE_POOL_TWO and not line.startswith('##'):
                             pool_three.append(line)
 
             if not conf_found:
