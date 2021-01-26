@@ -46,6 +46,7 @@ def run_command(i, url_to_unixtime_command):
     p.wait()
     end_unixtime = time.time()
     took_time = end_unixtime - start_unixtime
+    took_time = round(took_time, 2)
     return p, took_time
 
 def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_number):
