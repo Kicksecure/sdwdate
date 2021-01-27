@@ -1,3 +1,21 @@
+commit b09f91913336bd02e6218360d3c714e4b3089926
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 10:38:54 2021 -0500
+
+    improve log output
+
+commit d863281f34587cc6f8830144b39fa03f0102872b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 10:17:37 2021 -0500
+
+    add taz,de, themarkup.org, freedom.press / securethe.news
+
+commit 120262c81bc192833f0a96e9fcd572a45353e269
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 09:50:54 2021 -0500
+
+    bumped changelog version
+
 commit 180d1cf3d05cae4a96a9a3b8d57aac1da4bfc666
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jan 26 09:36:16 2021 -0500
