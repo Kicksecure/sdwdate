@@ -1,3 +1,15 @@
+commit 2297ce1e4a5d1c1ae999cbb3e75889fe21c5d6a5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 27 04:24:49 2021 -0500
+
+    refactoring; improve log output
+
+commit 7dd5f6f0e5c04132120065da0265b1b874fb3c04
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 27 04:19:11 2021 -0500
+
+    bumped changelog version
+
 commit ab12812f65d553d291f95ba17effb14ad0f55665
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Jan 27 03:18:18 2021 -0500
