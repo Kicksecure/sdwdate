@@ -21,8 +21,6 @@ def run_command(i, url_to_unixtime_command):
     timeout_seconds = 50
     do_exit = False
 
-    print(url_to_unixtime_command)
-    sys.stdout.flush()
     ## Avoid Popen shell=True.
     url_to_unixtime_command = shlex.split(url_to_unixtime_command)
 
@@ -34,16 +32,13 @@ def run_command(i, url_to_unixtime_command):
         p.wait(timeout_seconds)
         ## Process already terminated before timeout.
         print("remote_times.py: i: " + str(i) + " | wait_ok")
-        sys.stdout.flush()
     except subprocess.TimeoutExpired:
         print("remote_times.py: i: " + str(i) + " | timeout")
-        sys.stdout.flush()
         ## Timeout hit. Kill process.
         p.kill()
     except:
         error_message = str(sys.exc_info()[0])
         print("remote_times.py: i: " + str(i) + " | unknown error. sys.exc_info: " + error_message)
-        sys.stdout.flush()
         p.kill()
 
     ## Do not return from this function until killing of the process is complete.
@@ -75,12 +70,16 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
     handle = [None] * number_of_remote_servers
     future = [None] * number_of_remote_servers
     took_time = [None] * number_of_remote_servers
+    url_to_unixtime_commands_list = [None] * number_of_remote_servers
 
     print("remote_times.py: url_to_unixtime_command (s):")
+    for i in range_of_remote_servers:
+        url_to_unixtime_commands_list[i] = "url_to_unixtime" + " " + proxy_ip_address + " " + proxy_port_number + " " + list_of_remote_servers[i] + " " + remote_port + " " + url_to_unixtime_debug
+        print(url_to_unixtime_commands_list[i])
+
     with concurrent.futures.ThreadPoolExecutor() as executor:
         for i in range_of_remote_servers:
-            url_to_unixtime_command = "url_to_unixtime" + " " + proxy_ip_address + " " + proxy_port_number + " " + list_of_remote_servers[i] + " " + remote_port + " " + url_to_unixtime_debug
-            future[i] = executor.submit(run_command, i, url_to_unixtime_command)
+            future[i] = executor.submit(run_command, i, url_to_unixtime_commands_list[i])
 
     for i in range_of_remote_servers:
         handle[i], took_time[i] = future[i].result()
