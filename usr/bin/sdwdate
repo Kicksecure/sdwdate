@@ -593,7 +593,7 @@ class Sdwdate:
             seconds_to_add_or_subtract = float(nanoseconds_to_add_or_subtract) / 1000000000
             if sign == 1:
                seconds_to_add_or_subtract = seconds_to_add_or_subtract * -1
-            message = 'randomize             : %+.9f' % seconds_to_add_or_subtract
+            message = 'randomize                         : %+.9f' % seconds_to_add_or_subtract
             logger.info(message)
         else:
             logger.info("Not randomizing nanoseconds.")
