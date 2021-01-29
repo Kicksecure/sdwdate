@@ -1,3 +1,15 @@
+commit f87ef3dd9a5e8867978c3d9e407881bb95426114
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 29 02:28:46 2021 -0500
+
+    add dw.com
+
+commit 9ad0bcdf59aa7e5c11a13023b616b6ed32982ba6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 27 17:45:10 2021 -0500
+
+    bumped changelog version
+
 commit 7108e5cd21cda01cbee1b375017749d9d731bf4c
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Jan 28 04:47:11 2021 -0500
