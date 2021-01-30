@@ -16,7 +16,7 @@ Package: sdwdate
 Architecture: all
 Depends: sudo, bc, helper-scripts, adduser,
  gcc, libc6-dev, python3-stem, python3-dateutil, python3-gevent,
- python3-socks, python3-sdnotify, python3, tor,
+ python3-socks, python3-sdnotify, python3-requests, python3, tor,
  ${python3:Depends}, ${misc:Depends}
 Recommends: timesanitycheck, bootclockrandomization
 Replaces: apparmor-profile-sdwdate
