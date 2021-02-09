@@ -82,18 +82,16 @@ class Sdwdate:
         self.list_of_url_random_requested = []
         self.valid_urls = []
 
-        self.status_from_check_remote = [None] * self.number_of_pools
-        self.half_took_time_float = [None] * self.number_of_pools
-        self.time_diff_lag_cleaned_float = [None] * self.number_of_pools
+        self.request_unixtimes = {}
+        self.request_took_times = {}
+        self.half_took_time_float = {}
+        self.time_diff_lag_cleaned_float = {}
 
         self.unixtimes = []
-        self.request_took_times = []
         self.pools_raw_diff = []
         self.pools_lag_cleaned_diff = []
         self.failed_urls = []
 
-        self.median_took_times = 0
-        self.median_half_took_times = 0
         self.median_diff_raw_in_seconds = 0
         self.median_diff_lag_cleaned_in_seconds = 0
         self.range_nanoseconds = 999999999
@@ -326,8 +324,8 @@ class Sdwdate:
         '''
         Check returned stdout. True if numeric.
         '''
-        pool_number = str(i)
-        message = "remote " + pool_number + ": " + remote
+        remote_number = str(i)
+        message = "remote " + remote_number + ": " + remote
         logger.info(message)
 
         message = "* comment: " + comment
@@ -350,6 +348,7 @@ class Sdwdate:
             ## Therefore assume that half of the time required to get the time
             ## reply has to be deducted from the raw time diff.
             time_diff_lag_cleaned_float = float(time_diff_raw_int) - half_took_time_float
+            time_diff_lag_cleaned_float = round(time_diff_lag_cleaned_float, 2)
         except:
             message = "* status: False"
             logger.info(message)
@@ -451,8 +450,8 @@ class Sdwdate:
         '''
         Get the median (not average) from the list of values.
         '''
-        sorted_request_took_times = sorted(self.request_took_times)
-        sorted_request_half_took_times = sorted(self.half_took_time_float)
+        sorted_request_took_times = sorted(self.request_took_times.values())
+        sorted_request_half_took_times = sorted(self.half_took_time_float.values())
         diffs_raw = sorted(self.pools_raw_diff)
         diffs_lag_cleaned = sorted(self.pools_lag_cleaned_diff)
         message = '     request_took_times, sorted: %s' % sorted_request_took_times
@@ -463,13 +462,13 @@ class Sdwdate:
         logger.info(message)
         message = '      diffs_lag_cleaned, sorted: %s' % diffs_lag_cleaned
         logger.info(message)
-        self.median_took_times = sorted_request_took_times[(len(sorted_request_took_times) // 2)]
-        self.median_half_took_times = sorted_request_half_took_times[(len(sorted_request_half_took_times) // 2)]
+        median_took_times = sorted_request_took_times[(len(sorted_request_took_times) // 2)]
+        median_half_took_times = sorted_request_half_took_times[(len(sorted_request_half_took_times) // 2)]
         self.median_diff_raw_in_seconds = diffs_raw[(len(diffs_raw) // 2)]
         self.median_diff_lag_cleaned_in_seconds = diffs_lag_cleaned[(len(diffs_lag_cleaned) // 2)]
-        message = 'median          request_took_times: %+.9f' % self.median_took_times
+        message = 'median          request_took_times: %+.9f' % median_took_times
         logger.info(message)
-        message = 'median     half_request_took_times: %+.9f' % self.median_half_took_times
+        message = 'median     half_request_took_times: %+.9f' % median_half_took_times
         logger.info(message)
         message = 'median         raw time difference: %+.9f' % self.median_diff_raw_in_seconds
         logger.info(message)
@@ -765,18 +764,28 @@ class Sdwdate:
             logger.info("")
 
             for i in range(len(self.list_of_urls_returned)):
-                a, b, c = self.check_remote(self.list_of_urls_returned[i], self.list_of_stdout[i], self.list_of_stderr[i], self.list_of_took_time[i], self.get_comment(self.list_of_urls_returned[i]), i)
+                returned_url_item_url = self.list_of_urls_returned[i]
+                returned_url_item_stdout = self.list_of_stdout[i]
+                returned_url_item_stderr = self.list_of_stderr[i]
+                returned_url_item_took_time = self.list_of_took_time[i]
+                returned_url_item_comment = self.get_comment(returned_url_item_url)
 
-                self.status_from_check_remote[i] = a
-                self.half_took_time_float[i] = b
-                self.time_diff_lag_cleaned_float[i] = c
-                self.request_took_times.append(self.list_of_took_time[i])
+                ## Example returned_url_item_url:
+                ## http://tinhat233xymse34.onion
 
-                if self.status_from_check_remote[i]:
-                    self.valid_urls.append(self.list_of_urls_returned[i])
-                    self.unixtimes.append(self.list_of_stdout[i])
+                a, b, c = self.check_remote(returned_url_item_url, returned_url_item_stdout, returned_url_item_stderr, returned_url_item_took_time, returned_url_item_comment, i)
+
+                status_from_check_remote = a
+
+                if status_from_check_remote:
+                    self.request_unixtimes[returned_url_item_url] = returned_url_item_stdout
+                    self.request_took_times[returned_url_item_url] = returned_url_item_took_time
+                    self.valid_urls.append(returned_url_item_url)
+                    self.unixtimes.append(returned_url_item_stdout)
+                    self.half_took_time_float[returned_url_item_url] = b
+                    self.time_diff_lag_cleaned_float[returned_url_item_url] = c
                 else:
-                    self.failed_urls.append(self.list_of_urls_returned[i])
+                    self.failed_urls.append(returned_url_item_url)
 
             if self.iteration >= 3:
                if len(self.list_of_stdout) >= 3:
@@ -807,19 +816,17 @@ class Sdwdate:
             old_unixtime = time.time()
 
             for pool in self.pools:
-                print("pool: " + str(pool))
                 if pool.done:
                     continue
                 for url in pool.url_random_pool:
                     pool.done = url in self.valid_urls
                     if pool.done:
                         pool_number = self.pools.index(pool)
-                        ## Values are returned randomly. Get the index of the url.
-                        index = self.valid_urls.index(url)
-                        ## pool matching web time
-                        web_unixtime = int(self.unixtimes[index])
-                        request_took_time_item = int(self.request_took_times[index])
 
+                        ## Values are returned randomly. Get the index of the url.
+                        web_unixtime = self.request_unixtimes[url]
+                        web_unixtime = int(web_unixtime)
+                        request_took_time_item = self.request_took_times[url]
                         web_time = sdwdate.time_human_readable(web_unixtime)
 
                         pool_diff = int(web_unixtime) - int(old_unixtime)
@@ -828,12 +835,8 @@ class Sdwdate:
                         ## Rounding. Nanoseconds accuracy is impossible.
                         ## It is unknown if the time (seconds) reported by remote servers was a
                         ## "early second" (0.000000000) or "late second" (0.999999999).
-                        time_diff_lag_cleaned_int = round(self.time_diff_lag_cleaned_float[index])
+                        time_diff_lag_cleaned_int = round(self.time_diff_lag_cleaned_float[url])
                         self.pools_lag_cleaned_diff.append(time_diff_lag_cleaned_int)
-
-                        #print("XXX: pool_number: " + str(pool_number))
-                        #print("XXX: index: " + str(index))
-                        #print("XXX: self.time_diff_lag_cleaned_float[index]: " + str(self.time_diff_lag_cleaned_float[index]))
 
                         message = ('pool %s: %s, web unixtime: %s, web time: %s, took_time: %s seconds, time_diff_raw: %s seconds, time_diff_lag_cleaned: %s'
                                     % (pool_number, url, web_unixtime, web_time, request_took_time_item, pool_diff, time_diff_lag_cleaned_int)
