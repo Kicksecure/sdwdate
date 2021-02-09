@@ -998,7 +998,7 @@ if __name__ == "__main__":
 
         n.notify("WATCHDOG=1")
 
-        if sdwdate_status_fl == 'success':
+        if status == 'success':
             sdwdate.build_median()
             sdwdate.add_or_subtract_nanoseconds()
             status_set_net_time, message_set_new_time = sdwdate.set_new_time()
