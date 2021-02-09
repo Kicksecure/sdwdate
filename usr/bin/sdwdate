@@ -424,13 +424,13 @@ class Sdwdate:
         ''' For logging the comments, get the index of the url
             to get it from pool.comment.
         '''
-        url_comment = ''
-        for url in self.pools:
+        url_comment = 'unknown-comment'
+        for pool in self.pools:
             try:
-                url_index = url.url.index(remote)
-                url_comment = url.comment[url_index]
+                url_index = pool.url.index(remote)
+                url_comment = pool.comment[url_index]
+                break
             except:
-                url_comment = 'unknown-comment'
                 pass
         return url_comment
 
