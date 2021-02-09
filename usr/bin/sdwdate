@@ -164,11 +164,11 @@ class Sdwdate:
 
         self.proxy_ip, self.proxy_port = proxy_settings()
 
-    def signal_sigterm_handler(self, signum, frame):
+    def signal_handler(self, signum, frame):
         message = sdwdate._('sigterm')
         stripped_message = sdwdate.strip_html(message)
         logger.info(stripped_message)
-        reason = "signal_sigterm_handler called"
+        reason = "signal_handler called"
         exit_code = 143
         sdwdate.exit_handler(exit_code, reason)
 
@@ -950,8 +950,8 @@ if __name__ == "__main__":
         sdwdate.exit_handler(exit_code, reason)
 
     sdwdate = Sdwdate()
-    signal.signal(signal.SIGTERM, sdwdate.signal_sigterm_handler)
-    signal.signal(signal.SIGINT, sdwdate.signal_sigterm_handler)
+    signal.signal(signal.SIGTERM, sdwdate.signal_handler)
+    signal.signal(signal.SIGINT, sdwdate.signal_handler)
 
     proxy_message = ('Tor socks host: %s Tor socks port: %s'
                      % (sdwdate.proxy_ip, sdwdate.proxy_port))
