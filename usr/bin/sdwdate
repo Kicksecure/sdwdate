@@ -770,7 +770,6 @@ class Sdwdate:
                 self.status_from_check_remote[i] = a
                 self.half_took_time_float[i] = b
                 self.time_diff_lag_cleaned_float[i] = c
-                #print("AAA: self.time_diff_lag_cleaned_float[i]: " + str(self.time_diff_lag_cleaned_float[i]))
                 self.request_took_times.append(self.list_of_took_time[i])
 
                 if self.status_from_check_remote[i]:
@@ -807,13 +806,10 @@ class Sdwdate:
 
             old_unixtime = time.time()
 
-            print("before: 'for pool in self.pools:'")
             for pool in self.pools:
                 print("pool: " + str(pool))
                 if pool.done:
-                    print("pool done: " + str(pool))
                     continue
-                print("pool not done: " + str(pool))
                 for url in pool.url_random_pool:
                     pool.done = url in self.valid_urls
                     if pool.done:
