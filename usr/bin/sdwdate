@@ -68,11 +68,6 @@ class Time_Source_Pool:
         y = float(failure_ratio)
         z = x * y
         allowed_failures_value = int(z)
-        #print("failure_ratio: " + str(failure_ratio))
-        #print("x: " + str(x))
-        #print("y: " + str(y))
-        #print("z: " + str(z))
-        #print("allowed_failures_value: " + str(allowed_failures_value))
         return allowed_failures_value
 
 
