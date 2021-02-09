@@ -43,7 +43,7 @@ n.notify("STATUS=Starting...")
 class Time_Source_Pool:
     def __init__(self, pool):
         self.url, self.comment = read_pools(pool, 'production')
-        self.url_random = []
+        self.url_random_pool = []
         self.already_picked_index = []
         self.done = False
 
@@ -78,8 +78,8 @@ class Sdwdate:
         self.pools = [Time_Source_Pool(pool) for pool in range(self.number_of_pools)]
         ## Could get it here to prevent reading the file in sdwdate_fetch_loop for each Unreachable url.
         #self.allowed_failures = [Time_Source_Pool(pool).allowed_failures for pool in range(self.number_of_pools)]
-        self.urls = []
-        self.url_random = []
+        self.list_of_urls_returned = []
+        self.list_of_url_random_requested = []
         self.valid_urls = []
         self.url_errors = []
 
@@ -702,8 +702,8 @@ class Sdwdate:
             logger.info(message)
 
             ## Clear the lists.
-            self.urls[:] = []
-            self.url_random[:] = []
+            self.list_of_urls_returned[:] = []
+            self.list_of_url_random_requested[:] = []
 
             for pool in self.pools:
                 if pool.done:
@@ -731,57 +731,56 @@ class Sdwdate:
                 message = "pool " + str(self.pools.index(pool)) + ": pool_size: " + str(pool_size) + " url_index: " + str(url_index) + " already_picked_number: " + str(already_picked_number) + " already_picked_index: " + str(pool.already_picked_index)
                 logger.info(message)
 
-                pool.url_random.append(pool.url[url_index])
-                self.url_random.append(pool.url[url_index])
+                pool.url_random_pool.append(pool.url[url_index])
+                self.list_of_url_random_requested.append(pool.url[url_index])
 
-            print("len(self.url_random): " + str(len(self.url_random)))
+            print("len(self.list_of_url_random_requested): " + str(len(self.list_of_url_random_requested)))
 
-            if len(self.url_random) <= 0:
+            if len(self.list_of_url_random_requested) <= 0:
                 message = self._('list_not_built') + self._('restart')
                 icon = "error"
                 status = "error"
                 return icon, status, message
 
-            message = 'requested urls %s' % self.url_random
+            message = 'requested urls %s' % self.list_of_url_random_requested
             logger.info(message)
 
-            self.urls, \
+            self.list_of_urls_returned, \
             self.list_of_stdout, \
             self.list_of_stderr, \
-            self.took_time \
+            self.list_of_took_time \
                = \
                    get_time_from_servers(
-                      self.url_random,
+                      self.list_of_url_random_requested,
                       self.proxy_ip,
                       self.proxy_port
                    )
 
-            if len(self.urls) == 0:
+            if len(self.list_of_urls_returned) == 0:
                message = self._('no_value_returned') + self._('restart')
                icon = "error"
                status = "error"
                return icon, status, message
 
-            message = 'returned urls "%s"' % self.urls
+            message = 'returned urls "%s"' % self.list_of_urls_returned
             logger.info(message)
             logger.info("")
 
-            for i in range(len(self.urls)):
-                a, b, c = self.check_remote(self.urls[i], self.list_of_stdout[i], self.list_of_stderr[i], self.took_time[i], self.get_comment(self.urls[i]), i)
+            for i in range(len(self.list_of_urls_returned)):
+                a, b, c = self.check_remote(self.list_of_urls_returned[i], self.list_of_stdout[i], self.list_of_stderr[i], self.list_of_took_time[i], self.get_comment(self.list_of_urls_returned[i]), i)
 
                 self.status_from_check_remote[i] = a
                 self.half_took_time_float[i] = b
                 self.time_diff_lag_cleaned_float[i] = c
                 #print("AAA: self.time_diff_lag_cleaned_float[i]: " + str(self.time_diff_lag_cleaned_float[i]))
+                self.request_took_times.append(self.list_of_took_time[i])
 
                 if self.status_from_check_remote[i]:
-                    self.valid_urls.append(self.urls[i])
+                    self.valid_urls.append(self.list_of_urls_returned[i])
                     self.unixtimes.append(self.list_of_stdout[i])
-                    self.request_took_times.append(self.took_time[i])
                 else:
-                    self.failed_urls.append(self.urls[i])
+                    self.failed_urls.append(self.list_of_urls_returned[i])
                     self.url_errors.append(self.list_of_stdout[i])
-                    self.request_took_times.append(self.took_time[i])
 
             if self.iteration >= 3:
                if len(self.list_of_stdout) >= 3:
@@ -818,7 +817,7 @@ class Sdwdate:
                     print("pool done: " + str(pool))
                     continue
                 print("pool not done: " + str(pool))
-                for url in pool.url_random:
+                for url in pool.url_random_pool:
                     pool.done = url in self.valid_urls
                     if pool.done:
                         pool_number = self.pools.index(pool)
