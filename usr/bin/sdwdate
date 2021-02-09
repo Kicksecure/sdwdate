@@ -45,7 +45,6 @@ class Time_Source_Pool:
         self.url, self.comment = read_pools(pool, 'production')
         self.url_random = []
         self.already_picked_index = []
-        self.failed_urls = 0
         self.done = False
 
     @property
@@ -81,18 +80,17 @@ class Sdwdate:
         #self.allowed_failures = [Time_Source_Pool(pool).allowed_failures for pool in range(self.number_of_pools)]
         self.urls = []
         self.url_random = []
-        self.valid_urls = []
+        self.valid_urls = [None] * self.number_of_pools
 
         self.status_from_check_remote = [None] * self.number_of_pools
         self.half_took_time_float = [None] * self.number_of_pools
         self.time_diff_lag_cleaned_float = [None] * self.number_of_pools
 
-        self.unixtimes = []
-        self.request_took_times = []
+        self.unixtimes = [None] * self.number_of_pools
+        self.request_took_times = [None] * self.number_of_pools
         self.pools_raw_diff = []
         self.pools_lag_cleaned_diff = []
-        self.failed_urls = []
-        self.url_errors = []
+        self.failed_urls = [None] * self.number_of_pools
 
         self.median_took_times = 0
         self.median_half_took_times = 0
@@ -772,13 +770,12 @@ class Sdwdate:
                 #print("AAA: self.time_diff_lag_cleaned_float[i]: " + str(self.time_diff_lag_cleaned_float[i]))
 
                 if self.status_from_check_remote[i]:
-                    self.valid_urls.append(self.urls[i])
-                    self.unixtimes.append(self.list_of_stdout[i])
-                    self.request_took_times.append(self.took_time[i])
+                    self.valid_urls[i] = self.urls[i]
+                    self.unixtimes[i] = self.list_of_stdout[i]
+                    self.request_took_times[i] = self.took_time[i]
                 else:
-                    self.failed_urls.append(self.urls[i])
-                    self.url_errors.append(self.list_of_stdout[i])
-                    self.request_took_times.append(self.took_time[i])
+                    self.failed_urls[i] = self.urls[i]
+                    self.request_took_times[i] = self.took_time[i]
 
             if self.iteration >= 3:
                if len(self.list_of_stdout) >= 3:
