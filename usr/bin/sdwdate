@@ -719,7 +719,7 @@ class Sdwdate:
                     if len(pool.already_picked_index) >= pool_size:
                         #print("BBB str(len(pool.already_picked_index)): " + str(len(pool.already_picked_index)))
                         pool_number = self.pools.index(pool)
-                        message = self._('no_valid_time') + str(pool_number) + self._('restart')
+                        message = "pool " + str(pool_number) + ": " + self._('no_valid_time') + self._('restart')
                         icon = "error"
                         status = "error"
                         return icon, status, message

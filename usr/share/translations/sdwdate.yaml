@@ -11,8 +11,9 @@ sdwdate:
         minutes: ' minutes.'
         success: 'Success.'
 
-        no_valid_time: 'Time is not set:<b> no valid time returned from pool </b><br>
-                        Possible causes:<br>- internet connection is down
+        no_valid_time: 'Time is not set: <b>no valid time returned from pool.</b><br>
+                        Possible causes:
+                        <br>- internet connection is down
                         <br>- Tor is not running'
         no_value_returned: '<b>No values returned from servers.</b>'
         list_not_built: '<b>Something is wrong. sdwdate could not build a list or urls.</b>'
