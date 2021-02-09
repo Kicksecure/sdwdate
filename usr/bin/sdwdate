@@ -296,23 +296,11 @@ class Sdwdate:
             time.sleep(preparation_sleep_seconds)
 
     @staticmethod
-    def general_proxy_error(pools):
-        '''
-        This error occurs (at least) when Tor is not running.
-        '''
-        returned_error = 'connect error: Connection closed unexpectedly'
-        if (pools[0] == returned_error and
-                    pools[1] == returned_error and
-                    pools[2] == returned_error):
-            return True
-        return False
-
-    @staticmethod
     def general_timeout_error(pools):
         '''
         This error occurs (at least) when internet connection is down.
         '''
-        returned_error = 'Timeout'
+        returned_error = 'timeout'
         if (pools[0] == returned_error and
                     pools[1] == returned_error and
                     pools[2] == returned_error):
@@ -745,7 +733,9 @@ class Sdwdate:
             self.list_of_urls_returned, \
             self.list_of_stdout, \
             self.list_of_stderr, \
-            self.list_of_took_time \
+            self.list_of_took_time, \
+            self.list_of_timeout_status, \
+            self.list_of_exit_codes, \
                = \
                    get_time_from_servers(
                       self.list_of_url_random_requested,
@@ -768,6 +758,7 @@ class Sdwdate:
                 returned_url_item_stdout = self.list_of_stdout[i]
                 returned_url_item_stderr = self.list_of_stderr[i]
                 returned_url_item_took_time = self.list_of_took_time[i]
+                returned_url_item_took_status = self.list_of_timeout_status[i]
                 returned_url_item_comment = self.get_comment(returned_url_item_url)
 
                 ## Example returned_url_item_url:
@@ -787,14 +778,9 @@ class Sdwdate:
                 else:
                     self.failed_urls.append(returned_url_item_url)
 
-            if self.iteration >= 3:
-               if len(self.list_of_stdout) >= 3:
-                     if self.general_proxy_error(self.list_of_stdout):
-                        message = self._('general_proxy_error')
-                        icon = "error"
-                        status = "error"
-                        return icon, status, message
-                     if self.general_timeout_error(self.list_of_stdout):
+            if self.iteration >= 2:
+                if len(self.list_of_stdout) >= 3:
+                    if self.general_timeout_error(self.list_of_timeout_status):
                         message = self._('general_timeout_error')
                         icon = "error"
                         status = "error"

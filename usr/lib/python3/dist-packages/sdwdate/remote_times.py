@@ -32,12 +32,15 @@ def run_command(i, url_to_unixtime_command):
         p.wait(timeout_seconds)
         ## Process already terminated before timeout.
         print("remote_times.py: i: " + str(i) + " | ok")
+        status = "done"
     except subprocess.TimeoutExpired:
         print("remote_times.py: i: " + str(i) + " | timeout")
+        status = "timeout"
         ## Timeout hit. Kill process.
         p.kill()
     except:
         error_message = str(sys.exc_info()[0])
+        status = "error"
         print("remote_times.py: i: " + str(i) + " | unknown error. sys.exc_info: " + error_message)
         p.kill()
 
@@ -48,7 +51,7 @@ def run_command(i, url_to_unixtime_command):
     ## Round took_time to two digits for better readability.
     ## No other reason for rounding.
     took_time = round(took_time, 2)
-    return p, took_time
+    return p, took_time, status
 
 def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_number):
     remote_port = "80"
@@ -61,15 +64,18 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
     ## range(0, 3)
 
     url_to_unixtime_debug = "false"
-    #url_to_unixtime_debug = "true"
+    url_to_unixtime_debug = "true"
 
     urls_list = [None] * number_of_remote_servers
     stdout_list = [None] * number_of_remote_servers
     stderr_list = [None] * number_of_remote_servers
     took_time_list = [None] * number_of_remote_servers
+    timeout_status_list = [None] * number_of_remote_servers
+    exit_code_list = [None] * number_of_remote_servers
     handle = [None] * number_of_remote_servers
     future = [None] * number_of_remote_servers
     took_time = [None] * number_of_remote_servers
+    status = [None] * number_of_remote_servers
     url_to_unixtime_commands_list = [None] * number_of_remote_servers
 
     print("remote_times.py: url_to_unixtime_command (s):")
@@ -82,34 +88,29 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
             future[i] = executor.submit(run_command, i, url_to_unixtime_commands_list[i])
 
     for i in range_of_remote_servers:
-        handle[i], took_time[i] = future[i].result()
+        handle[i], took_time[i], status[i] = future[i].result()
 
     for i in range_of_remote_servers:
         took_time_list[i] = took_time[i]
+        timeout_status_list[i] = status[i]
         urls_list[i] = list_of_remote_servers[i]
         returncode = handle[i].returncode
+        exit_code_list[i] = returncode
 
         ## bytes
         stdout, stderr = handle[i].communicate()
 
+        ## stderr if Tor is stopped (or Tor SocksPort not reachable):
+        ## connect error: SOCKSHTTPConnectionPool(host='sdolvtfhatvsysc6l34d65ymdwxcujausv7k5jk4cy5ttzhjoi6fzvyd.onion', port=80): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x7703a89cfeb8>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
         #print("remote_times.py: i: " + str(i))
         #print("remote_times.py: stdout: " + str(stdout))
+        #print("remote_times.py: stderr: " + str(stderr))
         #print("remote_times.py: took_time[i]: " + str(took_time[i]))
         #print("remote_times.py: returncode: " + str(returncode))
 
-        if not returncode == 0:
-            ## str
-            stdout_to_append = ""
-            stdout_to_append += str(stdout)
-            stdout_to_append += " | non-zero exit code: " + str(returncode)
-            stdout_list[i] = stdout_to_append
-            stderr_to_append = ""
-            stdout_to_append += str(stderr)
-            stderr_to_append += " | non-zero exit code: " + str(returncode)
-            stderr_list[i] = stderr_to_append
-        else:
-            stdout_list[i] = stdout
-            stderr_list[i] = stderr
+        stdout_list[i] = stdout.decode()
+        stderr_list[i] = stderr.decode()
 
     print("remote_times.py: urls_list:")
     print(str(urls_list))
@@ -119,8 +120,12 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
     print(str(stderr_list))
     print("remote_times.py: took_time_list:")
     print(str(took_time_list))
+    print("remote_times.py: timeout_status_list:")
+    print(str(timeout_status_list))
+    print("remote_times.py: exit_code_list:")
+    print(str(exit_code_list))
 
-    return urls_list, stdout_list, stderr_list, took_time_list
+    return urls_list, stdout_list, stderr_list, took_time_list, timeout_status_list, exit_code_list
 
 def remote_times_signal_handler(signum, frame):
     print("remote_times_signal_handler OK")
