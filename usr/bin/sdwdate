@@ -704,32 +704,35 @@ class Sdwdate:
             self.url_random[:] = []
 
             for pool in self.pools:
-                if not pool.done:
-                    pool_size = pool.url_range
-                    while True:
-                       url_index = random.randrange(0, pool_size)
-                       #print("pool_size: " + str(pool_size))
-                       if not url_index in pool.already_picked_index:
-                          #print("AAA str(len(pool.already_picked_index)): " + str(len(pool.already_picked_index)))
-                          pool.already_picked_index.append(url_index)
-                          break
-                       if len(pool.already_picked_index) >= pool_size:
-                          #print("BBB str(len(pool.already_picked_index)): " + str(len(pool.already_picked_index)))
-                          pool_number = self.pools.index(pool)
-                          message = self._('no_valid_time') + str(pool_number) + self._('restart')
-                          logger.warning(message)
-                          icon = "error"
-                          status = "error"
-                          return icon, status, message
-                       #if url_index in pool.already_picked_index:
-                          #print("CCC str(len(pool.already_picked_index)): " + str(len(pool.already_picked_index)))
-                    already_picked_number = len(pool.already_picked_index)
+                if pool.done:
+                    continue
+                pool_size = pool.url_range
+                while True:
+                    url_index = random.randrange(0, pool_size)
+                    #print("pool_size: " + str(pool_size))
+                    if not url_index in pool.already_picked_index:
+                        #print("AAA str(len(pool.already_picked_index)): " + str(len(pool.already_picked_index)))
+                        pool.already_picked_index.append(url_index)
+                        break
+                    if len(pool.already_picked_index) >= pool_size:
+                        #print("BBB str(len(pool.already_picked_index)): " + str(len(pool.already_picked_index)))
+                        pool_number = self.pools.index(pool)
+                        message = self._('no_valid_time') + str(pool_number) + self._('restart')
+                        logger.warning(message)
+                        icon = "error"
+                        status = "error"
+                        return icon, status, message
+                    #if url_index in pool.already_picked_index:
+                        #print("CCC str(len(pool.already_picked_index)): " + str(len(pool.already_picked_index)))
+                already_picked_number = len(pool.already_picked_index)
 
-                    message = "pool " + str(self.pools.index(pool)) + ": pool_size: " + str(pool_size) + " url_index: " + str(url_index) + " already_picked_number: " + str(already_picked_number) + " already_picked_index: " + str(pool.already_picked_index)
-                    logger.info(message)
+                message = "pool " + str(self.pools.index(pool)) + ": pool_size: " + str(pool_size) + " url_index: " + str(url_index) + " already_picked_number: " + str(already_picked_number) + " already_picked_index: " + str(pool.already_picked_index)
+                logger.info(message)
 
-                    pool.url_random.append(pool.url[url_index])
-                    self.url_random.append(pool.url[url_index])
+                pool.url_random.append(pool.url[url_index])
+                self.url_random.append(pool.url[url_index])
+
+            print("len(self.url_random): " + str(len(self.url_random)))
 
             if len(self.url_random) <= 0:
                 message = self._('list_not_built') + self._('restart')
@@ -805,37 +808,42 @@ class Sdwdate:
 
             old_unixtime = time.time()
 
+            print("before: 'for pool in self.pools:'")
             for pool in self.pools:
-                if not pool.done:
-                    for url in pool.url_random:
-                        pool.done = url in self.valid_urls
-                        if pool.done:
-                            pool_number = self.pools.index(pool)
-                            ## Values are returned randomly. Get the index of the url.
-                            index = self.valid_urls.index(url)
-                            ## pool matching web time
-                            web_unixtime = int(self.unixtimes[index])
-                            request_took_time_item = int(self.request_took_times[index])
+                print("pool: " + str(pool))
+                if pool.done:
+                    print("pool done: " + str(pool))
+                    continue
+                print("pool not done: " + str(pool))
+                for url in pool.url_random:
+                    pool.done = url in self.valid_urls
+                    if pool.done:
+                        pool_number = self.pools.index(pool)
+                        ## Values are returned randomly. Get the index of the url.
+                        index = self.valid_urls.index(url)
+                        ## pool matching web time
+                        web_unixtime = int(self.unixtimes[index])
+                        request_took_time_item = int(self.request_took_times[index])
 
-                            web_time = sdwdate.time_human_readable(web_unixtime)
+                        web_time = sdwdate.time_human_readable(web_unixtime)
 
-                            pool_diff = int(web_unixtime) - int(old_unixtime)
-                            self.pools_raw_diff.append(pool_diff)
+                        pool_diff = int(web_unixtime) - int(old_unixtime)
+                        self.pools_raw_diff.append(pool_diff)
 
-                            ## Rounding. Nanoseconds accuracy is impossible.
-                            ## It is unknown if the time (seconds) reported by remote servers was a
-                            ## "early second" (0.000000000) or "late second" (0.999999999).
-                            time_diff_lag_cleaned_int = round(self.time_diff_lag_cleaned_float[index])
-                            self.pools_lag_cleaned_diff.append(time_diff_lag_cleaned_int)
+                        ## Rounding. Nanoseconds accuracy is impossible.
+                        ## It is unknown if the time (seconds) reported by remote servers was a
+                        ## "early second" (0.000000000) or "late second" (0.999999999).
+                        time_diff_lag_cleaned_int = round(self.time_diff_lag_cleaned_float[index])
+                        self.pools_lag_cleaned_diff.append(time_diff_lag_cleaned_int)
 
-                            #print("XXX: pool_number: " + str(pool_number))
-                            #print("XXX: index: " + str(index))
-                            #print("XXX: self.time_diff_lag_cleaned_float[index]: " + str(self.time_diff_lag_cleaned_float[index]))
+                        #print("XXX: pool_number: " + str(pool_number))
+                        #print("XXX: index: " + str(index))
+                        #print("XXX: self.time_diff_lag_cleaned_float[index]: " + str(self.time_diff_lag_cleaned_float[index]))
 
-                            message = ('pool %s: %s, web unixtime: %s, web time: %s, took_time: %s seconds, time_diff_raw: %s seconds, time_diff_lag_cleaned: %s'
-                                        % (pool_number, url, web_unixtime, web_time, request_took_time_item, pool_diff, time_diff_lag_cleaned_int)
-                                      )
-                            logger.info(message)
+                        message = ('pool %s: %s, web unixtime: %s, web time: %s, took_time: %s seconds, time_diff_raw: %s seconds, time_diff_lag_cleaned: %s'
+                                    % (pool_number, url, web_unixtime, web_time, request_took_time_item, pool_diff, time_diff_lag_cleaned_int)
+                                    )
+                        logger.info(message)
 
             #message = "len(self.valid_urls): " + str(len(self.valid_urls))
             #logger.info(message)
