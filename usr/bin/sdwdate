@@ -81,6 +81,7 @@ class Sdwdate:
         self.urls = []
         self.url_random = []
         self.valid_urls = []
+        self.url_errors = []
 
         self.status_from_check_remote = [None] * self.number_of_pools
         self.half_took_time_float = [None] * self.number_of_pools
@@ -442,7 +443,8 @@ class Sdwdate:
             try:
                 url_index = url.url.index(remote)
                 url_comment = url.comment[url_index]
-            except ValueError:
+            except:
+                url_comment = 'unknown-comment'
                 pass
         return url_comment
 
