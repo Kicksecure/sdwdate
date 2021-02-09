@@ -81,7 +81,6 @@ class Sdwdate:
         self.list_of_urls_returned = []
         self.list_of_url_random_requested = []
         self.valid_urls = []
-        self.url_errors = []
 
         self.status_from_check_remote = [None] * self.number_of_pools
         self.half_took_time_float = [None] * self.number_of_pools
@@ -779,7 +778,6 @@ class Sdwdate:
                     self.unixtimes.append(self.list_of_stdout[i])
                 else:
                     self.failed_urls.append(self.list_of_urls_returned[i])
-                    self.url_errors.append(self.list_of_stdout[i])
 
             if self.iteration >= 3:
                if len(self.list_of_stdout) >= 3:
