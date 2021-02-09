@@ -86,8 +86,8 @@ class Sdwdate:
         self.half_took_time_float = [None] * self.number_of_pools
         self.time_diff_lag_cleaned_float = [None] * self.number_of_pools
 
-        self.unixtimes = [None] * self.number_of_pools
-        self.request_took_times = [None] * self.number_of_pools
+        self.unixtimes = []
+        self.request_took_times = []
         self.pools_raw_diff = []
         self.pools_lag_cleaned_diff = []
         self.failed_urls = []
@@ -774,11 +774,12 @@ class Sdwdate:
 
                 if self.status_from_check_remote[i]:
                     self.valid_urls.append(self.urls[i])
-                    self.unixtimes[i] = self.list_of_stdout[i]
-                    self.request_took_times[i] = self.took_time[i]
+                    self.unixtimes.append(self.list_of_stdout[i])
+                    self.request_took_times.append(self.took_time[i])
                 else:
                     self.failed_urls.append(self.urls[i])
-                    self.request_took_times[i] = self.took_time[i]
+                    self.url_errors.append(self.list_of_stdout[i])
+                    self.request_took_times.append(self.took_time[i])
 
             if self.iteration >= 3:
                if len(self.list_of_stdout) >= 3:
