@@ -80,7 +80,7 @@ class Sdwdate:
         #self.allowed_failures = [Time_Source_Pool(pool).allowed_failures for pool in range(self.number_of_pools)]
         self.urls = []
         self.url_random = []
-        self.valid_urls = [None] * self.number_of_pools
+        self.valid_urls = []
 
         self.status_from_check_remote = [None] * self.number_of_pools
         self.half_took_time_float = [None] * self.number_of_pools
@@ -90,7 +90,7 @@ class Sdwdate:
         self.request_took_times = [None] * self.number_of_pools
         self.pools_raw_diff = []
         self.pools_lag_cleaned_diff = []
-        self.failed_urls = [None] * self.number_of_pools
+        self.failed_urls = []
 
         self.median_took_times = 0
         self.median_half_took_times = 0
@@ -773,11 +773,11 @@ class Sdwdate:
                 #print("AAA: self.time_diff_lag_cleaned_float[i]: " + str(self.time_diff_lag_cleaned_float[i]))
 
                 if self.status_from_check_remote[i]:
-                    self.valid_urls[i] = self.urls[i]
+                    self.valid_urls.append(self.urls[i])
                     self.unixtimes[i] = self.list_of_stdout[i]
                     self.request_took_times[i] = self.took_time[i]
                 else:
-                    self.failed_urls[i] = self.urls[i]
+                    self.failed_urls.append(self.urls[i])
                     self.request_took_times[i] = self.took_time[i]
 
             if self.iteration >= 3:
