@@ -31,7 +31,7 @@ def run_command(i, url_to_unixtime_command):
     try:
         p.wait(timeout_seconds)
         ## Process already terminated before timeout.
-        print("remote_times.py: i: " + str(i) + " | ok")
+        print("remote_times.py: i: " + str(i) + " | done")
         status = "done"
     except subprocess.TimeoutExpired:
         print("remote_times.py: i: " + str(i) + " | timeout")
