@@ -31,10 +31,10 @@ def run_command(i, url_to_unixtime_command):
     try:
         p.wait(timeout_seconds)
         ## Process already terminated before timeout.
-        print("remote_times.py: i: " + str(i) + " | done")
+        #print("remote_times.py: i: " + str(i) + " | done")
         status = "done"
     except subprocess.TimeoutExpired:
-        print("remote_times.py: i: " + str(i) + " | timeout")
+        #print("remote_times.py: i: " + str(i) + " | timeout")
         status = "timeout"
         ## Timeout hit. Kill process.
         p.kill()
@@ -120,23 +120,23 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
         else:
             stderr_list[i] = stderr.decode()
 
-    print("remote_times.py: urls_list:")
-    print(str(urls_list))
-    print("remote_times.py: stdout_list:")
-    print(str(stdout_list))
-    print("remote_times.py: stderr_list:")
-    print(str(stderr_list))
-    print("remote_times.py: took_time_list:")
-    print(str(took_time_list))
-    print("remote_times.py: timeout_status_list:")
-    print(str(timeout_status_list))
-    print("remote_times.py: exit_code_list:")
-    print(str(exit_code_list))
+    #print("remote_times.py: urls_list:")
+    #print(str(urls_list))
+    #print("remote_times.py: stdout_list:")
+    #print(str(stdout_list))
+    #print("remote_times.py: stderr_list:")
+    #print(str(stderr_list))
+    #print("remote_times.py: took_time_list:")
+    #print(str(took_time_list))
+    #print("remote_times.py: timeout_status_list:")
+    #print(str(timeout_status_list))
+    #print("remote_times.py: exit_code_list:")
+    #print(str(exit_code_list))
 
     return urls_list, stdout_list, stderr_list, took_time_list, timeout_status_list, exit_code_list
 
 def remote_times_signal_handler(signum, frame):
-    print("remote_times_signal_handler OK")
+    print("remote_times_signal_handler: OK")
     sys.exit(0)
 
 if __name__ == "__main__":
