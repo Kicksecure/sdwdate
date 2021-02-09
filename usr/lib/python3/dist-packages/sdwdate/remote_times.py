@@ -63,7 +63,6 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
     ## Example range_of_remote_servers:
     ## range(0, 3)
 
-    url_to_unixtime_debug = "false"
     url_to_unixtime_debug = "true"
 
     urls_list = [None] * number_of_remote_servers
@@ -110,7 +109,16 @@ def get_time_from_servers(list_of_remote_servers, proxy_ip_address, proxy_port_n
         #print("remote_times.py: returncode: " + str(returncode))
 
         stdout_list[i] = stdout.decode()
-        stderr_list[i] = stderr.decode()
+        if returncode == 0:
+            ## example stderr:
+            ## data: <Response [200]>
+            ## http_time: Tue, 09 Feb 2021 10:35:10 GMT
+            ## parsed_unixtime: 1612866910
+            ##
+            ## Redacting stderr for brevity.
+            stderr_list[i] = "redacted"
+        else:
+            stderr_list[i] = stderr.decode()
 
     print("remote_times.py: urls_list:")
     print(str(urls_list))
