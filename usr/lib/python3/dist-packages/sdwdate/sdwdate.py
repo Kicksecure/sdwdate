@@ -33,9 +33,9 @@ os.environ["LC_TIME"] = "C"
 os.environ["TZ"] = "UTC"
 time.tzset()
 
-n = sdnotify.SystemdNotifier()
-n.notify("READY=1")
-n.notify("STATUS=Starting...")
+SDNOTIFY_OBJECT = sdnotify.SystemdNotifier()
+SDNOTIFY_OBJECT.notify("READY=1")
+SDNOTIFY_OBJECT.notify("STATUS=Starting...")
 
 
 class TimeSourcePool(object):
@@ -177,7 +177,8 @@ class Sdwdate(object):
             self.time_replay_protection_minium_unixtime_int
         )
 
-    def allowed_failures_config(self):
+    @staticmethod
+    def allowed_failures_config():
         failure_ratio = None
         if os.path.exists("/etc/sdwdate.d/"):
             files = sorted(glob.glob("/etc/sdwdate.d/*.conf"))
@@ -191,8 +192,8 @@ class Sdwdate(object):
             failure_ratio = 0.34
         return failure_ratio
 
+    @staticmethod
     def allowed_failures_calculate(
-            self,
             failure_ratio,
             pools_total_number,
             number_of_pool_members):
@@ -210,9 +211,9 @@ class Sdwdate(object):
         self.exit_handler(exit_code, reason)
 
     def exit_handler(self, exit_code, reason):
-        n.notify("STATUS=Shutting down...")
-        n.notify("WATCHDOG=1")
-        n.notify("STOPPING=1")
+        SDNOTIFY_OBJECT.notify("STATUS=Shutting down...")
+        SDNOTIFY_OBJECT.notify("WATCHDOG=1")
+        SDNOTIFY_OBJECT.notify("STOPPING=1")
 
         message = (
             "Exiting with exit_code '"
@@ -238,7 +239,8 @@ class Sdwdate(object):
         LOGGER.info(stripped_message)
         sys.exit(exit_code)
 
-    def strip_html(self, message):
+    @staticmethod
+    def strip_html(message):
         # New line for log.
         tmp_message = re.sub("<br>", "\n", message)
         # Strip remaining HTML.
@@ -260,7 +262,8 @@ class Sdwdate(object):
             msgf.write(msg)
             msgf.close()
 
-    def time_human_readable(self, unixtime):
+    @staticmethod
+    def time_human_readable(unixtime):
         human_readable_unixtime = datetime.strftime(
             datetime.fromtimestamp(unixtime), "%Y-%m-%d %H:%M:%S"
         )
@@ -273,7 +276,7 @@ class Sdwdate(object):
         loop_max = 10000
         preparation_sleep_seconds = 0
         while True:
-            n.notify("WATCHDOG=1")
+            SDNOTIFY_OBJECT.notify("WATCHDOG=1")
             if loop_counter >= loop_max:
                 loop_counter = 0
             loop_counter += 1
@@ -284,7 +287,7 @@ class Sdwdate(object):
                 str(loop_counter) +
                 " / " +
                 str(loop_max))
-            n.notify(msg)
+            SDNOTIFY_OBJECT.notify(msg)
 
             # Wait one second after first failure. Two at second failure etc.
             # Up to a maximum of ten seconds wait between attempts.
@@ -555,7 +558,8 @@ class Sdwdate(object):
         )
         LOGGER.info(message)
 
-    def time_replay_protection_file_read(self):
+    @staticmethod
+    def time_replay_protection_file_read():
         process = subprocess.Popen(
             "/usr/bin/minimum-unixtime-show",
             stdout=subprocess.PIPE,
@@ -1048,7 +1052,7 @@ class Sdwdate(object):
             LOGGER.error("wait_sleep: icon:else")
             LOGGER.error(stripped_message)
 
-        n.notify("WATCHDOG=1")
+        SDNOTIFY_OBJECT.notify("WATCHDOG=1")
 
         range_nanoseconds = 999999999
         nanoseconds = randint(0, range_nanoseconds)
@@ -1157,8 +1161,8 @@ def main():
             + " / "
             + str(loop_max)
         )
-        n.notify(msg)
-        n.notify("WATCHDOG=1")
+        SDNOTIFY_OBJECT.notify(msg)
+        SDNOTIFY_OBJECT.notify("WATCHDOG=1")
 
         # use missing_ok=True in python 3.8
         if os.path.isfile(sdwdate.sleep_long_file_path):
@@ -1178,7 +1182,7 @@ def main():
             sdwdate.sdwdate_fetch_loop()
         )
 
-        n.notify("WATCHDOG=1")
+        SDNOTIFY_OBJECT.notify("WATCHDOG=1")
 
         if sdwdate_status_fl == "success":
             sdwdate.build_median()
