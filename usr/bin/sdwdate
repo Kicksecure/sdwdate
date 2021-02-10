@@ -115,10 +115,10 @@ class Sdwdate:
                 "ERROR: sdwdate_status_files_folder: " +
                 sdwdate_status_files_folder)
             reason = "home folder does not end with /sdwdate"
-            exit_code = 1
+            EXIT_CODE = 1
             # Not available at this point.
-            # sdwdate.exit_handler(exit_code, reason)
-            sys.exit(exit_code)
+            # sdwdate.exit_handler(EXIT_CODE, reason)
+            sys.exit(EXIT_CODE)
 
         Path(sdwdate_status_files_folder).mkdir(parents=True, exist_ok=True)
         # Sanity test. Should be already created by systemd-tmpfiles.
@@ -197,8 +197,8 @@ class Sdwdate:
         stripped_message = sdwdate.strip_html(message)
         logger.info(stripped_message)
         reason = "signal_handler called"
-        exit_code = 143
-        sdwdate.exit_handler(exit_code, reason)
+        EXIT_CODE = 143
+        sdwdate.exit_handler(EXIT_CODE, reason)
 
     def exit_handler(self, exit_code, reason):
         n.notify("STATUS=Shutting down...")
@@ -777,8 +777,8 @@ class Sdwdate:
                 bin_date_status.returncode)
             logger.error(message)
             reason = "bin_date_status non-zero exit code"
-            exit_code = 1
-            sdwdate.exit_handler(exit_code, reason)
+            EXIT_CODE = 1
+            sdwdate.exit_handler(EXIT_CODE, reason)
 
     def sdwdate_fetch_loop(self):
         """
@@ -1112,8 +1112,8 @@ if __name__ == "__main__":
         do_not_run_as_root_message = "Exit error... sdwdate should not be run as root!"
         logger.error(do_not_run_as_root_message)
         reason = "sdwdate should not be run as root."
-        exit_code = 1
-        sdwdate.exit_handler(exit_code, reason)
+        EXIT_CODE = 1
+        sdwdate.exit_handler(EXIT_CODE, reason)
 
     sdwdate = Sdwdate()
     signal.signal(signal.SIGTERM, sdwdate.signal_handler)
