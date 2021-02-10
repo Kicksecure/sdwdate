@@ -1,12 +1,13 @@
 #!/usr/bin/python3 -u
 
-## Copyright (C) 2017 - 2020 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
-## See the file COPYING for copying conditions.
+# Copyright (C) 2017 - 2020 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
+# See the file COPYING for copying conditions.
 
 import os
 import glob
 import re
 from subprocess import check_output
+
 
 def proxy_settings():
     ip_address = '127.0.0.1'
@@ -14,9 +15,11 @@ def proxy_settings():
     settings_path = '/usr/lib/helper-scripts/settings_echo'
 
     if (os.path.exists('/usr/share/whonix') and
-        os.access(settings_path, os.X_OK)):
-            proxy_settings = check_output(settings_path)
-            ip_address = re.search(b'GATEWAY_IP="(.*)"', proxy_settings).group(1).decode()
+            os.access(settings_path, os.X_OK)):
+        proxy_settings = check_output(settings_path)
+        ip_address = re.search(
+            b'GATEWAY_IP="(.*)"',
+            proxy_settings).group(1).decode()
 
     if os.path.exists('/usr/share/whonix'):
         port_number = '9108'
@@ -33,6 +36,7 @@ def proxy_settings():
                     port_number = re.search(r'=(.*)', line).group(1)
 
     return ip_address, port_number
+
 
 if __name__ == "__main__":
     ip_address, port_number = proxy_settings()

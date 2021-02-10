@@ -1,15 +1,15 @@
 #!/usr/bin/python3 -u
 
-## Copyright (C) 2017 - 2020 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
-## See the file COPYING for copying conditions.
+# Copyright (C) 2017 - 2020 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
+# See the file COPYING for copying conditions.
 
-## /usr/lib/python3/dist-packages/sdwdate/config.py 0 test
-## /usr/lib/python3/dist-packages/sdwdate/config.py 1 test
-## /usr/lib/python3/dist-packages/sdwdate/config.py 2 test
+# /usr/lib/python3/dist-packages/sdwdate/config.py 0 test
+# /usr/lib/python3/dist-packages/sdwdate/config.py 1 test
+# /usr/lib/python3/dist-packages/sdwdate/config.py 2 test
 ##
-## /usr/lib/python3/dist-packages/sdwdate/config.py 0 production
-## /usr/lib/python3/dist-packages/sdwdate/config.py 1 production
-## /usr/lib/python3/dist-packages/sdwdate/config.py 2 production
+# /usr/lib/python3/dist-packages/sdwdate/config.py 0 production
+# /usr/lib/python3/dist-packages/sdwdate/config.py 1 production
+# /usr/lib/python3/dist-packages/sdwdate/config.py 2 production
 
 import os
 import sys
@@ -17,18 +17,19 @@ import glob
 import re
 import random
 
+
 def sort_pool(pool, mode):
-    ## Check number of multi-line pool.
+    # Check number of multi-line pool.
     number_of_pool_multi = 0
     for i in range(len(pool)):
         if pool[i] == ('['):
             number_of_pool_multi += 1
 
-    ## Dynamically create multi-line lists.
+    # Dynamically create multi-line lists.
     multi_list_url = [[] for i in range(number_of_pool_multi)]
     multi_list_comment = [[] for i in range(number_of_pool_multi)]
 
-    ## Sort...
+    # Sort...
     multi_line = False
     multi_index = 0
     pool_single_url = []
@@ -41,13 +42,13 @@ def sort_pool(pool, mode):
 
         elif multi_line and pool[i].startswith('"'):
             url = re.search(r'"(.*)#', pool[i])
-            if url != None:
+            if url is not None:
                 if mode == 'production':
                     multi_list_url[multi_index].append(url.group(1))
                 elif mode == 'test':
                     pool_single_url.append(url.group(1))
             comment = re.search(r'#(.*)"', pool[i])
-            if comment != None:
+            if comment is not None:
                 if mode == 'production':
                     multi_list_comment[multi_index].append(comment.group(1))
                 elif mode == 'test':
@@ -58,23 +59,25 @@ def sort_pool(pool, mode):
 
         elif pool[i].startswith('"'):
             url = re.search(r'"(.*)#', pool[i])
-            if url != None:
+            if url is not None:
                 pool_single_url.append(url.group(1))
             comment = re.search(r'#(.*)"', pool[i])
-            if comment != None:
+            if comment is not None:
                 pool_single_comment.append(comment.group(1))
 
-    ## Pick a random url in each multi-line pool,
-    ## append it to single url pool.
+    # Pick a random url in each multi-line pool,
+    # append it to single url pool.
     for i in range(number_of_pool_multi):
         if mode == 'production':
-            single_ulr_index = random.sample(range(len(multi_list_url[i])), 1)[0]
+            single_ulr_index = random.sample(
+                range(len(multi_list_url[i])), 1)[0]
             single_url = multi_list_url[i][single_ulr_index]
             single_comment = multi_list_comment[i][single_ulr_index]
             pool_single_url.append(single_url)
             pool_single_comment.append(single_comment)
 
     return(pool_single_url, pool_single_comment)
+
 
 def read_pools(pool, mode):
     SDWDATE_POOL_ZERO = False
@@ -121,7 +124,8 @@ def read_pools(pool, mode):
                             pool_three.append(line)
 
             if not conf_found:
-                print('No valid file found in user configuration folder "/etc/sdwdate.d".')
+                print(
+                    'No valid file found in user configuration folder "/etc/sdwdate.d".')
 
         else:
             print('No file found in user configuration folder "/etc/sdwdate.d".')
@@ -130,7 +134,7 @@ def read_pools(pool, mode):
         print('User configuration folder "/etc/sdwdate.d" does not exist.')
 
     pool_one_url, pool_one_comment = sort_pool(pool_one, mode)
-    pool_two_url , pool_two_comment = sort_pool(pool_two, mode)
+    pool_two_url, pool_two_comment = sort_pool(pool_two, mode)
     pool_three_url, pool_three_comment = sort_pool(pool_three, mode)
 
     pool_url = [pool_one_url, pool_two_url, pool_three_url]
