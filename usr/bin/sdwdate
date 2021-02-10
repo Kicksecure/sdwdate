@@ -332,9 +332,9 @@ class Sdwdate:
         """
         returned_error = "timeout"
         if (
-            pools[0] == returned_error
-            and pools[1] == returned_error
-            and pools[2] == returned_error
+                pools[0] == returned_error
+                and pools[1] == returned_error
+                and pools[2] == returned_error
         ):
             return True
         return False
