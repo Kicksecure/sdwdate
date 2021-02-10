@@ -383,7 +383,7 @@ class Sdwdate(object):
             return True
         return False
 
-    def check_remote(self, remote, stdout, stderr, took_time, comment, i):
+    def check_remote(self, remote, stdout, stderr, took_time, timeout_status, comment, i):
         """
         Check returned stdout. True if numeric.
         """
@@ -416,7 +416,10 @@ class Sdwdate(object):
             time_diff_lag_cleaned_float = \
                 round(time_diff_lag_cleaned_float, 2)
         except BaseException:
-            message = "* status: False"
+            if timeout_status == "timeout":
+                message = "* status: Timeout"
+            else:
+                message = "* status: False"
             LOGGER.info(message)
             message = "* took_time     : " + str(took_time) + " second(s)"
             LOGGER.info(message)
@@ -960,8 +963,8 @@ class Sdwdate(object):
                 returned_url_item_stdout = self.list_of_stdout[i]
                 returned_url_item_stderr = self.list_of_stderr[i]
                 returned_url_item_took_time = self.list_of_took_time[i]
-                # returned_url_item_took_timeout_status = \
-                #     self.list_of_timeout_status[i]
+                returned_url_item_took_timeout_status = \
+                    self.list_of_timeout_status[i]
                 returned_url_item_comment = self.get_comment(
                     returned_url_item_url)
 
@@ -976,6 +979,7 @@ class Sdwdate(object):
                         returned_url_item_stdout,
                         returned_url_item_stderr,
                         returned_url_item_took_time,
+                        returned_url_item_took_timeout_status,
                         returned_url_item_comment,
                         i,
                     )
