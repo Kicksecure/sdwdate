@@ -65,40 +65,32 @@ def static_time_sanity_check(unixtime_to_validate):
         p = subprocess.Popen("/usr/bin/minimum-unixtime-show", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = p.communicate()
 
-        minimum_unixtime = stdout
+        minimum_unixtime = stdout.decode()
         minimum_unixtime = int(minimum_unixtime)
-        minimum_time_human_readable = stderr
+        minimum_time_human_readable = stderr.decode()
 
         if unixtime_to_validate < minimum_unixtime:
             status = 'slow'
-            time_one = str(time_to_validate_human_readable)
-            time_two = str(minimum_time_human_readable)
         elif unixtime_to_validate > expiration_unixtime:
             status = 'fast'
-            time_one = str(time_to_validate_human_readable)
-            time_two = str(expiration_time)
         else:
             status = 'sane'
-            time_one = str(time_to_validate_human_readable)
-            time_two = ''
 
         error = "none"
 
-        return status, time_one, time_two, error
+        return status, error
     except:
         status = "error"
         time_one = ""
         time_two = str(expiration_time)
         error = str(sys.exc_info()[0])
-        return status, time_one, time_two, error
+        return status, error
 
 
 
 if __name__ == "__main__":
     unixtime = int(sys.argv[1])
     time_consensus_sanity_check(unixtime)
-    status, time_one, time_two, error = static_time_sanity_check(unixtime)
+    status, error = static_time_sanity_check(unixtime)
     print("status: " + status)
-    print("time_one: " + time_one)
-    print("time_two: " + time_two)
     print("error: " + error)

@@ -350,7 +350,7 @@ class Sdwdate:
             time_diff_lag_cleaned_float = 0.0
             return False, half_took_time_float, time_diff_lag_cleaned_float
 
-        timesanitycheck_status_static, time_one, time_two, timesanitycheck_error_static = static_time_sanity_check(remote_unixtime)
+        timesanitycheck_status_static, timesanitycheck_error_static = static_time_sanity_check(remote_unixtime)
 
         consensus_status, consensus_error, consensus_valid_after_str, consensus_valid_until_str = time_consensus_sanity_check(remote_unixtime)
 
@@ -360,14 +360,21 @@ class Sdwdate:
         logger.info(message)
         message = "* stderr: " + str(stderr)
         logger.info(message)
-        message = "* remote_unixtime: " + str(remote_unixtime)
+
+        message = "* replay_protection_unixtime: " + time_replay_protection_minium_unixtime_str
         logger.info(message)
-        message = "* consensus/valid-after: " + consensus_valid_after_str
+        message = "* remote_unixtime           : " + str(remote_unixtime)
         logger.info(message)
-        message = "* remote_time          : " + remote_time
+
+        message = "* consensus/valid-after           : " + consensus_valid_after_str
         logger.info(message)
-        message = "* consensus/valid-until: " + consensus_valid_until_str
+        message = "* replay_protection_time          : " + time_replay_protection_minium_unixtime_human_readable
         logger.info(message)
+        message = "* remote_time                     : " + remote_time
+        logger.info(message)
+        message = "* consensus/valid-until           : " + consensus_valid_until_str
+        logger.info(message)
+
         message = "* time_diff_raw        : " + str(time_diff_raw_int) + " second(s)"
         logger.info(message)
         message = "* time_diff_lag_cleaned: " + str(time_diff_lag_cleaned_float) + " second(s)"
@@ -377,18 +384,18 @@ class Sdwdate:
         remote_status = "fallback"
 
         if timesanitycheck_status_static == 'sane':
-            message = "* Static Time Sanity Check: sane"
+            message = "* Time Replay Protection         : sane"
             logger.info(message)
         elif timesanitycheck_status_static == 'slow':
-            message = "* Static Time Sanity Check: slow"
+            message = "* Time Replay Protection         : slow"
             logger.info(message)
             remote_status = "False"
         elif timesanitycheck_status_static == 'fast':
-            message = "* Static Time Sanity Check: fast"
+            message = "* Time Replay Protection         : fast"
             logger.info(message)
             remote_status = "False"
         elif timesanitycheck_status_static == 'error':
-            message = "* Static Time Sanity Check: error: " + timesanitycheck_error_static
+            message = "* Static Time Sanity Check       : error:" + timesanitycheck_error_static
             logger.info(message)
             remote_status = "False"
 
@@ -517,7 +524,7 @@ class Sdwdate:
         logger.info(message)
         message = "new_unixtime              : " + new_unixtime_str
         logger.info(message)
-        message = "replay_protection_human_readable: " + time_replay_protection_minium_unixtime_human_readable
+        message = "replay_protection_time          : " + time_replay_protection_minium_unixtime_human_readable
         logger.info(message)
         message = "old_unixtime_human_readable     : " + old_unixtime_human_readable
         logger.info(message)
@@ -718,8 +725,6 @@ class Sdwdate:
 
                 pool.url_random_pool.append(pool.url[url_index])
                 self.list_of_url_random_requested.append(pool.url[url_index])
-
-            print("len(self.list_of_url_random_requested): " + str(len(self.list_of_url_random_requested)))
 
             if len(self.list_of_url_random_requested) <= 0:
                 message = self._('list_not_built') + self._('restart')
