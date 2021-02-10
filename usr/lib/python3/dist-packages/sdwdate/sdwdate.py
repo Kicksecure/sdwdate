@@ -430,13 +430,13 @@ class Sdwdate(object):
 
         timesanitycheck_status_static, \
             timesanitycheck_error_static = \
-                static_time_sanity_check(remote_unixtime)
+            static_time_sanity_check(remote_unixtime)
 
         consensus_status, \
             consensus_error, \
             consensus_valid_after_str, \
             consensus_valid_until_str = \
-                time_consensus_sanity_check(remote_unixtime)
+            time_consensus_sanity_check(remote_unixtime)
 
         message = "* took_time     : " + str(took_time) + " second(s)"
         LOGGER.info(message)
@@ -615,16 +615,16 @@ class Sdwdate(object):
         # Example time_now_utc_unixtime:
         # 1611095028
         with open(self.sdwdate_time_replay_protection_utc_unixtime, "w") \
-            as trpuu:
-                message = (
-                    "Time Replay Protection: write "
-                    + str(time_now_utc_unixtime)
-                    + " to file: "
-                    + self.sdwdate_time_replay_protection_utc_unixtime
-                )
-                LOGGER.info(message)
-                trpuu.write(str(time_now_utc_unixtime))
-                trpuu.close()
+                as trpuu:
+            message = (
+                "Time Replay Protection: write "
+                + str(time_now_utc_unixtime)
+                + " to file: "
+                + self.sdwdate_time_replay_protection_utc_unixtime
+            )
+            LOGGER.info(message)
+            trpuu.write(str(time_now_utc_unixtime))
+            trpuu.close()
         with open(
             self.sdwdate_time_replay_protection_utc_humanreadable, "w"
         ) as trpuh:
@@ -749,8 +749,8 @@ class Sdwdate(object):
             self.median_diff_raw_in_seconds + seconds_to_add_or_subtract
         )
         # self.new_diff_in_seconds = (
-            # self.median_diff_lag_cleaned_in_seconds + \
-                # seconds_to_add_or_subtract
+        # self.median_diff_lag_cleaned_in_seconds + \
+        # seconds_to_add_or_subtract
         # )
 
         # Consumed by run_sclockadj.
@@ -940,8 +940,8 @@ class Sdwdate(object):
                 self.list_of_timeout_status, \
                 self.list_of_exit_codes, \
                 = get_time_from_servers(
-                    self.list_of_url_random_requested, \
-                    self.proxy_ip, \
+                    self.list_of_url_random_requested,
+                    self.proxy_ip,
                     self.proxy_port
                 )
 
@@ -1056,7 +1056,7 @@ class Sdwdate(object):
                             (pool_number, url, web_time,
                              request_took_time_item, pool_diff,
                              time_diff_lag_cleaned_int
-                            )
+                             )
                         )
                         LOGGER.info(message)
 
