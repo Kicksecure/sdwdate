@@ -699,6 +699,7 @@ class Sdwdate(object):
         if not status_first_success:
             file_object = open(self.status_first_success_path, "w")
             file_object.close()
+
         if clock_jump_do:
             # use missing_ok=True in python 3.8
             if os.path.isfile(self.clock_jump_do_once_file):
