@@ -113,7 +113,7 @@ class Sdwdate:
             print(
                 "ERROR: sdwdate_status_files_folder: " +
                 sdwdate_status_files_folder)
-            reason = "home folder does not end with /sdwdate"
+            #reason = "home folder does not end with /sdwdate"
             EXIT_CODE = 1
             # Not available at this point.
             # sdwdate.exit_handler(EXIT_CODE, reason)
@@ -660,7 +660,8 @@ class Sdwdate:
         message = "ok"
         return True, message
 
-    def randomize_time_config(self):
+    @staticmethod
+    def randomize_time_config():
         status = False
         if not os.path.exists("/etc/sdwdate.d/"):
             return status
@@ -679,7 +680,6 @@ class Sdwdate:
         if sdwdate.randomize_time_config():
             LOGGER.info("Randomizing nanoseconds.")
             nanoseconds_to_add_or_subtract = randint(0, self.range_nanoseconds)
-            signs = ["+", "-"]
             sign = randint(0, 1)
             seconds_to_add_or_subtract = (
                 float(nanoseconds_to_add_or_subtract) / 1000000000
@@ -1003,7 +1003,7 @@ class Sdwdate:
         status = "success"
         return icon, status, message
 
-    def wait_sleep(self, icon, status, message):
+    def wait_sleep(self, icon, message):
         # If we make the sleep period configurable one day, we need to
         # advice the user to also adjust WatchdogSec= in sdwdate's systemd
         # unit file.
@@ -1200,7 +1200,6 @@ if __name__ == "__main__":
 
         sdwdate.wait_sleep(
             SDWDATE_ICON_FL,
-            SDWDATE_STATUS_FL,
             SDWDATE_MESSAGE_FL)
         sdwdate.check_clock_skew()
         sdwdate.kill_sclockadj()
