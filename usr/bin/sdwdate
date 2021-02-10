@@ -4,13 +4,6 @@
 # See the file COPYING for copying conditions.
 
 from __future__ import print_function
-import sdnotify
-from guimessages.translations import _translations
-from sdwdate.proxy_settings import proxy_settings
-from sdwdate.timesanitycheck import time_consensus_sanity_check
-from sdwdate.timesanitycheck import static_time_sanity_check
-from sdwdate.config import read_pools
-from sdwdate.remote_times import get_time_from_servers
 from pathlib import Path
 import re
 import json
@@ -25,6 +18,13 @@ import os
 import signal
 import logging
 import sys
+import sdnotify
+from guimessages.translations import _translations
+from sdwdate.proxy_settings import proxy_settings
+from sdwdate.timesanitycheck import time_consensus_sanity_check
+from sdwdate.timesanitycheck import static_time_sanity_check
+from sdwdate.config import read_pools
+from sdwdate.remote_times import get_time_from_servers
 
 sys.dont_write_bytecode = True
 
