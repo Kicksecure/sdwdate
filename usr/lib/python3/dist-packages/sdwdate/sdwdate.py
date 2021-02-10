@@ -1051,15 +1051,17 @@ class Sdwdate(object):
                         self.pools_lag_cleaned_diff.append(
                             time_diff_lag_cleaned_int)
 
-                        message = (
-                            "pool %s: %s, web time: %s, took_time: %s \
-                            seconds, time_diff_raw: %s seconds, \
-                            time_diff_lag_cleaned: %s" %
-                            (pool_number, url, web_time,
-                             request_took_time_item, pool_diff,
-                             time_diff_lag_cleaned_int
-                             )
-                        )
+                        message = ""
+                        message += "pool " + str(pool_number)
+                        message += ": " + url + ", "
+                        message += "web_time: " + web_time + ","
+                        message += " took_time: "
+                        message += str(request_took_time_item)
+                        message += " seconds,"
+                        message += " time_diff_raw: " + str(pool_diff)
+                        message += " seconds,"
+                        message += " time_diff_lag_cleaned: "
+                        message += str(time_diff_lag_cleaned_int) + " seconds"
                         LOGGER.info(message)
 
             # message = "len(self.valid_urls): " + str(len(self.valid_urls))
