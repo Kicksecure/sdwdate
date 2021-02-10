@@ -649,15 +649,15 @@ class Sdwdate:
             sdwdate.run_sclockadj()
 
         if not status_first_success:
-            f = open(sdwdate.status_first_success_path, "w")
-            f.close()
+            file_object = open(sdwdate.status_first_success_path, "w")
+            file_object.close()
         if clock_jump_do:
             # use missing_ok=True in python 3.8
             if os.path.isfile(sdwdate.clock_jump_do_once_file):
                 os.remove(sdwdate.clock_jump_do_once_file)
 
-        f = open(sdwdate.status_success_path, "w")
-        f.close()
+        file_object = open(sdwdate.status_success_path, "w")
+        file_object.close()
         message = "ok"
         return True, message
 
@@ -1048,8 +1048,8 @@ class Sdwdate:
         nanoseconds = randint(0, range_nanoseconds)
 
         if self.sleep_time_seconds >= 10:
-            f = open(sdwdate.sleep_long_file_path, "w")
-            f.close()
+            file_object = open(sdwdate.sleep_long_file_path, "w")
+            file_object.close()
 
         self.unixtime_before_sleep = int(time.time())
 
@@ -1100,17 +1100,17 @@ if __name__ == "__main__":
         "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
-    console_handler = logging.StreamHandler()
-    console_handler.setFormatter(formatter)
-    logger.addHandler(console_handler)
+    CONSOLE_HANDLER = logging.StreamHandler()
+    CONSOLE_HANDLER.setFormatter(formatter)
+    logger.addHandler(CONSOLE_HANDLER)
 
-    self_pid = os.getpid()
-    pid_message = "sdwdate started. PID: %s" % self_pid
-    logger.info(pid_message)
+    MY_PID = os.getpid()
+    PID_MESSAGE = "sdwdate started. PID: %s" % MY_PID
+    logger.info(PID_MESSAGE)
 
     if os.geteuid() == 0:
-        do_not_run_as_root_message = "Exit error... sdwdate should not be run as root!"
-        logger.error(do_not_run_as_root_message)
+        DO_NOT_RUN_AS_ROOT_MESSAGE = "Exit error... sdwdate should not be run as root!"
+        logger.error(DO_NOT_RUN_AS_ROOT_MESSAGE)
         reason = "sdwdate should not be run as root."
         EXIT_CODE = 1
         sdwdate.exit_handler(EXIT_CODE, reason)
@@ -1196,8 +1196,8 @@ if __name__ == "__main__":
                 SDWDATE_MESSAGE_FL = message_set_new_time
 
         if SDWDATE_ICON_FL == "error":
-            f = open(sdwdate.fail_file_path, "w")
-            f.close()
+            file_object = open(sdwdate.fail_file_path, "w")
+            file_object.close()
 
         sdwdate.wait_sleep(
             SDWDATE_ICON_FL,
