@@ -165,6 +165,18 @@ class Sdwdate:
 
         self.proxy_ip, self.proxy_port = proxy_settings()
 
+        self.time_replay_protection_minium_unixtime_int, \
+            self.time_replay_protection_minium_unixtime_human_readable = (
+                self.time_replay_protection_file_read()
+            )
+
+        self.time_replay_protection_minium_unixtime_human_readable = \
+            self.time_replay_protection_minium_unixtime_human_readable.strip()
+
+        self.time_replay_protection_minium_unixtime_str = str(
+            self.time_replay_protection_minium_unixtime_int
+        )
+
     def allowed_failures_config(self):
         failure_ratio = None
         if os.path.exists("/etc/sdwdate.d/"):
@@ -353,8 +365,7 @@ class Sdwdate:
             return True
         return False
 
-    @staticmethod
-    def check_remote(remote, stdout, stderr, took_time, comment, i):
+    def check_remote(self, remote, stdout, stderr, took_time, comment, i):
         """
         Check returned stdout. True if numeric.
         """
@@ -414,7 +425,7 @@ class Sdwdate:
 
         message = (
             "* replay_protection_unixtime: "
-            + time_replay_protection_minium_unixtime_str
+            + self.time_replay_protection_minium_unixtime_str
         )
         LOGGER.info(message)
         message = "* remote_unixtime           : " + str(remote_unixtime)
@@ -424,7 +435,7 @@ class Sdwdate:
         LOGGER.info(message)
         message = (
             "* replay_protection_time          : "
-            + time_replay_protection_minium_unixtime_human_readable
+            + self.time_replay_protection_minium_unixtime_human_readable
         )
         LOGGER.info(message)
         message = "* remote_time                     : " + remote_time
@@ -617,7 +628,7 @@ class Sdwdate:
             new_unixtime_int)
 
         message = ("replay_protection_unixtime: " +
-                   time_replay_protection_minium_unixtime_str)
+                   self.time_replay_protection_minium_unixtime_str)
         LOGGER.info(message)
         message = "old_unixtime              : " + old_unixtime_str
         LOGGER.info(message)
@@ -625,7 +636,7 @@ class Sdwdate:
         LOGGER.info(message)
         message = (
             "replay_protection_time          : "
-            + time_replay_protection_minium_unixtime_human_readable
+            + self.time_replay_protection_minium_unixtime_human_readable
         )
         LOGGER.info(message)
         message = "old_unixtime_human_readable     : " + old_unixtime_human_readable
@@ -633,7 +644,7 @@ class Sdwdate:
         message = "new_unixtime_human_readable     : " + new_unixtime_human_readable
         LOGGER.info(message)
 
-        if new_unixtime_int < time_replay_protection_minium_unixtime_int:
+        if new_unixtime_int < self.time_replay_protection_minium_unixtime_int:
             message = "Time Replay Protection: ERROR. See above. new_unixtime earlier than time_replay_protection_minium_unixtime_int."
             LOGGER.error(message)
             message = "Time Replay Protection: ERROR. More more information, see: sdwdate-gui -> right click -> Open sdwdate's log"
@@ -1165,18 +1176,6 @@ def main():
         # x = pool.allowed_failures()
         # print("main allowed_failures: " + str(x))
         # sys.exit(0)
-
-        time_replay_protection_minium_unixtime_int, \
-            time_replay_protection_minium_unixtime_human_readable = (
-                sdwdate.time_replay_protection_file_read()
-            )
-
-        time_replay_protection_minium_unixtime_human_readable = \
-            time_replay_protection_minium_unixtime_human_readable.strip()
-
-        time_replay_protection_minium_unixtime_str = str(
-            time_replay_protection_minium_unixtime_int
-        )
 
         SDWDATE_ICON_FL, SDWDATE_STATUS_FL, SDWDATE_MESSAGE_FL = (
             sdwdate.sdwdate_fetch_loop()
