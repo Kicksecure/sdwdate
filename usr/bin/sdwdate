@@ -878,7 +878,7 @@ class Sdwdate:
                 returned_url_item_stdout = self.list_of_stdout[i]
                 returned_url_item_stderr = self.list_of_stderr[i]
                 returned_url_item_took_time = self.list_of_took_time[i]
-                returned_url_item_took_timeout_status = self.list_of_timeout_status[i]
+                # returned_url_item_took_timeout_status = self.list_of_timeout_status[i]
                 returned_url_item_comment = self.get_comment(
                     returned_url_item_url)
 
