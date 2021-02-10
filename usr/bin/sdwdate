@@ -3,6 +3,7 @@
 # Copyright (C) 2017 - 2020 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
 # See the file COPYING for copying conditions.
 
+from __future__ import print_function
 import sdnotify
 from guimessages.translations import _translations
 from sdwdate.proxy_settings import proxy_settings
@@ -12,7 +13,6 @@ from sdwdate.config import read_pools
 from sdwdate.remote_times import get_time_from_servers
 from pathlib import Path
 from shutil import rmtree
-from __future__ import print_function
 import re
 import json
 import subprocess
@@ -175,12 +175,12 @@ class Sdwdate:
 
         translations_path = "/usr/share/translations/sdwdate.yaml"
         translation = _translations(translations_path, "sdwdate")
-        self._ = translation.gettext
+        self.translate_object = translation.gettext
 
         self.proxy_ip, self.proxy_port = proxy_settings()
 
     def signal_handler(self, signum, frame):
-        message = sdwdate._("sigterm")
+        message = sdwdate.translate_object("sigterm")
         stripped_message = sdwdate.strip_html(message)
         logger.info(stripped_message)
         reason = "signal_handler called"
@@ -779,8 +779,8 @@ class Sdwdate:
         message = "Start fetching remote times."
         logger.info(message)
 
-        fetching_msg = self._("fetching")
-        restricted_msg = self._("restricted")
+        fetching_msg = self.translate_object("fetching")
+        restricted_msg = self.translate_object("restricted")
 
         # message = "restricted_msg: " + restricted_msg
         # logger.info(message)
@@ -826,8 +826,8 @@ class Sdwdate:
                             "pool "
                             + str(pool_number)
                             + ": "
-                            + self._("no_valid_time")
-                            + self._("restart")
+                            + self.translate_object("no_valid_time")
+                            + self.translate_object("restart")
                         )
                         icon = "error"
                         status = "error"
@@ -854,7 +854,7 @@ class Sdwdate:
                 self.list_of_url_random_requested.append(pool.url[url_index])
 
             if len(self.list_of_url_random_requested) <= 0:
-                message = self._("list_not_built") + self._("restart")
+                message = self.translate_object("list_not_built") + self.translate_object("restart")
                 icon = "error"
                 status = "error"
                 return icon, status, message
@@ -866,7 +866,7 @@ class Sdwdate:
                 self.list_of_url_random_requested, self.proxy_ip, self.proxy_port)
 
             if len(self.list_of_urls_returned) == 0:
-                message = self._("no_value_returned") + self._("restart")
+                message = self.translate_object("no_value_returned") + self.translate_object("restart")
                 icon = "error"
                 status = "error"
                 return icon, status, message
@@ -915,7 +915,7 @@ class Sdwdate:
             if self.iteration >= 2:
                 if len(self.list_of_stdout) >= 3:
                     if self.general_timeout_error(self.list_of_timeout_status):
-                        message = self._("general_timeout_error")
+                        message = self.translate_object("general_timeout_error")
                         icon = "error"
                         status = "error"
                         return icon, status, message
@@ -976,7 +976,7 @@ class Sdwdate:
         logger.info(message)
         logger.info("")
 
-        message = self._("success")
+        message = self.translate_object("success")
         icon = "success"
         status = "success"
         return icon, status, message
@@ -998,9 +998,9 @@ class Sdwdate:
         message = (
             message
             + " "
-            + sdwdate._("sleeping")
+            + sdwdate.translate_object("sleeping")
             + str(sleep_time_minutes_rounded)
-            + sdwdate._("minutes")
+            + sdwdate.translate_object("minutes")
         )
 
         stripped_message = sdwdate.strip_html(message)
@@ -1150,29 +1150,26 @@ if __name__ == "__main__":
             time_replay_protection_minium_unixtime_int
         )
 
-        sdwdate_icon_fl, sdwdate_status_fl, sdwdate_message_fl = (
+        SDWDATE_ICON_FL, SDWDATE_STATUS_FL, SDWDATE_MESSAGE_FL = (
             sdwdate.sdwdate_fetch_loop()
         )
-        icon = sdwdate_icon_fl
-        status = sdwdate_status_fl
-        message = sdwdate_message_fl
 
         n.notify("WATCHDOG=1")
 
-        if status == "success":
+        if SDWDATE_STATUS_FL == "success":
             sdwdate.build_median()
             sdwdate.add_or_subtract_nanoseconds()
             status_set_net_time, message_set_new_time = sdwdate.set_new_time()
             if status_set_net_time:
                 sdwdate.time_replay_protection_file_write()
             else:
-                icon = "error"
-                message = message_set_new_time
+                SDWDATE_ICON_FL = "error"
+                SDWDATE_MESSAGE_FL = message_set_new_time
 
-        if icon == "error":
+        if SDWDATE_ICON_FL == "error":
             f = open(sdwdate.fail_file_path, "w")
             f.close()
 
-        sdwdate.wait_sleep(icon, status, message)
+        sdwdate.wait_sleep(SDWDATE_ICON_FL, SDWDATE_STATUS_FL, SDWDATE_MESSAGE_FL)
         sdwdate.check_clock_skew()
         sdwdate.kill_sclockadj()
