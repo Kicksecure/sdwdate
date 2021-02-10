@@ -1,3 +1,23 @@
+commit 5f06916ae001bd5f5aaa9a5f087f2bfe6e021024
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 07:16:27 2021 -0500
+
+    refactoring; output
+
+commit 7098e5e0b21d5b78c2f9c7a3cce6e41863d066ab
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 06:44:01 2021 -0500
+
+    show how long sdwdate will sleep in minutes
+    
+    for better sdwdate-gui and log readability
+
+commit f4859862be6455d5e892b730e9115be26ecc83cd
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Feb 9 05:46:25 2021 -0500
+
+    bumped changelog version
+
 commit 2563f467cd7040de984bedfabbb9474187a87c85
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue Feb 9 05:46:23 2021 -0500
