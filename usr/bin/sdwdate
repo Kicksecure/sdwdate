@@ -12,6 +12,7 @@ from sdwdate.config import read_pools
 from sdwdate.remote_times import get_time_from_servers
 from pathlib import Path
 from shutil import rmtree
+from __future__ import print_function
 import re
 import json
 import subprocess
@@ -698,7 +699,7 @@ class Sdwdate:
         if self.new_diff_in_seconds == 0:
             message = "Time difference = 0. Not setting time."
             logger.info(message)
-            return True
+            return
         sclockad_cmd = ('/usr/lib/sdwdate/sclockadj "' +
                         str(self.new_diff_in_nanoseconds) + '"')
         message = (
@@ -735,7 +736,7 @@ class Sdwdate:
         if self.new_diff_in_seconds == 0:
             message = "Time difference = 0. Not setting time."
             logger.info(message)
-            return True
+            return
 
         # Set new time.
         cmd = (
@@ -757,7 +758,7 @@ class Sdwdate:
         message = "/bin/date output: %s" % joint_message
         logger.info(message)
 
-        if not bin_date_status.returncode == 0:
+        if bin_date_status.returncode != 0:
             message = "/bin/date returncode: %s" % str(
                 bin_date_status.returncode)
             logger.error(message)
