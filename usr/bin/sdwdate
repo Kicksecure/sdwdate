@@ -46,31 +46,11 @@ class TimeSourcePool:
         self.already_picked_index = []
         self.done = False
 
-    @property
-    def url_range(self):
-        return len(self.url)
-
-    def allowed_failures(self):
-        failure_ratio = None
-        if os.path.exists("/etc/sdwdate.d/"):
-            files = sorted(glob.glob("/etc/sdwdate.d/*.conf"))
-            for f in files:
-                with open(f) as conf:
-                    lines = conf.readlines()
-                for line in lines:
-                    if line.startswith("MAX_FAILURE_RATIO"):
-                        failure_ratio = re.search(r"=(.*)", line).group(1)
-        if failure_ratio is None:
-            failure_ratio = 0.34
-        x = float(len(self.url))
-        y = float(failure_ratio)
-        z = x * y
-        allowed_failures_value = int(z)
-        return allowed_failures_value
-
 
 class Sdwdate:
     def __init__(self):
+        self.failure_ratio_from_config = self.allowed_failures_config()
+
         self.iteration = 0
         self.number_of_pools = 3
         POOL_RANGE = range(self.number_of_pools)
@@ -78,8 +58,13 @@ class Sdwdate:
         for pool_i in POOL_RANGE:
             self.pools.append(TimeSourcePool(pool_i))
 
-        # Could get it here to prevent reading the file in sdwdate_fetch_loop for each Unreachable url.
-        # self.allowed_failures = [TimeSourcePool(pool).allowed_failures for pool in range(self.number_of_pools)]
+        total_number_pool_member = 0
+        for pool_temp in self.pools:
+            total_number_pool_member += len(pool_temp.url)
+
+        self.allowed_failures = self.allowed_failures_calculate(
+            self.failure_ratio_from_config, self.number_of_pools, total_number_pool_member)
+
         self.list_of_urls_returned = []
         self.list_of_url_random_requested = []
         self.valid_urls = []
@@ -180,6 +165,32 @@ class Sdwdate:
         self.translate_object = translation.gettext
 
         self.proxy_ip, self.proxy_port = proxy_settings()
+
+    def allowed_failures_config(self):
+        failure_ratio = None
+        if os.path.exists("/etc/sdwdate.d/"):
+            files = sorted(glob.glob("/etc/sdwdate.d/*.conf"))
+            for f in files:
+                with open(f) as conf:
+                    lines = conf.readlines()
+                for line in lines:
+                    if line.startswith("MAX_FAILURE_RATIO"):
+                        failure_ratio = re.search(r"=(.*)", line).group(1)
+        if failure_ratio is None:
+            failure_ratio = 0.34
+        return failure_ratio
+
+    def allowed_failures_calculate(
+            self,
+            failure_ratio,
+            pools_total_number,
+            number_of_pool_members):
+        x = float(number_of_pool_members)
+        y = float(failure_ratio)
+        z = x * y
+        z = z / pools_total_number
+        allowed_failures_value = int(z)
+        return allowed_failures_value
 
     def signal_handler(self, signum, frame):
         message = sdwdate.translate_object("sigterm")
@@ -813,7 +824,7 @@ class Sdwdate:
             for pool in self.pools:
                 if pool.done:
                     continue
-                pool_size = pool.url_range
+                pool_size = len(pool.url)
                 while True:
                     url_index = random.randrange(0, pool_size)
                     # print("pool_size: " + str(pool_size))
@@ -856,7 +867,8 @@ class Sdwdate:
                 self.list_of_url_random_requested.append(pool.url[url_index])
 
             if len(self.list_of_url_random_requested) <= 0:
-                message = self.translate_object("list_not_built") + self.translate_object("restart")
+                message = self.translate_object(
+                    "list_not_built") + self.translate_object("restart")
                 icon = "error"
                 status = "error"
                 return icon, status, message
@@ -864,11 +876,19 @@ class Sdwdate:
             message = "requested urls %s" % self.list_of_url_random_requested
             logger.info(message)
 
-            self.list_of_urls_returned, self.list_of_stdout, self.list_of_stderr, self.list_of_took_time, self.list_of_timeout_status, self.list_of_exit_codes, = get_time_from_servers(
-                self.list_of_url_random_requested, self.proxy_ip, self.proxy_port)
+            self.list_of_urls_returned, \
+                self.list_of_stdout, \
+                self.list_of_stderr, \
+                self.list_of_took_time, \
+                self.list_of_timeout_status, \
+                self.list_of_exit_codes, \
+                = get_time_from_servers(
+                    self.list_of_url_random_requested, self.proxy_ip, self.proxy_port
+                )
 
             if len(self.list_of_urls_returned) == 0:
-                message = self.translate_object("no_value_returned") + self.translate_object("restart")
+                message = self.translate_object(
+                    "no_value_returned") + self.translate_object("restart")
                 icon = "error"
                 status = "error"
                 return icon, status, message
@@ -917,19 +937,19 @@ class Sdwdate:
             if self.iteration >= 2:
                 if len(self.list_of_stdout) >= 3:
                     if self.general_timeout_error(self.list_of_timeout_status):
-                        message = self.translate_object("general_timeout_error")
+                        message = self.translate_object(
+                            "general_timeout_error")
                         icon = "error"
                         status = "error"
                         return icon, status, message
 
-            failures_allowed_per_pool = pool.allowed_failures()
             message = ""
             message += "failed_urls: "
             message += str(len(self.failed_urls))
             message += " allowed_failures: "
-            message += str(failures_allowed_per_pool)
+            message += str(self.allowed_failures)
             logger.info(message)
-            if len(self.failed_urls) > failures_allowed_per_pool:
+            if len(self.failed_urls) > self.allowed_failures:
                 message = "Maximum allowed number of failures. Giving up."
                 icon = "error"
                 status = "error"
@@ -1146,8 +1166,14 @@ if __name__ == "__main__":
         # print("main allowed_failures: " + str(x))
         # sys.exit(0)
 
-        time_replay_protection_minium_unixtime_int, time_replay_protection_minium_unixtime_human_readable = (
-            sdwdate.time_replay_protection_file_read())
+        time_replay_protection_minium_unixtime_int, \
+            time_replay_protection_minium_unixtime_human_readable = (
+                sdwdate.time_replay_protection_file_read()
+            )
+
+        time_replay_protection_minium_unixtime_human_readable = \
+            time_replay_protection_minium_unixtime_human_readable.strip()
+
         time_replay_protection_minium_unixtime_str = str(
             time_replay_protection_minium_unixtime_int
         )
@@ -1172,6 +1198,9 @@ if __name__ == "__main__":
             f = open(sdwdate.fail_file_path, "w")
             f.close()
 
-        sdwdate.wait_sleep(SDWDATE_ICON_FL, SDWDATE_STATUS_FL, SDWDATE_MESSAGE_FL)
+        sdwdate.wait_sleep(
+            SDWDATE_ICON_FL,
+            SDWDATE_STATUS_FL,
+            SDWDATE_MESSAGE_FL)
         sdwdate.check_clock_skew()
         sdwdate.kill_sclockadj()
