@@ -248,21 +248,21 @@ class Sdwdate:
         message = ""
         previous_messsage = ""
         sdwdate = Sdwdate()
-        loop_counter = 0
-        loop_max = 10000
+        LOOP_COUNTER = 0
+        LOOP_MAX = 10000
         preparation_sleep_seconds = 0
         while True:
             n.notify("WATCHDOG=1")
-            if loop_counter >= loop_max:
-                loop_counter = 0
-            loop_counter += 1
+            if LOOP_COUNTER >= LOOP_MAX:
+                LOOP_COUNTER = 0
+            LOOP_COUNTER += 1
             msg = (
                 "STATUS=Running sdwdate preparation loop. preparation_sleep_seconds: " +
                 str(preparation_sleep_seconds) +
                 " iteration: " +
-                str(loop_counter) +
+                str(LOOP_COUNTER) +
                 " / " +
-                str(loop_max))
+                str(LOOP_MAX))
             n.notify(msg)
 
             # Wait one second after first failure. Two at second failure etc.
@@ -1102,20 +1102,20 @@ if __name__ == "__main__":
     )
     logger.info(proxy_message)
 
-    loop_counter = 0
-    loop_max = 10000
-    retry_on_error_counter = 0
+    LOOP_COUNTER = 0
+    LOOP_MAX = 10000
+    RETRY_ON_ERROR_COUNTER = 0
 
     while True:
-        if loop_counter >= loop_max:
-            loop_counter = 0
-        loop_counter += 1
+        if LOOP_COUNTER >= LOOP_MAX:
+            LOOP_COUNTER = 0
+        LOOP_COUNTER += 1
 
         msg = (
             "Running sdwdate main loop. iteration: "
-            + str(loop_counter)
+            + str(LOOP_COUNTER)
             + " / "
-            + str(loop_max)
+            + str(LOOP_MAX)
         )
         logger.info(msg)
 
@@ -1123,9 +1123,9 @@ if __name__ == "__main__":
 
         msg = (
             "STATUS=Running sdwdate main loop. iteration: "
-            + str(loop_counter)
+            + str(LOOP_COUNTER)
             + " / "
-            + str(loop_max)
+            + str(LOOP_MAX)
         )
         n.notify(msg)
         n.notify("WATCHDOG=1")
