@@ -474,8 +474,8 @@ class Sdwdate:
 
         if remote_status == "True":
             return True, half_took_time_float, time_diff_lag_cleaned_float
-        else:
-            return False, half_took_time_float, time_diff_lag_cleaned_float
+
+        return False, half_took_time_float, time_diff_lag_cleaned_float
 
     def get_comment(self, remote):
         """ For logging the comments, get the index of the url
