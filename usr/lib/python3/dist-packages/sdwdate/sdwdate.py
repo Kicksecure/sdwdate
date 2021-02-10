@@ -181,8 +181,8 @@ class Sdwdate(object):
         failure_ratio = None
         if os.path.exists("/etc/sdwdate.d/"):
             files = sorted(glob.glob("/etc/sdwdate.d/*.conf"))
-            for f in files:
-                with open(f) as conf:
+            for file_item in files:
+                with open(file_item) as conf:
                     lines = conf.readlines()
                 for line in lines:
                     if line.startswith("MAX_FAILURE_RATIO"):
@@ -196,11 +196,9 @@ class Sdwdate(object):
             failure_ratio,
             pools_total_number,
             number_of_pool_members):
-        x = float(number_of_pool_members)
-        y = float(failure_ratio)
-        z = x * y
-        z = z / pools_total_number
-        allowed_failures_value = int(z)
+        temp = float(number_of_pool_members) * float(failure_ratio)
+        allowed_failures_value = temp / pools_total_number
+        allowed_failures_value = int(allowed_failures_value)
         return allowed_failures_value
 
     def signal_handler(self, signum, frame):
@@ -250,9 +248,9 @@ class Sdwdate(object):
         self.status["icon"] = icon
         self.status["message"] = msg
         try:
-            with open(self.status_file_path, "w") as f:
-                json.dump(self.status, f)
-                f.close()
+            with open(self.status_file_path, "w") as file_object:
+                json.dump(self.status, file_object)
+                file_object.close()
         except BaseException:
             error_msg = "Unexpected error: " + str(sys.exc_info()[0])
             print(error_msg)
@@ -558,12 +556,12 @@ class Sdwdate(object):
         LOGGER.info(message)
 
     def time_replay_protection_file_read(self):
-        p = subprocess.Popen(
+        process = subprocess.Popen(
             "/usr/bin/minimum-unixtime-show",
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
-        stdout, stderr = p.communicate()
+        stdout, stderr = process.communicate()
         unixtime = int(stdout)
         time_human_readable = stderr.decode("utf-8")
         # Relay check to avoid false-positives due to sdwdate inaccuracy.
@@ -675,8 +673,8 @@ class Sdwdate(object):
         if not os.path.exists("/etc/sdwdate.d/"):
             return status
         files = sorted(glob.glob("/etc/sdwdate.d/*.conf"))
-        for f in files:
-            with open(f) as conf:
+        for file_item in files:
+            with open(file_item) as conf:
                 lines = conf.readlines()
                 for line in lines:
                     if line.startswith("RANDOMIZE_TIME=true"):
