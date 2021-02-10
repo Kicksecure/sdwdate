@@ -8,7 +8,7 @@ from pathlib import Path
 import re
 import json
 import subprocess
-from subprocess import Popen, call, PIPE, check_output
+from subprocess import Popen
 from random import randint
 import random
 from datetime import datetime
@@ -38,7 +38,7 @@ n.notify("READY=1")
 n.notify("STATUS=Starting...")
 
 
-class TimeSourcePool:
+class TimeSourcePool(object):
     def __init__(self, pool):
         self.url, self.comment = read_pools(pool, "production")
         self.url_random_pool = []
@@ -46,15 +46,15 @@ class TimeSourcePool:
         self.done = False
 
 
-class Sdwdate:
+class Sdwdate(object):
     def __init__(self):
         self.failure_ratio_from_config = self.allowed_failures_config()
 
         self.iteration = 0
         self.number_of_pools = 3
-        POOL_RANGE = range(self.number_of_pools)
+        pool_range = range(self.number_of_pools)
         self.pools = []
-        for pool_i in POOL_RANGE:
+        for pool_i in pool_range:
             self.pools.append(TimeSourcePool(pool_i))
 
         total_number_pool_member = 0
@@ -114,10 +114,10 @@ class Sdwdate:
                 "ERROR: sdwdate_status_files_folder: " +
                 sdwdate_status_files_folder)
             #reason = "home folder does not end with /sdwdate"
-            EXIT_CODE = 1
+            exit_code = 1
             # Not available at this point.
             # sdwdate.exit_handler(EXIT_CODE, reason)
-            sys.exit(EXIT_CODE)
+            sys.exit(exit_code)
 
         Path(sdwdate_status_files_folder).mkdir(parents=True, exist_ok=True)
         # Sanity test. Should be already created by systemd-tmpfiles.
@@ -208,8 +208,8 @@ class Sdwdate:
         stripped_message = self.strip_html(message)
         LOGGER.info(stripped_message)
         reason = "signal_handler called"
-        EXIT_CODE = 143
-        self.exit_handler(EXIT_CODE, reason)
+        exit_code = 143
+        self.exit_handler(exit_code, reason)
 
     def exit_handler(self, exit_code, reason):
         n.notify("STATUS=Shutting down...")
@@ -271,22 +271,21 @@ class Sdwdate:
     def preparation(self):
         message = ""
         previous_messsage = ""
-        sdwdate = Sdwdate()
-        LOOP_COUNTER = 0
-        LOOP_MAX = 10000
+        loop_counter = 0
+        loop_max = 10000
         preparation_sleep_seconds = 0
         while True:
             n.notify("WATCHDOG=1")
-            if LOOP_COUNTER >= LOOP_MAX:
-                LOOP_COUNTER = 0
-            LOOP_COUNTER += 1
+            if loop_counter >= loop_max:
+                loop_counter = 0
+            loop_counter += 1
             msg = (
                 "STATUS=Running sdwdate preparation loop. preparation_sleep_seconds: " +
                 str(preparation_sleep_seconds) +
                 " iteration: " +
-                str(LOOP_COUNTER) +
+                str(loop_counter) +
                 " / " +
-                str(LOOP_MAX))
+                str(loop_max))
             n.notify(msg)
 
             # Wait one second after first failure. Two at second failure etc.
@@ -786,8 +785,8 @@ class Sdwdate:
                 bin_date_status.returncode)
             LOGGER.error(message)
             reason = "bin_date_status non-zero exit code"
-            EXIT_CODE = 1
-            self.exit_handler(EXIT_CODE, reason)
+            exit_code = 1
+            self.exit_handler(exit_code, reason)
 
     def sdwdate_fetch_loop(self):
         """
@@ -1110,22 +1109,23 @@ def main():
         "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
-    CONSOLE_HANDLER = logging.StreamHandler()
-    CONSOLE_HANDLER.setFormatter(formatter)
-    LOGGER.addHandler(CONSOLE_HANDLER)
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(formatter)
+    LOGGER.addHandler(console_handler)
 
-    MY_PID = os.getpid()
-    PID_MESSAGE = "sdwdate started. PID: %s" % MY_PID
-    LOGGER.info(PID_MESSAGE)
-
-    if os.geteuid() == 0:
-        DO_NOT_RUN_AS_ROOT_MESSAGE = "Exit error... sdwdate should not be run as root!"
-        LOGGER.error(DO_NOT_RUN_AS_ROOT_MESSAGE)
-        reason = "sdwdate should not be run as root."
-        EXIT_CODE = 1
-        sdwdate.exit_handler(EXIT_CODE, reason)
+    my_pid = os.getpid()
+    pid_message = "sdwdate started. PID: %s" % my_pid
+    LOGGER.info(pid_message)
 
     sdwdate = Sdwdate()
+
+    if os.geteuid() == 0:
+        do_not_run_as_root_message = "Exit error... sdwdate should not be run as root!"
+        LOGGER.error(do_not_run_as_root_message)
+        reason = "sdwdate should not be run as root."
+        exit_code = 1
+        sdwdate.exit_handler(exit_code, reason)
+
     signal.signal(signal.SIGTERM, sdwdate.signal_handler)
     signal.signal(signal.SIGINT, sdwdate.signal_handler)
 
@@ -1135,20 +1135,19 @@ def main():
     )
     LOGGER.info(proxy_message)
 
-    LOOP_COUNTER = 0
-    LOOP_MAX = 10000
-    RETRY_ON_ERROR_COUNTER = 0
+    loop_counter = 0
+    loop_max = 10000
 
     while True:
-        if LOOP_COUNTER >= LOOP_MAX:
-            LOOP_COUNTER = 0
-        LOOP_COUNTER += 1
+        if loop_counter >= loop_max:
+            loop_counter = 0
+        loop_counter += 1
 
         msg = (
             "Running sdwdate main loop. iteration: "
-            + str(LOOP_COUNTER)
+            + str(loop_counter)
             + " / "
-            + str(LOOP_MAX)
+            + str(loop_max)
         )
         LOGGER.info(msg)
 
@@ -1156,9 +1155,9 @@ def main():
 
         msg = (
             "STATUS=Running sdwdate main loop. iteration: "
-            + str(LOOP_COUNTER)
+            + str(loop_counter)
             + " / "
-            + str(LOOP_MAX)
+            + str(loop_max)
         )
         n.notify(msg)
         n.notify("WATCHDOG=1")
@@ -1177,29 +1176,29 @@ def main():
         # print("main allowed_failures: " + str(x))
         # sys.exit(0)
 
-        SDWDATE_ICON_FL, SDWDATE_STATUS_FL, SDWDATE_MESSAGE_FL = (
+        sdwdate_icon_fl, sdwdate_status_fl, sdwdate_message_fl = (
             sdwdate.sdwdate_fetch_loop()
         )
 
         n.notify("WATCHDOG=1")
 
-        if SDWDATE_STATUS_FL == "success":
+        if sdwdate_status_fl == "success":
             sdwdate.build_median()
             sdwdate.add_or_subtract_nanoseconds()
             status_set_net_time, message_set_new_time = sdwdate.set_new_time()
             if status_set_net_time:
                 sdwdate.time_replay_protection_file_write()
             else:
-                SDWDATE_ICON_FL = "error"
-                SDWDATE_MESSAGE_FL = message_set_new_time
+                sdwdate_icon_fl = "error"
+                sdwdate_message_fl = message_set_new_time
 
-        if SDWDATE_ICON_FL == "error":
+        if sdwdate_icon_fl == "error":
             file_object = open(sdwdate.fail_file_path, "w")
             file_object.close()
 
         sdwdate.wait_sleep(
-            SDWDATE_ICON_FL,
-            SDWDATE_MESSAGE_FL)
+            sdwdate_icon_fl,
+            sdwdate_message_fl)
         sdwdate.check_clock_skew()
         sdwdate.kill_sclockadj()
 
