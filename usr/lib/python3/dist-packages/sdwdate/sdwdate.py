@@ -894,7 +894,7 @@ class Sdwdate(object):
                     self.list_of_url_random_requested, self.proxy_ip, self.proxy_port
                 )
 
-            if len(self.list_of_urls_returned) == 0:
+            if self.list_of_urls_returned == []:
                 message = self.translate_object(
                     "no_value_returned") + self.translate_object("restart")
                 icon = "error"

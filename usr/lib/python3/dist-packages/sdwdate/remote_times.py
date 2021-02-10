@@ -64,6 +64,7 @@ def get_time_from_servers(
         list_of_remote_servers,
         proxy_ip_address,
         proxy_port_number):
+
     remote_port = "80"
 
     number_of_remote_servers = len(list_of_remote_servers)
