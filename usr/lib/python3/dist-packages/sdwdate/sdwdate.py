@@ -1217,13 +1217,8 @@ def main():
 
         sdwdate.preparation()
 
-        msg = (
-            "STATUS=Running sdwdate main loop. iteration: "
-            + str(loop_counter)
-            + " / "
-            + str(loop_max)
-        )
-        SDNOTIFY_OBJECT.notify(msg)
+        msg_for_sdnotify = "STATUS=" + msg
+        SDNOTIFY_OBJECT.notify(msg_for_sdnotify)
         SDNOTIFY_OBJECT.notify("WATCHDOG=1")
 
         # use missing_ok=True in python 3.8
