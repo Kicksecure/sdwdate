@@ -909,16 +909,17 @@ class Sdwdate:
                 # Example returned_url_item_url:
                 # http://tinhat233xymse34.onion
 
-                a, b, c = self.check_remote(
-                    returned_url_item_url,
-                    returned_url_item_stdout,
-                    returned_url_item_stderr,
-                    returned_url_item_took_time,
-                    returned_url_item_comment,
-                    i,
-                )
-
-                status_from_check_remote = a
+                status_from_check_remote, \
+                    took_time_half_float, \
+                    lag_cleaned_time_diff_float = \
+                    self.check_remote(
+                        returned_url_item_url,
+                        returned_url_item_stdout,
+                        returned_url_item_stderr,
+                        returned_url_item_took_time,
+                        returned_url_item_comment,
+                        i,
+                    )
 
                 if status_from_check_remote:
                     self.request_unixtimes[
@@ -929,8 +930,8 @@ class Sdwdate:
                     ] = returned_url_item_took_time
                     self.valid_urls.append(returned_url_item_url)
                     self.unixtimes.append(returned_url_item_stdout)
-                    self.half_took_time_float[returned_url_item_url] = b
-                    self.time_diff_lag_cleaned_float[returned_url_item_url] = c
+                    self.half_took_time_float[returned_url_item_url] = took_time_half_float
+                    self.time_diff_lag_cleaned_float[returned_url_item_url] = lag_cleaned_time_diff_float
                 else:
                     self.failed_urls.append(returned_url_item_url)
 
