@@ -755,10 +755,11 @@ class Sdwdate(object):
         # )
 
         # Consumed by run_sclockadj.
-        self.new_diff_in_nanoseconds = int(
-            self.new_diff_in_seconds * 1000000000)
+        self.new_diff_in_nanoseconds = self.new_diff_in_seconds * 1000000000
+        self.new_diff_in_nanoseconds = int(self.new_diff_in_nanoseconds)
 
-        message = "new time difference               : %+.9f" % self.new_diff_in_seconds
+        message = "new time difference               : %+.9f" % \
+            self.new_diff_in_seconds
         LOGGER.info(message)
 
     def run_sclockadj(self):
