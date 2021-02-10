@@ -14,7 +14,6 @@ import time
 import subprocess
 from subprocess import Popen, PIPE
 import concurrent.futures
-from concurrent.futures import ThreadPoolExecutor
 
 
 def run_command(i, url_to_unixtime_command):
