@@ -1257,7 +1257,8 @@ def main():
 
         sdwdate.wait_sleep(
             sdwdate_icon_fl,
-            sdwdate_message_fl)
+            sdwdate_message_fl
+        )
         sdwdate.check_clock_skew()
         sdwdate.kill_sclockadj()
 
