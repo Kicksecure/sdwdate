@@ -192,12 +192,12 @@ class Sdwdate:
         return allowed_failures_value
 
     def signal_handler(self, signum, frame):
-        message = sdwdate.translate_object("sigterm")
-        stripped_message = sdwdate.strip_html(message)
+        message = self.translate_object("sigterm")
+        stripped_message = self.strip_html(message)
         LOGGER.info(stripped_message)
         reason = "signal_handler called"
         EXIT_CODE = 143
-        sdwdate.exit_handler(EXIT_CODE, reason)
+        self.exit_handler(EXIT_CODE, reason)
 
     def exit_handler(self, exit_code, reason):
         n.notify("STATUS=Shutting down...")
@@ -215,15 +215,15 @@ class Sdwdate:
 
         icon = "error"
         message = "sdwdate stopped by user or system."
-        stripped_message = sdwdate.strip_html(message)
-        sdwdate.write_status(icon, message)
+        stripped_message = self.strip_html(message)
+        self.write_status(icon, message)
 
-        sdwdate.kill_sclockadj()
-        sdwdate.kill_sleep_process()
+        self.kill_sclockadj()
+        self.kill_sleep_process()
 
         # use missing_ok=True in python 3.8
-        if os.path.isfile(sdwdate.sleep_long_file_path):
-            os.remove(sdwdate.sleep_long_file_path)
+        if os.path.isfile(self.sleep_long_file_path):
+            os.remove(self.sleep_long_file_path)
 
         LOGGER.info(stripped_message)
         sys.exit(exit_code)
@@ -235,18 +235,18 @@ class Sdwdate:
         return re.sub("<[^<]+?>", "", tmp_message)
 
     def write_status(self, icon, msg):
-        sdwdate.status["icon"] = icon
-        sdwdate.status["message"] = msg
+        self.status["icon"] = icon
+        self.status["message"] = msg
         try:
-            with open(sdwdate.status_file_path, "w") as f:
-                json.dump(sdwdate.status, f)
+            with open(self.status_file_path, "w") as f:
+                json.dump(self.status, f)
                 f.close()
         except BaseException:
             error_msg = "Unexpected error: " + str(sys.exc_info()[0])
             print(error_msg)
             return
 
-        with open(sdwdate.msg_path, "w") as msgf:
+        with open(self.msg_path, "w") as msgf:
             msgf.write(msg)
             msgf.close()
 
@@ -299,7 +299,7 @@ class Sdwdate:
             if preparation_status.returncode == 0:
                 LOGGER.info("PREPARATION:")
                 message = joint_message.strip()
-                LOGGER.info(sdwdate.strip_html(message))
+                LOGGER.info(self.strip_html(message))
                 LOGGER.info("PREPARATION RESULT: SUCCESS.")
                 LOGGER.info("\n")
                 return True
@@ -315,7 +315,7 @@ class Sdwdate:
 
             LOGGER.info("PREPARATION:")
             message = joint_message.strip()
-            LOGGER.info(sdwdate.strip_html(joint_message))
+            LOGGER.info(self.strip_html(joint_message))
 
             if preparation_status.returncode == 1:
                 icon = "error"
@@ -331,7 +331,7 @@ class Sdwdate:
             # https://phabricator.whonix.org/T534#15429
             main_message = "Preparation not done yet. More more information, see: sdwdate-gui -> right click -> Open sdwdate's log"
 
-            sdwdate.write_status(icon, main_message)
+            self.write_status(icon, main_message)
 
             # Different message. Probably progress was made.
             # More progress to be expected. Therefore reset wait counter to just
@@ -373,7 +373,7 @@ class Sdwdate:
         try:
             remote_unixtime = int(stdout)
             old_unixtime = time.time()
-            remote_time = sdwdate.time_human_readable(remote_unixtime)
+            remote_time = self.time_human_readable(remote_unixtime)
             time_diff_raw_int = int(remote_unixtime) - int(old_unixtime)
 
             # 1. User's sdwdate sends request to remote time source.
@@ -570,27 +570,27 @@ class Sdwdate:
         time_now_utc_unixtime = int(time_now_utc_unixtime)
         # Example time_now_utc_unixtime:
         # 1611095028
-        with open(sdwdate.sdwdate_time_replay_protection_utc_unixtime, "w") as trpuu:
+        with open(self.sdwdate_time_replay_protection_utc_unixtime, "w") as trpuu:
             message = (
                 "Time Replay Protection: write "
                 + str(time_now_utc_unixtime)
                 + " to file: "
-                + sdwdate.sdwdate_time_replay_protection_utc_unixtime
+                + self.sdwdate_time_replay_protection_utc_unixtime
             )
             LOGGER.info(message)
             trpuu.write(str(time_now_utc_unixtime))
             trpuu.close()
         with open(
-            sdwdate.sdwdate_time_replay_protection_utc_humanreadable, "w"
+            self.sdwdate_time_replay_protection_utc_humanreadable, "w"
         ) as trpuh:
-            time_now_utc_human_readable = sdwdate.time_human_readable(
+            time_now_utc_human_readable = self.time_human_readable(
                 time_now_utc_unixtime
             )
             message = (
                 "Time Replay Protection: write "
                 + str(time_now_utc_human_readable)
                 + " to file: "
-                + sdwdate.sdwdate_time_replay_protection_utc_humanreadable
+                + self.sdwdate_time_replay_protection_utc_humanreadable
             )
             LOGGER.info(message)
             trpuh.write(str(time_now_utc_human_readable))
@@ -611,9 +611,9 @@ class Sdwdate:
         new_unixtime_int = int(new_unixtime_int)
         new_unixtime_str = format(new_unixtime_float, ".9f")
 
-        old_unixtime_human_readable = sdwdate.time_human_readable(
+        old_unixtime_human_readable = self.time_human_readable(
             old_unixtime_int)
-        new_unixtime_human_readable = sdwdate.time_human_readable(
+        new_unixtime_human_readable = self.time_human_readable(
             new_unixtime_int)
 
         message = ("replay_protection_unixtime: " +
@@ -640,21 +640,21 @@ class Sdwdate:
             return False, message
 
         if not status_first_success:
-            sdwdate.set_time_using_date(new_unixtime_str)
+            self.set_time_using_date(new_unixtime_str)
         elif clock_jump_do:
-            sdwdate.set_time_using_date(new_unixtime_str)
+            self.set_time_using_date(new_unixtime_str)
         else:
-            sdwdate.run_sclockadj()
+            self.run_sclockadj()
 
         if not status_first_success:
-            file_object = open(sdwdate.status_first_success_path, "w")
+            file_object = open(self.status_first_success_path, "w")
             file_object.close()
         if clock_jump_do:
             # use missing_ok=True in python 3.8
-            if os.path.isfile(sdwdate.clock_jump_do_once_file):
-                os.remove(sdwdate.clock_jump_do_once_file)
+            if os.path.isfile(self.clock_jump_do_once_file):
+                os.remove(self.clock_jump_do_once_file)
 
-        file_object = open(sdwdate.status_success_path, "w")
+        file_object = open(self.status_success_path, "w")
         file_object.close()
         message = "ok"
         return True, message
@@ -676,7 +676,7 @@ class Sdwdate:
         return status
 
     def add_or_subtract_nanoseconds(self):
-        if sdwdate.randomize_time_config():
+        if self.randomize_time_config():
             LOGGER.info("Randomizing nanoseconds.")
             nanoseconds_to_add_or_subtract = randint(0, self.range_nanoseconds)
             sign = randint(0, 1)
@@ -776,7 +776,7 @@ class Sdwdate:
             LOGGER.error(message)
             reason = "bin_date_status non-zero exit code"
             EXIT_CODE = 1
-            sdwdate.exit_handler(EXIT_CODE, reason)
+            self.exit_handler(EXIT_CODE, reason)
 
     def sdwdate_fetch_loop(self):
         """
@@ -801,13 +801,13 @@ class Sdwdate:
 
         if not status_first_success:
             icon = "busy"
-            sdwdate.write_status(icon, restricted_msg)
-            message = sdwdate.strip_html(restricted_msg)
+            self.write_status(icon, restricted_msg)
+            message = self.strip_html(restricted_msg)
             LOGGER.info(message)
         else:
             icon = "success"
-            sdwdate.write_status(icon, fetching_msg)
-            message = sdwdate.strip_html(fetching_msg)
+            self.write_status(icon, fetching_msg)
+            message = self.strip_html(fetching_msg)
             LOGGER.info(message)
 
         while True:
@@ -969,7 +969,7 @@ class Sdwdate:
                         web_unixtime = self.request_unixtimes[url]
                         web_unixtime = int(web_unixtime)
                         request_took_time_item = self.request_took_times[url]
-                        web_time = sdwdate.time_human_readable(web_unixtime)
+                        web_time = self.time_human_readable(web_unixtime)
 
                         pool_diff = int(web_unixtime) - int(old_unixtime)
                         self.pools_raw_diff.append(pool_diff)
@@ -1019,13 +1019,13 @@ class Sdwdate:
         message = (
             message
             + " "
-            + sdwdate.translate_object("sleeping")
+            + self.translate_object("sleeping")
             + str(sleep_time_minutes_rounded)
-            + sdwdate.translate_object("minutes")
+            + self.translate_object("minutes")
         )
 
-        stripped_message = sdwdate.strip_html(message)
-        sdwdate.write_status(icon, message)
+        stripped_message = self.strip_html(message)
+        self.write_status(icon, message)
 
         if icon == "success":
             # LOGGER.info("wait_sleep: icon: success")
@@ -1046,7 +1046,7 @@ class Sdwdate:
         nanoseconds = randint(0, range_nanoseconds)
 
         if self.sleep_time_seconds >= 10:
-            file_object = open(sdwdate.sleep_long_file_path, "w")
+            file_object = open(self.sleep_long_file_path, "w")
             file_object.close()
 
         self.unixtime_before_sleep = int(time.time())
@@ -1091,7 +1091,8 @@ class Sdwdate:
             LOGGER.warning(message)
 
 
-if __name__ == "__main__":
+def main():
+    global LOGGER
     LOGGER = logging.getLogger("sdwdate")
     LOGGER.setLevel(logging.INFO)
     formatter = logging.Formatter(
@@ -1202,3 +1203,7 @@ if __name__ == "__main__":
             SDWDATE_MESSAGE_FL)
         sdwdate.check_clock_skew()
         sdwdate.kill_sclockadj()
+
+
+if __name__ == "__main__":
+    main()
