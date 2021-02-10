@@ -157,7 +157,7 @@ def remote_times_signal_handler(signum, frame):
     sys.exit(0)
 
 
-if __name__ == "__main__":
+def main():
     signal.signal(signal.SIGTERM, remote_times_signal_handler)
     signal.signal(signal.SIGINT, remote_times_signal_handler)
     list_of_remote_servers = sys.argv[1]
@@ -168,3 +168,6 @@ if __name__ == "__main__":
         list_of_remote_servers,
         proxy_ip_address,
         proxy_port_number)
+
+if __name__ == "__main__":
+    main()
