@@ -167,7 +167,9 @@ def main():
     get_time_from_servers(
         list_of_remote_servers,
         proxy_ip_address,
-        proxy_port_number)
+        proxy_port_number
+    )
+
 
 if __name__ == "__main__":
     main()
