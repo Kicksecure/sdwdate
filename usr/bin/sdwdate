@@ -636,7 +636,6 @@ class Sdwdate:
         if new_unixtime_int < time_replay_protection_minium_unixtime_int:
             message = "Time Replay Protection: ERROR. See above. new_unixtime earlier than time_replay_protection_minium_unixtime_int."
             LOGGER.error(message)
-            icon = "error"
             message = "Time Replay Protection: ERROR. More more information, see: sdwdate-gui -> right click -> Open sdwdate's log"
             return False, message
 
