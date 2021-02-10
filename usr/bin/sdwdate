@@ -73,9 +73,11 @@ class Sdwdate:
     def __init__(self):
         self.iteration = 0
         self.number_of_pools = 3
+        POOL_RANGE = range(self.number_of_pools)
+        self.pools = []
+        for pool_i in POOL_RANGE:
+            self.pools.append(TimeSourcePool(pool_i))
 
-        self.pools = [TimeSourcePool(pool)
-                      for pool in range(self.number_of_pools)]
         # Could get it here to prevent reading the file in sdwdate_fetch_loop for each Unreachable url.
         # self.allowed_failures = [TimeSourcePool(pool).allowed_failures for pool in range(self.number_of_pools)]
         self.list_of_urls_returned = []
