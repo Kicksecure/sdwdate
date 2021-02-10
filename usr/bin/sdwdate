@@ -799,10 +799,10 @@ class Sdwdate:
             message += str(failures_allowed_per_pool)
             logger.info(message)
             if len(self.failed_urls) > failures_allowed_per_pool:
-               message = "Maximum allowed number of failures. Giving up."
-               icon = "error"
-               status = "error"
-               return icon, status, message
+                message = "Maximum allowed number of failures. Giving up."
+                icon = "error"
+                status = "error"
+                return icon, status, message
 
             old_unixtime = time.time()
 
