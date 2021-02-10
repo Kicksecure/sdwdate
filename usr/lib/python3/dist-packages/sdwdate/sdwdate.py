@@ -69,9 +69,14 @@ class Sdwdate(object):
         self.list_of_urls_returned = []
         self.list_of_url_random_requested = []
         self.valid_urls = []
+        self.list_of_stdout = []
+        self.list_of_stderr = []
+        self.list_of_exit_codes = []
+        self.list_of_timeout_status = []
 
         self.request_unixtimes = {}
         self.request_took_times = {}
+        self.list_of_took_time = []
         self.half_took_time_float = {}
         self.time_diff_lag_cleaned_float = {}
 
@@ -85,6 +90,11 @@ class Sdwdate(object):
         self.range_nanoseconds = 999999999
         self.new_diff_in_seconds = 0
         self.new_diff_in_nanoseconds = 0
+        self.unixtime_before_sleep = 0
+        self.sleep_time_seconds = 0
+
+        self.sleep_process = []
+        self.sclockadj_process = []
 
         home_folder = str(Path.home())
         home_folder_split = os.path.split(Path.home())
