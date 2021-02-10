@@ -19,17 +19,16 @@ from concurrent.futures import ThreadPoolExecutor
 
 def run_command(i, url_to_unixtime_command):
     timeout_seconds = 50
-    do_exit = False
 
     # Avoid Popen shell=True.
     url_to_unixtime_command = shlex.split(url_to_unixtime_command)
 
     start_unixtime = time.time()
 
-    p = subprocess.Popen(url_to_unixtime_command, stdout=PIPE, stderr=PIPE)
+    process = subprocess.Popen(url_to_unixtime_command, stdout=PIPE, stderr=PIPE)
 
     try:
-        p.wait(timeout_seconds)
+        process.wait(timeout_seconds)
         # Process already terminated before timeout.
         #print("remote_times.py: i: " + str(i) + " | done")
         status = "done"
@@ -37,7 +36,7 @@ def run_command(i, url_to_unixtime_command):
         #print("remote_times.py: i: " + str(i) + " | timeout")
         status = "timeout"
         # Timeout hit. Kill process.
-        p.kill()
+        process.kill()
     except BaseException:
         error_message = str(sys.exc_info()[0])
         status = "error"
@@ -46,17 +45,17 @@ def run_command(i, url_to_unixtime_command):
             str(i) +
             " | unknown error. sys.exc_info: " +
             error_message)
-        p.kill()
+        process.kill()
 
     # Do not return from this function until killing of the process is
     # complete.
-    p.wait()
+    process.wait()
     end_unixtime = time.time()
     took_time = end_unixtime - start_unixtime
     # Round took_time to two digits for better readability.
     # No other reason for rounding.
     took_time = round(took_time, 2)
-    return p, took_time, status
+    return process, took_time, status
 
 
 def get_time_from_servers(
