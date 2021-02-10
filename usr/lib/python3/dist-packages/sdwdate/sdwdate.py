@@ -842,9 +842,6 @@ class Sdwdate(object):
         returns:
         icon, status, message
         """
-        message = "Start fetching remote times."
-        LOGGER.info(message)
-
         fetching_msg = self.translate_object("fetching")
         restricted_msg = self.translate_object("restricted")
 
