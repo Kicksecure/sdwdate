@@ -853,9 +853,10 @@ class Sdwdate:
         sleep_time_maximum_seconds = 180 * 60
         self.sleep_time_seconds = randint(sleep_time_minimum_seconds, sleep_time_maximum_seconds)
         sleep_time_minutes = self.sleep_time_seconds / 60
+        sleep_time_minutes_rounded = round(sleep_time_minutes)
 
         message = (message + " " + sdwdate._('sleeping') +
-                  str(sleep_time_minutes) + sdwdate._('minutes'))
+                  str(sleep_time_minutes_rounded) + sdwdate._('minutes'))
 
         stripped_message = sdwdate.strip_html(message)
         sdwdate.write_status(icon, message)
