@@ -314,7 +314,6 @@ class Sdwdate:
                 logger.info("PREPARATION RESULT: (unknown) ERROR.")
 
             logger.info("\n")
-            # TODO: remove this once security implications are sorted.
             # https://phabricator.whonix.org/T534#15429
             main_message = "Preparation not done yet. More more information, see: sdwdate-gui -> right click -> Open sdwdate's log"
 
