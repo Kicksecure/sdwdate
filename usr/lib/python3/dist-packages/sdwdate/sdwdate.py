@@ -125,7 +125,7 @@ class Sdwdate(object):
             print(
                 "ERROR: sdwdate_status_files_folder: " +
                 sdwdate_status_files_folder)
-            #reason = "home folder does not end with /sdwdate"
+            # reason = "home folder does not end with /sdwdate"
             exit_code = 1
             # Not available at this point.
             # sdwdate.exit_handler(EXIT_CODE, reason)

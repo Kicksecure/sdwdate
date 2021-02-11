@@ -29,10 +29,10 @@ def run_command(i, url_to_unixtime_command):
     try:
         process.wait(timeout_seconds)
         # Process already terminated before timeout.
-        #print("remote_times.py: i: " + str(i) + " | done")
+        # print("remote_times.py: i: " + str(i) + " | done")
         status = "done"
     except subprocess.TimeoutExpired:
-        #print("remote_times.py: i: " + str(i) + " | timeout")
+        # print("remote_times.py: i: " + str(i) + " | timeout")
         status = "timeout"
         # Timeout hit. Kill process.
         process.kill()
@@ -69,7 +69,7 @@ def get_time_from_servers(
     # 3
     range_of_remote_servers = range(number_of_remote_servers)
     # Example range_of_remote_servers:
-    ## range(0, 3)
+    # range(0, 3)
 
     url_to_unixtime_debug = "true"
 
@@ -117,11 +117,11 @@ def get_time_from_servers(
         # 0x7703a89cfeb8>: Failed to establish a new connection: [Errno 111]
         # Connection refused'))
 
-        #print("remote_times.py: i: " + str(i))
-        #print("remote_times.py: stdout: " + str(stdout))
-        #print("remote_times.py: stderr: " + str(stderr))
-        #print("remote_times.py: took_time[i]: " + str(took_time[i]))
-        #print("remote_times.py: returncode: " + str(returncode))
+        # print("remote_times.py: i: " + str(i))
+        # print("remote_times.py: stdout: " + str(stdout))
+        # print("remote_times.py: stderr: " + str(stderr))
+        # print("remote_times.py: took_time[i]: " + str(took_time[i]))
+        # print("remote_times.py: returncode: " + str(returncode))
 
         stdout_list[i] = stdout.decode()
         if returncode == 0:
@@ -129,23 +129,23 @@ def get_time_from_servers(
             # data: <Response [200]>
             # http_time: Tue, 09 Feb 2021 10:35:10 GMT
             # parsed_unixtime: 1612866910
-            ##
+            #
             # Redacting stderr for brevity.
             stderr_list[i] = "redacted"
         else:
             stderr_list[i] = stderr.decode()
 
-    #print("remote_times.py: urls_list:")
+    # print("remote_times.py: urls_list:")
     # print(str(urls_list))
-    #print("remote_times.py: stdout_list:")
+    # print("remote_times.py: stdout_list:")
     # print(str(stdout_list))
-    #print("remote_times.py: stderr_list:")
+    # print("remote_times.py: stderr_list:")
     # print(str(stderr_list))
-    #print("remote_times.py: took_time_list:")
+    # print("remote_times.py: took_time_list:")
     # print(str(took_time_list))
-    #print("remote_times.py: timeout_status_list:")
+    # print("remote_times.py: timeout_status_list:")
     # print(str(timeout_status_list))
-    #print("remote_times.py: exit_code_list:")
+    # print("remote_times.py: exit_code_list:")
     # print(str(exit_code_list))
 
     return urls_list, stdout_list, stderr_list, took_time_list, timeout_status_list, exit_code_list

@@ -7,19 +7,16 @@
 # /usr/lib/python3/dist-packages/sdwdate/timesanitycheck.py 1611640486
 
 import sys
-import os
-import time
-from datetime import datetime
-from stem.connection import connect
-from datetime import datetime
+# import time
+# from datetime import datetime
 from dateutil.parser import parse
+from stem.connection import connect
 import subprocess
 
 
 def time_consensus_sanity_check(unixtime):
     error = ""
     status = "ok"
-    consensus_time_after_or_until = ""
     consensus_valid_after_str = ""
     consensus_valid_until_str = ""
     try:
@@ -64,13 +61,13 @@ def time_consensus_sanity_check(unixtime):
 def static_time_sanity_check(unixtime_to_validate):
     # Tue, 17 May 2033 10:00:00 GMT
     expiration_unixtime = 1999936800
-    expiration_time = datetime.strftime(
-        datetime.fromtimestamp(expiration_unixtime),
-        '%a %b %d %H:%M:%S UTC %Y')
+    # expiration_time = datetime.strftime(
+    # datetime.fromtimestamp(expiration_unixtime),
+    # '%a %b %d %H:%M:%S UTC %Y')
 
     try:
-        time_to_validate_human_readable = datetime.strftime(
-            datetime.fromtimestamp(unixtime_to_validate), '%a %b %d %H:%M:%S UTC %Y')
+        # time_to_validate_human_readable = datetime.strftime(
+        #    datetime.fromtimestamp(unixtime_to_validate), '%a %b %d %H:%M:%S UTC %Y')
 
         p = subprocess.Popen(
             "/usr/bin/minimum-unixtime-show",
@@ -80,7 +77,7 @@ def static_time_sanity_check(unixtime_to_validate):
 
         minimum_unixtime = stdout.decode()
         minimum_unixtime = int(minimum_unixtime)
-        minimum_time_human_readable = stderr.decode()
+        # minimum_time_human_readable = stderr.decode()
 
         if unixtime_to_validate < minimum_unixtime:
             status = 'slow'
@@ -94,8 +91,6 @@ def static_time_sanity_check(unixtime_to_validate):
         return status, error
     except BaseException:
         status = "error"
-        time_one = ""
-        time_two = str(expiration_time)
         error = str(sys.exc_info()[0])
         return status, error
 
