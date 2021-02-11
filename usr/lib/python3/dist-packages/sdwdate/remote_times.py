@@ -24,7 +24,10 @@ def run_command(i, url_to_unixtime_command):
 
     start_unixtime = time.time()
 
-    process = subprocess.Popen(url_to_unixtime_command, stdout=PIPE, stderr=PIPE)
+    process = subprocess.Popen(
+        url_to_unixtime_command,
+        stdout=PIPE,
+        stderr=PIPE)
 
     try:
         process.wait(timeout_seconds)

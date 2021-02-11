@@ -383,7 +383,15 @@ class Sdwdate(object):
             return True
         return False
 
-    def check_remote(self, remote, stdout, stderr, took_time, timeout_status, comment, i):
+    def check_remote(
+            self,
+            remote,
+            stdout,
+            stderr,
+            took_time,
+            timeout_status,
+            comment,
+            i):
         """
         Check returned stdout. True if numeric.
         """

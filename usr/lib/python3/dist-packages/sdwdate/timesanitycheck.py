@@ -67,7 +67,8 @@ def static_time_sanity_check(unixtime_to_validate):
 
     try:
         # time_to_validate_human_readable = datetime.strftime(
-        #    datetime.fromtimestamp(unixtime_to_validate), '%a %b %d %H:%M:%S UTC %Y')
+        # datetime.fromtimestamp(unixtime_to_validate), '%a %b %d %H:%M:%S UTC
+        # %Y')
 
         p = subprocess.Popen(
             "/usr/bin/minimum-unixtime-show",
