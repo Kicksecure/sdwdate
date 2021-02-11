@@ -18,6 +18,7 @@ import os
 import signal
 import logging
 import sys
+import shlex
 import sdnotify
 from guimessages.translations import _translations
 from sdwdate.proxy_settings import proxy_settings
@@ -784,8 +785,14 @@ class Sdwdate(object):
             "Gradually adjusting the time by running sclockadj using command: %s" %
             sclockad_cmd)
         LOGGER.info(message)
+
+        # Avoid Popen shell=True.
+        sclockad_cmd = shlex.split(sclockad_cmd)
+        message = "shlex: %s" % sclockad_cmd
+        LOGGER.info(message)
+
         # Run sclockadj in a subshell.
-        self.sclockadj_process = Popen(sclockad_cmd, shell=True)
+        self.sclockadj_process = Popen(sclockad_cmd)
         message = (
             "Launched sclockadj into the background. PID: %s"
             % self.sclockadj_process.pid
@@ -816,17 +823,21 @@ class Sdwdate(object):
             LOGGER.info(message)
             return
 
-        # Set new time.
-        cmd = (
+        date_cmd = (
             '/bin/date --utc "+%Y-%m-%d %H:%M:%S" --set "@'
             + str(new_unixtime_str)
             + '"'
         )
-        message = "Instantly setting the time by using command: %s" % cmd
+        message = "Instantly setting the time by using command: %s" % date_cmd
+        LOGGER.info(message)
+
+        # Avoid Popen shell=True.
+        date_cmd = shlex.split(date_cmd)
+        message = "shlex: %s" % date_cmd
         LOGGER.info(message)
 
         bin_date_status = subprocess.Popen(
-            cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            date_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
         stdout, stderr = bin_date_status.communicate()
         bin_date_status.kill()
@@ -1146,7 +1157,13 @@ class Sdwdate(object):
                      str(nanoseconds))
         message = "running command: " + sleep_cmd
         LOGGER.info(message)
-        self.sleep_process = Popen(sleep_cmd, shell=True)
+
+        # Avoid Popen shell=True.
+        sleep_cmd = shlex.split(sleep_cmd)
+        message = "shlex: %s" % sleep_cmd
+        LOGGER.info(message)
+
+        self.sleep_process = Popen(sleep_cmd)
         self.sleep_process.wait()
 
     def check_clock_skew(self):
