@@ -17,7 +17,7 @@
 ## prints unixtime to stdout
 
 import sys
-#sys.dont_write_bytecode = True
+sys.dont_write_bytecode = True
 
 import os, time, socks, requests
 from dateutil.parser import parse

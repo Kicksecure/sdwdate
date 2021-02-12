@@ -3,5 +3,8 @@
 # Copyright (C) 2021 - 2021 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
 # See the file COPYING for copying conditions.
 
+import sys
+sys.dont_write_bytecode = True
+
 from sdwdate import sdwdate
 sdwdate.main()

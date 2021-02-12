@@ -7,6 +7,8 @@
 # /usr/lib/python3/dist-packages/sdwdate/timesanitycheck.py 1611640486
 
 import sys
+sys.dont_write_bytecode = True
+
 # import time
 # from datetime import datetime
 from dateutil.parser import parse

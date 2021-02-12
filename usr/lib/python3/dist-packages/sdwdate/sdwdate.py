@@ -4,6 +4,10 @@
 # See the file COPYING for copying conditions.
 
 from __future__ import print_function
+
+import sys
+sys.dont_write_bytecode = True
+
 from pathlib import Path
 import re
 import json
@@ -17,7 +21,6 @@ import glob
 import os
 import signal
 import logging
-import sys
 import shlex
 import sdnotify
 from guimessages.translations import _translations
@@ -28,8 +31,6 @@ from sdwdate.config import read_pools
 from sdwdate.config import allowed_failures_config
 from sdwdate.config import allowed_failures_calculate
 from sdwdate.remote_times import get_time_from_servers
-
-sys.dont_write_bytecode = True
 
 
 os.environ["LC_TIME"] = "C"

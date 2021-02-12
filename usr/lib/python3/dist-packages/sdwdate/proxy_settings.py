@@ -3,6 +3,9 @@
 # Copyright (C) 2017 - 2020 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
 # See the file COPYING for copying conditions.
 
+import sys
+sys.dont_write_bytecode = True
+
 import os
 import glob
 import re

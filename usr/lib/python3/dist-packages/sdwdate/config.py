@@ -11,6 +11,9 @@
 # /usr/lib/python3/dist-packages/sdwdate/config.py 1 production
 # /usr/lib/python3/dist-packages/sdwdate/config.py 2 production
 
+import sys
+sys.dont_write_bytecode = True
+
 import os
 import sys
 import glob

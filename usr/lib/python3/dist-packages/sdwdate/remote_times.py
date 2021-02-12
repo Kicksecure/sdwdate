@@ -7,8 +7,10 @@
 # Example:
 # /usr/lib/python3/dist-packages/sdwdate/remote_times.py "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/a http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/b http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/c" "127.0.0.1" "9050"
 
-import signal
 import sys
+sys.dont_write_bytecode = True
+
+import signal
 import shlex
 import time
 import subprocess
