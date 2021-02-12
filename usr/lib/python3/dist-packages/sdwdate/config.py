@@ -18,6 +18,21 @@ import re
 import random
 
 
+def allowed_failures_config():
+    failure_ratio = None
+    if os.path.exists("/etc/sdwdate.d/"):
+        files = sorted(glob.glob("/etc/sdwdate.d/*.conf"))
+        for file_item in files:
+            with open(file_item) as conf:
+                lines = conf.readlines()
+            for line in lines:
+                if line.startswith("MAX_FAILURE_RATIO"):
+                    failure_ratio = re.search(r"=(.*)", line).group(1)
+    if failure_ratio is None:
+        failure_ratio = 0.34
+    return failure_ratio
+
+
 def sort_pool(pool, mode):
     # Check number of multi-line pool.
     number_of_pool_multi = 0

@@ -25,6 +25,7 @@ from sdwdate.proxy_settings import proxy_settings
 from sdwdate.timesanitycheck import time_consensus_sanity_check
 from sdwdate.timesanitycheck import static_time_sanity_check
 from sdwdate.config import read_pools
+from sdwdate.config import allowed_failures_config
 from sdwdate.remote_times import get_time_from_servers
 
 sys.dont_write_bytecode = True
@@ -49,7 +50,7 @@ class TimeSourcePool(object):
 
 class Sdwdate(object):
     def __init__(self):
-        self.failure_ratio_from_config = self.allowed_failures_config()
+        self.failure_ratio_from_config = allowed_failures_config()
 
         self.iteration = 0
         self.number_of_pools = 3
@@ -193,21 +194,6 @@ class Sdwdate(object):
         self.time_replay_protection_minium_unixtime_str = str(
             self.time_replay_protection_minium_unixtime_int
         )
-
-    @staticmethod
-    def allowed_failures_config():
-        failure_ratio = None
-        if os.path.exists("/etc/sdwdate.d/"):
-            files = sorted(glob.glob("/etc/sdwdate.d/*.conf"))
-            for file_item in files:
-                with open(file_item) as conf:
-                    lines = conf.readlines()
-                for line in lines:
-                    if line.startswith("MAX_FAILURE_RATIO"):
-                        failure_ratio = re.search(r"=(.*)", line).group(1)
-        if failure_ratio is None:
-            failure_ratio = 0.34
-        return failure_ratio
 
     @staticmethod
     def allowed_failures_calculate(
