@@ -33,6 +33,16 @@ def allowed_failures_config():
     return failure_ratio
 
 
+def allowed_failures_calculate(
+        failure_ratio,
+        pools_total_number,
+        number_of_pool_members):
+    temp = float(number_of_pool_members) * float(failure_ratio)
+    allowed_failures_value = temp / pools_total_number
+    allowed_failures_value = int(allowed_failures_value)
+    return allowed_failures_value
+
+
 def sort_pool(pool, mode):
     # Check number of multi-line pool.
     number_of_pool_multi = 0

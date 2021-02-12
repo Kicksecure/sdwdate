@@ -26,6 +26,7 @@ from sdwdate.timesanitycheck import time_consensus_sanity_check
 from sdwdate.timesanitycheck import static_time_sanity_check
 from sdwdate.config import read_pools
 from sdwdate.config import allowed_failures_config
+from sdwdate.config import allowed_failures_calculate
 from sdwdate.remote_times import get_time_from_servers
 
 sys.dont_write_bytecode = True
@@ -63,10 +64,11 @@ class Sdwdate(object):
         for pool_temp in self.pools:
             total_number_pool_member += len(pool_temp.url)
 
-        self.allowed_failures = self.allowed_failures_calculate(
+        self.allowed_failures = allowed_failures_calculate(
             self.failure_ratio_from_config,
             self.number_of_pools,
-            total_number_pool_member)
+            total_number_pool_member
+        )
 
         self.list_of_urls_returned = []
         self.list_of_url_random_requested = []
@@ -195,15 +197,6 @@ class Sdwdate(object):
             self.time_replay_protection_minium_unixtime_int
         )
 
-    @staticmethod
-    def allowed_failures_calculate(
-            failure_ratio,
-            pools_total_number,
-            number_of_pool_members):
-        temp = float(number_of_pool_members) * float(failure_ratio)
-        allowed_failures_value = temp / pools_total_number
-        allowed_failures_value = int(allowed_failures_value)
-        return allowed_failures_value
 
     def signal_handler(self, signum, frame):
         message = self.translate_object("sigterm")
