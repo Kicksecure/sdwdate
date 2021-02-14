@@ -94,8 +94,30 @@ def run_command(i, url_to_unixtime_command, remote):
         # No need to use process.kill().
         # Was already terminated by itself or killed above.
 
-    stdout = temp1.decode().strip()
-    stderr = temp2.decode().strip()
+    try:
+        stdout = temp1.decode().strip()
+    except BaseException:
+        error_message = str(sys.exc_info()[0])
+        print(
+            "remote_times.py: i: " +
+            str(i) +
+            " | stdout decode unknown error. sys.exc_info: " +
+            error_message
+        )
+        stdout = ""
+
+    try:
+        stderr = temp2.decode().strip()
+    except BaseException:
+        error_message = str(sys.exc_info()[0])
+        print(
+            "remote_times.py: i: " +
+            str(i) +
+            " | stderr decode unknown error. sys.exc_info: " +
+            error_message
+        )
+        stderr = ""
+
     return process, status, end_unixtime, took_time, stdout, stderr
 
 
