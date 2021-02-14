@@ -46,7 +46,7 @@ def run_command(i, url_to_unixtime_command, remote):
         # print("remote_times.py: i: " + str(i) + " | done")
         status = "done"
     except subprocess.TimeoutExpired:
-        # print("remote_times.py: i: " + str(i) + " | timeout")
+        # print("remote_times.py: i: " + str(i) + " | timeout_network")
         status = "timeout"
         # Timeout hit. Kill process.
         process.kill()
@@ -56,7 +56,7 @@ def run_command(i, url_to_unixtime_command, remote):
         print(
             "remote_times.py: i: " +
             str(i) +
-            " | unknown error. sys.exc_info: " +
+            " | timeout_network unknown error. sys.exc_info: " +
             error_message
         )
         process.kill()
@@ -72,8 +72,28 @@ def run_command(i, url_to_unixtime_command, remote):
     # No other reason for rounding.
     took_time = round(took_time, 2)
 
-    # bytes
-    temp1, temp2 = process.communicate()
+    temp1 = b""
+    temp2 = b""
+
+    try:
+        # bytes
+        temp1, temp2 = process.communicate(timeout=2)
+    except subprocess.TimeoutExpired:
+        print("remote_times.py: i: " + str(i) + " | timeout_read")
+        status = "error"
+        # Timeout hit. Kill process.
+    except BaseException:
+        error_message = str(sys.exc_info()[0])
+        status = "error"
+        print(
+            "remote_times.py: i: " +
+            str(i) +
+            " | timeout_read unknown error. sys.exc_info: " +
+            error_message
+        )
+        # No need to use process.kill().
+        # Was already terminated by itself or killed above.
+
     stdout = temp1.decode().strip()
     stderr = temp2.decode().strip()
     return process, status, end_unixtime, took_time, stdout, stderr
