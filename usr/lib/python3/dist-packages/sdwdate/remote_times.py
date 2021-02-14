@@ -141,17 +141,17 @@ def check_remote(i, pools, remote, process, status, end_unixtime, took_time, std
 
     unixtime_maybe = stdout
 
-    unixtime_string_length_is = len(unixtime_maybe)
+    stdout_string_length_is = len(stdout)
     unixtime_string_length_max = 10
 
-    if unixtime_string_length_is == 0:
+    if stdout_string_length_is == 0:
         if not status == "timeout":
             status = "error"
             stdout = "empty"
     else:
-        if not unixtime_string_length_is == unixtime_string_length_max:
+        if not stdout_string_length_is == unixtime_string_length_max:
             status = "error"
-            print("* ERROR: stdout unexpected string length: " + str(unixtime_string_length_is))
+            print("* ERROR: stdout unexpected string length: " + str(stdout_string_length_is))
 
     if not status == "timeout":
         if not process.returncode == 0:
@@ -206,7 +206,7 @@ def check_remote(i, pools, remote, process, status, end_unixtime, took_time, std
     if not status == "done":
         message = "* exit_code: " + str(process.returncode)
         print(message)
-        if not unixtime_string_length_is > unixtime_string_length_max:
+        if not stdout_string_length_is > unixtime_string_length_max:
             message = "* stdout: " + str(stdout)
             print(message)
         if not stderr_length_is > stderr_string_length_max:
