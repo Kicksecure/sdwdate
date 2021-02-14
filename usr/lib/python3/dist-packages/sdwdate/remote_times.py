@@ -81,7 +81,6 @@ def run_command(i, url_to_unixtime_command, remote):
     except subprocess.TimeoutExpired:
         print("remote_times.py: i: " + str(i) + " | timeout_read")
         status = "error"
-        # Timeout hit. Kill process.
     except BaseException:
         error_message = str(sys.exc_info()[0])
         status = "error"
