@@ -151,7 +151,7 @@ def check_remote(i, pools, remote, process, status, end_unixtime, took_time, std
     else:
         if not unixtime_string_length_is == unixtime_string_length_max:
             status = "error"
-            print("* ERROR: stdout excessive string length: " + str(unixtime_string_length_is))
+            print("* ERROR: stdout unexpected string length: " + str(unixtime_string_length_is))
 
     if not status == "timeout":
         if not process.returncode == 0:
