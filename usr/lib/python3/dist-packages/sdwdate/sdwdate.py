@@ -582,8 +582,6 @@ class Sdwdate(object):
 
         # Avoid Popen shell=True.
         sclockad_cmd = shlex.split(sclockad_cmd)
-        message = "shlex: %s" % sclockad_cmd
-        LOGGER.info(message)
 
         # Run sclockadj in a subshell.
         self.sclockadj_process = Popen(sclockad_cmd)
@@ -627,8 +625,6 @@ class Sdwdate(object):
 
         # Avoid Popen shell=True.
         date_cmd = shlex.split(date_cmd)
-        message = "shlex: %s" % date_cmd
-        LOGGER.info(message)
 
         bin_date_status = subprocess.Popen(
             date_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
@@ -936,8 +932,6 @@ class Sdwdate(object):
 
         # Avoid Popen shell=True.
         sleep_cmd = shlex.split(sleep_cmd)
-        message = "shlex: %s" % sleep_cmd
-        LOGGER.info(message)
 
         self.sleep_process = Popen(sleep_cmd)
         self.sleep_process.wait()

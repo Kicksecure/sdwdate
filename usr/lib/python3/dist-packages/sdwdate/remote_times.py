@@ -410,20 +410,20 @@ def get_time_from_servers(
         urls_list[i] = list_of_remote_servers[i]
         took_time_list[i] = took_time[i]
 
-    print("remote_times.py: urls_list:")
-    print(str(urls_list))
-    print("remote_times.py: status_list:")
-    print(str(status_list))
-    print("remote_times.py: took_time_list:")
-    print(str(took_time_list))
-    print("remote_times.py: half_took_time_list:")
-    print(str(half_took_time_list))
-    print("remote_times.py: remote_unixtime_list:")
-    print(str(remote_unixtime_list))
-    print("remote_times.py: time_diff_raw_int_list:")
-    print(str(time_diff_raw_int_list))
-    print("remote_times.py: time_diff_lag_cleaned_float_list:")
-    print(str(time_diff_lag_cleaned_float_list))
+    # print("remote_times.py: urls_list:")
+    # print(str(urls_list))
+    # print("remote_times.py: status_list:")
+    # print(str(status_list))
+    # print("remote_times.py: took_time_list:")
+    # print(str(took_time_list))
+    # print("remote_times.py: half_took_time_list:")
+    # print(str(half_took_time_list))
+    # print("remote_times.py: remote_unixtime_list:")
+    # print(str(remote_unixtime_list))
+    # print("remote_times.py: time_diff_raw_int_list:")
+    # print(str(time_diff_raw_int_list))
+    # print("remote_times.py: time_diff_lag_cleaned_float_list:")
+    # print(str(time_diff_lag_cleaned_float_list))
 
     return urls_list, status_list, remote_unixtime_list, took_time_list, half_took_time_list, time_diff_raw_int_list, time_diff_lag_cleaned_float_list
 
