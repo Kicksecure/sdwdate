@@ -13,8 +13,8 @@ import re
 import json
 import subprocess
 from subprocess import Popen
-from random import randint
-import random
+# from random import randint
+import secrets
 from datetime import datetime
 import time
 import glob
@@ -94,7 +94,7 @@ class Sdwdate(object):
 
         self.median_diff_raw_in_seconds = 0
         self.median_diff_lag_cleaned_in_seconds = 0
-        self.range_nanoseconds = 999999999
+        self.range_nanoseconds = range(0, 999999999)
         self.new_diff_in_seconds = 0
         self.new_diff_in_nanoseconds = 0
         self.unixtime_before_sleep = 0
@@ -535,8 +535,11 @@ class Sdwdate(object):
     def add_or_subtract_nanoseconds(self):
         if self.randomize_time_config():
             LOGGER.info("Randomizing nanoseconds.")
-            nanoseconds = randint(0, self.range_nanoseconds)
-            sign = randint(0, 1)
+            # nanoseconds = randint(0, self.range_nanoseconds)
+            nanoseconds = secrets.choice(self.range_nanoseconds)
+            # sign = randint(0, 1)
+            sings = [0, 1]
+            sign = secrets.choice(sings)
             seconds_to_add_or_subtract = (
                 float(nanoseconds) / 1000000000
             )
@@ -688,7 +691,9 @@ class Sdwdate(object):
                     continue
                 pool_size = len(pool.url)
                 while True:
-                    url_index = random.randrange(0, pool_size)
+                    # url_index = random.randrange(0, pool_size)
+                    values = list(range(0, pool_size))
+                    url_index = secrets.choice(values)
                     # print("pool_size: " + str(pool_size))
                     if url_index not in pool.already_picked_index:
                         # print("AAA str(len(pool.already_picked_index)): " \
@@ -878,9 +883,13 @@ class Sdwdate(object):
         sleep_time_minimum_seconds = 60 * 60
         # maximum sleep time: 180 minutes
         sleep_time_maximum_seconds = 180 * 60
-        self.sleep_time_seconds = randint(
-            sleep_time_minimum_seconds, sleep_time_maximum_seconds
-        )
+
+        # self.sleep_time_seconds = randint(
+        # sleep_time_minimum_seconds, sleep_time_maximum_seconds
+        # )
+        values = list(range(sleep_time_minimum_seconds, sleep_time_maximum_seconds))
+        self.sleep_time_seconds = secrets.choice(values)
+
         sleep_time_minutes = self.sleep_time_seconds / 60
         sleep_time_minutes_rounded = round(sleep_time_minutes)
 
@@ -910,7 +919,8 @@ class Sdwdate(object):
 
         SDNOTIFY_OBJECT.notify("WATCHDOG=1")
 
-        nanoseconds = randint(0, self.range_nanoseconds)
+        #nanoseconds = randint(0, self.range_nanoseconds)
+        nanoseconds = secrets.choice(self.range_nanoseconds)
 
         if self.sleep_time_seconds >= 10:
             file_object = open(self.sleep_long_file_path, "w")
