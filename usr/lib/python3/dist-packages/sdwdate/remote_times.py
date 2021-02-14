@@ -160,6 +160,9 @@ def check_remote(i, pools, remote, process, status, end_unixtime, took_time, std
     stderr_length_is = len(stderr)
     stderr_string_length_max = 500
 
+    if stderr_length_is == 0:
+        stderr = "empty"
+
     if stderr_length_is > stderr_string_length_max:
         status = "error"
         print("* ERROR: stderr excessive string length: " + str(stderr_length_is))
