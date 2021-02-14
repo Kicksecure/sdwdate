@@ -25,11 +25,11 @@ import shlex
 import sdnotify
 from guimessages.translations import _translations
 from sdwdate.proxy_settings import proxy_settings
-from sdwdate.timesanitycheck import time_consensus_sanity_check
-from sdwdate.timesanitycheck import static_time_sanity_check
 from sdwdate.config import read_pools
 from sdwdate.config import allowed_failures_config
 from sdwdate.config import allowed_failures_calculate
+from sdwdate.config import time_human_readable
+from sdwdate.config import time_replay_protection_file_read
 from sdwdate.remote_times import get_time_from_servers
 
 
@@ -74,18 +74,20 @@ class Sdwdate(object):
         self.list_of_urls_returned = []
         self.list_of_url_random_requested = []
         self.valid_urls = []
-        self.list_of_stdout = []
-        self.list_of_stderr = []
-        self.list_of_exit_codes = []
-        self.list_of_timeout_status = []
+        self.list_of_unixtimes = []
+        self.list_of_status = []
 
         self.request_unixtimes = {}
         self.request_took_times = {}
         self.list_of_took_time = []
-        self.half_took_time_float = {}
+        self.list_of_half_took_time = []
         self.time_diff_lag_cleaned_float = {}
 
+        self.list_off_time_diff_raw_int = []
+        self.list_off_time_diff_lag_cleaned_float = []
+
         self.unixtimes = []
+        self.half_took_time_float = {}
         self.pools_raw_diff = []
         self.pools_lag_cleaned_diff = []
         self.failed_urls = []
@@ -188,7 +190,7 @@ class Sdwdate(object):
 
         self.time_replay_protection_minium_unixtime_int, \
             self.time_replay_protection_minium_unixtime_human_readable = (
-                self.time_replay_protection_file_read()
+                time_replay_protection_file_read()
             )
 
         self.time_replay_protection_minium_unixtime_human_readable = \
@@ -258,13 +260,6 @@ class Sdwdate(object):
         with open(self.msg_path, "w") as msgf:
             msgf.write(msg)
             msgf.close()
-
-    @staticmethod
-    def time_human_readable(unixtime):
-        human_readable_unixtime = datetime.strftime(
-            datetime.fromtimestamp(unixtime), "%Y-%m-%d %H:%M:%S"
-        )
-        return human_readable_unixtime
 
     def preparation(self):
         message = ""
@@ -364,175 +359,6 @@ class Sdwdate(object):
             return True
         return False
 
-    def check_remote(
-            self,
-            remote,
-            stdout,
-            stderr,
-            took_time,
-            timeout_status,
-            comment,
-            i):
-        """
-        Check returned stdout. True if numeric.
-        """
-        remote_number = str(i)
-        message = "remote " + remote_number + ": " + remote
-        LOGGER.info(message)
-
-        message = "* comment: " + comment
-        LOGGER.info(message)
-
-        half_took_time_float = float(took_time) / 2
-        # Round took_time to two digits for better readability.
-        # No other reason for rounding.
-        half_took_time_float = round(half_took_time_float, 2)
-
-        try:
-            remote_unixtime = int(stdout)
-            old_unixtime = time.time()
-            remote_time = self.time_human_readable(remote_unixtime)
-            time_diff_raw_int = int(remote_unixtime) - int(old_unixtime)
-
-            # 1. User's sdwdate sends request to remote time source.
-            # 2. Server creates reply (HTTP DATE header).
-            # 3. Server sends reply back to user's sdwdate.
-            # Therefore assume that half of the time required to get the time
-            # reply has to be deducted from the raw time diff.
-            time_diff_lag_cleaned_float = (
-                float(time_diff_raw_int) - half_took_time_float
-            )
-            time_diff_lag_cleaned_float = \
-                round(time_diff_lag_cleaned_float, 2)
-        except BaseException:
-            if timeout_status == "timeout":
-                message = "* status: Timeout"
-            else:
-                message = "* status: False"
-            LOGGER.info(message)
-            message = "* took_time     : " + str(took_time) + " second(s)"
-            LOGGER.info(message)
-            message = "* stdout: " + str(stdout)
-            LOGGER.info(message)
-            message = "* stderr: " + str(stderr)
-            LOGGER.info(message)
-            LOGGER.info("")
-            time_diff_lag_cleaned_float = 0.0
-            return False, half_took_time_float, time_diff_lag_cleaned_float
-
-        timesanitycheck_status_static, \
-            timesanitycheck_error_static = \
-            static_time_sanity_check(remote_unixtime)
-
-        consensus_status, \
-            consensus_error, \
-            consensus_valid_after_str, \
-            consensus_valid_until_str = \
-            time_consensus_sanity_check(remote_unixtime)
-
-        message = "* took_time     : " + str(took_time) + " second(s)"
-        LOGGER.info(message)
-        message = "* half_took_time: " + \
-            str(half_took_time_float) + " second(s)"
-        LOGGER.info(message)
-        message = "* stderr: " + str(stderr)
-        LOGGER.info(message)
-
-        message = (
-            "* replay_protection_unixtime: "
-            + self.time_replay_protection_minium_unixtime_str
-        )
-        LOGGER.info(message)
-        message = "* remote_unixtime           : " + str(remote_unixtime)
-        LOGGER.info(message)
-
-        message = "* consensus/valid-after           : " + \
-            consensus_valid_after_str
-        LOGGER.info(message)
-        message = (
-            "* replay_protection_time          : "
-            + self.time_replay_protection_minium_unixtime_human_readable
-        )
-        LOGGER.info(message)
-        message = "* remote_time                     : " + remote_time
-        LOGGER.info(message)
-        message = "* consensus/valid-until           : " + \
-            consensus_valid_until_str
-        LOGGER.info(message)
-
-        message = "* time_diff_raw        : " + \
-            str(time_diff_raw_int) + " second(s)"
-        LOGGER.info(message)
-        message = (
-            "* time_diff_lag_cleaned: "
-            + str(time_diff_lag_cleaned_float)
-            + " second(s)"
-        )
-        LOGGER.info(message)
-
-        # Fallback.
-        remote_status = "fallback"
-
-        if timesanitycheck_status_static == "sane":
-            message = "* Time Replay Protection         : sane"
-            LOGGER.info(message)
-        elif timesanitycheck_status_static == "slow":
-            message = "* Time Replay Protection         : slow"
-            LOGGER.info(message)
-            remote_status = "False"
-        elif timesanitycheck_status_static == "fast":
-            message = "* Time Replay Protection         : fast"
-            LOGGER.info(message)
-            remote_status = "False"
-        elif timesanitycheck_status_static == "error":
-            message = (
-                "* Static Time Sanity Check       : error:"
-                + timesanitycheck_error_static
-            )
-            LOGGER.info(message)
-            remote_status = "False"
-
-        if consensus_status == "ok":
-            message = "* Tor Consensus Time Sanity Check: sane"
-            LOGGER.info(message)
-            if not remote_status == "False":
-                remote_status = "True"
-        elif consensus_status == "slow":
-            message = "* Tor Consensus Time Sanity Check: slow"
-            LOGGER.info(message)
-            remote_status = "False"
-        elif consensus_status == "fast":
-            message = "* Tor Consensus Time Sanity Check: fast"
-            LOGGER.info(message)
-            remote_status = "False"
-        elif consensus_status == "error":
-            message = "* Tor Consensus Time Sanity Check: error: " + \
-                consensus_error
-            LOGGER.info(message)
-            remote_status = "False"
-
-        message = "* remote_status: " + str(remote_status)
-        LOGGER.info(message)
-        LOGGER.info("")
-
-        if remote_status == "True":
-            return True, half_took_time_float, time_diff_lag_cleaned_float
-
-        return False, half_took_time_float, time_diff_lag_cleaned_float
-
-    def get_comment(self, remote):
-        """ For logging the comments, get the index of the url
-            to get it from pool.comment.
-        """
-        url_comment = "unknown-comment"
-        for pool in self.pools:
-            try:
-                url_index = pool.url.index(remote)
-                url_comment = pool.comment[url_index]
-                break
-            except BaseException:
-                pass
-        return url_comment
 
     def build_median(self):
         """
@@ -582,20 +408,6 @@ class Sdwdate(object):
         )
         LOGGER.info(message)
 
-    @staticmethod
-    def time_replay_protection_file_read():
-        process = subprocess.Popen(
-            "/usr/bin/minimum-unixtime-show",
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-        stdout, stderr = process.communicate()
-        unixtime = int(stdout)
-        time_human_readable = stderr.decode("utf-8")
-        # Relay check to avoid false-positives due to sdwdate inaccuracy.
-        unixtime = unixtime - 100
-        return unixtime, time_human_readable
-
     def time_replay_protection_file_write(self):
         time_now_utc_unixtime = time.time()
         # Example time_now_utc_unixtime:
@@ -620,7 +432,7 @@ class Sdwdate(object):
         with open(
             self.sdwdate_time_replay_protection_utc_humanreadable, "w"
         ) as trpuh:
-            time_now_utc_human_readable = self.time_human_readable(
+            time_now_utc_human_readable = time_human_readable(
                 time_now_utc_unixtime
             )
             message = (
@@ -648,10 +460,12 @@ class Sdwdate(object):
         new_unixtime_int = int(new_unixtime_int)
         new_unixtime_str = format(new_unixtime_float, ".9f")
 
-        old_unixtime_human_readable = self.time_human_readable(
-            old_unixtime_int)
-        new_unixtime_human_readable = self.time_human_readable(
-            new_unixtime_int)
+        old_unixtime_human_readable = time_human_readable(
+            old_unixtime_int
+       )
+        new_unixtime_human_readable = time_human_readable(
+            new_unixtime_int
+       )
 
         message = ("replay_protection_unixtime: " +
                    self.time_replay_protection_minium_unixtime_str)
@@ -935,12 +749,14 @@ class Sdwdate(object):
             LOGGER.info(message)
 
             self.list_of_urls_returned, \
-                self.list_of_stdout, \
-                self.list_of_stderr, \
+                self.list_of_status, \
+                self.list_of_unixtimes, \
                 self.list_of_took_time, \
-                self.list_of_timeout_status, \
-                self.list_of_exit_codes, \
+                self.list_of_half_took_time, \
+                self.list_off_time_diff_raw_int, \
+                self.list_off_time_diff_lag_cleaned_float, \
                 = get_time_from_servers(
+                    self.pools,
                     self.list_of_url_random_requested,
                     self.proxy_ip,
                     self.proxy_port
@@ -959,49 +775,29 @@ class Sdwdate(object):
 
             for i in range(len(self.list_of_urls_returned)):
                 returned_url_item_url = self.list_of_urls_returned[i]
-                returned_url_item_stdout = self.list_of_stdout[i]
-                returned_url_item_stderr = self.list_of_stderr[i]
+                returned_url_item_unixtime = self.list_of_unixtimes[i]
                 returned_url_item_took_time = self.list_of_took_time[i]
-                returned_url_item_took_timeout_status = \
-                    self.list_of_timeout_status[i]
-                returned_url_item_comment = self.get_comment(
-                    returned_url_item_url)
+                returned_url_item_took_status = self.list_of_status[i]
 
                 # Example returned_url_item_url:
                 # http://tinhat233xymse34.onion
 
-                status_from_check_remote, \
-                    took_time_half_float, \
-                    lag_cleaned_time_diff_float = \
-                    self.check_remote(
-                        returned_url_item_url,
-                        returned_url_item_stdout,
-                        returned_url_item_stderr,
-                        returned_url_item_took_time,
-                        returned_url_item_took_timeout_status,
-                        returned_url_item_comment,
-                        i,
-                    )
+                took_time_half_float = self.list_of_half_took_time[i]
+                lag_cleaned_time_diff_float = self.list_off_time_diff_lag_cleaned_float[i]
 
-                if status_from_check_remote:
-                    self.request_unixtimes[
-                        returned_url_item_url
-                    ] = returned_url_item_stdout
-                    self.request_took_times[
-                        returned_url_item_url
-                    ] = returned_url_item_took_time
+                if returned_url_item_took_status == "ok":
+                    self.request_unixtimes[returned_url_item_url] = returned_url_item_unixtime
+                    self.request_took_times[returned_url_item_url] = returned_url_item_took_time
                     self.valid_urls.append(returned_url_item_url)
-                    self.unixtimes.append(returned_url_item_stdout)
+                    self.unixtimes.append(returned_url_item_unixtime)
                     self.half_took_time_float[returned_url_item_url] = took_time_half_float
-                    self.time_diff_lag_cleaned_float[returned_url_item_url] \
-                        = \
-                        lag_cleaned_time_diff_float
+                    self.time_diff_lag_cleaned_float[returned_url_item_url] = lag_cleaned_time_diff_float
                 else:
                     self.failed_urls.append(returned_url_item_url)
 
             if self.iteration >= 2:
-                if len(self.list_of_stdout) >= 3:
-                    if self.general_timeout_error(self.list_of_timeout_status):
+                if len(self.list_of_status) >= 3:
+                    if self.general_timeout_error(self.list_of_status):
                         message = self.translate_object(
                             "general_timeout_error")
                         icon = "error"
@@ -1035,7 +831,7 @@ class Sdwdate(object):
                         web_unixtime = self.request_unixtimes[url]
                         web_unixtime = int(web_unixtime)
                         request_took_time_item = self.request_took_times[url]
-                        web_time = self.time_human_readable(web_unixtime)
+                        web_time = time_human_readable(web_unixtime)
 
                         pool_diff = int(web_unixtime) - int(old_unixtime)
                         self.pools_raw_diff.append(pool_diff)

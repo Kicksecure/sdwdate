@@ -5,11 +5,12 @@
 # See the file COPYING for copying conditions.
 
 # Example:
-# /usr/lib/python3/dist-packages/sdwdate/remote_times.py "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/a http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/b http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/c" "127.0.0.1" "9050"
+# sudo -u sdwdate /usr/lib/python3/dist-packages/sdwdate/remote_times.py "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/a http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/b http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/c" "127.0.0.1" "9050"
 
 import sys
 sys.dont_write_bytecode = True
 
+import os
 import signal
 import shlex
 import time
@@ -17,8 +18,15 @@ import subprocess
 from subprocess import Popen, PIPE
 import concurrent.futures
 
+from .config import get_comment
+from .config import read_pools
+from .config import time_human_readable
+from .config import time_replay_protection_file_read
+from .timesanitycheck import time_consensus_sanity_check
+from .timesanitycheck import static_time_sanity_check
 
-def run_command(i, url_to_unixtime_command):
+
+def run_command(i, url_to_unixtime_command, remote):
     timeout_seconds = 50
 
     # Avoid Popen shell=True.
@@ -29,7 +37,8 @@ def run_command(i, url_to_unixtime_command):
     process = subprocess.Popen(
         url_to_unixtime_command,
         stdout=PIPE,
-        stderr=PIPE)
+        stderr=PIPE
+    )
 
     try:
         process.wait(timeout_seconds)
@@ -48,21 +57,250 @@ def run_command(i, url_to_unixtime_command):
             "remote_times.py: i: " +
             str(i) +
             " | unknown error. sys.exc_info: " +
-            error_message)
+            error_message
+        )
         process.kill()
 
     # Do not return from this function until killing of the process is
     # complete.
     process.wait()
+
     end_unixtime = time.time()
     took_time = end_unixtime - start_unixtime
+
     # Round took_time to two digits for better readability.
     # No other reason for rounding.
     took_time = round(took_time, 2)
-    return process, took_time, status
+
+    # bytes
+    temp1, temp2 = process.communicate()
+    stdout = temp1.decode().strip()
+    stderr = temp2.decode().strip()
+    return process, status, end_unixtime, took_time, stdout, stderr
+
+
+def check_remote(i, pools, remote, process, status, end_unixtime, took_time, stdout, stderr):
+    message = "remote " + str(i) + ": " + str(remote)
+    print(message)
+
+    comment = get_comment(pools, remote)
+
+    message = "* comment: " + comment
+    print(message)
+
+    half_took_time_float = float(took_time) / 2
+    # Round took_time to two digits for better readability.
+    # No other reason for rounding.
+    half_took_time_float = round(half_took_time_float, 2)
+
+    message = "* took_time     : " + str(took_time) + " second(s)"
+    print(message)
+    message = "* half_took_time: " + str(half_took_time_float) + " second(s)"
+    print(message)
+
+    unixtime_maybe = stdout
+
+    unixtime_string_length_is = len(unixtime_maybe)
+    unixtime_string_length_max = 10
+
+    if unixtime_string_length_is == 0:
+        if not status == "timeout":
+            status = "error"
+            stdout = "empty"
+    else:
+        if not unixtime_string_length_is == unixtime_string_length_max:
+            status = "error"
+            print("* ERROR: stdout excessive string length: " + str(unixtime_string_length_is))
+
+    if not status == "timeout":
+        if not process.returncode == 0:
+            status = "error"
+
+    stderr_length_is = len(stderr)
+    stderr_string_length_max = 500
+
+    if stderr_length_is > stderr_string_length_max:
+        status = "error"
+        print("* ERROR: stderr excessive string length: " + str(stderr_length_is))
+
+    # Test:
+    # status = "done"
+
+    if status == "timeout":
+        cast_success = False
+    elif status == "error":
+        cast_success = False
+    else:
+        try:
+            # cast str unixtime_maybe to int remote_unixtime
+            remote_unixtime = int(unixtime_maybe)
+            cast_success = True
+        except BaseException:
+            cast_success = False
+            status = "error"
+            error_message = str(sys.exc_info()[0])
+            status = "error"
+            print("* ERROR: Could not cast to int. error_message: " + error_message)
+
+    # Test:
+    # remote_unixtime = 99999999999999999999
+    # remote_unixtime = -1
+    # remote_unixtime = 1
+    # status = "done"
+
+    if not status == "error" and not status == "timeout":
+        # Simple test if above cast str unixtime_maybe to int remote_unixtime
+        # was a success. Within 1 and 999999999. Just to make sure to not
+        # continue with excessively larger numbers. A better time sanity test
+        # is being done later below.
+        remote_unixtime_max = 9999999999
+        remote_unixtime_min = 0
+        if remote_unixtime > remote_unixtime_max:
+            status = "error"
+            print("* ERROR: remote_unixtime(int) too large!")
+        if remote_unixtime <= remote_unixtime_min:
+            status = "error"
+            print("* ERROR: remote_unixtime(int) smaller or equal 0!")
+
+    if not status == "done":
+        message = "* exit_code: " + str(process.returncode)
+        print(message)
+        if not unixtime_string_length_is > unixtime_string_length_max:
+            message = "* stdout: " + str(stdout)
+            print(message)
+        if not stderr_length_is > stderr_string_length_max:
+            message = "* stderr: " + stderr
+            print(message)
+        message = "* remote_status: " + str(status)
+        print(message)
+        remote_unixtime = 0
+        time_diff_raw_int = 0
+        time_diff_lag_cleaned_float = 0.0
+        return status, half_took_time_float, remote_unixtime, time_diff_raw_int, time_diff_lag_cleaned_float
+
+    time_diff_raw_int = int(remote_unixtime) - int(end_unixtime)
+    remote_time = time_human_readable(remote_unixtime)
+
+    # 1. User's sdwdate sends request to remote time source.
+    # 2. Server creates reply (HTTP DATE header).
+    # 3. Server sends reply back to user's sdwdate.
+    # Therefore assume that half of the time required to get the time
+    # reply has to be deducted from the raw time diff.
+    time_diff_lag_cleaned_float = float(time_diff_raw_int) - half_took_time_float
+    time_diff_lag_cleaned_float = round(time_diff_lag_cleaned_float, 2)
+
+
+    time_replay_protection_minium_unixtime_int, \
+        time_replay_protection_minium_unixtime_human_readable = (
+            time_replay_protection_file_read()
+        )
+
+    time_replay_protection_minium_unixtime_human_readable = \
+        time_replay_protection_minium_unixtime_human_readable.strip()
+
+    time_replay_protection_minium_unixtime_str = str(
+        time_replay_protection_minium_unixtime_int
+    )
+
+
+    timesanitycheck_status_static, \
+        timesanitycheck_error_static = \
+        static_time_sanity_check(remote_unixtime)
+
+    consensus_status, \
+        consensus_error, \
+        consensus_valid_after_str, \
+        consensus_valid_until_str = \
+        time_consensus_sanity_check(remote_unixtime)
+
+    message = (
+        "* replay_protection_unixtime: "
+        + time_replay_protection_minium_unixtime_str
+    )
+    print(message)
+    message = "* remote_unixtime           : " + str(remote_unixtime)
+    print(message)
+
+    message = "* consensus/valid-after           : " + \
+        consensus_valid_after_str
+    print(message)
+    message = (
+        "* replay_protection_time          : "
+        + time_replay_protection_minium_unixtime_human_readable
+    )
+    print(message)
+    message = "* remote_time                     : " + remote_time
+    print(message)
+    message = "* consensus/valid-until           : " + \
+        consensus_valid_until_str
+    print(message)
+
+    message = "* time_diff_raw        : " + \
+        str(time_diff_raw_int) + " second(s)"
+    print(message)
+    message = (
+        "* time_diff_lag_cleaned: "
+        + str(time_diff_lag_cleaned_float)
+        + " second(s)"
+    )
+    print(message)
+
+    # Fallback.
+    remote_status = "fallback"
+
+    if timesanitycheck_status_static == "sane":
+        message = "* Time Replay Protection         : sane"
+        print(message)
+    elif timesanitycheck_status_static == "slow":
+        message = "* Time Replay Protection         : slow"
+        print(message)
+        remote_status = "False"
+    elif timesanitycheck_status_static == "fast":
+        message = "* Time Replay Protection         : fast"
+        print(message)
+        remote_status = "False"
+    elif timesanitycheck_status_static == "error":
+        message = (
+            "* Static Time Sanity Check       : error:"
+            + timesanitycheck_error_static
+        )
+        print(message)
+        remote_status = "False"
+
+    if consensus_status == "ok":
+        message = "* Tor Consensus Time Sanity Check: sane"
+        print(message)
+        if not remote_status == "False":
+            remote_status = "True"
+    elif consensus_status == "slow":
+        message = "* Tor Consensus Time Sanity Check: slow"
+        print(message)
+        remote_status = "False"
+    elif consensus_status == "fast":
+        message = "* Tor Consensus Time Sanity Check: fast"
+        print(message)
+        remote_status = "False"
+    elif consensus_status == "error":
+        message = "* Tor Consensus Time Sanity Check: error: " + \
+            consensus_error
+        print(message)
+        remote_status = "False"
+
+    message = "* remote_status: " + remote_status
+    print(message)
+
+    if remote_status == "True":
+        status = "ok"
+        return status, half_took_time_float, remote_unixtime, time_diff_raw_int, time_diff_lag_cleaned_float
+
+    remote_unixtime = 0
+    time_diff_raw_int = 0
+    time_diff_lag_cleaned_float = 0.00
+    return status, half_took_time_float, remote_unixtime, time_diff_raw_int, time_diff_lag_cleaned_float
 
 
 def get_time_from_servers(
+        pools,
         list_of_remote_servers,
         proxy_ip_address,
         proxy_port_number):
@@ -78,16 +316,23 @@ def get_time_from_servers(
 
     url_to_unixtime_debug = "true"
 
-    urls_list = [None] * number_of_remote_servers
-    stdout_list = [None] * number_of_remote_servers
-    stderr_list = [None] * number_of_remote_servers
-    took_time_list = [None] * number_of_remote_servers
-    timeout_status_list = [None] * number_of_remote_servers
-    exit_code_list = [None] * number_of_remote_servers
-    handle = [None] * number_of_remote_servers
-    future = [None] * number_of_remote_servers
-    took_time = [None] * number_of_remote_servers
     status = [None] * number_of_remote_servers
+    status_list = [None] * number_of_remote_servers
+    urls_list = [None] * number_of_remote_servers
+    took_time_list = [None] * number_of_remote_servers
+    half_took_time_list = [None] * number_of_remote_servers
+    remote_unixtime_list = [None] * number_of_remote_servers
+    handle_list = [None] * number_of_remote_servers
+    future_list = [None] * number_of_remote_servers
+
+    end_unixtime = [None] * number_of_remote_servers
+    took_time = [None] * number_of_remote_servers
+    stdout = [None] * number_of_remote_servers
+    stderr = [None] * number_of_remote_servers
+
+    time_diff_raw_int_list = [None] * number_of_remote_servers
+    time_diff_lag_cleaned_float_list = [None] * number_of_remote_servers
+
     url_to_unixtime_commands_list = [None] * number_of_remote_servers
 
     print("remote_times.py: url_to_unixtime_command (s):")
@@ -96,64 +341,47 @@ def get_time_from_servers(
             proxy_port_number + " " + list_of_remote_servers[i] + " " + remote_port + " " + url_to_unixtime_debug
         print(url_to_unixtime_commands_list[i])
 
+    print("")
+
     with concurrent.futures.ThreadPoolExecutor() as executor:
         for i in range_of_remote_servers:
-            future[i] = executor.submit(
-                run_command, i, url_to_unixtime_commands_list[i])
+            future_list[i] = executor.submit(
+                run_command, i, url_to_unixtime_commands_list[i], list_of_remote_servers[i]
+            )
 
     for i in range_of_remote_servers:
-        handle[i], took_time[i], status[i] = future[i].result()
+        handle_list[i], status[i], end_unixtime[i], took_time[i], stdout[i], stderr[i] = future_list[i].result()
 
     for i in range_of_remote_servers:
-        took_time_list[i] = took_time[i]
-        timeout_status_list[i] = status[i]
+        status_list[i], \
+        half_took_time_list[i], \
+        remote_unixtime_list[i], \
+        time_diff_raw_int_list[i], \
+        time_diff_lag_cleaned_float_list[i] \
+            = \
+            check_remote(i, pools, list_of_remote_servers[i], handle_list[i], status[i], end_unixtime[i], took_time[i], stdout[i], stderr[i])
+
+        print("")
+
         urls_list[i] = list_of_remote_servers[i]
-        returncode = handle[i].returncode
-        exit_code_list[i] = returncode
+        took_time_list[i] = took_time[i]
 
-        # bytes
-        stdout, stderr = handle[i].communicate()
+    print("remote_times.py: urls_list:")
+    print(str(urls_list))
+    print("remote_times.py: status_list:")
+    print(str(status_list))
+    print("remote_times.py: took_time_list:")
+    print(str(took_time_list))
+    print("remote_times.py: half_took_time_list:")
+    print(str(half_took_time_list))
+    print("remote_times.py: remote_unixtime_list:")
+    print(str(remote_unixtime_list))
+    print("remote_times.py: time_diff_raw_int_list:")
+    print(str(time_diff_raw_int_list))
+    print("remote_times.py: time_diff_lag_cleaned_float_list:")
+    print(str(time_diff_lag_cleaned_float_list))
 
-        # stderr if Tor is stopped (or Tor SocksPort not reachable):
-        # connect error:
-        # SOCKSHTTPConnectionPool(host='sdolvtfhatvsysc6l34d65ymdwxcujausv7k5jk4cy5ttzhjoi6fzvyd.onion',
-        # port=80): Max retries exceeded with url: / (Caused by
-        # NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at
-        # 0x7703a89cfeb8>: Failed to establish a new connection: [Errno 111]
-        # Connection refused'))
-
-        # print("remote_times.py: i: " + str(i))
-        # print("remote_times.py: stdout: " + str(stdout))
-        # print("remote_times.py: stderr: " + str(stderr))
-        # print("remote_times.py: took_time[i]: " + str(took_time[i]))
-        # print("remote_times.py: returncode: " + str(returncode))
-
-        stdout_list[i] = stdout.decode()
-        if returncode == 0:
-            # example stderr:
-            # data: <Response [200]>
-            # http_time: Tue, 09 Feb 2021 10:35:10 GMT
-            # parsed_unixtime: 1612866910
-            #
-            # Redacting stderr for brevity.
-            stderr_list[i] = "redacted"
-        else:
-            stderr_list[i] = stderr.decode()
-
-    # print("remote_times.py: urls_list:")
-    # print(str(urls_list))
-    # print("remote_times.py: stdout_list:")
-    # print(str(stdout_list))
-    # print("remote_times.py: stderr_list:")
-    # print(str(stderr_list))
-    # print("remote_times.py: took_time_list:")
-    # print(str(took_time_list))
-    # print("remote_times.py: timeout_status_list:")
-    # print(str(timeout_status_list))
-    # print("remote_times.py: exit_code_list:")
-    # print(str(exit_code_list))
-
-    return urls_list, stdout_list, stderr_list, took_time_list, timeout_status_list, exit_code_list
+    return urls_list, status_list, remote_unixtime_list, took_time_list, half_took_time_list, time_diff_raw_int_list, time_diff_lag_cleaned_float_list
 
 
 def remote_times_signal_handler(signum, frame):
@@ -161,14 +389,35 @@ def remote_times_signal_handler(signum, frame):
     sys.exit(0)
 
 
+class TimeSourcePool(object):
+    def __init__(self, pool):
+        self.url, self.comment = read_pools(pool, "production")
+        self.url_random_pool = []
+        self.already_picked_index = []
+        self.done = False
+
+
 def main():
+    os.environ["LC_TIME"] = "C"
+    os.environ["TZ"] = "UTC"
+    time.tzset()
+
     signal.signal(signal.SIGTERM, remote_times_signal_handler)
     signal.signal(signal.SIGINT, remote_times_signal_handler)
+
+    pools = []
+    number_of_pools = 3
+    pool_range = range(number_of_pools)
+    for pool_i in pool_range:
+        pools.append(TimeSourcePool(pool_i))
+
     list_of_remote_servers = sys.argv[1]
     list_of_remote_servers = list_of_remote_servers.split()
     proxy_ip_address = sys.argv[2]
     proxy_port_number = sys.argv[3]
+
     get_time_from_servers(
+        pools,
         list_of_remote_servers,
         proxy_ip_address,
         proxy_port_number

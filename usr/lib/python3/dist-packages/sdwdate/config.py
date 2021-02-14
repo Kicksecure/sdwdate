@@ -21,6 +21,29 @@ import re
 import random
 
 
+def time_human_readable(unixtime):
+    from datetime import datetime
+    human_readable_unixtime = datetime.strftime(
+        datetime.fromtimestamp(unixtime), "%Y-%m-%d %H:%M:%S"
+    )
+    return human_readable_unixtime
+
+
+def time_replay_protection_file_read():
+    import subprocess
+    process = subprocess.Popen(
+        "/usr/bin/minimum-unixtime-show",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    stdout, stderr = process.communicate()
+    unixtime = int(stdout)
+    time_human_readable = stderr.decode("utf-8")
+    # Relay check to avoid false-positives due to sdwdate inaccuracy.
+    unixtime = unixtime - 100
+    return unixtime, time_human_readable
+
+
 def allowed_failures_config():
     failure_ratio = None
     if os.path.exists("/etc/sdwdate.d/"):
@@ -44,6 +67,21 @@ def allowed_failures_calculate(
     allowed_failures_value = temp / pools_total_number
     allowed_failures_value = int(allowed_failures_value)
     return allowed_failures_value
+
+
+def get_comment(pools, remote):
+    """ For logging the comments, get the index of the url
+        to get it from pool.comment.
+    """
+    url_comment = "unknown-comment"
+    for pool_item in pools:
+        try:
+            url_index = pool_item.url.index(remote)
+            url_comment = pool_item.comment[url_index]
+            break
+        except BaseException:
+            pass
+    return url_comment
 
 
 def sort_pool(pool, mode):

@@ -9,18 +9,23 @@
 import sys
 sys.dont_write_bytecode = True
 
-# import time
+import os
+import time
 # from datetime import datetime
 from dateutil.parser import parse
 from stem.connection import connect
 import subprocess
 
+os.environ["LC_TIME"] = "C"
+os.environ["TZ"] = "UTC"
+time.tzset()
 
 def time_consensus_sanity_check(unixtime):
     error = ""
     status = "ok"
     consensus_valid_after_str = ""
     consensus_valid_until_str = ""
+
     try:
         controller = connect()
     except BaseException:
@@ -28,13 +33,24 @@ def time_consensus_sanity_check(unixtime):
         error = "Could not open Tor control connection. error: " + \
             str(sys.exc_info()[0])
         return status, error, consensus_valid_after_str, consensus_valid_until_str
+
     try:
         consensus_valid_after_str = controller.get_info(
             "consensus/valid-after")
         consensus_valid_until_str = controller.get_info(
             "consensus/valid-until")
-        controller.close()
+    except BaseException:
+        status = "error"
+        error = "Could not request from Tor control connection. error: " + \
+            str(sys.exc_info()[0])
+        return status, error, consensus_valid_after_str, consensus_valid_until_str
 
+    try:
+        controller.close()
+    except BaseException:
+        pass
+
+    try:
         consensus_valid_after_unixtime = parse(
             consensus_valid_after_str).strftime('%s')
         consensus_valid_until_unixtime = parse(
