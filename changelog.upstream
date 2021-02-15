@@ -1,3 +1,389 @@
+commit aed610711aea5543836bbe38c8800bab1eacf5b7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Feb 14 09:10:10 2021 -0500
+
+    port to python secrets
+
+commit 6ebb57e4a23f155aa9125342f37cdc447940793c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Feb 14 08:36:32 2021 -0500
+
+    output
+
+commit 6127b0046c9edab98271e4ddf845a8ec24fe4d05
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Feb 14 08:12:33 2021 -0500
+
+    comments
+
+commit 7f15f14bbc8cc43195c09de73ccc2afac252b5e9
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Feb 14 08:10:58 2021 -0500
+
+    refactoring
+
+commit 77d5a6e07477b4de732368b01693f93550e736e9
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Feb 14 08:07:02 2021 -0500
+
+    refactoring
+
+commit 3477ea9bcbb4ec952e105839c34f3fea5ffcd9ea
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Feb 14 07:58:42 2021 -0500
+
+    comment
+
+commit d0161ac44c39651b19a2c177842b5669b3c5f151
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Feb 14 07:54:51 2021 -0500
+
+    comment
+
+commit a6d197f61f2582e3d44e87b98ab55045ef5082b7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Feb 14 07:54:14 2021 -0500
+
+    try except decode
+
+commit c5d3fa08610fdb7bd6f994eb4f94a28641bf3f00
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Feb 14 07:46:02 2021 -0500
+
+    timeout on read
+
+commit 2b22358f162b690778b6c1dc542e949bd1e67076
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Feb 14 07:31:53 2021 -0500
+
+    refactoring
+
+commit e3f881050dffcd6985a48e20d2e2b0f2c3a9c4ef
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Feb 12 05:44:27 2021 -0500
+
+    sys.dont_write_bytecode = True
+    
+    to simplify apparmor profiles
+
+commit a44f06d81f97f1858e5364ea1525e378f9d71cdf
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Feb 12 05:40:41 2021 -0500
+
+    refactoring
+
+commit 2216780ef90f30c135d6e0bfc650b10ed0ea5474
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Feb 12 05:39:28 2021 -0500
+
+    refactoring
+
+commit f859fca02a55db20d2c62b991d2b0938da17c967
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Feb 11 06:06:33 2021 -0500
+
+    avoid Popen Shell=true
+
+commit 9a5feac7538456a7244de84ea08161f5c9f98611
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Feb 11 05:35:04 2021 -0500
+
+    autopep8 --in-place --aggressive --aggressive
+
+commit e7824d6565ef598519b6266c444912b98352a5b9
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Feb 11 05:28:33 2021 -0500
+
+    refactoring
+
+commit 0cc7bb6f12d31a51fca3dc7bd369df7401c57722
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 15:04:35 2021 -0500
+
+    show timeout status
+
+commit 19fe38a8f53b33c4c253d3d630464fbf33ad7758
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 15:00:31 2021 -0500
+
+    refactoring
+
+commit e44a2baede4d0cf37b49f4afa9882fa23ed36ccc
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 14:58:23 2021 -0500
+
+    refactoring
+
+commit a8ef3b7f0342ae89927fedfb7dafe14fbc26ef5e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 14:57:34 2021 -0500
+
+    refactoring
+
+commit 3b2da3dc7192f0312be11e0b3514068faaf08d29
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 14:54:31 2021 -0500
+
+    refactoring
+
+commit 7fc5537389fd97c6fac57f59eee7671f559e3608
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 14:50:19 2021 -0500
+
+    minor
+
+commit b794bea51130ae811512908216479d9d0dab3964
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 14:39:46 2021 -0500
+
+    output
+
+commit 5a2bac73e7909d237795c6da24302af85ebde62e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 14:36:47 2021 -0500
+
+    refactoring
+
+commit d4da4e75a9cbe9f999208073afb97f1fd6ead4b5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 14:22:11 2021 -0500
+
+    refactoring
+
+commit cbafa21ccea7e1316b7950add7b3156a5ce0d29b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 14:15:02 2021 -0500
+
+    refactoring
+
+commit 374f2fb4493c4cfd833459c8bb19fcef21a4e4fd
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 14:11:10 2021 -0500
+
+    refactoring
+
+commit b1eba27126b54855670d7e90ae0477a7e006f54d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 14:08:08 2021 -0500
+
+    refactoring
+
+commit 0aa8ab32c412458100cc1a0362051cad2546a537
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 14:04:31 2021 -0500
+
+    autopep8
+
+commit 167b73c1a52f16c775c4a5eccbd71c6246c75d6d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 14:04:01 2021 -0500
+
+    autopep8
+
+commit 5bdb0dfa1bff2dce361ecbc8cb16661387cd9546
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 13:53:46 2021 -0500
+
+    refactoring
+
+commit f06b84d4fccef61bb18e4f1ff2cef08b18e589c5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 13:46:14 2021 -0500
+
+    refactoring
+
+commit 2e8f3d30b1a1b12abea57a78a63abab6d95fce14
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 13:28:58 2021 -0500
+
+    fix lintian warning
+
+commit 0936fd25a49f74ed29a0caeb7d05a8e7ec0578c1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 13:28:56 2021 -0500
+
+    refactoring
+
+commit 68c3987c9fbed292d13a589033366080c0683cdb
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 13:06:42 2021 -0500
+
+    refactoring
+
+commit c46626efc6981f306ff900d0200f2459abce1b7d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 13:01:54 2021 -0500
+
+    refactoring
+
+commit e1ff97e5d30a5908b9df3574b3161d4a54bd3b2a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 12:55:12 2021 -0500
+
+    refactoring
+
+commit e1e69bb0d4729a641f672529b81b150578f4676c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 12:15:19 2021 -0500
+
+    refactoring
+
+commit 95eddf429ad45110de4f7991681e30024ed31ab8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 12:04:11 2021 -0500
+
+    refactoring
+
+commit 40a9905216c34d920349709a1b0fdcfe5064acaa
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 11:46:35 2021 -0500
+
+    move usr/bin/sdwdate to usr/lib/python3/dist-packages/sdwdate/sdwdate.py
+
+commit eee4319e19aaa7fb71789a6ed0a70ce99e005847
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 11:43:43 2021 -0500
+
+    new file:   usr/lib/python3/dist-packages/sdwdate/__init__.py
+
+commit a93f3143f57c10c6771c15e0d727c7c500a5ff43
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 11:32:51 2021 -0500
+
+    cleanup
+
+commit d8503e6240e67314b0b7268a789bda3ebbef32a0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 11:31:34 2021 -0500
+
+    refactoring
+
+commit cc66425dfb8313146b456ac45c0d7db5d3472722
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 11:21:51 2021 -0500
+
+    refactoring
+
+commit d32b3bbad3910ad7e633bae722f4eb95370fad0e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 11:20:11 2021 -0500
+
+    refactoring
+
+commit 32d8141eaef1395ad33c6b7e18a846a214e84208
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 11:18:17 2021 -0500
+
+    refactoring
+
+commit a236a56c34a6cdf1282db9268bd72c1e7fd25bac
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 11:14:34 2021 -0500
+
+    refactoring
+
+commit b25adcc1babcbb375e25aaeeacbff8d55c58b232
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 11:12:30 2021 -0500
+
+    refactoring
+
+commit 10a31b858ec235c0b47dcb77aed6f57d6309cf29
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 11:07:28 2021 -0500
+
+    refactoring
+
+commit 6d1e15d53b5f534b576332c25e2c53879e1542bf
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 10:31:12 2021 -0500
+
+    refactoring
+
+commit 6a079c77abde88f31f07577d096abf040d7cb98b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 10:18:21 2021 -0500
+
+    refactoring
+
+commit 3c98187d3a9a1607639e4e9363483a1cb01ed2e0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 10:16:01 2021 -0500
+
+    refactoring
+
+commit 915ff3540863def9a13ea822fe86f713ce4446f0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 09:18:15 2021 -0500
+
+    refactoring
+
+commit 6b0d5e8617400a7237829544235e9d91bfe1f5d4
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 09:14:02 2021 -0500
+
+    refactoring
+
+commit fb5e99662b9ddac87ecd8b4a050d8de3c70ef2f3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 09:05:08 2021 -0500
+
+    minor
+
+commit e230e22da9f866524c227f63bf4b40413ce1722a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 09:03:14 2021 -0500
+
+    cleanup
+
+commit e51c3311539fc0b6be4af53c999941c618eaa7c5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 09:02:40 2021 -0500
+
+    refactoring
+
+commit f5e279e4cca0056c6418356cdea6e742691b042d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 08:55:47 2021 -0500
+
+    comment
+
+commit 027cf9512eb06eeb438eab53edf107fbb1e6fabe
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 08:55:15 2021 -0500
+
+    refactoring
+
+commit e1299be79a65fb35e5cf989501a5f8c81b1b69dd
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 08:54:32 2021 -0500
+
+    refactoring
+
+commit 285389a0b63fa83f7119ea052558b79ff94da626
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 08:52:05 2021 -0500
+
+    PEP8
+
+commit 16b37c34840a70aae26e818f66fbaa94cd23ac67
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 07:31:54 2021 -0500
+
+    intentd
+
+commit d02d97edc859cc8f2083b34cf1488fb6458c0ff1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 07:30:26 2021 -0500
+
+    output
+
+commit d73671b1de3ca8b6efff60cfa23f98855eef20a4
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 10 07:16:45 2021 -0500
+
+    bumped changelog version
+
 commit 5f06916ae001bd5f5aaa9a5f087f2bfe6e021024
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Feb 10 07:16:27 2021 -0500
