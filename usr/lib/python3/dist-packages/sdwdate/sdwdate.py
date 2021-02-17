@@ -1050,9 +1050,9 @@ def main():
         )
         LOGGER.info(msg)
 
-        sdwdate = Sdwdate()
+        sdwdate_obj = Sdwdate()
 
-        sdwdate.preparation()
+        sdwdate_obj.preparation()
 
         msg_for_sdnotify = "STATUS=" + msg
         SDNOTIFY_OBJECT.notify(msg_for_sdnotify)
@@ -1070,16 +1070,16 @@ def main():
         # print("main allowed_failures: " + str(x))
         # sys.exit(0)
 
-        sdwdate_status_fl = sdwdate.sdwdate_fetch_loop()
+        sdwdate_status_fl = sdwdate_obj.sdwdate_fetch_loop()
 
         SDNOTIFY_OBJECT.notify("WATCHDOG=1")
 
         if sdwdate_status_fl == "success":
-            sdwdate.build_median()
-            sdwdate.add_or_subtract_nanoseconds()
-            status_set_net_time = sdwdate.set_new_time()
+            sdwdate_obj.build_median()
+            sdwdate_obj.add_or_subtract_nanoseconds()
+            status_set_net_time = sdwdate_obj.set_new_time()
             if status_set_net_time:
-                sdwdate.time_replay_protection_file_write()
+                sdwdate_obj.time_replay_protection_file_write()
             else:
                 sdwdate_status_fl = "error"
 
@@ -1087,11 +1087,11 @@ def main():
             file_object = open(fail_file_path, "w")
             file_object.close()
 
-        sdwdate.wait_sleep()
-        sdwdate.check_clock_skew()
+        sdwdate_obj.wait_sleep()
+        sdwdate_obj.check_clock_skew()
         kill_sclockadj()
 
-        del sdwdate
+        del sdwdate_obj
 
 
 if __name__ == "__main__":
