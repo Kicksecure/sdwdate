@@ -889,7 +889,8 @@ class Sdwdate(object):
                 " time_delta: " +
                 str(time_delta) +
                 " time_passed: " +
-                str(time_passed))
+                str(time_passed)
+            )
             LOGGER.warning(message)
 
 
