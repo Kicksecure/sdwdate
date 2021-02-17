@@ -44,6 +44,22 @@ def time_replay_protection_file_read():
     return unixtime, time_human_readable
 
 
+def randomize_time_config():
+    status = False
+    if not os.path.exists("/etc/sdwdate.d/"):
+        return status
+    files = sorted(glob.glob("/etc/sdwdate.d/*.conf"))
+    for file_item in files:
+        with open(file_item) as conf:
+            lines = conf.readlines()
+            for line in lines:
+                if line.startswith("RANDOMIZE_TIME=true"):
+                    status = True
+                if line.startswith("RANDOMIZE_TIME=false"):
+                    status = False
+    return status
+
+
 def allowed_failures_config():
     failure_ratio = None
     if os.path.exists("/etc/sdwdate.d/"):

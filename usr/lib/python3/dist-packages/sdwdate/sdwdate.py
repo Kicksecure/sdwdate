@@ -29,6 +29,7 @@ from sdwdate.config import allowed_failures_config
 from sdwdate.config import allowed_failures_calculate
 from sdwdate.config import time_human_readable
 from sdwdate.config import time_replay_protection_file_read
+from sdwdate.config import randomize_time_config
 from sdwdate.remote_times import get_time_from_servers
 from sdwdate.misc import strip_html
 
@@ -265,6 +266,7 @@ class SdwdateClass(object):
             preparation_sleep_seconds = 1
             time.sleep(preparation_sleep_seconds)
 
+
     @staticmethod
     def general_timeout_error(pools):
         """
@@ -328,6 +330,7 @@ class SdwdateClass(object):
         )
         LOGGER.info(message)
 
+
     def time_replay_protection_file_write(self):
         time_now_utc_unixtime = time.time()
         # Example time_now_utc_unixtime:
@@ -364,6 +367,7 @@ class SdwdateClass(object):
             LOGGER.info(message)
             trpuh.write(str(time_now_utc_human_readable))
             trpuh.close()
+
 
     def set_new_time(self):
         status_first_success = os.path.exists(status_first_success_path)
@@ -449,24 +453,9 @@ class SdwdateClass(object):
         message = "ok"
         return True
 
-    @staticmethod
-    def randomize_time_config():
-        status = False
-        if not os.path.exists("/etc/sdwdate.d/"):
-            return status
-        files = sorted(glob.glob("/etc/sdwdate.d/*.conf"))
-        for file_item in files:
-            with open(file_item) as conf:
-                lines = conf.readlines()
-                for line in lines:
-                    if line.startswith("RANDOMIZE_TIME=true"):
-                        status = True
-                    if line.startswith("RANDOMIZE_TIME=false"):
-                        status = False
-        return status
 
     def add_or_subtract_nanoseconds(self):
-        if self.randomize_time_config():
+        if randomize_time_config():
             LOGGER.info("Randomizing nanoseconds.")
             # nanoseconds = randint(0, self.range_nanoseconds)
             nanoseconds = secrets.choice(self.range_nanoseconds)
@@ -504,6 +493,7 @@ class SdwdateClass(object):
             self.new_diff_in_seconds
         LOGGER.info(message)
 
+
     def run_sclockadj(self):
         if self.new_diff_in_seconds == 0:
             message = "Time difference = 0. Not setting time."
@@ -527,6 +517,7 @@ class SdwdateClass(object):
             % sclockadj_process.pid
         )
         LOGGER.info(message)
+
 
     def set_time_using_date(self, new_unixtime_str):
         if self.new_diff_in_seconds == 0:
@@ -563,6 +554,7 @@ class SdwdateClass(object):
             reason = "bin_date_status non-zero exit code"
             exit_code = 1
             exit_handler(exit_code, reason)
+
 
     def sdwdate_fetch_loop(self):
         """
@@ -809,6 +801,7 @@ class SdwdateClass(object):
         write_status(icon, message)
         return status
 
+
     def wait_sleep(self):
         # If we make the sleep period configurable one day, we need to
         # advice the user to also adjust WatchdogSec= in sdwdate's systemd
@@ -864,6 +857,7 @@ class SdwdateClass(object):
         global sleep_process
         sleep_process = Popen(sleep_cmd)
         sleep_process.wait()
+
 
     def check_clock_skew(self):
         unixtime_after_sleep = int(time.time())
