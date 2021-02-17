@@ -313,19 +313,19 @@ class SdwdateClass(object):
         self.median_diff_lag_cleaned_in_seconds = diffs_lag_cleaned[
             (len(diffs_lag_cleaned) // 2)
         ]
-        message = "median          request_took_times: %+.9f" % \
+        message = "median          request_took_times: %+.2f" % \
             median_took_times
         LOGGER.info(message)
-        message = "median     half_request_took_times: %+.9f" % \
+        message = "median     half_request_took_times: %+.2f" % \
             median_half_took_times
         LOGGER.info(message)
         message = (
-            "median         raw time difference: %+.9f"
+            "median         raw time difference: %+.2f"
             % self.median_diff_raw_in_seconds
         )
         LOGGER.info(message)
         message = (
-            "median lag_cleaned time difference: %+.9f"
+            "median lag_cleaned time difference: %+.2f"
             % self.median_diff_lag_cleaned_in_seconds
         )
         LOGGER.info(message)
