@@ -423,7 +423,7 @@ class Sdwdate(object):
             LOGGER.error(message)
             message = "Time Replay Protection: ERROR. More more information, \
             see: sdwdate-gui -> right click -> Open sdwdate's log"
-            return False, message
+            return False
 
         if not status_first_success:
             self.set_time_using_date(new_unixtime_str)
@@ -443,8 +443,9 @@ class Sdwdate(object):
 
         file_object = open(status_success_path, "w")
         file_object.close()
+
         message = "ok"
-        return True, message
+        return True
 
     @staticmethod
     def randomize_time_config():
@@ -1073,7 +1074,7 @@ def main():
         if sdwdate_status_fl == "success":
             sdwdate.build_median()
             sdwdate.add_or_subtract_nanoseconds()
-            status_set_net_time, message_set_new_time = sdwdate.set_new_time()
+            status_set_net_time = sdwdate.set_new_time()
             if status_set_net_time:
                 sdwdate.time_replay_protection_file_write()
             else:
