@@ -130,7 +130,7 @@ class TimeSourcePool(object):
         self.done = False
 
 
-class Sdwdate(object):
+class SdwdateClass(object):
     def __init__(self):
         self.failure_ratio_from_config = allowed_failures_config()
 
@@ -1050,7 +1050,7 @@ def main():
         )
         LOGGER.info(msg)
 
-        sdwdate_obj = Sdwdate()
+        sdwdate_obj = SdwdateClass()
 
         sdwdate_obj.preparation()
 
