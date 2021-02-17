@@ -253,7 +253,7 @@ class Sdwdate(object):
                 json.dump(self.status, file_object)
                 file_object.close()
         except BaseException:
-            error_msg = "Unexpected error: " + str(sys.exc_info()[0])
+            error_msg = "write_status unexpected error: " + str(sys.exc_info()[0])
             print(error_msg)
             return
 
