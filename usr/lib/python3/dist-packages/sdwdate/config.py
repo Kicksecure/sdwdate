@@ -38,7 +38,7 @@ def time_replay_protection_file_read():
     )
     stdout, stderr = process.communicate()
     unixtime = int(stdout)
-    time_human_readable = stderr.decode("utf-8")
+    time_human_readable = stderr.decode("utf-8").strip()
     # Relay check to avoid false-positives due to sdwdate inaccuracy.
     unixtime = unixtime - 100
     return unixtime, time_human_readable
