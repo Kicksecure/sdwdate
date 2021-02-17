@@ -423,6 +423,8 @@ class Sdwdate(object):
             LOGGER.error(message)
             message = "Time Replay Protection: ERROR. More more information, \
             see: sdwdate-gui -> right click -> Open sdwdate's log"
+            icon = "error"
+            write_status(icon, message)
             return False
 
         if not status_first_success:
