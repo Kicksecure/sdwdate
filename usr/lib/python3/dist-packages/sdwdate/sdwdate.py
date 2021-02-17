@@ -162,6 +162,7 @@ class SdwdateClass(object):
         self.request_took_times = {}
         self.list_of_took_time = []
         self.list_of_half_took_time = []
+        self.time_diff_raw_int = {}
         self.time_diff_lag_cleaned_float = {}
 
         self.list_off_time_diff_raw_int = []
@@ -169,7 +170,7 @@ class SdwdateClass(object):
 
         self.unixtimes = []
         self.half_took_time_float = {}
-        self.pools_raw_diff = []
+        self.list_of_pools_raw_diff = []
         self.pools_lag_cleaned_diff = []
         self.failed_urls = []
 
@@ -289,7 +290,7 @@ class SdwdateClass(object):
         sorted_request_took_times = sorted(self.request_took_times.values())
         sorted_request_half_took_times = sorted(
             self.half_took_time_float.values())
-        diffs_raw = sorted(self.pools_raw_diff)
+        diffs_raw = sorted(self.list_of_pools_raw_diff)
         diffs_lag_cleaned = sorted(self.pools_lag_cleaned_diff)
         message = "     request_took_times, sorted: %s" % \
             sorted_request_took_times
@@ -700,16 +701,14 @@ class SdwdateClass(object):
                 # Example returned_url_item_url:
                 # http://tinhat233xymse34.onion
 
-                took_time_half_float = self.list_of_half_took_time[i]
-                lag_cleaned_time_diff_float = self.list_off_time_diff_lag_cleaned_float[i]
-
                 if returned_url_item_took_status == "ok":
                     self.request_unixtimes[returned_url_item_url] = returned_url_item_unixtime
                     self.request_took_times[returned_url_item_url] = returned_url_item_took_time
                     self.valid_urls.append(returned_url_item_url)
                     self.unixtimes.append(returned_url_item_unixtime)
-                    self.half_took_time_float[returned_url_item_url] = took_time_half_float
-                    self.time_diff_lag_cleaned_float[returned_url_item_url] = lag_cleaned_time_diff_float
+                    self.half_took_time_float[returned_url_item_url] = self.list_of_half_took_time[i]
+                    self.time_diff_raw_int[returned_url_item_url] = self.list_off_time_diff_raw_int[i]
+                    self.time_diff_lag_cleaned_float[returned_url_item_url] = self.list_off_time_diff_lag_cleaned_float[i]
                 else:
                     self.failed_urls.append(returned_url_item_url)
 
@@ -757,8 +756,8 @@ class SdwdateClass(object):
                         request_took_time_item = self.request_took_times[url]
                         web_time = time_human_readable(web_unixtime)
 
-                        pool_diff = int(web_unixtime) - int(old_unixtime)
-                        self.pools_raw_diff.append(pool_diff)
+                        pool_diff = self.time_diff_raw_int[returned_url_item_url]
+                        self.list_of_pools_raw_diff.append(pool_diff)
 
                         # Rounding. Nanoseconds accuracy is impossible.
                         # It is unknown if the time (seconds) reported by
