@@ -756,7 +756,7 @@ class SdwdateClass(object):
                         request_took_time_item = self.request_took_times[url]
                         web_time = time_human_readable(web_unixtime)
 
-                        pool_diff = self.time_diff_raw_int[returned_url_item_url]
+                        pool_diff = self.time_diff_raw_int[url]
                         self.list_of_pools_raw_diff.append(pool_diff)
 
                         # Rounding. Nanoseconds accuracy is impossible.
