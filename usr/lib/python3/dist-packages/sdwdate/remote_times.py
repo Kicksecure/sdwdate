@@ -145,9 +145,9 @@ def check_remote(i, pools, remote, process, status, end_unixtime, took_time, std
     unixtime_string_length_max = 10
 
     if stdout_string_length_is == 0:
+        stdout = "empty"
         if not status == "timeout":
             status = "error"
-            stdout = "empty"
     else:
         if not stdout_string_length_is == unixtime_string_length_max:
             status = "error"
