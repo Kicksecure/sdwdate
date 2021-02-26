@@ -1,3 +1,15 @@
+commit 1a99f2125cfb400d4009434cb52222d1f80977b3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Feb 26 09:29:44 2021 -0500
+
+    fix, set stdout to `empty` if empty
+
+commit 33a4263cb6991adbd9b9573384a56668d1191236
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Feb 22 12:57:27 2021 -0500
+
+    bumped changelog version
+
 commit a913f19b8e9cb7d30b8d4ce2c4bba4b69e36c5e1
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Feb 22 12:57:18 2021 -0500
