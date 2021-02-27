@@ -545,6 +545,7 @@ class SdwdateClass(object):
         output_stdout = stdout.decode("UTF-8")
         output_stderr = stderr.decode("UTF-8")
         joint_message = output_stdout + " " + output_stderr
+        joint_message = joint_message.strip()
         message = "/bin/date output: %s" % joint_message
         LOGGER.info(message)
 
