@@ -920,7 +920,7 @@ def global_files():
             sdwdate_status_files_folder)
         reason = "home folder does not end with /sdwdate"
         exit_code = 1
-        exit_handler(EXIT_CODE, reason)
+        exit_handler(exit_code, reason)
 
     Path(sdwdate_status_files_folder).mkdir(parents=True, exist_ok=True)
     # Sanity test. Should be already created by systemd-tmpfiles.
