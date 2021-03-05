@@ -918,7 +918,7 @@ def global_files():
         print(
             "ERROR: sdwdate_status_files_folder: " +
             sdwdate_status_files_folder)
-        # reason = "home folder does not end with /sdwdate"
+        reason = "home folder does not end with /sdwdate"
         exit_code = 1
         exit_handler(EXIT_CODE, reason)
 
