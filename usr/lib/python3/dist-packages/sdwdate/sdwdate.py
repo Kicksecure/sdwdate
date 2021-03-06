@@ -908,24 +908,6 @@ def global_files():
     # Sanity test.
     sdwdate_status_files_folder_split = os.path.split(
         sdwdate_status_files_folder)
-    if not sdwdate_status_files_folder_split[-1] == "sdwdate":
-        print("ERROR: home folder does not end with /sdwdate")
-        print("ERROR: home_folder_split: " + str(home_folder_split))
-        print(
-            "ERROR: sdwdate_status_files_folder_split: "
-            + str(sdwdate_status_files_folder_split)
-        )
-        print(
-            "ERROR: sdwdate_status_files_folder: " +
-            sdwdate_status_files_folder)
-        reason = "home folder does not end with /sdwdate"
-        exit_code = 1
-        exit_handler(exit_code, reason)
-
-    Path(sdwdate_status_files_folder).mkdir(parents=True, exist_ok=True)
-    # Sanity test. Should be already created by systemd-tmpfiles.
-    Path(sdwdate_persistent_files_folder).mkdir(
-        parents=True, exist_ok=True)
 
     # Workaround for an apparmor issue.
     # See /etc/apparmor.d/usr.bin.sdwdate
@@ -933,15 +915,6 @@ def global_files():
     sdwdate_forbidden_temp_files_folder = (
         sdwdate_status_files_folder + "/forbidden-temp"
     )
-    # Sanity test. Should be already created by systemd-tmpfiles.
-    Path(sdwdate_forbidden_temp_files_folder).mkdir(
-        parents=True, exist_ok=True)
-    # Without this python-requests (url_to_unixtime) would try to write to
-    # for example "/xb2e9wyl" instead of
-    # "/run/sdwdate/forbidden-temp/xb2e9wyl"
-    # which looks even worse in logs and cannot be deny'd in the apparmor
-    # profile.
-    os.chdir(sdwdate_forbidden_temp_files_folder)
 
     global status_first_success_path
     status_first_success_path = sdwdate_status_files_folder + "/first_success"
@@ -984,10 +957,37 @@ def global_files():
     global translate_object
     translate_object = translation.gettext
 
+    if not sdwdate_status_files_folder_split[-1] == "sdwdate":
+        print("ERROR: home folder does not end with /sdwdate")
+        print("ERROR: home_folder_split: " + str(home_folder_split))
+        print(
+            "ERROR: sdwdate_status_files_folder_split: "
+            + str(sdwdate_status_files_folder_split)
+        )
+        print(
+            "ERROR: sdwdate_status_files_folder: " +
+            sdwdate_status_files_folder)
+        reason = "home folder does not end with /sdwdate"
+        exit_code = 1
+        exit_handler(exit_code, reason)
+
+    Path(sdwdate_status_files_folder).mkdir(parents=True, exist_ok=True)
+    # Sanity test. Should be already created by systemd-tmpfiles.
+    Path(sdwdate_persistent_files_folder).mkdir(
+        parents=True, exist_ok=True)
+    # Sanity test. Should be already created by systemd-tmpfiles.
+    Path(sdwdate_forbidden_temp_files_folder).mkdir(
+        parents=True, exist_ok=True)
+
+    # Without this python-requests (url_to_unixtime) would try to write to
+    # for example "/xb2e9wyl" instead of
+    # "/run/sdwdate/forbidden-temp/xb2e9wyl"
+    # which looks even worse in logs and cannot be deny'd in the apparmor
+    # profile.
+    os.chdir(sdwdate_forbidden_temp_files_folder)
+
 
 def main():
-    global_files()
-
     global sleep_process
     sleep_process = []
     global sclockadj_process
@@ -1018,6 +1018,8 @@ def main():
 
     signal.signal(signal.SIGTERM, signal_handler)
     signal.signal(signal.SIGINT, signal_handler)
+
+    global_files()
 
     global proxy_ip, proxy_port
     proxy_ip, proxy_port = proxy_settings()
