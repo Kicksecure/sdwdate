@@ -27,7 +27,7 @@ from .timesanitycheck import static_time_sanity_check
 
 
 def run_command(i, url_to_unixtime_command, remote):
-    timeout_seconds = 50
+    timeout_seconds = 120
 
     # Avoid Popen shell=True.
     url_to_unixtime_command = shlex.split(url_to_unixtime_command)
