@@ -1,3 +1,17 @@
+commit b73ef360769052e5eb2d7d3b8559bf48949b81af
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Mar 9 12:58:01 2021 -0500
+
+    increase timeout to 120 seconds
+    
+    due to slow onions
+
+commit a4935365f60b09d2dd10c0c04c7a99072cb167a1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Mar 6 06:45:39 2021 -0500
+
+    bumped changelog version
+
 commit 9266851b667c7f2b77df4383286097e98a3504b1
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Mar 6 04:04:26 2021 -0500
