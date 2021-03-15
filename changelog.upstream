@@ -1,3 +1,15 @@
+commit bc92fd352dcd0c0051b6b2c40538017c1a4cd91c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Mar 15 09:07:15 2021 -0400
+
+    sdwdate legacy home folder migration
+
+commit 16c7cfd3f962623fafb6011b9cfddbcfc8a301ac
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Mar 9 13:52:53 2021 -0500
+
+    bumped changelog version
+
 commit b73ef360769052e5eb2d7d3b8559bf48949b81af
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue Mar 9 12:58:01 2021 -0500
