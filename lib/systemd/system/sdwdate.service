@@ -34,7 +34,7 @@ Restart=always
 
 ## user `sdwdate` legacy home folder migration
 ## Allow time for sdwdate.postinst usermod to change sdwdate home update.
-RestartSec=5s
+RestartSec=10s
 
 ## Hardening.
 AmbientCapabilities=CAP_SYS_TIME

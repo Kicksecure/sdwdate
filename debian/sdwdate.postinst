@@ -30,7 +30,7 @@ case "$1" in
        sdwdate_home="$(getent passwd sdwdate | cut -d: -f6)" || true
        if [ "$sdwdate_home" = "/nonexistent" ]; then
          if [ -d /run/systemd/system ]; then
-            ## Make /lib/systemd/system/sdwdate.service `RestartSec=5s` take effect.
+            ## Make /lib/systemd/system/sdwdate.service `RestartSec=10s` take effect.
             systemctl --system daemon-reload >/dev/null || true
          fi
          ## Need to kill sdwdate, otherwise we cannot change user home using `usermod`.
@@ -39,6 +39,8 @@ case "$1" in
          ##
          ## Making sure pgrep will not match this postinst script.
          kill -s sigterm $(pgrep -f /usr/bin/sdwdate) 2>/dev/null || true
+         ## Allow sigterm to actually kill sdwdate.
+         sleep 5
        fi
        ## Change user home of user sdwdate to /run/sdwdate.
        ## Legacy because previously was created using folder /nonexistent.
