@@ -1,6 +1,6 @@
 #!/usr/bin/python3 -u
 
-# Copyright (C) 2017 - 2020 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
+# Copyright (C) 2017 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
 # See the file COPYING for copying conditions.
 
 # /usr/lib/python3/dist-packages/sdwdate/config.py 0 test
