@@ -1,3 +1,31 @@
+commit adc1ded1e08611342affe117307dd8e9e781afc2
+Merge: 2dbdcb6 7744382
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Mar 19 13:53:38 2021 -0400
+
+    Merge remote-tracking branch 'github-whonix/master'
+
+commit 7744382b8df3a238b4b73fcce7a1fee8523d1f79
+Merge: 2dbdcb6 9e355ac
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Mar 19 13:51:08 2021 -0400
+
+    Merge pull request #28 from madaidan/sandboxing
+    
+    Improve systemd sandboxing
+
+commit 9e355acf30c1f7e8e14c5d33086d99af63e66eb9
+Author: madaidan <50278627+madaidan@users.noreply.github.com>
+Date:   Fri Mar 19 17:08:38 2021 +0000
+
+    Improve systemd sandboxing
+
+commit 2dbdcb66cdb7cf6c6236b2044d0e41c34eb913e5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Mar 18 09:08:37 2021 -0400
+
+    bumped changelog version
+
 commit c19fccc0ab3f410ddc913f41df63be5af7eca896
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu Mar 18 08:57:22 2021 -0400
