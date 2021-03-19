@@ -36,33 +36,30 @@ Restart=always
 ## Allow time for sdwdate.postinst usermod to change sdwdate home update.
 RestartSec=10s
 
-## Hardening.
+## Sandboxing.
 AmbientCapabilities=CAP_SYS_TIME
 CapabilityBoundingSet=CAP_SYS_TIME
-
-## Broken!
-## AVC apparmor="DENIED" operation="exec" info="no new privs" error=-1 profile="/usr/bin/sdwdate" name="/usr/bin/url_to_unixtime" pid=17091 comm="sdwdate" requested_mask="x" denied_mask="x" fsuid=125 ouid=0 target="/usr/bin/url_to_unixtime"
-#ProtectSystem=strict
-#ReadWriteDirectories=/run/sdwdate/
-#ProtectHome=true
-#ProtectKernelTunables=true
-#ProtectKernelModules=true
-#ProtectControlGroups=true
-#PrivateTmp=true
-#PrivateMounts=true
-#PrivateDevices=true
-#MemoryDenyWriteExecute=true
-#NoNewPrivileges=true
-#RestrictRealtime=true
-#SystemCallArchitectures=native
-#RestrictNamespaces=true
-#RestrictAddressFamilies=AF_UNIX AF_INET
-
-## Broken! Need list of syscalls. Alternative below.
-## SystemCallFilter=@clock @ipc @signal
-
-## Blacklist certain syscalls. A whitelist would be stronger.
-#SystemCallFilter=~@mount @cpu-emulation @debug @keyring @module @obsolete @raw-io
+ProtectSystem=strict
+ReadWriteDirectories=/run/sdwdate/
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ProtectKernelLogs=true
+ProtectHostname=true
+ProtectProc=invisible
+ProcSubset=pid
+PrivateTmp=true
+PrivateUsers=true
+PrivateDevices=true
+NoNewPrivileges=true
+LockPersonality=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_UNIX AF_INET
+RestrictNamespaces=true
+SystemCallFilter=wait4 select futex read stat close openat fstat lseek mmap rt_sigaction getdents64 mprotect ioctl recvfrom munmap brk rt_sigprocmask fcntl getpid write access socket sendto dup2 clone execve getrandom geteuid getgid madvise getuid getegid readlink pipe rt_sigreturn connect pipe2 prlimit64 set_robust_list dup arch_prctl lstat set_tid_address sysinfo sigaltstack rt_sigsuspend shutdown timer_settime mkdir timer_create statfs getcwd setpgid setsockopt uname bind getpgrp getppid getpeername chdir poll getsockname fadvise64 clock_settime
+SystemCallArchitectures=native
 
 [Install]
 WantedBy=multi-user.target
