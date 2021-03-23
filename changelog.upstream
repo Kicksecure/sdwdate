@@ -1,3 +1,27 @@
+commit 2e81c07f1ce1f872f2dcb2730830e9d1fa044548
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Mar 23 07:23:56 2021 -0400
+
+    disable sandboxing due to issue
+    
+    https://forums.whonix.org/t/apply-systemd-sandboxing-by-default-to-some-services/7590/50
+
+commit 7d982a8064a58cc890038f270c6c09a0e6844680
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Mar 20 09:09:33 2021 -0400
+
+    systemd sandboxing enhancements
+    
+    Thanks to @madaidan!
+    
+    https://forums.whonix.org/t/apply-systemd-sandboxing-by-default-to-some-services/7590/49
+
+commit cb6b73e13f9c3d0d39e0036999b0e60c81a03dc3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Mar 19 13:57:29 2021 -0400
+
+    bumped changelog version
+
 commit adc1ded1e08611342affe117307dd8e9e781afc2
 Merge: 2dbdcb6 7744382
 Author: Patrick Schleizer <adrelanos@whonix.org>
