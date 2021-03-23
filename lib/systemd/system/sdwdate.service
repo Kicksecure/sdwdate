@@ -36,10 +36,11 @@ Restart=always
 ## Allow time for sdwdate.postinst usermod to change sdwdate home update.
 RestartSec=10s
 
+AmbientCapabilities=CAP_SYS_TIME
+CapabilityBoundingSet=CAP_SYS_TIME
+
 ## Sandboxing.
 ## https://forums.whonix.org/t/apply-systemd-sandboxing-by-default-to-some-services/7590/50
-#AmbientCapabilities=CAP_SYS_TIME
-#CapabilityBoundingSet=CAP_SYS_TIME
 #ProtectSystem=strict
 #ReadWriteDirectories=/run/sdwdate/ /var/lib/sdwdate/
 #ProtectHome=true
