@@ -1,3 +1,23 @@
+commit 437752280a08f868cbfe78b279689b4c33c351c7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 15:35:54 2021 -0400
+
+    MAX_FAILURE_RATIO=0.7
+    
+    https://forums.whonix.org/t/suggest-trustworthy-tor-hidden-services-as-time-sources-for-sdwdate/856/191
+
+commit 83b7467fafe450be5107b348147a13019364f00c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 14:31:33 2021 -0400
+
+    fix
+
+commit b4679e63461fdd7ef60a1176d008ea6027b4926a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 14:05:27 2021 -0400
+
+    bumped changelog version
+
 commit 357b897a00315a7cc782aaf12b00201a4fe6d772
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue May 25 13:59:12 2021 -0400
