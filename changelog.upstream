@@ -1,3 +1,202 @@
+commit 357b897a00315a7cc782aaf12b00201a4fe6d772
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 13:59:12 2021 -0400
+
+    removed since redirects to clearnet
+    
+    "http://x6tkjqr46ghqmlqiwyllf5ufg6ciyexsxxfw2copx7cptw4aszq6fdqd.onion/ # https://web.archive.org/web/20210430195930/https://onion.debian.org/"
+    
+    Thanks to @TNT_BOM_BOM for the report!
+    
+    https://forums.whonix.org/t/suggest-trustworthy-tor-hidden-services-as-time-sources-for-sdwdate/856/188
+
+commit ee8d26b55a2faff3923a4a559488d6c6d07f0c90
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 13:42:57 2021 -0400
+
+    fix
+
+commit 294e4fa6894ccef3a6116df8681c252518579a29
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 13:42:22 2021 -0400
+
+    fix
+
+commit 0d9452121455f2711d3fa21058894c2a4fb87ae5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 13:39:47 2021 -0400
+
+    rebalance
+
+commit 964d75e070976172bb631633735ef29182323bbd
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 13:37:40 2021 -0400
+
+    fix
+
+commit 030adf6075ef3e3aecc58eeb303c71a47feb5443
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 13:35:28 2021 -0400
+
+    update sfchronicle to onion v3
+
+commit 7ac7a7f45205786080a1cfcd48108772f1761af4
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 13:34:06 2021 -0400
+
+    update huffingtonpost to onion v3
+
+commit e2ab1d610b123bbc35cb35c7874e4eb49451d289
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 13:32:06 2021 -0400
+
+    remove onion v2
+    
+    "http://expressobutiolem.onion#https://www.expressvpn.com       https://web.archive.org/web/20170420065743/https://www.expressvpn.com"
+    
+    "http://tinhat233xymse34.onion#https://thetinhat.com    https://web.archive.org/web/20170421233308/https://thetinhat.com"
+    
+    "http://rvy6qmlqfstv6rlz.onion#https://www.c3d2.de/news/20160106-c3d2-as-onionservice.html      https://web.archive.org/web/20160807015616/https://www.c3d2.de/news/20160106-c3d2-as-onionservice.html"
+    
+    "http://6zwctlqtpilbkl47.onion#https://piratenpartij.nl/contact/        https://web.archive.org/web/20170315154213/https://piratenpartij.nl/contact/"
+    
+    "http://devuanfwojg73k6r.onion#auto.mirror.devuan.org   https://www.devuan.org  https://web.archive.org/web/20170421215927/https://www.devuan.org/"
+    
+    "http://2h3xkc7wmxthijqb.onion#https://www.privacyfoundation.ch/de/kontakt.html https://web.archive.org/web/20151210044252/http://www.privacyfoundation.ch/de/kontakt.html"
+    "http://qcdbc7vspedojrr7.onion#https://www.digitale-gesellschaft.ch/uber-uns/   https://web.archive.org/web/20170415183758/https://www.digitale-gesellschaft.ch/uber-uns/"
+
+commit 9e87fcca8862fcf4d6f86472e881305145c14eae
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 13:23:22 2021 -0400
+
+    update privacyinternational.org to onion v3
+
+commit c9ba14b57dfc1ad232721ef13b5bde43d02fa1e7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 13:16:40 2021 -0400
+
+    remove onion v2
+    
+    "http://ic6au7wa3f6naxjq.onion#https://lists.gnupg.org/pipermail/gnupg-users/2014-April/049578.html     https://web.archive.org/web/20140617045518/https://lists.gnupg.org/pipermail/gnupg-users/2014-April/049578.html"
+    
+    "http://gnjtzu5c2lv4zasv.onion#https://pgp.key-server.io        https://web.archive.org/web/20170421212020/https://pgp.key-server.io"
+    
+    "http://qdigse2yzvuglcix.onion#https://keys.mayfirst.org        https://archive.fo/FC1lg"
+    
+    "http://clgs64523yi2bkhz.onion#https://www.mailpile.is  https://web.archive.org/web/20170409064457/https://www.mailpile.is"
+    
+    "http://bitlox2twvzwbzpk.onion#https://bitlox.io        https://archive.fo/0zcqz"
+    
+    "http://wooprzddebtxfhnq.onion#https://keys.void.gr     https://sks-keyservers.net/status/info/keys.void.gr"
+    
+    "http://ybti.cheettyiapsyciew.onion#https://secushare.org/      https://archive.fo/vsFJS"
+    
+    "http://3kyl4i7bfdgwelmf.onion#http://www.wefightcensorship.org https://archive.fo/GhgMU"
+    
+    "http://ndg43ilvrrj465ix.onion#https://web.archive.org/web/20210111085622/https://securedrop.org/directory/buzzfeed/    https://web.archive.org/web/20210111093953/https://www.buzzfeednews.com/contact"
+    
+    "http://ibpj4qv7mufde33w.onion#https://www.taz.de       https://web.archive.org/web/20210126150024/https://securityheaders.com/?q=taz.de&followRedirects=on"
+    
+    "https://3g2upl4pq6kufc4m.onion#https://duckduckgo.com/ https://web.archive.org/web/20210111104144/https://twitter.com/duckduckgo/status/1032178047405973505"
+    
+    "https://www.dwnewsvdyyiamwnp.onion#https://www.dw.com  https://web.archive.org/web/20210126144517/https://securityheaders.com/?q=dw.com&followRedirects=on"
+
+commit 2be6adb70a2c9b7d2076a0746627d0e2c9b9c496
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 13:01:39 2021 -0400
+
+    remove onion v2
+    
+    "http://nxhhwbbxc4khvvlw.onion#https://searx.gotrust.de https://web.archive.org/web/20170519171857/https://github.com/asciimoo/searx/wiki/Searx-instances"
+
+commit cc53c58b0f37db14eb50c497d581cb5011603270
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 13:00:14 2021 -0400
+
+    remove onion v2 since clearnet under maintenance
+    
+    "http://eljwdzi4pgrrlwwq.onion#https://citizen-cam.de   https://github.com/asciimoo/searx/wiki/Searx-instances  https://web.archive.org/web/20170519171857/https://github.com/asciimoo/searx/wiki/Searx-instances"
+
+commit 7cdffdc39612ce37ccc1015db1f136a6131a3d41
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 12:58:45 2021 -0400
+
+    add searx.space onion v3
+
+commit a15d7172c0ad2f1dc495e30c4f6a0c1b14139e8d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 12:52:53 2021 -0400
+
+    remove onion v2
+    
+    "http://ak2uqfavwgmjrvtu.onion#MagyarLeaks      2013    Investigative Journalism        https://atlatszo.hu/magyarleaks/        Hungary https://web.archive.org/web/20170128142348/https://atlatszo.hu/magyarleaks/"
+
+commit 452a6458433baa08dcd2dc2009dc7b8ba7f07ef2
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 12:50:29 2021 -0400
+
+    update publicintelligence.net to onion v3
+
+commit 1466a86111943f5896a55b5da08f3fd0b4c1b66f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 12:48:40 2021 -0400
+
+    update apache.be to onion v3
+
+commit 8f652c5bf1584cefa32a4ea881ff3a935e3fff20
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 12:46:26 2021 -0400
+
+    update nrk.no to onion v3
+
+commit d7c7ff9460213bd00dd287541a95704b49030003
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 12:43:42 2021 -0400
+
+    remove onion v2s
+    
+    "http://qn4qfeeslglmwxgb.onion#Lucy Parsons Labs        https://lucyparsonslabs.com/securedrop  https://web.archive.org/web/20170322113502/https://lucyparsonslabs.com/securedrop/"
+    
+    "https://usatodayw7vu5egc.onion#USA Today       https://newstips.usatoday.com/securedrop.html   https://web.archive.org/web/20170419183541/https://newstips.usatoday.com/securedrop.html"
+    
+    "http://mprt35sjunnxfa76.onion#https://informant.taz.de https://web.archive.org/web/20170329061908/https://informant.taz.de"
+
+commit 98a68fe7c0da221206b990108c9d436fb30c7725
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 12:40:07 2021 -0400
+
+    fix, remote duplicate TorStatus
+
+commit 183bdcf1117b9aa35211b532e7c899e1dcdeed49
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 12:39:09 2021 -0400
+
+    remove offline and onion v2
+    
+        "http://gmg7jl25ony5g7ws.onion#Gizmodo Media Group  https://specialprojectsdesk.com/secure-drop     https://web.archive.org/web/20201206054439/https://specialprojectsdesk.com/secure-drop"
+
+commit 1a0d59b0be285edd954c00b714a8f7351de74cd2
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 12:38:36 2021 -0400
+
+    update to The Guardian v3
+
+commit 06085daf6194b85b0f636a373a222d91ef95d310
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 12:33:24 2021 -0400
+
+    6 new onion v3 time sources
+    
+    Thanks to @Perestroika!
+    
+    https://forums.whonix.org/t/suggest-trustworthy-tor-hidden-services-as-time-sources-for-sdwdate/856/183
+
+commit 9bec9053a64b11457dd21a3e7bdf434531726ffd
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun May 23 14:48:32 2021 -0400
+
+    bumped changelog version
+
 commit 57169e73674a1b800c81b149227d5555338158e5
 Merge: 437007e 9b7ba44
 Author: Patrick Schleizer <adrelanos@whonix.org>
