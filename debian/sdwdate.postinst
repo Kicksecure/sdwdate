@@ -77,6 +77,31 @@ timedatectl set-ntp false >/dev/null 2>&1 || true
 ## Make sure it gets really deleted even if timedatectl does not work.
 rm --force /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service
 
+## Add arch-specific syscalls to the seccomp filter.
+if ! [ -d /lib/systemd/system/sdwdate.service.d/ ]; then
+  mkdir /lib/systemd/system/sdwdate.service.d/
+fi
+
+arch="$(uname -m)"
+if [[ "${arch}" =~ "arm64" ]]; then
+  ## ARM-specific syscalls.
+  echo "## Architecture: ${arch}
+[Service]
+SystemCallFilter=faccessat readlinkat newfstatat mkdirat dup3 ppoll pselect6" > /lib/systemd/system/sdwdate.service.d/20_arch_syscall_whitelist.conf
+elif [[ "${arch}" =~ "ppc" ]]; then
+  ## PowerPC-specific syscalls.
+  echo "## Architecture: ${arch}
+[Service]
+SystemCallFilter=_llseek send waitpid recv prctl _newselect" > /lib/systemd/system/sdwdate.service.d/20_arch_syscall_whitelist.conf
+elif ! [[ "${arch}" =~ "x86" ]]; then
+  echo "You are currently using an unsupported CPU architecture: '${arch}'. The seccomp
+filter used by sdwdate may not function correctly. Currently, the only architectures
+supported by the seccomp filter are: x86, ARM and PowerPC. Arch-specific syscalls can
+be added to /lib/systemd/system/sdwdate.service.d/20_arch_syscall_whitelist.conf"
+fi
+
+systemctl daemon-reload
+
 true "INFO: debhelper beginning here."
 
 #DEBHELPER#
