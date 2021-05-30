@@ -1,3 +1,15 @@
+commit 85fcd64b5e9c8c0a51682ef3d1083bf80c54901b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun May 30 16:09:55 2021 -0400
+
+    fix onion_tester
+
+commit 76dff90ea004afff9f07f226fc400ab1f1671b3f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 25 15:36:33 2021 -0400
+
+    bumped changelog version
+
 commit 437752280a08f868cbfe78b279689b4c33c351c7
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue May 25 15:35:54 2021 -0400
