@@ -10,6 +10,8 @@ from sdwdate.remote_times import get_time_from_servers
 from sdwdate.config import read_pools
 from sdwdate.proxy_settings import proxy_settings
 
+proxy_ip, proxy_port = proxy_settings()
+
 # Helpers for a cludge to check only 3 urls at once
 def chunks(my_list, n):
     """Yield successive n-sized chunks from my_list."""
@@ -35,7 +37,12 @@ class CheckRemotes:
         self.urls = []
         self.comments = []
         self.returned_values = []
-        self.proxy_ip, self.proxy_port = proxy_settings()
+        self.list_of_status = []
+        self.list_of_unixtimes = []
+        self.list_of_took_time = []
+        self.list_of_half_took_time = []
+        self.list_off_time_diff_raw_int = []
+        self.list_off_time_diff_lag_cleaned_float = []
 
     def loop(self):
         time_stamp_ts = int(time.time())
@@ -57,13 +64,25 @@ class CheckRemotes:
             ##print(pool.urls)
             ##print(list(chunks(pool.urls,3)))
             ##exit()
-            url_chunk_list = list(chunks(pool.urls,3))
-            for url_chunk in url_chunk_list:
+            self.list_of_urls_returned = list(chunks(pool.urls,3))
+            for url_chunk in self.list_of_urls_returned:
                 print("Testing the URL Chunk: ")
                 print(url_chunk)
-                self.urls, self.returned_values = get_time_from_servers(url_chunk,
-                                                                    self.proxy_ip,
-                                                                    self.proxy_port)
+
+                self.list_of_urls_returned, \
+                self.list_of_status, \
+                self.list_of_unixtimes, \
+                self.list_of_took_time, \
+                self.list_of_half_took_time, \
+                self.list_off_time_diff_raw_int, \
+                self.list_off_time_diff_lag_cleaned_float, \
+                   = get_time_from_servers(
+                      self.pools,
+                      url_chunk,
+                      proxy_ip,
+                      proxy_port
+                   )
+
                 for url in range(len(self.urls)):
                     #print('Debug:'+self.returned_values[url])
                     if 'Timeout' in str(self.returned_values[url]):
