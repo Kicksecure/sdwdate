@@ -79,11 +79,11 @@ rm --force /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service
 
 ## Add arch-specific syscalls to the seccomp filter.
 if ! [ -d /lib/systemd/system/sdwdate.service.d/ ]; then
-  mkdir /lib/systemd/system/sdwdate.service.d/
+  mkdir --parents /lib/systemd/system/sdwdate.service.d/
 fi
 
 arch="$(uname -m)"
-if [[ "${arch}" =~ "arm64" ]]; then
+if [[ "${arch}" =~ "arm" ]] || [ "${arch}" =~ "aarch" ]]; then
   ## ARM-specific syscalls.
   echo "## Architecture: ${arch}
 [Service]
