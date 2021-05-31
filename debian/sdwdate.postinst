@@ -82,6 +82,7 @@ if ! [ -d /lib/systemd/system/sdwdate.service.d/ ]; then
   mkdir --parents /lib/systemd/system/sdwdate.service.d/
 fi
 
+## https://forums.whonix.org/t/apply-systemd-sandboxing-by-default-to-some-services/7590/74
 arch="$(uname -m)"
 if [[ "${arch}" =~ "arm" ]] || [ "${arch}" =~ "aarch" ]]; then
    ## ARM-specific syscalls.
