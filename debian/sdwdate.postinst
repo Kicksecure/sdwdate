@@ -113,8 +113,10 @@ else
 $syscall_comment
 ## WARNING: You are currently using an unsupported CPU architecture: '${arch}'. The seccomp
 filter used by sdwdate may not function correctly. Currently, the only architectures
-supported by the seccomp filter are: x86, ARM and PowerPC. Arch-specific syscalls can
-be added to /lib/systemd/system/sdwdate.service.d/20_arch_syscall_whitelist.conf"
+supported by the seccomp filter are: x86, ARM and PowerPC. See also file:
+/lib/systemd/system/sdwdate.service.d/20_arch_syscall_whitelist.conf
+Arch-specific syscalls can be added to file:
+/lib/systemd/system/sdwdate.service.d/50_user.conf"
 
    echo "$syscall_whitelist" >&2
 fi
