@@ -107,8 +107,6 @@ supported by the seccomp filter are: x86, ARM and PowerPC. Arch-specific syscall
 be added to /lib/systemd/system/sdwdate.service.d/20_arch_syscall_whitelist.conf"
 fi
 
-systemctl daemon-reload
-
 true "INFO: debhelper beginning here."
 
 #DEBHELPER#
