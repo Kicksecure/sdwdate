@@ -1,8 +1,164 @@
+commit 95d260f653c1db6aa2d5bde11a7dafa3ad6eb760
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:43:49 2021 -0400
+
+    comment
+
+commit 70face3bdd83ba18da189c153564721aaaa0860d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:40:29 2021 -0400
+
+    refactoring
+
+commit 36648f39964fda33dcaee9de510f26b3bd337fbf
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:39:00 2021 -0400
+
+    comment
+
+commit a73c1a122778d16af0d99154b5012a5ca9f20bda
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:37:07 2021 -0400
+
+    comment
+
+commit 5b44196f89a70e9d5c69deadfa24cd4c7d201418
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:36:08 2021 -0400
+
+    comment
+
+commit 0d50b650dc1c61a403a9a07a0862bc9c4ece1e21
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:33:07 2021 -0400
+
+    refactoring for consistency and simpler testing
+
+commit bc40b75880e80129b34693af660ae72ced7ae6d8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:31:38 2021 -0400
+
+    refactoring
+
+commit f1f34a3ff9cb5078b11d09e5acaeb1afe11466cb
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:30:14 2021 -0400
+
+    comment
+
+commit a933774fd4b982200b18ce286b2ec2742e19df4c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:29:07 2021 -0400
+
+    refactoring
+
+commit 1866b4e4586d0d29aac29df7f72593fc45963b43
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:27:32 2021 -0400
+
+    refactoring for consistency and simpler testing
+
+commit c6c87491406212099e256ac4afaa644954a7485d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:26:47 2021 -0400
+
+    refactoring
+
+commit 723fa26caecd9ae9cc34fdc110b922fdc15c9af7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:22:47 2021 -0400
+
+    refactoring
+
+commit bd83c45f34d7840bdd1c76dc56e450540bc6a87b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:20:19 2021 -0400
+
+    fix
+
+commit 40fc2a8b11faa6f95fff1629226e541825e45eef
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:19:04 2021 -0400
+
+    use `tee` instead since that produces proper errors if writing fails
+
+commit d3e1dffa1f9a1d6aff5e68d6a58655eef73ee77e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:15:54 2021 -0400
+
+    comment
+
+commit 587d2ff5c0d496a350fe7e623ad1de57d110cf7d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:14:16 2021 -0400
+
+    no need for "systemctl daemon-reload" since already coverd by debhelper
+    
+    https://forums.whonix.org/t/apply-systemd-sandboxing-by-default-to-some-services/7590/79
+
+commit 92803571fbec9177e448e4b417f7dfadc0a32d8d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:10:35 2021 -0400
+
+    comments
+
+commit f6e2340b280c46049c1a189a0209ffc5ee63fc7b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:08:32 2021 -0400
+
+    refactoring
+
+commit c2c44e4397f49a265e0aea3d82bf7fc8c8874444
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:06:50 2021 -0400
+
+    comment
+
+commit a19d1504c2e6a630a16c567e983c49d84e87ccc3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:05:27 2021 -0400
+
+    comment
+
+commit d10f4888a398bc325a92a59ce93205460fb8a8b7
+Merge: a46f94a bd2d8ac
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:03:23 2021 -0400
+
+    Merge remote-tracking branch 'github-whonix/master'
+
+commit bd2d8aca461105fb35f1adc14847612ec5c89b26
+Merge: a46f94a 149835c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 31 01:01:57 2021 -0400
+
+    Merge pull request #32 from madaidan/arch-syscalls
+    
+    Split arch-specific syscalls from the base whitelist
+
+commit 149835c753b937eee8854a50a35e0d61da37073c
+Author: madaidan <50278627+madaidan@users.noreply.github.com>
+Date:   Sun May 30 23:31:58 2021 +0000
+
+    Fixes
+
+commit a46f94a634e472bf9d6776f6f272219cfc919b61
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun May 30 16:32:59 2021 -0400
+
+    bumped changelog version
+
 commit 85fcd64b5e9c8c0a51682ef3d1083bf80c54901b
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun May 30 16:09:55 2021 -0400
 
     fix onion_tester
+
+commit 154008697f6530c3609d8de2509e3a6436691fa5
+Author: madaidan <50278627+madaidan@users.noreply.github.com>
+Date:   Sat May 29 20:18:25 2021 +0000
+
+    Split arch-specific syscalls from the base whitelist
 
 commit 76dff90ea004afff9f07f226fc400ab1f1671b3f
 Author: Patrick Schleizer <adrelanos@whonix.org>
