@@ -64,8 +64,8 @@ RestrictNamespaces=true
 ## in /lib/systemd/system/sdwdate.service.d/20_arch_syscall_whitelist.conf during package
 ## installation. See file:
 ## debian/sdwdate.postinst
-## https://github.com/Whonix/sdwdate/blob/master/debian/control
-## https://gitlab.com/whonix/sdwdate/blob/master/debian/control
+## https://github.com/Whonix/sdwdate/blob/master/debian/sdwdate.postinst
+## https://gitlab.com/whonix/sdwdate/blob/master/debian/sdwdate.postinst
 SystemCallFilter=wait4 select futex read stat close openat fstat lseek mmap rt_sigaction getdents64 mprotect ioctl recvfrom munmap brk rt_sigprocmask fcntl getpid write access socket sendto dup2 clone execve getrandom geteuid getgid madvise getuid getegid readlink pipe rt_sigreturn connect pipe2 prlimit64 set_robust_list dup arch_prctl lstat set_tid_address sysinfo sigaltstack rt_sigsuspend shutdown timer_settime mkdir timer_create statfs getcwd setpgid setsockopt uname bind getpgrp getppid getpeername chdir poll getsockname fadvise64 clock_settime kill getsockopt unlink
 SystemCallArchitectures=native
 
