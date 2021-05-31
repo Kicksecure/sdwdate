@@ -103,7 +103,11 @@ elif [[ "${arch}" =~ "ppc" ]]; then
 $syscall_comment
 [Service]
 SystemCallFilter=_llseek send waitpid recv prctl _newselect"
-elif ! [[ "${arch}" =~ "x86" ]]; then
+elif [[ "${arch}" =~ "x86" ]]; then
+   syscall_whitelist="\
+$syscall_comment
+## Default. No changes required."
+else
    syscall_whitelist="\
 $syscall_comment
 ## You are currently using an unsupported CPU architecture: '${arch}'. The seccomp
