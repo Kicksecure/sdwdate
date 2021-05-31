@@ -95,22 +95,18 @@ syscall_comment="\
 if [[ "${arch}" =~ "arm" ]] || [[ "${arch}" =~ "aarch" ]]; then
    ## ARM-specific syscalls.
    syscall_whitelist="\
-$syscall_comment
 [Service]
 SystemCallFilter=faccessat readlinkat newfstatat mkdirat dup3 ppoll pselect6"
 elif [[ "${arch}" =~ "ppc" ]]; then
    ## PowerPC-specific syscalls.
    syscall_whitelist="\
-$syscall_comment
 [Service]
 SystemCallFilter=_llseek send waitpid recv prctl _newselect"
 elif [[ "${arch}" =~ "x86" ]]; then
    syscall_whitelist="\
-$syscall_comment
 ## Default. No changes required."
 else
    syscall_whitelist="\
-$syscall_comment
 ## WARNING: You are currently using an unsupported CPU architecture: '${arch}'. The seccomp
 filter used by sdwdate may not function correctly. Currently, the only architectures
 supported by the seccomp filter are: x86, ARM and PowerPC. See also file:
@@ -121,7 +117,9 @@ Arch-specific syscalls can be added to file:
    echo "$syscall_whitelist" >&2
 fi
 
-echo "$syscall_whitelist" | tee /lib/systemd/system/sdwdate.service.d/20_arch_syscall_whitelist.conf >/dev/null
+echo "\
+$syscall_comment
+$syscall_whitelist" | tee /lib/systemd/system/sdwdate.service.d/20_arch_syscall_whitelist.conf >/dev/null
 
 true "INFO: debhelper beginning here."
 
