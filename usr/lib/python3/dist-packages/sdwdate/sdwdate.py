@@ -700,7 +700,7 @@ class SdwdateClass(object):
                 returned_url_item_took_status = self.list_of_status[i]
 
                 # Example returned_url_item_url:
-                # http://tinhat233xymse34.onion
+                # http://sdolvtfhatvsysc6l34d65ymdwxcujausv7k5jk4cy5ttzhjoi6fzvyd.onion
 
                 if returned_url_item_took_status == "ok":
                     self.request_unixtimes[returned_url_item_url] = returned_url_item_unixtime
