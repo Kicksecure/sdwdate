@@ -14,14 +14,11 @@ list_of_half_took_time, \
 list_off_time_diff_raw_int, \
 list_off_time_diff_lag_cleaned_float, \
 = get_time_from_servers(
-   [ 0, 1, 2, 3 ],
+   [ 0, 1, 2 ],
    [
-      "http://sdolvtfhatvsysc6l34d65ymdwxcujausv7k5jk4cy5ttzhjoi6fzvyd.onion",
-      "http://2gzyxa5ihm7nsggfxnu52rck2vv4rvmdlkiu3zzui5du4xyclen53wid.onion",
       "https://p53lf57qovyuvwsc6xnrppyply3vtqm7l6pcobkmyqsiofyeznfu5uqd.onion",
-      "https://p53lf57qovyuvwsc6xnrppyply3vtqm7l6pcobkmyqsiofyeznfu5uqd.onion"
+      "https://p53lf57qovyuvwsc6xnrppyply3vtqm7l6pcobkmyqsiofyeznfu5uqd.onion",
+      "https://p53lf57qovyuvwsc6xnrppyply3vtqm7l6pcobkmyqsiofyeznfu5uqd.onion",
    ],
    "127.0.0.1", "9050"
 )
-
-print(list_of_urls_returned, list_of_unixtimes)
