@@ -11,7 +11,7 @@
 ## url_to_unixtime 127.0.0.1 9050 http://check.torproject.org 80 true
 ## url_to_unixtime 127.0.0.1 9050 https://check.torproject.org 80 true
 ## url_to_unixtime 127.0.0.1 9050 http://2gzyxa5ihm7nsggfxnu52rck2vv4rvmdlkiu3zzui5du4xyclen53wid.onion 80 false
-## url_to_unixtime 127.0.0.1 9050 https://usatodayw7vu5egc.onion 80 false
+## url_to_unixtime 127.0.0.1 9050 https://p53lf57qovyuvwsc6xnrppyply3vtqm7l6pcobkmyqsiofyeznfu5uqd.onion 80 false
 
 ## prints debug and errors to stderr
 ## prints unixtime to stdout
