@@ -126,15 +126,15 @@ def sort_pool(pool, mode):
             url = re.search(r'"(.*)#', pool[i])
             if url is not None:
                 if mode == 'production':
-                    multi_list_url[multi_index].append(url.group(1))
+                    multi_list_url[multi_index].append(url.group(1).strip())
                 elif mode == 'test':
-                    pool_single_url.append(url.group(1))
+                    pool_single_url.append(url.group(1).strip())
             comment = re.search(r'#(.*)"', pool[i])
             if comment is not None:
                 if mode == 'production':
-                    multi_list_comment[multi_index].append(comment.group(1))
+                    multi_list_comment[multi_index].append(comment.group(1).strip())
                 elif mode == 'test':
-                    pool_single_comment.append(comment.group(1))
+                    pool_single_comment.append(comment.group(1).strip())
 
         elif pool[i] == '[':
             multi_line = True
@@ -142,10 +142,10 @@ def sort_pool(pool, mode):
         elif pool[i].startswith('"'):
             url = re.search(r'"(.*)#', pool[i])
             if url is not None:
-                pool_single_url.append(url.group(1))
+                pool_single_url.append(url.group(1).strip())
             comment = re.search(r'#(.*)"', pool[i])
             if comment is not None:
-                pool_single_comment.append(comment.group(1))
+                pool_single_comment.append(comment.group(1).strip())
 
     # Pick a random url in each multi-line pool,
     # append it to single url pool.
