@@ -13,6 +13,7 @@ while read -r -d $'\n' line ; do
       continue
    fi
    echo "Failed!"
+   echo scurl --tlsv1.2 --silent --location "$second_word"
    echo "plain_url: $plain_url"
    echo "second_word: $second_word"
    echo ""
