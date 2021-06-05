@@ -100,6 +100,16 @@ def get_comment(pools, remote):
     return url_comment
 
 
+def get_comment_pool_single(pool, remote):
+    url_comment = "unknown-comment"
+    try:
+        url_index = pool.url.index(remote)
+        url_comment = pool.comment[url_index]
+    except BaseException:
+        pass
+    return url_comment
+
+
 def sort_pool(pool, mode):
     # Check number of multi-line pool.
     number_of_pool_multi = 0

@@ -8,6 +8,7 @@ import time
 import datetime
 from sdwdate.remote_times import get_time_from_servers
 from sdwdate.config import read_pools
+from sdwdate.config import get_comment_pool_single
 from sdwdate.proxy_settings import proxy_settings
 
 # Helpers for a cludge to check only 3 urls at once
@@ -18,22 +19,21 @@ def chunks(my_list, n):
 
 class Pool:
     def __init__(self, pool):
-        self.urls, self.comments = read_pools(pool, 'test')
+        self.url, self.comment = read_pools(pool, 'test')
 
 class CheckRemotes:
     def __init__(self):
         self.number_of_pools = 3
         self.pools = [Pool(pool) for pool in range(self.number_of_pools)]
-        self.urls = []
-        self.comments = []
-        self.returned_values = []
         self.proxy_ip, self.proxy_port = proxy_settings()
 
     def loop(self):
         for pool in self.pools:
-            url_chunk_list = list(chunks(pool.urls,1))
+            url_chunk_list = list(chunks(pool.url,1))
             for url_chunk in url_chunk_list:
-                print(url_chunk[0])
+                remote = url_chunk[0]
+                comment = get_comment_pool_single(pool, remote)
+                print(remote + " " + comment)
 
 if __name__ == '__main__':
     remotes = CheckRemotes()
