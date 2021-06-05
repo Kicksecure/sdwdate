@@ -1,3 +1,199 @@
+commit 2173934e555975c61db81b54da259aacca87cfbd
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 16:44:06 2021 -0400
+
+    restore to `MAX_FAILURE_RATIO=0.34`
+    
+    since enough onion v3s available
+    
+    https://forums.whonix.org/t/suggest-trustworthy-tor-hidden-services-as-time-sources-for-sdwdate/856/191
+
+commit a46db62438321b569d55e55cad4a30a184f77933
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 16:22:46 2021 -0400
+
+    rebalance
+
+commit d9eda7082f033f3deff5be65376afe51dc364fe8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 16:20:57 2021 -0400
+
+    rebalance
+
+commit 191c6d5b7c13368d4d44d39b60c0db03897e64e2
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 16:19:59 2021 -0400
+
+    comment
+
+commit 7dc2035eda657808a4378634152d71cd63977147
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 16:19:10 2021 -0400
+
+    removed since offline
+    
+    "http://tbrindusxnnqwmzov5qof56hyion6usmciqwykffxqsawswhk73aq5yd.onion # https://web.archive.org/web/20181111114102/https://tbrindus.ca/about/"
+
+commit 06e9b7ce612e1bf997ebf6fcd1a14c6e1d261fd3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 16:16:27 2021 -0400
+
+    comment
+
+commit 62b474839dc8dd0d332e9eafc340bb1271fbf943
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 16:14:25 2021 -0400
+
+    grouping
+
+commit 4322b3b78c7f2e7fd8d80e7575613966183ed281
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 16:00:55 2021 -0400
+
+    output
+
+commit 7a7933e851e3b7ec8e0829d791abe115de552e7c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 16:00:20 2021 -0400
+
+    comment
+
+commit 79b903fbc358f36a9f2cbae6cf0f30af1ac58af2
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 15:41:41 2021 -0400
+
+    test
+
+commit 36269d11671a5d76135b8b70ab647c3f69717419
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 15:39:57 2021 -0400
+
+    comment
+
+commit 8f3d78aeaa2853f25aa47d50ad8fb8b164ba14d5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 15:36:50 2021 -0400
+
+    fix archived links
+
+commit 05bee21d01827644376713990c4246f4f29bdb52
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 15:35:56 2021 -0400
+
+    add /usr/share/sdwdate/onion_test_confirm
+    
+    a script to check if onions correspond to archived link
+
+commit 396483d22f087f113677b3868fe069c907def802
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 13:33:28 2021 -0400
+
+    refactoring
+
+commit 28439ed3acc751a63af3e0764ecc7e7371138b7c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 12:55:04 2021 -0400
+
+    minor
+
+commit f8769ba4fc085fc132a093e7e8d9b53817f33d29
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 12:53:47 2021 -0400
+
+    minor
+
+commit 0d546e5f2f53805c1cd21fe936f0f352da98c6f9
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 12:47:15 2021 -0400
+
+    moved comment field rules to https://www.whonix.org/wiki/Sdwdate#Comment_Field_Rules
+
+commit f20463362bc15f2f6bf70e6d1199620644f89855
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 12:31:53 2021 -0400
+
+    change onion source comment format, archived link first
+
+commit 73824bd436f87aa62693e2d9765eee6535172193
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 12:21:07 2021 -0400
+
+    comment
+
+commit 1e15b04de7c8b2b8ad8066597a8986c8c2b95924
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 11:58:43 2021 -0400
+
+    fix
+
+commit 68b739b71900f55a56bd21f5281ec02c7f40ba97
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 11:57:27 2021 -0400
+
+    comment
+
+commit f82ab480196465c6bf9176174968bbea7a1ac1a5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 11:55:43 2021 -0400
+
+    comment
+
+commit b43bda59223515bbf0e660d4838beb0e5d72bac5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 11:54:36 2021 -0400
+
+    replace tabs with spaces in config for consistency
+
+commit b7fe7f95af65eeb0eb2df1c0c366109e5ef0f1f6
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 11:50:57 2021 -0400
+
+    strip leading and trailing spaces from onion sources and onion comments
+    
+    for compatibility with new configuration style
+
+commit b43cad73ad91465b683ee88ae3bdbf8b0a9a41b2
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 11:33:20 2021 -0400
+
+    remove trailing slashes from onion sources
+
+commit eff69c4bfe6dfe91e9558cd85d952236f40dbdfe
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 11:32:51 2021 -0400
+
+    more human readable format
+
+commit 9eeede3c1821076027bb9af3a9318df79b729304
+Merge: 04047bc 11fcbf2
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 11:29:20 2021 -0400
+
+    Merge remote-tracking branch 'github-whonix/master'
+
+commit 11fcbf2aee5e896634ced4d71d51f11e2aecfa22
+Merge: 04047bc 7b118bd
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 11:24:42 2021 -0400
+
+    Merge pull request #33 from TNTBOMBOM/patch-4
+    
+    Update 30_default.conf
+
+commit 7b118bd6940f0ab208f05719e5427453f0adf725
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Fri Jun 4 19:58:39 2021 +0000
+
+    Update 30_default.conf
+    
+    http://forums.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/t/suggest-trustworthy-tor-hidden-services-as-time-sources-for-sdwdate/856/207
+
+commit 04047bc63702311da802041c4d480ba6f601c674
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Jun 1 07:36:05 2021 -0400
+
+    bumped changelog version
+
 commit e7ce32c43db3ca1f1c49c5401c2eb74a280f0e2b
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue Jun 1 05:31:57 2021 -0400
