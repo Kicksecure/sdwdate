@@ -60,7 +60,6 @@ class CheckRemotes:
             ## For avg
             tot_diff = 0
 
-
             ##print(pool.urls)
             ##print(list(chunks(pool.urls,3)))
             ##exit()
