@@ -1,3 +1,33 @@
+commit 6b843a1198ecd9dc3a25393fe29f213cc5df9693
+Merge: 4e5bed5 9b477dd
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Jun 7 14:42:19 2021 -0400
+
+    Merge remote-tracking branch 'github-whonix/master'
+
+commit 9b477dd1c7ad2bb7b82d4f9aca24f9d39e496e28
+Merge: 4e5bed5 296c6bb
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Jun 7 14:41:36 2021 -0400
+
+    Merge pull request #34 from TNTBOMBOM/patch-5
+    
+    Update 30_default.conf
+
+commit 296c6bba7b85565f2236eb9e80973c8649606c9f
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Mon Jun 7 18:13:42 2021 +0000
+
+    Update 30_default.conf
+    
+    https://forums.whonix.org/t/suggest-trustworthy-tor-hidden-services-as-time-sources-for-sdwdate/856/213
+
+commit 4e5bed51e0e7425c646b96e1acd282bf3c2d51ba
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 5 16:48:59 2021 -0400
+
+    bumped changelog version
+
 commit 2173934e555975c61db81b54da259aacca87cfbd
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Jun 5 16:44:06 2021 -0400
