@@ -1,7 +1,7 @@
 ## Copyright (C) 2012 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
-## similar file by apparmor-profile-everything (AAE):
+## similar file by package apparmor-profile-everything (AAE):
 ## /lib/systemd/system/sdwdate-aae.service
 
 [Unit]
