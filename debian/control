@@ -5,12 +5,13 @@ Source: sdwdate
 Section: misc
 Priority: optional
 Maintainer: Patrick Schleizer <adrelanos@whonix.org>
-Build-Depends: debhelper (>= 12),
+Build-Depends: debhelper (>= 13), debhelper-compat (= 13),
  dh-apparmor, dh-python, python3
 Homepage: https://github.com/Whonix/sdwdate
 Vcs-Browser: https://github.com/Whonix/sdwdate
 Vcs-Git: https://github.com/Whonix/sdwdate.git
-Standards-Version: 4.3.0
+Standards-Version: 4.5.1
+Rules-Requires-Root: no
 
 Package: sdwdate
 Architecture: all
