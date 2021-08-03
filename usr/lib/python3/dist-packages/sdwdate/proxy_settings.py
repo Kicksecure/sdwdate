@@ -15,7 +15,7 @@ from subprocess import check_output
 def proxy_settings():
     ip_address = '127.0.0.1'
     port_number = '9050'
-    settings_path = '/usr/lib/helper-scripts/settings_echo'
+    settings_path = '/usr/libexec/helper-scripts/settings_echo'
 
     if (os.path.exists('/usr/share/whonix') and
             os.access(settings_path, os.X_OK)):

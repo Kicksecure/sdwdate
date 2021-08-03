@@ -212,7 +212,7 @@ class SdwdateClass(object):
             if preparation_sleep_seconds >= 10:
                 preparation_sleep_seconds = 10
 
-            preparation_path = "/usr/lib/helper-scripts/onion-time-pre-script"
+            preparation_path = "/usr/libexec/helper-scripts/onion-time-pre-script"
             preparation_status = subprocess.Popen(
                 preparation_path, stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE)

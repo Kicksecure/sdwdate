@@ -33,11 +33,11 @@
   /{,usr/}bin/python3.7 rix,
   /{,usr/}bin/sdwdate r,
   /{,usr/}bin/timeout mrix,
-  /usr/lib/helper-scripts/settings_echo mrix,
-  /usr/lib/helper-scripts/tor_consensus_valid-after.py mrix,
-  /usr/lib/helper-scripts/tor_consensus_valid-until.py mrix,
-  /usr/lib/helper-scripts/tor_bootstrap_check.bsh rix,
-  /usr/lib/helper-scripts/onion-time-pre-script rix,
+  /usr/libexec/helper-scripts/settings_echo mrix,
+  /usr/libexec/helper-scripts/tor_consensus_valid-after.py mrix,
+  /usr/libexec/helper-scripts/tor_consensus_valid-until.py mrix,
+  /usr/libexec/helper-scripts/tor_bootstrap_check.bsh rix,
+  /usr/libexec/helper-scripts/onion-time-pre-script rix,
   /usr/lib/sdwdate/sclockadj rix,
 
   ## Cannot use Pix yet due to apparmor no new privs issue.
