@@ -3,13 +3,13 @@
 # Copyright (C) 2017 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
 # See the file COPYING for copying conditions.
 
-# /usr/lib/python3/dist-packages/sdwdate/config.py 0 test
-# /usr/lib/python3/dist-packages/sdwdate/config.py 1 test
-# /usr/lib/python3/dist-packages/sdwdate/config.py 2 test
+# python3 /usr/lib/python3/dist-packages/sdwdate/config.py 0 test
+# python3 /usr/lib/python3/dist-packages/sdwdate/config.py 1 test
+# python3 /usr/lib/python3/dist-packages/sdwdate/config.py 2 test
 ##
-# /usr/lib/python3/dist-packages/sdwdate/config.py 0 production
-# /usr/lib/python3/dist-packages/sdwdate/config.py 1 production
-# /usr/lib/python3/dist-packages/sdwdate/config.py 2 production
+# python3 /usr/lib/python3/dist-packages/sdwdate/config.py 0 production
+# python3 /usr/lib/python3/dist-packages/sdwdate/config.py 1 production
+# python3 /usr/lib/python3/dist-packages/sdwdate/config.py 2 production
 
 import sys
 sys.dont_write_bytecode = True

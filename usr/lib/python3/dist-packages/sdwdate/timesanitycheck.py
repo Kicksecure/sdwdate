@@ -4,7 +4,7 @@
 # See the file COPYING for copying conditions.
 
 # sudo -u sdwdate
-# /usr/lib/python3/dist-packages/sdwdate/timesanitycheck.py 1611640486
+# python3 /usr/lib/python3/dist-packages/sdwdate/timesanitycheck.py 1611640486
 
 import sys
 sys.dont_write_bytecode = True
