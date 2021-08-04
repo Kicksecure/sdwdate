@@ -500,7 +500,7 @@ class SdwdateClass(object):
             message = "Time difference = 0. Not setting time."
             LOGGER.info(message)
             return
-        sclockad_cmd = ('/usr/lib/sdwdate/sclockadj "' +
+        sclockad_cmd = ('/usr/libexec/sdwdate/sclockadj "' +
                         str(self.new_diff_in_nanoseconds) + '"')
         message = (
             "Gradually adjusting the time by running sclockadj using command: %s" %

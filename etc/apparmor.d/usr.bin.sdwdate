@@ -38,7 +38,7 @@
   /usr/libexec/helper-scripts/tor_consensus_valid-until.py mrix,
   /usr/libexec/helper-scripts/tor_bootstrap_check.bsh rix,
   /usr/libexec/helper-scripts/onion-time-pre-script rix,
-  /usr/lib/sdwdate/sclockadj rix,
+  /usr/libexec/sdwdate/sclockadj rix,
 
   ## Cannot use Pix yet due to apparmor no new privs issue.
   #/usr/bin/url_to_unixtime rix,
