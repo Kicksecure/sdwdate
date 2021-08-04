@@ -3,12 +3,20 @@
 ## Copyright (C) 2021 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
-echo "" > ./config-test.txt
+## usage:
+## usr/libexec/config-test > ./config-test.txt
 
-./config.py "0" "test" >> ./config-test.txt
-./config.py "1" "test" >> ./config-test.txt
-./config.py "2" "test" >> ./config-test.txt
+MYDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$MYDIR"
 
-# ./config.py "0" "production" >> ./config-test.txt
-# ./config.py "1" "production" >> ./config-test.txt
-# ./config.py "2" "production" >> ./config-test.txt
+cmd="python3 ../../usr/lib/python3/dist-packages/sdwdate/config.py"
+
+echo ""
+
+$cmd "0" "test"
+$cmd "1" "test"
+$cmd "2" "test"
+
+# $cmd "0" "production"
+# $cmd "1" "production"
+# $cmd "2" "production"
