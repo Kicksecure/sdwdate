@@ -1,3 +1,82 @@
+commit 4eb6536d3e7cdd33fc00565f87c2fbe0e9947010
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 4 07:23:20 2021 -0400
+
+    config-test
+
+commit b65422e994498443684f5a1bcb4cf36018c37993
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 4 07:15:56 2021 -0400
+
+    renamed:    usr/lib/python3/dist-packages/sdwdate/config-test.bsh -> usr/libexec/config-test
+
+commit 304a232e09e1a0997d89591d904338cdb204a315
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 4 07:13:25 2021 -0400
+
+    move usr/lib/sdwdate to usr/libexec/sdwdate as per lintian FHS
+
+commit 835d311bcbc3eea6dd24f75448654183606effe1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 4 07:12:55 2021 -0400
+
+    move usr/lib/sdwdate to usr/libexec/sdwdate as per lintian FHS
+
+commit c076b1ba695ee11636d29755b7d729b39b4070d0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 4 07:09:32 2021 -0400
+
+    chmod -x usr/lib/python3/dist-packages/sdwdate/*
+    lintian FHS
+
+commit 95cad371dfbfaa08208e5f11f1a2bca370eb365a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 4 07:09:03 2021 -0400
+
+    comments
+
+commit facde8f735c0a4c198ea58801fb19322d06e1afd
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 3 12:48:56 2021 -0400
+
+    move /usr/lib/helper-scripts and /usr/lib/curl-scripts to /usr/libexec/helper-scripts as per lintian FHS
+
+commit f581ba3509c449e240cd979192e9fec1433274c8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 3 11:51:31 2021 -0400
+
+    update lintian tag name
+
+commit cdf19ab31559aee02c597ca6cf9f161c89c63845
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 3 11:47:34 2021 -0400
+
+    re-generate man pages (generated using "genmkfile manpages")
+
+commit c282f20f8b3f64c2b642df07a341d8f2f96a8781
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 3 11:43:49 2021 -0400
+
+    man page
+
+commit 07c94c0f6dabfc7b22b68669c2b55353186383ee
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 3 05:48:25 2021 -0400
+
+    bullseye
+
+commit ad0b72c341ae897f5ac4deef4a33da171258f45e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Aug 1 16:24:39 2021 -0400
+
+    readme
+
+commit aa087324f021e3118615aec2990b6653de05c2b8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jun 10 09:58:52 2021 -0400
+
+    bumped changelog version
+
 commit 898671bf814f354b34c42faa6686d1c54168a6cf
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu Jun 10 09:57:09 2021 -0400
