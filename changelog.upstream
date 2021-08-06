@@ -1,3 +1,35 @@
+commit 0c38702517df5b3344f14635f4b9700217e697f4
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 6 14:16:22 2021 -0400
+
+    Provides: time-daemon
+    
+    to avoid systemd pulling Depends: systemd-timesyncd
+
+commit 272d43cf381bfa0be31c9e6c920f126f40e71cbb
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 6 14:13:03 2021 -0400
+
+    bullseye
+
+commit 4c72e5fe3ca3dd6a308eb3809660a271ff7e43aa
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 6 13:52:38 2021 -0400
+
+    bullseye
+
+commit 54002a20ff88df074196060cd30a7a6118e5c1ac
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 6 13:47:08 2021 -0400
+
+    bullseye
+
+commit e9dd70423c55191df8204d8d266239a33239cdd8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Aug 5 17:02:22 2021 -0400
+
+    bumped changelog version
+
 commit 4eb6536d3e7cdd33fc00565f87c2fbe0e9947010
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Aug 4 07:23:20 2021 -0400
