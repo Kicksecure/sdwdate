@@ -19,4 +19,4 @@
   #deny /usr/bin/** rwx,
   deny /sbin/** rwx,
   deny @{PROC}/** r,
-  deny /usr/bin/python3.7 r,
+  deny /usr/bin/python3.9 r,

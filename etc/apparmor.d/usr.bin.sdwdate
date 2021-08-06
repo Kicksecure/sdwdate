@@ -30,7 +30,7 @@
   /{,usr/}bin/minimum-unixtime-show rix,
 
   /{,usr/}bin/ r,
-  /{,usr/}bin/python3.7 rix,
+  /{,usr/}bin/python3.9 rix,
   /{,usr/}bin/sdwdate r,
   /{,usr/}bin/timeout mrix,
   /usr/libexec/helper-scripts/settings_echo mrix,
