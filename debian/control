@@ -20,8 +20,8 @@ Depends: sudo, bc, helper-scripts, adduser,
  python3-socks, python3-sdnotify, python3-requests, python3, tor,
  ${python3:Depends}, ${misc:Depends}
 Recommends: timesanitycheck, bootclockrandomization
-Replaces: time-daemon, apparmor-profile-sdwdate
 Provides: time-daemon
+Replaces: time-daemon, apparmor-profile-sdwdate
 Description: Secure Distributed Network Time Synchronization
  Time keeping is crucial for security, privacy, and anonymity. Sdwdate is a Tor
  friendly replacement for rdate and ntpdate that sets the system's clock by
