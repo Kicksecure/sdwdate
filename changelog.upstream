@@ -1,3 +1,27 @@
+commit 046a1c00b9aa4b578f16e88e0cc355776dd15c08
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Aug 21 19:48:25 2021 -0400
+
+    Conflicts: time-daemon
+
+commit eaaf003438b55a839d022c49cefcf2076efdc45e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Aug 21 19:46:05 2021 -0400
+
+    refactoring
+
+commit 11361d7fbfdf4a5e5762d407fef25e9bd1593d07
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Aug 21 19:45:00 2021 -0400
+
+    Replaces: time-daemon
+
+commit 114caddd3680bdea5b479a726b710f4838ce407a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 6 17:05:28 2021 -0400
+
+    bumped changelog version
+
 commit 9fee551dca38a7cc5cf940224f3a08cdae6c1956
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Aug 6 16:47:51 2021 -0400
