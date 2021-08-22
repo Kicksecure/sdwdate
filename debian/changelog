@@ -1,3 +1,9 @@
+sdwdate (3:16.5-1) unstable; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@whonix.org>  Sun, 22 Aug 2021 10:27:15 +0000
+
 sdwdate (3:16.4-1) unstable; urgency=medium
 
   * New upstream version (local package).

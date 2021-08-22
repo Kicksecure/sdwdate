@@ -1,3 +1,15 @@
+commit 23a24206567bd27134b68e459ae9b1c4b75f68de
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Aug 22 05:57:08 2021 -0400
+
+    deny /usr/sbin/ldconfig rix,
+
+commit 3729e1fef98fb072a4f47dff0599d25f3cd17073
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Aug 22 05:31:35 2021 -0400
+
+    bumped changelog version
+
 commit 54fbe63c4c883bebf7928adc6e130765642ca162
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Aug 22 05:22:49 2021 -0400
