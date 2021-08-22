@@ -64,6 +64,10 @@
   deny /run/sdwdate/forbidden-temp/** rwmkl,
   ## This might get better once apparmor no new privs issue is resolved.
 
+  ## Related to compilation to byte code?
+  ## AVC apparmor="DENIED" operation="exec" profile="/usr/bin/sdwdate" name="/usr/sbin/ldconfig" comm="sdwdate" requested_mask="x" denied_mask="x"
+  deny /usr/sbin/ldconfig rix,
+
   ## TODO
   /usr/sbin/anondate-get rUx,
   ## Not implemented.
