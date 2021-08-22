@@ -5,6 +5,6 @@
 
 while read -r -d $'\n' line ; do
    read -r first_word _ <<< "$line"
-   url_https="$(echo "$first_word" | str_replace "http://" "https://")"
+   url_https="$(echo "$first_word" | LANG=C str_replace "http://" "https://")"
    curl --head "$url_https"
 done < <( /usr/share/sdwdate/onion_list_all )
