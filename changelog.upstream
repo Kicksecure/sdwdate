@@ -1,3 +1,15 @@
+commit 95f62a51727ab153c83a1a5650786b2ffd778038
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 31 14:43:39 2021 -0400
+
+    fix dependency issue
+
+commit aa9da6bc542636bd1ed96d3a4a03bb290bc102b8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Aug 22 06:34:35 2021 -0400
+
+    bumped changelog version
+
 commit 6a5f55f940a6f9dc3cd5c3cb12b9b93f85d63024
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Aug 22 06:34:21 2021 -0400
