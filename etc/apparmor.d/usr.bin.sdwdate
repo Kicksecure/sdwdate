@@ -76,10 +76,11 @@
   /etc/nsswitch.conf r,
   /etc/passwd r,
   /etc/sdwdate.d/ r,
-  /etc/sdwdate.d/*.conf r,
+  /etc/sdwdate.d/** r,
   /etc/tor/torrc.anondist r,
   /{,usr/local/}etc/torrc.d/ r,
-  /{,usr/local/}etc/torrc.d/*.conf r,
+  ## Not limited to .conf file extension since folder could contain files such as '.dpkg-old'.
+  /{,usr/local/}etc/torrc.d/** r,
 
   /usr/lib/python3/dist-packages/sdwdate/timesanitycheck.py rix,
   /usr/share/tor/tor-service-defaults-torrc r,
