@@ -29,10 +29,7 @@ Conflicts=systemd-timesyncd.service
 Type=notify
 User=sdwdate
 Group=sdwdate
-## required for anondate which uses journalctl
-## group systemd-journal might not exist yet during the build process.
-## addgroup is a debianism
-ExecStartPre=/bin/bash -c 'addgroup sdwdate systemd-journal || true'
+ExecStartPre=/usr/libexec/sdwdate/sdwdate-addgroup
 ExecStart=/usr/bin/sdwdate
 SuccessExitStatus=143
 TimeoutSec=30

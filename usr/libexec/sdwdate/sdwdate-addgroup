@@ -1,0 +1,13 @@
+#!/bin/bash
+
+## Copyright (C) 2021 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
+## See the file COPYING for copying conditions.
+
+set -x
+
+## required for anondate which uses journalctl
+## group systemd-journal might not exist yet during the build process.
+## addgroup is a debianism
+addgroup sdwdate systemd-journal
+
+exit 0
