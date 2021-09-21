@@ -1,3 +1,29 @@
+commit 18a3e07442901406cffd71f99d09a13f70f2adfa
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 21 03:29:39 2021 -0400
+
+    comment
+
+commit efb78881f58d5c4198deac881a1123281b4d741c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 21 03:24:10 2021 -0400
+
+    fix, exclude sdwdate-pre (addgroup) from SystemCallFilter
+    
+    https://forums.whonix.org/t/whonix-on-mac-m1-arm/11310/165
+
+commit 7d93312c1a7bdb288a36227410d1df5898586bc9
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 21 03:23:29 2021 -0400
+
+    usr/libexec/sdwdate/sdwdate-addgroup -> usr/libexec/sdwdate/sdwdate-pre
+
+commit 54ea993131ff956ac9a3a51baae2f990e7e2b9b1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Sep 20 15:46:56 2021 -0400
+
+    bumped changelog version
+
 commit 0f509ebc045ae88314f0abfe6faac1ddd48a8440
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Sep 20 15:46:15 2021 -0400
