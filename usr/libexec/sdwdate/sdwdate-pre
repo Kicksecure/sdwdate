@@ -5,9 +5,12 @@
 
 set -x
 
-## required for anondate which uses journalctl
-## group systemd-journal might not exist yet during the build process.
-## addgroup is a debianism
+## 'addgroup is a debianism' is required for 'anondate' which uses
+## 'journalctl'. Group 'systemd-journal' might not exist yet during the build
+## process, but 'Depends: systemd' would be a too heavy dependency and might
+## cause ependency issues during the build process or distro morphing because
+## package 'systemd' as well as package 'sdwdate' 'Provides: time-daemon'.
+## 'addgroup' is a debianism.
 addgroup sdwdate systemd-journal
 
 exit 0
