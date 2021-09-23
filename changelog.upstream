@@ -1,3 +1,19 @@
+commit 650ee383881a3223310b576ffe0c480bd4535d3f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Sep 23 10:57:03 2021 -0400
+
+    delete Tor consensus before restartin Tor in /usr/libexec/sdwdate/sdwdate-restart-tor-request-file-watcher
+    
+    to increase robustness of recovering from skewed time
+    
+    https://www.whonix.org/wiki/Dev/TimeSync
+
+commit addab3adf04547840073bb2f14f75240b2680dec
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 21 04:08:23 2021 -0400
+
+    bumped changelog version
+
 commit 18a3e07442901406cffd71f99d09a13f70f2adfa
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue Sep 21 03:29:39 2021 -0400
