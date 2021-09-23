@@ -22,10 +22,15 @@ set -e
 
 restart_tor_if_running() {
    if systemctl --no-pager --no-block status tor@default ; then
-      true "$: INFO: tor@default running, restarting..."
-      systemctl --no-pager --no-block restart tor@default || true
+      true "$: INFO: tor@default running, stopping..."
+      systemctl --no-pager --no-block stop tor@default || true
+      true "$: INFO: Deleting Tor consensus..."
+      ## provided by package helper-scripts
+      anon-consensus-del || true
+      true "$: INFO: Restart Tor..."
+      systemctl --no-pager --no-block start tor@default || true
    else
-      true "$: INFO: tor@default not running, not restarting."
+      true "$: INFO: tor@default not running, not deleting Tor consensus and not restarting Tor."
    fi
 }
 
