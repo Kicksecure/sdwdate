@@ -1,0 +1,21 @@
+#!/bin/bash
+
+## Copyright (C) 2018 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
+## See the file COPYING for copying conditions.
+
+set -x
+
+set -e
+
+## Use '--boot' to avoid confusion from showing previous boot inside Qubes TemplateVM.
+
+/bin/journalctl \
+   --boot \
+   --output cat \
+   -n 10000 \
+   -f \
+      _SYSTEMD_UNIT=sdwdate.service + \
+      _SYSTEMD_UNIT=whonix-firewall.service + \
+      SYSLOG_IDENTIFIER=suspend-pre + \
+      SYSLOG_IDENTIFIER=suspend-post + \
+      SYSLOG_IDENTIFIER=anondate
