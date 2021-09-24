@@ -1,3 +1,27 @@
+commit ecf9e8a38b248ff4815caafb0d8c9548c1a7aadb
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 24 11:52:45 2021 -0400
+
+    added sdwdate-log-viewer
+
+commit c8a02151bcf131af6340fbf160131dce0f5f71ca
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 24 11:30:00 2021 -0400
+
+    apparmor
+
+commit 540df96abf3dbc338ff48c38b2896a11615fc293
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 24 11:26:58 2021 -0400
+
+    rewrite profile using aa-logprof
+
+commit 1679f01f6fd777c4fc86f6afbdb08a6bbb81e590
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 24 11:10:15 2021 -0400
+
+    bumped changelog version
+
 commit 87cab6af3ed8b9f18c74e47f3f93afaab833ffe8
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Sep 24 11:05:30 2021 -0400
