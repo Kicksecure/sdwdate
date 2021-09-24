@@ -44,13 +44,13 @@ mkfifo "$inotifywait_subshell_fifo"
 inotifywait_subshell_pid="$!"
 
 if [ -f "/run/sdwdate/request_tor_restart" ]; then
-   anondate-set
+   anondate-set || true
    rm -f /run/sdwdate/request_tor_restart
 fi
 
 while read file_name; do
    if [ "$file_name" = "/run/sdwdate/request_tor_restart" ] ; then
-      anondate-set
+      anondate-set || true
       rm -f /run/sdwdate/request_tor_restart
    fi
 done < "$inotifywait_subshell_fifo"
