@@ -15,24 +15,17 @@
 ##
 ## This is an alternative to avoid having to weaken sdwdate hardening (systemd,
 ## apparmor) while permitting sdwdate to restart of Tor.
+##
+## The script sdwdate executes the -> /usr/libexec/helper-scripts/onion-time-pre-script script,
+## which creates file /run/sdwdate/request_tor_restart -> which results in this script running
+## anondate-set -> which results in:
+## - Stop Tor (if running).
+## - Delete Tor consensus using the anon-consensus-del script.
+## - Restart Tor.
 #### meta end
 
 set -x
 set -e
-
-restart_tor_if_running() {
-   if systemctl --no-pager --no-block status tor@default ; then
-      true "$: INFO: tor@default running, stopping..."
-      systemctl --no-pager --no-block stop tor@default || true
-      true "$: INFO: Deleting Tor consensus..."
-      ## provided by package helper-scripts
-      anon-consensus-del || true
-      true "$: INFO: Restart Tor..."
-      systemctl --no-pager --no-block start tor@default || true
-   else
-      true "$: INFO: tor@default not running, not deleting Tor consensus and not restarting Tor."
-   fi
-}
 
 ## inotifywait requires the folder to already exist.
 mkdir --parents /run/sdwdate
@@ -51,13 +44,13 @@ mkfifo "$inotifywait_subshell_fifo"
 inotifywait_subshell_pid="$!"
 
 if [ -f "/run/sdwdate/request_tor_restart" ]; then
-   restart_tor_if_running
+   anondate-set
    rm -f /run/sdwdate/request_tor_restart
 fi
 
 while read file_name; do
    if [ "$file_name" = "/run/sdwdate/request_tor_restart" ] ; then
-      restart_tor_if_running
+      anondate-set
       rm -f /run/sdwdate/request_tor_restart
    fi
 done < "$inotifywait_subshell_fifo"
