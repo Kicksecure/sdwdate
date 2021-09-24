@@ -1,12 +1,16 @@
+# Last Modified: Thu Sep 23 15:22:11 2021
+#include <tunables/global>
+
 ## Copyright (C) 2012 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
-#include <tunables/global>
 
 /usr/bin/sdwdate flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/bash>
   #include <abstractions/python>
+  #include <abstractions/url_to_unixtime>
+  #include <local/usr.bin.sdwdate>
 
   capability sys_time,
 
@@ -14,108 +18,67 @@
   signal receive set=term,
   signal send set=term peer=/usr/bin/sdwdate//null-/usr/bin/url_to_unixtime,
 
-  /{,usr/}bin/bash ix,
-  /{,usr/}bin/cat mrix,
-  /{,usr/}bin/dash mrix,
-  /{,usr/}bin/date mrix,
-  /{,usr/}bin/mktemp mrix,
-  /{,usr/}bin/rm mrix,
-  /{,usr/}bin/qubesdb-read rix,
-  /{,usr/}bin/qubesdb-cmd rix,
-  /{,usr/}bin/ps rix,
-  /{,usr/}bin/uname rix,
-  /{,usr/}bin/sleep rix,
-  /{,usr/}bin/timesanitycheck rix,
-  /{,usr/}bin/tor-circuit-established-check rix,
-  /{,usr/}bin/minimum-unixtime-show rix,
-
-  /{,usr/}bin/ r,
-  /{,usr/}bin/python3.9 rix,
-  /{,usr/}bin/sdwdate r,
-  /{,usr/}bin/timeout mrix,
-
-  /usr/libexec/helper-scripts/ r,
-  /usr/libexec/helper-scripts/** r,
-  /usr/libexec/helper-scripts/settings_echo mrix,
-  /usr/libexec/helper-scripts/tor_bootstrap_check.bsh mrix,
-  /usr/libexec/helper-scripts/tor_consensus_valid-after.py mrix,
-  /usr/libexec/helper-scripts/tor_consensus_valid-until.py mrix,
-  /usr/libexec/helper-scripts/tor_bootstrap_check.py mrix,
-  /usr/libexec/helper-scripts/onion-time-pre-script rix,
-
-  /usr/libexec/sdwdate/sclockadj rix,
-
-  ## Cannot use Pix yet due to apparmor no new privs issue.
-  #/usr/bin/url_to_unixtime rix,
-  #include <abstractions/url_to_unixtime>
-  ## https://forums.whonix.org/t/sdwdate-and-sdwdate-gui-development-thread/1137/372
-  ## apparmor="DENIED" operation="open" profile="/usr/bin/sdwdate" name="/run/sdwdate/forbidden-temp/xb2e9wyl" pid=2707 comm="url_to_unixtime" requested_mask="r" denied_mask="r" fsuid=125 ouid=125
-  ## sdwdate
-  ## /usr/lib/python3/dist-packages/sdwdate/remote_times.py
-  ## url_to_unixtime
-  ## /usr/lib/python3/dist-packages/requests/adapters.py
-  ## cert_loc = extract_zipped_paths(DEFAULT_CA_BUNDLE_PATH)
-  ## /usr/lib/python3/dist-packages/requests/utils.py
-  ## extract_zipped_paths
-  ## tmp = tempfile.gettempdir()
-  ##
-  ## But if permitting, more permissions are requested.
-  ## apparmor="DENIED" operation="exec" profile="/usr/bin/sdwdate" name="/usr/bin/x86_64-linux-gnu-gcc-8" pid=3003 comm="url_to_unixtime" requested_mask="x" denied_mask="x" fsuid=125 ouid=0
-  deny /run/sdwdate/forbidden-temp/** rwmkl,
-  ## This might get better once apparmor no new privs issue is resolved.
-
-  ## Related to compilation to byte code?
-  ## AVC apparmor="DENIED" operation="exec" profile="/usr/bin/sdwdate" name="/usr/sbin/ldconfig" comm="sdwdate" requested_mask="x" denied_mask="x"
+  deny /run/sdwdate/forbidden-temp/** mrwlk,
   deny /usr/sbin/ldconfig rx,
-
-  ## TODO
-  /usr/sbin/anondate-get rUx,
-  ## Not implemented.
-  #/usr/sbin/anondate-set rUx,
 
   /etc/nsswitch.conf r,
   /etc/passwd r,
   /etc/sdwdate.d/ r,
   /etc/sdwdate.d/** r,
   /etc/tor/torrc.anondist r,
-  /{,usr/local/}etc/torrc.d/ r,
-  ## Not limited to .conf file extension since folder could contain files such as '.dpkg-old'.
-  /{,usr/local/}etc/torrc.d/** r,
-
+  /run/tor/control.authcookie r,
+  /tmp/* mrw,
+  /tmp/** mrw,
+  /usr/bin/touch mrix,
   /usr/lib/python3/dist-packages/sdwdate/timesanitycheck.py rix,
+  /usr/libexec/helper-scripts/ r,
+  /usr/libexec/helper-scripts/** r,
+  /usr/libexec/helper-scripts/onion-time-pre-script rix,
+  /usr/libexec/helper-scripts/settings_echo mrix,
+  /usr/libexec/helper-scripts/tor_bootstrap_check.bsh mrix,
+  /usr/libexec/helper-scripts/tor_bootstrap_check.py mrix,
+  /usr/libexec/helper-scripts/tor_consensus_valid-after.py mrix,
+  /usr/libexec/helper-scripts/tor_consensus_valid-until.py mrix,
+  /usr/libexec/sdwdate/sclockadj rix,
+  /usr/sbin/anondate-get rUx,
+  /usr/share/timesanitycheck/minimum_unixtime r,
   /usr/share/tor/tor-service-defaults-torrc r,
   /usr/share/tor/tor-service-defaults-torrc.anondist r,
   /usr/share/translations/sdwdate.yaml r,
-
   /var/lib/sdwdate/ rw,
-  /var/lib/sdwdate/time-replay-protection-utc-unixtime rw,
   /var/lib/sdwdate/time-replay-protection-utc-humanreadable rw,
-
-  ## No longer required as soon timesanitycheck runs with appamor `Px`
-  /usr/share/timesanitycheck/minimum_unixtime r,
-
-  owner @{PROC}/*/fd/ r,
-  owner @{PROC}/*/mounts r,
-  owner @{PROC}/*/status r,
+  /var/lib/sdwdate/time-replay-protection-utc-unixtime rw,
+  /{,usr/local/}etc/torrc.d/ r,
+  /{,usr/local/}etc/torrc.d/** r,
+  /{,usr/}bin/ r,
+  /{,usr/}bin/bash ix,
+  /{,usr/}bin/cat mrix,
+  /{,usr/}bin/dash mrix,
+  /{,usr/}bin/date mrix,
+  /{,usr/}bin/minimum-unixtime-show rix,
+  /{,usr/}bin/mktemp mrix,
+  /{,usr/}bin/ps rix,
+  /{,usr/}bin/python3.9 rix,
+  /{,usr/}bin/qubesdb-cmd rix,
+  /{,usr/}bin/qubesdb-read rix,
+  /{,usr/}bin/rm mrix,
+  /{,usr/}bin/sdwdate r,
+  /{,usr/}bin/sleep rix,
+  /{,usr/}bin/timeout mrix,
+  /{,usr/}bin/timesanitycheck rix,
+  /{,usr/}bin/tor-circuit-established-check rix,
+  /{,usr/}bin/uname rix,
   @{PROC}/ r,
   @{PROC}/*/stat r,
   @{PROC}/sys/kernel/osrelease r,
-  @{PROC}/uptime r,
-  @{PROC}/uptime r,
   @{PROC}/sys/kernel/osrelease r,
-
-  /run/tor/control.authcookie r,
+  @{PROC}/uptime r,
+  @{PROC}/uptime r,
   owner /run/sdwdate/* w,
-
-  ## Started with systemd PrivateTmp anyhow.
-  ## BUG:
-  ## 2019-12-22 17:52:51 - sdwdate - INFO - deleting temp_dir failed: /tmp/tmp.QDAqzDpjqq
-  /tmp/* rwm,
-  /tmp/** rwm,
-
   owner /usr/lib/python3/dist-packages/sdwdate/__pycache__/ rw,
   owner /usr/lib/python3/dist-packages/sdwdate/__pycache__/** rw,
+  owner @{PROC}/*/fd/ r,
+  owner @{PROC}/*/mounts r,
+  owner @{PROC}/*/status r,
 
-  # Site-specific additions and overrides. See local/README for details.
-  #include <local/usr.bin.sdwdate>
 }
