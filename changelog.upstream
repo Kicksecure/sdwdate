@@ -1,3 +1,23 @@
+commit cb8fb6af43733d474769ca0b423cd70d64288549
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 24 12:13:07 2021 -0400
+
+    fix
+
+commit 525716fb646d7654d065fbc16ae4af802ec552df
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 24 12:09:26 2021 -0400
+
+    add seccomp utimensat
+    
+    Sep 23 15:37:39 host audit[33040]: SECCOMP auid=4294967295 uid=111 gid=121 ses=4294967295 subj==/usr/bin/sdwdate (enforce) pid=33040 comm="touch" exe="/usr/bin/touch" sig=31 arch=c000003e syscall=280 compat=0 ip=0x70ca67e4bafa code=0x80000000
+
+commit cf442ce6b2da23e2b80cd64b79762970212ad69d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 24 11:58:55 2021 -0400
+
+    bumped changelog version
+
 commit ecf9e8a38b248ff4815caafb0d8c9548c1a7aadb
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Sep 24 11:52:45 2021 -0400
