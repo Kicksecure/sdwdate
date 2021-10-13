@@ -113,7 +113,7 @@ def exit_handler(exit_code, reason):
     kill_sclockadj()
     kill_sleep_process()
 
-    os.remove(sleep_long_file_path, missing_ok=True)
+    Path(sleep_long_file_path).unlink(missing_ok=True)
 
     message = "End."
     LOGGER.info(message)
@@ -442,7 +442,7 @@ class SdwdateClass(object):
             file_object.close()
 
         if clock_jump_do:
-            os.remove(clock_jump_do_once_file, missing_ok=True)
+            Path(clock_jump_do_once_file).unlink(missing_ok=True)
 
         file_object = open(status_success_path, "w")
         file_object.close()
@@ -1050,8 +1050,8 @@ def main():
         SDNOTIFY_OBJECT.notify(msg_for_sdnotify)
         SDNOTIFY_OBJECT.notify("WATCHDOG=1")
 
-        os.remove(sleep_long_file_path, missing_ok=True)
-        os.remove(fail_file_path, missing_ok=True)
+        Path(sleep_long_file_path).unlink(missing_ok=True)
+        Path(fail_file_path).unlink(missing_ok=True)
 
         # Debugging.
         # pool = TimeSourcePool(0)
