@@ -1,3 +1,21 @@
+commit bfdea776ba638541c4d2b168a32588c3721a71a3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Oct 13 12:56:41 2021 -0400
+
+    port to pathlib
+    
+    fix TypeError: 'missing_ok' is an invalid keyword argument for remove()
+    
+    https://github.com/Whonix/updates-status/issues/105
+    
+    Thanks to @marmarek for the bug report!
+
+commit 9fa94049dbef0d20c440ed4d8931ac0be27a3392
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 12 12:04:04 2021 -0400
+
+    bumped changelog version
+
 commit 2b3c6db6fea820bbbb4ebcb165f3e2fab4e2281d
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Sep 24 16:47:12 2021 -0400
