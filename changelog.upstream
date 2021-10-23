@@ -1,3 +1,23 @@
+commit 670917c20dd9eb6ac2ccab87eed407a091254750
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Oct 23 06:31:42 2021 -0400
+
+    cleanup
+
+commit 3986d420d44f147a3ca489c075ab564f1410fe10
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Oct 23 06:30:08 2021 -0400
+
+    move sclockadj compilation from postinst to systemd unit
+    
+    to allow simplification of dependency resolution during release upgrade
+
+commit cb27e5078986b326840778e62f7a74e86963b57d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Oct 13 12:59:55 2021 -0400
+
+    bumped changelog version
+
 commit bfdea776ba638541c4d2b168a32588c3721a71a3
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Oct 13 12:56:41 2021 -0400
