@@ -11,6 +11,6 @@ set -x
 ## cause ependency issues during the build process or distro morphing because
 ## package 'systemd' as well as package 'sdwdate' 'Provides: time-daemon'.
 ## 'addgroup' is a debianism.
-addgroup sdwdate systemd-journal
+addgroup sdwdate systemd-journal || true
 
-exit 0
+gcc /usr/libexec/sdwdate/sclockadj.c -o /usr/libexec/sdwdate/sclockadj -ldl -D_GNU_SOURCE -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wl,-z,relro -Wl,-z,now

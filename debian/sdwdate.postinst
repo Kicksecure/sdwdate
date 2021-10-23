@@ -60,8 +60,6 @@ case "$1" in
        ## Not possible here, because
        ## group systemd-journal might not exist yet during the build process.
        #addgroup sdwdate systemd-journal
-
-       gcc /usr/libexec/sdwdate/sclockadj.c -o /usr/libexec/sdwdate/sclockadj -ldl -D_GNU_SOURCE -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wl,-z,relro -Wl,-z,now
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
