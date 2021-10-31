@@ -7,6 +7,8 @@ set -x
 
 set -e
 
+true "INFO $0: START"
+
 ## Use '--boot' to avoid confusion from showing previous boot inside Qubes TemplateVM.
 
 /bin/journalctl \
