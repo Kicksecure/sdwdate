@@ -1,3 +1,15 @@
+commit 73e3b075d70ca08a8bd75a4e80933fa20d22af93
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Nov 1 07:07:53 2021 -0400
+
+    added `/usr/libexec/sdwdate/sdwdate-test`
+
+commit fae6f50e830ec7ec39bd4754429b6be952c8c961
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Oct 31 15:13:11 2021 -0400
+
+    bumped changelog version
+
 commit 60be97d4140dff8a2262f777890cccfa449d0072
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Oct 31 11:36:54 2021 -0400
