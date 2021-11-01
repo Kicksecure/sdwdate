@@ -1,0 +1,16 @@
+#!/bin/bash
+
+## Copyright (C) 2021 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
+## See the file COPYING for copying conditions.
+
+set -x
+set -e
+
+date --set "Fri 24 Sep 2011 06:51:24 PM UTC"
+systemctl stop tor
+anon-consensus-del
+systemctl restart tor
+sdwdate-clock-jump
+
+true "OK"
+
