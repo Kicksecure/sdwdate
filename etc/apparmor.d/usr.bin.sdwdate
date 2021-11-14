@@ -73,8 +73,11 @@
   @{PROC}/sys/kernel/osrelease r,
   @{PROC}/uptime r,
   @{PROC}/uptime r,
-  owner /run/sdwdate/ rw,
-  owner /run/sdwdate/** rw,
+  ## TODO: 'owner' keyword needed?
+  ## Was breaking 'touch /run/sdwdate/onion-time-script-after-boot'? (As run by onion-time-pre-script.)
+  ## https://forums.whonix.org/t/sdwdate-broken-on-virtualbox-whonix/12800/2
+  /run/sdwdate/ rw,
+  /run/sdwdate/** rw,
   deny /run/sdwdate/forbidden-temp/** mrwlk,
   owner /usr/lib/python3/dist-packages/sdwdate/__pycache__/ rw,
   owner /usr/lib/python3/dist-packages/sdwdate/__pycache__/** rw,
