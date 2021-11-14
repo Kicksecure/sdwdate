@@ -68,6 +68,8 @@
   /{,usr/}bin/timesanitycheck rix,
   /{,usr/}bin/tor-circuit-established-check rix,
   /{,usr/}bin/uname rix,
+  /{,usr/}bin/whoami rix,
+  /{,usr/}bin/id rix,
   @{PROC}/ r,
   @{PROC}/*/stat r,
   @{PROC}/sys/kernel/osrelease r,
@@ -78,6 +80,8 @@
   ## https://forums.whonix.org/t/sdwdate-broken-on-virtualbox-whonix/12800/2
   /run/sdwdate/ rw,
   /run/sdwdate/** rw,
+  /run/anondate/ rw,
+  /run/anondate/** rw,
   deny /run/sdwdate/forbidden-temp/** mrwlk,
   owner /usr/lib/python3/dist-packages/sdwdate/__pycache__/ rw,
   owner /usr/lib/python3/dist-packages/sdwdate/__pycache__/** rw,
