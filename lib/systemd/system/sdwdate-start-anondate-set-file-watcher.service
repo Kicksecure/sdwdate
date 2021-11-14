@@ -23,7 +23,6 @@ After=tor@default.service
 Conflicts=systemd-timesyncd.service
 
 [Service]
-#Type=notify
 #User=sdwdate
 #Group=sdwdate
 ExecStart=/usr/libexec/sdwdate/sdwdate-start-anondate-set-file-watcher
