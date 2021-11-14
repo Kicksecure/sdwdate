@@ -8,16 +8,16 @@
 #### category time and Tor
 #### description
 ## restart tor@default if running when sdwdate creates file
-## `/run/sdwdate/request_tor_restart`.
+## `/run/sdwdate/request_anondate-set`.
 ##
 ## This script allows sdwdate to request restart of Tor through creation of
-## file `/run/sdwdate/request_tor_restart`.
+## file `/run/sdwdate/request_anondate-set`.
 ##
 ## This is an alternative to avoid having to weaken sdwdate hardening (systemd,
 ## apparmor) while permitting sdwdate to restart of Tor.
 ##
 ## The script sdwdate executes the -> /usr/libexec/helper-scripts/onion-time-pre-script script,
-## which creates file /run/sdwdate/request_tor_restart -> which results in this script running
+## which creates file /run/sdwdate/request_anondate-set -> which results in this script running
 ## anondate-set -> which results in:
 ## - Stop Tor (if running).
 ## - Delete Tor consensus using the anon-consensus-del script.
@@ -43,15 +43,15 @@ mkfifo "$inotifywait_subshell_fifo"
 
 inotifywait_subshell_pid="$!"
 
-if [ -f "/run/sdwdate/request_tor_restart" ]; then
+if [ -f "/run/sdwdate/request_anondate-set" ]; then
    anondate-set || true
-   rm -f /run/sdwdate/request_tor_restart
+   rm -f /run/sdwdate/request_anondate-set
 fi
 
 while read file_name; do
-   if [ "$file_name" = "/run/sdwdate/request_tor_restart" ] ; then
+   if [ "$file_name" = "/run/sdwdate/request_anondate-set" ] ; then
       anondate-set || true
-      rm -f /run/sdwdate/request_tor_restart
+      rm -f /run/sdwdate/request_anondate-set
    fi
 done < "$inotifywait_subshell_fifo"
 
