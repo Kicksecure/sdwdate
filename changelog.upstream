@@ -1,3 +1,73 @@
+commit 11a6ae6c911de499327753752013f6ee8bccb096
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Nov 14 05:33:02 2021 -0500
+
+    apparmor
+
+commit 5e0ec829a3353358545944c900654b24cf3d61aa
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Nov 14 05:15:06 2021 -0500
+
+    apparmor
+
+commit 3e29f636cb187bcf32c1916bb5db50636445effc
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Nov 14 05:10:35 2021 -0500
+
+    apparmor
+
+commit f2f05b55ff79c3cb9db948123e1e0a413f6f18f6
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Nov 14 05:10:12 2021 -0500
+
+    apparmor
+
+commit df3c81a547181e2ff6774a2d963c2d8eeb85475b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Nov 14 04:31:10 2021 -0500
+
+    renamed: lib/systemd/system/sdwdate-restart-tor-request-file-watcher.service -> lib/systemd/system/sdwdate-start-anondate-set-file-watcher.service
+
+commit 6ac8dea8aa72b88cc89e78176c0fdc260180093d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Nov 14 04:29:57 2021 -0500
+
+    renamed: usr/libexec/sdwdate/sdwdate-restart-tor-request-file-watcher -> usr/libexec/sdwdate/sdwdate-start-anondate-set-file-watcher
+
+commit 7c14d799afd992c3ec98122f1cf9da75fd75588c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Nov 14 04:28:41 2021 -0500
+
+    use more descriptive file name
+    
+    `/usr/libexec/sdwdate/sdwdate-restart-tor-request-file-watcher` -> `/usr/libexec/sdwdate/sdwdate-start-anondate-set-file-watcher`
+
+commit 322a63bac9737992c4df76cb4847197689c38b3c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Nov 14 04:15:01 2021 -0500
+
+    minor
+
+commit f83a0ab2d4f112d338ccc8e3a9c4a33e2ba443ef
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Nov 14 04:14:29 2021 -0500
+
+    comment
+
+commit ff0dba14988e482eeab00e74367f302835fadfae
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Nov 14 04:10:29 2021 -0500
+
+    more descriptive file name
+    
+    `/run/sdwdate/request_tor_restart` -> `/run/sdwdate/request_anondate-set`
+
+commit 7ec7f55b8f7de82ca0ef1556cc7e5095c72ac291
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Nov 11 15:51:29 2021 -0500
+
+    bumped changelog version
+
 commit 263034ed34413cde0ac165095a027aecda20eaaf
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu Nov 11 15:45:11 2021 -0500
