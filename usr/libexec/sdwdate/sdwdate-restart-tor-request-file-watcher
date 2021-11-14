@@ -7,21 +7,21 @@
 #### project Whonix and Kicksecure
 #### category time and Tor
 #### description
-## restart tor@default if running when sdwdate creates file
+## start `anondate-set` when `sdwdate` creates file
 ## `/run/sdwdate/request_anondate-set`.
 ##
-## This script allows sdwdate to request restart of Tor through creation of
+## This script allows `sdwdate` to request restart of Tor through creation of
 ## file `/run/sdwdate/request_anondate-set`.
 ##
-## This is an alternative to avoid having to weaken sdwdate hardening (systemd,
-## apparmor) while permitting sdwdate to restart of Tor.
+## This is an alternative to avoid having to weaken `sdwdate` hardening (`systemd`,
+## `apparmor`) while permitting `sdwdate` to restart of Tor.
 ##
-## The script sdwdate executes the -> /usr/libexec/helper-scripts/onion-time-pre-script script,
-## which creates file /run/sdwdate/request_anondate-set -> which results in this script running
-## anondate-set -> which results in:
-## - Stop Tor (if running).
-## - Delete Tor consensus using the anon-consensus-del script.
-## - Restart Tor.
+## The script `sdwdate` executes the -> `/usr/libexec/helper-scripts/onion-time-pre-script` script,
+## which creates file `/run/sdwdate/request_anondate-set` -> which results in this script running
+## `anondate-set` -> which results in:
+## - If a Tor restart is required and if already running, restart Tor.
+## - Delete Tor consensus using the `anon-consensus-del` script.
+## - Restart Tor if it was previously running.
 #### meta end
 
 set -x
