@@ -18,7 +18,6 @@
   signal receive set=term,
   signal send set=term peer=/usr/bin/sdwdate//null-/usr/bin/url_to_unixtime,
 
-  deny /run/sdwdate/forbidden-temp/** mrwlk,
   deny /usr/sbin/ldconfig rx,
 
   deny /etc/nsswitch.conf r,
@@ -76,6 +75,7 @@
   @{PROC}/uptime r,
   owner /run/sdwdate/ rw,
   owner /run/sdwdate/** rw,
+  deny /run/sdwdate/forbidden-temp/** mrwlk,
   owner /usr/lib/python3/dist-packages/sdwdate/__pycache__/ rw,
   owner /usr/lib/python3/dist-packages/sdwdate/__pycache__/** rw,
   owner @{PROC}/*/fd/ r,
