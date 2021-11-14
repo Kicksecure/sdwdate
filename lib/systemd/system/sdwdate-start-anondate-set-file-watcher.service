@@ -31,5 +31,8 @@ ExecStart=/usr/libexec/sdwdate/sdwdate-start-anondate-set-file-watcher
 #WatchdogSec=200m
 Restart=always
 
+AmbientCapabilities=CAP_SYS_TIME
+CapabilityBoundingSet=CAP_SYS_TIME
+
 [Install]
 WantedBy=multi-user.target
