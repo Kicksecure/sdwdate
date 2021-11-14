@@ -23,8 +23,8 @@ After=tor@default.service
 Conflicts=systemd-timesyncd.service
 
 [Service]
-#User=sdwdate
-#Group=sdwdate
+User=sdwdate
+Group=sdwdate
 ExecStart=/usr/libexec/sdwdate/sdwdate-start-anondate-set-file-watcher
 #SuccessExitStatus=143
 #TimeoutSec=30
