@@ -28,8 +28,8 @@ set -x
 set -e
 
 ## inotifywait requires the folder to already exist.
-mkdir --parents /run/sdwdate
-chown --recursive sdwdate:sdwdate /run/sdwdate
+mkdir --parents "/run/sdwdate"
+chown --recursive "sdwdate:sdwdate" "/run/sdwdate"
 
 inotifywait_subshell_fifo="$(mktemp)"
 rm --force "$inotifywait_subshell_fifo"
@@ -45,13 +45,13 @@ inotifywait_subshell_pid="$!"
 
 if [ -f "/run/sdwdate/request_anondate-set" ]; then
    anondate-set || true
-   rm -f /run/sdwdate/request_anondate-set
+   rm -f "/run/sdwdate/request_anondate-set"
 fi
 
 while read file_name; do
    if [ "$file_name" = "/run/sdwdate/request_anondate-set" ] ; then
       anondate-set || true
-      rm -f /run/sdwdate/request_anondate-set
+      rm -f "/run/sdwdate/request_anondate-set"
    fi
 done < "$inotifywait_subshell_fifo"
 
