@@ -12,11 +12,19 @@ if [ ! "$(id -u)" = "0" ]; then
 fi
 
 systemctl stop tor@default
+systemctl stop vanguards
 
 date --set "Sat 09 Jan 2050 02:33:24 AM UTC"
 
-rm -rf /var/lib/tor/*
+rm -f /var/lib/tor/cached-certs
+rm -f /var/lib/tor/cached-microdesc-consensus
+rm -f /var/lib/tor/cached-microdescs.new
+rm -f /var/lib/tor/keys
+rm -f /var/lib/tor/lock
+rm -f /var/lib/tor/state
+rm -f /var/lib/tor/vanguards.state
 
+systemctl restart vanguards
 systemctl restart tor@default
 
 sdwdate-clock-jump
