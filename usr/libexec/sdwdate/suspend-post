@@ -42,9 +42,8 @@ chown --recursive sdwdate:sdwdate /run/sdwdate
 ## - Whonix firewall entered timesync-fail-closed mode.
 ##
 ## Now in this script:
-## - 1. roughly fix the time using `date`
-## - 2. sdwdate-clock-jump so it also sets the time using `date`
-## - 3. (outside of this script) Once sdwdate succeeded,
+## - 1. sdwdate-clock-jump so it also sets the time using `date`
+## - 2. (outside of this script) Once sdwdate succeeded,
 ##      whonix-firewall-sdwdate-watcher.service should enter Whonix firewall in
 ##      full mode.
 ##
@@ -55,19 +54,6 @@ if test -f /run/sdwdate/sdwdate_was_running.status ; then
    output_cmd "INFO - Deleting /run/sdwdate/sdwdate_was_running.status..."
    rm --force /run/sdwdate/sdwdate_was_running.status
    output_cmd "INFO - Done, deleted /run/sdwdate/sdwdate_was_running.status."
-
-   ## Workaround for a Qubes bug.
-   ## https://github.com/Whonix/updates-status/issues/1
-   randomized_unix_time="$(timeout --kill-after="5" "5" /usr/lib/qubes/qrexec-client-vm dom0 qubes.GetRandomizedTime)" || \
-      output_cmd "ERROR - /usr/lib/qubes/qrexec-client-vm had non-zero exit code."
-
-   if [[ "$randomized_unix_time" =~ ^[+-]?[0-9]+\.?[0-9]*$ ]]; then
-      output_cmd "INFO - date before roughly fixing it: $(date --utc)"
-      date --utc --set "@$randomized_unix_time" >/dev/null
-      output_cmd "INFO - date after roughly fixing it : $(date --utc)"
-   else
-      output_cmd "ERROR - randomized_unix_time: '$randomized_unix_time'"
-   fi
 
    output_cmd "INFO - Running sdwdate-clock-jump..."
    sdwdate-clock-jump
