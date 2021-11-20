@@ -16,6 +16,7 @@ true "INFO $0: START"
    --output cat \
    -n 10000 \
    -f \
+      _SYSTEMD_UNIT=bootclockrandomization.service + \
       _SYSTEMD_UNIT=sdwdate.service + \
       _SYSTEMD_UNIT=whonix-firewall.service + \
       SYSLOG_IDENTIFIER=suspend-pre + \
