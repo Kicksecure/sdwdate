@@ -17,6 +17,8 @@ output_cmd() {
 }
 
 if [ -f /run/qubes/this-is-templatevm ]; then
+   ## qubes-sync-time is triggered after suspend/resume.
+   ## https://forums.whonix.org/t/whonix-ws-16-fails-to-update-due-to-timing-issue/12739/10
    output_cmd "INFO - Skipping, because run in TemplateVM."
    exit 0
 fi
