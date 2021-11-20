@@ -7,7 +7,7 @@ set -x
 set -e
 
 date_cmd(){
-   date -u +"%Y-%m-%d %T"
+   date --utc +"%Y-%m-%d %T"
 }
 
 output_cmd() {

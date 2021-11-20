@@ -78,9 +78,9 @@ if test -f /run/sdwdate/sdwdate_was_running.status ; then
       output_cmd "ERROR - /usr/lib/qubes/qrexec-client-vm had non-zero exit code."
 
    if [[ "$randomized_unix_time" =~ ^[+-]?[0-9]+\.?[0-9]*$ ]]; then
-      output_cmd "INFO - date before roughly fixing it: $(date -u)"
-      date --set "@$randomized_unix_time" >/dev/null
-      output_cmd "INFO - date after roughly fixing it : $(date -u)"
+      output_cmd "INFO - date before roughly fixing it: $(date --utc)"
+      date --utc --set "@$randomized_unix_time" >/dev/null
+      output_cmd "INFO - date after roughly fixing it : $(date --utc)"
    else
       output_cmd "ERROR - randomized_unix_time: '$randomized_unix_time'"
    fi
