@@ -37,30 +37,14 @@ fi
 mkdir --parents /run/sdwdate
 chown --recursive sdwdate:sdwdate /run/sdwdate
 
-tor_restart_maybe() {
-   if test -f /run/sdwdate/tor_was_running.status ; then
-      output_cmd "INFO - Deleting /run/sdwdate/tor_was_running.status..."
-      rm --force /run/sdwdate/sdwdate_was_running.status
-      output_cmd "INFO - Done, deleted /run/sdwdate/tor_was_running.status."
-
-      output_cmd "INFO - Restarting Tor..."
-      systemctl --no-pager restart tor@default
-      output_cmd "INFO - Done, restarted Tor."
-   else
-      output_cmd "INFO - File /run/sdwdate/tor_was_running.status did not exist, meaning we previously did not stop Tor so not starting it now."
-   fi
-}
-
 ## Previously in suspend-pre sdwdate
-## - Tor was stopped.
 ## - sdwdate was stopped.
 ## - Whonix firewall entered timesync-fail-closed mode.
 ##
 ## Now in this script:
 ## - 1. roughly fix the time using `date`
-## - 2. restart Tor
-## - 3. sdwdate-clock-jump so it also sets the time using `date`
-## - 4. (outside of this script) Once sdwdate succeeded,
+## - 2. sdwdate-clock-jump so it also sets the time using `date`
+## - 3. (outside of this script) Once sdwdate succeeded,
 ##      whonix-firewall-sdwdate-watcher.service should enter Whonix firewall in
 ##      full mode.
 ##
@@ -85,8 +69,6 @@ if test -f /run/sdwdate/sdwdate_was_running.status ; then
       output_cmd "ERROR - randomized_unix_time: '$randomized_unix_time'"
    fi
 
-   tor_restart_maybe
-
    output_cmd "INFO - Running sdwdate-clock-jump..."
    sdwdate-clock-jump
    output_cmd "INFO - Done, with sdwdate-clock-jump."
@@ -104,6 +86,3 @@ if test -f /run/sdwdate/sdwdate_was_running.status ; then
 else
    output_cmd "INFO - File /run/sdwdate/sdwdate_was_running.status did not exist, meaning we previously did not stop sdwdate so not starting it now."
 fi
-
-## Make sure Tor is restarted even if sdwdate was not running during suspend-pre.
-tor_restart_maybe
