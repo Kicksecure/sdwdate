@@ -44,7 +44,8 @@ chown --recursive sdwdate:sdwdate /run/sdwdate
 ## - Whonix firewall entered timesync-fail-closed mode.
 ##
 ## Now in this script:
-## - 1. sdwdate-clock-jump so it also sets the time using `date`
+## - 1. sdwdate-clock-jump so it sets the time using `date` (instantly setting
+##      the time), instead of sclockadj (gradually adjusting the time).
 ## - 2. (outside of this script) Once sdwdate succeeded,
 ##      whonix-firewall-sdwdate-watcher.service should enter Whonix firewall in
 ##      full mode.
