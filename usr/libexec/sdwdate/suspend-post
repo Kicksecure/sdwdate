@@ -13,7 +13,7 @@ date_cmd(){
 output_cmd() {
    msg="$(date_cmd) - $0 - $@"
    echo "$msg"
-   echo "$msg" | systemd-cat --identifier="suspend-pre" || true
+   echo "$msg" | systemd-cat --identifier="suspend-post" || true
 }
 
 if [ -f /run/qubes/this-is-templatevm ]; then
