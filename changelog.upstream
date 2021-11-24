@@ -1,3 +1,71 @@
+commit 8911f33e4d48877ad415379c7e252318c255a9d9
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 20 11:57:52 2021 -0500
+
+    add qubes-sync-time.service and qubes-sync-time.timer to sdwdate-log-viewer
+
+commit 17f3ca8c2aeed07f49412b25e2a9fb6a6c199d3e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 20 11:54:48 2021 -0500
+
+    comment
+
+commit caca7f412c4b19b5c7db2e3394a870e4d5124fa7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 20 11:53:01 2021 -0500
+
+    add `bootclockrandomization.service` to sdwdate-log-viewer
+
+commit 39062a237df8fa3b9007a4b808aa7a51d287a22f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 20 11:51:27 2021 -0500
+
+    fix
+
+commit 668417e4032a95415b5647bc331abce20970e868
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 20 11:50:24 2021 -0500
+
+    comment
+
+commit 6215a9ea996e9db970059c3b4ad58d17016b7483
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 20 11:47:54 2021 -0500
+
+    Qubes suspend post: disable qubes.GetRandomizedTime
+    
+    since no longer required. sdwdate / anondate can nowadays fix the time without it.
+
+commit 7a43153a2fe80eb492b1abf14f1f20bb66da02f5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 20 11:45:04 2021 -0500
+
+    Qubes suspend pre/post: disable restart of Tor
+    
+    since that is no longer required.
+    
+    And even if it was required, this would be handled by sdwdate / anondate.
+
+commit c411c734dcc422d0b412a8bbb419e47ac05fb0ae
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 20 11:41:59 2021 -0500
+
+    typo
+
+commit 0d43f1a2a6f8796d6d46e34a81788a0a7293f089
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 20 11:36:51 2021 -0500
+
+    `date --utc`
+    
+    https://forums.whonix.org/t/whonix-ws-16-fails-to-update-due-to-timing-issue/12739/17
+
+commit a59a37d51a06f2cffd15e9ad2eb5b4939d6792aa
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Nov 19 19:21:18 2021 -0500
+
+    bumped changelog version
+
 commit b0f71b0b222cb2350ed8e59f1bf6f4f31cedeb05
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Nov 19 19:20:13 2021 -0500
