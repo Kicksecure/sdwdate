@@ -3,6 +3,8 @@
 ## Copyright (C) 2020 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
+## Find out which onions are available over TLS.
+
 while read -r -d $'\n' line ; do
    read -r first_word _ <<< "$line"
    url_https="$(echo "$first_word" | LANG=C str_replace "http://" "https://")"
