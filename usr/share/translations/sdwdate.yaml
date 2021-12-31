@@ -8,7 +8,7 @@ sdwdate:
         restricted: 'Initial time fetching in progress...'
         sigterm: 'Signal SIGTERM received.'
         sleeping: 'Sleeping for '
-        minutes: ' minutes.'
+        minutes: ' minutes, ok.'
         success: 'Success.'
 
         no_valid_time: 'Time is not set: <b>no valid time returned from pool.</b><br>
