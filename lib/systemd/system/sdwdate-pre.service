@@ -8,6 +8,7 @@
 Description=Secure Distributed Web Date - Pre
 Documentation=https://www.whonix.org/wiki/sdwdate
 #ConditionPathExists=!/run/qubes/this-is-templatevm
+ConditionPathExists=!/run/qubes-service/no-sdwdate
 
 Before=sdwdate.service
 
