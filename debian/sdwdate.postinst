@@ -96,7 +96,7 @@ if [[ "${arch}" =~ "arm" ]] || [[ "${arch}" =~ "aarch" ]]; then
    ## ARM-specific syscalls.
    syscall_whitelist="\
 [Service]
-SystemCallFilter=faccessat readlinkat newfstatat mkdirat dup3 ppoll pselect6"
+SystemCallFilter=faccessat readlinkat newfstatat mkdirat dup3 ppoll pselect6 unlinkat"
 elif [[ "${arch}" =~ "ppc" ]]; then
    ## PowerPC-specific syscalls.
    syscall_whitelist="\
