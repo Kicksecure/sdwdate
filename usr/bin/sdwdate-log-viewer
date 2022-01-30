@@ -10,17 +10,39 @@ set -e
 true "INFO $0: START"
 
 ## Use '--boot' to avoid confusion from showing previous boot inside Qubes TemplateVM.
+##
+## Does not work. If combined, systemd is not showing seccomp failures.
+## Only 'jornalctl --unit' shows, quote from jornalctl man page:
+## "along with additional matches for messages from systemd and messages
+## about coredumps for the specified unit"
+##
+## But using 'jornalctl --unit' cannot be combined with 'SYSLOG_IDENTIFIER'.
+##
+# /bin/journalctl \
+#    --boot \
+#    --output cat \
+#    -n 10000 \
+#    -f \
+#       _SYSTEMD_UNIT=qubes-sync-time.service + \
+#       _SYSTEMD_UNIT=qubes-sync-time.timer + \
+#       _SYSTEMD_UNIT=bootclockrandomization.service + \
+#       _SYSTEMD_UNIT=sdwdate.service + \
+#       _SYSTEMD_UNIT=whonix-firewall.service + \
+#       SYSLOG_IDENTIFIER=suspend-pre + \
+#       SYSLOG_IDENTIFIER=suspend-post + \
+#       SYSLOG_IDENTIFIER=anondate
 
+## Launching two different journalctl commands into the background is also not
+## great since these mess up the order of the log output.
+
+## Therefore using grep instead.
+## https://forums.whonix.org/t/sdwdate-loop-conclusion-tor-already-reports-circuit-established-seccomp-issue/13260/13
 /bin/journalctl \
    --boot \
    --output cat \
    -n 10000 \
    -f \
-      _SYSTEMD_UNIT=qubes-sync-time.service + \
-      _SYSTEMD_UNIT=qubes-sync-time.timer + \
-      _SYSTEMD_UNIT=bootclockrandomization.service + \
-      _SYSTEMD_UNIT=sdwdate.service + \
-      _SYSTEMD_UNIT=whonix-firewall.service + \
-      SYSLOG_IDENTIFIER=suspend-pre + \
-      SYSLOG_IDENTIFIER=suspend-post + \
-      SYSLOG_IDENTIFIER=anondate
+   | \
+   grep \
+   --color \
+   "sdwdate\|bootclockrandomization\|anondate\|firewall\|suspend-pre\|suspend-post"
