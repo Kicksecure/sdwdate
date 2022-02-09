@@ -1,3 +1,41 @@
+commit 3dc174bf56017c8c33d22435b880386e002b6c82
+Merge: 8bb53ef c46543a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Jan 30 11:47:32 2022 -0500
+
+    Merge remote-tracking branch 'github-whonix/master'
+
+commit 8bb53ef360939fe4529f3c39e5811ee44ea96c75
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Jan 30 11:46:22 2022 -0500
+
+    fix sdwdate-log-viewer to include seccomp failures
+    
+    https://forums.whonix.org/t/sdwdate-loop-conclusion-tor-already-reports-circuit-established-seccomp-issue/13260/13
+
+commit c46543a7422ca8d367d44dabad8ae47adb2ced6d
+Merge: 87c422f 6b5f101
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Jan 30 11:45:27 2022 -0500
+
+    Merge pull request #36 from cyb3rw0lf/patch-2
+    
+    update 20_arch_syscall_whitelist.conf
+
+commit 6b5f10195133d88fdc89d2fe737651fbf2e07063
+Author: Emanuele Rossi <cyb3rw0lf@users.noreply.github.com>
+Date:   Sun Jan 30 17:42:33 2022 +0100
+
+    update 20_arch_syscall_whitelist.conf
+    
+    unlinkat needs to be whitelisted otherwise sdwdate fails with error: SECCOMP auid=4294967295 uid=102 gid=108 ses=4294967295 subj==/usr/bin/sdwdate (enforce) pid=3328 comm="sdwdate" exe="/usr/bin/python3.9" sig=31 arch=c00000b7 syscall=35 compat=0 ip=0xf37077846c74 code=0x80000000
+
+commit 87c422fbcb7078d4fd81a11d34053535d00be0a0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Jan 2 08:25:51 2022 -0500
+
+    bumped changelog version
+
 commit e6032989d3053e92758aefc83e3413c593de354c
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Jan 2 08:19:27 2022 -0500
