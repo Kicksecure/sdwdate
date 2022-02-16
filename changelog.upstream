@@ -1,3 +1,18 @@
+commit 96151eb6a7c061f7ce56bb1c76a327cbc90046a3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Feb 15 11:36:07 2022 -0500
+
+    do not start `qubes-sync-time` (conflicts with `sdwdate`),
+    if file `/etc/sdwdate.d/qubes-sync-time-disabled-by-sdwdate.marker` exists.
+    
+    That file exists in a default sdwdate installation.
+
+commit 9b13a2e0c1ad7fe39ce6f941d176f8bd4a3bb242
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Feb 9 08:01:33 2022 -0500
+
+    bumped changelog version
+
 commit 3dc174bf56017c8c33d22435b880386e002b6c82
 Merge: 8bb53ef c46543a
 Author: Patrick Schleizer <adrelanos@whonix.org>
