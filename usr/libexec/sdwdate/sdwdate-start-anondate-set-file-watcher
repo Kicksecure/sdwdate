@@ -23,8 +23,10 @@
 ## This script gets started systemd under user/group sdwdate.
 #### meta end
 
-set -x
+#set -x
 set -e
+
+true "START: $0"
 
 ## inotifywait requires the folder to already exist.
 mkdir --parents "/run/sdwdate"
