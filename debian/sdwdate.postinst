@@ -101,7 +101,7 @@ elif [[ "${arch}" =~ "ppc" ]]; then
    ## PowerPC-specific syscalls.
    syscall_whitelist="\
 [Service]
-SystemCallFilter=_llseek send waitpid recv prctl _newselect"
+SystemCallFilter=_llseek send waitpid recv prctl _newselect newfstatat pselect6"
 elif [[ "${arch}" =~ "x86" ]]; then
    syscall_whitelist="\
 ## Default. No changes required."
