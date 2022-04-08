@@ -23,3 +23,9 @@
   ## Related to compilation to byte code?
   ## AVC apparmor="DENIED" operation="exec" profile="/usr/bin/sdwdate" name="/usr/sbin/ldconfig" comm="sdwdate" requested_mask="x" denied_mask="x"
   deny /usr/sbin/ldconfig rx,
+
+  # TCP/UDP network access (to access Tor's SOCKS port) (only needed on Bookworm and later)
+  network inet  stream,
+  network inet6 stream,
+  network inet  dgram,
+  network inet6 dgram,
