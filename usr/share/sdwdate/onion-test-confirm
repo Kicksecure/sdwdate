@@ -18,4 +18,4 @@ while read -r -d $'\n' line ; do
    echo "plain_url: $plain_url"
    echo "second_word: $second_word"
    echo ""
-done < <( /usr/share/sdwdate/onion_list_all )
+done < <( /usr/share/sdwdate/onion-list-all )
