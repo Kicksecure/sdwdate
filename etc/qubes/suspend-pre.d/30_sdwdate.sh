@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Copyright (C) 2017 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
+## Copyright (C) 2017 - 2022 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
 #### meta start
