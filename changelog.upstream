@@ -1,3 +1,43 @@
+commit daee2ef3fd068e0cb126b17ca719300f667c5aa9
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed May 25 10:24:43 2022 -0400
+
+    fix
+
+commit 9427b5247554e7fb4dce319153eae10ec8f2b8b8
+Merge: 2f1ce97 9c7c2ab
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed May 25 10:23:07 2022 -0400
+
+    Merge remote-tracking branch 'github-kicksecure/master'
+
+commit 9c7c2aba3211c35b5dad8051d8b285d42d9fe14d
+Merge: 2f1ce97 f22ac6d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed May 25 10:25:32 2022 -0400
+
+    Merge pull request #40 from TNTBOMBOM/master
+    
+    Cleaned not working onion mirrors
+
+commit 2f1ce9795eeb3e87a46d899ad2ecdcfdb44cd7fe
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed May 25 06:07:16 2022 -0400
+
+    bumped changelog version
+
+commit f22ac6d5cc189c217fd0a3296bae02ba81c0e400
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Sun May 22 18:42:21 2022 +0000
+
+    Update 30_default.conf
+
+commit 3713bca1059a1ab5747dd7f7c779182fa2f31c02
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Sun May 22 18:38:57 2022 +0000
+
+    Update 30_default.conf
+
 commit 7bfd3d4f08c06c7a0551038576bcf794e54a8358
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri May 20 15:27:09 2022 -0400
