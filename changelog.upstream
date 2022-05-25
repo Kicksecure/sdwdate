@@ -1,3 +1,129 @@
+commit 7bfd3d4f08c06c7a0551038576bcf794e54a8358
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri May 20 15:27:09 2022 -0400
+
+    readme
+
+commit e5d93d6c2b2c4806f1991d3f23a9ff37c228440a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri May 20 14:46:38 2022 -0400
+
+    copyright
+
+commit b1e0e9b7ff602abe7210fe7f91fdbf5e28accbe7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu May 19 16:58:21 2022 -0400
+
+    rename
+
+commit 51676ac2bbb2b58443d031a6dd9410ac89b1e80b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu May 19 16:57:32 2022 -0400
+
+    rename
+
+commit 125f0dee2cfc5ee6961dd2a46403f10433e186ea
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu May 19 16:56:57 2022 -0400
+
+    rename
+
+commit b08c2d42bc478c16fe46df63eb6bedf29afde845
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu May 19 16:56:27 2022 -0400
+
+    rename
+
+commit 0f1d9af183f5ac7445f0d47a1084478bdbb3a420
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu May 19 16:54:07 2022 -0400
+
+    onion-tester maintenance script: no longer create file in working directory
+    
+    terminal output only
+
+commit 73bf39b9b1837d90ae6f835a95f56552b2af797a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Apr 10 12:40:15 2022 -0400
+
+    readme
+
+commit 53c3458a3e3a0e191d190f6bd8b03cade76db3d4
+Merge: 6b92fcd 06eadd3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Apr 8 06:21:14 2022 -0400
+
+    Merge remote-tracking branch 'whonix/master'
+
+commit 06eadd3ebc26be9050ea0aeb8ec45f67a22f8572
+Merge: 589824d f8f2a88
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Apr 8 06:19:00 2022 -0400
+
+    Merge pull request #39 from JeremyRand/python-3.10
+    
+    Fix syscall whitelist for Python 3.10.x on PowerPC
+
+commit 589824da1ddff0581cd1f1c2cd0467340a2fbe63
+Merge: 6b92fcd d546610
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Apr 8 06:18:05 2022 -0400
+
+    Merge pull request #38 from JeremyRand/bookworm-apparmor
+    
+    AppArmor: explicitly allow network access
+
+commit f8f2a8875584b7297e3d0be71f6c5fd5d74d9f70
+Author: Jeremy Rand <jeremyrand@airmail.cc>
+Date:   Fri Apr 8 07:00:32 2022 +0000
+
+    Fix syscall whitelist for Python 3.10.x on PowerPC
+    
+    Necessary for Debian Sid ppc64 and ppc64el.  I have no idea whether a
+    similar change is needed on x86 or ARM.  Also no idea what attack
+    surface is introduced by that syscall.
+
+commit d54661000842c52c46c64e104f26d269a38fc41e
+Author: Jeremy Rand <jeremyrand@airmail.cc>
+Date:   Fri Apr 8 04:05:47 2022 +0000
+
+    AppArmor: explicitly allow network access
+    
+    Fixes
+    https://forums.whonix.org/t/sdwdate-apparmor-profile-broken-on-bookworm/13521
+
+commit 6b92fcd6e88b7db41c7ae25e5f56f9e82f89b350
+Merge: b1e3faf 1b7bf55
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Mar 30 10:52:51 2022 -0400
+
+    Merge remote-tracking branch 'whonix/master'
+
+commit 1b7bf5541eb0f98afe0a87497d1e94aa78d18aa2
+Merge: b1e3faf a9ab58d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Mar 30 10:54:18 2022 -0400
+
+    Merge pull request #37 from JeremyRand/bookworm-ppc64el
+    
+    Fix syscall whitelist for bookworm on ppc64el
+
+commit a9ab58d9abb10a19d50854195e1ece804e13df2c
+Author: Jeremy Rand <jeremyrand@airmail.cc>
+Date:   Wed Mar 30 06:06:15 2022 +0000
+
+    Fix syscall whitelist for bookworm on ppc64el
+    
+    Both added syscalls were already whitelisted for ARM.  It's not obvious
+    to me why they only started mattering for ppc64el on Bookworm and higher
+    (Bullseye unaffected), but seems worth fixing.
+
+commit b1e3faf00c3577917e1482d646b9fabc224b0314
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Mar 13 08:04:23 2022 -0400
+
+    bumped changelog version
+
 commit b20d060fa2bb1ee61c6812ad6c2f2627f3438a37
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Mar 13 07:51:20 2022 -0400
