@@ -1,3 +1,15 @@
+commit 59e93f645148c47d791274fe5f47c8a94b896495
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri May 27 10:28:45 2022 -0400
+
+    fix, add to systemd SystemCallFilter mremap prctl
+
+commit a250e4e9846c44967560ab20632ffcc1becdc1f4
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed May 25 10:24:54 2022 -0400
+
+    bumped changelog version
+
 commit daee2ef3fd068e0cb126b17ca719300f667c5aa9
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed May 25 10:24:43 2022 -0400
