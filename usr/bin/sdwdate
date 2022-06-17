@@ -1,10 +1,21 @@
-#!/usr/bin/python3 -u
+#!/bin/bash
 
-# Copyright (C) 2021 - 2022 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
-# See the file COPYING for copying conditions.
+## Copyright (C) 2022 - 2022 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
+## See the file COPYING for copying conditions.
 
-import sys
-sys.dont_write_bytecode = True
+## The systemd unit file /lib/systemd/system/sdwdate.service does not use this
+## script. It starts /usr/libexec/sdwdate/sdwdate directly.
 
-from sdwdate import sdwdate
-sdwdate.main()
+set -x
+
+set -e
+
+true "INFO $0: START"
+
+echo "WARNING: Starting sdwdate from command line without systemd is unsupported."
+echo "WARNING: See https://www.kicksecure.com/wiki/Dev/sdwdate#sdwdate_linux_user_account"
+
+## Not using exec to be able to see this script in "ps aux".
+sudo -u sdwdate /usr/libexec/sdwdate/sdwdate
+
+true "INFO $0: END"

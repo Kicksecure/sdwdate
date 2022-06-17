@@ -1,0 +1,10 @@
+#!/usr/bin/python3 -u
+
+# Copyright (C) 2021 - 2022 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
+# See the file COPYING for copying conditions.
+
+import sys
+sys.dont_write_bytecode = True
+
+from sdwdate import sdwdate
+sdwdate.main()
