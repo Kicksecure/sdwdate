@@ -6,7 +6,7 @@
 set -e
 
 if [ ! "$(id -u)" = "0" ]; then
-    true "$0: ERROR: Must be run as root!"
+    echo "$0: ERROR: Must be run as root (sudo)!"
     exit 1
 fi
 
