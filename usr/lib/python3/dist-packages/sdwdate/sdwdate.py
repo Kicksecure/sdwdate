@@ -1034,12 +1034,7 @@ def main():
             loop_counter = 0
         loop_counter += 1
 
-        msg = (
-            "Running sdwdate main loop. iteration: "
-            + str(loop_counter)
-            + " / "
-            + str(loop_max)
-        )
+        msg = "Running sdwdate main loop. iteration: " + str(loop_counter)
         LOGGER.info(msg)
 
         sdwdate_obj = SdwdateClass()
