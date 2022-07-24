@@ -193,13 +193,14 @@ class SdwdateClass(object):
                 loop_counter = 0
             loop_counter += 1
             msg = (
-                "STATUS=Running sdwdate preparation loop. \
-                preparation_sleep_seconds: " +
-                str(preparation_sleep_seconds) +
-                " iteration: " +
-                str(loop_counter) +
-                " / " +
-                str(loop_max))
+                     "STATUS=Running sdwdate preparation loop. \
+                     preparation_sleep_seconds: " +
+                     str(preparation_sleep_seconds) +
+                     " iteration: " +
+                     str(loop_counter) +
+                     " / " +
+                     str(loop_max)
+                  )
             SDNOTIFY_OBJECT.notify(msg)
 
             # Wait one second after first failure. Two at second failure etc.
