@@ -239,19 +239,19 @@ class SdwdateClass(object):
 
             previous_messsage = joint_message
 
-            LOGGER.info("PREPARATION:")
+            LOGGER.info("PREPARATION: running onion-time-pre-script...")
             message = joint_message.strip()
             LOGGER.info(strip_html(joint_message))
 
             if preparation_status.returncode == 1:
                 icon = "error"
-                LOGGER.info("PREPARATION RESULT: (known) ERROR.")
+                LOGGER.info("PREPARATION RESULT: onion-time-pre-script detected a known permanent (until the user fixes it) error status. Run onion-time-pre-script or systemcheck for more information.")
             elif preparation_status.returncode == 2:
                 icon = "busy"
-                LOGGER.info("PREPARATION RESULT: WAIT.")
+                LOGGER.info("PREPARATION RESULT: onion-time-pre-script recommended to wait. Run onion-time-pre-script or systemcheck for more information.")
             else:
                 icon = "error"
-                LOGGER.info("PREPARATION RESULT: (unknown) ERROR.")
+                LOGGER.info("PREPARATION RESULT: onion-time-pre-script detected a unknown permanent (until the user fixes it) error status. Run onion-time-pre-script or systemcheck for more information.")
 
             LOGGER.info("\n")
             # https://phabricator.whonix.org/T534#15429
