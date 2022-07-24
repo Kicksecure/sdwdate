@@ -245,13 +245,13 @@ class SdwdateClass(object):
 
             if preparation_status.returncode == 1:
                 icon = "error"
-                LOGGER.info("PREPARATION RESULT: onion-time-pre-script detected a known permanent (until the user fixes it) error status. Run onion-time-pre-script or systemcheck for more information.")
+                LOGGER.info("PREPARATION RESULT: onion-time-pre-script detected a known permanent (until the user fixes it) error status. Consider running systemcheck for more information.")
             elif preparation_status.returncode == 2:
                 icon = "busy"
-                LOGGER.info("PREPARATION RESULT: onion-time-pre-script recommended to wait. Run onion-time-pre-script or systemcheck for more information.")
+                LOGGER.info("PREPARATION RESULT: onion-time-pre-script recommended to wait. Consider running systemcheck for more information.")
             else:
                 icon = "error"
-                LOGGER.info("PREPARATION RESULT: onion-time-pre-script detected a unknown permanent (until the user fixes it) error status. Run onion-time-pre-script or systemcheck for more information.")
+                LOGGER.info("PREPARATION RESULT: onion-time-pre-script detected a unknown permanent (until the user fixes it) error status. Consider running systemcheck for more information.")
 
             LOGGER.info("\n")
             # https://phabricator.whonix.org/T534#15429
