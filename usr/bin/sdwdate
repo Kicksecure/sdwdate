@@ -12,8 +12,8 @@ set -e
 
 true "INFO $0: START"
 
-echo "WARNING: Starting sdwdate from command line without systemd is unsupported."
-echo "WARNING: See https://www.kicksecure.com/wiki/Dev/sdwdate#sdwdate_linux_user_account"
+echo "WARNING: Starting sdwdate from command line by the user is unsupported, for more information, see:"
+echo "https://www.kicksecure.com/wiki/Dev/sdwdate#sdwdate_linux_user_account"
 
 ## Not using exec to be able to see this script in "ps aux".
 sudo -u sdwdate /usr/libexec/sdwdate/sdwdate
