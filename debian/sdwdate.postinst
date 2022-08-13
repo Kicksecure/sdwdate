@@ -54,12 +54,12 @@ case "$1" in
        ## Add sdwdate to group debian-tor so it can read
        ## /run/tor/control.authcookie which is required to check if Tor has
        ## already successfully established a circuit before fetching time.
-       addgroup sdwdate debian-tor
+       adduser sdwdate debian-tor
 
        ## required for anondate which uses journalctl
        ## Not possible here, because
        ## group systemd-journal might not exist yet during the build process.
-       #addgroup sdwdate systemd-journal
+       #adduser sdwdate systemd-journal
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
