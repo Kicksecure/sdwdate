@@ -37,10 +37,6 @@ fi
 mkdir --parents /run/sdwdate
 chown --recursive sdwdate:sdwdate /run/sdwdate
 
-## First stop sdwdate, then stop Tor.
-## Should sdwdate fetch time during run of this script, it would log
-## unnecessary fetching errors.
-
 if systemctl --no-pager status sdwdate >/dev/null ; then
    output_cmd "INFO - Creating /run/sdwdate/sdwdate_was_running.status..."
    touch /run/sdwdate/sdwdate_was_running.status
