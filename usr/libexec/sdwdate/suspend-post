@@ -40,7 +40,11 @@ mkdir --parents /run/sdwdate
 chown --recursive sdwdate:sdwdate /run/sdwdate
 
 tor_restart_maybe() {
+   output_cmd "INFO - Checking if file /run/sdwdate/tor_was_running.status exists..."
+
    if test -f /run/sdwdate/tor_was_running.status ; then
+      output_cmd "INFO - Yes, file /run/sdwdate/tor_was_running.status exists."
+
       output_cmd "INFO - Deleting /run/sdwdate/tor_was_running.status..."
       rm --force /run/sdwdate/tor_was_running.status
       output_cmd "INFO - Done, deleted /run/sdwdate/tor_was_running.status."
@@ -49,7 +53,7 @@ tor_restart_maybe() {
       systemctl --no-pager restart tor@default
       output_cmd "INFO - Done, restarted Tor."
    else
-      output_cmd "INFO - File /run/sdwdate/tor_was_running.status did not exist, meaning we previously did not stop Tor so not starting it now."
+      output_cmd "INFO - No, file /run/sdwdate/tor_was_running.status did not exist, meaning we previously before suspend/hibernate did not stop Tor, therefore not starting it now."
    fi
 }
 
@@ -69,7 +73,10 @@ tor_restart_maybe() {
 ## For an ISP level observer this should look like a reboot.
 
 ## Do not interfere with the clock if the service was stopped.
+output_cmd "INFO - Checking if file /run/sdwdate/sdwdate_was_running.status exists..."
 if test -f /run/sdwdate/sdwdate_was_running.status ; then
+   output_cmd "INFO - Yes, file /run/sdwdate/sdwdate_was_running.status exists."
+
    output_cmd "INFO - Deleting /run/sdwdate/sdwdate_was_running.status..."
    rm --force /run/sdwdate/sdwdate_was_running.status
    output_cmd "INFO - Done, deleted /run/sdwdate/sdwdate_was_running.status."
@@ -91,7 +98,7 @@ if test -f /run/sdwdate/sdwdate_was_running.status ; then
 
    exit 0
 else
-   output_cmd "INFO - File /run/sdwdate/sdwdate_was_running.status did not exist, meaning we previously did not stop sdwdate so not starting it now."
+   output_cmd "INFO - No, file /run/sdwdate/sdwdate_was_running.status did not exist, meaning we previously before suspend/hilbernate did not stop sdwdate, therefore not starting it now."
 fi
 
 ## Make sure Tor is restarted even if sdwdate was not running during suspend-pre.
