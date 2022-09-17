@@ -42,7 +42,7 @@ chown --recursive sdwdate:sdwdate /run/sdwdate
 tor_restart_maybe() {
    if test -f /run/sdwdate/tor_was_running.status ; then
       output_cmd "INFO - Deleting /run/sdwdate/tor_was_running.status..."
-      rm --force /run/sdwdate/sdwdate_was_running.status
+      rm --force /run/sdwdate/tor_was_running.status
       output_cmd "INFO - Done, deleted /run/sdwdate/tor_was_running.status."
 
       output_cmd "INFO - Restarting Tor..."
