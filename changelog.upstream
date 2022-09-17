@@ -1,3 +1,57 @@
+commit 675a0c9dbe3908e3917784c236e3164e05fc076a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Sep 17 15:16:53 2022 -0400
+
+    comment
+
+commit 21f5da06106d1ae5a9d5fcb75cf2ebc8b20dcb31
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Sep 17 15:15:46 2022 -0400
+
+    comment
+
+commit f56e5720f2795d84df5d4e540cd5691ce66f9bd6
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Sep 17 15:14:45 2022 -0400
+
+    output
+
+commit 845374cd04af0fe88209d9939bb1e338968da2ed
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Sep 17 15:11:22 2022 -0400
+
+    output
+
+commit ba19ab92c7ffaa8b5f97671a7da8fe4c36f2b8d1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Sep 17 15:08:22 2022 -0400
+
+    fix
+
+commit 602078a92fa6cb592abfde58f7c35c4d87ebbe3c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Sep 17 15:06:05 2022 -0400
+
+    Qubes suspend pre/post: disable restart of Tor
+    
+    This is to work around an upstream bug in Tor.
+    Otherwise Tor circuits might be expired but Tor won't notice it and also Tor
+    control protocol won't report it.
+    
+    https://forums.whonix.org/t/sdwdate-and-sdwdate-gui-development-thread/1137/392
+
+commit b8f00250f388437523dbaefeb26c1567354ba8b3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Sep 11 18:06:06 2022 -0400
+
+    comments
+
+commit 59ab1fcaad8e6e1f67ea03fbeeb68fcd5098986d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Aug 13 11:39:42 2022 -0400
+
+    bumped changelog version
+
 commit 03528395ca4488ac16f1fae3f7bbb77028d1ed96
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Aug 13 11:34:59 2022 -0400
