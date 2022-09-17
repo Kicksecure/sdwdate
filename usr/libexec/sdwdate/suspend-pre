@@ -37,6 +37,10 @@ fi
 mkdir --parents /run/sdwdate
 chown --recursive sdwdate:sdwdate /run/sdwdate
 
+## First stop sdwdate, then stop Tor.
+## Should sdwdate fetch time during run of this script, it would log
+## unnecessary fetching errors.
+
 if systemctl --no-pager status sdwdate >/dev/null ; then
    output_cmd "INFO - Creating /run/sdwdate/sdwdate_was_running.status..."
    touch /run/sdwdate/sdwdate_was_running.status
@@ -64,4 +68,16 @@ if systemctl --no-pager status sdwdate >/dev/null ; then
    fi
 else
    output_cmd "INFO - sdwdate was not running, no need to stop it."
+fi
+
+if systemctl --no-pager status tor@default >/dev/null ; then
+   output_cmd "INFO - Creating /run/sdwdate/tor_was_running.status..."
+   touch /run/sdwdate/tor_was_running.status
+   output_cmd "INFO - Done, created /run/sdwdate/tor_was_running.status."
+
+   output_cmd "INFO - Stopping Tor..."
+   systemctl --no-pager stop tor@default
+   output_cmd "INFO - Done, stopped Tor."
+else
+   output_cmd "INFO - Tor was not running, no need to stop it."
 fi
