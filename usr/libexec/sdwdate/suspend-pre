@@ -41,7 +41,10 @@ chown --recursive sdwdate:sdwdate /run/sdwdate
 ## Should sdwdate fetch time during run of this script, it would log
 ## unnecessary fetching errors.
 
+output_cmd "INFO - Checking if sdwdate systemd unit is running..."
 if systemctl --no-pager status sdwdate >/dev/null ; then
+   output_cmd "INFO - Yes, sdwdate is running."
+
    output_cmd "INFO - Creating /run/sdwdate/sdwdate_was_running.status..."
    touch /run/sdwdate/sdwdate_was_running.status
    output_cmd "INFO - Done, created /run/sdwdate/sdwdate_was_running.status."
@@ -70,7 +73,10 @@ else
    output_cmd "INFO - sdwdate was not running, no need to stop it."
 fi
 
+output_cmd "INFO - Checking if tor@default systemd unit is running..."
 if systemctl --no-pager status tor@default >/dev/null ; then
+   output_cmd "INFO - Yes, tor@default is running."
+
    output_cmd "INFO - Creating /run/sdwdate/tor_was_running.status..."
    touch /run/sdwdate/tor_was_running.status
    output_cmd "INFO - Done, created /run/sdwdate/tor_was_running.status."
