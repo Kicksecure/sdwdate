@@ -72,7 +72,7 @@ tor_restart_maybe() {
 ##
 ## For an ISP level observer this should look like a reboot.
 
-## Do not interfere with the clock if the service was stopped.
+## Do not interfere with the clock if the sdwdate service was stopped.
 output_cmd "INFO - Checking if file /run/sdwdate/sdwdate_was_running.status exists..."
 if test -f /run/sdwdate/sdwdate_was_running.status ; then
    output_cmd "INFO - Yes, file /run/sdwdate/sdwdate_was_running.status exists."
