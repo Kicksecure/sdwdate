@@ -45,6 +45,12 @@ tor_restart_maybe() {
    if test -f /run/sdwdate/tor_was_running.status ; then
       output_cmd "INFO - Yes, file /run/sdwdate/tor_was_running.status exists."
 
+      output_cmd "INFO: - Deleting Tor consensus files..."
+      ## Without this, Tor keeps the stale Tor consensus even after restarting Tor.
+      ## provided by package helper-scripts
+      anon-consensus-del-files
+      output_cmd "INFO: - Done, deleted Tor consensus files."
+
       output_cmd "INFO - Deleting /run/sdwdate/tor_was_running.status..."
       rm --force /run/sdwdate/tor_was_running.status
       output_cmd "INFO - Done, deleted /run/sdwdate/tor_was_running.status."
