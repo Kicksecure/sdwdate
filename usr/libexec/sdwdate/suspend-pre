@@ -26,7 +26,7 @@ output_cmd_func() {
 
 output_cmd_set
 
-output_cmd_func "INFO - $0 START"
+output_cmd_func "INFO - START"
 
 if [ -f /run/qubes/this-is-templatevm ]; then
    output_cmd_func "INFO - Skipping, because run in TemplateVM."
@@ -100,4 +100,4 @@ else
    output_cmd_func "INFO - Tor was not running, no need to stop it."
 fi
 
-output_cmd_func "INFO - $0 END"
+output_cmd_func "INFO - END"

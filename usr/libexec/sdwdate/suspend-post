@@ -26,7 +26,7 @@ output_cmd_func() {
 
 output_cmd_set
 
-output_cmd_func "INFO - $0 START"
+output_cmd_func "INFO - START"
 
 if [ -f /run/qubes/this-is-templatevm ]; then
    ## qubes-sync-time is triggered after suspend/resume.
@@ -122,4 +122,4 @@ fi
 ## Make sure Tor is restarted even if sdwdate was not running during suspend-pre.
 tor_restart_maybe
 
-output_cmd_func "INFO - $0 END"
+output_cmd_func "INFO - END"
