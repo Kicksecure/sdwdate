@@ -26,6 +26,8 @@ output_cmd_func() {
 
 output_cmd_set
 
+output_cmd_func "INFO - $0 START"
+
 if [ -f /run/qubes/this-is-templatevm ]; then
    output_cmd_func "INFO - Skipping, because run in TemplateVM."
    exit 0
@@ -97,3 +99,5 @@ if systemctl --no-pager status tor@default >/dev/null ; then
 else
    output_cmd_func "INFO - Tor was not running, no need to stop it."
 fi
+
+output_cmd_func "INFO - $0 END"
