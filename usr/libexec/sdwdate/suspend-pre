@@ -85,16 +85,16 @@ else
    output_cmd_func "INFO - sdwdate was not running, no need to stop it."
 fi
 
-output_cmd_func "INFO - Checking if tor@default systemd unit is running..."
-if systemctl --no-pager status tor@default >/dev/null ; then
-   output_cmd_func "INFO - Yes, tor@default is running."
+output_cmd_func "INFO - Checking if tor systemd unit is running..."
+if systemctl --no-pager status tor >/dev/null ; then
+   output_cmd_func "INFO - Yes, tor is running."
 
    output_cmd_func "INFO - Creating /run/sdwdate/tor_was_running.status..."
    touch /run/sdwdate/tor_was_running.status
    output_cmd_func "INFO - Done, created /run/sdwdate/tor_was_running.status."
 
    output_cmd_func "INFO - Stopping Tor..."
-   systemctl --no-pager stop tor@default
+   systemctl --no-pager stop tor
    output_cmd_func "INFO - Done, stopped Tor."
 else
    output_cmd_func "INFO - Tor was not running, no need to stop it."

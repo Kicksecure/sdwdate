@@ -68,7 +68,7 @@ tor_restart_maybe() {
       output_cmd_func "INFO - Done, deleted /run/sdwdate/tor_was_running.status."
 
       output_cmd_func "INFO - Restarting Tor..."
-      systemctl --no-pager restart tor@default
+      systemctl --no-pager restart tor
       output_cmd_func "INFO - Done, restarted Tor."
    else
       output_cmd_func "INFO - No, file /run/sdwdate/tor_was_running.status did not exist, meaning we previously before suspend/hibernate did not stop Tor, therefore not starting it now."
