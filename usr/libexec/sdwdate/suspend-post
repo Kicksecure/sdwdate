@@ -3,7 +3,7 @@
 ## Copyright (C) 2017 - 2022 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
-set -x
+#set -x
 set -e
 
 date_cmd(){
