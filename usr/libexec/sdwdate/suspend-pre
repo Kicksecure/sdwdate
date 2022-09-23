@@ -10,26 +10,36 @@ date_cmd(){
    date --utc +"%Y-%m-%d %T"
 }
 
-output_cmd() {
+output_cmd_set() {
+   if [ -o xtrace ]; then
+      output_cmd=true
+   else
+      output_cmd=echo
+   fi
+}
+
+output_cmd_func() {
    msg="$(date_cmd) - $0 - $@"
    echo "$msg"
    echo "$msg" | systemd-cat --identifier="suspend-pre" || true
 }
 
+output_cmd_set
+
 if [ -f /run/qubes/this-is-templatevm ]; then
-   output_cmd "INFO - Skipping, because run in TemplateVM."
+   output_cmd_func "INFO - Skipping, because run in TemplateVM."
    exit 0
 fi
 
 if [ ! "$(id -u)" = "0" ]; then
-   output_cmd "ERROR - Must run as root!"
+   output_cmd_func "ERROR - Must run as root!"
    exit 2
 fi
 
 if command -v "qubesdb-read" >/dev/null 2>&1 ; then
    true
 else
-   output_cmd "INFO - Clock fix after resume not implemented in Non-Qubes-Whonix. See: https://www.whonix.org/wiki/Troubleshooting#Clock_Fix"
+   output_cmd_func "INFO - Clock fix after resume not implemented in Non-Qubes-Whonix. See: https://www.whonix.org/wiki/Troubleshooting#Clock_Fix"
    exit 3
 fi
 
@@ -41,49 +51,49 @@ chown --recursive sdwdate:sdwdate /run/sdwdate
 ## Should sdwdate fetch time during run of this script, it would log
 ## unnecessary fetching errors.
 
-output_cmd "INFO - Checking if sdwdate systemd unit is running..."
+output_cmd_func "INFO - Checking if sdwdate systemd unit is running..."
 if systemctl --no-pager status sdwdate >/dev/null ; then
-   output_cmd "INFO - Yes, sdwdate is running."
+   output_cmd_func "INFO - Yes, sdwdate is running."
 
-   output_cmd "INFO - Creating /run/sdwdate/sdwdate_was_running.status..."
+   output_cmd_func "INFO - Creating /run/sdwdate/sdwdate_was_running.status..."
    touch /run/sdwdate/sdwdate_was_running.status
-   output_cmd "INFO - Done, created /run/sdwdate/sdwdate_was_running.status."
+   output_cmd_func "INFO - Done, created /run/sdwdate/sdwdate_was_running.status."
 
-   output_cmd "INFO - Stopping sdwdate..."
+   output_cmd_func "INFO - Stopping sdwdate..."
    systemctl --no-pager stop sdwdate
-   output_cmd "INFO - Done, stopped sdwdate."
+   output_cmd_func "INFO - Done, stopped sdwdate."
 
-   output_cmd "INFO - Deleting /run/sdwdate/first_success..."
+   output_cmd_func "INFO - Deleting /run/sdwdate/first_success..."
    rm --force /run/sdwdate/first_success
-   output_cmd "INFO - Done, deleted /run/sdwdate/first_success."
+   output_cmd_func "INFO - Done, deleted /run/sdwdate/first_success."
 
-   output_cmd "INFO - Deleting /run/sdwdate/success..."
+   output_cmd_func "INFO - Deleting /run/sdwdate/success..."
    rm --force /run/sdwdate/success
-   output_cmd "INFO - Done, deleted /run/sdwdate/success."
+   output_cmd_func "INFO - Done, deleted /run/sdwdate/success."
 
    if command -v whonix_firewall >/dev/null 2>&1 ; then
       ## Whonix firewall timesync-fail-closed mode
-      output_cmd "INFO - Entering Whonix firewall timesync-fail-closed mode."
+      output_cmd_func "INFO - Entering Whonix firewall timesync-fail-closed mode."
       firewall_mode="timesync-fail-closed" whonix_firewall
-      output_cmd "INFO - Done, entered Whonix firewall timesync-fail-closed mode."
+      output_cmd_func "INFO - Done, entered Whonix firewall timesync-fail-closed mode."
    else
       true "$0 INFO: Whonix firewall not installed, probably running outside of Whonix."
    fi
 else
-   output_cmd "INFO - sdwdate was not running, no need to stop it."
+   output_cmd_func "INFO - sdwdate was not running, no need to stop it."
 fi
 
-output_cmd "INFO - Checking if tor@default systemd unit is running..."
+output_cmd_func "INFO - Checking if tor@default systemd unit is running..."
 if systemctl --no-pager status tor@default >/dev/null ; then
-   output_cmd "INFO - Yes, tor@default is running."
+   output_cmd_func "INFO - Yes, tor@default is running."
 
-   output_cmd "INFO - Creating /run/sdwdate/tor_was_running.status..."
+   output_cmd_func "INFO - Creating /run/sdwdate/tor_was_running.status..."
    touch /run/sdwdate/tor_was_running.status
-   output_cmd "INFO - Done, created /run/sdwdate/tor_was_running.status."
+   output_cmd_func "INFO - Done, created /run/sdwdate/tor_was_running.status."
 
-   output_cmd "INFO - Stopping Tor..."
+   output_cmd_func "INFO - Stopping Tor..."
    systemctl --no-pager stop tor@default
-   output_cmd "INFO - Done, stopped Tor."
+   output_cmd_func "INFO - Done, stopped Tor."
 else
-   output_cmd "INFO - Tor was not running, no need to stop it."
+   output_cmd_func "INFO - Tor was not running, no need to stop it."
 fi

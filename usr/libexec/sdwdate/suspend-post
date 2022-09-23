@@ -10,28 +10,38 @@ date_cmd(){
    date -u +"%Y-%m-%d %T"
 }
 
-output_cmd() {
+output_cmd_set() {
+   if [ -o xtrace ]; then
+      output_cmd=true
+   else
+      output_cmd=echo
+   fi
+}
+
+output_cmd_func() {
    msg="$(date_cmd) - $0 - $@"
-   echo "$msg"
+   $output_cmd "$msg"
    echo "$msg" | systemd-cat --identifier="suspend-post" || true
 }
+
+output_cmd_set
 
 if [ -f /run/qubes/this-is-templatevm ]; then
    ## qubes-sync-time is triggered after suspend/resume.
    ## https://forums.whonix.org/t/whonix-ws-16-fails-to-update-due-to-timing-issue/12739/10
-   output_cmd "INFO - Skipping, because run in TemplateVM."
+   output_cmd_func "INFO - Skipping, because run in TemplateVM."
    exit 0
 fi
 
 if [ ! "$(id -u)" = "0" ]; then
-   output_cmd "ERROR - Must run as root!"
+   output_cmd_func "ERROR - Must run as root!"
    exit 2
 fi
 
 if command -v "qubesdb-read" >/dev/null 2>&1 ; then
    true
 else
-   output_cmd "INFO - Clock fix after resume not implemented in Non-Qubes-Whonix. See: https://www.whonix.org/wiki/Troubleshooting#Clock_Fix"
+   output_cmd_func "INFO - Clock fix after resume not implemented in Non-Qubes-Whonix. See: https://www.whonix.org/wiki/Troubleshooting#Clock_Fix"
    exit 3
 fi
 
@@ -40,26 +50,26 @@ mkdir --parents /run/sdwdate
 chown --recursive sdwdate:sdwdate /run/sdwdate
 
 tor_restart_maybe() {
-   output_cmd "INFO - Checking if file /run/sdwdate/tor_was_running.status exists..."
+   output_cmd_func "INFO - Checking if file /run/sdwdate/tor_was_running.status exists..."
 
    if test -f /run/sdwdate/tor_was_running.status ; then
-      output_cmd "INFO - Yes, file /run/sdwdate/tor_was_running.status exists."
+      output_cmd_func "INFO - Yes, file /run/sdwdate/tor_was_running.status exists."
 
-      output_cmd "INFO: - Deleting Tor consensus files..."
+      output_cmd_func "INFO: - Deleting Tor consensus files..."
       ## Without this, Tor keeps the stale Tor consensus even after restarting Tor.
       ## provided by package helper-scripts
       anon-consensus-del-files
-      output_cmd "INFO: - Done, deleted Tor consensus files."
+      output_cmd_func "INFO: - Done, deleted Tor consensus files."
 
-      output_cmd "INFO - Deleting /run/sdwdate/tor_was_running.status..."
+      output_cmd_func "INFO - Deleting /run/sdwdate/tor_was_running.status..."
       rm --force /run/sdwdate/tor_was_running.status
-      output_cmd "INFO - Done, deleted /run/sdwdate/tor_was_running.status."
+      output_cmd_func "INFO - Done, deleted /run/sdwdate/tor_was_running.status."
 
-      output_cmd "INFO - Restarting Tor..."
+      output_cmd_func "INFO - Restarting Tor..."
       systemctl --no-pager restart tor@default
-      output_cmd "INFO - Done, restarted Tor."
+      output_cmd_func "INFO - Done, restarted Tor."
    else
-      output_cmd "INFO - No, file /run/sdwdate/tor_was_running.status did not exist, meaning we previously before suspend/hibernate did not stop Tor, therefore not starting it now."
+      output_cmd_func "INFO - No, file /run/sdwdate/tor_was_running.status did not exist, meaning we previously before suspend/hibernate did not stop Tor, therefore not starting it now."
    fi
 }
 
@@ -79,19 +89,19 @@ tor_restart_maybe() {
 ## For an ISP level observer this should look like a reboot.
 
 ## Do not interfere with the clock if the sdwdate service was stopped.
-output_cmd "INFO - Checking if file /run/sdwdate/sdwdate_was_running.status exists..."
+output_cmd_func "INFO - Checking if file /run/sdwdate/sdwdate_was_running.status exists..."
 if test -f /run/sdwdate/sdwdate_was_running.status ; then
-   output_cmd "INFO - Yes, file /run/sdwdate/sdwdate_was_running.status exists."
+   output_cmd_func "INFO - Yes, file /run/sdwdate/sdwdate_was_running.status exists."
 
-   output_cmd "INFO - Deleting /run/sdwdate/sdwdate_was_running.status..."
+   output_cmd_func "INFO - Deleting /run/sdwdate/sdwdate_was_running.status..."
    rm --force /run/sdwdate/sdwdate_was_running.status
-   output_cmd "INFO - Done, deleted /run/sdwdate/sdwdate_was_running.status."
+   output_cmd_func "INFO - Done, deleted /run/sdwdate/sdwdate_was_running.status."
 
    tor_restart_maybe
 
-   output_cmd "INFO - Running sdwdate-clock-jump..."
+   output_cmd_func "INFO - Running sdwdate-clock-jump..."
    sdwdate-clock-jump
-   output_cmd "INFO - Done, with sdwdate-clock-jump."
+   output_cmd_func "INFO - Done, with sdwdate-clock-jump."
 
    ## Whonix firewall full mode
    ##
@@ -104,7 +114,7 @@ if test -f /run/sdwdate/sdwdate_was_running.status ; then
 
    exit 0
 else
-   output_cmd "INFO - No, file /run/sdwdate/sdwdate_was_running.status did not exist, meaning we previously before suspend/hilbernate did not stop sdwdate, therefore not starting it now."
+   output_cmd_func "INFO - No, file /run/sdwdate/sdwdate_was_running.status did not exist, meaning we previously before suspend/hilbernate did not stop sdwdate, therefore not starting it now."
 fi
 
 ## Make sure Tor is restarted even if sdwdate was not running during suspend-pre.
