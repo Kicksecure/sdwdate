@@ -9,14 +9,29 @@ set -e
 
 true "INFO $0: START"
 
-## Use '--boot' to avoid confusion from showing previous boot inside Qubes TemplateVM.
-##
+## goal of this sdwdate log viewer:
+## - show the following systemd units:
+##   qubes-sync-time.service
+##   qubes-sync-time.timer
+##   bootclockrandomization.service
+##   sdwdate.service
+##   whonix-firewall.service
+## - include seccomp log output for these units
+## - also show the following syslog identifiers
+##   suspend-pre
+##   suspend-post
+##   anondate
+
+## Quote journalctl man page:
+## "If two different fields are matched, only entries matching both expressions
+## at the same time are shown:"
+
 ## Does not work. If combined, systemd is not showing seccomp failures.
-## Only 'jornalctl --unit' shows, quote from jornalctl man page:
+## Only 'journalctl --unit' shows, quote from journalctl man page:
 ## "along with additional matches for messages from systemd and messages
 ## about coredumps for the specified unit"
 ##
-## But using 'jornalctl --unit' cannot be combined with 'SYSLOG_IDENTIFIER'.
+## But using 'journalctl --unit' cannot be combined with 'SYSLOG_IDENTIFIER'.
 ##
 # /bin/journalctl \
 #    --boot \
@@ -32,17 +47,55 @@ true "INFO $0: START"
 #       SYSLOG_IDENTIFIER=suspend-post + \
 #       SYSLOG_IDENTIFIER=anondate
 
+## Does not work because would only show units that also contain the
+## syslog identifier.
+# /bin/journalctl \
+#    --boot \
+#    --output cat \
+#    -n 10000 \
+#    -f \
+#       --unit=qubes-sync-time.service \
+#       --unit=qubes-sync-time.timer \
+#       --unit=bootclockrandomization.service \
+#       --unit=sdwdate.service \
+#       --unit=whonix-firewall.service \
+#       --identifier=suspend-pre \
+#       --identifier=suspend-post \
+#       --identifier=anondate
+
 ## Launching two different journalctl commands into the background is also not
 ## great since these mess up the order of the log output.
 
-## Therefore using grep instead.
+## Approach using grep:
 ## https://forums.whonix.org/t/sdwdate-loop-conclusion-tor-already-reports-circuit-established-seccomp-issue/13260/13
+## This has the disadvantage of catching too many irrelevant messages such as
+## by pam_unix for user sdwdate and more importantly, lacks multi-line messages
+## that do not contain a string being 'grep'ed for.
+# /bin/journalctl \
+#    --boot \
+#    --output cat \
+#    -n 10000 \
+#    -f \
+#    | \
+#    grep \
+#    --color \
+#    "sdwdate\|bootclockrandomization\|anondate\|firewall\|suspend-pre\|suspend-post"
+
+## Use '--boot' to avoid confusion from showing previous boot inside Qubes
+## TemplateVM.
+##
+## The following approach has the disadvantage of showing all seccomp related
+## messages not just those related to the units that should be watched here but
+## is better than other approaches from above.
 /bin/journalctl \
    --boot \
    --output cat \
-   -n 10000 \
-   -f \
-   | \
-   grep \
-   --color \
-   "sdwdate\|bootclockrandomization\|anondate\|firewall\|suspend-pre\|suspend-post"
+      _SYSTEMD_UNIT=qubes-sync-time.service + \
+      _SYSTEMD_UNIT=qubes-sync-time.timer + \
+      _SYSTEMD_UNIT=bootclockrandomization.service + \
+      _SYSTEMD_UNIT=sdwdate.service + \
+      _SYSTEMD_UNIT=whonix-firewall.service + \
+      SYSLOG_IDENTIFIER=suspend-pre + \
+      SYSLOG_IDENTIFIER=suspend-post + \
+      SYSLOG_IDENTIFIER=anondate + \
+      _AUDIT_TYPE_NAME=SECCOMP
