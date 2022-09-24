@@ -1,3 +1,65 @@
+commit 3464f2d93ea4b4a044a6ac9411270a52133b9187
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Sep 24 09:20:56 2022 -0400
+
+    -D_FORTIFY_SOURCE=3
+
+commit 934e2df50768ddc607036ec1d591efa3869865d3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 23 17:31:31 2022 -0400
+
+    output
+
+commit 32916fcfe449d7194026a8d46368d638dbf43823
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 23 17:27:54 2022 -0400
+
+    suspend-pre/post: stop/restart both, tor and vanguards systemd unit
+
+commit 515e23ef331a271cf7322ec355e3b0ac2e5fdd3b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 23 17:24:53 2022 -0400
+
+    suspend-pre/post: tor@default -> tor
+
+commit 6ce51042f3b46910cdca1e533ceb0bd14b92ad1e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 23 17:20:29 2022 -0400
+
+    output
+
+commit 45169a3cdd97394e13511bfb09c0f9d8c3206278
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 23 17:19:53 2022 -0400
+
+    lower debugging
+
+commit 7c44dd5f6e24792ad3376cf8828058ebf16bb0fe
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 23 17:19:20 2022 -0400
+
+    output
+
+commit 198807124f5f93610664b3136f415bb6fa93ed50
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 23 17:16:57 2022 -0400
+
+    suspend-pre/post: improve output in verbose mode
+
+commit 3de63045704c296e4a734b86d593cda0d30a3235
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 23 17:12:41 2022 -0400
+
+    suspend-post: Delete Tor consensus before restarting Tor.
+    
+    Without this, Tor keeps the stale Tor consensus even after restarting Tor.
+
+commit ef820a140d0797e1a777d3e11486773d78fe86ea
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Sep 17 15:20:47 2022 -0400
+
+    bumped changelog version
+
 commit 675a0c9dbe3908e3917784c236e3164e05fc076a
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Sep 17 15:16:53 2022 -0400
