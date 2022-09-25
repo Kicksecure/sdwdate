@@ -90,6 +90,8 @@ true "INFO $0: START"
 /bin/journalctl \
    --boot \
    --output cat \
+   -n 10000 \
+   -f \
       _SYSTEMD_UNIT=qubes-sync-time.service + \
       _SYSTEMD_UNIT=qubes-sync-time.timer + \
       _SYSTEMD_UNIT=bootclockrandomization.service + \
