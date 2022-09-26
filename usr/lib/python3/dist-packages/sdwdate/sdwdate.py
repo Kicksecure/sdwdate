@@ -1002,7 +1002,9 @@ def main():
     LOGGER.addHandler(console_handler)
 
     my_pid = os.getpid()
-    pid_message = "sdwdate started. PID: %s" % my_pid
+    pid_message = "sdwdate (Secure Distributed Web Date) started. PID: %s" % my_pid
+    LOGGER.info(pid_message)
+    msg = "https://www.kicksecure.com/wiki/sdwdate"
     LOGGER.info(pid_message)
 
     if os.geteuid() == 0:
