@@ -1,3 +1,15 @@
+commit 5e3f1d009254debf8ea03283aaad70dd79d7d581
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Sep 26 15:42:41 2022 -0400
+
+    sdwdate-log-viewer: include output by timesanitycheck
+
+commit b07665c82535ddf2ae0d512d45578b5ea23104ab
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Sep 25 13:37:09 2022 -0400
+
+    bumped changelog version
+
 commit 84148f8ff4f796eab935e4bb88080daf379f0d19
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Sep 25 13:22:51 2022 -0400
