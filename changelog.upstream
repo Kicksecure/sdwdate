@@ -1,3 +1,95 @@
+commit 3c62c339020062ff6735628e675440440a1f87f8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 11 11:44:38 2022 -0400
+
+    minor
+
+commit 6c13acf4161cce4082017c55dfbb2424daf15dde
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 11 11:44:00 2022 -0400
+
+    add new securedrop instances + alphabetic
+
+commit 610b19134af4df06298e121eb1d2a58f001ea231
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 11 11:32:19 2022 -0400
+
+    TLS
+
+commit a1517db958df3f896f86b7870a3f82e7a82a2465
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 11 11:29:40 2022 -0400
+
+    remove 7
+
+commit b31dc2bc895b60377766642a9d00e532d23a138a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 11 11:22:46 2022 -0400
+
+    Revert "Update 30_default.conf"
+    
+    This reverts commit f2f62ae7e4ea954773d5aae2be001fe8a76e9bf2.
+
+commit a980fb5b09acb9d351f1a542549daa099aba32a8
+Merge: c118a06 770a9ab
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 11 11:21:53 2022 -0400
+
+    Merge remote-tracking branch 'github-kicksecure/master'
+
+commit 770a9ab3bb7a8acfefcd737b4c6a42a3db18acf6
+Merge: c118a06 f2f62ae
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 11 11:13:09 2022 -0400
+
+    Merge pull request #41 from TNTBOMBOM/patch-6
+    
+    Update 30_default.conf
+
+commit f2f62ae7e4ea954773d5aae2be001fe8a76e9bf2
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Mon Oct 10 19:22:49 2022 +0000
+
+    Update 30_default.conf
+    
+    Offline removed:
+    
+    http://potatoynwcg34xyodol6p6hvi5e4xelxdeowsl5t2daxywepub32y7yd.onion/
+    
+    http://aco6injncogk3siaubyh5sterx7w5pocqdrm7mna7u4wuukscgnqpeid.onion/
+    
+    http://b52gknakgsyqqeq476oi5nymw6yapysfig4owqgwppi5qpuk4az6bxad.onion/
+    
+    http://gppg43zz5d2yfuom3yfmxnnokn3zj4mekt55onlng3zs653ty4fio6qd.onion/
+    
+    http://e2kkexl7exz6rg7fhl4oftkaeojm7wlbw567hqu2tbrjlixsjjoynzad.onion/
+    
+    http://kogbxf4ysay2qzozmg7ar45ijqmj2vxrwqa4upzqq2i7sqj7wv7wcdqd.onion/
+    
+    http://ppw2pmtagxykinex6uubypsommtrcg6ytdh6bcr6agq2wxnrweao4cad.onion/
+    
+    ----
+    
+    Added TLS:
+    
+    http://dlegal66uj5u2dvcbrev7vv6fjtwnd4moqu7j6jnd42rmbypv3coigyd.onion/
+    
+    to
+    
+    https://dlegal66uj5u2dvcbrev7vv6fjtwnd4moqu7j6jnd42rmbypv3coigyd.onion/
+    
+    ----
+    
+    Added in alphabetical orientation of securedrop onion links similar to securedrop website: (only working links added)
+    
+    https://securedrop.org/directory/
+
+commit c118a060d30e493e0a5ddadefc5c33451f32f194
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Sep 26 15:55:15 2022 -0400
+
+    bumped changelog version
+
 commit 0ad5290293956fc7925f2103c2de697f0a540cb2
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Sep 26 15:54:37 2022 -0400
