@@ -1,3 +1,52 @@
+commit d0abfb0713f6c158f93411c1abbb4f13d8e7934c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Oct 20 18:14:35 2022 -0400
+
+    comment
+
+commit 9f3a927c1502a7afaeccadbc459d961c4146dec8
+Merge: d715b91 719c9cc
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Oct 20 18:12:43 2022 -0400
+
+    Merge remote-tracking branch 'github-kicksecure/master'
+
+commit 719c9cce1a87f76d1d8dfaef2c535d95866c5115
+Merge: d715b91 931ae2d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Oct 20 18:07:24 2022 -0400
+
+    Merge pull request #42 from TNTBOMBOM/patch-7
+    
+    Update 30_default.conf
+
+commit 931ae2dcb4d61b88ca2f8511f9a591d50f676ffb
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Tue Oct 18 17:52:01 2022 +0000
+
+    Update 30_default.conf
+    
+    removed FB
+
+commit b9ca3048357beac225a685f6a5ffbdb5fb10c06b
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Mon Oct 17 15:19:36 2022 +0000
+
+    Update 30_default.conf
+    
+    Added 4 new (famous) mirrors:
+    
+    - BBC
+    - Facebook
+    - NYT
+    - Archive.ph
+
+commit d715b91cd414c1ca49ebd03bbb36430b3a9223b1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 11 12:41:44 2022 -0400
+
+    bumped changelog version
+
 commit 3c62c339020062ff6735628e675440440a1f87f8
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue Oct 11 11:44:38 2022 -0400
