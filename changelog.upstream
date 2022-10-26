@@ -1,3 +1,59 @@
+commit 9598b63eaca2583c1105315924ffc6d90b0b4025
+Merge: 6fc1552 66a8096
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Oct 26 05:41:49 2022 -0400
+
+    Merge remote-tracking branch 'github-kicksecure/master'
+
+commit 66a8096437e3f28ab38652e1589e3cfd8f93be1a
+Merge: 764b9b5 633d9c7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Oct 26 05:40:58 2022 -0400
+
+    Merge pull request #43 from TNTBOMBOM/patch-8
+    
+    Update 30_default.conf
+
+commit 633d9c7fcd94bee9182a0e997106d9df92d68dfd
+Merge: a47cb95 764b9b5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Oct 26 05:40:49 2022 -0400
+
+    Merge branch 'master' into patch-8
+
+commit 764b9b5cc38f62747fedfad8b41ece2cffc39444
+Merge: 6fc1552 43f3280
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Oct 26 05:39:13 2022 -0400
+
+    Merge pull request #44 from TNTBOMBOM/patch-9
+    
+    Update 30_default.conf
+
+commit 43f328046bd322855a3892ee55c581ce399a9ea5
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Tue Oct 25 20:16:35 2022 +0000
+
+    Update 30_default.conf
+    
+    added protonmail onion mirror
+
+commit a47cb95dea5693220c690445448a7b8b24ef0465
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Tue Oct 25 20:06:52 2022 +0000
+
+    Update 30_default.conf
+    
+    deleting privacy2ws3ora5p4qpzptqr32qm54gf5ifyzvo5bhl7bb254c6nbiyd.onion mirror due to misconfigured TLS:
+    
+    > * stderr: connect error: SOCKSHTTPSConnectionPool(host='privacy2ws3ora5p4qpzptqr32qm54gf5ifyzvo5bhl7bb254c6nbiyd.onion', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1123)')))
+
+commit 6fc155200902ac3fe29a87323893dcaceb3e1e4e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Oct 20 18:32:50 2022 -0400
+
+    bumped changelog version
+
 commit d0abfb0713f6c158f93411c1abbb4f13d8e7934c
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu Oct 20 18:14:35 2022 -0400
