@@ -1,3 +1,74 @@
+commit 0165f5f24838eb9f8d62efb9d4f4a869e9c0b3f8
+Merge: fbc486e 1c7e37a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Nov 23 18:00:56 2022 -0500
+
+    Merge remote-tracking branch 'github-kicksecure/master'
+
+commit 1c7e37a46e5315fde3f60e2e95692e7caef11d82
+Merge: fbc486e 3661fb5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Nov 23 17:58:36 2022 -0500
+
+    Merge pull request #45 from TNTBOMBOM/patch-10
+    
+    Update 30_default.conf
+
+commit 3661fb5070694bdcd36592f9b12a2a951fb83cd9
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Fri Nov 18 13:33:10 2022 +0000
+
+    Update 30_default.conf
+    
+    added descriptions to archive.ph links since they are not understandable from the link (because the link is shortened by default)
+
+commit fb5fe48f6864bfd5d2821c9dc4a2fce103dcd5fb
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Fri Nov 18 12:21:15 2022 +0000
+
+    Update 30_default.conf
+    
+    added geti2p gitlab onion mirror
+
+commit b6d80fc0cee59faac5a6a5e645b4dfef82af5d4c
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Fri Nov 18 12:09:26 2022 +0000
+
+    Update 30_default.conf
+    
+    Rearranged onion+TLS mirrors and added them to the top (better view/easy editing or finding)
+
+commit aacb77f234b3c8a52c5e58fbc46dfe9ebb5b360b
+Merge: 35d95f3 a098a47
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Fri Nov 18 11:55:05 2022 +0000
+
+    Merge pull request #1 from TNTBOMBOM/TNTBOMBOM-patch-Removed-elude-and-fsfe
+    
+    Update 30_default.conf
+
+commit a098a473f6473077341e25669113d755459dae08
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Fri Nov 18 11:54:17 2022 +0000
+
+    Update 30_default.conf
+    
+    Removed elude and fsfe as both onion mirrors are down
+
+commit 35d95f3ae4d3f269f2b4bf76e6f69024d3017f67
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Fri Nov 18 11:05:29 2022 +0000
+
+    Update 30_default.conf
+    
+    deleted keybase as its not working
+
+commit fbc486e0a1a0b24127180ef901cf643e4a204473
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Oct 26 05:42:59 2022 -0400
+
+    bumped changelog version
+
 commit 9598b63eaca2583c1105315924ffc6d90b0b4025
 Merge: 6fc1552 66a8096
 Author: Patrick Schleizer <adrelanos@whonix.org>
