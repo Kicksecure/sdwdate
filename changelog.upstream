@@ -1,3 +1,19 @@
+commit 389372a15c480063042a6fe039b36692f63fb464
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jan 7 12:55:45 2023 -0500
+
+    restore correct permissions in /var/lib/sdwdate folder
+    
+    if changed by something else
+    
+    such as it happens in Qubes
+
+commit a91ac6b6fda787d4e1ec308826af5bdef0cc855f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Dec 1 13:04:48 2022 -0500
+
+    bumped changelog version
+
 commit 5cfd1bfd9306de5be0ad469e64f512bc8deaec14
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Nov 30 16:32:54 2022 -0500
