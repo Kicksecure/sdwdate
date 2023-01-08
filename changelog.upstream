@@ -1,3 +1,17 @@
+commit fc82df304ff49a4c540ba0e09d02476ce4e9b19d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Jan 8 08:37:57 2023 -0500
+
+    add `sendmsg` secomp call
+    
+    (needed when using `debug` on kernel command line)
+
+commit 9202939581aeced27558114ea22df54d3ba958af
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jan 7 12:57:07 2023 -0500
+
+    bumped changelog version
+
 commit 389372a15c480063042a6fe039b36692f63fb464
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Jan 7 12:55:45 2023 -0500
