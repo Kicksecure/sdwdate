@@ -82,7 +82,7 @@
   /run/sdwdate/** rw,
   /run/anondate/ rw,
   /run/anondate/** rw,
-  deny /run/sdwdate/forbidden-temp/** mrwlk,
+  deny /var/lib/sdwdate-forbidden-temp/** mrwlk,
   owner /usr/lib/python3/dist-packages/sdwdate/__pycache__/ rw,
   owner /usr/lib/python3/dist-packages/sdwdate/__pycache__/** rw,
   owner @{PROC}/*/fd/ r,

@@ -907,11 +907,8 @@ def global_files():
         sdwdate_status_files_folder)
 
     # Workaround for an apparmor issue.
-    # See /etc/apparmor.d/usr.bin.sdwdate
-    # for /run/sdwdate/forbidden-temp
-    sdwdate_forbidden_temp_files_folder = (
-        sdwdate_status_files_folder + "/forbidden-temp"
-    )
+    # See /etc/apparmor.d/usr.bin.sdwdate for /var/lib/sdwdate-forbidden-temp
+    sdwdate_forbidden_temp_files_folder = "/var/lib/sdwdate-forbidden-temp"
 
     global status_first_success_path
     status_first_success_path = sdwdate_status_files_folder + "/first_success"
@@ -978,7 +975,7 @@ def global_files():
 
     # Without this python-requests (url_to_unixtime) would try to write to
     # for example "/xb2e9wyl" instead of
-    # "/run/sdwdate/forbidden-temp/xb2e9wyl"
+    # "/var/lib/sdwdate-forbidden-temp/xb2e9wyl"
     # which looks even worse in logs and cannot be deny'd in the apparmor
     # profile.
     os.chdir(sdwdate_forbidden_temp_files_folder)
