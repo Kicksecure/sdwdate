@@ -1,3 +1,44 @@
+commit 683a4924e35569a792c3521ddf07f2f6b9630239
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat May 13 08:29:00 2023 +0000
+
+    abolish architecture specific syscall whitelist
+    
+    to improve maintainability
+    
+    https://forums.kicksecure.com/t/sdwdate-failed-to-start-in-debian-12-bookworm-next-release/134/6
+
+commit 986b6da1e44dd1fde195d1af918ada13d82054fd
+Merge: c0a66ae 4fc09ed
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat May 13 08:22:39 2023 +0000
+
+    Merge remote-tracking branch 'github-kicksecure/master'
+
+commit 4fc09edf11a56288cd53e1ede5de06ce61a7e171
+Merge: c0a66ae 82f9f43
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat May 13 04:22:51 2023 -0400
+
+    Merge pull request #46 from JeremyRand/bookworm-x86-64
+    
+    Fix syscall whitelist for bookworm on x86_64
+
+commit 82f9f43f96ae0d594a8a9ed2b4fb8f1856d9aba5
+Author: Jeremy Rand <jeremyrand@danwin1210.de>
+Date:   Wed May 10 23:46:40 2023 +0000
+
+    Fix syscall whitelist for bookworm on x86_64
+    
+    I haven't investigated why these syscalls are now needed, nor what
+    attack surface they may introduce.
+
+commit c0a66ae0e887e1e5c38ac84c03faa3359972b797
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Jan 8 09:00:35 2023 -0500
+
+    bumped changelog version
+
 commit 0beb51619c7759b99eabf7bdf25a9c337ee735f8
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Jan 8 09:00:29 2023 -0500
