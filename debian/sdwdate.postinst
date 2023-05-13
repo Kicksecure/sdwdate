@@ -96,12 +96,12 @@ if [[ "${arch}" =~ "arm" ]] || [[ "${arch}" =~ "aarch" ]]; then
    ## ARM-specific syscalls.
    syscall_whitelist="\
 [Service]
-SystemCallFilter=faccessat readlinkat newfstatat mkdirat dup3 ppoll pselect6 unlinkat"
+SystemCallFilter=faccessat readlinkat mkdirat dup3 ppoll pselect6 unlinkat"
 elif [[ "${arch}" =~ "ppc" ]]; then
    ## PowerPC-specific syscalls.
    syscall_whitelist="\
 [Service]
-SystemCallFilter=_llseek send waitpid recv prctl _newselect newfstatat pselect6 vfork"
+SystemCallFilter=_llseek send waitpid recv prctl _newselect pselect6"
 elif [[ "${arch}" =~ "x86" ]]; then
    syscall_whitelist="\
 ## Default. No changes required."
