@@ -66,7 +66,19 @@ RestrictAddressFamilies=AF_UNIX AF_INET
 RestrictNamespaces=true
 SystemCallArchitectures=native
 
-SystemCallFilter=wait4 select futex read stat close openat fstat lseek mmap rt_sigaction getdents64 mprotect ioctl recvfrom munmap brk rt_sigprocmask fcntl getpid write access socket sendto dup2 clone execve getrandom geteuid getgid madvise getuid getegid readlink pipe rt_sigreturn connect pipe2 prlimit64 set_robust_list dup arch_prctl lstat set_tid_address sysinfo sigaltstack rt_sigsuspend shutdown timer_settime mkdir timer_create statfs getcwd setpgid setsockopt uname bind getpgrp getppid getpeername chdir poll getsockname fadvise64 clock_settime kill getsockopt unlink epoll_create1 utimensat mremap prctl sendmsg newfstatat pread64 vfork close_range clone3 get_mempolicy set_mempolicy faccessat readlinkat mkdirat dup3 ppoll pselect6 unlinkat _llseek send waitpid recv _newselect
+## Split into multiple lines to fix lintian warning very-long-line-length-in-source-file.
+SystemCallFilter=\
+wait4 select futex read stat close openat fstat lseek mmap rt_sigaction \
+getdents64 mprotect ioctl recvfrom munmap brk rt_sigprocmask fcntl \
+getpid write access socket sendto dup2 clone execve getrandom geteuid \
+getgid madvise getuid getegid readlink pipe rt_sigreturn connect pipe2 \
+prlimit64 set_robust_list dup arch_prctl lstat set_tid_address sysinfo \
+sigaltstack rt_sigsuspend shutdown timer_settime mkdir timer_create statfs \
+getcwd setpgid setsockopt uname bind getpgrp getppid getpeername chdir poll \
+getsockname fadvise64 clock_settime kill getsockopt unlink epoll_create1 \
+utimensat mremap prctl sendmsg newfstatat pread64 vfork close_range clone3 \
+get_mempolicy set_mempolicy faccessat readlinkat mkdirat dup3 ppoll pselect6 \
+unlinkat _llseek send waitpid recv _newselect
 
 [Install]
 WantedBy=multi-user.target
