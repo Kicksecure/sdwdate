@@ -1,3 +1,27 @@
+commit 39d10a6c321cfb72363134b40bd617ec01a9ae17
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Jun 12 16:22:32 2023 +0000
+
+    Standards-Version: 4.6.1.0
+
+commit 50e462dd4e9ffe25d11d1ce3730b8c1fdab475b5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Jun 12 16:19:36 2023 +0000
+
+    lintian
+
+commit 76cf8e96bfd052e713ef09688915017dc999a572
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Jun 12 16:15:42 2023 +0000
+
+    moved /usr/libexec/sdwdate/sclockadj.c -> usr/src/sdwdate/sclockadj.c
+
+commit ab245159c0567b45fbc444e9994c3ddf0c0c3b8e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Jun 12 15:25:06 2023 +0000
+
+    bumped changelog version
+
 commit a4bee394539898afd824955eafdd6532a808e64b
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Jun 12 14:52:01 2023 +0000
