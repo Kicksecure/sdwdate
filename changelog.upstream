@@ -1,3 +1,58 @@
+commit 21d622504a23858c0d43ef09194bc748f58eb898
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jun 29 09:04:46 2023 -0400
+
+    defcon onion fix
+
+commit 25d18bde15bc6330970f72708e6c64a335882492
+Merge: 1367cf1 441897c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jun 29 08:58:39 2023 -0400
+
+    Merge remote-tracking branch 'TNTBOMBOM/master'
+
+commit 441897cf9004cb3f774bf19aa4669397ecd58fe9
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Sun Jun 25 11:01:04 2023 +0000
+
+    Update 30_default.conf
+    
+    Removed not working URLs
+
+commit aebdeefa118fcfcdf2f15a76199d4c05a92c1c28
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Sun Jun 25 10:57:38 2023 +0000
+
+    Update 30_default.conf
+    
+    Renewed Defcon URL
+
+commit 11fca1e831bf2d3617076ad6ce3edd9ac90d0fad
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Sun Jun 25 10:54:05 2023 +0000
+
+    Update 30_default.conf
+    
+    renewed the intercept URL, and removed duplicate from securedrop (since using the same new URL)
+
+commit f3ef31557e826b3242de4a190d42aa6d9f8d3745
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Sun Jun 25 09:41:03 2023 +0000
+
+    Update 30_default.conf
+    
+    Remove the TLS from https://www.propublica.org/ onion service
+    
+    https://p53lf57qovyuvwsc6xnrppyply3vtqm7l6pcobkmyqsiofyeznfu5uqd.onion
+    
+    http://p53lf57qovyuvwsc6xnrppyply3vtqm7l6pcobkmyqsiofyeznfu5uqd.onion
+
+commit 1367cf1b6609e79c455857231acd0f3e854198c6
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Jun 21 09:36:13 2023 +0000
+
+    bumped changelog version
+
 commit f7dcbd2b24a015964beb06bbc882cdcf100b320f
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Jun 21 09:11:30 2023 +0000
