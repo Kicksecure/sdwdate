@@ -13,7 +13,7 @@ ConditionPathExists=!/run/qubes-service/no-sdwdate
 Before=sdwdate.service
 
 [Service]
-Type=oneshot
+Type=notify
 ExecStart=/usr/libexec/sdwdate/sdwdate-pre
 RemainAfterExit=yes
 

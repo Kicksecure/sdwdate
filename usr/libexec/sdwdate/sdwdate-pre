@@ -4,6 +4,7 @@
 ## See the file COPYING for copying conditions.
 
 set -x
+set -e
 
 ## 'adduser is a debianism' is required for 'anondate' which uses
 ## 'journalctl'. Group 'systemd-journal' might not exist yet during the build
@@ -14,3 +15,5 @@ set -x
 adduser sdwdate systemd-journal || true
 
 gcc /usr/src/sdwdate/sclockadj.c -o /usr/libexec/sdwdate/sclockadj -ldl -D_GNU_SOURCE -Wdate-time -D_FORTIFY_SOURCE=3 -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wl,-z,relro -Wl,-z,now
+
+systemd-notify --ready
