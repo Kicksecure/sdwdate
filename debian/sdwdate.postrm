@@ -10,6 +10,9 @@ fi
 set -e
 
 if [ "$1" = "purge" ]; then
+   ## delete sclockadj only when package is removed using apt-get with purge option
+   ## otherwise during `release-upgrade` postrm script might run,
+   ## delete sclockadj while sdwdate is still running
    rm --force /usr/libexec/sdwdate/sclockadj
 
    rm --force "/var/log/sdwdate.log"
