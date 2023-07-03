@@ -1,3 +1,36 @@
+commit 1974d12f698160fe58b963b02461a3d0b4a9f23d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Jul 3 07:56:43 2023 -0400
+
+    fix, restart sdwdate-pre every time sdwdate is restarted
+
+commit 464a277f8269dcc668171b3882f93f96035071f7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Jul 3 07:54:29 2023 -0400
+
+    comment
+
+commit 997afad5a0f8676fa6cd1245469eb1681b19d960
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Jul 3 07:51:47 2023 -0400
+
+    delete sclockadj only when package is removed using apt-get with purge option
+    
+    otherwise during `release-upgrade` postrm script might run,
+    delete sclockadj while sdwdate is still running
+
+commit 998c418dd2e329a2acf4adce12fe1a77eb6556fa
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Jul 3 07:21:53 2023 -0400
+
+    Qubes seccomp fix
+
+commit b4ad12493837c21dd3e71372b3c9489938a532c1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jun 29 09:05:17 2023 -0400
+
+    bumped changelog version
+
 commit 21d622504a23858c0d43ef09194bc748f58eb898
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu Jun 29 09:04:46 2023 -0400
