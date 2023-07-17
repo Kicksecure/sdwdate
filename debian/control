@@ -1,13 +1,13 @@
-## Copyright (C) 2012 - 2023 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
+## Copyright (C) 2012 - 2023 ENCRYPTED SUPPORT LP <adrelanos@kicksecure.com>
 ## See the file COPYING for copying conditions.
 
 Source: sdwdate
 Section: misc
 Priority: optional
-Maintainer: Patrick Schleizer <adrelanos@whonix.org>
+Maintainer: Patrick Schleizer <adrelanos@kicksecure.com>
 Build-Depends: debhelper (>= 13), debhelper-compat (= 13),
  dh-apparmor, dh-python, python3
-Homepage: https://github.com/Kicksecure/sdwdate
+Homepage: https://www.kicksecure.com/wiki/Sdwdate
 Vcs-Browser: https://github.com/Kicksecure/sdwdate
 Vcs-Git: https://github.com/Kicksecure/sdwdate.git
 Standards-Version: 4.6.2
