@@ -7,9 +7,9 @@ Priority: optional
 Maintainer: Patrick Schleizer <adrelanos@whonix.org>
 Build-Depends: debhelper (>= 13), debhelper-compat (= 13),
  dh-apparmor, dh-python, python3
-Homepage: https://github.com/Whonix/sdwdate
-Vcs-Browser: https://github.com/Whonix/sdwdate
-Vcs-Git: https://github.com/Whonix/sdwdate.git
+Homepage: https://github.com/Kicksecure/sdwdate
+Vcs-Browser: https://github.com/Kicksecure/sdwdate
+Vcs-Git: https://github.com/Kicksecure/sdwdate.git
 Standards-Version: 4.6.2
 Rules-Requires-Root: no
 
