@@ -1,3 +1,80 @@
+commit cbb3581ef656c077e586d23fa43e2de4d54fb138
+Merge: dfeeac0 156f99b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Sep 25 11:55:59 2023 -0400
+
+    Merge remote-tracking branch 'github-kicksecure/master'
+
+commit 156f99bc0e6f752604549a45c409ea3838857d2b
+Merge: dfeeac0 f4017be
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Sep 25 11:54:34 2023 -0400
+
+    Merge pull request #47 from TNTBOMBOM/master
+    
+    New Upgrade to the mirrors connectivity
+
+commit f4017bed05ca95505f688c624fa9848591bde3c1
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Sun Sep 24 18:29:54 2023 +0000
+
+    Update 30_default.conf
+    
+    adding defcon forum archived URL from securityheaders which lead to the onion URL of the website.
+
+commit c69522389f9ba765bc0ee067d1cde2ec99859ae4
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Sat Sep 23 20:38:23 2023 +0000
+
+    Update 30_default.conf
+    
+    503 Service Unavailable
+
+commit f7942c3343801baca6efc7d55d6366072e995612
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Sat Sep 23 20:37:14 2023 +0000
+
+    Update 30_default.conf
+    
+    Onion doesnt exist anymore
+
+commit 86d47b34b9578f864057686b09f934c398ca5855
+Merge: 62ae371 dfeeac0
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Sat Sep 23 20:33:21 2023 +0000
+
+    Merge branch 'Kicksecure:master' into master
+
+commit 62ae3710382320adf592cf33190ffb1ef21fe25c
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Sat Sep 23 20:32:47 2023 +0000
+
+    Update 30_default.conf
+    
+    Changed to new URL
+
+commit dd4f483414bdfb36857826304f0ea547a16e276c
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Sat Sep 23 20:31:43 2023 +0000
+
+    Update 30_default.conf
+    
+    No connection, Informed BTC for long time about it, but no fix until now.
+
+commit 9e7d8ee029fcb8311aefbc67009e7465a7f2c59c
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Sat Sep 23 20:30:32 2023 +0000
+
+    Update 30_default.conf
+    
+    No TLS working.
+
+commit dfeeac0364e7c0b7841d043de03e3347dc830e7b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 29 16:08:16 2023 -0400
+
+    bumped changelog version
+
 commit 2cc1a290c3e1e10aab8a284e9a7a3c13324f8629
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue Aug 29 15:00:58 2023 -0400
