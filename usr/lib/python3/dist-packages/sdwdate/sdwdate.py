@@ -729,6 +729,8 @@ class SdwdateClass(object):
             message += str(self.allowed_failures)
             LOGGER.info(message)
             if len(self.failed_urls) > self.allowed_failures:
+                ## TODO:
+                ## https://forums.whonix.org/t/sdwdate-and-sdwdate-gui-development-thread/1137/397
                 message = "Maximum allowed number of failures. Giving up."
                 stripped_message = strip_html(message)
                 icon = "error"
