@@ -82,12 +82,12 @@ def kill_sleep_process():
         LOGGER.info(message)
 
 
-def signal_handler(signum, frame):
+def signal_handler(sig, frame):
     message = translate_object("sigterm")
     stripped_message = strip_html(message)
     LOGGER.info(stripped_message)
     reason = "signal_handler called"
-    exit_code = 143
+    exit_code = 128 + sig
     exit_handler(exit_code, reason)
 
 

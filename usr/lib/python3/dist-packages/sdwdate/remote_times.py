@@ -428,9 +428,9 @@ def get_time_from_servers(
     return urls_list, status_list, remote_unixtime_list, took_time_list, half_took_time_list, time_diff_raw_int_list, time_diff_lag_cleaned_float_list
 
 
-def remote_times_signal_handler(signum, frame):
+def remote_times_signal_handler(sig, frame):
     print("remote_times_signal_handler: OK")
-    sys.exit(0)
+    sys.exit(128 + sig)
 
 
 class TimeSourcePool(object):
