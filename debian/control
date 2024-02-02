@@ -5,7 +5,7 @@ Source: sdwdate
 Section: misc
 Priority: optional
 Maintainer: Patrick Schleizer <adrelanos@kicksecure.com>
-Build-Depends: debhelper (>= 13), debhelper-compat (= 13),
+Build-Depends: debhelper (>= 13.11.6), debhelper-compat (= 13),
  dh-apparmor, dh-python, python3
 Homepage: https://www.kicksecure.com/wiki/Sdwdate
 Vcs-Browser: https://github.com/Kicksecure/sdwdate
