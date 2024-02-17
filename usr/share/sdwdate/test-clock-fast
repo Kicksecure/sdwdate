@@ -7,12 +7,12 @@ set -x
 set -e
 
 if [ ! "$(id -u)" = "0" ]; then
-    true "$0: ERROR: Must be run as root!"
-    exit 1
+  true "$0: ERROR: Must be run as root!"
+  exit 1
 fi
 
 systemctl stop tor@default
-systemctl stop vanguards || true
+systemctl stop vanguards &>/dev/null || true
 
 date --set "Sat 09 Jan 2050 02:33:24 AM UTC"
 
@@ -24,7 +24,9 @@ rm -f /var/lib/tor/lock
 rm -f /var/lib/tor/state
 rm -f /var/lib/tor/vanguards.state
 
-systemctl restart vanguards || true
+if systemctl is-enabled vanguards &>/dev/null ; then
+  systemctl restart vanguards || true
+fi
 systemctl restart tor@default
 
 sdwdate-clock-jump

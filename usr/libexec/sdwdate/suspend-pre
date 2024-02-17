@@ -98,7 +98,7 @@ if systemctl --no-pager status tor >/dev/null ; then
    output_cmd_func "INFO - Done, stopped Tor."
 
    output_cmd_func "INFO - Stopping vanguards..."
-   systemctl --no-pager stop vanguards || true
+   systemctl --no-pager stop vanguards &>/dev/null || true
    output_cmd_func "INFO - Done, stopped vanguards."
 else
    output_cmd_func "INFO - Tor was not running, no need to stop it."
