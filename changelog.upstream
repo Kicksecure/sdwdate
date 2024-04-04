@@ -1,3 +1,33 @@
+commit 330256ddd206b02d2b5bd7e5daa6b76eb840bc64
+Merge: 15542ff befcba3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Apr 4 03:45:36 2024 -0400
+
+    Merge remote-tracking branch 'github-kicksecure/master'
+
+commit befcba304388167b8fcf26e5055a0dc4f6783ac7
+Merge: 15542ff 7b1460b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Apr 4 03:44:30 2024 -0400
+
+    Merge pull request #48 from TNTBOMBOM/master
+    
+    Update 30_default.conf
+
+commit 7b1460b3da1a0b1fab42c91bfb6e54914530d40a
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Thu Apr 4 04:25:00 2024 +0000
+
+    Update 30_default.conf
+    
+    Deleted what not found/down onion URLs
+
+commit 15542ff2f0cefc4e9864275f51585c40197f19d5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Feb 17 12:26:26 2024 +0000
+
+    bumped changelog version
+
 commit 3aab7a360a3ba648c10ec7f724e7a5727ac8e681
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Feb 17 07:17:41 2024 -0500
