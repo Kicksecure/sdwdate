@@ -1,3 +1,15 @@
+commit c01b531e75f672f13c02e9c076688ac7fe9bd2dd
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Sep 2 17:12:44 2024 -0400
+
+    move bind-dirs configuration from qubes-whonix package to individual packages
+
+commit b6c01546078655a070c8ae864510d63259e80d85
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Apr 4 08:05:19 2024 +0000
+
+    bumped changelog version
+
 commit 330256ddd206b02d2b5bd7e5daa6b76eb840bc64
 Merge: 15542ff befcba3
 Author: Patrick Schleizer <adrelanos@whonix.org>
