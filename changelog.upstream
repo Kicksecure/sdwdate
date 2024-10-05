@@ -1,3 +1,38 @@
+commit 8f0b462687b8bcae549a1cf85d2f3b275aba4a98
+Merge: c6a3d65 7a797f0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Oct 4 22:20:21 2024 -0400
+
+    Merge remote-tracking branch 'github-kicksecure/master'
+
+commit 7a797f0c2b5d67a42f34ed8347240ef8cf1c9f54
+Merge: c6a3d65 d6ea86f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Oct 4 22:19:36 2024 -0400
+
+    Merge pull request #49 from TNTBOMBOM/master
+    
+    Removing not working mirrrors
+
+commit d6ea86f022d226d82897522ff28b6c2112fb3285
+Merge: 4d50ebc c6a3d65
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Fri Oct 4 22:38:18 2024 +0000
+
+    Merge branch 'Kicksecure:master' into master
+
+commit 4d50ebc128d26f2d5cd36e096d8d537456400083
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Fri Oct 4 22:37:24 2024 +0000
+
+    Removing not working onion mirrros
+
+commit c6a3d65963fe390e2021ab4b256d1487bda1b364
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Sep 2 21:22:34 2024 +0000
+
+    bumped changelog version
+
 commit c01b531e75f672f13c02e9c076688ac7fe9bd2dd
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Sep 2 17:12:44 2024 -0400
