@@ -1,3 +1,15 @@
+commit d458b09892c22e67e694ed45adea71b5dd77a3fa
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Nov 12 03:35:35 2024 -0500
+
+    hardened sudoers
+
+commit cf616798ce23fd2cb7a6c6612ef4ad581080524c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Oct 5 02:23:06 2024 +0000
+
+    bumped changelog version
+
 commit 8f0b462687b8bcae549a1cf85d2f3b275aba4a98
 Merge: c6a3d65 7a797f0
 Author: Patrick Schleizer <adrelanos@whonix.org>
