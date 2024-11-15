@@ -1,3 +1,23 @@
+commit e77176a4c8ba0794ce25c2f70cbe19756fc8f9e1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Nov 15 13:02:08 2024 -0500
+
+    Revert "comment"
+    
+    This reverts commit a2fa5d97cf18e32c69ed91cb173c5a421d7b74da.
+
+commit a2fa5d97cf18e32c69ed91cb173c5a421d7b74da
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Nov 15 06:38:06 2024 -0500
+
+    comment
+
+commit cee63de5e80ab4d03ee9cf3191b0e164073996ca
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Nov 12 09:11:36 2024 +0000
+
+    bumped changelog version
+
 commit d458b09892c22e67e694ed45adea71b5dd77a3fa
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue Nov 12 03:35:35 2024 -0500
