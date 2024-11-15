@@ -16,11 +16,15 @@
 ## prints debug and errors to stderr
 ## prints unixtime to stdout
 
-# !/bin/bash
-# Test.
-# timeout --kill-after 1 1 cat /dev/random
-# timeout --kill-after 1 1 cat /dev/random >&2
-# echo abcdefghij
+## Testing idea.
+## Replace this script with a bash script.
+##
+#!/bin/bash
+##Test.
+#timeout --kill-after 1 1 cat /dev/random
+#timeout --kill-after 1 1 cat /dev/random >&2
+#echo abcdefghij
+#exit 0
 
 import sys
 sys.dont_write_bytecode = True
