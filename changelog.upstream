@@ -1,3 +1,22 @@
+commit 3573de8e06713551f5d043db021426e81ad82279
+Merge: a223f7b f4e5500
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Nov 18 06:27:40 2024 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/url-to-unixtime-tidy'
+
+commit f4e550079ce24d86b9db9e44e8c927ff9ed3bc45
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Sun Nov 17 19:57:33 2024 -0600
+
+    Tidy up and harden url_to_unixtime, adjust remote_times.py for API change
+
+commit a223f7b4c993e6c27cf63572d2a137e539692bf0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Nov 15 18:02:22 2024 +0000
+
+    bumped changelog version
+
 commit e77176a4c8ba0794ce25c2f70cbe19756fc8f9e1
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Nov 15 13:02:08 2024 -0500
