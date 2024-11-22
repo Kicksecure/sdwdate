@@ -2,5 +2,4 @@
 ## See the file COPYING for copying conditions.
 
 user ALL=NOPASSWD: /usr/sbin/sdwdate-clock-jump
-%user ALL=NOPASSWD: /usr/sbin/sdwdate-clock-jump
 %sudo ALL=NOPASSWD: /usr/sbin/sdwdate-clock-jump
