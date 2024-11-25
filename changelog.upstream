@@ -1,3 +1,22 @@
+commit 202cc6df3147d36c5f2d114bc4df8fb4ed46f8eb
+Merge: e42ee98 7966a7f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Nov 25 15:59:30 2024 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/sudoers'
+
+commit 7966a7fbf53337621e0d85eee30cb627e979e447
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Thu Nov 21 19:22:25 2024 -0600
+
+    Remove unneeded group nopasswd exception from sudoers config
+
+commit e42ee98a74e56b90a3a74024bb368bc567cdbf32
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Nov 18 14:56:50 2024 +0000
+
+    bumped changelog version
+
 commit 3573de8e06713551f5d043db021426e81ad82279
 Merge: a223f7b f4e5500
 Author: Patrick Schleizer <adrelanos@whonix.org>
