@@ -6,8 +6,8 @@
 while read -r -d $'\n' line ; do
    read -r first_word second_word _ <<< "$line"
    temp="$first_word"
-   temp="$(echo "$temp" | LANG=C str_replace "http://" "")"
-   plain_url="$(echo "$temp" | LANG=C str_replace "https://" "")"
+   temp="$(echo "$temp" | str_replace "http://" "")"
+   plain_url="$(echo "$temp" | str_replace "https://" "")"
    ## web.archive.org did not support tlsv1.3 at time of writing.
    ## XXX: --cert-status
    if scurl --tlsv1.2 --silent --location "$second_word" | grep -q "$plain_url" ; then
