@@ -20,6 +20,6 @@ rm --force /run/sdwdate/clock_jump_do_once
 
 sudo --non-interactive -u sdwdate touch /run/sdwdate/clock_jump_do_once
 
-systemctl --no-pager --no-block restart sdwdate
+leaprun restart-sdwdate
 
 true "$0: OK"
