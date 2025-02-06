@@ -78,7 +78,7 @@ getcwd setpgid setsockopt uname bind getpgrp getppid getpeername chdir poll \
 getsockname fadvise64 clock_settime kill getsockopt unlink epoll_create1 \
 utimensat mremap prctl sendmsg newfstatat pread64 vfork close_range clone3 \
 get_mempolicy set_mempolicy faccessat readlinkat mkdirat dup3 ppoll pselect6 \
-unlinkat _llseek send waitpid recv _newselect getpriority
+unlinkat _llseek send waitpid recv _newselect getpriority faccessat2
 
 [Install]
 WantedBy=multi-user.target
