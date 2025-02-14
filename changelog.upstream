@@ -1,3 +1,15 @@
+commit 1508049bafe58bdb883b20189e65bfe0dfd1821a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Feb 13 20:28:20 2025 -0500
+
+    After=privleapd.service
+
+commit 91d0725ba79d435778e53aae1d2e4ee7d5dbb72e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Feb 6 16:21:38 2025 +0000
+
+    bumped changelog version
+
 commit de7713844bbac96df67f3d7757713beca154add1
 Merge: 2589cc9 80ddcf0
 Author: Patrick Schleizer <adrelanos@whonix.org>
