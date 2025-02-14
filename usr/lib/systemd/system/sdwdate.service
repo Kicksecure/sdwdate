@@ -24,6 +24,9 @@ After=bootclockrandomization.service
 After=tor.service
 After=tor@default.service
 
+## TODO: This can be removed if gets improved to start early enough.
+After=privleapd.service
+
 Conflicts=systemd-timesyncd.service
 
 [Service]
