@@ -1,3 +1,22 @@
+commit 1fde2d142a08852cf3320efd84c8355d91478799
+Merge: fd6a721 400b32a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Feb 21 04:18:25 2025 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/pl-actions'
+
+commit 400b32a0729b35b943cf267ccd54ef56b8e948e6
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Thu Feb 20 22:43:04 2025 -0600
+
+    Update privleap config to new syntax
+
+commit fd6a72137bef8a0b7c211a4f729d82476cb031ae
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Feb 14 01:29:02 2025 +0000
+
+    bumped changelog version
+
 commit 1508049bafe58bdb883b20189e65bfe0dfd1821a
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu Feb 13 20:28:20 2025 -0500
