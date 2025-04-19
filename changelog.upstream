@@ -1,3 +1,22 @@
+commit 784db59a8ccbe827fd3c51e46748dc627147b8d2
+Merge: 4726210 bd29c61
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Apr 19 13:28:51 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/log-viewer'
+
+commit bd29c618a34cc7d4aab934fded3c493b0b82f642
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Thu Apr 17 21:38:24 2025 -0500
+
+    Re-enable log watching in sdwdate-log-viewer
+
+commit 47262103cfbd72a40b145596af4a41c106ac79bc
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Mar 22 12:48:13 2025 +0000
+
+    bumped changelog version
+
 commit 732c88201b16f1d9ff1705dd1e824b01cbe45fc4
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Mar 22 08:46:55 2025 -0400
