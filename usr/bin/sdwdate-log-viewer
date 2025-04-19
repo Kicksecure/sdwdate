@@ -90,6 +90,8 @@ true "INFO $0: START"
 /bin/journalctl \
    --boot \
    --output cat \
+   --no-pager \
+   -f \
    -n 10000 \
       _SYSTEMD_UNIT=qubes-sync-time.service + \
       _SYSTEMD_UNIT=qubes-sync-time.timer + \
