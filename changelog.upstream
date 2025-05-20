@@ -1,3 +1,19 @@
+commit 4002fcbb54c4debfabcaff7c51530689bcf2bccb
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 19 08:49:04 2025 -0400
+
+    seccomp fixes
+    
+    https://forums.whonix.org/t/broken-sdwdate-after-latest-upgrade/21590/5
+    
+    Thanks to @anonimac for the bug report and solution contribution!
+
+commit 2592556cfb009bff7e76c26813176362367d6fdc
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed May 7 06:41:08 2025 +0000
+
+    bumped changelog version
+
 commit d27c9db59bc7deb40ac04cd937484389954a3e7b
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed May 7 02:35:50 2025 -0400
