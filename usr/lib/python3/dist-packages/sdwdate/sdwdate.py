@@ -31,7 +31,7 @@ from sdwdate.config import time_human_readable
 from sdwdate.config import time_replay_protection_file_read
 from sdwdate.config import randomize_time_config
 from sdwdate.remote_times import get_time_from_servers
-from strip_markup.strip_markup import strip_markup
+from sanitize_string.sanitize_string import sanitize_string
 
 
 os.environ["LC_TIME"] = "C"
@@ -84,7 +84,7 @@ def kill_sleep_process():
 
 def signal_handler(sig, frame):
     message = translate_object("sigterm")
-    stripped_message = strip_markup(message)
+    stripped_message = sanitize_string(message)
     LOGGER.info(stripped_message)
     reason = "signal_handler called"
     exit_code = 128 + sig
@@ -225,7 +225,7 @@ class SdwdateClass(object):
             if preparation_status.returncode == 0:
                 LOGGER.info("PREPARATION:")
                 message = joint_message.strip()
-                LOGGER.info(strip_markup(message))
+                LOGGER.info(sanitize_string(message))
                 LOGGER.info("PREPARATION RESULT: SUCCESS.")
                 LOGGER.info("\n")
                 return True
@@ -241,7 +241,7 @@ class SdwdateClass(object):
 
             LOGGER.info("PREPARATION: running onion-time-pre-script...")
             message = joint_message.strip()
-            LOGGER.info(strip_markup(joint_message))
+            LOGGER.info(sanitize_string(joint_message))
 
             if preparation_status.returncode == 1:
                 icon = "error"
@@ -576,12 +576,12 @@ class SdwdateClass(object):
         if not status_first_success:
             icon = "busy"
             write_status(icon, restricted_msg)
-            message = strip_markup(restricted_msg)
+            message = sanitize_string(restricted_msg)
             LOGGER.info(message)
         else:
             icon = "success"
             write_status(icon, fetching_msg)
-            message = strip_markup(fetching_msg)
+            message = sanitize_string(fetching_msg)
             LOGGER.info(message)
 
         while True:
@@ -620,7 +620,7 @@ class SdwdateClass(object):
                             + translate_object("no_valid_time")
                             + translate_object("restart")
                         )
-                        stripped_message = strip_markup(message)
+                        stripped_message = sanitize_string(message)
                         icon = "error"
                         status = "error"
                         LOGGER.error(stripped_message)
@@ -652,7 +652,7 @@ class SdwdateClass(object):
             if len(self.list_of_url_random_requested) <= 0:
                 message = translate_object(
                     "list_not_built") + translate_object("restart")
-                stripped_message = strip_markup(message)
+                stripped_message = sanitize_string(message)
                 icon = "error"
                 status = "error"
                 LOGGER.error(stripped_message)
@@ -679,7 +679,7 @@ class SdwdateClass(object):
             if self.list_of_urls_returned == []:
                 message = translate_object(
                     "no_value_returned") + translate_object("restart")
-                stripped_message = strip_markup(message)
+                stripped_message = sanitize_string(message)
                 icon = "error"
                 status = "error"
                 LOGGER.error(stripped_message)
@@ -715,7 +715,7 @@ class SdwdateClass(object):
                     if self.general_timeout_error(self.list_of_status):
                         message = translate_object(
                             "general_timeout_error")
-                        stripped_message = strip_markup(message)
+                        stripped_message = sanitize_string(message)
                         icon = "error"
                         status = "error"
                         LOGGER.error(stripped_message)
@@ -732,7 +732,7 @@ class SdwdateClass(object):
                 ## TODO:
                 ## https://forums.whonix.org/t/sdwdate-and-sdwdate-gui-development-thread/1137/397
                 message = "Maximum allowed number of failures. Giving up."
-                stripped_message = strip_markup(message)
+                stripped_message = sanitize_string(message)
                 icon = "error"
                 status = "error"
                 LOGGER.error(stripped_message)
@@ -793,7 +793,7 @@ class SdwdateClass(object):
         LOGGER.info("")
 
         message = translate_object("success")
-        stripped_message = strip_markup(message)
+        stripped_message = sanitize_string(message)
         icon = "success"
         status = "success"
         LOGGER.info(stripped_message)
@@ -824,7 +824,7 @@ class SdwdateClass(object):
             + str(sleep_time_minutes_rounded)
             + translate_object("minutes")
         )
-        stripped_message = strip_markup(message)
+        stripped_message = sanitize_string(message)
         LOGGER.info(stripped_message)
 
         SDNOTIFY_OBJECT.notify("WATCHDOG=1")
