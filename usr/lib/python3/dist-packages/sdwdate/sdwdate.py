@@ -21,6 +21,7 @@ import os
 import signal
 import logging
 import shlex
+import threading
 import sdnotify
 from guimessages.translations import _translations
 from sdwdate.proxy_settings import proxy_settings
@@ -492,6 +493,21 @@ class SdwdateClass(object):
         LOGGER.info(message)
 
 
+    @staticmethod
+    def run_sclockadj_and_hwclock(start_event, **kwargs):
+        global sclockadj_process
+        sclockadj_process = Popen(**kwargs)
+        message = (
+                "Launched sclockadj into the background. PID: %s"
+                % sclockadj_process.pid
+        )
+        LOGGER.info(message)
+        start_event.set()
+        sclockadj_process.wait()
+        LOGGER.info("sclockadj done. Syncing hardware clock.")
+        subprocess.run(["/usr/bin/leaprun", "sdwdate-sync-hwclock"])
+
+
     def run_sclockadj(self):
         if self.new_diff_in_seconds == 0:
             message = "Time difference = 0. Not setting time."
@@ -507,14 +523,12 @@ class SdwdateClass(object):
         # Avoid Popen shell=True.
         sclockad_cmd = shlex.split(sclockad_cmd)
 
-        # Run sclockadj in a subshell.
-        global sclockadj_process
-        sclockadj_process = Popen(sclockad_cmd)
-        message = (
-            "Launched sclockadj into the background. PID: %s"
-            % sclockadj_process.pid
-        )
-        LOGGER.info(message)
+        # Run sclockadj in a thread, then run hwclock after it.
+        sclockadj_start_event = threading.Event()
+        sclockadj_thread = threading.Thread(target=self.run_sclockadj_and_hwclock, args=(sclockad_cmd))
+        sclockadj_thread.start()
+        ## Wait for sclockadj to actually be started, so that sclockadj_process is in a consistent state.
+        sclockadj_start_event.wait()
 
 
     def set_time_using_date(self, new_unixtime_str):
@@ -553,6 +567,9 @@ class SdwdateClass(object):
             reason = "bin_date_status non-zero exit code"
             exit_code = 1
             exit_handler(exit_code, reason)
+
+        LOGGER.info("Time set using /bin/date. Syncing hardware clock.")
+        subprocess.run(["/usr/bin/leaprun", "sdwdate-sync-hwclock"])
 
 
     def sdwdate_fetch_loop(self):
