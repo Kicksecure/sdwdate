@@ -1,3 +1,22 @@
+commit 076c88cc88447b0556ce5e6aa407060f0ccba83a
+Merge: 9c1e57f af1621b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Jul 11 11:00:07 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/hwclock'
+
+commit af1621bc25cf2948e953c23d814d66ea8e6317ec
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Sun Jul 6 13:42:06 2025 -0500
+
+    Add hardware clock syncing
+
+commit 9c1e57f867bba55996342c94fec38a42c389a750
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Jul 2 20:51:55 2025 +0000
+
+    bumped changelog version
+
 commit c58e2d02119ecbeafdebed5ff3da2fb9e7e23848
 Merge: b489029 98b7a35
 Author: Patrick Schleizer <adrelanos@whonix.org>
