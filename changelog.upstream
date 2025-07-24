@@ -1,3 +1,22 @@
+commit 1e5dad6b5453ea52be20777c6b626f9597bc54cb
+Merge: b63b255 901dd3d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jul 24 02:19:05 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/qubes'
+
+commit 901dd3dc514786f58a3453a7b5f42bea2aa83bda
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Wed Jul 23 19:29:09 2025 -0500
+
+    Don't try to sync hardware clock on Qubes OS
+
+commit b63b25572edf3a7ab2a6dc695447aee633051ca7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Jul 11 15:02:11 2025 +0000
+
+    bumped changelog version
+
 commit 076c88cc88447b0556ce5e6aa407060f0ccba83a
 Merge: 9c1e57f af1621b
 Author: Patrick Schleizer <adrelanos@whonix.org>
