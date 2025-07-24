@@ -1,3 +1,15 @@
+commit 9d4fdeae8b282fe86fe658a4b42231d70f193f90
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jul 24 04:48:27 2025 -0400
+
+    fix: `TypeError: SdwdateClass.run_sclockadj_and_hwclock() takes 1 positional argument but 2 were given`
+
+commit 77d24b768ff60e30e1bc6da708595821b3143d21
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jul 24 06:45:15 2025 +0000
+
+    bumped changelog version
+
 commit 1e5dad6b5453ea52be20777c6b626f9597bc54cb
 Merge: b63b255 901dd3d
 Author: Patrick Schleizer <adrelanos@whonix.org>
