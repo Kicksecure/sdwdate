@@ -494,9 +494,13 @@ class SdwdateClass(object):
 
 
     @staticmethod
-    def run_sclockadj_and_hwclock(start_event, **kwargs):
+    def run_sclockadj_and_hwclock(start_event, sclockad_cmd):
         global sclockadj_process
-        sclockadj_process = Popen(**kwargs)
+        # Avoid Popen shell=True.
+        sclockad_cmd = shlex.split(sclockad_cmd)
+        sclockadj_process = subprocess.Popen(
+            sclockad_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
         message = (
                 "Launched sclockadj into the background. PID: %s"
                 % sclockadj_process.pid
@@ -520,12 +524,10 @@ class SdwdateClass(object):
             sclockad_cmd)
         LOGGER.info(message)
 
-        # Avoid Popen shell=True.
-        sclockad_cmd = shlex.split(sclockad_cmd)
-
         # Run sclockadj in a thread, then run hwclock after it.
         sclockadj_start_event = threading.Event()
-        sclockadj_thread = threading.Thread(target=self.run_sclockadj_and_hwclock, args=(sclockad_cmd))
+        sclockadj_thread = threading.Thread(target=self.run_sclockadj_and_hwclock, args=(sclockadj_start_event, sclockad_cmd))
+
         sclockadj_thread.start()
         ## Wait for sclockadj to actually be started, so that sclockadj_process is in a consistent state.
         sclockadj_start_event.wait()
