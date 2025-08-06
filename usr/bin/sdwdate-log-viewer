@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Copyright (C) 2018 - 2023 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
+## Copyright (C) 2018 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
 set -x
@@ -90,8 +90,9 @@ true "INFO $0: START"
 /bin/journalctl \
    --boot \
    --output cat \
-   -n 10000 \
+   --no-pager \
    -f \
+   -n 10000 \
       _SYSTEMD_UNIT=qubes-sync-time.service + \
       _SYSTEMD_UNIT=qubes-sync-time.timer + \
       _SYSTEMD_UNIT=timesanitycheck.service + \

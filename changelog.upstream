@@ -1,3 +1,378 @@
+commit 9d4fdeae8b282fe86fe658a4b42231d70f193f90
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jul 24 04:48:27 2025 -0400
+
+    fix: `TypeError: SdwdateClass.run_sclockadj_and_hwclock() takes 1 positional argument but 2 were given`
+
+commit 77d24b768ff60e30e1bc6da708595821b3143d21
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jul 24 06:45:15 2025 +0000
+
+    bumped changelog version
+
+commit 1e5dad6b5453ea52be20777c6b626f9597bc54cb
+Merge: b63b255 901dd3d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jul 24 02:19:05 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/qubes'
+
+commit 901dd3dc514786f58a3453a7b5f42bea2aa83bda
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Wed Jul 23 19:29:09 2025 -0500
+
+    Don't try to sync hardware clock on Qubes OS
+
+commit b63b25572edf3a7ab2a6dc695447aee633051ca7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Jul 11 15:02:11 2025 +0000
+
+    bumped changelog version
+
+commit 076c88cc88447b0556ce5e6aa407060f0ccba83a
+Merge: 9c1e57f af1621b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Jul 11 11:00:07 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/hwclock'
+
+commit af1621bc25cf2948e953c23d814d66ea8e6317ec
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Sun Jul 6 13:42:06 2025 -0500
+
+    Add hardware clock syncing
+
+commit 9c1e57f867bba55996342c94fec38a42c389a750
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Jul 2 20:51:55 2025 +0000
+
+    bumped changelog version
+
+commit c58e2d02119ecbeafdebed5ff3da2fb9e7e23848
+Merge: b489029 98b7a35
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Jul 2 13:57:46 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/sanitize-string'
+
+commit 98b7a357fd1f1afa16b3d93921b20ea2fe45e196
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Sun Jun 29 18:09:17 2025 -0500
+
+    Port strip_markup calls to sanitize_string
+
+commit b4890298d418e4624d8eba2f5eb1b824d96c5a10
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Jun 29 17:44:03 2025 +0000
+
+    bumped changelog version
+
+commit b11eec86f1f25626eacc75b65b0a6cbc90e9c1db
+Merge: b32748c 15c077c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Jun 29 13:39:52 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/strip-html'
+
+commit 15c077c58fb817fef3071f7360529cfe903d43a9
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Wed Jun 25 23:19:03 2025 -0500
+
+    Switch to using helper-scripts strip_markup
+
+commit b32748cbe55e8e8b500a3770c496e8b4920ae0d3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Jun 11 19:15:26 2025 +0000
+
+    bumped changelog version
+
+commit cd92ed1ea63e37ffb8a0eea0923a3ef81c8f1f80
+Merge: dcffb0b e8e4dd3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Jun 11 15:04:06 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/privleap'
+
+commit e8e4dd35dca6e2d045960f9b3ea024ab9d7868cd
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Fri Jun 6 13:46:14 2025 -0500
+
+    Add privleap group to authorized groups for actions
+
+commit dcffb0b90253820a2c9d2314392c5cb3588ba425
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 20 11:40:06 2025 +0000
+
+    bumped changelog version
+
+commit 4002fcbb54c4debfabcaff7c51530689bcf2bccb
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 19 08:49:04 2025 -0400
+
+    seccomp fixes
+    
+    https://forums.whonix.org/t/broken-sdwdate-after-latest-upgrade/21590/5
+    
+    Thanks to @anonimac for the bug report and solution contribution!
+
+commit 2592556cfb009bff7e76c26813176362367d6fdc
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed May 7 06:41:08 2025 +0000
+
+    bumped changelog version
+
+commit d27c9db59bc7deb40ac04cd937484389954a3e7b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed May 7 02:35:50 2025 -0400
+
+    python -su
+
+commit e777a81b61806cea21b0eb631e5fa2c1d2c5e1b8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Apr 19 17:33:34 2025 +0000
+
+    bumped changelog version
+
+commit 784db59a8ccbe827fd3c51e46748dc627147b8d2
+Merge: 4726210 bd29c61
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Apr 19 13:28:51 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/log-viewer'
+
+commit bd29c618a34cc7d4aab934fded3c493b0b82f642
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Thu Apr 17 21:38:24 2025 -0500
+
+    Re-enable log watching in sdwdate-log-viewer
+
+commit 47262103cfbd72a40b145596af4a41c106ac79bc
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Mar 22 12:48:13 2025 +0000
+
+    bumped changelog version
+
+commit 732c88201b16f1d9ff1705dd1e824b01cbe45fc4
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Mar 22 08:46:55 2025 -0400
+
+    OCSP is deprecated upstream
+
+commit 142c7290d703f31a8e7fc68e10578ff3a65ebf3e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Feb 21 09:55:39 2025 +0000
+
+    bumped changelog version
+
+commit 1fde2d142a08852cf3320efd84c8355d91478799
+Merge: fd6a721 400b32a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Feb 21 04:18:25 2025 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/pl-actions'
+
+commit 400b32a0729b35b943cf267ccd54ef56b8e948e6
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Thu Feb 20 22:43:04 2025 -0600
+
+    Update privleap config to new syntax
+
+commit fd6a72137bef8a0b7c211a4f729d82476cb031ae
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Feb 14 01:29:02 2025 +0000
+
+    bumped changelog version
+
+commit 1508049bafe58bdb883b20189e65bfe0dfd1821a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Feb 13 20:28:20 2025 -0500
+
+    After=privleapd.service
+
+commit 91d0725ba79d435778e53aae1d2e4ee7d5dbb72e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Feb 6 16:21:38 2025 +0000
+
+    bumped changelog version
+
+commit de7713844bbac96df67f3d7757713beca154add1
+Merge: 2589cc9 80ddcf0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Feb 6 10:57:24 2025 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/privleap'
+
+commit 80ddcf0d978a5379137af51ac921775121f1d57c
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Wed Feb 5 20:16:53 2025 -0500
+
+    Add faccessat2 syscall to the whitelist
+
+commit d7b381714d054150fa2a6c12ac5a14bb937235cf
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Mon Feb 3 21:34:56 2025 -0600
+
+    Add privleap as a dependency
+
+commit 72c394abd9e6fa2b8ecee97da61fd54d4b232d30
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Sun Feb 2 16:38:13 2025 -0600
+
+    Move sdwdate persistent user config to sdwdate package
+
+commit d39b8d532f0201d4bb43b860a25cc3b5e50315fb
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Sun Feb 2 16:32:42 2025 -0600
+
+    Port to use leaprun rather than sudo
+
+commit 2589cc93f03f9b867c95a7b41dbbeb26e9b3eb9b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jan 30 12:58:27 2025 +0000
+
+    bumped changelog version
+
+commit ed29a7d83a9f541b83df25adcf675c461684cd4c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jan 30 07:44:55 2025 -0500
+
+    LANG=C str_replace: no longer requires LANG=C, therefore removed
+
+commit 3da567c5bceeaa3b1a8bc75d1cb6b703bbc7d3b7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jan 23 16:28:18 2025 +0000
+
+    bumped changelog version
+
+commit 406da0d28238d65dc953e87d5a6d5af2303fe1a1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jan 23 11:12:21 2025 -0500
+
+    copyright
+
+commit 80c6fcc9ff8b63843d57d9adc008912718a797c1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Dec 31 18:41:22 2024 +0000
+
+    bumped changelog version
+
+commit b2bed7676735ccd8fba55b7c08c700510fae1dad
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Dec 31 13:26:20 2024 -0500
+
+    copyright
+
+commit 62ad72dbf0001568d6609a935789655c19d58025
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Nov 25 21:06:59 2024 +0000
+
+    bumped changelog version
+
+commit 202cc6df3147d36c5f2d114bc4df8fb4ed46f8eb
+Merge: e42ee98 7966a7f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Nov 25 15:59:30 2024 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/sudoers'
+
+commit 7966a7fbf53337621e0d85eee30cb627e979e447
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Thu Nov 21 19:22:25 2024 -0600
+
+    Remove unneeded group nopasswd exception from sudoers config
+
+commit e42ee98a74e56b90a3a74024bb368bc567cdbf32
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Nov 18 14:56:50 2024 +0000
+
+    bumped changelog version
+
+commit 3573de8e06713551f5d043db021426e81ad82279
+Merge: a223f7b f4e5500
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Nov 18 06:27:40 2024 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/url-to-unixtime-tidy'
+
+commit f4e550079ce24d86b9db9e44e8c927ff9ed3bc45
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Sun Nov 17 19:57:33 2024 -0600
+
+    Tidy up and harden url_to_unixtime, adjust remote_times.py for API change
+
+commit a223f7b4c993e6c27cf63572d2a137e539692bf0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Nov 15 18:02:22 2024 +0000
+
+    bumped changelog version
+
+commit e77176a4c8ba0794ce25c2f70cbe19756fc8f9e1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Nov 15 13:02:08 2024 -0500
+
+    Revert "comment"
+    
+    This reverts commit a2fa5d97cf18e32c69ed91cb173c5a421d7b74da.
+
+commit a2fa5d97cf18e32c69ed91cb173c5a421d7b74da
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Nov 15 06:38:06 2024 -0500
+
+    comment
+
+commit cee63de5e80ab4d03ee9cf3191b0e164073996ca
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Nov 12 09:11:36 2024 +0000
+
+    bumped changelog version
+
+commit d458b09892c22e67e694ed45adea71b5dd77a3fa
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Nov 12 03:35:35 2024 -0500
+
+    hardened sudoers
+
+commit cf616798ce23fd2cb7a6c6612ef4ad581080524c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Oct 5 02:23:06 2024 +0000
+
+    bumped changelog version
+
+commit 8f0b462687b8bcae549a1cf85d2f3b275aba4a98
+Merge: c6a3d65 7a797f0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Oct 4 22:20:21 2024 -0400
+
+    Merge remote-tracking branch 'github-kicksecure/master'
+
+commit 7a797f0c2b5d67a42f34ed8347240ef8cf1c9f54
+Merge: c6a3d65 d6ea86f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Oct 4 22:19:36 2024 -0400
+
+    Merge pull request #49 from TNTBOMBOM/master
+    
+    Removing not working mirrrors
+
+commit d6ea86f022d226d82897522ff28b6c2112fb3285
+Merge: 4d50ebc c6a3d65
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Fri Oct 4 22:38:18 2024 +0000
+
+    Merge branch 'Kicksecure:master' into master
+
+commit 4d50ebc128d26f2d5cd36e096d8d537456400083
+Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
+Date:   Fri Oct 4 22:37:24 2024 +0000
+
+    Removing not working onion mirrros
+
+commit c6a3d65963fe390e2021ab4b256d1487bda1b364
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Sep 2 21:22:34 2024 +0000
+
+    bumped changelog version
+
 commit c01b531e75f672f13c02e9c076688ac7fe9bd2dd
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Sep 2 17:12:44 2024 -0400

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Copyright (C) 2017 - 2023 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
+## Copyright (C) 2017 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
 set -e
@@ -20,6 +20,6 @@ rm --force /run/sdwdate/clock_jump_do_once
 
 sudo --non-interactive -u sdwdate touch /run/sdwdate/clock_jump_do_once
 
-systemctl --no-pager --no-block restart sdwdate
+leaprun restart-sdwdate
 
 true "$0: OK"

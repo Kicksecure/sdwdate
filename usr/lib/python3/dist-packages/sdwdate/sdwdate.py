@@ -1,6 +1,6 @@
-#!/usr/bin/python3 -u
+#!/usr/bin/python3 -su
 
-# Copyright (C) 2017 - 2023 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
+# Copyright (C) 2017 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 # See the file COPYING for copying conditions.
 
 from __future__ import print_function
@@ -21,6 +21,7 @@ import os
 import signal
 import logging
 import shlex
+import threading
 import sdnotify
 from guimessages.translations import _translations
 from sdwdate.proxy_settings import proxy_settings
@@ -31,7 +32,7 @@ from sdwdate.config import time_human_readable
 from sdwdate.config import time_replay_protection_file_read
 from sdwdate.config import randomize_time_config
 from sdwdate.remote_times import get_time_from_servers
-from sdwdate.misc import strip_html
+from sanitize_string.sanitize_string import sanitize_string
 
 
 os.environ["LC_TIME"] = "C"
@@ -84,7 +85,7 @@ def kill_sleep_process():
 
 def signal_handler(sig, frame):
     message = translate_object("sigterm")
-    stripped_message = strip_html(message)
+    stripped_message = sanitize_string(message)
     LOGGER.info(stripped_message)
     reason = "signal_handler called"
     exit_code = 128 + sig
@@ -225,7 +226,7 @@ class SdwdateClass(object):
             if preparation_status.returncode == 0:
                 LOGGER.info("PREPARATION:")
                 message = joint_message.strip()
-                LOGGER.info(strip_html(message))
+                LOGGER.info(sanitize_string(message))
                 LOGGER.info("PREPARATION RESULT: SUCCESS.")
                 LOGGER.info("\n")
                 return True
@@ -241,7 +242,7 @@ class SdwdateClass(object):
 
             LOGGER.info("PREPARATION: running onion-time-pre-script...")
             message = joint_message.strip()
-            LOGGER.info(strip_html(joint_message))
+            LOGGER.info(sanitize_string(joint_message))
 
             if preparation_status.returncode == 1:
                 icon = "error"
@@ -492,6 +493,25 @@ class SdwdateClass(object):
         LOGGER.info(message)
 
 
+    @staticmethod
+    def run_sclockadj_and_hwclock(start_event, sclockad_cmd):
+        global sclockadj_process
+        # Avoid Popen shell=True.
+        sclockad_cmd = shlex.split(sclockad_cmd)
+        sclockadj_process = subprocess.Popen(
+            sclockad_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
+        message = (
+                "Launched sclockadj into the background. PID: %s"
+                % sclockadj_process.pid
+        )
+        LOGGER.info(message)
+        start_event.set()
+        sclockadj_process.wait()
+        LOGGER.info("sclockadj done. Syncing hardware clock.")
+        subprocess.run(["/usr/bin/leaprun", "sdwdate-sync-hwclock"])
+
+
     def run_sclockadj(self):
         if self.new_diff_in_seconds == 0:
             message = "Time difference = 0. Not setting time."
@@ -504,17 +524,13 @@ class SdwdateClass(object):
             sclockad_cmd)
         LOGGER.info(message)
 
-        # Avoid Popen shell=True.
-        sclockad_cmd = shlex.split(sclockad_cmd)
+        # Run sclockadj in a thread, then run hwclock after it.
+        sclockadj_start_event = threading.Event()
+        sclockadj_thread = threading.Thread(target=self.run_sclockadj_and_hwclock, args=(sclockadj_start_event, sclockad_cmd))
 
-        # Run sclockadj in a subshell.
-        global sclockadj_process
-        sclockadj_process = Popen(sclockad_cmd)
-        message = (
-            "Launched sclockadj into the background. PID: %s"
-            % sclockadj_process.pid
-        )
-        LOGGER.info(message)
+        sclockadj_thread.start()
+        ## Wait for sclockadj to actually be started, so that sclockadj_process is in a consistent state.
+        sclockadj_start_event.wait()
 
 
     def set_time_using_date(self, new_unixtime_str):
@@ -554,6 +570,9 @@ class SdwdateClass(object):
             exit_code = 1
             exit_handler(exit_code, reason)
 
+        LOGGER.info("Time set using /bin/date. Syncing hardware clock.")
+        subprocess.run(["/usr/bin/leaprun", "sdwdate-sync-hwclock"])
+
 
     def sdwdate_fetch_loop(self):
         """
@@ -576,12 +595,12 @@ class SdwdateClass(object):
         if not status_first_success:
             icon = "busy"
             write_status(icon, restricted_msg)
-            message = strip_html(restricted_msg)
+            message = sanitize_string(restricted_msg)
             LOGGER.info(message)
         else:
             icon = "success"
             write_status(icon, fetching_msg)
-            message = strip_html(fetching_msg)
+            message = sanitize_string(fetching_msg)
             LOGGER.info(message)
 
         while True:
@@ -620,7 +639,7 @@ class SdwdateClass(object):
                             + translate_object("no_valid_time")
                             + translate_object("restart")
                         )
-                        stripped_message = strip_html(message)
+                        stripped_message = sanitize_string(message)
                         icon = "error"
                         status = "error"
                         LOGGER.error(stripped_message)
@@ -652,7 +671,7 @@ class SdwdateClass(object):
             if len(self.list_of_url_random_requested) <= 0:
                 message = translate_object(
                     "list_not_built") + translate_object("restart")
-                stripped_message = strip_html(message)
+                stripped_message = sanitize_string(message)
                 icon = "error"
                 status = "error"
                 LOGGER.error(stripped_message)
@@ -679,7 +698,7 @@ class SdwdateClass(object):
             if self.list_of_urls_returned == []:
                 message = translate_object(
                     "no_value_returned") + translate_object("restart")
-                stripped_message = strip_html(message)
+                stripped_message = sanitize_string(message)
                 icon = "error"
                 status = "error"
                 LOGGER.error(stripped_message)
@@ -715,7 +734,7 @@ class SdwdateClass(object):
                     if self.general_timeout_error(self.list_of_status):
                         message = translate_object(
                             "general_timeout_error")
-                        stripped_message = strip_html(message)
+                        stripped_message = sanitize_string(message)
                         icon = "error"
                         status = "error"
                         LOGGER.error(stripped_message)
@@ -732,7 +751,7 @@ class SdwdateClass(object):
                 ## TODO:
                 ## https://forums.whonix.org/t/sdwdate-and-sdwdate-gui-development-thread/1137/397
                 message = "Maximum allowed number of failures. Giving up."
-                stripped_message = strip_html(message)
+                stripped_message = sanitize_string(message)
                 icon = "error"
                 status = "error"
                 LOGGER.error(stripped_message)
@@ -793,7 +812,7 @@ class SdwdateClass(object):
         LOGGER.info("")
 
         message = translate_object("success")
-        stripped_message = strip_html(message)
+        stripped_message = sanitize_string(message)
         icon = "success"
         status = "success"
         LOGGER.info(stripped_message)
@@ -824,7 +843,7 @@ class SdwdateClass(object):
             + str(sleep_time_minutes_rounded)
             + translate_object("minutes")
         )
-        stripped_message = strip_html(message)
+        stripped_message = sanitize_string(message)
         LOGGER.info(stripped_message)
 
         SDNOTIFY_OBJECT.notify("WATCHDOG=1")

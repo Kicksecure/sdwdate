@@ -1,11 +1,11 @@
-#!/usr/bin/python3 -u
+#!/usr/bin/python3 -su
 
 ## Copyright (C) 2015 troubadour <trobador@riseup.net>
-## Copyright (C) 2015 - 2023 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
+## Copyright (C) 2015 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
-## Sxntax:
-## url_to_unixtime socket_ip socket_port url remote_port verbosity
+## Syntax:
+## url_to_unixtime socket_ip socket_port url verbosity
 
 ## Examples:
 ## url_to_unixtime 127.0.0.1 9050 http://check.torproject.org 80 true
@@ -25,7 +25,7 @@
 import sys
 sys.dont_write_bytecode = True
 
-import os, time, socks, requests
+import os, time, requests
 from dateutil.parser import parse
 
 os.environ['LC_TIME'] = 'C'
@@ -50,14 +50,29 @@ def data_to_http_time(data):
         print('HTTP header date value: "{}"'.format(http_time), file=sys.stderr)
         sys.exit(2)
 
+    if http_time_string_length > 100:
+        print('HTTP header date string too long.', file=sys.stderr)
+        print('HTTP header date length: {}'.format(http_time_string_length), file=sys.stderr)
+        print('HTTP header data:\n{}'.format(data), file=sys.stderr)
+        print('HTTP header date value: "{}"'.format(http_time), file=sys.stderr)
+        sys.exit(2)
+
     return http_time
 
 def unixtime_sanity_check(data, http_time, parsed_unixtime):
     try:
         unixtime_digit = int(parsed_unixtime)
 
-    except ValueError as e:
+    except ValueError:
         print('parsed_unixtime conversion failed!', file=sys.stderr)
+        print('data: {}'.format(data), file=sys.stderr)
+        print('http_time: {}'.format(http_time), file=sys.stderr)
+        print('parsed_unixtime: {}'.format(parsed_unixtime), file=sys.stderr)
+        print('parsed_unixtime not numeric!', file=sys.stderr)
+        sys.exit(3)
+
+    if unixtime_digit <= 0:
+        print('parsed_unixtime is negative!', file=sys.stderr)
         print('data: {}'.format(data), file=sys.stderr)
         print('http_time: {}'.format(http_time), file=sys.stderr)
         print('parsed_unixtime: {}'.format(parsed_unixtime), file=sys.stderr)
@@ -79,7 +94,7 @@ def unixtime_sanity_check(data, http_time, parsed_unixtime):
 
     return parsed_unixtime
 
-def request_data_from_remote_server(socket_ip, socket_port, url, remote_port):
+def request_data_from_remote_server(socket_ip, socket_port, url):
     ## https://gist.github.com/jefftriplett/9748036
     ## https://github.com/psf/requests/blob/e3f89bf23c53b98593e4248054661472aacac820/requests/packages/urllib3/contrib/socks.py#L158
 
@@ -124,22 +139,21 @@ def http_time_to_parsed_unixtime(data, http_time):
     ## Test ##################################
     #parsed_unixtime = '%s1' % parsed_unixtime
     ##########################################
-    return(parsed_unixtime)
+    return parsed_unixtime
 
 def parse_command_line_parameters():
     try:
         socket_ip = sys.argv[1]
         socket_port = int(sys.argv[2])
         url = sys.argv[3]
-        remote_port = int(sys.argv[4])
-        verbosity = sys.argv[5]
+        verbosity = sys.argv[4]
 
-    except (IndexError) as e:
+    except IndexError as e:
         print("Parsing command line parameter failed. | e: {}".format(e), file=sys.stderr)
         print("sys.argv:", str(sys.argv), file=sys.stderr)
         sys.exit(7)
 
-    return(socket_ip, socket_port, url, remote_port, verbosity)
+    return socket_ip, socket_port, url, verbosity
 
 def output_unixtime(data, http_time, parsed_unixtime, unixtime, verbosity):
     if verbosity == "true":
@@ -149,8 +163,8 @@ def output_unixtime(data, http_time, parsed_unixtime, unixtime, verbosity):
     print('{}'.format(unixtime))
 
 def main():
-    socket_ip, socket_port, url, remote_port, verbosity = parse_command_line_parameters()
-    data = request_data_from_remote_server(socket_ip, socket_port, url, remote_port)
+    socket_ip, socket_port, url, verbosity = parse_command_line_parameters()
+    data = request_data_from_remote_server(socket_ip, socket_port, url)
     http_time = data_to_http_time(data)
     parsed_unixtime = http_time_to_parsed_unixtime(data, http_time)
     unixtime = unixtime_sanity_check(data, http_time, parsed_unixtime)

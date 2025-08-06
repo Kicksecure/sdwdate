@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Copyright (C) 2022 - 2023 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
+## Copyright (C) 2022 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
 ## The systemd unit file /lib/systemd/system/sdwdate.service does not use this
@@ -16,6 +16,6 @@ echo "WARNING: Starting sdwdate from command line by the user is unsupported, fo
 echo "https://www.kicksecure.com/wiki/Dev/sdwdate#sdwdate_linux_user_account"
 
 ## Not using exec to be able to see this script in "ps aux".
-sudo -u sdwdate /usr/libexec/sdwdate/sdwdate
+leaprun sdwdate-libexec
 
 true "INFO $0: END"

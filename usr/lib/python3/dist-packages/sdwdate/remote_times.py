@@ -1,7 +1,7 @@
-#!/usr/bin/python3 -u
+#!/usr/bin/python3 -su
 
 # Copyright (C) 2015 troubadour <trobador@riseup.net>
-# Copyright (C) 2015 - 2023 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
+# Copyright (C) 2015 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 # See the file COPYING for copying conditions.
 
 # Example:
@@ -349,8 +349,6 @@ def get_time_from_servers(
         proxy_ip_address,
         proxy_port_number):
 
-    remote_port = "80"
-
     number_of_remote_servers = len(list_of_remote_servers)
     # Example number_of_remote_servers:
     # 3
@@ -382,7 +380,7 @@ def get_time_from_servers(
     print("remote_times.py: url_to_unixtime_command (s):")
     for i in range_of_remote_servers:
         url_to_unixtime_commands_list[i] = "url_to_unixtime" + " " + proxy_ip_address + " " + \
-            proxy_port_number + " " + list_of_remote_servers[i] + " " + remote_port + " " + url_to_unixtime_debug
+            proxy_port_number + " " + list_of_remote_servers[i] + " " + url_to_unixtime_debug
         print(url_to_unixtime_commands_list[i])
 
     print("")
