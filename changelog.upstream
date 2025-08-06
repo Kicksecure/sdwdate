@@ -1,3 +1,38 @@
+commit 1c41a70d3f53e46e92b400de2c74e12cebfbb481
+Merge: b9fab1b e4f5876
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 6 03:21:04 2025 -0400
+
+    Merge remote-tracking branch 'github-kicksecure/master'
+
+commit e4f5876c2d352dbb9a9dcc0e086af91c35c7338b
+Merge: b9fab1b 386a6bd
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 6 03:20:21 2025 -0400
+
+    Merge pull request #51 from Nurmagoz/master
+    
+    Removing down mirrors
+
+commit 386a6bdd092e0da9f940ca61118feb9c25f27fea
+Merge: f8b7f1f b9fab1b
+Author: Nurmagoz <11895339+Nurmagoz@users.noreply.github.com>
+Date:   Wed Aug 6 06:38:09 2025 +0000
+
+    Merge branch 'Kicksecure:master' into master
+
+commit f8b7f1fce4e8fee621a461f65d1bc2ec1f71606b
+Author: Nurmagoz <11895339+Nurmagoz@users.noreply.github.com>
+Date:   Wed Aug 6 06:37:20 2025 +0000
+
+    Removing not working mirrors
+
+commit b9fab1bb63d2a0236c4fcf8bee7c8f4e6027e9d2
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jul 24 08:49:01 2025 +0000
+
+    bumped changelog version
+
 commit 9d4fdeae8b282fe86fe658a4b42231d70f193f90
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu Jul 24 04:48:27 2025 -0400
