@@ -37,6 +37,7 @@ from sanitize_string.sanitize_string import sanitize_string
 
 os.environ["LC_TIME"] = "C"
 os.environ["TZ"] = "UTC"
+os.environ["LANG"] = "en_US.UTF-8"
 time.tzset()
 
 SDNOTIFY_OBJECT = sdnotify.SystemdNotifier()
