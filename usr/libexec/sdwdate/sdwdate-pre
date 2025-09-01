@@ -12,7 +12,7 @@ set -e
 ## cause dependency issues during the build process or distro morphing because
 ## package 'systemd' as well as package 'sdwdate' 'Provides: time-daemon'.
 ## 'adduser' is a debianism.
-adduser sdwdate systemd-journal || true
+adduser sdwdate systemd-journal 2>/dev/null || true
 
 gcc /usr/src/sdwdate/sclockadj.c -o /usr/libexec/sdwdate/sclockadj -ldl -D_GNU_SOURCE -Wdate-time -D_FORTIFY_SOURCE=3 -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wl,-z,relro -Wl,-z,now
 

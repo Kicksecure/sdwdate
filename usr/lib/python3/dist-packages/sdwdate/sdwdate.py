@@ -37,6 +37,7 @@ from sanitize_string.sanitize_string import sanitize_string
 
 os.environ["LC_TIME"] = "C"
 os.environ["TZ"] = "UTC"
+os.environ["LANG"] = "en_US.UTF-8"
 time.tzset()
 
 SDNOTIFY_OBJECT = sdnotify.SystemdNotifier()
@@ -73,14 +74,14 @@ def kill_sclockadj():
         LOGGER.info(message)
 
 
-def kill_sleep_process():
-    try:
-        sleep_process.kill()
-        message = "Terminated sleep process."
-        LOGGER.info(message)
-    except BaseException:
-        message = "sleep process not running, ok."
-        LOGGER.info(message)
+#def kill_sleep_process():
+#    try:
+#        sleep_process.kill()
+#        message = "Terminated sleep process."
+#        LOGGER.info(message)
+#    except BaseException:
+#        message = "sleep process not running, ok."
+#        LOGGER.info(message)
 
 
 def signal_handler(sig, frame):
@@ -112,7 +113,7 @@ def exit_handler(exit_code, reason):
     write_status(icon, message)
 
     kill_sclockadj()
-    kill_sleep_process()
+    #kill_sleep_process()
 
     Path(sleep_long_file_path).unlink(missing_ok=True)
 
@@ -861,20 +862,25 @@ class SdwdateClass(object):
         # python's time.sleep(self.sleep_time_seconds).
         # The latter uses the system clock for its inactive state time.
         # It becomes utterly confused when sclockadj is running.
-        sleep_cmd = ("sleep" +
-                     " " +
-                     str(self.sleep_time_seconds) +
-                     "." +
-                     str(nanoseconds))
-        message = "running command: " + sleep_cmd
-        LOGGER.info(message)
-
-        # Avoid Popen shell=True.
-        sleep_cmd = shlex.split(sleep_cmd)
-
-        global sleep_process
-        sleep_process = Popen(sleep_cmd)
-        sleep_process.wait()
+        #
+        # Reverting back to python's time.sleep. Python's sleep no longer
+        # seems affected by clock jumps.
+        #
+        #sleep_cmd = ("sleep" +
+        #             " " +
+        #             str(self.sleep_time_seconds) +
+        #             "." +
+        #             str(nanoseconds))
+        #message = "running command: " + sleep_cmd
+        #LOGGER.info(message)
+        #
+        ## Avoid Popen shell=True.
+        #sleep_cmd = shlex.split(sleep_cmd)
+        #
+        #global sleep_process
+        #sleep_process = Popen(sleep_cmd)
+        #sleep_process.wait()
+        time.sleep(self.sleep_time_seconds + nanoseconds)
 
 
     def check_clock_skew(self):
@@ -1003,8 +1009,8 @@ def global_files():
 
 
 def main():
-    global sleep_process
-    sleep_process = []
+    #global sleep_process
+    #sleep_process = []
     global sclockadj_process
     sclockadj_process = []
 

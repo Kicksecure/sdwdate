@@ -1,3 +1,67 @@
+commit 7963167fcf0b2127a7110ca0bf326869c8acdff4
+Merge: 3009046 7948b11
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 27 04:36:26 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 7948b1123dc5afbc578fb32614d7444f04a19bea
+Merge: 963203c 3009046
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Tue Aug 26 19:20:35 2025 -0500
+
+    Merge branch 'master' into arraybolt3/trixie
+
+commit 30090467a33042395e849d8eda4418920f46ead1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 26 09:15:33 2025 +0000
+
+    bumped changelog version
+
+commit f78fb6e71ac01127aa7fb9b552d5ab3fb2928231
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 26 05:15:32 2025 -0400
+
+    re-generate man pages (generated using "genmkfile manpages")
+
+commit 963203c7196789c56303cce8a365e0f40b91180b
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Fri Aug 22 17:32:54 2025 -0500
+
+    Stop using the sleep binary, this is no longer necessary
+
+commit c762254a58ce83598ed07297d18380dd5aeafbbc
+Merge: 0819cfe f3f89e8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 20 09:09:55 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 0819cfef84fb4b38c750216a7463b2c696e3e077
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 20 06:57:29 2025 -0400
+
+    bumped Standards-Version
+
+commit eb161e57d4be61b1bc6429409ccd2592b82334e0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 20 06:25:35 2025 -0400
+
+    readme
+
+commit f3f89e84cc89d1a2fe1fcfa2e77ee0e6bab95fc4
+Merge: 9b515f8 491c564
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Thu Aug 7 19:26:23 2025 -0500
+
+    Merge branch 'master' into arraybolt3/trixie
+
+commit 491c564ce45364c4520da7ec3f21484e557421ac
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 6 08:26:52 2025 +0000
+
+    bumped changelog version
+
 commit 1c41a70d3f53e46e92b400de2c74e12cebfbb481
 Merge: b9fab1b e4f5876
 Author: Patrick Schleizer <adrelanos@whonix.org>
@@ -26,6 +90,12 @@ Author: Nurmagoz <11895339+Nurmagoz@users.noreply.github.com>
 Date:   Wed Aug 6 06:37:20 2025 +0000
 
     Removing not working mirrors
+
+commit 9b515f86a28bdb76f3c5e1b43d5f02d79b0eeb90
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Tue Aug 5 22:58:06 2025 -0500
+
+    Port to Trixie.
 
 commit b9fab1bb63d2a0236c4fcf8bee7c8f4e6027e9d2
 Author: Patrick Schleizer <adrelanos@whonix.org>
