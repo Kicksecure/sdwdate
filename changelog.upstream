@@ -1,3 +1,20 @@
+commit 143ebacf618cc5c204257dad364757dca29d2821
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 5 07:35:32 2025 -0400
+
+    no longer using dh_python to avoid replacing shebang
+    
+    I: dh_python3 tools:114: replacing shebang in debian/sdwdate/usr/share/sdwdate/get-time-from-servers-test
+    I: dh_python3 tools:114: replacing shebang in debian/sdwdate/usr/share/sdwdate/onion-list-all
+    I: dh_python3 tools:114: replacing shebang in debian/sdwdate/usr/share/sdwdate/onion-tester
+    I: dh_python3 tools:114: replacing shebang in debian/sdwdate/usr/bin/url_to_unixtime
+
+commit 0883919f9ae4c4ca70cc6bbd6ba3e9a58481beeb
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 2 15:25:05 2025 +0000
+
+    bumped changelog version
+
 commit 50d81cb6b27271cdd0e79d621106703f33881db9
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Aug 27 19:30:07 2025 +0000
