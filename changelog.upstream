@@ -1,3 +1,22 @@
+commit b61449be6496004c067fc536cb87ee4d0adf029f
+Merge: ff1f4c5 cf2f175
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 7 04:34:40 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit cf2f1756e35e9a93dce94ad85c6d62b58994c25d
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Mon Oct 6 15:01:10 2025 -0500
+
+    Remove unsafe sanitizer compiler flags from sclockadj
+
+commit ff1f4c502c3e48c0335602022a771d91c680cb6b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Sep 28 12:40:00 2025 +0000
+
+    bumped changelog version
+
 commit 889d17b4c3143146e6c6ac30ce258231f90a689d
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Sep 28 08:39:48 2025 -0400
