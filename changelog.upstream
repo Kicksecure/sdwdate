@@ -1,3 +1,15 @@
+commit c735ec67934db7a1b04cfb063664880987b344b6
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 03:27:00 2025 -0400
+
+    port to privleap, no longer depend on sudo
+
+commit e8337305a702b57e6fe476a6762374c19273d1aa
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 7 08:39:53 2025 +0000
+
+    bumped changelog version
+
 commit b61449be6496004c067fc536cb87ee4d0adf029f
 Merge: ff1f4c5 cf2f175
 Author: Patrick Schleizer <adrelanos@whonix.org>
