@@ -1,3 +1,27 @@
+commit 86195c3f172fdebb88bc16815b5a8a11422e65d3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 05:55:41 2025 -0400
+
+    remove duplicate
+
+commit d96ed41215f8e8db99e194bdc2901abfc673ae1e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 05:54:30 2025 -0400
+
+    remove duplicate
+
+commit 1234544eee07a3bedef3a94e5fc232314619a5d7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 05:53:10 2025 -0400
+
+    remove down time sources
+
+commit 9b9d2cc8325bbf1d0262de9c1d1c1900bb0f7827
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 08:18:08 2025 +0000
+
+    bumped changelog version
+
 commit c735ec67934db7a1b04cfb063664880987b344b6
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Nov 1 03:27:00 2025 -0400
