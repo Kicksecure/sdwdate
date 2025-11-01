@@ -6,19 +6,19 @@
 set -e
 
 if [ ! "$(id -u)" = "0" ]; then
-    echo "$0: ERROR: Must be run as root (sudo)!"
+    printf '%s\n' "$0: ERROR: Must be run as root (sudo)!"
     exit 1
 fi
 
-## If this scirpt is run as root.
-rm --force /run/anondate/tor_certificate_lifetime_set
-## If this scirpt is run as user sdwdate.
-rm --force /run/sdwdate/tor_certificate_lifetime_set
+## If this script is run as root.
+rm --force -- /run/anondate/tor_certificate_lifetime_set
+## If this script is run under account 'sdwdate'.
+rm --force -- /run/sdwdate/tor_certificate_lifetime_set
 
-rm --force /run/sdwdate/first_success
-rm --force /run/sdwdate/clock_jump_do_once
+rm --force -- /run/sdwdate/first_success
+rm --force -- /run/sdwdate/clock_jump_do_once
 
-sudo --non-interactive -u sdwdate touch /run/sdwdate/clock_jump_do_once
+leaprun sdwdate-clock-jump-do-once-file-create
 
 leaprun restart-sdwdate
 

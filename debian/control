@@ -15,7 +15,7 @@ Rules-Requires-Root: no
 
 Package: sdwdate
 Architecture: all
-Depends: sudo, bc, helper-scripts, adduser, gcc,
+Depends: bc, helper-scripts, adduser, gcc,
  libc6-dev, privleap, python3-stem, python3-dateutil,
  python3-socks, python3-sdnotify, python3-requests, python3, tor,
  ${misc:Depends}
