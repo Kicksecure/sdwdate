@@ -1,3 +1,15 @@
+commit 353377cd1d88e6676736c69e309301b97724a6ac
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 06:30:35 2025 -0400
+
+    fix: `Depends:` `util-linux-extra` (provides `hwclock`)
+
+commit 60e178f24a4d037dd978dcb40d5203a85b055d8e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 10:26:33 2025 +0000
+
+    bumped changelog version
+
 commit 3fde4ab4c9882570fb11d97c58470c2ad41a5722
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Nov 1 06:26:21 2025 -0400
