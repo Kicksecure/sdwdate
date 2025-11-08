@@ -1,3 +1,148 @@
+commit 353377cd1d88e6676736c69e309301b97724a6ac
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 06:30:35 2025 -0400
+
+    fix: `Depends:` `util-linux-extra` (provides `hwclock`)
+
+commit 60e178f24a4d037dd978dcb40d5203a85b055d8e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 10:26:33 2025 +0000
+
+    bumped changelog version
+
+commit 3fde4ab4c9882570fb11d97c58470c2ad41a5722
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 06:26:21 2025 -0400
+
+    fix
+
+commit fcf78aff788cef4fa944d0609a5cffc2f6268327
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 09:57:20 2025 +0000
+
+    bumped changelog version
+
+commit 86195c3f172fdebb88bc16815b5a8a11422e65d3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 05:55:41 2025 -0400
+
+    remove duplicate
+
+commit d96ed41215f8e8db99e194bdc2901abfc673ae1e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 05:54:30 2025 -0400
+
+    remove duplicate
+
+commit 1234544eee07a3bedef3a94e5fc232314619a5d7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 05:53:10 2025 -0400
+
+    remove down time sources
+
+commit 9b9d2cc8325bbf1d0262de9c1d1c1900bb0f7827
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 08:18:08 2025 +0000
+
+    bumped changelog version
+
+commit c735ec67934db7a1b04cfb063664880987b344b6
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 03:27:00 2025 -0400
+
+    port to privleap, no longer depend on sudo
+
+commit e8337305a702b57e6fe476a6762374c19273d1aa
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 7 08:39:53 2025 +0000
+
+    bumped changelog version
+
+commit b61449be6496004c067fc536cb87ee4d0adf029f
+Merge: ff1f4c5 cf2f175
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 7 04:34:40 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit cf2f1756e35e9a93dce94ad85c6d62b58994c25d
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Mon Oct 6 15:01:10 2025 -0500
+
+    Remove unsafe sanitizer compiler flags from sclockadj
+
+commit ff1f4c502c3e48c0335602022a771d91c680cb6b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Sep 28 12:40:00 2025 +0000
+
+    bumped changelog version
+
+commit 889d17b4c3143146e6c6ac30ce258231f90a689d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Sep 28 08:39:48 2025 -0400
+
+    lower debugging
+
+commit 67ee457618042536aa8e84593c6bc428f83c0f28
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Sep 28 11:17:11 2025 +0000
+
+    bumped changelog version
+
+commit ad8ea52951ec97af54525c631c8b6d59e730c636
+Merge: d2b052d 27279f1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Sep 28 07:02:04 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 27279f1e87e4979bd5c442e798be9288410f786b
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Sat Sep 27 22:38:38 2025 -0500
+
+    Harden C code
+
+commit d2b052d3c59acb1e1277cab33be5d498db1334dd
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 19 16:17:53 2025 +0000
+
+    bumped changelog version
+
+commit ee9efe31eeedb30e4f7df4126a446ae45c624159
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Sep 18 10:08:08 2025 -0400
+
+    fix
+
+commit 836d433ac86c3ebe3cb2293e245e0fd13fb087b6
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 5 11:46:01 2025 +0000
+
+    bumped changelog version
+
+commit 143ebacf618cc5c204257dad364757dca29d2821
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 5 07:35:32 2025 -0400
+
+    no longer using dh_python to avoid replacing shebang
+    
+    I: dh_python3 tools:114: replacing shebang in debian/sdwdate/usr/share/sdwdate/get-time-from-servers-test
+    I: dh_python3 tools:114: replacing shebang in debian/sdwdate/usr/share/sdwdate/onion-list-all
+    I: dh_python3 tools:114: replacing shebang in debian/sdwdate/usr/share/sdwdate/onion-tester
+    I: dh_python3 tools:114: replacing shebang in debian/sdwdate/usr/bin/url_to_unixtime
+
+commit 0883919f9ae4c4ca70cc6bbd6ba3e9a58481beeb
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 2 15:25:05 2025 +0000
+
+    bumped changelog version
+
+commit 50d81cb6b27271cdd0e79d621106703f33881db9
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 27 19:30:07 2025 +0000
+
+    bumped changelog version
+
 commit 7963167fcf0b2127a7110ca0bf326869c8acdff4
 Merge: 3009046 7948b11
 Author: Patrick Schleizer <adrelanos@whonix.org>

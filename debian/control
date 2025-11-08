@@ -6,7 +6,7 @@ Section: misc
 Priority: optional
 Maintainer: Patrick Schleizer <adrelanos@kicksecure.com>
 Build-Depends: debhelper (>= 13.11.6), debhelper-compat (= 13),
- dh-apparmor, dh-python, python3
+ dh-apparmor
 Homepage: https://www.kicksecure.com/wiki/Sdwdate
 Vcs-Browser: https://github.com/Kicksecure/sdwdate
 Vcs-Git: https://github.com/Kicksecure/sdwdate.git
@@ -15,10 +15,10 @@ Rules-Requires-Root: no
 
 Package: sdwdate
 Architecture: all
-Depends: sudo, bc, helper-scripts, adduser, gcc,
+Depends: bc, helper-scripts, adduser, gcc,
  libc6-dev, privleap, python3-stem, python3-dateutil,
  python3-socks, python3-sdnotify, python3-requests, python3, tor,
- ${python3:Depends}, ${misc:Depends}
+ util-linux-extra, ${misc:Depends}
 Recommends: timesanitycheck, bootclockrandomization
 Provides: time-daemon
 Conflicts: time-daemon
