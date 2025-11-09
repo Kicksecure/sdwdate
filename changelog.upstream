@@ -1,3 +1,42 @@
+commit 411a979216bab405de8e95965f1838e0d4a51184
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Nov 9 04:45:45 2025 -0500
+
+    remove mullvad due to:
+    https://forums.whonix.org/t/suggest-trustworthy-tor-hidden-services-as-time-sources-for-sdwdate/856/254
+
+commit d7a285983c761747d0bbd5fa220ad6136aa635f8
+Merge: b14371f 4c6d026
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Nov 9 04:44:12 2025 -0500
+
+    Merge remote-tracking branch 'Nurmagoz/master'
+
+commit 4c6d026a9f2043798f45c7133d0d689e507583ed
+Author: Nurmagoz <11895339+Nurmagoz@users.noreply.github.com>
+Date:   Sat Nov 8 17:30:52 2025 +0000
+
+    Added Startpage onion URL
+
+commit 430e1df9a7674a2bd545057d7759e7a83a4e6908
+Author: Nurmagoz <11895339+Nurmagoz@users.noreply.github.com>
+Date:   Sat Nov 8 13:43:37 2025 +0000
+
+    All securedrop URLs in one place
+
+commit 7cb0bea251f2d6ee14c11e00c0cbd53ac108f8dd
+Merge: c950017 b14371f
+Author: Nurmagoz <11895339+Nurmagoz@users.noreply.github.com>
+Date:   Sat Nov 8 13:37:49 2025 +0000
+
+    Merge branch 'Kicksecure:master' into master
+
+commit b14371feac0ef5d8c981e7d638963797e166bea6
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 10:31:03 2025 +0000
+
+    bumped changelog version
+
 commit 353377cd1d88e6676736c69e309301b97724a6ac
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Nov 1 06:30:35 2025 -0400
@@ -136,6 +175,27 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue Sep 2 15:25:05 2025 +0000
 
     bumped changelog version
+
+commit c950017cd9551c976f0a7722e65d6415933e076f
+Author: Nurmagoz <11895339+Nurmagoz@users.noreply.github.com>
+Date:   Mon Sep 1 07:39:23 2025 +0000
+
+    Added Mullvad
+    
+    added mullvad main website + its search engine, grouped them together
+
+commit 2e484cc848608e8ff7f7b656d23f5f7c61a64511
+Merge: 1ffd4b9 50d81cb
+Author: Nurmagoz <11895339+Nurmagoz@users.noreply.github.com>
+Date:   Mon Sep 1 07:09:56 2025 +0000
+
+    Merge branch 'Kicksecure:master' into master
+
+commit 1ffd4b99cc1083de1f3f23a4c4bce58480d3931d
+Author: Nurmagoz <11895339+Nurmagoz@users.noreply.github.com>
+Date:   Mon Sep 1 07:09:25 2025 +0000
+
+    Added mullvad search engine leta onion mirror
 
 commit 50d81cb6b27271cdd0e79d621106703f33881db9
 Author: Patrick Schleizer <adrelanos@whonix.org>
