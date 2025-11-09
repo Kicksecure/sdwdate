@@ -1,3 +1,16 @@
+commit 354a1f6c288c7abbdfa8d192e4d9307732e836d5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Nov 9 04:51:43 2025 -0500
+
+    removed, because down:
+            "http://iebkxzjscv4jgaucepdbdf4b7bqmcwd5peulm5cbpoavlsnkfhda5gyd.onion # https://web.archive.org/web/20210430195930/https://onion.debian.org/"
+
+commit bf09d2cf70069e5d943a74caecd30a49a86dfc0f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Nov 9 09:47:27 2025 +0000
+
+    bumped changelog version
+
 commit 411a979216bab405de8e95965f1838e0d4a51184
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Nov 9 04:45:45 2025 -0500
