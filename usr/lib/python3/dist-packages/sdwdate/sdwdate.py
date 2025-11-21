@@ -3,10 +3,14 @@
 # Copyright (C) 2017 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 # See the file COPYING for copying conditions.
 
-from __future__ import print_function
-
 import sys
 sys.dont_write_bytecode = True
+
+import sdnotify
+
+SDNOTIFY_OBJECT = sdnotify.SystemdNotifier()
+SDNOTIFY_OBJECT.notify("READY=1")
+SDNOTIFY_OBJECT.notify("STATUS=Starting...")
 
 from pathlib import Path
 import json
@@ -22,7 +26,6 @@ import signal
 import logging
 import shlex
 import threading
-import sdnotify
 from guimessages.translations import _translations
 from sdwdate.proxy_settings import proxy_settings
 from sdwdate.config import read_pools
@@ -39,10 +42,6 @@ os.environ["LC_TIME"] = "C"
 os.environ["TZ"] = "UTC"
 os.environ["LANG"] = "en_US.UTF-8"
 time.tzset()
-
-SDNOTIFY_OBJECT = sdnotify.SystemdNotifier()
-SDNOTIFY_OBJECT.notify("READY=1")
-SDNOTIFY_OBJECT.notify("STATUS=Starting...")
 
 
 def write_status(icon, msg):
