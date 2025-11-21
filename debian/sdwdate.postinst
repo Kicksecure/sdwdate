@@ -57,7 +57,7 @@ case "$1" in
        adduser sdwdate debian-tor
 
        ## Build sclockadj program.
-       if ! pushd /usr/src/sdwdate >dev/null ; then
+       if ! pushd -- /usr/src/sdwdate >dev/null ; then
          printf '%s\n' "Cannot change to '/usr/src/sdwdate'!" >&2
          exit 1
        fi
@@ -69,7 +69,7 @@ case "$1" in
          printf '%s\n' "Cannot remove old sclockadj!" >&2
          exit 1
        fi
-       if ! mv sclockadj /usr/libexec/sdwdate/sclockadj ; then
+       if ! mv -- sclockadj /usr/libexec/sdwdate/sclockadj ; then
          printf '%s\n' "Cannot move sclockadj to '/usr/libexec/sdwdate'!" >&2
          exit 1
        fi
