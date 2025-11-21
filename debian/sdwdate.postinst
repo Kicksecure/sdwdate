@@ -58,19 +58,19 @@ case "$1" in
 
        ## Build sclockadj program.
        if ! pushd -- /usr/src/sdwdate >dev/null ; then
-         printf '%s\n' "Cannot change to '/usr/src/sdwdate'!" >&2
+         printf '%s\n' "$0: Cannot change to '/usr/src/sdwdate'!" >&2
          exit 1
        fi
        if ! make ; then
-         printf '%s\n' "Error building sclockadj!" >&2
+         printf '%s\n' "$0: Error building sclockadj!" >&2
          exit 1
        fi
        if ! rm -f -- /usr/libexec/sdwdate/sclockadj ; then
-         printf '%s\n' "Cannot remove old sclockadj!" >&2
+         printf '%s\n' "$0: Cannot remove old sclockadj!" >&2
          exit 1
        fi
        if ! mv -- sclockadj /usr/libexec/sdwdate/sclockadj ; then
-         printf '%s\n' "Cannot move sclockadj to '/usr/libexec/sdwdate'!" >&2
+         printf '%s\n' "$0: Cannot move sclockadj to '/usr/libexec/sdwdate'!" >&2
          exit 1
        fi
        popd >/dev/null
