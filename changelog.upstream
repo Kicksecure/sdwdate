@@ -1,3 +1,40 @@
+commit 2373d92a06015b466be031f5e8b12733efed4230
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Nov 21 04:00:51 2025 -0500
+
+    output
+
+commit dfffe7939de176c38347740cae6cb75da0de39c2
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Nov 21 04:00:19 2025 -0500
+
+    end-of-options
+
+commit 9a7b236f641936535aa2562b5de8dcfd5d18ee39
+Merge: f33226f 30ab063
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Nov 21 03:58:33 2025 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 30ab06325136baf017808e56633dada3e6912f65
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Thu Nov 20 23:32:44 2025 -0600
+
+    Trim about a quarter second off of sdwdate's apparent startup time by notifying systemd of startup earlier
+
+commit 011b09f0dbc6534e7577171fc5aedb79105c287a
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Mon Nov 17 22:29:47 2025 -0600
+
+    Move sclockadj build into postinst, remove obsolete adduser call
+
+commit f33226fdfb57a500e2e7ff95a028f7e0fab80115
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Nov 9 09:52:11 2025 +0000
+
+    bumped changelog version
+
 commit 354a1f6c288c7abbdfa8d192e4d9307732e836d5
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Nov 9 04:51:43 2025 -0500
