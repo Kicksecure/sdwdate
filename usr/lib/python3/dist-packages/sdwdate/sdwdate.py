@@ -35,7 +35,7 @@ from sdwdate.config import time_human_readable
 from sdwdate.config import time_replay_protection_file_read
 from sdwdate.config import randomize_time_config
 from sdwdate.remote_times import get_time_from_servers
-from sanitize_string.sanitize_string import sanitize_string
+from sanitize_string.sanitize_string_lib import sanitize_string
 
 
 os.environ["LC_TIME"] = "C"
