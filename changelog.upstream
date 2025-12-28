@@ -1,3 +1,22 @@
+commit e498e9164ef07b1e485e4ede65de75492b74523a
+Merge: 032f53d 19ce401
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Dec 28 00:46:30 2025 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 19ce4016c96003704a2008172b269998194f8284
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Sat Dec 27 18:54:07 2025 -0600
+
+    Add missing syscalls to seccomp filter
+
+commit 032f53dc0d92ccc5da0f9d98283a45dba44866ab
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Dec 3 08:30:52 2025 +0000
+
+    bumped changelog version
+
 commit cac0a03fbe32a61edf6026563a96be48e309ac29
 Merge: 502c35f 29a1e72
 Author: Patrick Schleizer <adrelanos@whonix.org>
