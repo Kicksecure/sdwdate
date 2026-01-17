@@ -82,8 +82,8 @@ getsockname fadvise64 clock_settime kill getsockopt unlink epoll_create1 \
 utimensat mremap prctl sendmsg newfstatat pread64 vfork close_range clone3 \
 get_mempolicy set_mempolicy faccessat readlinkat mkdirat dup3 ppoll pselect6 \
 unlinkat _llseek send waitpid recv _newselect getpriority faccessat2 epoll_wait \
-epoll_ctl tgkill timerfd_create timerfd_settime open statx fstatfs epoll_pwait2 \
-fstatfs64
+epoll_ctl tgkill timerfd_create timerfd_settime open statx fstatfs fstatfs64 \
+epoll_pwait2
 
 [Install]
 WantedBy=multi-user.target
