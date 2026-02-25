@@ -33,6 +33,7 @@ Conflicts=systemd-timesyncd.service
 Type=notify
 User=sdwdate
 Group=sdwdate
+ExecCondition=/usr/libexec/helper-scripts/has_netvm_on_qubes
 ExecStart=/usr/libexec/sdwdate/sdwdate
 SuccessExitStatus=143
 TimeoutSec=30
