@@ -26,6 +26,7 @@ Conflicts=systemd-timesyncd.service
 [Service]
 User=sdwdate
 Group=sdwdate
+ExecCondition=/usr/libexec/helper-scripts/has_netvm_on_qubes
 ExecStart=/usr/libexec/sdwdate/sdwdate-start-anondate-set-file-watcher
 #SuccessExitStatus=143
 #TimeoutSec=30
