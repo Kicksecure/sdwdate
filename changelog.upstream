@@ -1,3 +1,22 @@
+commit 1b858d8725b30eb4159dae3bbda09f0b558ef2c9
+Merge: 3192d91 2390e2f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Feb 27 05:17:37 2026 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 2390e2f8a3f9f98530f830797c2b987e8ccbff98
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Wed Feb 25 00:17:18 2026 -0500
+
+    Make startup on QubesOS require a NetVM
+
+commit 3192d9167fc4f5f12911e7d58c594c5a4465f437
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jan 17 15:01:01 2026 +0000
+
+    bumped changelog version
+
 commit 3539549ad8f85c1ba94b305269112a6c18c94cf2
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Jan 17 09:58:38 2026 -0500
