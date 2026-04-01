@@ -3,6 +3,11 @@
 ## Copyright (C) 2017 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
+## Comments for reviewers:
+## URLs are read from /etc/sdwdate.d/*.conf which is root-owned and trusted.
+## subprocess.Popen with a list of arguments (no shell) is used in exec_curl()
+## to safely pass URLs as a single argument to curl, avoiding shell interpretation.
+
 import subprocess
 import time
 import datetime
