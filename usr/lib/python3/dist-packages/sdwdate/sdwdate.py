@@ -858,29 +858,17 @@ class SdwdateClass(object):
 
         self.unixtime_before_sleep = int(time.time())
 
-        # Using sh sleep in place of
-        # python's time.sleep(self.sleep_time_seconds).
-        # The latter uses the system clock for its inactive state time.
-        # It becomes utterly confused when sclockadj is running.
-        #
-        # Reverting back to python's time.sleep. Python's sleep no longer
-        # seems affected by clock jumps.
-        #
-        #sleep_cmd = ("sleep" +
-        #             " " +
-        #             str(self.sleep_time_seconds) +
-        #             "." +
-        #             str(nanoseconds))
-        #message = "running command: " + sleep_cmd
-        #LOGGER.info(message)
-        #
-        ## Avoid Popen shell=True.
-        #sleep_cmd = shlex.split(sleep_cmd)
-        #
-        #global sleep_process
-        #sleep_process = Popen(sleep_cmd)
-        #sleep_process.wait()
-        time.sleep(self.sleep_time_seconds + nanoseconds)
+        ## Send periodic watchdog notifications during sleep to prevent
+        ## systemd from killing the service due to watchdog timeout.
+        watchdog_interval_seconds = 60
+        total_sleep = self.sleep_time_seconds + nanoseconds
+        slept = 0
+        while slept < total_sleep:
+            remaining = total_sleep - slept
+            chunk = min(watchdog_interval_seconds, remaining)
+            time.sleep(chunk)
+            slept += chunk
+            SDNOTIFY_OBJECT.notify("WATCHDOG=1")
 
 
     def check_clock_skew(self):
