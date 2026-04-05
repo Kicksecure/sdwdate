@@ -9,6 +9,11 @@
 ## to safely pass URLs as a single argument to curl, avoiding shell
 ## interpretation.
 
+## TODO: This script is currently broken; `self.urls` never gets set, and
+## neither does `self.returned_values`. `self.list_of_urls_returned` ends up
+## overwritten multiple times while it is being iterated through. Deferring
+## fixup until it comes time to rewrite/refactor sdwdate.
+
 import subprocess
 import time
 import datetime
