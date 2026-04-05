@@ -3,7 +3,13 @@
 ## Copyright (C) 2017 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
-import os
+## Comment for reviewers:
+## URLs are read from /etc/sdwdate.d/*.conf which is root-owned and trusted.
+## subprocess.run with a list of arguments (no shell) is used in exec_curl()
+## to safely pass URLs as a single argument to curl, avoiding shell
+## interpretation.
+
+import subprocess
 import time
 import datetime
 from sdwdate.remote_times import get_time_from_servers
@@ -19,11 +25,17 @@ def chunks(my_list, n):
         yield my_list[i:i + n]
 
 def exec_curl(c_url):
-    cmd = 'curl --head '+c_url+'> /dev/null 2>&1'
-    c_out = os.system(cmd)
-    if '0' in str(c_out) :
-        return ' (Curl --head is OK)'
-    else:
+    try:
+        return_code = subprocess.run(
+            ['curl', '--head', c_url],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        ).returncode
+        if return_code == 0:
+            return ' (Curl --head is OK)';
+        else:
+            return ' (Curl --head also Not OK)'
+    except Exception:
         return ' (Curl --head also Not OK)'
 
 class Pool:
