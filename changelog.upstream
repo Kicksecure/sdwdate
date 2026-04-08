@@ -1,3 +1,28 @@
+commit c551ccad1c67ebe7968493bcf8458099ce9958c1
+Merge: bd525b5 254526c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Apr 8 09:58:35 2026 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 254526c9848775c504ac0373230257fce5f7cb5c
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Sun Apr 5 13:27:33 2026 -0400
+
+    onion-tester script is broken, add TODO
+
+commit 732889d0d5dbe189c43fff2064e8ae2e76ee6d92
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Sun Apr 5 13:02:28 2026 -0400
+
+    Replace os.system() with subprocess.run() for safer URL handling (adapted from Claude Code)
+
+commit bd525b565cb7c6f9764cb4f25ab0089751c3ddf1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Feb 27 10:54:16 2026 +0000
+
+    bumped changelog version
+
 commit 1b858d8725b30eb4159dae3bbda09f0b558ef2c9
 Merge: 3192d91 2390e2f
 Author: Patrick Schleizer <adrelanos@whonix.org>
