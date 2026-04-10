@@ -861,7 +861,9 @@ class SdwdateClass(object):
         ## Send periodic watchdog notifications during sleep to prevent
         ## systemd from killing the service due to watchdog timeout.
         watchdog_interval_seconds = 60
-        total_sleep = self.sleep_time_seconds + nanoseconds
+        ## nanoseconds is an integer in range [0, 999999999) and must be
+        ## converted to fractional seconds before adding to sleep duration.
+        total_sleep = self.sleep_time_seconds + (nanoseconds / 1000000000)
         slept = 0
         while slept < total_sleep:
             remaining = total_sleep - slept
