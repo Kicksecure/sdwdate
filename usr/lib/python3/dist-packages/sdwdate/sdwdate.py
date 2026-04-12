@@ -879,7 +879,9 @@ class SdwdateClass(object):
         #global sleep_process
         #sleep_process = Popen(sleep_cmd)
         #sleep_process.wait()
-        time.sleep(self.sleep_time_seconds + nanoseconds)
+        time.sleep(
+            float(self.sleep_time_seconds) + (float(nanoseconds) / 1000000000)
+        )
 
 
     def check_clock_skew(self):
