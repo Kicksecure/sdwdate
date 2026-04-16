@@ -1,3 +1,28 @@
+commit 9958ff38a472cf399b3b3d656a411820ef26b16c
+Merge: f599999 972542a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Apr 16 01:15:00 2026 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 972542a387071f5e2899583ad956885f75e21bc1
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Wed Apr 15 00:42:22 2026 -0400
+
+    Add more compiler hardening flags
+
+commit 1b329e37dbf6d2ab9d83538af589f56686a12250
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Sun Apr 12 15:24:25 2026 -0400
+
+    Fix sleep duration calculation
+
+commit f599999f12ddd6bc16305050a54d8e83b9f5ca1d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Apr 9 11:57:14 2026 +0000
+
+    bumped changelog version
+
 commit fa9e786dd1c3a22aed92b92ce7d44397ab046c54
 Merge: cea50d7 091d88c
 Author: Patrick Schleizer <adrelanos@whonix.org>
@@ -339,7 +364,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Sep 5 07:35:32 2025 -0400
 
     no longer using dh_python to avoid replacing shebang
-    
+
     I: dh_python3 tools:114: replacing shebang in debian/sdwdate/usr/share/sdwdate/get-time-from-servers-test
     I: dh_python3 tools:114: replacing shebang in debian/sdwdate/usr/share/sdwdate/onion-list-all
     I: dh_python3 tools:114: replacing shebang in debian/sdwdate/usr/share/sdwdate/onion-tester
@@ -356,7 +381,7 @@ Author: Nurmagoz <11895339+Nurmagoz@users.noreply.github.com>
 Date:   Mon Sep 1 07:39:23 2025 +0000
 
     Added Mullvad
-    
+
     added mullvad main website + its search engine, grouped them together
 
 commit 2e484cc848608e8ff7f7b656d23f5f7c61a64511
@@ -455,7 +480,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Aug 6 03:20:21 2025 -0400
 
     Merge pull request #51 from Nurmagoz/master
-    
+
     Removing down mirrors
 
 commit 386a6bdd092e0da9f940ca61118feb9c25f27fea
@@ -595,9 +620,9 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon May 19 08:49:04 2025 -0400
 
     seccomp fixes
-    
+
     https://forums.whonix.org/t/broken-sdwdate-after-latest-upgrade/21590/5
-    
+
     Thanks to @anonimac for the bug report and solution contribution!
 
 commit 2592556cfb009bff7e76c26813176362367d6fdc
@@ -796,7 +821,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Nov 15 13:02:08 2024 -0500
 
     Revert "comment"
-    
+
     This reverts commit a2fa5d97cf18e32c69ed91cb173c5a421d7b74da.
 
 commit a2fa5d97cf18e32c69ed91cb173c5a421d7b74da
@@ -836,7 +861,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Oct 4 22:19:36 2024 -0400
 
     Merge pull request #49 from TNTBOMBOM/master
-    
+
     Removing not working mirrrors
 
 commit d6ea86f022d226d82897522ff28b6c2112fb3285
@@ -883,7 +908,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu Apr 4 03:44:30 2024 -0400
 
     Merge pull request #48 from TNTBOMBOM/master
-    
+
     Update 30_default.conf
 
 commit 7b1460b3da1a0b1fab42c91bfb6e54914530d40a
@@ -891,7 +916,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Thu Apr 4 04:25:00 2024 +0000
 
     Update 30_default.conf
-    
+
     Deleted what not found/down onion URLs
 
 commit 15542ff2f0cefc4e9864275f51585c40197f19d5
@@ -941,7 +966,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Nov 11 13:41:26 2023 -0500
 
     change license to AGPL-3+
-    
+
     https://forums.whonix.org/t/license-change-to-agplv3/17455
 
 commit 654b1c01564fe7512de3d081607237a2253a1836
@@ -987,7 +1012,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Sep 25 11:54:34 2023 -0400
 
     Merge pull request #47 from TNTBOMBOM/master
-    
+
     New Upgrade to the mirrors connectivity
 
 commit f4017bed05ca95505f688c624fa9848591bde3c1
@@ -995,7 +1020,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Sun Sep 24 18:29:54 2023 +0000
 
     Update 30_default.conf
-    
+
     adding defcon forum archived URL from securityheaders which lead to the onion URL of the website.
 
 commit c69522389f9ba765bc0ee067d1cde2ec99859ae4
@@ -1003,7 +1028,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Sat Sep 23 20:38:23 2023 +0000
 
     Update 30_default.conf
-    
+
     503 Service Unavailable
 
 commit f7942c3343801baca6efc7d55d6366072e995612
@@ -1011,7 +1036,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Sat Sep 23 20:37:14 2023 +0000
 
     Update 30_default.conf
-    
+
     Onion doesnt exist anymore
 
 commit 86d47b34b9578f864057686b09f934c398ca5855
@@ -1026,7 +1051,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Sat Sep 23 20:32:47 2023 +0000
 
     Update 30_default.conf
-    
+
     Changed to new URL
 
 commit dd4f483414bdfb36857826304f0ea547a16e276c
@@ -1034,7 +1059,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Sat Sep 23 20:31:43 2023 +0000
 
     Update 30_default.conf
-    
+
     No connection, Informed BTC for long time about it, but no fix until now.
 
 commit 9e7d8ee029fcb8311aefbc67009e7465a7f2c59c
@@ -1042,7 +1067,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Sat Sep 23 20:30:32 2023 +0000
 
     Update 30_default.conf
-    
+
     No TLS working.
 
 commit dfeeac0364e7c0b7841d043de03e3347dc830e7b
@@ -1110,7 +1135,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Jul 3 07:51:47 2023 -0400
 
     delete sclockadj only when package is removed using apt-get with purge option
-    
+
     otherwise during `release-upgrade` postrm script might run,
     delete sclockadj while sdwdate is still running
 
@@ -1144,7 +1169,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Sun Jun 25 11:01:04 2023 +0000
 
     Update 30_default.conf
-    
+
     Removed not working URLs
 
 commit aebdeefa118fcfcdf2f15a76199d4c05a92c1c28
@@ -1152,7 +1177,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Sun Jun 25 10:57:38 2023 +0000
 
     Update 30_default.conf
-    
+
     Renewed Defcon URL
 
 commit 11fca1e831bf2d3617076ad6ce3edd9ac90d0fad
@@ -1160,7 +1185,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Sun Jun 25 10:54:05 2023 +0000
 
     Update 30_default.conf
-    
+
     renewed the intercept URL, and removed duplicate from securedrop (since using the same new URL)
 
 commit f3ef31557e826b3242de4a190d42aa6d9f8d3745
@@ -1168,11 +1193,11 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Sun Jun 25 09:41:03 2023 +0000
 
     Update 30_default.conf
-    
+
     Remove the TLS from https://www.propublica.org/ onion service
-    
+
     https://p53lf57qovyuvwsc6xnrppyply3vtqm7l6pcobkmyqsiofyeznfu5uqd.onion
-    
+
     http://p53lf57qovyuvwsc6xnrppyply3vtqm7l6pcobkmyqsiofyeznfu5uqd.onion
 
 commit 1367cf1b6609e79c455857231acd0f3e854198c6
@@ -1258,9 +1283,9 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat May 13 08:29:00 2023 +0000
 
     abolish architecture specific syscall whitelist
-    
+
     to improve maintainability
-    
+
     https://forums.kicksecure.com/t/sdwdate-failed-to-start-in-debian-12-bookworm-next-release/134/6
 
 commit 986b6da1e44dd1fde195d1af918ada13d82054fd
@@ -1276,7 +1301,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat May 13 04:22:51 2023 -0400
 
     Merge pull request #46 from JeremyRand/bookworm-x86-64
-    
+
     Fix syscall whitelist for bookworm on x86_64
 
 commit 82f9f43f96ae0d594a8a9ed2b4fb8f1856d9aba5
@@ -1284,7 +1309,7 @@ Author: Jeremy Rand <jeremyrand@danwin1210.de>
 Date:   Wed May 10 23:46:40 2023 +0000
 
     Fix syscall whitelist for bookworm on x86_64
-    
+
     I haven't investigated why these syscalls are now needed, nor what
     attack surface they may introduce.
 
@@ -1311,7 +1336,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Jan 8 08:37:57 2023 -0500
 
     add `sendmsg` secomp call
-    
+
     (needed when using `debug` on kernel command line)
 
 commit 9202939581aeced27558114ea22df54d3ba958af
@@ -1325,9 +1350,9 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Jan 7 12:55:45 2023 -0500
 
     restore correct permissions in /var/lib/sdwdate folder
-    
+
     if changed by something else
-    
+
     such as it happens in Qubes
 
 commit a91ac6b6fda787d4e1ec308826af5bdef0cc855f
@@ -1361,7 +1386,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Nov 23 17:58:36 2022 -0500
 
     Merge pull request #45 from TNTBOMBOM/patch-10
-    
+
     Update 30_default.conf
 
 commit 3661fb5070694bdcd36592f9b12a2a951fb83cd9
@@ -1369,7 +1394,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Fri Nov 18 13:33:10 2022 +0000
 
     Update 30_default.conf
-    
+
     added descriptions to archive.ph links since they are not understandable from the link (because the link is shortened by default)
 
 commit fb5fe48f6864bfd5d2821c9dc4a2fce103dcd5fb
@@ -1377,7 +1402,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Fri Nov 18 12:21:15 2022 +0000
 
     Update 30_default.conf
-    
+
     added geti2p gitlab onion mirror
 
 commit b6d80fc0cee59faac5a6a5e645b4dfef82af5d4c
@@ -1385,7 +1410,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Fri Nov 18 12:09:26 2022 +0000
 
     Update 30_default.conf
-    
+
     Rearranged onion+TLS mirrors and added them to the top (better view/easy editing or finding)
 
 commit aacb77f234b3c8a52c5e58fbc46dfe9ebb5b360b
@@ -1394,7 +1419,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Fri Nov 18 11:55:05 2022 +0000
 
     Merge pull request #1 from TNTBOMBOM/TNTBOMBOM-patch-Removed-elude-and-fsfe
-    
+
     Update 30_default.conf
 
 commit a098a473f6473077341e25669113d755459dae08
@@ -1402,7 +1427,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Fri Nov 18 11:54:17 2022 +0000
 
     Update 30_default.conf
-    
+
     Removed elude and fsfe as both onion mirrors are down
 
 commit 35d95f3ae4d3f269f2b4bf76e6f69024d3017f67
@@ -1410,7 +1435,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Fri Nov 18 11:05:29 2022 +0000
 
     Update 30_default.conf
-    
+
     deleted keybase as its not working
 
 commit fbc486e0a1a0b24127180ef901cf643e4a204473
@@ -1432,7 +1457,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Oct 26 05:40:58 2022 -0400
 
     Merge pull request #43 from TNTBOMBOM/patch-8
-    
+
     Update 30_default.conf
 
 commit 633d9c7fcd94bee9182a0e997106d9df92d68dfd
@@ -1448,7 +1473,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Oct 26 05:39:13 2022 -0400
 
     Merge pull request #44 from TNTBOMBOM/patch-9
-    
+
     Update 30_default.conf
 
 commit 43f328046bd322855a3892ee55c581ce399a9ea5
@@ -1456,7 +1481,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Tue Oct 25 20:16:35 2022 +0000
 
     Update 30_default.conf
-    
+
     added protonmail onion mirror
 
 commit a47cb95dea5693220c690445448a7b8b24ef0465
@@ -1464,9 +1489,9 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Tue Oct 25 20:06:52 2022 +0000
 
     Update 30_default.conf
-    
+
     deleting privacy2ws3ora5p4qpzptqr32qm54gf5ifyzvo5bhl7bb254c6nbiyd.onion mirror due to misconfigured TLS:
-    
+
     > * stderr: connect error: SOCKSHTTPSConnectionPool(host='privacy2ws3ora5p4qpzptqr32qm54gf5ifyzvo5bhl7bb254c6nbiyd.onion', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1123)')))
 
 commit 6fc155200902ac3fe29a87323893dcaceb3e1e4e
@@ -1494,7 +1519,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu Oct 20 18:07:24 2022 -0400
 
     Merge pull request #42 from TNTBOMBOM/patch-7
-    
+
     Update 30_default.conf
 
 commit 931ae2dcb4d61b88ca2f8511f9a591d50f676ffb
@@ -1502,7 +1527,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Tue Oct 18 17:52:01 2022 +0000
 
     Update 30_default.conf
-    
+
     removed FB
 
 commit b9ca3048357beac225a685f6a5ffbdb5fb10c06b
@@ -1510,9 +1535,9 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Mon Oct 17 15:19:36 2022 +0000
 
     Update 30_default.conf
-    
+
     Added 4 new (famous) mirrors:
-    
+
     - BBC
     - Facebook
     - NYT
@@ -1553,7 +1578,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue Oct 11 11:22:46 2022 -0400
 
     Revert "Update 30_default.conf"
-    
+
     This reverts commit f2f62ae7e4ea954773d5aae2be001fe8a76e9bf2.
 
 commit a980fb5b09acb9d351f1a542549daa099aba32a8
@@ -1569,7 +1594,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue Oct 11 11:13:09 2022 -0400
 
     Merge pull request #41 from TNTBOMBOM/patch-6
-    
+
     Update 30_default.conf
 
 commit f2f62ae7e4ea954773d5aae2be001fe8a76e9bf2
@@ -1577,37 +1602,37 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Mon Oct 10 19:22:49 2022 +0000
 
     Update 30_default.conf
-    
+
     Offline removed:
-    
+
     http://potatoynwcg34xyodol6p6hvi5e4xelxdeowsl5t2daxywepub32y7yd.onion/
-    
+
     http://aco6injncogk3siaubyh5sterx7w5pocqdrm7mna7u4wuukscgnqpeid.onion/
-    
+
     http://b52gknakgsyqqeq476oi5nymw6yapysfig4owqgwppi5qpuk4az6bxad.onion/
-    
+
     http://gppg43zz5d2yfuom3yfmxnnokn3zj4mekt55onlng3zs653ty4fio6qd.onion/
-    
+
     http://e2kkexl7exz6rg7fhl4oftkaeojm7wlbw567hqu2tbrjlixsjjoynzad.onion/
-    
+
     http://kogbxf4ysay2qzozmg7ar45ijqmj2vxrwqa4upzqq2i7sqj7wv7wcdqd.onion/
-    
+
     http://ppw2pmtagxykinex6uubypsommtrcg6ytdh6bcr6agq2wxnrweao4cad.onion/
-    
+
     ----
-    
+
     Added TLS:
-    
+
     http://dlegal66uj5u2dvcbrev7vv6fjtwnd4moqu7j6jnd42rmbypv3coigyd.onion/
-    
+
     to
-    
+
     https://dlegal66uj5u2dvcbrev7vv6fjtwnd4moqu7j6jnd42rmbypv3coigyd.onion/
-    
+
     ----
-    
+
     Added in alphabetical orientation of securedrop onion links similar to securedrop website: (only working links added)
-    
+
     https://securedrop.org/directory/
 
 commit c118a060d30e493e0a5ddadefc5c33451f32f194
@@ -1717,7 +1742,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Sep 23 17:12:41 2022 -0400
 
     suspend-post: Delete Tor consensus before restarting Tor.
-    
+
     Without this, Tor keeps the stale Tor consensus even after restarting Tor.
 
 commit ef820a140d0797e1a777d3e11486773d78fe86ea
@@ -1761,11 +1786,11 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Sep 17 15:06:05 2022 -0400
 
     Qubes suspend pre/post: disable restart of Tor
-    
+
     This is to work around an upstream bug in Tor.
     Otherwise Tor circuits might be expired but Tor won't notice it and also Tor
     control protocol won't report it.
-    
+
     https://forums.whonix.org/t/sdwdate-and-sdwdate-gui-development-thread/1137/392
 
 commit b8f00250f388437523dbaefeb26c1567354ba8b3
@@ -1845,7 +1870,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Jun 17 05:49:16 2022 -0400
 
     avoid accidentally starting sdwdate as user/root,
-    
+
     if manually started by the user.
     Since that does not work.
 
@@ -1898,7 +1923,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed May 25 10:25:32 2022 -0400
 
     Merge pull request #40 from TNTBOMBOM/master
-    
+
     Cleaned not working onion mirrors
 
 commit 2f1ce9795eeb3e87a46d899ad2ecdcfdb44cd7fe
@@ -1960,7 +1985,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu May 19 16:54:07 2022 -0400
 
     onion-tester maintenance script: no longer create file in working directory
-    
+
     terminal output only
 
 commit 73bf39b9b1837d90ae6f835a95f56552b2af797a
@@ -1982,7 +2007,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Apr 8 06:19:00 2022 -0400
 
     Merge pull request #39 from JeremyRand/python-3.10
-    
+
     Fix syscall whitelist for Python 3.10.x on PowerPC
 
 commit 589824da1ddff0581cd1f1c2cd0467340a2fbe63
@@ -1991,7 +2016,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Apr 8 06:18:05 2022 -0400
 
     Merge pull request #38 from JeremyRand/bookworm-apparmor
-    
+
     AppArmor: explicitly allow network access
 
 commit f8f2a8875584b7297e3d0be71f6c5fd5d74d9f70
@@ -1999,7 +2024,7 @@ Author: Jeremy Rand <jeremyrand@airmail.cc>
 Date:   Fri Apr 8 07:00:32 2022 +0000
 
     Fix syscall whitelist for Python 3.10.x on PowerPC
-    
+
     Necessary for Debian Sid ppc64 and ppc64el.  I have no idea whether a
     similar change is needed on x86 or ARM.  Also no idea what attack
     surface is introduced by that syscall.
@@ -2009,7 +2034,7 @@ Author: Jeremy Rand <jeremyrand@airmail.cc>
 Date:   Fri Apr 8 04:05:47 2022 +0000
 
     AppArmor: explicitly allow network access
-    
+
     Fixes
     https://forums.whonix.org/t/sdwdate-apparmor-profile-broken-on-bookworm/13521
 
@@ -2026,7 +2051,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Mar 30 10:54:18 2022 -0400
 
     Merge pull request #37 from JeremyRand/bookworm-ppc64el
-    
+
     Fix syscall whitelist for bookworm on ppc64el
 
 commit a9ab58d9abb10a19d50854195e1ece804e13df2c
@@ -2034,7 +2059,7 @@ Author: Jeremy Rand <jeremyrand@airmail.cc>
 Date:   Wed Mar 30 06:06:15 2022 +0000
 
     Fix syscall whitelist for bookworm on ppc64el
-    
+
     Both added syscalls were already whitelisted for ARM.  It's not obvious
     to me why they only started mattering for ppc64el on Bookworm and higher
     (Bullseye unaffected), but seems worth fixing.
@@ -2063,7 +2088,7 @@ Date:   Tue Feb 15 11:36:07 2022 -0500
 
     do not start `qubes-sync-time` (conflicts with `sdwdate`),
     if file `/etc/sdwdate.d/qubes-sync-time-disabled-by-sdwdate.marker` exists.
-    
+
     That file exists in a default sdwdate installation.
 
 commit 9b13a2e0c1ad7fe39ce6f941d176f8bd4a3bb242
@@ -2084,7 +2109,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Jan 30 11:46:22 2022 -0500
 
     fix sdwdate-log-viewer to include seccomp failures
-    
+
     https://forums.whonix.org/t/sdwdate-loop-conclusion-tor-already-reports-circuit-established-seccomp-issue/13260/13
 
 commit c46543a7422ca8d367d44dabad8ae47adb2ced6d
@@ -2093,7 +2118,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Jan 30 11:45:27 2022 -0500
 
     Merge pull request #36 from cyb3rw0lf/patch-2
-    
+
     update 20_arch_syscall_whitelist.conf
 
 commit 6b5f10195133d88fdc89d2fe737651fbf2e07063
@@ -2101,7 +2126,7 @@ Author: Emanuele Rossi <cyb3rw0lf@users.noreply.github.com>
 Date:   Sun Jan 30 17:42:33 2022 +0100
 
     update 20_arch_syscall_whitelist.conf
-    
+
     unlinkat needs to be whitelisted otherwise sdwdate fails with error: SECCOMP auid=4294967295 uid=102 gid=108 ses=4294967295 subj==/usr/bin/sdwdate (enforce) pid=3328 comm="sdwdate" exe="/usr/bin/python3.9" sig=31 arch=c00000b7 syscall=35 compat=0 ip=0xf37077846c74 code=0x80000000
 
 commit 87c422fbcb7078d4fd81a11d34053535d00be0a0
@@ -2181,7 +2206,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Nov 20 11:47:54 2021 -0500
 
     Qubes suspend post: disable qubes.GetRandomizedTime
-    
+
     since no longer required. sdwdate / anondate can nowadays fix the time without it.
 
 commit 7a43153a2fe80eb492b1abf14f1f20bb66da02f5
@@ -2189,9 +2214,9 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Nov 20 11:45:04 2021 -0500
 
     Qubes suspend pre/post: disable restart of Tor
-    
+
     since that is no longer required.
-    
+
     And even if it was required, this would be handled by sdwdate / anondate.
 
 commit c411c734dcc422d0b412a8bbb419e47ac05fb0ae
@@ -2205,7 +2230,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Nov 20 11:36:51 2021 -0500
 
     `date --utc`
-    
+
     https://forums.whonix.org/t/whonix-ws-16-fails-to-update-due-to-timing-issue/12739/17
 
 commit a59a37d51a06f2cffd15e9ad2eb5b4939d6792aa
@@ -2327,7 +2352,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Nov 14 04:28:41 2021 -0500
 
     use more descriptive file name
-    
+
     `/usr/libexec/sdwdate/sdwdate-restart-tor-request-file-watcher` -> `/usr/libexec/sdwdate/sdwdate-start-anondate-set-file-watcher`
 
 commit 322a63bac9737992c4df76cb4847197689c38b3c
@@ -2347,7 +2372,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Nov 14 04:10:29 2021 -0500
 
     more descriptive file name
-    
+
     `/run/sdwdate/request_tor_restart` -> `/run/sdwdate/request_anondate-set`
 
 commit 7ec7f55b8f7de82ca0ef1556cc7e5095c72ac291
@@ -2409,7 +2434,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Oct 23 06:30:08 2021 -0400
 
     move sclockadj compilation from postinst to systemd unit
-    
+
     to allow simplification of dependency resolution during release upgrade
 
 commit cb27e5078986b326840778e62f7a74e86963b57d
@@ -2423,11 +2448,11 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Oct 13 12:56:41 2021 -0400
 
     port to pathlib
-    
+
     fix TypeError: 'missing_ok' is an invalid keyword argument for remove()
-    
+
     https://github.com/Whonix/updates-status/issues/105
-    
+
     Thanks to @marmarek for the bug report!
 
 commit 9fa94049dbef0d20c440ed4d8931ac0be27a3392
@@ -2459,7 +2484,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Sep 24 12:09:26 2021 -0400
 
     add seccomp utimensat
-    
+
     Sep 23 15:37:39 host audit[33040]: SECCOMP auid=4294967295 uid=111 gid=121 ses=4294967295 subj==/usr/bin/sdwdate (enforce) pid=33040 comm="touch" exe="/usr/bin/touch" sig=31 arch=c000003e syscall=280 compat=0 ip=0x70ca67e4bafa code=0x80000000
 
 commit cf442ce6b2da23e2b80cd64b79762970212ad69d
@@ -2509,9 +2534,9 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu Sep 23 10:57:03 2021 -0400
 
     delete Tor consensus before restartin Tor in /usr/libexec/sdwdate/sdwdate-restart-tor-request-file-watcher
-    
+
     to increase robustness of recovering from skewed time
-    
+
     https://www.whonix.org/wiki/Dev/TimeSync
 
 commit addab3adf04547840073bb2f14f75240b2680dec
@@ -2531,7 +2556,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue Sep 21 03:24:10 2021 -0400
 
     fix, exclude sdwdate-pre (addgroup) from SystemCallFilter
-    
+
     https://forums.whonix.org/t/whonix-on-mac-m1-arm/11310/165
 
 commit 7d93312c1a7bdb288a36227410d1df5898586bc9
@@ -2551,7 +2576,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Sep 20 15:46:15 2021 -0400
 
     Fixed sdwdate addgroup
-    
+
     if failed during build process.
 
 commit ffbedd0941f422996d97da7b4e9ecd090407749f
@@ -2661,7 +2686,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Aug 6 16:47:51 2021 -0400
 
     Revert "bullseye"
-    
+
     This reverts commit 67222afa9b01c8bba1f814d5c57b1c7632355d6d.
 
 commit eeb90cb64fddade24e1f75fd0e8d1f5eaf909afd
@@ -2687,7 +2712,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Aug 6 14:16:22 2021 -0400
 
     Provides: time-daemon
-    
+
     to avoid systemd pulling Depends: systemd-timesyncd
 
 commit 272d43cf381bfa0be31c9e6c920f126f40e71cbb
@@ -2824,7 +2849,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Jun 7 14:41:36 2021 -0400
 
     Merge pull request #34 from TNTBOMBOM/patch-5
-    
+
     Update 30_default.conf
 
 commit 296c6bba7b85565f2236eb9e80973c8649606c9f
@@ -2832,7 +2857,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Mon Jun 7 18:13:42 2021 +0000
 
     Update 30_default.conf
-    
+
     https://forums.whonix.org/t/suggest-trustworthy-tor-hidden-services-as-time-sources-for-sdwdate/856/213
 
 commit 4e5bed51e0e7425c646b96e1acd282bf3c2d51ba
@@ -2846,9 +2871,9 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Jun 5 16:44:06 2021 -0400
 
     restore to `MAX_FAILURE_RATIO=0.34`
-    
+
     since enough onion v3s available
-    
+
     https://forums.whonix.org/t/suggest-trustworthy-tor-hidden-services-as-time-sources-for-sdwdate/856/191
 
 commit a46db62438321b569d55e55cad4a30a184f77933
@@ -2874,7 +2899,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Jun 5 16:19:10 2021 -0400
 
     removed since offline
-    
+
     "http://tbrindusxnnqwmzov5qof56hyion6usmciqwykffxqsawswhk73aq5yd.onion # https://web.archive.org/web/20181111114102/https://tbrindus.ca/about/"
 
 commit 06e9b7ce612e1bf997ebf6fcd1a14c6e1d261fd3
@@ -2924,7 +2949,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Jun 5 15:35:56 2021 -0400
 
     add /usr/share/sdwdate/onion_test_confirm
-    
+
     a script to check if onions correspond to archived link
 
 commit 396483d22f087f113677b3868fe069c907def802
@@ -2992,7 +3017,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Jun 5 11:50:57 2021 -0400
 
     strip leading and trailing spaces from onion sources and onion comments
-    
+
     for compatibility with new configuration style
 
 commit b43cad73ad91465b683ee88ae3bdbf8b0a9a41b2
@@ -3020,7 +3045,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Jun 5 11:24:42 2021 -0400
 
     Merge pull request #33 from TNTBOMBOM/patch-4
-    
+
     Update 30_default.conf
 
 commit 7b118bd6940f0ab208f05719e5427453f0adf725
@@ -3028,7 +3053,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Fri Jun 4 19:58:39 2021 +0000
 
     Update 30_default.conf
-    
+
     http://forums.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/t/suggest-trustworthy-tor-hidden-services-as-time-sources-for-sdwdate/856/207
 
 commit 04047bc63702311da802041c4d480ba6f601c674
@@ -3162,7 +3187,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon May 31 01:14:16 2021 -0400
 
     no need for "systemctl daemon-reload" since already coverd by debhelper
-    
+
     https://forums.whonix.org/t/apply-systemd-sandboxing-by-default-to-some-services/7590/79
 
 commit 92803571fbec9177e448e4b417f7dfadc0a32d8d
@@ -3202,7 +3227,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon May 31 01:01:57 2021 -0400
 
     Merge pull request #32 from madaidan/arch-syscalls
-    
+
     Split arch-specific syscalls from the base whitelist
 
 commit 149835c753b937eee8854a50a35e0d61da37073c
@@ -3240,7 +3265,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue May 25 15:35:54 2021 -0400
 
     MAX_FAILURE_RATIO=0.7
-    
+
     https://forums.whonix.org/t/suggest-trustworthy-tor-hidden-services-as-time-sources-for-sdwdate/856/191
 
 commit 83b7467fafe450be5107b348147a13019364f00c
@@ -3260,11 +3285,11 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue May 25 13:59:12 2021 -0400
 
     removed since redirects to clearnet
-    
+
     "http://x6tkjqr46ghqmlqiwyllf5ufg6ciyexsxxfw2copx7cptw4aszq6fdqd.onion/ # https://web.archive.org/web/20210430195930/https://onion.debian.org/"
-    
+
     Thanks to @TNT_BOM_BOM for the report!
-    
+
     https://forums.whonix.org/t/suggest-trustworthy-tor-hidden-services-as-time-sources-for-sdwdate/856/188
 
 commit ee8d26b55a2faff3923a4a559488d6c6d07f0c90
@@ -3308,17 +3333,17 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue May 25 13:32:06 2021 -0400
 
     remove onion v2
-    
+
     "http://expressobutiolem.onion#https://www.expressvpn.com       https://web.archive.org/web/20170420065743/https://www.expressvpn.com"
-    
+
     "http://tinhat233xymse34.onion#https://thetinhat.com    https://web.archive.org/web/20170421233308/https://thetinhat.com"
-    
+
     "http://rvy6qmlqfstv6rlz.onion#https://www.c3d2.de/news/20160106-c3d2-as-onionservice.html      https://web.archive.org/web/20160807015616/https://www.c3d2.de/news/20160106-c3d2-as-onionservice.html"
-    
+
     "http://6zwctlqtpilbkl47.onion#https://piratenpartij.nl/contact/        https://web.archive.org/web/20170315154213/https://piratenpartij.nl/contact/"
-    
+
     "http://devuanfwojg73k6r.onion#auto.mirror.devuan.org   https://www.devuan.org  https://web.archive.org/web/20170421215927/https://www.devuan.org/"
-    
+
     "http://2h3xkc7wmxthijqb.onion#https://www.privacyfoundation.ch/de/kontakt.html https://web.archive.org/web/20151210044252/http://www.privacyfoundation.ch/de/kontakt.html"
     "http://qcdbc7vspedojrr7.onion#https://www.digitale-gesellschaft.ch/uber-uns/   https://web.archive.org/web/20170415183758/https://www.digitale-gesellschaft.ch/uber-uns/"
 
@@ -3333,29 +3358,29 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue May 25 13:16:40 2021 -0400
 
     remove onion v2
-    
+
     "http://ic6au7wa3f6naxjq.onion#https://lists.gnupg.org/pipermail/gnupg-users/2014-April/049578.html     https://web.archive.org/web/20140617045518/https://lists.gnupg.org/pipermail/gnupg-users/2014-April/049578.html"
-    
+
     "http://gnjtzu5c2lv4zasv.onion#https://pgp.key-server.io        https://web.archive.org/web/20170421212020/https://pgp.key-server.io"
-    
+
     "http://qdigse2yzvuglcix.onion#https://keys.mayfirst.org        https://archive.fo/FC1lg"
-    
+
     "http://clgs64523yi2bkhz.onion#https://www.mailpile.is  https://web.archive.org/web/20170409064457/https://www.mailpile.is"
-    
+
     "http://bitlox2twvzwbzpk.onion#https://bitlox.io        https://archive.fo/0zcqz"
-    
+
     "http://wooprzddebtxfhnq.onion#https://keys.void.gr     https://sks-keyservers.net/status/info/keys.void.gr"
-    
+
     "http://ybti.cheettyiapsyciew.onion#https://secushare.org/      https://archive.fo/vsFJS"
-    
+
     "http://3kyl4i7bfdgwelmf.onion#http://www.wefightcensorship.org https://archive.fo/GhgMU"
-    
+
     "http://ndg43ilvrrj465ix.onion#https://web.archive.org/web/20210111085622/https://securedrop.org/directory/buzzfeed/    https://web.archive.org/web/20210111093953/https://www.buzzfeednews.com/contact"
-    
+
     "http://ibpj4qv7mufde33w.onion#https://www.taz.de       https://web.archive.org/web/20210126150024/https://securityheaders.com/?q=taz.de&followRedirects=on"
-    
+
     "https://3g2upl4pq6kufc4m.onion#https://duckduckgo.com/ https://web.archive.org/web/20210111104144/https://twitter.com/duckduckgo/status/1032178047405973505"
-    
+
     "https://www.dwnewsvdyyiamwnp.onion#https://www.dw.com  https://web.archive.org/web/20210126144517/https://securityheaders.com/?q=dw.com&followRedirects=on"
 
 commit 2be6adb70a2c9b7d2076a0746627d0e2c9b9c496
@@ -3363,7 +3388,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue May 25 13:01:39 2021 -0400
 
     remove onion v2
-    
+
     "http://nxhhwbbxc4khvvlw.onion#https://searx.gotrust.de https://web.archive.org/web/20170519171857/https://github.com/asciimoo/searx/wiki/Searx-instances"
 
 commit cc53c58b0f37db14eb50c497d581cb5011603270
@@ -3371,7 +3396,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue May 25 13:00:14 2021 -0400
 
     remove onion v2 since clearnet under maintenance
-    
+
     "http://eljwdzi4pgrrlwwq.onion#https://citizen-cam.de   https://github.com/asciimoo/searx/wiki/Searx-instances  https://web.archive.org/web/20170519171857/https://github.com/asciimoo/searx/wiki/Searx-instances"
 
 commit 7cdffdc39612ce37ccc1015db1f136a6131a3d41
@@ -3385,7 +3410,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue May 25 12:52:53 2021 -0400
 
     remove onion v2
-    
+
     "http://ak2uqfavwgmjrvtu.onion#MagyarLeaks      2013    Investigative Journalism        https://atlatszo.hu/magyarleaks/        Hungary https://web.archive.org/web/20170128142348/https://atlatszo.hu/magyarleaks/"
 
 commit 452a6458433baa08dcd2dc2009dc7b8ba7f07ef2
@@ -3411,11 +3436,11 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue May 25 12:43:42 2021 -0400
 
     remove onion v2s
-    
+
     "http://qn4qfeeslglmwxgb.onion#Lucy Parsons Labs        https://lucyparsonslabs.com/securedrop  https://web.archive.org/web/20170322113502/https://lucyparsonslabs.com/securedrop/"
-    
+
     "https://usatodayw7vu5egc.onion#USA Today       https://newstips.usatoday.com/securedrop.html   https://web.archive.org/web/20170419183541/https://newstips.usatoday.com/securedrop.html"
-    
+
     "http://mprt35sjunnxfa76.onion#https://informant.taz.de https://web.archive.org/web/20170329061908/https://informant.taz.de"
 
 commit 98a68fe7c0da221206b990108c9d436fb30c7725
@@ -3429,7 +3454,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue May 25 12:39:09 2021 -0400
 
     remove offline and onion v2
-    
+
         "http://gmg7jl25ony5g7ws.onion#Gizmodo Media Group  https://specialprojectsdesk.com/secure-drop     https://web.archive.org/web/20201206054439/https://specialprojectsdesk.com/secure-drop"
 
 commit 1a0d59b0be285edd954c00b714a8f7351de74cd2
@@ -3443,9 +3468,9 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue May 25 12:33:24 2021 -0400
 
     6 new onion v3 time sources
-    
+
     Thanks to @Perestroika!
-    
+
     https://forums.whonix.org/t/suggest-trustworthy-tor-hidden-services-as-time-sources-for-sdwdate/856/183
 
 commit 9bec9053a64b11457dd21a3e7bdf434531726ffd
@@ -3467,7 +3492,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun May 16 08:38:30 2021 -0400
 
     Merge pull request #31 from GavinPacini/patch-3
-    
+
     One more SystemCallFilter syscall for arm64
 
 commit 41e714f326d45773c90c9cba667967aa866c46aa
@@ -3495,7 +3520,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu May 6 09:14:17 2021 -0400
 
     Merge pull request #30 from GavinPacini/patch-2
-    
+
     Extra SystemCallFilter syscalls required for restarting sdwdate on arm64
 
 commit fd5cadd6c79287fea165f62c9937a0be0cae2f85
@@ -3523,7 +3548,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed May 5 08:02:47 2021 -0400
 
     Merge pull request #29 from GavinPacini/patch-1
-    
+
     fix systemd sandboxing for arm64 platform
 
 commit 3759520aac6f13d5882f9450a54f49a5afa938cb
@@ -3537,7 +3562,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed May 5 03:25:14 2021 -0400
 
     fix systemd sandboxing for powerpc64 / ppc64el platform
-    
+
     https://forums.whonix.org/t/apply-systemd-sandboxing-by-default-to-some-services/7590/58
 
 commit 425c7e02f673dfa62513fe08129f05e88d4af660
@@ -3587,7 +3612,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue Mar 23 07:23:56 2021 -0400
 
     disable sandboxing due to issue
-    
+
     https://forums.whonix.org/t/apply-systemd-sandboxing-by-default-to-some-services/7590/50
 
 commit 7d982a8064a58cc890038f270c6c09a0e6844680
@@ -3595,9 +3620,9 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Mar 20 09:09:33 2021 -0400
 
     systemd sandboxing enhancements
-    
+
     Thanks to @madaidan!
-    
+
     https://forums.whonix.org/t/apply-systemd-sandboxing-by-default-to-some-services/7590/49
 
 commit cb6b73e13f9c3d0d39e0036999b0e60c81a03dc3
@@ -3619,7 +3644,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Mar 19 13:51:08 2021 -0400
 
     Merge pull request #28 from madaidan/sandboxing
-    
+
     Improve systemd sandboxing
 
 commit 9e355acf30c1f7e8e14c5d33086d99af63e66eb9
@@ -3675,7 +3700,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue Mar 9 12:58:01 2021 -0500
 
     increase timeout to 120 seconds
-    
+
     due to slow onions
 
 commit a4935365f60b09d2dd10c0c04c7a99072cb167a1
@@ -3881,7 +3906,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Feb 12 05:44:27 2021 -0500
 
     sys.dont_write_bytecode = True
-    
+
     to simplify apparmor profiles
 
 commit a44f06d81f97f1858e5364ea1525e378f9d71cdf
@@ -4213,7 +4238,7 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Feb 10 06:44:01 2021 -0500
 
     show how long sdwdate will sleep in minutes
-    
+
     for better sdwdate-gui and log readability
 
 commit f4859862be6455d5e892b730e9115be26ecc83cd
@@ -4599,7 +4624,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jan 26 02:00:11 2021 -0500
 
     rename SDWDATE_POOL_ONE, SDWDATE_POOL_TWO, SDWDATE_POOL_THREE to SDWDATE_POOL_ZERO, SDWDATE_POOL_ONE, SDWDATE_POOL_TWO
-    
+
     this helps with code simplification since python starts counting at arrays at zero
 
 commit 844708b70026c05d045b90116805e55e6ca5d7b3
@@ -4699,7 +4724,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Jan 24 05:36:22 2021 +0000
 
     Merge pull request #27 from TNTBOMBOM/patch-3
-    
+
     Update 30_default.conf
 
 commit bf8dafc667ff832f456fc4f3072814a9dbb9eda9
@@ -4707,9 +4732,9 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Sat Jan 23 17:38:09 2021 +0000
 
     Update 30_default.conf
-    
+
     changed the archived links according to patrick request:
-    
+
     https://forums.whonix.org/t/suggest-trustworthy-tor-hidden-services-as-time-sources-for-sdwdate/856/173
 
 commit fe448bc5eb1695779b1cbd07d5ef16e0aa121833
@@ -4723,9 +4748,9 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Sat Jan 23 10:20:05 2021 +0000
 
     Update 30_default.conf
-    
+
     I have added:
-    
+
     - systemli main website
     - security in a box website
 
@@ -4860,12 +4885,12 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jan 19 18:53:07 2021 -0500
 
     implement time replay protection
-    
+
     abolish shorter sleep on error counters below 3
     because preparation() now takes care of that
-    
+
     output
-    
+
     refactoring
 
 commit 5cac6cc48586138ea896417cf1130b5269ae3c7c
@@ -5017,7 +5042,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jan 19 05:19:40 2021 -0500
 
     make sure to not test same failed URL twice
-    
+
     refactoring
 
 commit 4ba267275614a033f37b910d2e632c75d0cc56a3
@@ -5037,11 +5062,11 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jan 19 03:34:29 2021 -0500
 
     allow running sdwdate with only 1 pool member per pool
-    
+
     prevent python exception when sdwdate gets stopped while sleep process is running
-    
+
     output
-    
+
     refactoring
 
 commit 4d64f7a5ca7b86b5ab1f99a2f98cd5bc62bc75c7
@@ -5319,9 +5344,9 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jan 12 00:51:48 2021 -0500
 
     disable systemd hardening
-    
+
     incompatible with apparmor profile
-    
+
     AVC apparmor="DENIED" operation="exec" info="no new privs" error=-1 profile="/usr/bin/sdwdate" name="/usr/bin/url_to_unixtime" pid=17091 comm="sdwdate" requested_mask="x" denied_mask="x" fsuid=125 ouid=0 target="/usr/bin/url_to_unixtime"
 
 commit 71a180cb53071364d1879628c19ff8528ef91a8b
@@ -5725,7 +5750,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Jan 10 03:20:22 2021 -0500
 
     allow sdwdate to request restart of Tor through creation of file `/run/sdwdate/request_tor_restart`
-    
+
     this is an alternative to avoid having to weaken sdwdate systemd hardening to allow restart of Tor
 
 commit 8dd7729c428b3f7420e1a7977a2cb8622e9eb1b5
@@ -5758,11 +5783,11 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Jan 9 17:36:38 2021 -0500
 
     no longer randomize time by default
-    
+
     add `RANDOMIZE_TIME=true` feature
-    
+
     output
-    
+
     refactoring
 
 commit b205398b74718bdd018f9d24546bbf82fdb8616e
@@ -5812,9 +5837,9 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Jan 9 02:54:08 2000 -0500
 
     remove onions with invalid TLS certificates
-    
+
     "http://ltcpool5brio2gaj.onion#https://www.litecoinpool.org/help        https://web.archive.org/web/20161114095946/https://www.litecoinpool.org/help"
-    
+
     "http://cyphdbyhiddenbhs.onion#Cyph - Encrypted Messenger       https://www.cyph.com    https://web.archive.org/web/20160827040234/https://www.cyph.com/"
 
 commit bffe0bec46891a74285c35d3e0604a915c582154
@@ -5870,7 +5895,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Oct 12 20:12:14 2020 -0400
 
     "addgroup sdwdate systemd-journal" still required
-    
+
     even if apparmor confined
 
 commit ad624501bb19946cd97cd6de616b8cfffd4a138b
@@ -5878,7 +5903,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Oct 12 20:11:38 2020 -0400
 
     undo "addgroup sdwdate systemd-journal"
-    
+
     better use separate apparmor profiles instead
 
 commit 66014ec271d371e995cb3e5fba0eee5eb6266216
@@ -5886,9 +5911,9 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Jan 9 05:49:10 2021 -0500
 
     allow sdwdate access to systemd journal (required for anondate)
-    
+
     anondate
-    
+
     code simplification
 
 commit 05cf098acfefa72172522ab1dee3302986b44deb
@@ -5908,7 +5933,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Jan 6 05:54:56 2021 -0500
 
     set /etc/apparmor.d/usr.bin.url_to_unixtime to complain mode
-    
+
     recent changes require profile additions
 
 commit 0c3c61d6ea55e7e08e3a161ef111ea6071728e75
@@ -6030,7 +6055,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Jan 1 14:21:06 2021 -0500
 
     update comment
-    
+
     https://github.com/Whonix/sdwdate/pull/25/files#r550795612
 
 commit 9eb6b381e8b83cb7c31ce6fcd2d5d9d166a9af8f
@@ -6038,7 +6063,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Jan 1 13:30:04 2021 -0500
 
     comment
-    
+
     https://github.com/Whonix/sdwdate/pull/26
 
 commit ffcdcb3aa2a7542c41b54d22e936b8e49e5bbe1f
@@ -6054,7 +6079,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Jan 1 17:51:15 2021 +0000
 
     Merge pull request #26 from TNTBOMBOM/patch-2
-    
+
     Update 30_default.conf
 
 commit 0db046cf25d90c4e0f2c3a71d8e31948c1e2e1fb
@@ -6062,7 +6087,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Thu Dec 31 19:14:53 2020 +0000
 
     Update 30_default.conf
-    
+
     removed non-working links, fixed some other links.
 
 commit 1975411f760788c991f9ba12eff9ed1e6ae8b4c1
@@ -6076,7 +6101,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Sep 5 05:23:33 2020 -0400
 
     comment
-    
+
     https://github.com/Whonix/sdwdate/pull/24#issuecomment-687577400
 
 commit c8b1029a5005fe048d524563702d1dfdba824ba1
@@ -6092,7 +6117,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Sep 5 09:19:34 2020 +0000
 
     Merge pull request #24 from herypt/patch-1
-    
+
     Switch to v3 onions where possible
 
 commit 0b7d4d2cf9529b7cb079b0f7ae12262e9ac42aed
@@ -6112,7 +6137,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Aug 9 09:26:49 2020 -0400
 
     remove onions which are down
-    
+
                 "rkphrici4u5ffhhm.onion#https://espenandersen.no/contact    https://web.archive.org/web/20161231003357/https://espenandersen.no/contact/"
              "ms5qd5es5qltiqsf.onion#SecuriLeaks    2015    Investigative Journalism        https://www.securileaks.org     Norway  https://archive.fo/rWBKv"
              "bqs3dobnazs7h4u4.onion#ExtremeLeaks   2014    Investigative Journalism        https://www.extremeleaks.org    Norway"
@@ -6307,15 +6332,15 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Mar 31 07:26:32 2020 -0400
 
     skip starting inside systemd-nspawn container
-    
+
     systemd-nspawn does not allow clock to be changed inside the container.
-    
+
     Quote https://www.freedesktop.org/software/systemd/man/systemd-nspawn.html
-    
+
     The host’s network interfaces and the system clock may not be changed from within the container.
-    
+
     https://forums.whonix.org/t/bootclockrandomization-always-moving-clock-plus-or-5-seconds/2200/10
-    
+
     ConditionVirtualization=!systemd-nspawn
 
 commit e4404cd444d6d867c1fc17d20a5d38af4902188b
@@ -6341,12 +6366,12 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Jan 23 08:26:21 2020 -0500
 
     Add workaround for qubes related wake up from suspend bug.
-    
+
     When '/usr/lib/qubes/qrexec-client-vm dom0 qubes.GetRandomizedTime' exits
     non-zero but still returned a proper timestamp, use it.
-    
+
     Restart Tor either way even if GetRandomizedTime failed.
-    
+
     https://github.com/Whonix/updates-status/issues/1
 
 commit 480650138d2c2f5598d0dbedaf331e6fd350278f
@@ -6368,7 +6393,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jan 14 21:00:48 2020 +0000
 
     Merge pull request #23 from madaidan/apparmor
-    
+
     Apparmor fixes
 
 commit e7231f0058d888d3bd1bf1cfde58c4b45ca3534b
@@ -6388,7 +6413,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Dec 25 06:59:47 2019 -0500
 
     /etc/apparmor.d/local/usr.bin.sdwdate and /etc/apparmor.d/usr.bin.sdwdate was reintroduced
-    
+
     remove form maintscript
 
 commit e4f2b9edd5c7324e84e66365323bbf8409418a37
@@ -6414,7 +6439,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Dec 23 07:28:41 2019 -0500
 
     Revert "/usr/lib/sdwdate/url_to_unixtime mrPx,"
-    
+
     This reverts commit 36569e9417bd55c26d8ae9fec28083ed3414d749.
 
 commit 36569e9417bd55c26d8ae9fec28083ed3414d749
@@ -6422,9 +6447,9 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Dec 23 07:25:49 2019 -0500
 
     /usr/lib/sdwdate/url_to_unixtime mrPx,
-    
+
     http://forums.whonix.org/t/sdwdate-and-sdwdate-gui-development-thread/1137/365
-    
+
     Thanks to @madaidan!
 
 commit cb9c537ee8f32ae54bbb1d0510bca6bacdae2ee6
@@ -6438,7 +6463,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Dec 22 18:25:05 2019 -0500
 
     enable apparmor complain mode
-    
+
     https://forums.whonix.org/t/apparmor-for-complete-system-including-init-pid1-systemd-everything-full-system-mac-policy/8339/295
 
 commit 01511dff4db620e2b0206db10f66b8e7635b27a3
@@ -6452,16 +6477,16 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Dec 22 17:58:23 2019 -0500
 
     fix apparmor issues
-    
+
     AVC apparmor="DENIED" operation="capable" profile="/usr/bin/sdwdate" pid=9965 comm="date" capability=25  capname="sys_time"
     audit: type=1400 audit(1577036830.547:907): apparmor="DENIED" operation="capable" profile="/usr/bin/sdwdate" pid=9965 comm="date" capability=25  capname="sys_time"
-    
+
     AVC apparmor="DENIED" operation="mknod" profile="/usr/bin/sdwdate" name="/run/sdwdate/first_success" pid=10752 comm="sdwdate" requested_mask="c" denied_mask="c" fsuid=107 ouid=107
     Traceback (most recent call last):
       File "/usr/bin/sdwdate", line 627, in <module>
         f = open(sdwdate.status_first_success_path, 'w')
     PermissionError: [Errno 13] Permission denied: '/run/sdwdate/first_success'
-    
+
     AVC apparmor="DENIED" operation="exec" profile="/usr/bin/sdwdate" name="/usr/lib/sdwdate/sclockadj" pid=12012 comm="sh" requested_mask="x" denied_mask="x" fsuid=107 ouid=0
 
 commit 842b5e770fe9a132cedd83f1c83a90873bc8a0e9
@@ -6483,7 +6508,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Dec 22 12:29:03 2019 -0500
 
     Revert "Delete usr.lib.sdwdate.url_to_unixtime"
-    
+
     This reverts commit 8a4be720e242c0abfb2657dc4cb9b462175a559c.
 
 commit 324fe7a84c8d49bc7dc4a62a6cde37233c434031
@@ -6499,7 +6524,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Dec 22 17:28:32 2019 +0000
 
     Merge pull request #22 from madaidan/apparmor-profile
-    
+
     Sdwdate apparmor profile
 
 commit 8a4be720e242c0abfb2657dc4cb9b462175a559c
@@ -6682,9 +6707,9 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jul 16 19:52:37 2019 +0000
 
     re-add
-    
+
              "secrdrop5wyphb5x.onion#https://securedrop.org https://web.archive.org/web/20170403043247/https://securedrop.org"
-    
+
              "33y6fjyhs3phzfjj.onion#The Guardian   https://securedrop.theguardian.com      https://web.archive.org/web/20170408213324/https://securedrop.theguardian.com"
 
 commit 7005e3bb7fceab88e955661eea9e7cbf8e2e21db
@@ -6733,7 +6758,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Jun 23 18:22:54 2019 +0000
 
     Merge pull request #21 from madaidan/patch-1
-    
+
     Add systemd sandboxing
 
 commit ad08de43cbe2e13e8c82c0c257cb9519377ebf71
@@ -6862,7 +6887,7 @@ Author: TNT BOM BOM <TNTBOMBOM@users.noreply.github.com>
 Date:   Mon Apr 15 18:07:06 2019 +0000
 
     whonix15 sdwdate updating list
-    
+
     fixing the offline and unwanted onions
 
 commit 2681de158ba29795871c71edb24bed4e0e6095c4
@@ -6984,18 +7009,18 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Mar 1 14:32:41 2019 +0000
 
     add improved legal protections clauses
-    
+
     The license for software created by Whonix is the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version with additional terms applicable per GNU GPL version 3 section 7.
-    
+
     The additional terms are based on the Doom 3 license which is Debian refers to as `GPL-3+-with-id-software-additional-terms`, which is Debian DFSG [1] (The Debian Free Software Guidelines) approved and which is therefore suitable for Debian `main`. Whonix made applied minimal changes to it:
-    
+
     * Rewrite `The Doom 3 BFG Edition GPL Source Code` to the more common `this program` which is used throughout the GPL.
     * Added a "trump clause" [2], in other words, any conflicts or disputes between the additional terms and the GPLv3 shall be resolved in favor of the GPLv3 by adding `Notwithstanding any other provision of this License` (as mentioned in GPL FAQ [3]) at the beginning of the additional terms.
-    
+
     [1] https://www.debian.org/social_contract#guidelines
     [2] https://www.fsf.org/news/canonical-updated-licensing-terms
     [3] https://www.gnu.org/licenses/gpl-faq.html#v3Notwithstanding
-    
+
     For more considerations, see also:
     https://www.whonix.org/wiki/Dev/Licensing
 
@@ -7028,7 +7053,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Sep 9 20:48:24 2018 +0000
 
     sudoers.d hardening
-    
+
     https://github.com/QubesOS/qubes-issues/issues/2852#issuecomment-417337506
 
 commit f7cab6d2eb007c1737201bc34eee4f59419d29ce
@@ -7042,7 +7067,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Aug 23 06:28:21 2018 -0400
 
     improve Qubes detection
-    
+
     if command -v "qubesdb-read" >/dev/null 2>&1 ; then
 
 commit 47080719bd338f29762a3838fcb099e55683ca50
@@ -7062,11 +7087,11 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Aug 10 17:55:53 2018 +0000
 
     sudoers.d wildcard hardening
-    
+
     improve sclockadj parameter parsing
-    
+
     check output and exit code of /bin/date in case it fails due to sudoers.d hardening
-    
+
     https://github.com/QubesOS/qubes-issues/issues/2852
 
 commit bb22e6e7e4f1b5e0500ab97300246a2d7296f38b
@@ -7086,11 +7111,11 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Aug 10 11:31:14 2018 +0000
 
     sudoers.d hardening
-    
+
     - quote sclockadj shell command
     - quote /bin/date shell command
     - output sclockadj command in log
-    
+
     https://github.com/QubesOS/qubes-issues/issues/2852
 
 commit 2b0feb39dffbc826238f42ddf9483f8ffc188288
@@ -7146,7 +7171,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Aug 8 12:13:30 2018 +0000
 
     sudoers.d asterix hardening
-    
+
     https://github.com/QubesOS/qubes-issues/issues/2852
 
 commit bd91ac258fed548ee128b340872b191688062c9e
@@ -7154,7 +7179,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Aug 8 02:37:59 2018 +0800
 
     sudoers.d asterix hardening
-    
+
     https://github.com/QubesOS/qubes-issues/issues/2852
 
 commit cc09f3072ce30df7c354bb26a2a4037a0e540c71
@@ -7228,7 +7253,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Jan 28 21:54:44 2018 +0000
 
     fix
-    
+
     https://forums.whonix.org/t/sdwdate-development-thread/1137/290
 
 commit d6ba376a3f4e0a3c58a24b15c6ba94b960279514
@@ -7261,7 +7286,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Jan 21 13:22:38 2018 +0100
 
     fix, copy etc/sdwdate.d/50_default.conf to etc/sdwdate.d/30_default.conf
-    
+
     fix, delete etc/sdwdate.d/50_default.conf
 
 commit 198ab07fe4070883f35db98ef1b2052de452eb8f
@@ -7350,7 +7375,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Nov 30 22:18:06 2017 +0100
 
     Merge pull request #20 from Algernon-01/master
-    
+
     Patches for Whonix live
 
 commit bae54e28fcbe3f21fbce4d4723b4a294290e4631
@@ -7389,7 +7414,7 @@ Author: Joy SN <joysn1980@yahoo.com>
 Date:   Fri Sep 1 17:20:10 2017 +0000
 
     Modify /usr/share/sdwdate/unit_test
-    
+
     Make it simpler (to split urls into chunks of 3)
     Generate average, total etc for each pool
     add curl command for the failures (timeouts)
@@ -7777,9 +7802,9 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Feb 25 04:21:47 2017 +0000
 
     sdwdate Tor Consensus Time Sanity Check;
-    
+
     refactoring
-    
+
     https://phabricator.whonix.org/T151
 
 commit c626798651f263b06190cd7d9f03d3976f99c68a
@@ -7787,7 +7812,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Feb 24 22:51:40 2017 +0000
 
     WIP sdwdate Tor Consensus Time Sanity Check
-    
+
     https://phabricator.whonix.org/T151
 
 commit 709306e4a3f67423dd97618399aa615d49c2b74d
@@ -7795,7 +7820,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Feb 24 03:19:45 2017 +0000
 
     check if clock got changed behind sdwdate's back
-    
+
     https://phabricator.whonix.org/T481
 
 commit 0c1c8d1ab8a9e049835bbffc769f419f07b4bc1b
@@ -7869,7 +7894,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Feb 24 00:46:37 2017 +0000
 
     simplify success message for better usability
-    
+
     refactoring
 
 commit e632747afcbdb6fd8088c5ff972dc56882c6ed1f
@@ -7877,7 +7902,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Feb 24 00:08:38 2017 +0000
 
     no need to add start / end times to time fetching since logger adds this anyhow
-    
+
     code simplification
 
 commit f80f39dad6da3829b01f1b5e3c668f5d26e47a3e
@@ -7885,7 +7910,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Feb 23 22:50:53 2017 +0000
 
     increase timeout from 10 to 50
-    
+
     took up to 40 seconds for me on a slow connection
 
 commit 9c99fe36a7d3bd1f98048504c0264591db1ed642
@@ -7989,11 +8014,11 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Feb 22 07:32:34 2017 +0000
 
     fix killing sclockadj on Debian stretch
-    
+
     kill sclockadj with sigkill rather than sigterm
-    
+
     since sigterm is ignored for some reason when called from sdwdate
-    
+
     code simplification
 
 commit 3e265f0c07ceda5c35d3373a15a44069b7890e6b
@@ -8073,7 +8098,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Feb 22 05:21:13 2017 +0000
 
     remove legacy time.sleep(0.2) for sdwdate-gui
-    
+
     since sdwdate-gui was fixed
 
 commit 583d61e0a5e2c6706f8937274dfdd1630598c918
@@ -8111,7 +8136,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Feb 22 04:49:08 2017 +0000
 
     implement sdwdate sd_notify systemd watchdog
-    
+
     https://phabricator.whonix.org/T639
 
 commit 9a4439b3a124404cd176e99fd757fc9f6b8ad12b
@@ -8125,7 +8150,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Feb 21 21:59:41 2017 +0000
 
     use systemctl --no-pager to prevent blocking due to systemctl interactivity
-    
+
     https://phabricator.whonix.org/T637
 
 commit cd51d979c27203005c889416e1de720ea4b2bcbf
@@ -8145,7 +8170,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Feb 13 14:18:42 2017 +0000
 
     fix sdwdate sigterm handling during remote_times.py get_time_from_servers
-    
+
     https://phabricator.whonix.org/T629
 
 commit 2ae2a8d66d6d22ef35b7765587a21958ac931ba3
@@ -8199,7 +8224,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Feb 10 15:47:52 2017 +0000
 
     remove faketime from Build-Depends:
-    
+
     since no longer used for reproducible builds
 
 commit 7763177352dd45d3d34c736e758a0f89b97c90bf
@@ -8257,7 +8282,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Feb 9 23:11:09 2017 +0000
 
     protect rmtree(temp_dir_bytes) with try/except
-    
+
     can fail if sigterm trap is invoked multiple times
 
 commit d27cc31e72b7b88e6e329e1bed2af0faec1b338b
@@ -8289,9 +8314,9 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Feb 9 17:49:25 2017 +0000
 
     port url_to_unixtime tests to python3
-    
+
     fix lower case date detection
-    
+
     %s -> {}
 
 commit 10dc49b940faf3c9ad7cdd669736a4f16d4b7d3c
@@ -8378,7 +8403,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Feb 9 13:43:22 2017 +0000
 
     Merge pull request #18 from HulaHoopWhonix/patch-13
-    
+
     Update 30_default.conf
 
 commit c735652569531b3f6443ae57357612b6ccccca66
@@ -8441,7 +8466,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Feb 6 01:18:16 2017 +0000
 
     no longer log with millisecond precision
-    
+
     so published logs will reveal less about systemd speed
 
 commit 249217426f43909f3da72819b6730b80d8d4bbcc
@@ -8461,7 +8486,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Feb 6 00:54:25 2017 +0000
 
     output
-    
+
     Signal SIGTERM received. sdwdate stopped by user.
     ->
     Signal SIGTERM received. sdwdate stopped by user or system.
@@ -8489,7 +8514,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Feb 6 00:38:52 2017 +0000
 
     add 'Prerequisite check: ok.' if so
-    
+
     fix typo
 
 commit 383f413f3b61e7ddfdb594dc6ad395cea1497f69
@@ -8517,7 +8542,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Jan 27 09:53:50 2017 +0000
 
     Merge pull request #17 from HulaHoopWhonix/patch-12
-    
+
     Update 30_default.conf
 
 commit b03400db4396f6f9494cf51afe6adb9c84f6fb3d
@@ -8605,7 +8630,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Jan 9 04:56:02 2017 +0000
 
     updated sdwdate time sources / removed broken time sources
-    
+
     https://forums.whonix.org/t/suggest-trustworthy-tor-hidden-services-as-time-sources-for-sdwdate
 
 commit 6f0f2633e3996185aae4592bd55771699ce13079
@@ -8657,7 +8682,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Oct 21 22:30:52 2016 +0200
 
     Merge pull request #16 from HulaHoopWhonix/patch-11
-    
+
     add zcashph5mxqjjby2.onion ( https://z.cash ) to SDWDATE_POOL_THREE
 
 commit 6a6e7d3969ace09502503e9b5a75474c89bba2cc
@@ -8680,7 +8705,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Sep 15 13:24:01 2016 +0000
 
     enter Whonix firewall timesync-fail-closed mode before suspend / enter Whonix firewall full mode after resume and clock-fix
-    
+
     https://phabricator.whonix.org/T551
 
 commit 6ad5c7bd6bc2cd667ff443b69f151770ed9e4754
@@ -8694,9 +8719,9 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Sep 13 20:05:00 2016 +0000
 
     fix, actually kill url to unixtime threads that timed out
-    
+
     fix, async wait only seconds (10) only once rather than wait for all pool
-    
+
     add test usr/share/sdwdate/get_time_from_servers_test
 
 commit 36111e21f28edb3bd1aba8bb13388fbde00c1016
@@ -8716,7 +8741,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Aug 30 21:13:24 2016 +0000
 
     sudo --non-interactive
-    
+
     https://phabricator.whonix.org/T549
 
 commit 4dcaad09c71b22bf27849e505818a507f277ca22
@@ -8730,7 +8755,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Aug 26 21:05:53 2016 +0000
 
     write msg to /var/run/sdwdate/msg so whonixcheck can read it
-    
+
     https://phabricator.whonix.org/T533
 
 commit 9ed587055361ed846c5e7dd5734bb705b91906ea
@@ -8744,7 +8769,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Aug 26 20:47:10 2016 +0000
 
     Revert "modified message 'restricted' since that feature is not yet implemented"
-    
+
     This reverts commit 2ee0c31e044bf16f5e43857e7fd75fba59e6fdf8.
 
 commit 3c55b5e4150e33b0dcf279b2da239a3a7ba1c03f
@@ -8766,7 +8791,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Aug 3 18:01:41 2016 +0000
 
     Merge pull request #15 from HulaHoopWhonix/patch-10
-    
+
     Update 30_default.conf
 
 commit f8b6af7f7e6d16dded2c03ba6d87e1f89a013841
@@ -8788,7 +8813,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Aug 1 19:10:36 2016 +0000
 
     Merge pull request #14 from HulaHoopWhonix/patch-9
-    
+
     Update 30_default.conf
 
 commit c6b2153dfb11ebe28b4838439dac8ba73bb772fa
@@ -8810,7 +8835,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Jun 3 14:25:58 2016 +0000
 
     Merge pull request #13 from ciaby/master
-    
+
     Fixed typo (missing /) in /etc/apparmor.d/abstractions/sdwdate
 
 commit 6064ec172b0015385205e8bf157bf407d10cbe15
@@ -8832,7 +8857,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed May 18 17:52:16 2016 +0200
 
     Merge pull request #12 from HulaHoopWhonix/patch-7
-    
+
     Update 30_default.conf
 
 commit 13f11d246cb4ee30f936996805ec26211094228e
@@ -8852,7 +8877,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue May 10 04:22:32 2016 +0200
 
     Compatibility with anon-ws-disable-stacked-tor.
-    
+
     addgroup debian-tor
 
 commit d401dbc22abfd0d7e79a0a6218820eb9987bcab0
@@ -8866,7 +8891,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Apr 29 03:51:13 2016 +0000
 
     cleanup old config files
-    
+
     https://phabricator.whonix.org/T286
 
 commit bc4d0391961cbc35c22c16f231fe5d99917b6945
@@ -8943,7 +8968,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Apr 21 14:19:58 2016 +0000
 
     deleted etc/apparmor.d/usr.bin.sdwdate
-    
+
     because it has been replaced by
     etc/apparmor.d/usr.lib.sdwdate.url_to_unixtime since sdwdate-gui
 
@@ -8970,7 +8995,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Mar 18 23:52:10 2016 +0000
 
     suspend pre / post logging
-    
+
     https://github.com/QubesOS/qubes-issues/issues/1764
 
 commit 89de9713d23dbec669d98ffd7c8bb1e020ccb743
@@ -8984,7 +9009,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Mar 18 23:15:20 2016 +0000
 
     added Qubes suspend pre / post hooks
-    
+
     https://github.com/QubesOS/qubes-issues/issues/1779
 
 commit e29863e1238384845a1b441216cccf343c049eee
@@ -8998,7 +9023,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Mar 15 14:47:13 2016 +0000
 
     added suspend-pre, suspend-post and clock-fix handler scripts
-    
+
     https://github.com/QubesOS/qubes-issues/issues/1764
 
 commit 0e3de197a1875bd3db80e2128e3df1f6117a551c
@@ -9034,7 +9059,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Jan 29 14:18:53 2016 +0100
 
     Merge pull request #11 from HulaHoopWhonix/patch-6
-    
+
     Update 30_default.conf
 
 commit eda8b3d458fbd674fb11474cea28718f4ff96d5c
@@ -9062,7 +9087,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jan 26 23:12:45 2016 +0100
 
     Merge pull request #10 from HulaHoopWhonix/patch-5
-    
+
     Update 30_default.conf
 
 commit 2ab77b294efb1b180df580f9af055d5d262dcfbf
@@ -9084,7 +9109,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Jan 23 23:31:25 2016 +0100
 
     Merge pull request #9 from HulaHoopWhonix/patch-4
-    
+
     added lqdnwwwmaouokzmg.onion
     https://twitter.com/torproject/status/689958927044317185
     https://www.laquadrature.net
@@ -9106,7 +9131,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Jan 20 17:34:30 2016 +0000
 
     removed no longer needed Suggests:
-    
+
     sdwdate-plugin-anon-shared-con-check, sdwdate-plugin-anon-shared-streamiso,
     because these plugins no longer exists (integrated into sdwdate)
 
@@ -9129,7 +9154,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Dec 7 15:03:13 2015 +0000
 
     Merge pull request #8 from HulaHoopWhonix/patch-3
-    
+
     Added Debian mirrors
 
 commit 6183f97a0ad5fc641e7a6bcefebb8dc6fd3f165d
@@ -9149,9 +9174,9 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Nov 30 19:47:48 2015 +0000
 
     Only source configuration files that end with the '.conf' extension.
-    
+
     Thanks to @nrgaway for the suggestion!
-    
+
     https://phabricator.whonix.org/T286
 
 commit 3068b649a57433f6edb1ae5f714674ad0ae33b6d
@@ -9159,9 +9184,9 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Nov 20 18:08:52 2015 +0100
 
     backported improvements to sdwdate pool configuration
-    
+
     from sdwdate master branch (bash) /etc/sdwdate/30_sdwdate_default to python branch
-    
+
     https://github.com/Whonix/sdwdate/blob/5e12a990b04ba13f46ef3ec7ec0299b56a2440b0/etc/sdwdate.d/30_sdwdate_default
 
 commit 811a053f0b18d4b355685d9fe441b8a4312c5b75
@@ -9178,9 +9203,9 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Nov 20 17:19:12 2015 +0000
 
     replaced sdwdate bash with sdwdate python rewrite by @troubadoour
-    
+
     Merge remote-tracking branch 'troubadoour/python'
-    
+
     Conflicts:
             usr/lib/sdwdate/modules.d/sdwdate
             usr/share/test_d_files/40_pool_one_invalid
@@ -9338,7 +9363,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Oct 17 16:49:56 2015 +0000
 
     Merge pull request #7 from HulaHoopWhonix/patch-2
-    
+
     Update 30_sdwdate_default
 
 commit 5e12a990b04ba13f46ef3ec7ec0299b56a2440b0
@@ -9406,7 +9431,7 @@ Author: troubadoour <trobador@riseup.net>
 Date:   Wed Oct 14 20:45:22 2015 +0000
 
     Revert "create temp dir for te_pe_tb_check in sdwdate.__init__"
-    
+
     This reverts commit 2378b2e9f4274c90186214078a5a697933ddb1f2.
 
 commit 2378b2e9f4274c90186214078a5a697933ddb1f2
@@ -9574,7 +9599,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Oct 4 12:44:00 2015 +0200
 
     Merge pull request #5 from cle4r/master
-    
+
     Add Qubes-Os Site to Pool
 
 commit cd74072afb1932a0ce1b01e884d8b4ca4db3a93c
@@ -11036,7 +11061,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Feb 4 22:23:56 2015 +0000
 
     Merge branch 'master' into development
-    
+
     Conflicts:
             usr/lib/sdwdate/url_to_unixtime
 
@@ -11514,7 +11539,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Nov 13 21:22:08 2014 +0000
 
     Revert "Look for SDW_CACHE_DIR and set INLINEDIR"
-    
+
     This reverts commit 0e094890cb5af8680f696f868ddb418d211ee088.
 
 commit 12ff7f4afc022ad36aec13ebb942b237627b6feb
@@ -11522,7 +11547,7 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Nov 13 21:21:52 2014 +0000
 
     Revert "Set INLINEDIR"
-    
+
     This reverts commit 00740529edc537ed1db89426b554965a70977b8a.
 
 commit 00740529edc537ed1db89426b554965a70977b8a
@@ -12226,42 +12251,42 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Sep 18 16:18:30 2014 +0000
 
     Squashed commit of the following:
-    
+
     commit e61ec90bd5477d1eba693e96e99524ec9a582220
     Merge: 0d5a543 550badc
     Author: Patrick Schleizer <adrelanos@riseup.net>
     Date:   Fri Sep 12 17:29:15 2014 +0000
-    
+
         .
-    
+
     commit 550badcf3c1c8637753e07ec4327283d6844aa9a
     Author: Patrick Schleizer <adrelanos@riseup.net>
     Date:   Thu Sep 11 22:55:14 2014 +0000
-    
+
         sdwdate: no longer using pal/neutral/foe pool design. Using three pools instead, that only contain servers of the type "pal". As per https://github.com/Whonix/Whonix/issues/310. Thanks to https://github.com/HulaHoopWhonix for suggesting it.
-    
+
     commit 76f402526ac46be75a2d72683d2616669c72fc90
     Author: Patrick Schleizer <adrelanos@riseup.net>
     Date:   Thu Sep 11 15:30:14 2014 +0000
-    
+
         fix, also show error notifications in case timesync restarted sdwdate
-    
+
     commit 3e99ce2d69c7d30989329e8c7f1e934beba93486
     Author: Patrick Schleizer <adrelanos@riseup.net>
     Date:   Thu Sep 11 15:21:41 2014 +0000
-    
+
         refactoring
-    
+
     commit 4b8286ffbaf8bf607c409c50e9fc751929c9d675
     Author: Patrick Schleizer <adrelanos@riseup.net>
     Date:   Thu Sep 11 15:20:49 2014 +0000
-    
+
         package description
-    
+
     commit 5d8a586d761a3584b3c5e9adb6150278a79fff9a
     Author: Patrick Schleizer <adrelanos@riseup.net>
     Date:   Thu Sep 11 15:02:35 2014 +0000
-    
+
         fix
 
 commit e61ec90bd5477d1eba693e96e99524ec9a582220
