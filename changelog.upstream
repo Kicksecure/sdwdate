@@ -1,3 +1,9 @@
+commit d8b5bc820b2df92394227a1754c97b52b64a1c1b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Apr 16 12:27:23 2026 +0000
+
+    bumped changelog version
+
 commit 9958ff38a472cf399b3b3d656a411820ef26b16c
 Merge: f599999 972542a
 Author: Patrick Schleizer <adrelanos@whonix.org>
@@ -6337,7 +6343,7 @@ Date:   Tue Mar 31 07:26:32 2020 -0400
 
     Quote https://www.freedesktop.org/software/systemd/man/systemd-nspawn.html
 
-    The host’s network interfaces and the system clock may not be changed from within the container.
+    The host_s network interfaces and the system clock may not be changed from within the container.
 
     https://forums.whonix.org/t/bootclockrandomization-always-moving-clock-plus-or-5-seconds/2200/10
 
