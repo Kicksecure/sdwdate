@@ -1,0 +1,149 @@
+## Copyright (C) 2026 - 2026 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
+## See the file COPYING for copying conditions.
+
+## AI-Assisted
+
+## Probe Tor onion time sources + verify removed/added deltas
+## against the diff base. local-* prefix per G-A-005 (sdwdate-
+## specific; no cross-repo reuse).
+
+name: onion-tester
+
+on:
+  push:
+    branches:
+      - master
+      - 'claude/**'
+    paths:
+      - 'etc/sdwdate.d/**'
+      - 'usr/share/sdwdate/onion-tester'
+      - 'usr/lib/python3/dist-packages/sdwdate/**'
+      - 'usr/bin/url_to_unixtime'
+      - 'ci/onion-tester-*.sh'
+      - '.github/workflows/local-onion-tester.yml'
+  pull_request:
+    paths:
+      - 'etc/sdwdate.d/**'
+      - 'usr/share/sdwdate/onion-tester'
+      - 'usr/lib/python3/dist-packages/sdwdate/**'
+      - 'usr/bin/url_to_unixtime'
+      - 'ci/onion-tester-*.sh'
+      - '.github/workflows/local-onion-tester.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+        with:
+          fetch-depth: 0
+          ## Public repo + only local git operations after checkout, so
+          ## don't leave GITHUB_TOKEN in .git/config for later steps.
+          persist-credentials: false
+
+      - name: Install apt deps + genmkfile + helper-scripts + sdwdate
+        uses: org-ai-assisted/developer-meta-files/.github/actions/install-deps@master
+        with:
+          ## sdwdate runtime deps (debian/control) + curl/ca-cert
+          ## for the probe scripts + safe-rm for genmkfile.
+          apt-packages: 'tor python3-dateutil python3-stem python3-requests python3-socks python3-sdnotify curl ca-certificates safe-rm'
+          install-self: 'true'
+
+      - name: Configure and start Tor
+        run: ./ci/onion-tester-configure-tor.sh
+
+      - name: Wait for Tor bootstrap
+        run: ./ci/onion-tester-wait-bootstrap.sh
+
+      - name: Run onion-tester (Tor SOCKS5 probe, retry on transient flake)
+        id: onion-tester
+        ## Wrapper does up to 3 attempts of the full probe; one full
+        ## sweep is ~5 min. Cap leaves slack for the worst-case 3rd
+        ## attempt + 2x15s inter-attempt sleep.
+        timeout-minutes: 18
+        run: ./ci/onion-tester-run.sh
+
+      - name: Probe REMOVED onion entries (must be OFFLINE)
+        id: probe-removed
+        if: always()
+        ## At most a handful of removed onions per PR; each is one
+        ## curl with --max-time 60. 5 minutes covers a dozen probes.
+        timeout-minutes: 5
+        env:
+          GITHUB_BASE_REF: ${{ github.base_ref }}
+        run: ./ci/onion-tester-probe-removed.sh
+
+      - name: Verify wayback evidence for ADDED entries (proof onion <-> clearnet)
+        id: verify-evidence
+        if: always()
+        ## Per entry: 3 archive URL tiers x 4 retries x ~90s curl =
+        ## up to ~18 min for a single fully-failing entry. Cap the
+        ## step so a pathological set can't blow the job budget.
+        timeout-minutes: 20
+        env:
+          GITHUB_BASE_REF: ${{ github.base_ref }}
+        run: ./ci/onion-tester-verify-evidence.sh
+
+      - name: Checkout developer-meta-files (for step-summary-emit.sh)
+        if: always()
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+        with:
+          repository: org-ai-assisted/developer-meta-files
+          ref: master
+          path: .dmf
+          persist-credentials: false
+
+      - name: Summary - onion-tester
+        if: always()
+        env:
+          JOB_STATUS: ${{ steps.onion-tester.outcome }}
+          ATTEMPTS: ${{ steps.onion-tester.outputs.attempts }}
+        run: |
+          ./.dmf/ci/step-summary-emit.sh \
+            --tool 'onion-tester (Tor SOCKS5 probe of every URL in the conf)' \
+            --column-header field \
+            --row "outcome=${JOB_STATUS}" \
+            --row "attempts=${ATTEMPTS:-?}"
+
+      - name: Summary - probe-removed
+        if: always()
+        env:
+          JOB_STATUS: ${{ steps.probe-removed.outcome }}
+          REMOVED: ${{ steps.probe-removed.outputs.removed_count }}
+          ALIVE: ${{ steps.probe-removed.outputs.still_alive }}
+        run: |
+          ./.dmf/ci/step-summary-emit.sh \
+            --tool 'probe-removed (truly-dropped onions must be unreachable)' \
+            --column-header field \
+            --row "outcome=${JOB_STATUS}" \
+            --row "removed-checked=${REMOVED:-0}" \
+            --row "still-alive=${ALIVE:-0}"
+
+      - name: Summary - verify-evidence
+        if: always()
+        env:
+          JOB_STATUS: ${{ steps.verify-evidence.outcome }}
+          ADDED: ${{ steps.verify-evidence.outputs.added_count }}
+          VERIFIED: ${{ steps.verify-evidence.outputs.verified }}
+          MISSING: ${{ steps.verify-evidence.outputs.missing }}
+        run: |
+          ./.dmf/ci/step-summary-emit.sh \
+            --tool 'verify-evidence (wayback URL must mention the .onion hash)' \
+            --column-header field \
+            --row "outcome=${JOB_STATUS}" \
+            --row "added-checked=${ADDED:-0}" \
+            --row "verified=${VERIFIED:-0}" \
+            --row "missing=${MISSING:-0}"
+
+      - name: Tail Tor log on failure
+        if: failure()
+        run: sudo tail --lines=100 /var/log/tor/notice.log || true
