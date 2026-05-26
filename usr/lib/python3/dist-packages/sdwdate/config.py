@@ -22,10 +22,13 @@ import random
 
 
 def time_human_readable(unixtime):
-    from datetime import datetime
-    human_readable_unixtime = datetime.strftime(
-        datetime.fromtimestamp(unixtime), "%Y-%m-%d %H:%M:%S"
-    )
+    from datetime import datetime, timezone
+    # Convert explicitly in UTC. datetime.fromtimestamp() without tzinfo
+    # depends on the process local timezone, which would produce non-UTC
+    # output if a caller has not forced TZ=UTC.
+    human_readable_unixtime = datetime.fromtimestamp(
+        unixtime, tz=timezone.utc
+    ).strftime("%Y-%m-%d %H:%M:%S")
     return human_readable_unixtime
 
 
