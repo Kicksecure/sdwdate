@@ -1,3 +1,204 @@
+commit 35700c4fe3db0716278d09c201d7e6ee3f15742e
+Merge: f096e74 9d11ba4
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 26 07:27:26 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/ArrayBolt3/arraybolt3/trixie'
+
+commit 9d11ba4c6846bcbfa12720b84f769b453239aa01
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Tue May 26 00:56:36 2026 -0400
+
+    Squashed commit of the following:
+
+    commit 9793f7a9bb4f234a614ffcb48867b6306b96d4d9
+    Author: Claude <noreply@anthropic.com>
+    Date:   Fri May 22 10:42:14 2026 +0000
+
+        config: drop ALLOW_CIRCUIT_CONFIRMED_BACKWARD (now default behavior)
+
+        The circuit-confirmed backward clock correction is now built in (see
+        helper-scripts onion-time-pre-script), so no config option is needed.
+
+        https://claude.ai/code/session_01DT5Zo2LTVXngDDQiH8pPUB
+
+    commit 6fc15d4e2246f026d7c9faa4d0021dfb159e9da6
+    Author: Claude <noreply@anthropic.com>
+    Date:   Fri May 22 09:26:53 2026 +0000
+
+        config: add ALLOW_CIRCUIT_CONFIRMED_BACKWARD (default off)
+
+        Documented, default-off opt-in that enables the circuit-confirmed
+        backward clock correction in onion-time-pre-script (helper-scripts):
+        when a real Tor circuit is established, sdwdate may correct a "fast"
+        clock backward over real circuits (pool-median + replay-floor gated).
+        EXPERIMENTAL; needs maintainer review and real-system testing.
+
+        https://claude.ai/code/session_01DT5Zo2LTVXngDDQiH8pPUB
+
+    commit 3276859bb6cd2bd00f04c799eb69f124bf7ab911
+    Author: Claude <noreply@anthropic.com>
+    Date:   Thu May 21 21:11:44 2026 +0000
+
+        Revert hwclock --utc; respect /etc/adjtime RTC mode
+
+        Forcing --utc imposes UTC RTC mode and rewrites /etc/adjtime, overriding a
+        deliberate localtime-RTC configuration (e.g. dual-boot). hwclock --systohc
+        already defaults to UTC when /etc/adjtime is absent, so --utc adds no
+        correctness benefit and can destabilize localtime-RTC systems. Respecting
+        /etc/adjtime correctly handles both UTC and localtime RTC modes.
+
+        https://claude.ai/code/session_01DT5Zo2LTVXngDDQiH8pPUB
+
+    commit 1c819bede02bce2a00afc46d5f0219ebbe94638d
+    Author: Claude <noreply@anthropic.com>
+    Date:   Thu May 21 20:43:39 2026 +0000
+
+        Make time handling robust against non-UTC timezones
+
+        time_human_readable() used datetime.fromtimestamp() without tzinfo, which
+        depends on the process local timezone. It is currently correct only because
+        its callers force TZ=UTC; convert explicitly in UTC so it cannot silently
+        emit local time into UTC-labeled files/logs.
+
+        Sync the hardware clock with hwclock --utc to keep the RTC in UTC as
+        intended, instead of deferring to /etc/adjtime.
+
+        https://claude.ai/code/session_01DT5Zo2LTVXngDDQiH8pPUB
+
+commit f096e7416f5aa4f2020ae7f43275e34fbba74858
+Merge: fbfae3a 6f69023
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon May 25 13:58:48 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/org-ai-assisted/master'
+
+commit 6f6902324731076a690421efdcba0d1a969aa52c
+Author: assisted-by-ai (Bot Account) <228987186+assisted-by-ai@users.noreply.github.com>
+Date:   Sun May 24 18:07:52 2026 -0400
+
+    30_default.conf + CI: prune dead mirrors, add new onion time sources, add CI provenance gates
+
+    ## Time-source pool changes (etc/sdwdate.d/30_default.conf)
+
+    Mirrors upstream Kicksecure/sdwdate#58 (Nurmagoz, "Removed dead
+    mirrors") and continues that work with safety / hygiene fixes.
+
+    POOL_ZERO
+      - dlegal66... (decoded.legal) demoted https -> http
+      + zkaan2x... (keys.openpgp.org) moved here from POOL_ONE
+
+    POOL_ONE
+      - zkaan2x... (moved to POOL_ZERO)
+      - searxsp... (searx.space, dead)
+      - llqiis... (mail.systemli.org, dead)
+      + liqr2cb... (metadata.systemli.org)
+      + srkggqk... (cloud.systemli.org)
+      + 5b6kg6v... (paste.systemli.org)
+      + hzij2up... (schleuder.systemli.org)
+      + adstjh4... (users.systemli.org)
+      + rurcblz... (cock.li), xdkriz6... (mail.cock.li)
+        -- Editorial call deferred to maintainers; cock.li has a
+           long-running tolerance-of-abuse reputation. Shipped per
+           upstream patch verbatim.
+      - t3qi4hd... (torstatus.rueckgr.at) commented out: server
+        accepts HEAD but full GETs time out (3/3 CI attempts).
+        Re-enable once the GET path is restored.
+
+    POOL_TWO (SecureDrop directory)
+      + 12 new entries (cbc, dagbladet, der-spiegel, financial-times,
+        forbes, greekleaks, news24, propublica, sueddeutsche-zeitung,
+        the-economist, globe-and-mail, whistleblower-aid,
+        bloomberg-industry-group)
+      - dropped 3 dead: 2600-hacker-quarterly, bloomberg-law,
+        public-intelligence
+      - dqa4zah... (abc) and 4beybcv... (stavanger-aftenblad)
+        commented out: Freedom of the Press Foundation has
+        temporarily delisted both instances with "detected issues
+        with this instance". Re-enable once FPF restores the
+        directory pages.
+
+    Sybil-risk audit: verified independently that every named
+    SecureDrop org is real and the v3 hash matches what each org's
+    own primary domain publishes; greekleaks is operated by
+    Reporters United, a Greek investigative-journalism non-profit
+    (low public recognition, well-documented operator).
+
+    Pool counts: 17 / 20 / 23 active URLs.
+
+    ## CI infrastructure (new)
+
+    Adopts the org's reusable composite actions + style guide.
+
+    Workflow .github/workflows/local-onion-tester.yml runs on every
+    PR + push touching the conf, the onion-tester script, or the CI
+    scripts. Uses dmf's install-deps composite action to set up
+    apt deps + genmkfile + helper-scripts, then genmkfile-installs
+    sdwdate itself (install-self: true) so the runner exercises the
+    same installed-paths a production system uses. Job-level
+    timeout-minutes: 30 plus per-step timeouts (18/5/20 min) on the
+    three data-producing steps for defensive depth.
+
+    ci/onion-tester-configure-tor.sh - appends CI-specific torrc
+    directives (ControlPort + CookieAuth* needed by sdwdate's
+    timesanitycheck stem.connection.connect; Log notice file read
+    by the bootstrap-wait grep) and restarts tor@default.
+
+    ci/onion-tester-wait-bootstrap.sh - polls /var/log/tor/notice.log
+    for Bootstrapped 100, then chmods the control auth cookie
+    world-readable for the non-debian-tor runner.
+
+    ci/onion-tester-run.sh - wraps /usr/share/sdwdate/onion-tester
+    with bounded retry (3 attempts, 15s between) so a single
+    transient Tor circuit timeout doesn't fail CI on an
+    otherwise-healthy URL set.
+
+    ci/onion-tester-probe-removed.sh - probes every onion the PR
+    drops from the conf and fails if any is still reachable over
+    Tor. Captures the full http[s]?://URL (with optional :port)
+    from each '-' diff line so HTTPS-only or non-default-port
+    removals are probed correctly.
+
+    ci/onion-tester-verify-evidence.sh - for every truly-added
+    entry (in HEAD but not in base), verifies the wayback /
+    archive.ph URL in the comment field actually mentions the
+    .onion hash. Outer retry loop (4 attempts, 10s between) for
+    wayback's occasional HTTP-200-with-wrong-body responses.
+    Live-URL fallback was considered but rejected: PR-controlled
+    comments could otherwise let CI fetch arbitrary external
+    hosts.
+
+    All four CI scripts share the org's CI=true / ALLOW_LOCAL=true
+    refuse-to-run guard from dfuzzer-build.sh.
+
+    Step-summary panels (via dmf's reusable
+    ci/step-summary-emit.sh) emit per-tool markdown panels in the
+    Actions tab with outcome + counts (onion-tester attempts,
+    removed-checked / still-alive, added-checked / verified /
+    missing).
+
+    ## Style / hygiene
+
+    Adopt the org's bash style guide in the new CI scripts:
+    - R-030 strict printf '%s\n' "..." form
+    - R-062 -- end-of-options before grep patterns
+    - pipefail-safe grep || true
+    - no grep --quiet (SIGPIPE on closed stdin under pipefail)
+    - R-093 self-contained CI scripts (no helper-scripts source)
+    - R-100 substantial bash logic in standalone .sh files, not
+      inline workflow run: |
+    - R-151 comments explain WHY, not WHAT
+
+    Banner at the top of 30_default.conf points contributors at
+    https://www.kicksecure.com/wiki/Sdwdate#Rules_for_sdwdate_time_source_related_git_pull_requests
+    before changing any SDWDATE_POOL_* entry.
+
+commit fbfae3a678a17904d9a48fb58865b0c2b6f84a8b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed May 20 22:19:10 2026 +0000
+
+    bumped changelog version
+
 commit 1fcc3064ca27d7fe83d6429c4341498f85e3b23a
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed May 20 16:57:09 2026 -0400
