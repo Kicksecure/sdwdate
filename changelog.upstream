@@ -1,3 +1,22 @@
+commit 9ff489aaa9c236d7c30fcfac0a30504490eee7f1
+Merge: daabda3 2b9f044
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 27 06:09:29 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/ArrayBolt3/arraybolt3/trixie'
+
+commit 2b9f044a5436679be6c54656704801422677add8
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Fri Jun 26 19:32:18 2026 -0400
+
+    Remove archive.today from time sources, no longer considered trustworthy
+
+commit daabda362977b0a67fdf150f4203cb332ee726a7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed May 27 23:00:50 2026 +0000
+
+    bumped changelog version
+
 commit 35700c4fe3db0716278d09c201d7e6ee3f15742e
 Merge: f096e74 9d11ba4
 Author: Patrick Schleizer <adrelanos@whonix.org>
