@@ -34,12 +34,34 @@
 import sys
 sys.dont_write_bytecode = True
 
+import os
 import subprocess
 import time
 
 from sdwdate.config import read_pools
 from sdwdate.proxy_settings import proxy_settings
 from sdwdate.remote_times import get_time_from_servers
+
+
+def _env_int(name, default):
+    """A positive-int env override, else the default (bad/empty value ignored)."""
+    try:
+        val = int(os.environ.get(name, "") or default)
+    except ValueError:
+        return default
+    return val if val >= 1 else default
+
+
+## How many URLs to probe concurrently per chunk. get_time_from_servers probes a
+## chunk in parallel (ThreadPoolExecutor), so a chunk containing an unreachable
+## onion costs one ~120s primary timeout regardless of the other URLs in it. A
+## larger chunk lets those timeouts OVERLAP instead of serializing across chunks
+## -- the difference between a ~13-min and a ~2-min full sweep. Default 3 matches
+## production sdwdate's per-pool sampling; the CI wrapper raises it (ONION_TESTER_CHUNK).
+CHUNK_SIZE = _env_int("ONION_TESTER_CHUNK", 3)
+## curl --head reachability timeout for the secondary (diagnostic) check on a URL
+## already judged OFFLINE. Overridable so CI can shorten this per-failure overhead.
+HEAD_MAX_TIME = str(_env_int("ONION_TESTER_HEAD_MAXTIME", 60))
 
 
 def chunks(my_list, n):
@@ -54,7 +76,7 @@ def exec_curl(c_url, proxy_ip, proxy_port):
             [
                 'curl',
                 '--socks5-hostname', '{}:{}'.format(proxy_ip, proxy_port),
-                '--max-time', '60',
+                '--max-time', HEAD_MAX_TIME,
                 '--head', c_url,
             ],
             stdout=subprocess.DEVNULL,
@@ -100,7 +122,7 @@ class CheckRemotes:
         offline = 0
         tot_diff = 0
 
-        for url_chunk in chunks(urls, 3):
+        for url_chunk in chunks(urls, CHUNK_SIZE):
             print('Testing the URL Chunk:')
             for u in url_chunk:
                 print('  ' + u)

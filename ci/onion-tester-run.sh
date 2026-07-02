@@ -35,6 +35,14 @@ if [ "${CI:-}" != "true" ] && [ "${ALLOW_LOCAL:-}" != "true" ]; then
    exit 1
 fi
 
+## CI-tuned probe knobs (the probe keeps its production defaults 3 / 60 for direct
+## end-user runs; here we parallelize harder and shorten the diagnostic HEAD so a
+## FULL sweep is ~2-3 min instead of ~13 -- which is what leaves budget for the
+## targeted retries below). '[ -v ] ||' respects an explicit override, incl. empty.
+[ -v ONION_TESTER_CHUNK ] || ONION_TESTER_CHUNK=20
+[ -v ONION_TESTER_HEAD_MAXTIME ] || ONION_TESTER_HEAD_MAXTIME=15
+export ONION_TESTER_CHUNK ONION_TESTER_HEAD_MAXTIME
+
 ## Overridable so the suite runs from a checkout / against a mock in tests; defaults
 ## to the installed probe.
 onion_tester="${ONION_TESTER_BIN:-/usr/share/sdwdate/onion-tester}"
