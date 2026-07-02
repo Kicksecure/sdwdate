@@ -10,9 +10,17 @@
 ## (config.read_pools + remote_times.get_time_from_servers) so the same
 ## logic that drives production runs through every URL exactly once.
 ##
+## Usage:
+##   onion-tester              probe every URL in the conf (default).
+##   onion-tester URL [URL...] subset mode: probe ONLY the given URLs (a subset of
+##                             the conf) -- e.g. to re-test just the URLs that failed
+##                             a prior run, without re-probing the whole set.
+##
 ## Output per URL:
 ##   pool N url URL: ONLINE  unixtime=...  diff=...s
 ##   pool N url URL: OFFLINE status=...    (Curl --head also Not OK)
+##   FAILED_URL URL            stable, machine-readable marker for each failed URL
+##                             (parse these to drive a targeted retry).
 ##
 ## Exit codes:
 ##   0 = every probed URL responded
@@ -26,12 +34,34 @@
 import sys
 sys.dont_write_bytecode = True
 
+import os
 import subprocess
 import time
 
 from sdwdate.config import read_pools
 from sdwdate.proxy_settings import proxy_settings
 from sdwdate.remote_times import get_time_from_servers
+
+
+def _env_int(name, default):
+    """A positive-int env override, else the default (bad/empty value ignored)."""
+    try:
+        val = int(os.environ.get(name, "") or default)
+    except ValueError:
+        return default
+    return val if val >= 1 else default
+
+
+## How many URLs to probe concurrently per chunk. get_time_from_servers probes a
+## chunk in parallel (ThreadPoolExecutor), so a chunk containing an unreachable
+## onion costs one ~120s primary timeout regardless of the other URLs in it. A
+## larger chunk lets those timeouts OVERLAP instead of serializing across chunks
+## -- the difference between a ~13-min and a ~2-min full sweep. Default 3 matches
+## production sdwdate's per-pool sampling; the CI wrapper raises it (ONION_TESTER_CHUNK).
+CHUNK_SIZE = _env_int("ONION_TESTER_CHUNK", 3)
+## curl --head reachability timeout for the secondary (diagnostic) check on a URL
+## already judged OFFLINE. Overridable so CI can shorten this per-failure overhead.
+HEAD_MAX_TIME = str(_env_int("ONION_TESTER_HEAD_MAXTIME", 60))
 
 
 def chunks(my_list, n):
@@ -46,7 +76,7 @@ def exec_curl(c_url, proxy_ip, proxy_port):
             [
                 'curl',
                 '--socks5-hostname', '{}:{}'.format(proxy_ip, proxy_port),
-                '--max-time', '60',
+                '--max-time', HEAD_MAX_TIME,
                 '--head', c_url,
             ],
             stdout=subprocess.DEVNULL,
@@ -67,17 +97,24 @@ class Pool:
 
 
 class CheckRemotes:
-    def __init__(self, proxy_ip, proxy_port):
+    def __init__(self, proxy_ip, proxy_port, only_urls=None):
         self.proxy_ip = proxy_ip
         self.proxy_port = proxy_port
+        ## Optional allowlist: when non-empty, probe ONLY these URLs (a subset of
+        ## the conf), so a caller can re-test just the URLs that failed a prior run
+        ## instead of the whole set. Empty/None => probe every conf URL (default).
+        self.only_urls = set(only_urls or ())
         self.number_of_pools = 3
         self.pools = [Pool(p) for p in range(self.number_of_pools)]
         self.online = 0
         self.offline = 0
 
     def probe_pool(self, pool_index, pool):
-        print('### Pool {} ({} URL(s))'.format(pool_index + 1, len(pool.url)))
-        if not pool.url:
+        urls = pool.url
+        if self.only_urls:
+            urls = [u for u in pool.url if u in self.only_urls]
+        print('### Pool {} ({} URL(s))'.format(pool_index + 1, len(urls)))
+        if not urls:
             print('  (empty)')
             return
 
@@ -85,7 +122,7 @@ class CheckRemotes:
         offline = 0
         tot_diff = 0
 
-        for url_chunk in chunks(pool.url, 3):
+        for url_chunk in chunks(urls, CHUNK_SIZE):
             print('Testing the URL Chunk:')
             for u in url_chunk:
                 print('  ' + u)
@@ -130,6 +167,13 @@ class CheckRemotes:
                     msg += exec_curl(url, self.proxy_ip, self.proxy_port)
                     offline += 1
                 print(msg)
+                ## Stable, machine-readable marker for every failed URL (both the
+                ## OFFLINE and REACHABLE-but-INVALID cases count as a failure and set
+                ## the non-zero exit). A caller can collect these to retry only the
+                ## URLs that failed. One URL per line; onion/clearnet URLs have no
+                ## spaces, so a space separator parses unambiguously.
+                if status != 'ok':
+                    print('FAILED_URL ' + url)
             print('')
 
         avg = (tot_diff / online) if online else 0
@@ -158,8 +202,11 @@ class CheckRemotes:
 
 
 def main():
+    ## Optional positional args = a URL allowlist (subset mode): probe ONLY those
+    ## URLs. No args => probe every URL in the conf (default / production behavior).
+    only_urls = sys.argv[1:]
     proxy_ip, proxy_port = proxy_settings()
-    remotes = CheckRemotes(proxy_ip, proxy_port)
+    remotes = CheckRemotes(proxy_ip, proxy_port, only_urls)
     remotes.loop()
     sys.exit(0 if remotes.offline == 0 else 1)
 

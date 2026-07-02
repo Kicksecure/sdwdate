@@ -66,9 +66,11 @@ jobs:
 
       - name: Run onion-tester (Tor SOCKS5 probe, retry on transient flake)
         id: onion-tester
-        ## Wrapper does up to 3 attempts of the full probe; one full
-        ## sweep is ~5 min. Cap leaves slack for the worst-case 3rd
-        ## attempt + 2x15s inter-attempt sleep.
+        ## Attempt 1 probes the full conf (~5 min); later attempts re-probe ONLY the
+        ## URLs that failed, so a transient per-onion flake is cheap. The wrapper
+        ## self-bounds to a 14-min wall-clock deadline (ONION_TESTER_DEADLINE) and
+        ## runs each attempt under `timeout`, so it exits cleanly + records outputs;
+        ## this step cap is the backstop above that (18 > 14).
         timeout-minutes: 18
         run: ./ci/onion-tester-run.sh
 
