@@ -1,3 +1,85 @@
+commit ad576db0242f04acd33e779bcd8178ca7e3f8b2f
+Merge: 061a1e1 a7e2ac5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jul 2 04:46:56 2026 -0400
+
+    Merge remote-tracking branch 'org-ai-assisted/master'
+
+commit a7e2ac546948e59e7d0e52161bc3d0022e57009a
+Author: claude (dev29 1b766332-1023-4a87-adbd-b17a64476bbf) <noreply@anthropic.com>
+Date:   Thu Jul 2 03:26:57 2026 -0400
+
+    onion-tester: parallelize the full sweep so retries get real budget
+
+    Follow-up to the retry/deadline commit: the first CI run with it still failed,
+    but not the mechanics (retry correctly re-probed only the 4 failed URLs and the
+    wrapper exited cleanly at the deadline). The problem was attempt 1 (the full
+    conf) took ~13 min on its own, leaving the retry only 56s.
+
+    Cause: get_time_from_servers probes each chunk in parallel (ThreadPoolExecutor),
+    but the probe used chunks of 3, so each unreachable onion's ~120s primary timeout
+    (remote_times.run_command) serialized across ~21 chunks. Making the chunk larger
+    lets those timeouts OVERLAP -- a full sweep drops from ~13 min to ~2-3 min, which
+    is what leaves budget for the targeted retries to actually run.
+
+    - onion-tester: chunk size is now ONION_TESTER_CHUNK (default 3, unchanged for
+      end users / production-like sampling) and the diagnostic curl --head timeout is
+      ONION_TESTER_HEAD_MAXTIME (default 60). Bad/empty values fall back to defaults.
+    - ci/onion-tester-run.sh: CI-tunes those to 20 / 15 (via '[ -v ] ||' so an
+      explicit override still wins), so attempt 1 is fast and the deadline leaves room
+      for the retries to converge -- or to fail fast + definitively if an onion is
+      genuinely down (a real signal, not a timeout).
+
+    Verified: probe honors the knobs (default 3/60, override 20/15, bad->fallback);
+    wrapper still retries only the failed URLs and propagates chunk=20/head=15 to the
+    probe; py_compile + shellcheck clean.
+
+    Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
+    Claude-Session: https://claude.ai/code/session_01BBdc6EqGiW8uGCQsvkn8LD
+
+commit fc9d81a433f24433caef18bd12a08ea8e404150c
+Author: claude (dev29 1b766332-1023-4a87-adbd-b17a64476bbf) <noreply@anthropic.com>
+Date:   Thu Jul 2 03:04:58 2026 -0400
+
+    onion-tester: retry only failed URLs + wall-clock deadline (de-flake CI)
+
+    The onion-tester CI step timed out (18 min) whenever a few onion time-sources
+    were transiently unreachable: the probe fails if ANY of ~62 URLs is offline, and
+    the wrapper re-probed ALL 62 up to 3x, so a partial Tor outage blew the step
+    budget and the runner SIGKILLed it mid-probe (losing the attempts output). Tor
+    itself was healthy; it was a structurally flaky harness. Fix, three parts:
+
+    - usr/share/sdwdate/onion-tester: add backward-compatible SUBSET MODE -- extra
+      positional args restrict the probe to just those URLs (no args = probe the
+      whole conf, unchanged default) -- and print a stable 'FAILED_URL <url>' marker
+      per failure. Both are additive; end-user behavior is unchanged.
+    - ci/onion-tester-run.sh: attempt 1 probes the full conf; each later attempt
+      re-probes ONLY the URLs that failed the previous one (parsed from FAILED_URL),
+      so a transient per-onion flake costs a few-URL re-probe instead of a full
+      ~62-URL sweep, and it converges. A global wall-clock deadline (default 14 min,
+      ONION_TESTER_DEADLINE) plus a per-attempt `timeout` bound the whole loop, so the
+      wrapper exits cleanly and records 'attempts' instead of being SIGKILLed. Probe
+      path is overridable (ONION_TESTER_BIN) so it runs from a checkout / a test mock.
+    - workflow: the 18-min step cap is now a backstop above the 14-min self-bound;
+      comment updated to match.
+
+    Kept --max-time 60 deliberately: lowering it risks false-OFFLINE on legitimately
+    slow Tor circuits; the retry-failed + deadline is the correct lever.
+
+    Verified: probe subset-filter + FAILED_URL markers unit-tested (stubbed sdwdate);
+    wrapper retries ONLY the failed URLs (mock: attempt 2 got exactly the 2 failures,
+    passed, attempts=2); a hung probe is killed by the deadline in ~3s not 60s
+    (rc 124); shellcheck + py_compile clean.
+
+    Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
+    Claude-Session: https://claude.ai/code/session_01BBdc6EqGiW8uGCQsvkn8LD
+
+commit 061a1e14e65ef2f6e05abced0d1318f5f25ba454
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jun 27 10:12:05 2026 +0000
+
+    bumped changelog version
+
 commit 9ff489aaa9c236d7c30fcfac0a30504490eee7f1
 Merge: daabda3 2b9f044
 Author: Patrick Schleizer <adrelanos@whonix.org>
