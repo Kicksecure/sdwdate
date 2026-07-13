@@ -79,8 +79,11 @@ probe_one() {
 
    url="${1}"
    case "${url}" in
-      */) ;;
-      *) url="${url}/" ;;
+      */)
+         ;;
+      *)
+         url="${url}/"
+         ;;
    esac
    code="$(curl --socks5-hostname "${proxy}" --max-time "${curl_max_time}" \
       --output /dev/null --silent --write-out '%{http_code}' \
