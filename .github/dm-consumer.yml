@@ -1,0 +1,12 @@
+## Copyright (C) 2026 - 2026 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
+## See the file COPYING for copying conditions.
+
+## AI-Assisted
+
+## Per-repo parameters for developer-meta-files consumer workflows.
+
+coverity:
+  ## scan.coverity.com project name (org-ai-assisted-owned; the "/" is
+  ## rejected in manual registration so the name is slash-free).
+  project-name:    "org-ai-assisted-sdwdate"
+  canonical-repos: "org-ai-assisted/sdwdate"
