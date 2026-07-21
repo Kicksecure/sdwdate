@@ -1,3 +1,39 @@
+commit a4d43707e2fbbbe97736b2788951e2b343f8b730
+Merge: 9ff7857 65e2e94
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Jul 21 06:23:29 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/org-ai-assisted/master'
+
+commit 65e2e949c71d6026e62de5126330dd5cc18e64a5
+Author: assisted-by-ai (Bot Account) (Machine Account) <228987186+assisted-by-ai@users.noreply.github.com>
+Date:   Sat Jul 18 20:00:30 2026 -0400
+
+    Coverity: point CI at the org-ai-assisted-sdwdate project
+
+commit 92d6a5365f201642323d4812259f20521be10ce4
+Author: assisted-by-ai (Bot Account) (Machine Account) <228987186+assisted-by-ai@users.noreply.github.com>
+Date:   Sat Jul 18 20:00:28 2026 -0400
+
+    Add consumer-coverity.yml (opt into Coverity Scan)
+
+commit b5b4d8f03213b08988829398749743442368b26f
+Author: assisted-by-ai (Bot Account) (Machine Account) <228987186+assisted-by-ai@users.noreply.github.com>
+Date:   Mon Jul 13 11:51:10 2026 -0400
+
+    onion-tester: multi-line case arm (R-070) (#3)
+
+    Expand the compact url-normalization case arm to the fully multi-line form
+    per R-070. No behavior change.
+
+    Co-authored-by: claude (dev71 31548627-e7c1-43cd-bd41-8b0900c72576) <noreply@anthropic.com>
+
+commit 9ff78573d9d6c55636745bb07fa8d02a70ab9800
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jul 2 09:13:29 2026 +0000
+
+    bumped changelog version
+
 commit ad576db0242f04acd33e779bcd8178ca7e3f8b2f
 Merge: 061a1e1 a7e2ac5
 Author: Patrick Schleizer <adrelanos@whonix.org>
