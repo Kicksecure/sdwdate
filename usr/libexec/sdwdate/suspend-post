@@ -21,10 +21,6 @@ date_cmd(){
 
 output_cmd_func() {
    msg="$(date_cmd) - $0 - $*"
-   ## Suppress the stdout copy under xtrace: 'set -x' already echoes every
-   ## command to stderr, so printing the message again would double each line.
-   ## '!' must sit OUTSIDE the brackets: '[ ! -o xtrace ]' parses '-o' as the
-   ## binary OR operator, not the shell-option test, and is always true.
    if ! [ -o xtrace ]; then
       printf '%s\n' "${msg}"
    fi

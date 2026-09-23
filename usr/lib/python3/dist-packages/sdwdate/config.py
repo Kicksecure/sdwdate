@@ -72,13 +72,9 @@ def allowed_failures_config():
                 lines = conf.readlines()
             for line in lines:
                 if line.startswith("MAX_FAILURE_RATIO"):
-                    match = re.search(r"=(.*)", line)
-                    if match is not None:
-                        failure_ratio = match.group(1)
-    # Coerce to float, falling back to the default on a missing or malformed
-    # value, rather than crash the daemon at startup on a corrupt conf file: a
-    # truncated "MAX_FAILURE_RATIO" line with no "=" leaves re.search None, and
-    # a non-numeric value would raise later in allowed_failures_calculate.
+                    search_rslt = re.search(r"=(.*)", line)
+                    if search_rslt is not None:
+                        failure_ratio = search_rslt.group(1)
     try:
         return float(failure_ratio)
     except (TypeError, ValueError):
@@ -145,10 +141,6 @@ def sort_pool(pool, mode):
         elif multi_line and pool[i].startswith('"'):
             url = re.search(r'"(.*)#', pool[i])
             comment = re.search(r'#(.*)"', pool[i])
-            # Append url and comment as a pair so the two lists stay in
-            # lockstep. A malformed line matching only one regex is skipped
-            # rather than desyncing the lists, which crashed the paired index
-            # in the production picker below.
             if url is not None and comment is not None:
                 if mode == 'production':
                     multi_list_url[multi_index].append(url.group(1).strip())
@@ -164,8 +156,6 @@ def sort_pool(pool, mode):
         elif pool[i].startswith('"'):
             url = re.search(r'"(.*)#', pool[i])
             comment = re.search(r'#(.*)"', pool[i])
-            # Pair url + comment so a malformed single-entry line cannot desync
-            # the two lists (get_comment pairs them by index).
             if url is not None and comment is not None:
                 pool_single_url.append(url.group(1).strip())
                 pool_single_comment.append(comment.group(1).strip())
@@ -174,10 +164,7 @@ def sort_pool(pool, mode):
     # append it to single url pool.
     for i in range(number_of_pool_multi):
         if mode == 'production':
-            # An empty multi-line pool block (a "[" .. "]" span with no valid
-            # url lines) has no member to pick; skip it rather than crash the
-            # daemon on a malformed pool file.
-            if not multi_list_url[i]:
+            if len(multi_list_url[i]) == 0:
                 continue
             single_ulr_index = random.sample(
                 range(len(multi_list_url[i])), 1)[0]

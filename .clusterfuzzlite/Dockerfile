@@ -23,6 +23,9 @@ FROM gcr.io/oss-fuzz-base/base-builder-python@sha256:9dd557a4ba0e0cdfbeabc0bb115
 ## No portable-CPython drop-in: sdwdate's parsers (url_to_unixtime, config.py)
 ## and the harnesses are plain 3.x, so the base's Python 3.11 parses and bundles
 ## them cleanly. (privleap needs a 3.12 drop-in only for its PEP 701 f-strings.)
+##
+## FIXME: Upgrate to CPython 3.13.5 as that is the version in Debian Trixie. It
+## is very important that we test against the same version our users use.
 
 ## The fuzz harnesses + corpus live in org-ai-assisted/dist-ai (the single
 ## source for sdwdate's test/fuzz logic), NOT this package. Clone them at build
