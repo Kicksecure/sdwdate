@@ -1,4 +1,4 @@
-#!/usr/bin/python3 -su
+#!/usr/bin/python3 -Bsu
 
 ## Copyright (C) 2015 troubadour <trobador@riseup.net>
 ## Copyright (C) 2015 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
@@ -22,6 +22,9 @@
 # timeout --kill-after 1 1 cat /dev/random >&2
 # echo abcdefghij
 
+## Shell-invocation guard.
+"exec" "bash" "-c" "printf '%s\n' '$0: ERROR: Do not execute this script with bash!' >&2; exit 1"
+
 import sys
 sys.dont_write_bytecode = True
 
@@ -34,7 +37,14 @@ time.tzset()
 
 
 def data_to_http_time(data):
-    http_time = data.headers["Date"]
+    ## A hostile server may omit the Date header entirely; reject that cleanly
+    ## rather than crash with an uncaught KeyError.
+    try:
+        http_time = data.headers["Date"]
+    except KeyError:
+        print('HTTP header has no Date field.', file=sys.stderr)
+        print('HTTP header data:\n{}'.format(data), file=sys.stderr)
+        sys.exit(2)
 
     ## Test ###################
     #http_time = http_time[:28]
@@ -88,7 +98,7 @@ def unixtime_sanity_check(data, http_time, parsed_unixtime):
         print('http_time: {}'.format(http_time), file=sys.stderr)
         print('parsed_unixtime: {}'.format(parsed_unixtime), file=sys.stderr)
         print('unixtime_string_length_is: {}'.format(unixtime_string_length_is), file=sys.stderr)
-        print('unixtime_string_length_max: {}'.format(unixtime_string_length_max, file=sys.stderr))
+        print('unixtime_string_length_max: {}'.format(unixtime_string_length_max), file=sys.stderr)
         print('parsed_unixtime has excessive string length!', file=sys.stderr)
         sys.exit(4)
 
@@ -124,13 +134,23 @@ def http_time_to_parsed_unixtime(data, http_time):
         ## Thanks to:
         ## eumiro
         ## http://stackoverflow.com/a/3894047/2605155
-        parsed_unixtime = parse(http_time).strftime('%s')
+        ## timestamp() honors the header's own UTC offset. strftime('%s')
+        ## formats the naive wall-clock fields in TZ=UTC and DISCARDS the
+        ## offset, so a hostile server sending a non-GMT offset (e.g. +0500)
+        ## could shift the result by up to ~24h while still passing every
+        ## downstream sanity check. int() drops sub-second precision; str() for
+        ## the length/int checks in unixtime_sanity_check.
+        parsed_unixtime = str(int(parse(http_time).timestamp()))
 
-    except ValueError as e:
+    ## A hostile server controls this Date header. dateutil raises ValueError
+    ## on an unparseable date, but OverflowError on an out-of-C-int-range year
+    ## and TypeError on a wrong-typed component -- all three must be rejected as
+    ## a bad server response, never crash the daemon.
+    except (ValueError, OverflowError, TypeError) as e:
         print('Parsing http_time from server failed!', file=sys.stderr)
         print('HTTP header data:\n{}'.format(data), file=sys.stderr)
         print('http_time: {}'.format(http_time), file=sys.stderr)
-        print('dateutil ValueError: {}'.format(e), file=sys.stderr)
+        print('dateutil error: {}'.format(e), file=sys.stderr)
         sys.exit(6)
 
     ## Test ##################################
@@ -148,7 +168,8 @@ def parse_command_line_parameters():
         url = sys.argv[3]
         verbosity = sys.argv[4]
 
-    except IndexError as e:
+    ## IndexError: too few args. ValueError: a non-numeric port from int().
+    except (IndexError, ValueError) as e:
         print("Parsing command line parameter failed. | e: {}".format(e), file=sys.stderr)
         print("sys.argv:", str(sys.argv), file=sys.stderr)
         sys.exit(7)

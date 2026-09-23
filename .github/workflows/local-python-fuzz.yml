@@ -1,0 +1,57 @@
+## Copyright (C) 2026 - 2026 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
+## See the file COPYING for copying conditions.
+
+## AI-Assisted
+
+## Coverage-guided fuzzing (ClusterFuzzLite / Atheris) for sdwdate's Python fuzz
+## harnesses (the HTTP Date parser in url_to_unixtime and the pool-config
+## sort_pool parser). The job body -- the pr/batch split, the pinned
+## google/clusterfuzzlite actions, and the step summary -- lives in the shared
+## reusable so every consumer tracks one source:
+##   developer-meta-files/.github/workflows/reusable-clusterfuzzlite.yml
+##
+## This wrapper owns only the per-repo bits the reusable cannot: the triggers,
+## the paths filter, the schedule (G-A-002), and the concurrency group
+## (G-A-006). Named 'local-' on purpose: an INTENTIONAL per-repo workflow that
+## pkg_update_consumer_workflows must not overwrite (it carries a repo-shaped
+## paths: filter), NOT a managed byte-identical consumer template.
+##
+## Reference:
+## https://google.github.io/clusterfuzzlite/running-clusterfuzzlite/github-actions/
+
+name: Fuzz
+
+on:
+  workflow_dispatch:
+    inputs:
+      fuzz_seconds:
+        description: 'Total fuzzing seconds (batch job; split across all fuzz targets)'
+        required: false
+        default: '600'
+  pull_request:
+    branches: [master]
+    paths:
+      - 'usr/lib/python3/dist-packages/**/*.py'
+      - 'usr/bin/url_to_unixtime'
+      - '.clusterfuzzlite/**'
+      - '.github/workflows/local-python-fuzz.yml'
+  schedule:
+    - cron: '30 3 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  clusterfuzzlite:
+    uses: org-ai-assisted/developer-meta-files/.github/workflows/reusable-clusterfuzzlite.yml@master
+    with:
+      fuzz-seconds-batch: ${{ github.event.inputs.fuzz_seconds || '600' }}
+    permissions:
+      contents: read
+      ## Corpus artifact download in the reusable needs actions: read;
+      ## reusable job permissions cannot exceed what the caller grants.
+      actions: read

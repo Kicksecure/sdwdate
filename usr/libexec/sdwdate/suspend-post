@@ -10,6 +10,7 @@ set -o pipefail
 set -o errtrace
 shopt -s inherit_errexit
 shopt -s shift_verbose
+export LC_ALL=C
 
 # shellcheck source=../../../../helper-scripts/usr/libexec/helper-scripts/has.bsh
 source /usr/libexec/helper-scripts/has.bsh
@@ -20,7 +21,11 @@ date_cmd(){
 
 output_cmd_func() {
    msg="$(date_cmd) - $0 - $*"
-   if [ -o xtrace ]; then
+   ## Suppress the stdout copy under xtrace: 'set -x' already echoes every
+   ## command to stderr, so printing the message again would double each line.
+   ## '!' must sit OUTSIDE the brackets: '[ ! -o xtrace ]' parses '-o' as the
+   ## binary OR operator, not the shell-option test, and is always true.
+   if ! [ -o xtrace ]; then
       printf '%s\n' "${msg}"
    fi
    printf '%s\n' "${msg}" | systemd-cat --identifier="suspend-post" || true
