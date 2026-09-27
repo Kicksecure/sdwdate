@@ -76,6 +76,27 @@ compile_python_fuzzer "${tests_dir}/fuzz_url_to_unixtime.py" \
   --collect-submodules=dateutil \
   --collect-submodules=requests
 
+## Smoke-run each compiled fuzzer to catch a SILENT SKIP: a harness that cannot
+## resolve its subject in the frozen bundle raises SystemExit(77) before atheris
+## starts, so the CFLite fuzz job would pass VACUOUSLY (never fuzzing). Run a
+## bounded burst with SDWDATE_REPO + PYTHONPATH unset -- the run container has
+## neither, so ONLY the bundle can satisfy the import -- and fail the build on a
+## non-zero exit. Exit-code check only, no libFuzzer-output parsing.
+for name in fuzz_sdwdate_config fuzz_url_to_unixtime; do
+  ## Output captured (not a temp file: no safe-rm in the OSS-Fuzz container);
+  ## the if-condition keeps errexit from aborting on the expected non-zero.
+  if smoke_out="$( unset PYTHONPATH SDWDATE_REPO
+                   "${OUT}/${name}" -runs=100 2>&1 )"; then
+    printf 'smoke-run OK %s\n' "${name}"
+  else
+    smoke_rc=$?
+    printf 'FATAL: %s did not fuzz (exit %s) -- subject unresolved in bundle:\n' \
+      "${name}" "${smoke_rc}" >&2
+    printf '%s\n' "${smoke_out}" >&2
+    exit 1
+  fi
+done
+
 ## Seed corpus + dictionary per harness: meaningful starting inputs and keyword
 ## tokens so libFuzzer reaches deep parser branches from the first run.
 ## (Cross-run corpus growth is handled by ClusterFuzzLite's own storage.)
