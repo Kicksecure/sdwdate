@@ -10,6 +10,7 @@ set -o pipefail
 set -o errtrace
 shopt -s inherit_errexit
 shopt -s shift_verbose
+export LC_ALL=C
 
 # shellcheck source=../../../../helper-scripts/usr/libexec/helper-scripts/has.bsh
 source /usr/libexec/helper-scripts/has.bsh
@@ -20,7 +21,7 @@ date_cmd(){
 
 output_cmd_func() {
    msg="$(date_cmd) - $0 - $*"
-   if [ -o xtrace ]; then
+   if ! [ -o xtrace ]; then
       printf '%s\n' "${msg}"
    fi
    printf '%s\n' "${msg}" | systemd-cat --identifier="suspend-post" || true

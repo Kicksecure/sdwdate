@@ -1,4 +1,4 @@
-#!/usr/bin/python3 -su
+#!/usr/bin/python3 -Bsu
 
 # Copyright (C) 2017 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 # See the file COPYING for copying conditions.
@@ -72,10 +72,13 @@ def allowed_failures_config():
                 lines = conf.readlines()
             for line in lines:
                 if line.startswith("MAX_FAILURE_RATIO"):
-                    failure_ratio = re.search(r"=(.*)", line).group(1)
-    if failure_ratio is None:
-        failure_ratio = 0.34
-    return failure_ratio
+                    search_rslt = re.search(r"=(.*)", line)
+                    if search_rslt is not None:
+                        failure_ratio = search_rslt.group(1)
+    try:
+        return float(failure_ratio)
+    except (TypeError, ValueError):
+        return 0.34
 
 
 def allowed_failures_calculate(
@@ -137,16 +140,14 @@ def sort_pool(pool, mode):
 
         elif multi_line and pool[i].startswith('"'):
             url = re.search(r'"(.*)#', pool[i])
-            if url is not None:
+            comment = re.search(r'#(.*)"', pool[i])
+            if url is not None and comment is not None:
                 if mode == 'production':
                     multi_list_url[multi_index].append(url.group(1).strip())
+                    multi_list_comment[multi_index].append(
+                        comment.group(1).strip())
                 elif mode == 'test':
                     pool_single_url.append(url.group(1).strip())
-            comment = re.search(r'#(.*)"', pool[i])
-            if comment is not None:
-                if mode == 'production':
-                    multi_list_comment[multi_index].append(comment.group(1).strip())
-                elif mode == 'test':
                     pool_single_comment.append(comment.group(1).strip())
 
         elif pool[i] == '[':
@@ -154,16 +155,17 @@ def sort_pool(pool, mode):
 
         elif pool[i].startswith('"'):
             url = re.search(r'"(.*)#', pool[i])
-            if url is not None:
-                pool_single_url.append(url.group(1).strip())
             comment = re.search(r'#(.*)"', pool[i])
-            if comment is not None:
+            if url is not None and comment is not None:
+                pool_single_url.append(url.group(1).strip())
                 pool_single_comment.append(comment.group(1).strip())
 
     # Pick a random url in each multi-line pool,
     # append it to single url pool.
     for i in range(number_of_pool_multi):
         if mode == 'production':
+            if len(multi_list_url[i]) == 0:
+                continue
             single_ulr_index = random.sample(
                 range(len(multi_list_url[i])), 1)[0]
             single_url = multi_list_url[i][single_ulr_index]

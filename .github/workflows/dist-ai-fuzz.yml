@@ -1,0 +1,42 @@
+## Copyright (C) 2026 - 2026 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
+## See the file COPYING for copying conditions.
+
+## AI-Assisted
+
+## Runs this fork's dist-ai FUZZ suite (sdwdate-tests-fuzz and
+## sdwdate-tests-fuzz-atheris, which live in org-ai-assisted/dist-ai, not
+## in-tree) on each PR and on push to master. This is NOT the managed
+## consumer-dist-ai-tests.yml template (that one gates the --core category);
+## this one gates --fuzz so the in-process HTTP-Date / pool-config parser
+## fuzzers run on every change too. The component is derived from the repo name
+## by the reusable.
+##
+## sdwdate-tests-fuzz-atheris SKIPs here (atheris is not an apt package; real
+## coverage-guided fuzzing is the ClusterFuzzLite lane in local-python-fuzz.yml)
+## -- its exit-77 is authorized by name in .github/dm-consumer.yml allow-skip, so
+## it does not fail the lane. The plain sdwdate-tests-fuzz runs in seconds.
+##
+## Reusable docs:
+## https://github.com/org-ai-assisted/developer-meta-files/blob/master/.github/workflows/reusable-dist-ai-tests.yml
+
+name: dist-ai fuzz
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dist-ai-fuzz:
+    uses: org-ai-assisted/developer-meta-files/.github/workflows/reusable-dist-ai-tests.yml@master
+    with:
+      categories: '--fuzz'

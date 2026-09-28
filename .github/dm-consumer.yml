@@ -26,6 +26,13 @@ coverity:
 dist-ai-tests:
   ## sdwdate-tests imports sdwdate.sdwdate for real. That import pulls
   ## sdnotify, dateutil (via sdwdate.timesanitycheck) and stem, plus
-  ## guimessages and sanitize_string from helper-scripts.
-  apt-packages: "python3 python3-pytest python3-hypothesis python3-sdnotify python3-dateutil python3-stem"
+  ## guimessages and sanitize_string from helper-scripts. requests is needed
+  ## by the fuzz suite's url_to_unixtime subject.
+  apt-packages: "python3 python3-pytest python3-hypothesis python3-sdnotify python3-dateutil python3-requests python3-stem"
   helper-scripts: true
+  ## sdwdate-tests-fuzz-atheris SKIPs (exit 77) when atheris is absent -- atheris
+  ## is not an apt package; coverage-guided fuzzing is the ClusterFuzzLite lane
+  ## (local-python-fuzz.yml). Authorize that skip by name so the --fuzz lane
+  ## (dist-ai-fuzz.yml) does not fail on it.
+  allow-skip:
+    - sdwdate-tests-fuzz-atheris
