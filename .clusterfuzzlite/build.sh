@@ -82,7 +82,7 @@ compile_python_fuzzer "${tests_dir}/fuzz_url_to_unixtime.py" \
 
 ## Smoke-run each compiled fuzzer to catch a SILENT SKIP: a harness that cannot
 ## resolve its subject in the frozen bundle raises SystemExit(77) before atheris
-## starts, so the CFLite fuzz job would pass VACUOUSLY (never fuzzing). Run a
+## starts, so the CFLite fuzz job would pass incorrectly (never fuzzing). Run a
 ## bounded burst with SDWDATE_REPO + PYTHONPATH unset -- the run container has
 ## neither, so ONLY the bundle can satisfy the import -- and fail the build on a
 ## non-zero exit. Exit-code check only, no libFuzzer-output parsing.
@@ -93,6 +93,8 @@ for name in fuzz_sdwdate_config fuzz_url_to_unixtime; do
                    "${OUT}/${name}" -runs=100 2>&1 )"; then
     printf 'smoke-run OK %s\n' "${name}"
   else
+    ## TODO: Don't we need to check for exit code 77 here, and use a different
+    ## error message for different error codes?
     smoke_rc=$?
     printf 'FATAL: %s did not fuzz (exit %s) -- subject unresolved in bundle:\n' \
       "${name}" "${smoke_rc}" >&2
