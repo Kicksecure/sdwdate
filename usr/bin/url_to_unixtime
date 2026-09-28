@@ -28,7 +28,7 @@
 import sys
 sys.dont_write_bytecode = True
 
-import os, time, requests
+import os, time, requests, decimal
 from dateutil.parser import parse
 
 os.environ['LC_TIME'] = 'C'
@@ -138,8 +138,9 @@ def http_time_to_parsed_unixtime(data, http_time):
         parsed_unixtime = str(int(parse(http_time).timestamp()))
 
     ## ValueError = unparseable date, OverflowError = out-of-C-int-range,
-    ## TypeError = wrong-typed component
-    except (ValueError, OverflowError, TypeError) as e:
+    ## TypeError = wrong-typed component, decimal.DecimalException = general
+    ## math error
+    except (ValueError, OverflowError, TypeError, decimal.DecimalException) as e:
         print('Parsing http_time from server failed!', file=sys.stderr)
         print('HTTP header data:\n{}'.format(data), file=sys.stderr)
         print('http_time: {}'.format(http_time), file=sys.stderr)
