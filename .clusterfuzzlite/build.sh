@@ -9,10 +9,11 @@
 ## base-builder-python container by the ClusterFuzzLite tooling.
 ##
 ## Standard OSS-Fuzz contract:
-##   - $SRC      - source root (the Dockerfile COPYs this repo to $SRC/sdwdate)
+##   - $SRC      - source root (we COPY the repo here in the Dockerfile)
 ##   - $OUT      - output directory; harnesses go here
-##   - compile_python_fuzzer - OSS-Fuzz helper that wraps a python harness into a
-##                             runnable executable and copies it to $OUT/
+##   - compile_python_fuzzer - OSS-Fuzz helper that wraps a python
+##                              harness into a runnable executable
+##                              and copies it to $OUT/
 ##
 ## The fuzz HARNESSES + corpus are NOT kept in this package: they live in
 ## org-ai-assisted/dist-ai (the single source for sdwdate's test/fuzz logic,
@@ -41,10 +42,14 @@ cd -- "${SRC}/sdwdate"
 
 ## The harnesses import dateutil + requests (url_to_unixtime) at load time;
 ## install them into the builder so pyinstaller can bundle them.
+##
+## FIXME: Why do we use --no-cache-dir here but not in privleap?
+##
+## FIXME: Pin the same versions of these packages as exist in Debian, for
+## higher test fidelity and to dodge supply chain attacks.
 python3 -m pip install --quiet --no-cache-dir python-dateutil requests
 
-## Harnesses + corpus from the dist-ai clone the Dockerfile placed at
-## $SRC/dist-ai. sdwdate's config module is imported from THIS checkout.
+## Harnesses + corpus from the dist-ai clone the Dockerfile placed at $SRC/dist-ai.
 tests_dir="${SRC}/dist-ai/usr/share/sdwdate-tests"
 corpus_root="${tests_dir}/fuzz-corpus"
 if [ ! -d "${tests_dir}" ]; then
@@ -66,9 +71,9 @@ source "${SRC}/dist-ai/usr/share/clusterfuzzlite-lib/smoke-run.bash"
 export PYTHONPATH="${SRC}/sdwdate/usr/lib/python3/dist-packages:${tests_dir}${PYTHONPATH+:${PYTHONPATH}}"
 
 ## fuzz_sdwdate_config: imports sdwdate.config as a module.
-## --collect-submodules=sdwdate pins the package into the bundle (imported
-## inside atheris.instrument_imports); --paths lets pyinstaller find
-## sdwdate_testlib.
+## --collect-submodules=sdwdate pins the sdwdate package into the bundle
+## (the harnesses import it inside atheris.instrument_imports); --paths lets
+## pyinstaller find sdwdate_testlib.
 compile_python_fuzzer "${tests_dir}/fuzz_sdwdate_config.py" \
   --collect-submodules=sdwdate \
   --paths="${tests_dir}"
@@ -98,8 +103,8 @@ for name in fuzz_sdwdate_config fuzz_url_to_unixtime; do
   fi
   if [ -f "${corpus_root}/dicts/${name}.dict" ]; then
     cp -- "${corpus_root}/dicts/${name}.dict" "${OUT}/${name}.dict"
-    printf '[libfuzzer]\ndict = %s.dict\n' "${name}" \
+    printf '%s\n' "[libfuzzer]" "dict = ${name}.dict" \
       > "${OUT}/${name}.options"
   fi
-  printf 'compiled %s\n' "${name}"
+  printf '%s\n' "compiled ${name}"
 done
