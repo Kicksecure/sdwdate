@@ -1,3 +1,32 @@
+commit 81ab5be1db8abf11b6f429579098b9935d862701
+Merge: 57fe597 da51146
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 29 09:47:33 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/org-ai-assisted/ai'
+
+commit da511468345bfbdb454751357479eab189aba927
+Merge: 668707d 1582336
+Author: assisted-by-ai <assisted-by-ai@users.noreply.github.com>
+Date:   Tue Sep 29 04:28:39 2026 -0400
+
+    Merge arraybolt3/trixie into ai (remaster)
+
+commit 57fe5975aa5771f2faa4211da9d4eae434232a69
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 29 08:08:01 2026 +0000
+
+    bumped changelog version
+
+commit 668707d9683385aadf1d497b8dcb34ffb01ca09a
+Author: claude (dev726 bd86980c-217e-4a63-b32c-e714cb85874f) <noreply@anthropic.com>
+Date:   Mon Sep 28 13:19:50 2026 -0400
+
+    Use shared CFLite smoke-run guard from dist-ai
+
+    - replace the inline copy-pasted smoke-run loop with a source of the shared cflite_smoke_run_fuzzers; dist-ai is already cloned by the CFLite Dockerfile
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
 commit 62f8cf59b69d05638281ac75766c701007b2f200
 Merge: 4d48066 1582336
 Author: Patrick Schleizer <adrelanos@whonix.org>
