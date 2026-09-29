@@ -59,7 +59,15 @@ if [ ! -d "${tests_dir}" ]; then
   exit 1
 fi
 
-## sdwdate.config comes from THIS checkout; sdwdate_testlib from the dist-ai test dir.
+## Shared CFLite smoke-run guard (single source of truth in dist-ai). It
+## bounds-runs each compiled fuzzer with PYTHONPATH + every *_REPO override
+## unset and FAILs the build on a non-zero exit -- catching a frozen-bundle
+## SystemExit(77) silent skip that would otherwise pass vacuously.
+# shellcheck disable=SC1090,SC1091
+source "${SRC}/dist-ai/usr/share/clusterfuzzlite-lib/smoke-run.bash"
+
+## sdwdate.config comes from THIS checkout; sdwdate_testlib from the dist-ai test
+## dir. Both must be importable by the harnesses and bundlable by pyinstaller.
 export PYTHONPATH="${SRC}/sdwdate/usr/lib/python3/dist-packages:${tests_dir}${PYTHONPATH+:${PYTHONPATH}}"
 
 ## fuzz_sdwdate_config: imports sdwdate.config as a module.
@@ -80,28 +88,8 @@ compile_python_fuzzer "${tests_dir}/fuzz_url_to_unixtime.py" \
   --collect-submodules=dateutil \
   --collect-submodules=requests
 
-## Smoke-run each compiled fuzzer to catch a SILENT SKIP: a harness that cannot
-## resolve its subject in the frozen bundle raises SystemExit(77) before atheris
-## starts, so the CFLite fuzz job would pass incorrectly (never fuzzing). Run a
-## bounded burst with SDWDATE_REPO + PYTHONPATH unset -- the run container has
-## neither, so ONLY the bundle can satisfy the import -- and fail the build on a
-## non-zero exit. Exit-code check only, no libFuzzer-output parsing.
-for name in fuzz_sdwdate_config fuzz_url_to_unixtime; do
-  ## Output captured (not a temp file: no safe-rm in the OSS-Fuzz container);
-  ## the if-condition keeps errexit from aborting on the expected non-zero.
-  if smoke_out="$( unset PYTHONPATH SDWDATE_REPO
-                   "${OUT}/${name}" -runs=100 2>&1 )"; then
-    printf 'smoke-run OK %s\n' "${name}"
-  else
-    ## TODO: Don't we need to check for exit code 77 here, and use a different
-    ## error message for different error codes?
-    smoke_rc=$?
-    printf 'FATAL: %s did not fuzz (exit %s) -- subject unresolved in bundle:\n' \
-      "${name}" "${smoke_rc}" >&2
-    printf '%s\n' "${smoke_out}" >&2
-    exit 1
-  fi
-done
+## Smoke-run each compiled fuzzer to catch a frozen-bundle SILENT SKIP.
+cflite_smoke_run_fuzzers fuzz_sdwdate_config fuzz_url_to_unixtime
 
 ## Seed corpus + dictionary per harness: meaningful starting inputs and keyword
 ## tokens so libFuzzer reaches deep parser branches from the first run.
