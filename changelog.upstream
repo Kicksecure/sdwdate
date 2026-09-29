@@ -1,3 +1,125 @@
+commit 62f8cf59b69d05638281ac75766c701007b2f200
+Merge: 4d48066 1582336
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Sep 28 02:39:16 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/ArrayBolt3/arraybolt3/trixie'
+
+commit 158233645b7e11cc7cd34f3c5351bf490387a537
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Sun Sep 27 20:48:34 2026 -0400
+
+    comments
+
+commit 2ce4d652b55b74f487635be40cd8566134ed38b4
+Merge: f847558 c6b4a12
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Sun Sep 27 20:42:11 2026 -0400
+
+    Merge branch 'ai' into arraybolt3/trixie
+
+commit c6b4a12a06222e8de4acf71ca7b0bdc0c4abe0b4
+Author: claude (dev711 716949c2-e80f-4729-ad52-744fcd103b35) <noreply@anthropic.com>
+Date:   Sun Sep 27 05:17:21 2026 -0400
+
+    Reject decimal errors from a hostile server Date header
+
+    - dateutil raises a decimal.DecimalException (InvalidOperation /
+      DivisionImpossible) from its internal Decimal arithmetic on adversarial
+      numeric time tokens -- not a ValueError, so it slipped past the existing
+      catch and crashed the daemon (uncaught == DoS from a malicious server).
+      Found by CFLite fuzzing once the harness actually ran.
+
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit d6e23f1cf232c7d06026c17370b11a7ff3e01c29
+Author: claude (dev711 716949c2-e80f-4729-ad52-744fcd103b35) <noreply@anthropic.com>
+Date:   Sun Sep 27 04:30:20 2026 -0400
+
+    Fail CFLite build when a fuzzer silently skips
+
+    - Smoke-run each compiled onefile with SDWDATE_REPO/PYTHONPATH unset (the run
+      container has neither): a harness that cannot resolve its subject in the
+      bundle exits 77 before atheris starts, so the fuzz job would pass VACUOUSLY.
+      A non-zero exit here now fails the build. Exit-code check only, no output
+      parsing.
+
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit f847558b38cf4cdafaffe5bb151c042e47469a65
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Wed Sep 23 15:11:51 2026 -0400
+
+    Polish
+
+commit 9357d20ce874653a7198116563ed067da538247d
+Merge: 4d48066 dad2835
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Tue Sep 22 23:32:50 2026 -0400
+
+    Merge branch 'ai' into arraybolt3/trixie
+
+commit dad28354c948275f4f47998c0cc9ab3706050b39
+Author: claude (dev642 9d48cdf5-f638-4345-b0b9-9d342733a234) <noreply@anthropic.com>
+Date:   Tue Sep 22 12:18:59 2026 -0400
+
+    Fix suspend-post xtrace stdout suppression
+
+    - output_cmd_func printed to stdout only UNDER xtrace; a refactor inlining
+      output_cmd_set dropped the negation, inverting it (empty output normally,
+      doubled output under set -x)
+    - '!' must sit outside [ ]: '[ ! -o xtrace ]' parses -o as the binary OR
+      operator and is always true
+    - add the export LC_ALL=C strict-mode directive (R-010)
+    - caught by dist-ai sdwdate-tests/test_suspend_output.py
+
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit e2d165b11de09321f4e00da3a0f24568d7106b09
+Author: claude (dev642 9d48cdf5-f638-4345-b0b9-9d342733a234) <noreply@anthropic.com>
+Date:   Tue Sep 22 12:18:57 2026 -0400
+
+    Reject hostile Date and config inputs (ai-review)
+
+    - url_to_unixtime: honor the Date header's UTC offset -- timestamp() not
+      strftime('%s'), which formats naive wall-clock in TZ=UTC and DISCARDS the
+      offset, so a non-GMT offset shifted the result up to ~24h past every sanity
+      check; also reject a missing Date header (KeyError) and a non-numeric port
+      (ValueError) via the script's own exit paths instead of crashing
+    - config.allowed_failures_config: coerce MAX_FAILURE_RATIO to float and fall
+      back to the default on a missing '=' or non-numeric value, so a corrupt
+      conf line no longer takes down the daemon at startup
+
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit e4f870761e830f555ae9cb56094c8be3a4a05e11
+Author: claude (dev642 9d48cdf5-f638-4345-b0b9-9d342733a234) <noreply@anthropic.com>
+Date:   Tue Sep 22 11:51:45 2026 -0400
+
+    Harden Date and pool parsers; wire fuzz CI
+
+    - http_time_to_parsed_unixtime: reject dateutil OverflowError/TypeError from a
+      hostile server Date header, not only ValueError (was an uncaught crash)
+    - sort_pool: pair url+comment so a malformed line cannot desync the lists, and
+      skip an empty multi-line pool block instead of sampling an empty population
+    - .clusterfuzzlite + dist-ai/CFLite fuzz workflows run the sdwdate harnesses
+      that live in dist-ai
+
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit a8cb9b6329a0873348bd509c6d03c321f5669598
+Merge: 322fa68 4d48066
+Author: assisted-by-ai <assisted-by-ai@users.noreply.github.com>
+Date:   Tue Sep 15 12:53:54 2026 -0400
+
+    Merge master into ai (remaster)
+
+commit 4d480668e906800af09c32de2a249e89489bc7a8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 15 11:59:34 2026 +0000
+
+    bumped changelog version
+
 commit 212c9a639bb02099403dc2602d1c3cbc9c82b987
 Merge: 9fde622 f24e0e5
 Author: Patrick Schleizer <adrelanos@whonix.org>
