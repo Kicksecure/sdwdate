@@ -43,6 +43,7 @@ def data_to_http_time(data):
         http_time = data.headers["Date"]
     except KeyError:
         print('HTTP header has no Date field.', file=sys.stderr)
+        ## TODO: Run HTTP header data through sanitize-string?
         print('HTTP header data:\n{}'.format(data), file=sys.stderr)
         sys.exit(2)
 
@@ -134,20 +135,11 @@ def http_time_to_parsed_unixtime(data, http_time):
         ## Thanks to:
         ## eumiro
         ## http://stackoverflow.com/a/3894047/2605155
-        ## timestamp() honors the header's own UTC offset. strftime('%s')
-        ## formats the naive wall-clock fields in TZ=UTC and DISCARDS the
-        ## offset, so a hostile server sending a non-GMT offset (e.g. +0500)
-        ## could shift the result by up to ~24h while still passing every
-        ## downstream sanity check. int() drops sub-second precision; str() for
-        ## the length/int checks in unixtime_sanity_check.
         parsed_unixtime = str(int(parse(http_time).timestamp()))
 
-    ## A hostile server controls this Date header. dateutil raises ValueError
-    ## on an unparseable date, OverflowError on an out-of-C-int-range year,
-    ## TypeError on a wrong-typed component, and a decimal.DecimalException
-    ## (e.g. InvalidOperation/DivisionImpossible) from its internal Decimal math
-    ## on adversarial numeric tokens -- all must be rejected as a bad server
-    ## response, never crash the daemon.
+    ## ValueError = unparseable date, OverflowError = out-of-C-int-range,
+    ## TypeError = wrong-typed component, decimal.DecimalException = general
+    ## math error
     except (ValueError, OverflowError, TypeError, decimal.DecimalException) as e:
         print('Parsing http_time from server failed!', file=sys.stderr)
         print('HTTP header data:\n{}'.format(data), file=sys.stderr)

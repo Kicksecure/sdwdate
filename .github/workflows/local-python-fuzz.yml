@@ -3,18 +3,18 @@
 
 ## AI-Assisted
 
-## Coverage-guided fuzzing (ClusterFuzzLite / Atheris) for sdwdate's Python fuzz
-## harnesses (the HTTP Date parser in url_to_unixtime and the pool-config
-## sort_pool parser). The job body -- the pr/batch split, the pinned
-## google/clusterfuzzlite actions, and the step summary -- lives in the shared
-## reusable so every consumer tracks one source:
+## Coverage-guided fuzzing (ClusterFuzzLite / Atheris) for this
+## package's Python fuzz harnesses. The job body -- the pr/batch split,
+## the pinned google/clusterfuzzlite actions, and the step summary --
+## lives in the shared reusable so every consumer tracks one source:
 ##   developer-meta-files/.github/workflows/reusable-clusterfuzzlite.yml
 ##
-## This wrapper owns only the per-repo bits the reusable cannot: the triggers,
-## the paths filter, the schedule (G-A-002), and the concurrency group
-## (G-A-006). Named 'local-' on purpose: an INTENTIONAL per-repo workflow that
-## pkg_update_consumer_workflows must not overwrite (it carries a repo-shaped
-## paths: filter), NOT a managed byte-identical consumer template.
+## This wrapper owns only the per-repo bits the reusable cannot: the
+## triggers, the paths filter, the schedule (G-A-002), and the
+## concurrency group (G-A-006). Named 'local-' on purpose: an
+## INTENTIONAL per-repo workflow that pkg_update_consumer_workflows must
+## not overwrite (it carries a repo-shaped paths: filter), NOT a managed
+## byte-identical consumer template.
 ##
 ## Reference:
 ## https://google.github.io/clusterfuzzlite/running-clusterfuzzlite/github-actions/
