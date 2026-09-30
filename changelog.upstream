@@ -1,3 +1,38 @@
+commit 5de58509990a0c7dd84dfcfdc3edc9faabefa89f
+Merge: d25bfe5 d95c648
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Sep 30 04:18:45 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/ArrayBolt3/arraybolt3/trixie'
+
+commit d95c648188b28b778230a234468db0b8ca3d929e
+Merge: d25bfe5 310448b
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Tue Sep 29 22:30:28 2026 -0400
+
+    Merge branch 'ai' into arraybolt3/trixie
+
+commit d25bfe52d1fbe92ecafc4363188f799741effb0d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 29 16:10:01 2026 +0000
+
+    bumped changelog version
+
+commit 310448b95ba3e12944dfc5a45ac94d28d1d2aef1
+Merge: e8eec21 da51146
+Author: claude (dev735 a9815679-58af-4230-b97a-27a9e8ef15e8) <noreply@anthropic.com>
+Date:   Tue Sep 29 11:56:41 2026 -0400
+
+    Merge remote-tracking branch 'org-ai-assisted/ai' into ai
+
+commit e8eec21b3c9f7aab81b22f13760467f17fe77dc5
+Author: claude (dev735 a9815679-58af-4230-b97a-27a9e8ef15e8) <noreply@anthropic.com>
+Date:   Tue Sep 29 11:09:42 2026 -0400
+
+    Use python3 -B in shebangs (skip bytecode writes)
+
+    - -Bsu matches the project convention; avoids stale/writable .pyc
+
 commit 81ab5be1db8abf11b6f429579098b9935d862701
 Merge: 57fe597 da51146
 Author: Patrick Schleizer <adrelanos@whonix.org>
