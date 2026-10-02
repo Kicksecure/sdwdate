@@ -1,3 +1,22 @@
+commit 7acd917f8a5ab8180bcefa330db03a8e16d873bf
+Merge: c2158fa 9061895
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Oct 2 04:15:11 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/ArrayBolt3/arraybolt3/trixie'
+
+commit 9061895cf436fe4c89f8757da715fbf55a60cbb4
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Thu Oct 1 22:48:42 2026 -0400
+
+    Add splice syscall used by grep
+
+commit c2158fac4543b9105e66b0943b17f6e781e9e27e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Sep 30 08:32:49 2026 +0000
+
+    bumped changelog version
+
 commit 5de58509990a0c7dd84dfcfdc3edc9faabefa89f
 Merge: d25bfe5 d95c648
 Author: Patrick Schleizer <adrelanos@whonix.org>
